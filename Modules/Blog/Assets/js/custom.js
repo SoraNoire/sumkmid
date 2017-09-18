@@ -119,11 +119,22 @@ $("#browse_media_post").click(function() {
     $("html, body").animate({
         scrollTop: 0
     }, 500);
-    $(".overlay").fadeIn(), $(".custom-modal").fadeIn();
+    $(".overlay").fadeIn(), $(".media-modal").fadeIn();
 });
 
 $("#close_media_post, .overlay").click(function() {
-    $(".overlay").fadeOut(), $(".custom-modal").fadeOut()
+    $(".overlay").fadeOut(), $(".media-modal").fadeOut()
+});
+
+$("#browse_fimg_post").click(function() {
+    $("html, body").animate({
+        scrollTop: 0
+    }, 500);
+    $(".overlay").fadeIn(), $(".fimg-modal").fadeIn();
+});
+
+$("#close_fimg_post, .overlay").click(function() {
+    $(".overlay").fadeOut(), $(".fimg-modal").fadeOut()
 });
 
 // fungsi upload image
@@ -139,7 +150,7 @@ $('#uploadmedia').on('change', function add_media(e){
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             type: "POST",
-            url: "/blog/store-media",
+            url: "/admin/blog/store-media",
             dataType:'json',
             async:false,
             processData: false,
@@ -151,7 +162,7 @@ $('#uploadmedia').on('change', function add_media(e){
             },
             error: function(err){
                 $(".mediatable").DataTable().ajax.reload(null, false);
-                console.log('err');
+                console.log(err);
             }
         });
         $('.table-overlay').hide();
@@ -170,7 +181,7 @@ function delete_media(e){
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             type: "GET",
-            url: "/blog/delete-media/"+e,
+            url: "/admin/blog/delete-media/"+e,
             
             async:false,
             processData: false,
@@ -187,6 +198,18 @@ function delete_media(e){
     };
 };
 
+
+function select_media(e){
+    var a = $("<input>");
+    var b = $(e).text();
+    $("body").append(a);
+    a.val(b).select();
+    document.execCommand("copy");
+    a.remove();
+    $(".overlay").fadeOut();
+    $(".media-modal").fadeOut();
+}
+
 function select_fimg(e){
     $('.preview-fimg-wrap').show();
     var a = $('.preview-fimg');
@@ -195,7 +218,7 @@ function select_fimg(e){
     a.css('background-image', 'url('+c+')');
     b.val(c);
     $(".overlay").fadeOut();
-    $(".custom-modal").fadeOut();
+    $(".fimg-modal").fadeOut();
 }
 
 function remove_fimg(){
@@ -213,7 +236,7 @@ $(document).ready(function() {
         console.log('category');
         $("#CategoryTable").DataTable({
             "ajax": $.fn.dataTable.pipeline( {
-                url: '/blog/get-category',
+                url: '/admin/blog/get-category',
                 pages: 5 // number of pages to cache
             } ),
             "processing": true,
@@ -228,14 +251,14 @@ $(document).ready(function() {
                     "targets": -1,
                     "data": 'id',
                     "render": function ( data, type, row ) {
-                        return '<a href="/blog/edit-category/'+row.id+'">Edit</a> | <a onclick="return confirm(\'Delete Category?\');" href="/blog/delete-category/'+row.id+'">Delete</a>';
+                        return '<a href="/admin/blog/edit-category/'+row.id+'">Edit</a> | <a onclick="return confirm(\'Delete Category?\');" href="/admin/blog/delete-category/'+row.id+'">Delete</a>';
                     }
                 },
                     {
                     "targets": 0,
                     "data": 'name',
                     "render": function ( data, type, row ) {
-                        return '<a href="/blog/edit-category/'+row.id+'">'+data+'</a>';
+                        return '<a href="/admin/blog/edit-category/'+row.id+'">'+data+'</a>';
                     }
                 }
             ],
@@ -250,7 +273,7 @@ $(document).ready(function() {
     if ($("#myTableNews").length > 0) {
         $("#myTableNews").DataTable({
             "ajax": $.fn.dataTable.pipeline( {
-                url: '/blog/get-posts',
+                url: '/admin/blog/get-posts',
                 pages: 5 // number of pages to cache
             } ),
             "processing": true,
@@ -267,14 +290,14 @@ $(document).ready(function() {
                     "targets": -1,
                     "data": 'id',
                     "render": function ( data, type, row ) {
-                        return '<a href="/blog/edit-post/'+row.id+'">Edit</a> | <a onclick="return confirm(\'Delete Post?\');" href="/blog/delete-post/'+row.id+'">Hapus</a>';
+                        return '<a href="/admin/blog/edit-post/'+row.id+'">Edit</a> | <a onclick="return confirm(\'Delete Post?\');" href="/admin/blog/delete-post/'+row.id+'">Hapus</a>';
                     }
                 },
                     {
                     "targets": 0,
                     "data": 'title',
                     "render": function ( data, type, row ) {
-                        return '<a href="/blog/edit-post/'+row.id+'">'+data+'</a>';
+                        return '<a href="/admin/blog/edit-post/'+row.id+'">'+data+'</a>';
                     }
                 }
             ],
@@ -289,7 +312,7 @@ $(document).ready(function() {
     if ($("#MediaTable").length > 0) {
         $("#MediaTable").DataTable({
             "ajax":  $.fn.dataTable.pipeline( {
-                url: '/blog/get-media',
+                url: '/admin/blog/get-media',
                 pages: 5 // number of pages to cache
             } ),
             "processing": true,
@@ -316,12 +339,50 @@ $(document).ready(function() {
         });
     }
 
+    // media post image modal
+    if ($("#MediaPost").length > 0) {
+        var path = mediaPath;
+        $("#MediaPost").DataTable({
+            "ajax":  {
+                url: '/admin/blog/get-media'
+            } ,
+            "processing": true,
+            "serverSide": true,
+            "stateSave":true,
+            "columns": [
+                { "data": "name" },
+                { "data": "name" },
+                { "data": "created_at" },
+                { "data": "id" },
+            ],
+            "columnDefs": [ {
+                    "targets": -1,
+                    "data": 'id',
+                    "render": function ( data, type, row ) {
+                        return '<div onclick="delete_media(\''+data+'\')" id="delete_media_post" class="btn btn-round btn-fill btn-danger">Delete</div> <div onclick="select_media(\'#'+data+'\')" id="select_media" class="btn btn-round btn-fill btn-success">Copy Media</div> <p style="display:none;" id="'+data+'">'+mediaPath+'/'+row.name+'</p>';
+                    }
+                },
+                    {
+                    "targets": 0,
+                    "data": 'title',
+                    "render": function ( data, type, row ) {
+                  return '<img style="width: 100px; max-height: 100px;" src="/public/media/'+data+'">';
+                    }
+                }
+            ],
+            order: [
+                [0, "desc"],
+                [2, "desc"]
+            ]
+        });
+    }
+
     // feauterd image modal
     if ($("#FeaturedImg").length > 0) {
-        var path = '{{ asset("public/media") }}';
+        var path = 'public/media';
         $("#FeaturedImg").DataTable({
             "ajax":  {
-                url: '/blog/get-media'
+                url: '/admin/blog/get-media'
             } ,
             "processing": true,
             "serverSide": true,
@@ -358,7 +419,7 @@ $(document).ready(function() {
     if ($("#myTablePages").length > 0) {
         $("#myTablePages").DataTable({
             "ajax": $.fn.dataTable.pipeline( {
-                url: '/blog/get-pages',
+                url: '/admin/blog/get-pages',
                 pages: 5 // number of pages to cache
             } ),
             "processing": true,
@@ -374,14 +435,14 @@ $(document).ready(function() {
                     "targets": -1,
                     "data": 'id',
                     "render": function ( data, type, row ) {
-                        return '<a href="/blog/edit-page/'+row.id+'">Edit</a> | <a onclick="return confirm(\'Delete Page?\');" href="/blog/delete-page/'+row.id+'">Hapus</a>';
+                        return '<a href="/admin/blog/edit-page/'+row.id+'">Edit</a> | <a onclick="return confirm(\'Delete Page?\');" href="/admin/blog/delete-page/'+row.id+'">Hapus</a>';
                     }
                 },
                     {
                     "targets": 0,
                     "data": 'title',
                     "render": function ( data, type, row ) {
-                        return '<a href="/blog/edit-page/'+row.id+'">'+data+'</a>';
+                        return '<a href="/admin/blog/edit-page/'+row.id+'">'+data+'</a>';
                     }
                 }
             ],
@@ -396,7 +457,7 @@ $(document).ready(function() {
     if ($("#TagTable").length > 0) {
         $("#TagTable").DataTable({
             "ajax": $.fn.dataTable.pipeline( {
-                url: '/blog/get-tag',
+                url: '/admin/blog/get-tag',
                 pages: 5 // number of pages to cache
             } ),
             "processing": true,
@@ -411,14 +472,14 @@ $(document).ready(function() {
                     "targets": -1,
                     "data": 'id',
                     "render": function ( data, type, row ) {
-                        return '<a href="/blog/edit-tag/'+row.id+'">Edit</a> | <a onclick="return confirm(\'Delete Tag?\');" href="/blog/delete-tag/'+row.id+'">Hapus</a>';
+                        return '<a href="/admin/blog/edit-tag/'+row.id+'">Edit</a> | <a onclick="return confirm(\'Delete Tag?\');" href="/admin/blog/delete-tag/'+row.id+'">Hapus</a>';
                     }
                 },
                     {
                     "targets": 0,
                     "data": 'title',
                     "render": function ( data, type, row ) {
-                        return '<a href="/blog/edit-tag/'+row.id+'">'+data+'</a>';
+                        return '<a href="/admin/blog/edit-tag/'+row.id+'">'+data+'</a>';
                     }
                 }
             ],
@@ -463,7 +524,31 @@ $(document).ready(function() {
 
 // TINYMCE
     if ($('textarea.mytextarea').length > 0) {
-        tinymce.init({ selector:'textarea.mytextarea' });
+        tinymce.init({ 
+            selector:'textarea.mytextarea',
+            image_caption: true,
+            height: 500,
+            relative_urls:false,
+            theme: 'modern',
+            plugins: [
+            'advlist autolink lists link image charmap print preview hr anchor pagebreak',
+            'searchreplace wordcount visualblocks visualchars code fullscreen',
+            'insertdatetime media nonbreaking save table contextmenu directionality',
+            'emoticons template paste textcolor colorpicker textpattern imagetools codesample toc help',
+            ],
+            toolbar1: 'undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+            toolbar2: 'print preview media | forecolor backcolor emoticons | codesample help',
+            image_advtab: true,
+            templates: [
+            { title: 'Test template 1', content: 'Test 1' },
+            { title: 'Test template 2', content: 'Test 2' }
+            ],
+            content_css: [
+            '//fonts.googleapis.com/css?family=Lato:300,300i,400,400i',
+            '//www.tinymce.com/css/codepen.min.css',
+            '{{ asset("css/textarea.css") }}'
+            ]
+        });
     }
 // END TINYMCE
 });
@@ -489,7 +574,7 @@ if ($(".post-datetime").length > 0) {
 function load_category(){
     $.ajax({
         type: "GET",
-        url: "/blog/get-category-post/",
+        url: "/admin/blog/get-category-post/",
         success: function(msg){
             $('.category-wrap ul').html(msg);
         },
@@ -502,7 +587,7 @@ function load_category(){
 function load_category_parent(){
     $.ajax({
         type: "GET",
-        url: "/blog/get-category-parent/",
+        url: "/admin/blog/get-category-parent/",
         success: function(msg){
             $('#CategoryParent').html(msg);
         },
@@ -522,7 +607,7 @@ $('#add_category_button').on('click', function add_category(){
     if (n != '') {
         $.ajax({
             type: "GET",
-            url: "/blog/add-category-post/"+n+"/"+p,
+            url: "/admin/blog/add-category-post/"+n+"/"+p,
             success: function(msg){
                 console.log(msg);
             },

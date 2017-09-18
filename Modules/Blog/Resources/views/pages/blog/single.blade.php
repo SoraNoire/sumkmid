@@ -1,5 +1,5 @@
 @extends('blog::layouts.front')
-
+@include('blog::pages.blog.sidebar')
 @section('content')
 <div class="container">
     <div class="content">
@@ -115,36 +115,8 @@
                   </ul>
                 </div>
             </div>
-            <div class="kol4">
-                <h4>Sidebar</h4>
-                <div class="btn-search">
-                    <input class="search" type="text" placeholder="Search..." required>
-                    <input class="button" type="button" value="search">
-                </div>
-                <div class="recent-post">
-                    <h4>Recent Post</h4>
-                    <ul>
-                        <li>
-                            <span><a href="">Post Satu</a></span>
-                        </li>
-
-                        <li>
-                            <span><a href="">Post Dua</a></span>
-                        </li>
-
-                        <li>
-                            <span><a href="">Post Tiga</a></span>
-                        </li>
-
-                        <li>
-                            <span><a href="">Post Empat</a></span>
-                        </li>
-
-                        <li>
-                            <span><a href="">Post Lima</a></span>
-                        </li>
-                    </ul>
-                </div>
+            <div class="kol4 sidebar">
+                @yield('sidebar')
             </div>
         </div>
     </div>

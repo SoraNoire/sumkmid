@@ -9,6 +9,7 @@
         window.Laravel = {!! json_encode([
             'csrfToken' => csrf_token(),
         ]) !!};
+        mediaPath = "<?=url('media/')?>";
     </script>
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
@@ -18,13 +19,9 @@
     <title>Blog - {{ $page_meta_title ?? ''}}</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="{{ asset('public/css/app.css') }}?v=1.0.0" rel="stylesheet">
-
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <!-- <link href="{{ asset('public/blog/css/ie10-viewport-bug-workaround.css') }}" rel="stylesheet"> -->
+    <link href="{{ asset('css/app.css') }}?v=1.0.0" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <!-- <link href="{{ asset('public/blog/css/dashboard.css') }}?v=1" rel="stylesheet"> -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">
     <script src="https://use.fontawesome.com/0c0c4bc012.js"></script>
 
@@ -87,7 +84,7 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="{{ asset('public/js/index.js') }}?v=1.0.0" type="text/javascript"></script>
+    <script src="{{ asset('js/index.js') }}?v=1.0.0" type="text/javascript"></script>
    <!--  
     <script src="{{ asset('Modules/Blog/Assets/js/jquery-3.1.0.min.js') }}" type="text/javascript"></script>
     <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>

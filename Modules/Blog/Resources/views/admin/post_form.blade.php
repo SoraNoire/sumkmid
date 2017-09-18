@@ -8,8 +8,8 @@
         @if ($act == 'New')
         <a href="{{ URL::to($prefix.'create-post') }}" class="btn btn-round btn-fill btn-info">New Post +<div class="ripple-container"></div></a>
         @elseif ($act == 'Edit')
-        <a target="_blank" href="{{ URL::to('/blog/show/'.$post->slug) }}" class="btn btn-round btn-fill btn-info">View Post<div class="ripple-container"></div></a>
-        <a onclick="return confirm('Delete Post?');" href="{{URL::to('/blog/delete-post/'.$post->id)}}" class="btn btn-round btn-fill btn-danger">Delete Post<div class="ripple-container"></div></a>
+        <a target="_blank" href="{{ URL::to($prefix.'show/'.$post->slug) }}" class="btn btn-round btn-fill btn-info">View Post<div class="ripple-container"></div></a>
+        <a onclick="return confirm('Delete Post?');" href="{{URL::to($prefix.'delete-post/'.$post->id)}}" class="btn btn-round btn-fill btn-danger">Delete Post<div class="ripple-container"></div></a>
         @endif
         <button type="submit" class="btn btn-success pull-right">Save Post</button>
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -19,6 +19,9 @@
                 <div class="form-group">
                     <input class="form-control" type="text" name="title" value="{{ $title }}" placeholder="Enter Title Here">
                 </div>
+
+                <a id="browse_media_post" data-toggle="modal" data-target="#myMedia" class="btn btn-round btn-fill btn-default" style="margin-bottom: 10px;">Add Media</a>
+
                 <div class="form-group">
                     <label class="control-label">Post Content</label>
                     <textarea class="form-control mytextarea" name="body">{{ $body }}</textarea>
@@ -54,10 +57,10 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
-                          Publish <a data-toggle="collapse" href="#post-"><i style="float: right;" class="fa fa-caret-down" aria-hidden="true"></i></a>
+                          Publish <a data-toggle="collapse" href="#post-status"><i style="float: right;" class="fa fa-caret-down" aria-hidden="true"></i></a>
                         </h4>
                     </div>
-                    <div id="post-" class="panel-collapse collapse in">
+                    <div id="post-status" class="panel-collapse collapse in">
                         <div class="panel-body">
                             <div class="form-group">
                                 <label>Post Status</label>
@@ -80,10 +83,10 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
-                          Post Type <a data-toggle="collapse" href="#post-"><i style="float: right;" class="fa fa-caret-down" aria-hidden="true"></i></a>
+                          Post Type <a data-toggle="collapse" href="#post-types"><i style="float: right;" class="fa fa-caret-down" aria-hidden="true"></i></a>
                         </h4>
                     </div>
-                    <div id="post-" class="panel-collapse collapse in">
+                    <div id="post-types" class="panel-collapse collapse in">
                         <div class="panel-body form-group">
                             <select id="post-type" name="post_type" class="form-control" onchange="select_post_type()">
                                 <option value="standard" {{ $post_type == 'standard' ? 'selected' : '' }}>Standard</option>
@@ -149,7 +152,7 @@
                     </div>
                     <div id="post-fimg" class="panel-collapse collapse in">
                         <div class="panel-body form-group">
-                            <a id="browse_media_post" data-toggle="modal" data-target="#myModal" class="btn btn-round btn-fill btn-default" style="margin-bottom: 10px;">Set Featured Image</a>
+                            <a id="browse_fimg_post" data-toggle="modal" data-target="#myFimg" class="btn btn-round btn-fill btn-default" style="margin-bottom: 10px;">Set Featured Image</a>
                             <input type="hidden" name="featured_img" id="featured_img" value="{{ $featured_img }}">
                             <div class="preview-fimg-wrap" style="display: {{ $featured_img != '' ? 'block' : ''  }};">
                                 <div class="preview-fimg" style="background-image: url({{ $featured_img }});"></div>
@@ -171,17 +174,46 @@
 @section('modal')
 @if(isset($media))
 <div class="overlay"></div>
-<div class="custom-modal">
+
+<div class="custom-modal media-modal">
 <div class="btn btn-round btn-fill btn-info" style="margin-bottom: 10px;">
 <div class="form-group" style="margin-top: 0px;margin-bottom: 0px;padding-bottom: 0px;cursor: default;">
-    <form id="actuploadmedia" method="post" action="{{ URL::to('/blog/store-media') }}" accept-charset="UTF-8" enctype="multipart/form-data">
+    <form id="actuploadmedia" method="post" action="{{ URL::to($prefix.'store-media') }}" accept-charset="UTF-8" enctype="multipart/form-data">
+        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+        <input type="file" id="uploadmedia" name="media[]" style="cursor: pointer;" multiple>
+    </form>
+</div>
+</div>
+<div style="float: right;" id="close_media_post" data-toggle="modal" data-target="#myMedia" class="btn btn-round btn-fill btn-default">Close</div>
+    <div class="card">
+        <div class="card-header" data-background-color="blue">
+            <h4 class="title">Browse Media</h4>
+            <p class="category">Cari Media untuk ditambahkan</p>
+        </div>
+    <div class="card-content table-responsive">
+        <table style="width: 100%;" class="table mediatable" id="MediaPost">
+            <thead >
+                <th>Preview</th>
+                <th>Judul</th>
+                <th>Tanggal</th>
+                <th>Aksi</th>
+            </thead>
+        </table>
+    </div>
+    </div>
+</div>
+
+<div class="custom-modal fimg-modal">
+<div class="btn btn-round btn-fill btn-info" style="margin-bottom: 10px;">
+<div class="form-group" style="margin-top: 0px;margin-bottom: 0px;padding-bottom: 0px;cursor: default;">
+    <form id="actuploadmedia" method="post" action="{{ URL::to($prefix.'store-media') }}" accept-charset="UTF-8" enctype="multipart/form-data">
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
         <input type="file" id="uploadmedia" name="media[]" style="cursor: pointer;" multiple>
     </form>
 
 </div>
 </div>
-<div style="float: right;" id="close_media_post" data-toggle="modal" data-target="#myModal" class="btn btn-round btn-fill btn-default">Close</div>
+<div style="float: right;" id="close_fimg_post" data-toggle="modal" data-target="#myFimg" class="btn btn-round btn-fill btn-default">Close</div>
     <div class="card">
         <div class="card-header" data-background-color="blue">
             <h4 class="title">Browse Media</h4>

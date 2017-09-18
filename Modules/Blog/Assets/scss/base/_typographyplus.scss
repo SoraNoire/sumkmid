@@ -18,30 +18,25 @@
 	text-transform: uppercase;
 	font-size:12px;
 	margin-left: 10px;
+	a{
+		color:black;
+		text-decoration: none;
+	}
+	a:hover{
+		border-bottom:2px solid black;
+		font-weight:900px;
+	}	
 }
-
-.edit a{
-	color:black;
-	text-decoration: none;
-}
-
-.edit:hover{
-	border-bottom:2px solid black;
-	font-weight:900px;
-}	
-
 .title-post{
 	font-size: 30px;
 	margin: 3px 0px;
 	padding: 0px;
-}
-
-.title-post a{
-	text-decoration: none;
-}
-
-.title-post a:hover{
-	border-bottom: 3px solid black;
+	a {
+		text-decoration: none;
+	}
+	 a:hover{
+		border-bottom: 3px solid black;
+	}
 }
 
 .sidebar ul li{
@@ -55,47 +50,61 @@
 	
 }
 
-.popular-post ul li{
-	display: inline-table;
-	list-style: none;
-    margin-left: 0px;
-}
-.popular-post ul li span{
-	font-size: 13px;
-	font-weight: 600;
-}
-.popular-post ul li a{
-	text-decoration: none;
-}
-.popular-post ul li a span:hover{
-	border-bottom: 2px solid black;
+.popular-post {
+
+	ul li{
+		display: inline-table;
+		list-style: none;
+	    margin-left: 0px;
+	    span{
+			font-size: 13px;
+			font-weight: 600;
+		}
+		a{
+			text-decoration: none;
+			span:hover{
+				border-bottom: 2px solid black;
+			}
+		}
+	}
 }
 
-.recent-post ul li span{
-	font-size: 13px;
-	font-weight: 600;
-}
-.recent-post ul li span a{
-	text-decoration: none;
-}
-.recent-post ul li span a:hover{
-	border-bottom: 2px solid black;
+.recent-post {
+
+	ul li{
+
+		span{
+			font-size: 13px;
+			font-weight: 600;
+			a{
+				text-decoration: none;
+			}
+			a:hover{
+				border-bottom: 2px solid black;
+			}
+		}
+	}
 }
 
-.categories ul li span{
-	font-size: 13px;
-	font-weight: 600;
+.categories {
+
+	ul li {
+		span{
+			font-size: 13px;
+			font-weight: 600;
+			a{
+				text-decoration: none;
+			}
+			a:hover{
+				border-bottom: 2px solid black;
+			}
+		}
+	}
 }
-.categories ul li span a{
-	text-decoration: none;
-}
-.categories ul li span a:hover{
-	border-bottom: 2px solid black;
-}
-.social-media i{
-	font-size: 40px;
-	padding-right: 10px;
-}
-.social-media i:hover{
-	opacity:0.5;
+
+.social-media {
+	i{
+		font-size: 40px;
+		padding-right: 10px;
+	}
 }

@@ -65,7 +65,7 @@ class BlogController extends Controller
 
             return view('blog::admin.single')->with(['page_meta_title' => $page_meta_title, 'post' => $post, 'tag' => $tag, 'category' => $category]);
         } else {
-            return redirect($this->$prefix.'posts')->with('msg', 'Post Not Found')->with('status', 'danger');
+            return redirect($this->prefix.'posts')->with('msg', 'Post Not Found')->with('status', 'danger');
         }
     }
 
@@ -98,7 +98,7 @@ class BlogController extends Controller
     {
         $page_meta_title = 'Posts';
         $act = 'New';
-        $action = $this->$prefix.'store-post';
+        $action = $this->prefix.'store-post';
 
         $title = '';
         $body = '';
@@ -194,7 +194,7 @@ class BlogController extends Controller
             $post_tag->tag_id = json_encode($tag_id);
             $post_tag->save();
         });
-        return redirect($this->$prefix.'posts')->with(['msg' => 'Saved', 'status' => 'success']);
+        return redirect($this->prefix.'posts')->with(['msg' => 'Saved', 'status' => 'success']);
     }
 
     /**
@@ -206,7 +206,7 @@ class BlogController extends Controller
     {
         $page_meta_title = 'Posts';
         $act = 'Edit';
-        $action = $this->$prefix.'update-post/'.$id;
+        $action = $this->prefix.'update-post/'.$id;
         $post = Posts::where('id', $id)->first();
         if (isset($post)) {
             $title = $post->title;
@@ -247,7 +247,7 @@ class BlogController extends Controller
 
             return view('blog::admin.post_form')->with(['page_meta_title' => $page_meta_title, 'act' => $act, 'action' => $action, 'post' => $post , 'title' => $title, 'body' => $body, 'alltag' => $alltag, 'selected_tag' => $selected_tag, 'allcategory' => $allcategory, 'media' => $media, 'featured_img' => $featured_img, 'allparent' => $allparent, 'meta_desc' => $meta_desc, 'meta_title' => $meta_title, 'meta_keyword' => $meta_keyword, 'status' => $status, 'post_type' => $post_type, 'published_at' => $published_at]);
         } else {
-            return redirect($this->$prefix.'posts')->with(['msg' => 'Post Not Found', 'status' => 'danger']);
+            return redirect($this->prefix.'posts')->with(['msg' => 'Post Not Found', 'status' => 'danger']);
         }
     }
 
@@ -316,7 +316,7 @@ class BlogController extends Controller
             $post_tag->tag_id = json_encode($tag_id);
             $post_tag->update();
         });
-        return redirect($this->$prefix.'edit-post/'.$id)->with(['msg' => 'Saved', 'status' => 'success']);
+        return redirect($this->prefix.'edit-post/'.$id)->with(['msg' => 'Saved', 'status' => 'success']);
 
     }
 
@@ -330,12 +330,12 @@ class BlogController extends Controller
         $post = Posts::where('id', $id)->first();
         if (isset($post)) {
             if ($post->delete()) {
-                return redirect($this->$prefix.'posts')->with(['msg' => 'Deleted', 'status' => 'success']);
+                return redirect($this->prefix.'posts')->with(['msg' => 'Deleted', 'status' => 'success']);
             } else {
-                return redirect($this->$prefix.'posts')->with(['msg' => 'Delete Error', 'status' => 'danger']);
+                return redirect($this->prefix.'posts')->with(['msg' => 'Delete Error', 'status' => 'danger']);
             }
         } else {
-            return redirect($this->$prefix.'posts')->with(['msg' => 'Post Not Found', 'status' => 'danger']);
+            return redirect($this->prefix.'posts')->with(['msg' => 'Post Not Found', 'status' => 'danger']);
         }
     }
 
@@ -353,13 +353,13 @@ class BlogController extends Controller
                 if ($post->delete()) {
                     // do nothing
                 } else {
-                    return redirect($this->$prefix.'posts')->with(['msg' => 'Delete Error', 'status' => 'danger']);
+                    return redirect($this->prefix.'posts')->with(['msg' => 'Delete Error', 'status' => 'danger']);
                 }
             } else {
-                return redirect($this->$prefix.'posts')->with(['msg' => 'Delete Error. Post Not Found', 'status' => 'danger']);
+                return redirect($this->prefix.'posts')->with(['msg' => 'Delete Error. Post Not Found', 'status' => 'danger']);
             }
         }
-        return redirect($this->$prefix.'posts')->with(['msg' => 'Delete Success', 'status' => 'success']);
+        return redirect($this->prefix.'posts')->with(['msg' => 'Delete Success', 'status' => 'success']);
     }
 
     /**
@@ -399,7 +399,7 @@ class BlogController extends Controller
     public function create_category(){
         $page_meta_title = 'Category';
         $act = 'New';
-        $action = $this->$prefix.'store-category';
+        $action = $this->prefix.'store-category';
         $name = ''; 
         $allparent = PostHelper::get_category_parent();
         return view('blog::admin.category_form')->with(['page_meta_title' => $page_meta_title, 'act' => $act, 'action' => $action, 'name' => $name, 'allparent' => $allparent]);
@@ -421,9 +421,9 @@ class BlogController extends Controller
         $store->slug = $slug;
         $store->parent = $parent;
         if ($store->save()){
-            return redirect($this->$prefix.'edit-category/'.$store->id)->with(['msg' => 'Saved', 'status' => 'success']);
+            return redirect($this->prefix.'edit-category/'.$store->id)->with(['msg' => 'Saved', 'status' => 'success']);
         } else {
-            return redirect($this->$prefix.'category')->with(['msg' => 'Save Error', 'status' => 'danger']);
+            return redirect($this->prefix.'category')->with(['msg' => 'Save Error', 'status' => 'danger']);
         }
     }
 
@@ -456,7 +456,7 @@ class BlogController extends Controller
     public function edit_category($id){
         $page_meta_title = 'Category';
         $act = 'Edit';
-        $action = $this->$prefix.'update-category/'.$id;
+        $action = $this->prefix.'update-category/'.$id;
         $category = Category::where('id', $id)->first();
 
         if (isset($category)) {
@@ -465,7 +465,7 @@ class BlogController extends Controller
             $name = $category->name;
             return view('blog::admin.category_form')->with(['page_meta_title' => $page_meta_title, 'act' => $act, 'action' => $action, 'category' => $category, 'name' => $name, 'allparent' => $allparent]);
         }else {
-            return redirect($this->$prefix.'category')->with(['msg' => 'Category Not Found', 'status' => 'danger']);
+            return redirect($this->prefix.'category')->with(['msg' => 'Category Not Found', 'status' => 'danger']);
         }
     }
 
@@ -483,11 +483,11 @@ class BlogController extends Controller
         $update->name = $request->input('name');
         $update->parent = $parent;
         if ($update->save()){
-            return redirect($this->$prefix.'edit-category/'.$update->id)->with(['msg' => 'Saved', 'status' => 'success']);
+            return redirect($this->prefix.'edit-category/'.$update->id)->with(['msg' => 'Saved', 'status' => 'success']);
         } else {
-            return redirect($this->$prefix.'category')->with(['msg' => 'Save Error', 'status' => 'danger']);
+            return redirect($this->prefix.'category')->with(['msg' => 'Save Error', 'status' => 'danger']);
         }
-        return redirect($this->$prefix.'category');
+        return redirect($this->prefix.'category');
     }
 
     /**
@@ -499,12 +499,12 @@ class BlogController extends Controller
         $category = Category::where('id', $id)->first();
         if (isset($category)) {
             if ($category->delete()) {
-                return redirect($this->$prefix.'category')->with(['msg' => 'Deleted', 'status' => 'success']);
+                return redirect($this->prefix.'category')->with(['msg' => 'Deleted', 'status' => 'success']);
             } else {
-                return redirect($this->$prefix.'category')->with(['msg' => 'Delete Error', 'status' => 'danger']);
+                return redirect($this->prefix.'category')->with(['msg' => 'Delete Error', 'status' => 'danger']);
             }
         }else {
-            return redirect($this->$prefix.'category')->with(['msg' => 'Category Not Found', 'status' => 'danger']);
+            return redirect($this->prefix.'category')->with(['msg' => 'Category Not Found', 'status' => 'danger']);
         }
     }
 
@@ -522,13 +522,13 @@ class BlogController extends Controller
                 if ($category->delete()) {
                     // do nothing
                 } else {
-                    return redirect($this->$prefix.'category')->with(['msg' => 'Delete Error', 'status' => 'danger']);
+                    return redirect($this->prefix.'category')->with(['msg' => 'Delete Error', 'status' => 'danger']);
                 }
             } else {
-                return redirect($this->$prefix.'category')->with(['msg' => 'Delete Error. Category Not Found', 'status' => 'danger']);
+                return redirect($this->prefix.'category')->with(['msg' => 'Delete Error. Category Not Found', 'status' => 'danger']);
             }
         }
-        return redirect($this->$prefix.'category')->with(['msg' => 'Delete Success', 'status' => 'success']);
+        return redirect($this->prefix.'category')->with(['msg' => 'Delete Success', 'status' => 'success']);
     }
 
     /**
@@ -567,7 +567,7 @@ class BlogController extends Controller
     public function create_tag(){
         $page_meta_title = 'Tag';
         $act = 'New';
-        $action = $this->$prefix.'store-tag';
+        $action = $this->prefix.'store-tag';
         $name = '';
         return view('blog::admin.tag_form')->with(['page_meta_title' => $page_meta_title, 'act' => $act, 'action' => $action, 'name' => $name]);
     }
@@ -583,9 +583,9 @@ class BlogController extends Controller
         $store->name = $request->input('name');
         $store->slug = $slug;
         if ($store->save()){
-            return redirect($this->$prefix.'edit-tag/'.$store->id)->with(['msg' => 'Saved', 'status' => 'success']);
+            return redirect($this->prefix.'edit-tag/'.$store->id)->with(['msg' => 'Saved', 'status' => 'success']);
         } else {
-            return redirect($this->$prefix.'tag')->with(['msg' => 'Save Error', 'status' => 'danger']);
+            return redirect($this->prefix.'tag')->with(['msg' => 'Save Error', 'status' => 'danger']);
         }
     }
 
@@ -597,13 +597,13 @@ class BlogController extends Controller
     public function edit_tag($id){
         $page_meta_title = 'Tag';
         $act = 'Edit';
-        $action = $this->$prefix.'update-tag/'.$id;
+        $action = $this->prefix.'update-tag/'.$id;
         $tag = Tag::where('id', $id)->first();
         if (isset($tag)) {
             $name = $tag->name;
             return view('blog::admin.tag_form')->with(['page_meta_title' => $page_meta_title, 'act' => $act, 'action' => $action, 'tag' => $tag, 'name' => $name]);
         } else {
-            return redirect($this->$prefix.'tag')->with('msg', 'Tag Not Found')->with('status', 'danger');
+            return redirect($this->prefix.'tag')->with('msg', 'Tag Not Found')->with('status', 'danger');
         }
     }
 
@@ -616,9 +616,9 @@ class BlogController extends Controller
         $update = Tag::where('id', $id)->first();
         $update->name = $request->input('name');
         if ($update->save()){
-            return redirect($this->$prefix.'edit-tag/'.$update->id)->with(['msg' => 'Saved', 'status' => 'success']);
+            return redirect($this->prefix.'edit-tag/'.$update->id)->with(['msg' => 'Saved', 'status' => 'success']);
         } else {
-            return redirect($this->$prefix.'tag')->with(['msg' => 'Save Error', 'status' => 'danger']);
+            return redirect($this->prefix.'tag')->with(['msg' => 'Save Error', 'status' => 'danger']);
         }
     }
 
@@ -631,12 +631,12 @@ class BlogController extends Controller
         $tag = Tag::where('id', $id)->first();
         if (isset($tag)) {
             if ($tag->delete()) {
-                return redirect($this->$prefix.'tag')->with(['msg' => 'Deleted', 'status' => 'success']);
+                return redirect($this->prefix.'tag')->with(['msg' => 'Deleted', 'status' => 'success']);
             } else {
-                return redirect($this->$prefix.'tag')->with(['msg' => 'Delete Error', 'status' => 'danger']);
+                return redirect($this->prefix.'tag')->with(['msg' => 'Delete Error', 'status' => 'danger']);
             }
         }else {
-            return redirect($this->$prefix.'tag')->with(['msg' => 'Tag Not Found', 'status' => 'danger']);
+            return redirect($this->prefix.'tag')->with(['msg' => 'Tag Not Found', 'status' => 'danger']);
         }
     }
 
@@ -654,13 +654,13 @@ class BlogController extends Controller
                 if ($tag->delete()) {
                     // do nothing
                 } else {
-                    return redirect($this->$prefix.'tag')->with(['msg' => 'Delete Error', 'status' => 'danger']);
+                    return redirect($this->prefix.'tag')->with(['msg' => 'Delete Error', 'status' => 'danger']);
                 }
             } else {
-                return redirect($this->$prefix.'tag')->with(['msg' => 'Delete Error. Tag Not Found', 'status' => 'danger']);
+                return redirect($this->prefix.'tag')->with(['msg' => 'Delete Error. Tag Not Found', 'status' => 'danger']);
             }
         }
-        return redirect($this->$prefix.'tag')->with(['msg' => 'Delete Success', 'status' => 'success']);
+        return redirect($this->prefix.'tag')->with(['msg' => 'Delete Success', 'status' => 'success']);
     }
 
     /**
@@ -712,6 +712,9 @@ class BlogController extends Controller
                         $constraint->aspectRatio();
                         $constraint->upsize();
                     });
+                    if (!is_dir(public_path('media'))) {
+                        mkdir(public_path('media'), 0775, true);
+                    }
                     $img ->save(public_path('media/')."".$name, 90);
 
                     $media = new Media();
@@ -766,13 +769,13 @@ class BlogController extends Controller
                 if ($media->delete()) {
                     // do nothing
                 } else {
-                    return redirect($this->$prefix.'media')->with(['msg' => 'Delete Error', 'status' => 'danger']);
+                    return redirect($this->prefix.'media')->with(['msg' => 'Delete Error', 'status' => 'danger']);
                 }
             } else {
-                return redirect($this->$prefix.'media')->with(['msg' => 'Delete Error. Media Not Found', 'status' => 'danger']);
+                return redirect($this->prefix.'media')->with(['msg' => 'Delete Error. Media Not Found', 'status' => 'danger']);
             }
         }
-        return redirect($this->$prefix.'media')->with(['msg' => 'Delete Success', 'status' => 'success']);
+        return redirect($this->prefix.'media')->with(['msg' => 'Delete Success', 'status' => 'success']);
     }
 
     /**
@@ -796,7 +799,7 @@ class BlogController extends Controller
         if (isset($page)) {
             return view('blog::admin.single_page')->with(['page_meta_title' => $page_meta_title, 'page' => $page]);
         } else {
-            return redirect($this->$prefix.'pages')->with('msg', 'Page Not Found')->with('status', 'danger');
+            return redirect($this->prefix.'pages')->with('msg', 'Page Not Found')->with('status', 'danger');
         }
     }
 
@@ -829,12 +832,18 @@ class BlogController extends Controller
     {
         $page_meta_title = 'Page';
         $act = 'New';
-        $action = $this->$prefix.'store-page';
+        $action = $this->prefix.'store-page';
         $title = '';
         $body = '';
         $featured_img = '';
+        $meta_desc = '';
+        $meta_title = '';
+        $meta_keyword = '';
+        $status = 1;
+        $published_at = 'immediately';
+
         $media = Media::orderBy('created_at','desc')->get();
-        return view('blog::admin.page_form')->with(['page_meta_title' => $page_meta_title, 'act' => $act, 'action' => $action, 'title' => $title, 'body' => $body, 'media' => $media, 'featured_img' => $featured_img]);
+        return view('blog::admin.page_form')->with(['page_meta_title' => $page_meta_title, 'act' => $act, 'action' => $action, 'title' => $title, 'body' => $body, 'media' => $media, 'featured_img' => $featured_img, 'meta_desc' => $meta_desc, 'meta_title' => $meta_title, 'meta_keyword' => $meta_keyword, 'status' => $status, 'published_at' => $published_at]);
     }
 
     /**
@@ -848,7 +857,16 @@ class BlogController extends Controller
         $slug = PostHelper::make_slug($title);
         $body = $request->input('body');
         $featured_img = $request->input('featured_img');
-        $option = '';
+        $status = $request->get('status');
+        $published_at = $request->input('published_at');
+        $option['meta_title'] = $request->input('meta_title');
+        $option['meta_desc'] = $request->input('meta_desc');
+        $option['meta_keyword'] = $request->input('meta_keyword');
+        $option = json_encode($option);
+
+        if ($published_at = 'immediately') {
+            $published_at = Carbon::now()->toDateTimeString();
+        }
 
         $slug_check = Posts::where('slug', $slug)->first();
         if (isset($slug_check)) {
@@ -859,13 +877,15 @@ class BlogController extends Controller
         $store->title = $title;
         $store->slug = $slug;
         $store->body = $body;
-        $store->author = 1;
         $store->featured_img = $featured_img;
+        $store->author = 1;
+        $store->status = $status;
         $store->option = $option;
+        $store->published_at = $published_at;
         if ($store->save()) {
-            return redirect($this->$prefix.'edit-page/'.$store->id)->with(['msg' => 'Saved', 'status' => 'success']);
+            return redirect($this->prefix.'edit-page/'.$store->id)->with(['msg' => 'Saved', 'status' => 'success']);
         } else {
-            return redirect($this->$prefix.'pages')->with(['msg' => 'Save Error', 'status' => 'danger']);
+            return redirect($this->prefix.'pages')->with(['msg' => 'Save Error', 'status' => 'danger']);
         }
     }
 
@@ -878,18 +898,25 @@ class BlogController extends Controller
     {
         $page_meta_title = 'Page';
         $act = 'Edit';
-        $action = $this->$prefix.'update-page/'.$id;
+        $action = $this->prefix.'update-page/'.$id;
         $page = Page::where('id', $id)->first();
         if (isset($page)) {
             $title = $page->title;
             $body = $page->body;
 
             $featured_img = $page->featured_img;
+            $option = json_decode($page->option);
+            $meta_desc = $option->meta_desc;
+            $meta_title = $option->meta_title;
+            $meta_keyword = $option->meta_keyword;
+            $status = $page->status;
+            $published_at = $page->published_at;
+
             $media = Media::orderBy('created_at','desc')->get();
 
-            return view('blog::admin.page_form')->with(['page_meta_title' => $page_meta_title, 'act' => $act, 'action' => $action, 'page' => $page , 'title' => $title, 'body' => $body, 'media' => $media, 'featured_img' => $featured_img]);
+            return view('blog::admin.page_form')->with(['page_meta_title' => $page_meta_title, 'act' => $act, 'action' => $action, 'page' => $page , 'title' => $title, 'body' => $body, 'media' => $media, 'featured_img' => $featured_img, 'meta_desc' => $meta_desc, 'meta_title' => $meta_title, 'meta_keyword' => $meta_keyword, 'status' => $status, 'published_at' => $published_at]);
         } else {
-            return redirect($this->$prefix.'pages')->with(['msg' => 'Page Not Found', 'status' => 'danger']);
+            return redirect($this->prefix.'pages')->with(['msg' => 'Page Not Found', 'status' => 'danger']);
         }
     }
 
@@ -903,17 +930,25 @@ class BlogController extends Controller
         $title = $request->input('title');
         $body = $request->input('body');
         $featured_img = $request->input('featured_img');
-        $option = '';
+        $status = $request->get('status');
+        $published_at = $request->input('published_at');
+        $option['meta_title'] = $request->input('meta_title');
+        $option['meta_desc'] = $request->input('meta_desc');
+        $option['meta_keyword'] = $request->input('meta_keyword');
+        $option = json_encode($option);
 
         $update = Page::where('id', $id)->first();
         $update->title = $title;
         $update->body = $body;
         $update->featured_img = $featured_img;
+        $update->status = $status;
+        $update->option = $option;
+        $update->published_at = $published_at;
 
         if ( $update->update()) {
-            return redirect($this->$prefix.'edit-page/'.$id)->with(['msg' => 'Saved', 'status' => 'success']);
+            return redirect($this->prefix.'edit-page/'.$id)->with(['msg' => 'Saved', 'status' => 'success']);
         } else {
-            return redirect($this->$prefix.'edit-page/'.$id)->with(['msg' => 'Save Error', 'status' => 'danger']);
+            return redirect($this->prefix.'edit-page/'.$id)->with(['msg' => 'Save Error', 'status' => 'danger']);
         }
     }
 
@@ -927,12 +962,12 @@ class BlogController extends Controller
         $page = Page::where('id', $id)->first();
         if (isset($page)) {
             if ($page->delete()) {
-                return redirect($this->$prefix.'pages')->with(['msg' => 'Deleted', 'status' => 'success']);
+                return redirect($this->prefix.'pages')->with(['msg' => 'Deleted', 'status' => 'success']);
             } else {
-                return redirect($this->$prefix.'pages')->with(['msg' => 'Delete Error', 'status' => 'danger']);
+                return redirect($this->prefix.'pages')->with(['msg' => 'Delete Error', 'status' => 'danger']);
             }
         } else {
-            return redirect($this->$prefix.'pages')->with(['msg' => 'Page Not Found', 'status' => 'danger']);
+            return redirect($this->prefix.'pages')->with(['msg' => 'Page Not Found', 'status' => 'danger']);
         }
 
     }
@@ -951,13 +986,13 @@ class BlogController extends Controller
                 if ($page->delete()) {
                     // do nothing
                 } else {
-                    return redirect($this->$prefix.'pages')->with(['msg' => 'Delete Error', 'status' => 'danger']);
+                    return redirect($this->prefix.'pages')->with(['msg' => 'Delete Error', 'status' => 'danger']);
                 }
             } else {
-                return redirect($this->$prefix.'pages')->with(['msg' => 'Delete Error. Page Not Found', 'status' => 'danger']);
+                return redirect($this->prefix.'pages')->with(['msg' => 'Delete Error. Page Not Found', 'status' => 'danger']);
             }
         }
-        return redirect($this->$prefix.'pages')->with(['msg' => 'Delete Success', 'status' => 'success']);
+        return redirect($this->prefix.'pages')->with(['msg' => 'Delete Success', 'status' => 'success']);
     }
     // end page controller
 
