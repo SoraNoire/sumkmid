@@ -339,6 +339,53 @@ class BlogController extends Controller
         }
     }
 
+
+    /**
+     * Store a file in storage.
+     * @param  Request $request
+     * @return Response
+     */
+    public function store_file(Request $req){
+        $this->validate($req, [
+            'fileUpload.*' => 'mimes:pdf,doc,docx,xlsx,xml,txt',
+        ]);
+        if ($req->hasFile('fileUpload')) {
+            try {
+                $file = $req->file('fileUpload');
+                $fileNames = [];
+                foreach ($file as $file) {
+                    $name = $file->getClientOriginalName();
+                    $name = strtolower($name);
+                    if (!is_dir(public_path('file'))) {
+                        mkdir(public_path('file'), 0775, true);
+                    }
+                    $file->move(public_path('file'), $name);
+                    $fileNames[] = $name;
+                }
+                echo json_encode($fileNames);
+            } catch (Illuminate\Filesystem\FileNotFoundException $e) {
+                
+            }
+        }else{
+            return  "Success adding file";
+        }
+    }
+
+
+    /**
+     * Remove the specified file from storage.
+     * @param $id
+     * @return Response
+     */
+    public function destroy_file($fileName){
+        if(File::isFile(public_path('file/'.$fileName))){
+            unlink(public_path('file/'.$fileName));
+            return "File deleted";
+        }else{
+            return "File not found";
+        }
+    }
+
     /**
      * Remove multiple post from storage.
      * @param Request $request
@@ -720,13 +767,13 @@ class BlogController extends Controller
                     $media = new Media();
                     $media -> name = $name;
                     $media -> save();
-                    echo "Berhasil menambah media ".$name;
+                    echo "Success adding media ".$name;
                 }
             } catch (Illuminate\Filesystem\FileNotFoundException $e) {
 
             }
         }else{
-            return  "Gagal menambah media";
+            return  "Failed adding media";
         }
     }
 
@@ -744,9 +791,9 @@ class BlogController extends Controller
             }
         }
         if ($media -> delete()) {
-            return "Media Dihapus";
+            return "Media deleted";
         }else{
-            return "Gagal Dihapus";
+            return "failed deleting media";
         }
     }
 

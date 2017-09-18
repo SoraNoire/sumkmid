@@ -30,6 +30,25 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
+                          Add File <a data-toggle="collapse" href="#post-file"><i style="float: right;" class="fa fa-caret-down" aria-hidden="true"></i></a>
+                        </h4>
+                    </div>
+                    <div id="post-file" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                            <div class="btn btn-round btn-fill btn-info" style="margin-bottom: 10px;">
+                            <input type="file" id="fileUpload" name="fileUpload[]" style="cursor: pointer;" multiple>
+                            </div>
+
+                            <div class="file-list">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
                           SEO Setting <a data-toggle="collapse" href="#post-seo"><i style="float: right;" class="fa fa-caret-down" aria-hidden="true"></i></a>
                         </h4>
                     </div>

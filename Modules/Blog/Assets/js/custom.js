@@ -182,8 +182,6 @@ function delete_media(e){
             },
             type: "GET",
             url: "/admin/blog/delete-media/"+e,
-            
-            async:false,
             processData: false,
             contentType: false,
             success: function(msg){
@@ -228,6 +226,39 @@ function remove_fimg(){
     a.css('background-image', 'url()');
     b.val('');
 }
+
+// fungsi upload file
+$('#fileUpload').on('change', function add_file(e){
+    e.preventDefault();
+    var fd = new FormData($("#post-form")[0]);
+    $.ajax({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        type: "POST",
+        url: "/admin/blog/store-file",
+        dataType:'json',
+        processData: false,
+        contentType: false,
+        data: fd,
+        success: function(msg){
+            for (var i = 0; i < msg.length; i++) {
+                $('.file-list').append('<div class="form-group input-group"><input type="text" name="fileLabel[]" class="form-control" placeholder="insert label for file here"><span class="input-group-addon"><i class="fa fa-file-o" aria-hidden="true"></i> '+msg[i]+'</span><span class="input-group-btn"><button class="btn btn-danger file-delete" type="button"><i class="fa fa-times" aria-hidden="true"></i></button></span><input type="hidden" name="fileDoc[]" value="'+filePath+'/'+msg[i]+'"></div>');
+            }
+        },
+        error: function(err){
+             // console.log(err);
+        },
+        always: function(a){
+            // console.log(a);
+        }
+    });
+});
+
+// fungsi delete file 
+$.('.file-delete').on('click', function(){
+    
+});
 
 $(document).ready(function() {
 // DATATABLES CONFIG
