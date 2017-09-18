@@ -1,0 +1,26 @@
+.post-tags{
+  span{
+    display: inline-block;
+    margin-right: 10px;
+  }
+  ul{
+    display: inline-block;
+    li{
+      display: inline-block;
+      padding: 3px 10px;
+      margin-right: 5px;
+      background-color: #D6D6D6;
+      border-radius: 5px;
+      a{
+        font-size: 1em;
+        text-decoration: none;
+      }
+    }
+    li:hover{
+      background-color: #53BD84;
+      a{
+        color: #fff;
+      }
+    }
+  }
+}

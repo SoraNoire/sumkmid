@@ -1,0 +1,152 @@
+// used font
+$font : Raleway;
+
+//fontsize
+$light: 300;
+$normal: 400;
+$semibold: 500;
+$bold: 700;
+
+*{
+	font-family: $font;
+}
+body, button, input, select, textarea {
+	font-size: 16px;
+	font-size: 1rem;
+	line-height: 1.5;
+}
+p{
+	line-height: 1.5em;
+	margin: 0 0 1.5em;
+	padding: 0;
+}
+h1, h2, h3, h4, h5, h6 {
+	clear: both;
+	line-height: 1.4;
+	margin: 0 0 0.75em;
+	padding: 1.5em 0 0;
+}
+h1:first-child, h2:first-child, h3:first-child, h4:first-child, h5:first-child, h6:first-child {
+	padding-top: 0;
+}
+strong {
+	font-weight: 700;
+}
+
+blockquote {
+	quotes: "" "";
+	color: #666;
+	font-size: 18px;
+	font-size: 1.125rem;
+	font-style: italic;
+	line-height: 1.7;
+	margin: 0;
+	overflow: hidden;
+	padding: 0;
+}
+//Definition List Title
+dt {
+	font-weight: $bold;
+}
+//Definition list division.
+dd {
+	margin: 0 1.5em 1.5em;
+}
+
+//unordered list
+ul {
+	list-style: disc;
+}
+ul, ol {
+	margin: 0 0 1.5em;
+	padding: 0;
+}
+li > ul, li > ol {
+	margin-bottom: 0;
+	margin-left: 1.5em;
+}
+ol {
+	list-style: decimal;
+}
+address {
+	margin: 0 0 1.5em;
+}
+a {
+	color: #222;
+	text-decoration: underline;
+}
+
+abbr[title] {
+	border-bottom: none;
+	text-decoration: underline;
+	-webkit-text-decoration: underline dotted;
+	text-decoration: underline dotted;
+}
+abbr, acronym {
+	border-bottom: 1px dotted #666;
+	cursor: help;
+}
+big {
+	font-size: 125%;
+}
+dfn, cite, em, i {
+	font-style: italic;
+}
+code{
+	display: block;
+	margin: 1em 0;
+	background-color: transparent;
+	background: #354551;
+	color: #fff;
+	padding: 1rem;
+	white-space: pre-wrap;
+	font-size: 16px;
+	line-height: 1.75;
+	white-space: pre;
+	-webkit-overflow-scrolling: touch;
+	overflow-x: auto;
+	word-wrap: break-word;
+}
+code, kbd, tt, var {
+	font-family: monospace, monospace;
+	font-size: 15px;
+	font-size: 0.9375rem;
+}
+
+code, kbd, samp {
+	font-family: monospace, monospace;
+	font-size: .8em;
+}
+
+hr {
+	background-color: #bbb;
+	border: 0;
+	height: 1px;
+	margin-bottom: 1.5em;
+}
+mark, ins {
+	background: #eee;
+	text-decoration: none;
+}
+pre {
+	background: #eee;
+	font-size: 15px;
+	font-size: 0.9375rem;
+	line-height: 1.6;
+	margin-bottom: 1.6em;
+	max-width: 100%;
+	overflow: auto;
+	padding: 1.6em;
+}
+small {
+	font-size: 80%;
+}
+sub {
+	bottom: -0.25em;
+}
+sub, sup {
+	font-size: 75%;
+	line-height: 0;
+	position: relative;
+	vertical-align: baseline;
+}

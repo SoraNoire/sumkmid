@@ -1,0 +1,287 @@
+/*
+ * Base structure
+ */
+
+/* Move down content because we have a fixed navbar that is 50px tall */
+body {
+  padding-top: 50px;
+}
+
+img {
+  max-width: 100%;
+}
+
+#pakai_button{
+  display: none;
+}
+.ada_featured{
+  display: block !important;
+}
+#position,#fimg-capt,#only-featured{
+  display: none;
+}
+.program-thumbnail{
+  width: 81px;
+  height: 81px;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.preview-thumbnail{
+  cursor: move;
+  width: 230px;
+  height: 131px;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.preview-gallery-thumbnail{
+  cursor: move;
+  width: 490px;
+  height: 321px;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.custom-modal{
+  display: none;
+  position: absolute;
+  z-index: 9999;
+  width: 1000px;
+  top: 40px;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  margin: auto;
+}
+
+.custom-modal .card {
+  background: #fff;
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
+  border-radius: 3px;
+  color: rgba(0,0,0, 0.87);
+  padding: 15px;
+}
+
+.overlay{
+  display: none;
+  position: fixed;
+  background-color: rgba(0,0,0,.7);
+  z-index: 9998;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+#preview_featured{
+  display: none;
+}
+.remove-fimg{
+    display: none;
+    color: #DD5246 !important;
+    cursor: pointer;
+    margin-top: 5px;
+}
+
+/*
+ * Global add-ons
+ */
+
+.sub-header {
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+/*
+ * Top navigation
+ * Hide default border to remove 1px line.
+ */
+.navbar-fixed-top {
+  border: 1px solid #5BC0DE;
+}
+
+.navbar-inverse{
+  background-color: #5BC0DE;
+}
+
+.navbar-inverse .navbar-nav>li>a{
+  color: #333;
+}
+
+.navbar-inverse .navbar-nav>li>a:hover{
+  color: #fff;
+}
+/*
+ * Sidebar
+ */
+
+/* Hide for mobile, show later */
+.sidebar {
+  display: none;
+}
+@media (min-width: 768px) {
+  .sidebar {
+    position: fixed;
+    top: 51px;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    display: block;
+    padding: 20px;
+    overflow-x: hidden;
+    overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+    background-color: #f5f5f5;
+    border-right: 1px solid #eee;
+  }
+}
+
+/* Sidebar navigation */
+.nav-sidebar {
+  margin-right: -21px; /* 20px padding + 1px border */
+  margin-bottom: 20px;
+  margin-left: -20px;
+}
+.nav-sidebar > li > a {
+  padding-right: 20px;
+  padding-left: 20px;
+}
+.nav-sidebar > .active > a,
+.nav-sidebar > .active > a:hover,
+.nav-sidebar > .active > a:focus {
+  color: #fff;
+  background-color: #428bca;
+}
+
+
+/*
+ * Main content
+ */
+
+.main {
+  padding: 20px;
+}
+@media (min-width: 768px) {
+  .main {
+    padding-right: 40px;
+    padding-left: 40px;
+  }
+}
+.main .page-header {
+  margin-top: 0;
+}
+
+
+/*
+ * Placeholder dashboard ideas
+ */
+
+.placeholders {
+  margin-bottom: 30px;
+  text-align: center;
+}
+.placeholders h4 {
+  margin-bottom: 0;
+}
+.placeholder {
+  margin-bottom: 20px;
+}
+.placeholder img {
+  display: inline-block;
+  border-radius: 50%;
+}
+
+
+.mobile-admin-nav{
+  display: none !important; 
+} 
+
+@media (max-width: 767px){
+  .mobile-admin-nav{
+    display: block !important; 
+  } 
+}
+
+.form-group small{
+  color: #adadad;
+}
+
+#MediaGaleri,
+#myTableMedia,
+#newsMedia{
+  width: 100% !important;
+}
+
+#selected-images .image {
+  position: relative;
+  display: inline-block;
+  max-height: 200px;
+  max-width: 315px;
+  overflow: hidden;
+  vertical-align: top;
+  margin-bottom: 5px;
+}
+
+#selected-images .image .close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: #fff;
+  opacity: 0.6;
+  padding: 5px 5px;
+}
+
+#selected-images .image .close:hover{
+  opacity: 0.8;
+}
+
+.table-overlay {
+  display: none;
+  background-color: white;
+  opacity: 0.5;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 99;
+  text-align: center;
+}
+
+.category-wrap {
+  width: 100%;
+  min-height: 42px;
+  max-height: 200px;
+  overflow: overlay;
+  background-color: white;
+  border: 1px solid #aaa;
+  border-radius: 4px; 
+}
+
+.category-wrap ul {
+  padding-left: 15px;
+}
+
+.category-wrap li {
+  list-style: none;
+}
+
+.menu-set-wrap {
+  padding-bottom: 15px; 
+}
+
+#menu_component ul { 
+  list-style-type: none;
+  margin: 0; 
+  padding: 0;     
+  min-height: 42px;
+  max-height: 200px;
+  overflow: overlay;
+}
+
+#menu-structure .remove_item {
+  color:#a00;
+}
+
+.menu-collapse {
+  padding: 10px;
+  margin-top: 10px;
+}
+
+#menu_title .title {
+  float: left;
+}

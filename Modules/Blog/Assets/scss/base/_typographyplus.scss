@@ -1,0 +1,101 @@
+.date{
+	letter-spacing:2px;
+	font-weight:bold;
+	text-transform: uppercase;
+	font-size:12px;
+	color:#767676;
+}
+
+.date:hover{
+	border-bottom:2px solid black;
+	color:black;
+	font-weight:900px;
+}	
+
+.edit{
+	letter-spacing:2px;
+	font-weight:bold;
+	text-transform: uppercase;
+	font-size:12px;
+	margin-left: 10px;
+}
+
+.edit a{
+	color:black;
+	text-decoration: none;
+}
+
+.edit:hover{
+	border-bottom:2px solid black;
+	font-weight:900px;
+}	
+
+.title-post{
+	font-size: 30px;
+	margin: 3px 0px;
+	padding: 0px;
+}
+
+.title-post a{
+	text-decoration: none;
+}
+
+.title-post a:hover{
+	border-bottom: 3px solid black;
+}
+
+.sidebar ul li{
+	list-style: square;
+    margin-left: 30px;
+	border-bottom: 2px solid #ddd;
+    padding: 0.4em 0;
+}
+
+.row .kol8 .cst-3-col span{
+	
+}
+
+.popular-post ul li{
+	display: inline-table;
+	list-style: none;
+    margin-left: 0px;
+}
+.popular-post ul li span{
+	font-size: 13px;
+	font-weight: 600;
+}
+.popular-post ul li a{
+	text-decoration: none;
+}
+.popular-post ul li a span:hover{
+	border-bottom: 2px solid black;
+}
+
+.recent-post ul li span{
+	font-size: 13px;
+	font-weight: 600;
+}
+.recent-post ul li span a{
+	text-decoration: none;
+}
+.recent-post ul li span a:hover{
+	border-bottom: 2px solid black;
+}
+
+.categories ul li span{
+	font-size: 13px;
+	font-weight: 600;
+}
+.categories ul li span a{
+	text-decoration: none;
+}
+.categories ul li span a:hover{
+	border-bottom: 2px solid black;
+}
+.social-media i{
+	font-size: 40px;
+	padding-right: 10px;
+}
+.social-media i:hover{
+	opacity:0.5;
+}
