@@ -4,6 +4,7 @@ namespace Modules\Blog\Http\Helpers;
 use Modules\Blog\Entities\Category;
 use Modules\Blog\Entities\PostCategory;
 use Illuminate\Http\File;
+use Image;
 
 class PostHelper
 {
@@ -93,20 +94,102 @@ class PostHelper
         $region = config('filesystems.disks')['s3']['region'];
         $bucket = config('filesystems.disks')['s3']['bucket'];
        
-        return 'https://s3-'.$region.'.amazonaws.com/'.$bucket.'/'.$path.'/'.$url;
+        return 'https://s3-'.$region.'.amazonaws.com/'.$bucket.'/shbtm/'.$path.'/'.$url;
     }
 
     public static function putFile($file, $path, $fileName){
         $s3 = \Storage::disk('s3');
-        $filePath = '/'.$path.'/'.$fileName;
         $s3->putFileAs('files',new File($file),$fileName, 'public');
 
     }
 
     public static function deleteFile($file, $path){
         $s3 = \Storage::disk('s3');
-        $filePath = '/'.$path.'/' . $file;
+        $filePath = '/shbtm/'.$path.'/' . $file;
         $s3->delete($filePath);
+    }
+
+    public static function getLinkImage($url, $path, $size = ''){
+        $region = config('filesystems.disks')['s3']['region'];
+        $bucket = config('filesystems.disks')['s3']['bucket'];
+        // if ($size != '') {
+        //     if ($size == 'thumbnail') {
+        //         $size = 300;
+        //     } else if ($size == 'medium') {
+        //         $size = 800;
+        //     } else if ($size == 'large') {
+        //         $size = 1200;
+        //     }
+        //     $name = explode('.', $url);
+        //     $imageUrl = $name[0].'-'.$size.'.'.$name[1];
+        // } else {
+            $imageUrl = $url;
+        // }
+
+        return 'https://s3-'.$region.'.amazonaws.com/'.$bucket.'/shbtm/'.$path.'/'.$imageUrl;
+    }
+
+    public static function putImage($file, $path, $fileName){
+        $imgObject = Image::make($file);
+        $ext = $file->getClientOriginalExtension();
+        $large = 1200;
+        $medium = 800;
+        $thumb = 300;
+
+        $img = $imgObject;
+        $img = $img->stream($file->getClientOriginalExtension(), 90);
+
+        // $imgLarge = $imgObject;
+        // $imgLarge->resize($large, null, function ($constraint) {
+        //     $constraint->aspectRatio();
+        // });
+        // $imgLarge = $imgLarge->stream($file->getClientOriginalExtension(), 90);
+
+        // $imgMedium = $imgObject;
+        // $imgMedium->resize($medium, null, function ($constraint) {
+        //     $constraint->aspectRatio();
+        // });
+        // $imgMedium = $imgMedium->stream($file->getClientOriginalExtension(), 90);
+
+        // $imgThumb = $imgObject;
+        // $imgThumb->resize($thumb, null, function ($constraint) {
+        //     $constraint->aspectRatio();
+        // });
+        // $imgThumb = $imgThumb->stream($file->getClientOriginalExtension(), 90);
+
+        $s3 = \Storage::disk('s3');
+        $filePath = '/shbtm/'.$path.'/' . $fileName.'.'.$ext;
+        $s3->put($filePath, $img->__toString(), 'public');
+        var_dump($s3->files('/shbtm/media'));
+
+        // $filePath = '/'.$path.'/' . $fileName. '-'. $large.'.'.$ext;
+        // $s3->put($filePath, $imgLarge->__toString(), 'public');
+
+        // $filePath = '/'.$path.'/' . $fileName. '-'. $medium.'.'.$ext;
+        // $s3->put($filePath, $imgMedium->__toString(), 'public');
+
+        // $filePath = '/'.$path.'/' . $fileName. '-'. $thumb.'.'.$ext;
+        // $s3->put($filePath, $imgThumb->__toString(), 'public');
+    }
+
+    public static function deleteImage($file, $path){
+        $large = 1200;
+        $medium = 800;
+        $thumb = 300;
+        $ex = explode('.', $file);
+        $s3 = \Storage::disk('s3');
+
+        $filePath = '/shbtm/'.$path.'/' . $file;
+        $s3->delete($filePath);
+
+        // $filePath = '/'.$path.'/' . $ex[0].'-'.$thumb.'.'.$ex[1];
+        // $s3->delete($filePath);
+
+        // $filePath = '/'.$path.'/' . $ex[0].'-'.$medium.'.'.$ex[1];
+        // $s3->delete($filePath);
+
+        // $filePath = '/'.$path.'/' . $ex[0].'-'.$large.'.'.$ex[1];
+        // $s3->delete($filePath);
     }
 }
 ?>
