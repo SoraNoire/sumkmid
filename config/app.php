@@ -229,6 +229,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Module' => Nwidart\Modules\Facades\Module::class,
         'Image' => Intervention\Image\Facades\Image::class,
+        'PostHelper' => Modules\Blog\Http\Helpers\PostHelper::class,
     ],
 
 ];

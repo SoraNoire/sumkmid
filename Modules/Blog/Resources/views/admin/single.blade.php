@@ -33,6 +33,29 @@
             <td>:</td>
             <td>@foreach ($tag as $tag) {{ $tag->name }}, @endforeach</td>
         </tr>
+        <tr>
+            <td>Meta Title</td>
+            <td>:</td>
+            <td>{{ $meta_title }}</td>
+        </tr>
+        <tr>
+            <td>Meta Desc</td>
+            <td>:</td>
+            <td>{{ $meta_desc }}</td>
+        </tr>
+        <tr>
+            <td>Meta Keyword</td>
+            <td>:</td>
+            <td>{{ $meta_keyword }}</td>
+        </tr>
+        <tr>
+            <td>Files</td>
+            <td>:</td>
+            <td>@foreach($files as $file)
+                <a href="{{ PostHelper::getLinkFile($file->file_doc, 'files') }}">{{ $file->file_label }}</a>
+                @endforeach
+            </td>
+        </tr>
     </table>
 
 </div>

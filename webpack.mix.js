@@ -33,4 +33,4 @@
   'Modules/Blog/Assets/js/custom.js',
   ],'public/js/index.js')
  .sass('Modules/Blog/Assets/scss/style.scss', 'public/css')
- .browserSync({'proxy' : 'module.dev',files: ['Modules/Blog/Resources/views/*.php','Modules/Blog/Resources/views/layouts/*.php']});
+ .browserSync({'proxy' : 'sahabatumkm.dev',files: ['Modules/Blog/Resources/views/admin/*.php','Modules/Blog/Resources/views/layouts/*.php', 'Modules/Blog/Assets/js/*.js']});
