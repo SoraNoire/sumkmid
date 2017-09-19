@@ -799,17 +799,11 @@ class BlogController extends Controller
             try {
                 $file = $req->file('media');
                 foreach ($file as $file) {
-                    $name = time().'.'.$file->getClientOriginalExtension();
+                    $fileName = time();
+                    $name = $fileName.'.'.$file->getClientOriginalExtension();
                     $name = strtolower($name);
-                    $img = Image::make($file);
-                    $img->resize(800, null, function ($constraint) {
-                        $constraint->aspectRatio();
-                        $constraint->upsize();
-                    });
-                    if (!is_dir(public_path('media'))) {
-                        mkdir(public_path('media'), 0775, true);
-                    }
-                    $img ->save(public_path('media/')."".$name, 90);
+
+                    PostHelper::putImage($file, 'media', $fileName);
 
                     $media = new Media();
                     $media -> name = $name;
@@ -833,8 +827,8 @@ class BlogController extends Controller
         $media = Media::where('id',$id)->first();
         $medias = Media::where('id',$id)->get();
         if($medias[0]->name != ""){
-            if(File::isFile(public_path('media/'.$medias[0]->name))){
-                unlink(public_path('media/'.$medias[0]->name));
+            if(Storage::disk('s3')->exists('shbtm/media/'.$medias[0]->name)){
+                PostHelper::deleteImage($medias[0]->name, 'media');
             }
         }
         if ($media -> delete()) {
@@ -856,8 +850,8 @@ class BlogController extends Controller
             $media = Media::where('id', $id)->first();
             if (isset($media)) {
                 if($media->name != ""){
-                    if(File::isFile(public_path('media/'.$media->name))){
-                        unlink(public_path('media/'.$media->name));
+                    if(Storage::disk('s3')->exists('shbtm/media/'.$media->name)){
+                        PostHelper::deleteImage($media->name, 'media');
                     }
                 }
                 if ($media->delete()) {

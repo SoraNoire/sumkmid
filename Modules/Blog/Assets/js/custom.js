@@ -1,3 +1,5 @@
+mediaPath = 'https://s3-ap-southeast-1.amazonaws.com/mdirect/shbtm/media';
+filePath = 'https://s3-ap-southeast-1.amazonaws.com/mdirect/shbtm/files'
 //
 // Pipelining function for DataTables. To be used to the `ajax` option of DataTables
 //
@@ -374,7 +376,7 @@ $(document).ready(function() {
                     "targets": 0,
                     "data": 'title',
                     "render": function ( data, type, row ) {
-                  return '<img style="width: 100px; max-height: 100px;" src="/public/media/'+data+'">';
+                  return '<img style="width: 100px; max-height: 100px;" src="'+mediaPath+'/'+data+'">';
                     }
                 }
             ],
@@ -412,7 +414,7 @@ $(document).ready(function() {
                     "targets": 0,
                     "data": 'title',
                     "render": function ( data, type, row ) {
-                  return '<img style="width: 100px; max-height: 100px;" src="/public/media/'+data+'">';
+                  return '<img style="width: 100px; max-height: 100px;" src="'+mediaPath+'/'+data+'">';
                     }
                 }
             ],
@@ -443,14 +445,14 @@ $(document).ready(function() {
                     "targets": -1,
                     "data": 'id',
                     "render": function ( data, type, row ) {
-                        return '<div onclick="delete_media(\''+data+'\')" id="delete_media_post" class="btn btn-round btn-fill btn-danger">Delete</div> <div onclick="select_fimg(\'#'+data+'\')" id="select_media" class="btn btn-round btn-fill btn-success">Select</div> <p style="display:none;" id="'+data+'">'+path+'/'+row.name+'</p>';
+                        return '<div onclick="delete_media(\''+data+'\')" id="delete_media_post" class="btn btn-round btn-fill btn-danger">Delete</div> <div onclick="select_fimg(\'#'+data+'\')" id="select_media" class="btn btn-round btn-fill btn-success">Select</div> <p style="display:none;" id="'+data+'">'+mediaPath+'/'+row.name+'</p>';
                     }
                 },
                     {
                     "targets": 0,
                     "data": 'title',
                     "render": function ( data, type, row ) {
-                  return '<img style="width: 100px; max-height: 100px;" src="/public/media/'+data+'">';
+                  return '<img style="width: 100px; max-height: 100px;" src="'+mediaPath+'/'+data+'">';
                     }
                 }
             ],

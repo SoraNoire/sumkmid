@@ -9,8 +9,6 @@
         window.Laravel = {!! json_encode([
             'csrfToken' => csrf_token(),
         ]) !!};
-        mediaPath = "<?=url('media/')?>";
-        filePath = "<?=url('file/')?>";
     </script>
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
