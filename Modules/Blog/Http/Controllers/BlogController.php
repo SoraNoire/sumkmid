@@ -410,7 +410,7 @@ class BlogController extends Controller
                     $oriName = strtolower($oriName);
                     $name = time().'.'.$file->getClientOriginalExtension();
                     $name = strtolower($name);
-                    PostHelper::putFile($file, 'file', $name);
+                    PostHelper::putFile($file, 'files', $name);
                     $fileNames[] = [ 'name' => $name , 'oriName' => $oriName ];
                     // $fileNames[];
                 }

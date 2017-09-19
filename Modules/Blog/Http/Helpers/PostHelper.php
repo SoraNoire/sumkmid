@@ -99,8 +99,7 @@ class PostHelper
 
     public static function putFile($file, $path, $fileName){
         $s3 = \Storage::disk('s3');
-        $s3->putFileAs('files',new File($file),$fileName, 'public');
-
+        $s3->putFileAs('/shbtm/'.$path, new File($file), $fileName, 'public');
     }
 
     public static function deleteFile($file, $path){
@@ -160,7 +159,6 @@ class PostHelper
         $s3 = \Storage::disk('s3');
         $filePath = '/shbtm/'.$path.'/' . $fileName.'.'.$ext;
         $s3->put($filePath, $img->__toString(), 'public');
-        var_dump($s3->files('/shbtm/media'));
 
         // $filePath = '/'.$path.'/' . $fileName. '-'. $large.'.'.$ext;
         // $s3->put($filePath, $imgLarge->__toString(), 'public');
