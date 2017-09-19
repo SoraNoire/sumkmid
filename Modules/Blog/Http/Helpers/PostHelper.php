@@ -99,7 +99,6 @@ class PostHelper
     public static function putFile($file, $path, $fileName){
         $s3 = \Storage::disk('s3');
         $filePath = '/'.$path.'/'.$fileName;
-        // $s3->put($filePath, $file, 'public');
         $s3->putFileAs('files',new File($file),$fileName, 'public');
 
     }

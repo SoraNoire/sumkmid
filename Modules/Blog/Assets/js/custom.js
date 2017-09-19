@@ -243,7 +243,7 @@ $('#fileUpload').on('change', function add_file(e){
         data: fd,
         success: function(msg){
             for (var i = 0; i < msg.length; i++) {
-                $('.file-list').append('<div class="form-group input-group file-item"><input type="text" name="file_label[]" class="form-control" placeholder="insert label for file here"><span class="input-group-addon"><i class="fa fa-file-o" aria-hidden="true"></i> '+msg[i]+'</span><span class="input-group-btn"><button class="btn btn-danger file-delete" type="button" data-filename="'+msg[i]+'"><i class="fa fa-times" aria-hidden="true"></i></button></span><input type="hidden" name="file_doc[]" value="'+msg[i]+'"></div>');
+                $('.file-list').append('<div class="form-group input-group file-item"><span class="input-group-addon"><i class="fa fa-file-o" aria-hidden="true"></i></span><input type="text" name="file_label[]" class="form-control" placeholder="insert label for file here" value="'+msg[i].oriName+'"><span class="input-group-btn"><button class="btn btn-danger file-delete" type="button" data-postid = "'+postId+'" data-filename="'+msg[i].name+'"><i class="fa fa-times" aria-hidden="true"></i></button></span><input type="hidden" name="file_doc[]" value="'+msg[i].name+'"></div>');
             }
         },
         error: function(err){
@@ -258,10 +258,11 @@ $('#fileUpload').on('change', function add_file(e){
 // fungsi delete file 
 $('.file-list').on('click', '.file-delete', function(){
     var fileName = $(this).attr('data-filename');
+    var postId = $(this).attr('data-postid');
     var parent = $(this).parents('.file-item');
     $.ajax({
         type: "GET",
-        url: "/admin/blog/delete-file/"+fileName,
+        url: "/admin/blog/delete-file/"+postId+'/'+fileName,
         success: function(msg){
             $(parent).remove();
         },
