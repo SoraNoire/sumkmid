@@ -18,7 +18,7 @@ Route::group(['middleware' => 'web', 'prefix' => 'admin/blog', 'namespace' => 'M
     Route::get('/get-category-parent/', 'BlogController@get_category_parent');
     
     Route::post('/store-file', 'BlogController@store_file');
-    Route::get('/delete-file/{fileName}', 'BlogController@destroy_file');
+    Route::get('/delete-file/{postId}/{fileName}', 'BlogController@destroy_file');
 
     Route::get('/category', 'BlogController@category');
     Route::get('/get-category', 'BlogController@get_category');

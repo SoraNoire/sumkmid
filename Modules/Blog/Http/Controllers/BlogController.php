@@ -406,11 +406,13 @@ class BlogController extends Controller
                 $file = $req->file('fileUpload');
                 $fileNames = [];
                 foreach ($file as $file) {
-                    $name = $file->getClientOriginalName();
+                    $oriName = $file->getClientOriginalName();
+                    $oriName = strtolower($oriName);
+                    $name = time().'.'.$file->getClientOriginalExtension();
                     $name = strtolower($name);
-                    // echo $file;
                     PostHelper::putFile($file, 'file', $name);
-                    $fileNames[] = $name;
+                    $fileNames[] = [ 'name' => $name , 'oriName' => $oriName ];
+                    // $fileNames[];
                 }
                 echo json_encode($fileNames);
             } catch (Illuminate\Filesystem\FileNotFoundException $e) {
@@ -426,9 +428,28 @@ class BlogController extends Controller
      * @param $id
      * @return Response
      */
-    public function destroy_file($fileName){
-        if(Storage::disk('s3')->exists('file/'.$fileName)){
-            PostHelper::deleteFile($fileName, 'file');
+    public function destroy_file($postId, $fileName){
+        if(Storage::disk('s3')->exists('files/'.$fileName)){
+            PostHelper::deleteFile($fileName, 'files');
+            if ($postId != 0) {
+                $post = Posts::where('id', $postId)->first();
+                $option = json_decode($post->option);
+                if ($option->files != '') {
+                    $newFiles = '';
+                    foreach ($option->files as $file) {
+                        if ($file->file_doc != $fileName) {
+                            $newFiles[]['file_doc'] = $file->file_doc;
+                            $newFiles[]['file_label'] = $file->file_label;                        
+                        }
+                    }
+                    if ($newFiles == '') {
+                        $option->files = '';    
+                    } else {
+                        $option->files = json_encode($newFiles);
+                    }
+                }
+                $post->update();
+            }
             return "File deleted";
         }else{
             return "File not found";
