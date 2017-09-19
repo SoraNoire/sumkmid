@@ -3,6 +3,7 @@ namespace Modules\Blog\Http\Helpers;
 
 use Modules\Blog\Entities\Category;
 use Modules\Blog\Entities\PostCategory;
+use Illuminate\Http\File;
 
 class PostHelper
 {
@@ -86,6 +87,27 @@ class PostHelper
         }
 
         return $allcategory;
+    }
+
+    public static function getLinkFile($url, $path){
+        $region = config('filesystems.disks')['s3']['region'];
+        $bucket = config('filesystems.disks')['s3']['bucket'];
+       
+        return 'https://s3-'.$region.'.amazonaws.com/'.$bucket.'/'.$path.'/'.$url;
+    }
+
+    public static function putFile($file, $path, $fileName){
+        $s3 = \Storage::disk('s3');
+        $filePath = '/'.$path.'/'.$fileName;
+        // $s3->put($filePath, $file, 'public');
+        $s3->putFileAs('files',new File($file),$fileName, 'public');
+
+    }
+
+    public static function deleteFile($file, $path){
+        $s3 = \Storage::disk('s3');
+        $filePath = '/'.$path.'/' . $file;
+        $s3->delete($filePath);
     }
 }
 ?>

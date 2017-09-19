@@ -4,6 +4,8 @@ namespace Modules\Blog\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Routing\Controller as BaseController;
 use App\Http\Controllers\Controller;
 use Modules\Blog\Entities\Page;
@@ -63,7 +65,15 @@ class BlogController extends Controller
                 }
             }
 
-            return view('blog::admin.single')->with(['page_meta_title' => $page_meta_title, 'post' => $post, 'tag' => $tag, 'category' => $category]);
+            $option = json_decode($post->option);
+            $files = $option->files;
+            $meta_desc = $option->meta_desc;
+            $meta_title = $option->meta_title;
+            $meta_keyword = $option->meta_keyword;
+            $status = $post->status;
+            $published_at = $post->published_at;
+
+            return view('blog::admin.single')->with(['page_meta_title' => $page_meta_title, 'post' => $post, 'tag' => $tag, 'category' => $category, 'files' => $files, 'meta_keyword' => $meta_keyword, 'meta_title' => $meta_title, 'meta_desc' => $meta_desc, 'published_at' => $published_at]);
         } else {
             return redirect($this->prefix.'posts')->with('msg', 'Post Not Found')->with('status', 'danger');
         }
@@ -108,6 +118,7 @@ class BlogController extends Controller
         $alltag = Tag::orderBy('created_at','desc')->get();
         $allcategory = PostHelper::get_all_category();
         $allparent = PostHelper::get_category_parent();
+        $files = '';
         $meta_desc = '';
         $meta_title = '';
         $meta_keyword = '';
@@ -115,7 +126,7 @@ class BlogController extends Controller
         $post_type = 'standard';
         $published_at = 'immediately';
 
-        return view('blog::admin.post_form')->with(['page_meta_title' => $page_meta_title, 'act' => $act, 'action' => $action, 'title' => $title, 'body' => $body, 'alltag' => $alltag, 'selected_tag' => $selected_tag, 'allcategory' => $allcategory, 'media' => $media, 'featured_img' => $featured_img, 'allparent' => $allparent, 'meta_desc' => $meta_desc, 'meta_title' => $meta_title, 'meta_keyword' => $meta_keyword, 'status' => $status, 'post_type' => $post_type, 'published_at' => $published_at]);
+        return view('blog::admin.post_form')->with(['page_meta_title' => $page_meta_title, 'act' => $act, 'action' => $action, 'title' => $title, 'body' => $body, 'alltag' => $alltag, 'selected_tag' => $selected_tag, 'allcategory' => $allcategory, 'media' => $media, 'featured_img' => $featured_img, 'allparent' => $allparent, 'meta_desc' => $meta_desc, 'meta_title' => $meta_title, 'meta_keyword' => $meta_keyword, 'status' => $status, 'post_type' => $post_type, 'published_at' => $published_at, 'files' => $files]);
     }
 
     /**
@@ -134,6 +145,15 @@ class BlogController extends Controller
         $status = $request->get('status');
         $published_at = $request->input('published_at');
         $post_type = $request->get('post_type');
+        $file_doc = $request->input('file_doc');
+        $file_label = $request->input('file_label');
+        $option['files'] = '';
+        if (isset($file_doc)) {
+            for ($i=0; $i < count($file_doc); $i++) {
+                $option['files'][$i]['file_label'] = $file_label[$i];
+                $option['files'][$i]['file_doc'] = $file_doc[$i];
+            }
+        }
         $option['meta_title'] = $request->input('meta_title');
         $option['meta_desc'] = $request->input('meta_desc');
         $option['meta_keyword'] = $request->input('meta_keyword');
@@ -238,6 +258,7 @@ class BlogController extends Controller
             $allcategory = PostHelper::get_all_category($post->id);
             $allparent = PostHelper::get_category_parent();
             $option = json_decode($post->option);
+            $files = $option->files;
             $meta_desc = $option->meta_desc;
             $meta_title = $option->meta_title;
             $meta_keyword = $option->meta_keyword;
@@ -245,7 +266,7 @@ class BlogController extends Controller
             $post_type = $post->post_type;
             $published_at = $post->published_at;
 
-            return view('blog::admin.post_form')->with(['page_meta_title' => $page_meta_title, 'act' => $act, 'action' => $action, 'post' => $post , 'title' => $title, 'body' => $body, 'alltag' => $alltag, 'selected_tag' => $selected_tag, 'allcategory' => $allcategory, 'media' => $media, 'featured_img' => $featured_img, 'allparent' => $allparent, 'meta_desc' => $meta_desc, 'meta_title' => $meta_title, 'meta_keyword' => $meta_keyword, 'status' => $status, 'post_type' => $post_type, 'published_at' => $published_at]);
+            return view('blog::admin.post_form')->with(['page_meta_title' => $page_meta_title, 'act' => $act, 'action' => $action, 'post' => $post , 'title' => $title, 'body' => $body, 'alltag' => $alltag, 'selected_tag' => $selected_tag, 'allcategory' => $allcategory, 'media' => $media, 'featured_img' => $featured_img, 'allparent' => $allparent, 'meta_desc' => $meta_desc, 'meta_title' => $meta_title, 'meta_keyword' => $meta_keyword, 'status' => $status, 'post_type' => $post_type, 'published_at' => $published_at, 'files' => $files]);
         } else {
             return redirect($this->prefix.'posts')->with(['msg' => 'Post Not Found', 'status' => 'danger']);
         }
@@ -266,6 +287,15 @@ class BlogController extends Controller
         $status = $request->get('status');
         $published_at = $request->input('published_at');
         $post_type = $request->get('post_type');
+        $file_doc = $request->input('file_doc');
+        $file_label = $request->input('file_label');
+        $option['files'] = '';
+        if (isset($file_doc)) {
+            for ($i=0; $i < count($file_doc); $i++) { 
+                $option['files'][$i]['file_label'] = $file_label[$i];
+                $option['files'][$i]['file_doc'] = $file_doc[$i];
+            }
+        }
         $option['meta_title'] = $request->input('meta_title');
         $option['meta_desc'] = $request->input('meta_desc');
         $option['meta_keyword'] = $request->input('meta_keyword');
@@ -339,53 +369,6 @@ class BlogController extends Controller
         }
     }
 
-
-    /**
-     * Store a file in storage.
-     * @param  Request $request
-     * @return Response
-     */
-    public function store_file(Request $req){
-        $this->validate($req, [
-            'fileUpload.*' => 'mimes:pdf,doc,docx,xlsx,xml,txt',
-        ]);
-        if ($req->hasFile('fileUpload')) {
-            try {
-                $file = $req->file('fileUpload');
-                $fileNames = [];
-                foreach ($file as $file) {
-                    $name = $file->getClientOriginalName();
-                    $name = strtolower($name);
-                    if (!is_dir(public_path('file'))) {
-                        mkdir(public_path('file'), 0775, true);
-                    }
-                    $file->move(public_path('file'), $name);
-                    $fileNames[] = $name;
-                }
-                echo json_encode($fileNames);
-            } catch (Illuminate\Filesystem\FileNotFoundException $e) {
-                
-            }
-        }else{
-            return  "Success adding file";
-        }
-    }
-
-
-    /**
-     * Remove the specified file from storage.
-     * @param $id
-     * @return Response
-     */
-    public function destroy_file($fileName){
-        if(File::isFile(public_path('file/'.$fileName))){
-            unlink(public_path('file/'.$fileName));
-            return "File deleted";
-        }else{
-            return "File not found";
-        }
-    }
-
     /**
      * Remove multiple post from storage.
      * @param Request $request
@@ -407,6 +390,49 @@ class BlogController extends Controller
             }
         }
         return redirect($this->prefix.'posts')->with(['msg' => 'Delete Success', 'status' => 'success']);
+    }
+
+    /**
+     * Store a file in storage.
+     * @param  Request $request
+     * @return Response
+     */
+    public function store_file(Request $req){
+        $this->validate($req, [
+            'fileUpload.*' => 'mimes:pdf,doc,docx,xlsx,xml,txt',
+        ]);
+        if ($req->hasFile('fileUpload')) {
+            try {
+                $file = $req->file('fileUpload');
+                $fileNames = [];
+                foreach ($file as $file) {
+                    $name = $file->getClientOriginalName();
+                    $name = strtolower($name);
+                    // echo $file;
+                    PostHelper::putFile($file, 'file', $name);
+                    $fileNames[] = $name;
+                }
+                echo json_encode($fileNames);
+            } catch (Illuminate\Filesystem\FileNotFoundException $e) {
+                
+            }
+        }else{
+            return  "Error adding file";
+        }
+    }
+
+    /**
+     * Remove the specified file from storage.
+     * @param $id
+     * @return Response
+     */
+    public function destroy_file($fileName){
+        if(Storage::disk('s3')->exists('file/'.$fileName)){
+            PostHelper::deleteFile($fileName, 'file');
+            return "File deleted";
+        }else{
+            return "File not found";
+        }
     }
 
     /**

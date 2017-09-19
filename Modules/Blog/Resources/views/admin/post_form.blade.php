@@ -40,7 +40,20 @@
                             </div>
 
                             <div class="file-list">
-                                
+                                @if ($files != '')
+                                    @foreach($files as $file)
+                                    <div class="form-group input-group file-item">
+                                        <input type="text" name="file_label[]" class="form-control" placeholder="insert label for file here" value="{{ $file->file_label }}">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-file-o" aria-hidden="true"></i> {{ $file->file_doc }}
+                                        </span>
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-danger file-delete" type="button" data-filename="{{ $file->file_doc }}"><i class="fa fa-times" aria-hidden="true"></i></button>
+                                        </span>
+                                        <input type="hidden" name="file_doc[]" value="{{ $file->file_doc }}">
+                                    </div>
+                                    @endforeach
+                                @endif
                             </div>
                         </div>
                     </div>
