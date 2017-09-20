@@ -51,9 +51,12 @@
         <tr>
             <td>Files</td>
             <td>:</td>
-            <td>@foreach($files as $file)
-                <a href="{{ PostHelper::getLinkFile($file->file_doc, 'files') }}">{{ $file->file_label }}</a>
-                @endforeach
+            <td>
+                @if($files != '')
+                    @foreach($files as $file)
+                        <a href="{{ PostHelper::getLinkFile($file->file_doc, 'files') }}">{{ $file->file_label }}</a>
+                    @endforeach
+                @endif
             </td>
         </tr>
     </table>

@@ -30,6 +30,7 @@ class VideoController extends Controller
     public function __construct(){
         $this->prefix = 'admin/blog/video/';
         View::share('prefix', $this->prefix);
+        View::share('body_id', 'video');
     }
     /**
      * Display a listing of videos.
@@ -672,5 +673,23 @@ class VideoController extends Controller
             }
         }
         return redirect($this->prefix.'tag')->with(['msg' => 'Delete Success', 'status' => 'success']);
+    }
+
+    /**
+     * Get all video category parent to select category parent.
+     * @param  $category_id
+     * @return Response
+     */
+    public static function get_category_parent($category_id = ''){
+         return VideoHelper::get_category_parent($category_id);
+    }
+
+    /**
+     * Get all video category for list on post form.
+     * @param  $post_id
+     * @return Response
+     */
+    public static function get_all_category($post_id = ''){
+        return VideoHelper::get_all_category($post_id);
     }
 }

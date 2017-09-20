@@ -1284,12 +1284,12 @@ if ($(".post-datetime").length > 0) {
     });
 }
 
-function load_category(){
+function load_post_category(){
     $.ajax({
         type: "GET",
         url: "/admin/blog/get-category-post/",
         success: function(msg){
-            $('.category-wrap ul').html(msg);
+            $('#blog .category-wrap ul').html(msg);
         },
         error: function(err){
             console.log(err);
@@ -1297,12 +1297,12 @@ function load_category(){
     });
 }
 
-function load_category_parent(){
+function load_post_category_parent(){
     $.ajax({
         type: "GET",
         url: "/admin/blog/get-category-parent/",
         success: function(msg){
-            $('#CategoryParent').html(msg);
+            $('#blog .category-parent').html(msg);
         },
         error: function(err){
             console.log(err);
@@ -1310,16 +1310,16 @@ function load_category_parent(){
     });
 }
 
-if ($('.category-wrap').length > 0) {
-    $('.category-wrap').ready(load_category());
+if ($('#blog .category-wrap').length > 0) {
+    $('#blog .category-wrap').ready(load_post_category());
 }
 
-if ($('#CategoryParent').length > 0) {
-    $('#CategoryParent').ready(load_category_parent());
+if ($('#blog .category-parent').length > 0) {
+    $('#blog .category-parent').ready(load_post_category_parent());
 }
 
 // add category on post ajax function
-$('#add_category_button').on('click', function add_category(){
+$('#blog .add_category_button').on('click', function add_category(){
     var n = $('input[name=category_name]').val();
     var p = $('select[name=category_parent]').val();
     if (n != '') {
@@ -1334,8 +1334,8 @@ $('#add_category_button').on('click', function add_category(){
             }
         });
 
-        load_category();
-        load_category_parent();
+        load_post_category();
+        load_post_category_parent();
         $('input[name=category_name]').val('');
         $('select[name=category_parent]').removeAttr('selected');
     } else {    
@@ -1345,8 +1345,8 @@ $('#add_category_button').on('click', function add_category(){
 $(document).ready(function() {
 // DATATABLES CONFIG
     // video category table 
-    if ($("#VideoCategoryTable").length > 0) {
-        $("#VideoCategoryTable").DataTable({
+    if ($("#video #VideoCategoryTable").length > 0) {
+        $("#video #VideoCategoryTable").DataTable({
             "ajax": $.fn.dataTable.pipeline( {
                 url: '/admin/blog/video/get-category',
                 pages: 5 // number of pages to cache
@@ -1382,8 +1382,8 @@ $(document).ready(function() {
     } 
 
     // videos table
-    if ($("#myTableVideos").length > 0) {
-        $("#myTableVideos").DataTable({
+    if ($("#video #myTableVideos").length > 0) {
+        $("#video #myTableVideos").DataTable({
             "ajax": $.fn.dataTable.pipeline( {
                 url: '/admin/blog/video/get-videos',
                 pages: 5 // number of pages to cache
@@ -1421,8 +1421,8 @@ $(document).ready(function() {
     }
 
     // tag table
-    if ($("#VideoTagTable").length > 0) {
-        $("#VideoTagTable").DataTable({
+    if ($("#video #VideoTagTable").length > 0) {
+        $("#video #VideoTagTable").DataTable({
             "ajax": $.fn.dataTable.pipeline( {
                 url: '/admin/blog/video/get-tag',
                 pages: 5 // number of pages to cache
@@ -1457,4 +1457,63 @@ $(document).ready(function() {
         });
     }
 // END DATATABLES
+});
+
+function load_video_category(){
+    $.ajax({
+        type: "GET",
+        url: "/admin/blog/video/get-category-video/",
+        success: function(msg){
+            $('#video .category-wrap ul').html(msg);
+        },
+        error: function(err){
+            console.log(err);
+        }
+    });
+}
+
+function load_video_category_parent(){
+    $.ajax({
+        type: "GET",
+        url: "/admin/blog/video/get-category-parent/",
+        success: function(msg){
+            $('#video .category-parent').html(msg);
+        },
+        error: function(err){
+            console.log(err);
+        }
+    });
+}
+
+if ($('#video .category-wrap').length > 0) {
+    $('#video .category-wrap').ready(load_video_category());
+}
+
+if ($('#video .category-parent').length > 0) {
+    $('#video .category-parent').ready(load_video_category_parent());
+}
+
+// add category on post ajax function
+$('#video .add_category_button').on('click', function add_category(){
+    var n = $('input[name=category_name]').val();
+    var p = $('select[name=category_parent]').val();
+    if (n != '') {
+        $.ajax({
+            type: "GET",
+            url: "/admin/blog/video/add-category-post/"+n+"/"+p,
+            success: function(msg){
+                console.log(msg);
+            },
+            error: function(err){
+                console.log(err);
+            }
+        });
+
+        load_video_category();
+        load_video_category_parent();
+        $('input[name=category_name]').val('');
+        $('select[name=category_parent]').removeAttr('selected');
+    } else {    
+        // do nothing
+    }
 });

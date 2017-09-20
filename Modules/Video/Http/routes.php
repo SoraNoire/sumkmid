@@ -15,7 +15,7 @@ Route::group(['middleware' => 'web', 'prefix' => 'admin/blog/video', 'namespace'
     Route::post('/bulk-delete-video/', 'VideoController@bulk_delete_video');
     Route::get('/add-category-video/{name}/{parent}', 'VideoController@store_category_ajax');
     Route::get('/get-category-video/', 'VideoController@get_all_category');
-    Route::get('/get-category-video/', 'VideoController@get_category_parent');
+    Route::get('/get-category-parent/', 'VideoController@get_category_parent');
 
     Route::get('/category', 'VideoController@category');
     Route::get('/get-category', 'VideoController@get_category');

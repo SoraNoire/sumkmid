@@ -30,6 +30,7 @@ class BlogController extends Controller
     public function __construct(){
         $this->prefix = 'admin/blog/';
         View::share('prefix', $this->prefix);
+        View::share('body_id', 'blog');
     }
     /**
      * Display a listing of post.

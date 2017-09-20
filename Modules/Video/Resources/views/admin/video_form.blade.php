@@ -108,9 +108,9 @@
                                     <input type="text" name="category_name" class="form-control">
                                 </div>
                                 <div class="form-group">
-                                    <select id="CategoryParent" name="category_parent" class="form-control" style="width: 100%;"></select>
+                                    <select id="CategoryParent" name="category_parent" class="form-control category-parent" style="width: 100%;"></select>
                                 </div>
-                                <button class="btn btn-default" type="button" id="add_category_button">Add New Category</button>
+                                <button class="btn btn-default add_category_button" type="button">Add New Category</button>
                             </div>
                         </div>
                     </div>
