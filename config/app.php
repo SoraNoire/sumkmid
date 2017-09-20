@@ -179,6 +179,12 @@ return [
         Nwidart\Modules\LaravelModulesServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
 
+        // spatie 
+        Spatie\Permission\PermissionServiceProvider::class,
+
+        // lara collective
+        Collective\Html\HtmlServiceProvider::class,
+
     ],
 
     /*
@@ -230,6 +236,11 @@ return [
         'Module' => Nwidart\Modules\Facades\Module::class,
         'Image' => Intervention\Image\Facades\Image::class,
         'PostHelper' => Modules\Blog\Http\Helpers\PostHelper::class,
+
+        // lara collective
+        'Form' => Collective\Html\FormFacade::class,
+        'Html' => Collective\Html\HtmlFacade::class,
+
     ],
 
 ];
