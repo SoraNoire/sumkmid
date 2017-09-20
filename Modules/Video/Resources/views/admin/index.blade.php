@@ -7,21 +7,21 @@
   {{ session('msg') }}
 </div>
 @endif
-<form method="post" action="{{ URL::to($prefix.'bulk-delete-post/')}}" accept-charset="UTF-8">
-<a href="{{ URL::to($prefix.'create-post') }}" class="btn btn-round btn-fill btn-info">New Post +<div class="ripple-container"></div></a>
+<form method="post" action="{{ URL::to($prefix.'bulk-delete-video/')}}" accept-charset="UTF-8">
+<a href="{{ URL::to($prefix.'create-video') }}" class="btn btn-round btn-fill btn-info">New Video +<div class="ripple-container"></div></a>
 
 <input type="hidden" name="_token" value="{{ csrf_token() }}">
 <input type="hidden" name="id" class="bulk-delete-id">
-<button type="sumbit" style="display: none;" class="btn btn-round btn-fill btn-danger bulk-delete-item">Delete <span class="bulk-delete-count"></span> Post</button>
+<button type="sumbit" style="display: none;" class="btn btn-round btn-fill btn-danger bulk-delete-item">Delete <span class="bulk-delete-count"></span> Video</button>
 </form>
 <div class="card">
     <div class="card-header" data-background-color="green">
-        <h4 class="title">Posts</h4>
-        <p class="category">All Post</p>
+        <h4 class="title">Videos</h4>
+        <p class="category">All Video</p>
     </div>
 
     <div class="card-content table-responsive">
-        <table class="table mydatatable" id="myTableNews">
+        <table class="table mydatatable" id="myTableVideos">
             <thead>
                 <th>Title</th>
                 <th>Author</th>

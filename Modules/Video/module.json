@@ -1,0 +1,16 @@
+{
+    "name": "Video",
+    "alias": "video",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\Video\\Providers\\VideoServiceProvider"
+    ],
+    "aliases": {},
+    "files": [
+        "start.php"
+    ],
+    "requires": []
+}

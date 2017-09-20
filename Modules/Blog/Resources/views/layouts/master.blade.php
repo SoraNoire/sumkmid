@@ -59,12 +59,15 @@
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
-            <li class="{{ ($meta_title ?? '') == 'Posts' ? 'active' : ''}}"><a href="{{ url($prefix.'posts') }}">Post</a></li>
-            <li class="{{ ($meta_title ?? '') == 'Page' ? 'active' : ''}}"><a href="{{ url($prefix.'pages') }}">Pages</a></li>
-            <li class="{{ ($meta_title ?? '') == 'Category' ? 'active' : ''}}"><a href="{{ url($prefix.'category') }}">Category</a></li>
-            <li class="{{ ($meta_title ?? '') == 'Tag' ? 'active' : ''}}"><a href="{{ url($prefix.'tag') }}">Tag</a></li>
-            <li class="{{ ($meta_title ?? '') == 'Media' ? 'active' : ''}}"><a href="{{ url($prefix.'media') }}">Media</a></li>
-            <li class="{{ ($meta_title ?? '') == 'Menu' ? 'active' : ''}}"><a href="{{ url($prefix.'menu') }}">Menu</a></li>
+            <li class="{{ ($page_meta_title ?? '') == 'Posts' ? 'active' : ''}}"><a href="{{ url('admin/blog/posts') }}">Post</a></li>
+            <li class="{{ ($page_meta_title ?? '') == 'Category' ? 'active' : ''}}"><a href="{{ url('admin/blog/category') }}">Post Category</a></li>
+            <li class="{{ ($page_meta_title ?? '') == 'Tag' ? 'active' : ''}}"><a href="{{ url('admin/blog/tag') }}">Post Tag</a></li>
+            <li class="{{ ($page_meta_title ?? '') == 'Videos' ? 'active' : ''}}"><a href="{{ url('admin/blog/video/') }}">Video</a></li>
+            <li class="{{ ($page_meta_title ?? '') == 'Video Category' ? 'active' : ''}}"><a href="{{ url('admin/blog/video/category') }}">Video Category</a></li>
+            <li class="{{ ($page_meta_title ?? '') == 'Video Tag' ? 'active' : ''}}"><a href="{{ url('admin/blog/video/tag') }}">Video Tag</a></li>
+            <li class="{{ ($page_meta_title ?? '') == 'Page' ? 'active' : ''}}"><a href="{{ url('admin/blog/pages') }}">Pages</a></li>
+            <li class="{{ ($page_meta_title ?? '') == 'Media' ? 'active' : ''}}"><a href="{{ url('admin/blog/media') }}">Media</a></li>
+            <li class="{{ ($page_meta_title ?? '') == 'Menu' ? 'active' : ''}}"><a href="{{ url('admin/blog/menu') }}">Menu</a></li>
           </ul>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
@@ -83,7 +86,7 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="{{ asset('js/index.js') }}?v=1.0.0" type="text/javascript"></script>
+    <script src="{{ asset('js/index.js') }}?v=1.0.1" type="text/javascript"></script>
    <!--  
     <script src="{{ asset('Modules/Blog/Assets/js/jquery-3.1.0.min.js') }}" type="text/javascript"></script>
     <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
