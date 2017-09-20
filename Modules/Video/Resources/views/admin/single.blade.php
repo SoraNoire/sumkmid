@@ -7,21 +7,21 @@
       {{ session('msg') }}
     </div>
     @endif
-    <h3>{{ $post->title }}</h3>
-    <small style="float: left;width: 100%;margin-bottom: 10px;"><a href="{{ url($prefix.'edit-post/'.$post->id) }}">Edit Post</a></small>
+    <h3>{{ $video->title }}</h3>
+    <small style="float: left;width: 100%;margin-bottom: 10px;"><a href="{{ url($prefix.'edit-video/'.$video->id) }}">Edit video</a></small>
     <table>
         <tr>
             <th></th>
         </tr>
         <tr>
-            <td>Post</td>
+            <td>Video</td>
             <td>:</td>
-            <td>{{ $post->body }}</td>
+            <td>{{ $video->body }}</td>
         </tr>
         <tr>
             <td>Featured Image</td>
             <td>:</td>
-            <td>{{ $post->featured_img }}</td>
+            <td>{{ $video->featured_img }}</td>
         </tr>
         <tr>
             <td>Category</td>
@@ -49,15 +49,9 @@
             <td>{{ $meta_keyword }}</td>
         </tr>
         <tr>
-            <td>Files</td>
+            <td>Video Url</td>
             <td>:</td>
-            <td>
-                @if($files != '')
-                    @foreach($files as $file)
-                        <a href="{{ PostHelper::getLinkFile($file->file_doc, 'files') }}">{{ $file->file_label }}</a>
-                    @endforeach
-                @endif
-            </td>
+            <td>{{ $video->video_url }}</td>
         </tr>
     </table>
 

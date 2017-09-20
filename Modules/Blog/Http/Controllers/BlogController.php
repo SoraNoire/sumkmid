@@ -30,6 +30,7 @@ class BlogController extends Controller
     public function __construct(){
         $this->prefix = 'admin/blog/';
         View::share('prefix', $this->prefix);
+        View::share('body_id', 'blog');
     }
     /**
      * Display a listing of post.
@@ -123,10 +124,9 @@ class BlogController extends Controller
         $meta_title = '';
         $meta_keyword = '';
         $status = 1;
-        $post_type = 'standard';
         $published_at = 'immediately';
 
-        return view('blog::admin.post_form')->with(['page_meta_title' => $page_meta_title, 'act' => $act, 'action' => $action, 'title' => $title, 'body' => $body, 'alltag' => $alltag, 'selected_tag' => $selected_tag, 'allcategory' => $allcategory, 'media' => $media, 'featured_img' => $featured_img, 'allparent' => $allparent, 'meta_desc' => $meta_desc, 'meta_title' => $meta_title, 'meta_keyword' => $meta_keyword, 'status' => $status, 'post_type' => $post_type, 'published_at' => $published_at, 'files' => $files]);
+        return view('blog::admin.post_form')->with(['page_meta_title' => $page_meta_title, 'act' => $act, 'action' => $action, 'title' => $title, 'body' => $body, 'alltag' => $alltag, 'selected_tag' => $selected_tag, 'allcategory' => $allcategory, 'media' => $media, 'featured_img' => $featured_img, 'allparent' => $allparent, 'meta_desc' => $meta_desc, 'meta_title' => $meta_title, 'meta_keyword' => $meta_keyword, 'status' => $status, 'published_at' => $published_at, 'files' => $files]);
     }
 
     /**
@@ -144,7 +144,6 @@ class BlogController extends Controller
         $featured_img = $request->input('featured_img');
         $status = $request->get('status');
         $published_at = $request->input('published_at');
-        $post_type = $request->get('post_type');
         $file_doc = $request->input('file_doc');
         $file_label = $request->input('file_label');
         $option['files'] = '';
@@ -168,7 +167,7 @@ class BlogController extends Controller
             $slug = $slug.'-'.date('s');
         }
 
-        DB::transaction(function() use ($title, $slug, $category, $tag, $body, $featured_img, $option, $status, $published_at, $post_type) {
+        DB::transaction(function() use ($title, $slug, $category, $tag, $body, $featured_img, $option, $status, $published_at) {
             if (isset($tag)) {
                 // save tag to table tag
                 $tag_id = array();
@@ -196,7 +195,6 @@ class BlogController extends Controller
             $store->slug = $slug;
             $store->body = $body;
             $store->featured_img = $featured_img;
-            $store->post_type = $post_type;
             $store->featured_img = $featured_img;
             $store->author = 1;
             $store->status = $status;
@@ -263,10 +261,9 @@ class BlogController extends Controller
             $meta_title = $option->meta_title;
             $meta_keyword = $option->meta_keyword;
             $status = $post->status;
-            $post_type = $post->post_type;
             $published_at = $post->published_at;
 
-            return view('blog::admin.post_form')->with(['page_meta_title' => $page_meta_title, 'act' => $act, 'action' => $action, 'post' => $post , 'title' => $title, 'body' => $body, 'alltag' => $alltag, 'selected_tag' => $selected_tag, 'allcategory' => $allcategory, 'media' => $media, 'featured_img' => $featured_img, 'allparent' => $allparent, 'meta_desc' => $meta_desc, 'meta_title' => $meta_title, 'meta_keyword' => $meta_keyword, 'status' => $status, 'post_type' => $post_type, 'published_at' => $published_at, 'files' => $files]);
+            return view('blog::admin.post_form')->with(['page_meta_title' => $page_meta_title, 'act' => $act, 'action' => $action, 'post' => $post , 'title' => $title, 'body' => $body, 'alltag' => $alltag, 'selected_tag' => $selected_tag, 'allcategory' => $allcategory, 'media' => $media, 'featured_img' => $featured_img, 'allparent' => $allparent, 'meta_desc' => $meta_desc, 'meta_title' => $meta_title, 'meta_keyword' => $meta_keyword, 'status' => $status, 'published_at' => $published_at, 'files' => $files]);
         } else {
             return redirect($this->prefix.'posts')->with(['msg' => 'Post Not Found', 'status' => 'danger']);
         }
@@ -286,7 +283,6 @@ class BlogController extends Controller
         $featured_img = $request->input('featured_img');
         $status = $request->get('status');
         $published_at = $request->input('published_at');
-        $post_type = $request->get('post_type');
         $file_doc = $request->input('file_doc');
         $file_label = $request->input('file_label');
         $option['files'] = '';
@@ -301,7 +297,7 @@ class BlogController extends Controller
         $option['meta_keyword'] = $request->input('meta_keyword');
         $option = json_encode($option);
 
-        DB::transaction(function() use ($id, $title, $category, $tag, $body, $featured_img, $option, $status, $published_at, $post_type) {
+        DB::transaction(function() use ($id, $title, $category, $tag, $body, $featured_img, $option, $status, $published_at) {
             if (isset($tag)) {
                 // save tag to table tag
                 $tag_id = array();
@@ -327,8 +323,6 @@ class BlogController extends Controller
             $update = Posts::where('id', $id)->first();
             $update->title = $title;
             $update->body = $body;
-            $update->featured_img = $featured_img;
-            $update->post_type = $post_type;
             $update->featured_img = $featured_img;
             $update->author = 1;
             $update->status = $status;
@@ -515,7 +509,7 @@ class BlogController extends Controller
         $store->slug = $slug;
         $store->parent = $parent;
         if ($store->save()){
-            return redirect($this->prefix.'edit-category/'.$store->id)->with(['msg' => 'Saved', 'status' => 'success']);
+            return redirect($this->prefix.'category')->with(['msg' => 'Saved', 'status' => 'success']);
         } else {
             return redirect($this->prefix.'category')->with(['msg' => 'Save Error', 'status' => 'danger']);
         }
@@ -577,7 +571,7 @@ class BlogController extends Controller
         $update->name = $request->input('name');
         $update->parent = $parent;
         if ($update->save()){
-            return redirect($this->prefix.'edit-category/'.$update->id)->with(['msg' => 'Saved', 'status' => 'success']);
+            return redirect($this->prefix.'category')->with(['msg' => 'Saved', 'status' => 'success']);
         } else {
             return redirect($this->prefix.'category')->with(['msg' => 'Save Error', 'status' => 'danger']);
         }
@@ -677,7 +671,7 @@ class BlogController extends Controller
         $store->name = $request->input('name');
         $store->slug = $slug;
         if ($store->save()){
-            return redirect($this->prefix.'edit-tag/'.$store->id)->with(['msg' => 'Saved', 'status' => 'success']);
+            return redirect($this->prefix.'tag')->with(['msg' => 'Saved', 'status' => 'success']);
         } else {
             return redirect($this->prefix.'tag')->with(['msg' => 'Save Error', 'status' => 'danger']);
         }
@@ -710,7 +704,7 @@ class BlogController extends Controller
         $update = Tag::where('id', $id)->first();
         $update->name = $request->input('name');
         if ($update->save()){
-            return redirect($this->prefix.'edit-tag/'.$update->id)->with(['msg' => 'Saved', 'status' => 'success']);
+            return redirect($this->prefix.'tag')->with(['msg' => 'Saved', 'status' => 'success']);
         } else {
             return redirect($this->prefix.'tag')->with(['msg' => 'Save Error', 'status' => 'danger']);
         }

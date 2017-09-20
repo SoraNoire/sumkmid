@@ -24,7 +24,7 @@
             <thead>
                 <th>Title</th>
                 <th>Author</th>
-                <th>Created At</th>
+                <th>Published At</th>
                 <th>Action</th>
             </thead>
         </table>
