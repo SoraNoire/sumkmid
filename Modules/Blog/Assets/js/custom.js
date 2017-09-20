@@ -331,7 +331,7 @@ $(document).ready(function() {
             "columns": [
                 { "data": "title" },
                 { "data": "author" },
-                { "data": "created_at" },
+                { "data": "published_at" },
                 { "data": "id" },
             ],
             "columnDefs": [ {
@@ -476,7 +476,7 @@ $(document).ready(function() {
             "columns": [
                 { "data": "title" },
                 { "data": "author" },
-                { "data": "created_at" },
+                { "data": "published_at" },
                 { "data": "id" },
             ],
             "columnDefs": [ {
@@ -645,8 +645,13 @@ function load_category_parent(){
     });
 }
 
-$('.category-wrap').ready(load_category());
-$('#CategoryParent').ready(load_category_parent());
+if ($('.category-wrap').length > 0) {
+    $('.category-wrap').ready(load_category());
+}
+
+if ($('#CategoryParent').length > 0) {
+    $('#CategoryParent').ready(load_category_parent());
+}
 
 // add category on post ajax function
 $('#add_category_button').on('click', function add_category(){

@@ -1,18 +1,18 @@
 @extends('blog::layouts.master')
 
 @section('content')
-<script> postId = {{$post->id ?? 0}}</script>
+<script> videoId = {{$video->id ?? 0}}</script>
 <div class="col-md-12">
-    <h4 class="title">{{ $act }} Posts</h4>
+    <h4 class="title">{{ $act }} Videos</h4>
 
     <form id="post-form" method="post" action="{{ url($action) }}" accept-charset="UTF-8">
         @if ($act == 'New')
-        <a href="{{ URL::to($prefix.'create-post') }}" class="btn btn-round btn-fill btn-info">New Post +<div class="ripple-container"></div></a>
+        <a href="{{ URL::to($prefix.'create-video') }}" class="btn btn-round btn-fill btn-info">New Video +<div class="ripple-container"></div></a>
         @elseif ($act == 'Edit')
-        <a target="_blank" href="{{ URL::to($prefix.'show/'.$post->slug) }}" class="btn btn-round btn-fill btn-info">View Post<div class="ripple-container"></div></a>
-        <a onclick="return confirm('Delete Post?');" href="{{URL::to($prefix.'delete-post/'.$post->id)}}" class="btn btn-round btn-fill btn-danger">Delete Post<div class="ripple-container"></div></a>
+        <a target="_blank" href="{{ URL::to($prefix.'show/'.$video->slug) }}" class="btn btn-round btn-fill btn-info">View Video<div class="ripple-container"></div></a>
+        <a onclick="return confirm('Delete video?');" href="{{URL::to($prefix.'delete-video/'.$video->id)}}" class="btn btn-round btn-fill btn-danger">Delete Video<div class="ripple-container"></div></a>
         @endif
-        <button type="submit" class="btn btn-success pull-right">Save Post</button>
+        <button type="submit" class="btn btn-success pull-right">Save Video</button>
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
         <div class="row" style="margin-top: 15px;">
@@ -24,49 +24,22 @@
                 <a id="browse_media_post" data-toggle="modal" data-target="#myMedia" class="btn btn-round btn-fill btn-default" style="margin-bottom: 10px;">Add Media</a>
 
                 <div class="form-group">
-                    <label class="control-label">Post Content</label>
+                    <label class="control-label">Description Video</label>
                     <textarea class="form-control mytextarea" name="body">{{ $body }}</textarea>
                 </div>
 
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                          Add File <a data-toggle="collapse" href="#post-file"><i style="float: right;" class="fa fa-caret-down" aria-hidden="true"></i></a>
-                        </h4>
-                    </div>
-                    <div id="post-file" class="panel-collapse collapse in">
-                        <div class="panel-body">
-                            <div class="btn btn-round btn-fill btn-info" style="margin-bottom: 10px;">
-                            <input type="file" id="fileUpload" name="fileUpload[]" style="cursor: pointer;" multiple>
-                            </div>
-
-                            <div class="file-list">
-                                @if ($files != '')
-                                    @foreach($files as $file)
-                                    <div class="form-group input-group file-item">
-                                        <span class="input-group-addon">
-                                            <i class="fa fa-file-o" aria-hidden="true"></i>
-                                        </span>
-                                        <input type="text" name="file_label[]" class="form-control" placeholder="insert label for file here" value="{{ $file->file_label }}">
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-danger file-delete" type="button" data-postid="{{$post->id ?? 0}}" data-filename="{{ $file->file_doc }}"><i class="fa fa-times" aria-hidden="true"></i></button>
-                                        </span>
-                                        <input type="hidden" name="file_doc[]" value="{{ $file->file_doc }}">
-                                    </div>
-                                    @endforeach
-                                @endif
-                            </div>
-                        </div>
-                    </div>
+                <div class="form-group">
+                    <label class="control-label">Url Video</label>
+                    <input class="form-control" type="url" name="video_url" value="{{ $video_url }}" placeholder="Enter url video here">
                 </div>
 
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
-                          SEO Setting <a data-toggle="collapse" href="#post-seo"><i style="float: right;" class="fa fa-caret-down" aria-hidden="true"></i></a>
+                          SEO Setting <a data-toggle="collapse" href="#video-seo"><i style="float: right;" class="fa fa-caret-down" aria-hidden="true"></i></a>
                         </h4>
                     </div>
-                    <div id="post-seo" class="panel-collapse collapse in">
+                    <div id="video-seo" class="panel-collapse collapse in">
                         <div class="panel-body">
                             <div class="form-group">
                                 <label class="control-label">Meta Title</label>
@@ -90,13 +63,13 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
-                          Publish <a data-toggle="collapse" href="#post-status"><i style="float: right;" class="fa fa-caret-down" aria-hidden="true"></i></a>
+                          Publish <a data-toggle="collapse" href="#video-status"><i style="float: right;" class="fa fa-caret-down" aria-hidden="true"></i></a>
                         </h4>
                     </div>
-                    <div id="post-status" class="panel-collapse collapse in">
+                    <div id="video-status" class="panel-collapse collapse in">
                         <div class="panel-body">
                             <div class="form-group">
-                                <label>Post Status</label>
+                                <label>Video Status</label>
                                 <select name="status" class="form-control">
                                     <option {{ $status == 1 ? 'selected' : '' }} value="1">Published</option>
                                     <option {{ $status == 0 ? 'selected' : '' }} value="0">Draft</option>
@@ -104,7 +77,7 @@
                             </div>
                             <div class="form-group">
                                 <label class="control-label">Date Published</label>
-                                <div class="input-group input-append date post-datetime">
+                                <div class="input-group input-append date video-datetime">
                                     <input class="form-control" size="16" type="text" value="{{ $published_at }}" name="published_at" readonly>
                                     <span class="input-group-addon"><i class="fa fa-calendar" aria-hidden="true"></i></span>
                                 </div>
@@ -116,10 +89,10 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
-                          Category <a data-toggle="collapse" href="#post-category"><i style="float: right;" class="fa fa-caret-down" aria-hidden="true"></i></a>
+                          Category <a data-toggle="collapse" href="#video-category"><i style="float: right;" class="fa fa-caret-down" aria-hidden="true"></i></a>
                         </h4>
                     </div>
-                    <div id="post-category" class="panel-collapse collapse in">
+                    <div id="video-category" class="panel-collapse collapse in">
                         <div class="panel-body form-group">
                             <label class="control-label">All Category</label>
                             <div class="category-wrap">
@@ -146,10 +119,10 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
-                          Tag <a data-toggle="collapse" href="#post-tag"><i style="float: right;" class="fa fa-caret-down" aria-hidden="true"></i></a>
+                          Tag <a data-toggle="collapse" href="#video-tag"><i style="float: right;" class="fa fa-caret-down" aria-hidden="true"></i></a>
                         </h4>
                     </div>
-                    <div id="post-tag" class="panel-collapse collapse in">
+                    <div id="video-tag" class="panel-collapse collapse in">
                         <div class="panel-body form-group">
                             <select id="mytag" name="tag[]" class="mytag form-control" multiple>
                                 @foreach ($alltag as $tag)
@@ -163,10 +136,10 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
-                          Featured Image <a data-toggle="collapse" href="#post-fimg"><i style="float: right;" class="fa fa-caret-down" aria-hidden="true"></i></a>
+                          Featured Image <a data-toggle="collapse" href="#video-fimg"><i style="float: right;" class="fa fa-caret-down" aria-hidden="true"></i></a>
                         </h4>
                     </div>
-                    <div id="post-fimg" class="panel-collapse collapse in">
+                    <div id="video-fimg" class="panel-collapse collapse in">
                         <div class="panel-body form-group">
                             <a id="browse_fimg_post" data-toggle="modal" data-target="#myFimg" class="btn btn-round btn-fill btn-default" style="margin-bottom: 10px;">Set Featured Image</a>
                             <input type="hidden" name="featured_img" id="featured_img" value="{{ $featured_img }}">
