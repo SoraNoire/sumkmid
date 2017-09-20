@@ -34,7 +34,7 @@
     <script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
   </head>
 
-  <body>
+  <body id="{{ $body_id ?? ''}}">
 
     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container-fluid">
