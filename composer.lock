@@ -4,24 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-<<<<<<< HEAD
-    "content-hash": "1414cabf9879503106833f5c7e048b1a",
-=======
-    "content-hash": "12d188e26477ed46362e22e21749ecdb",
->>>>>>> 96382d9deb864a888927253161764cdc4e24013b
+    "content-hash": "7776457eb8d7b302779248174bcd0774",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.36.11",
+            "version": "3.36.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "fd0aacadab2f5ae4a43b91bccc164299c5cef7f0"
+                "reference": "aadad22574042e76f5ae3d995cd94b5673dc9b80"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/fd0aacadab2f5ae4a43b91bccc164299c5cef7f0",
-                "reference": "fd0aacadab2f5ae4a43b91bccc164299c5cef7f0",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/aadad22574042e76f5ae3d995cd94b5673dc9b80",
+                "reference": "aadad22574042e76f5ae3d995cd94b5673dc9b80",
                 "shasum": ""
             },
             "require": {
@@ -88,7 +84,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2017-09-19T22:09:23+00:00"
+            "time": "2017-09-21T19:39:57+00:00"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -824,16 +820,16 @@
         },
         {
             "name": "intervention/image",
-            "version": "2.4.0",
+            "version": "2.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Intervention/image.git",
-                "reference": "322a4ade249467179c50a3e50eda8760ff3af2a3"
+                "reference": "3603dbcc9a17d307533473246a6c58c31cf17919"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Intervention/image/zipball/322a4ade249467179c50a3e50eda8760ff3af2a3",
-                "reference": "322a4ade249467179c50a3e50eda8760ff3af2a3",
+                "url": "https://api.github.com/repos/Intervention/image/zipball/3603dbcc9a17d307533473246a6c58c31cf17919",
+                "reference": "3603dbcc9a17d307533473246a6c58c31cf17919",
                 "shasum": ""
             },
             "require": {
@@ -890,7 +886,7 @@
                 "thumbnail",
                 "watermark"
             ],
-            "time": "2017-07-03T15:50:40+00:00"
+            "time": "2017-09-21T16:29:17+00:00"
         },
         {
             "name": "jakub-onderka/php-console-color",

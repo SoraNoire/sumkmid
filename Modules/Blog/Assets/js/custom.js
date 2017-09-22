@@ -557,9 +557,9 @@ $(document).ready(function() {
 // END DATATABLES
 
 // SELECT2
-    // category parent select
-    if ($("#CategoryParent").length > 0) {
-        $("#CategoryParent").select2();
+    // basic select2
+    if ($(".myselect2").length > 0) {
+        $(".myselect2").select2();
     }
 
     // tag select 
@@ -608,9 +608,9 @@ function cancelDelete(){
 };
 
 // date time picker for date published
-if ($(".post-datetime").length > 0) {
+if ($(".datetimepicker").length > 0) {
     $(function () {
-        $('.post-datetime').datetimepicker({
+        $('.datetimepicker').datetimepicker({
             format: "yyyy-mm-dd hh:ii",
             autoclose: true,
             todayBtn: true,
