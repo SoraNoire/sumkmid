@@ -50,9 +50,14 @@ class PermissionController extends Controller
     * @return \Illuminate\Http\Response
     */
     public function store(Request $request) {
-        Validator::make(['name'=>$request->name], [
-            'name'=>'required|max:40',
+        $validator = Validator::make(['name'=>$request->name], [
+            'name'=>'required|unique:permissions|max:40',
         ]);
+        if ($validator->fails()) {
+            return redirect()->back()
+            ->withErrors($validator)
+            ->withInput();
+        }
 
         $name = $request['name'];
         $permission = new Permission();
@@ -73,7 +78,7 @@ class PermissionController extends Controller
 
         return redirect()->route('permissions.index')
             ->with('flash_message',
-             'Permission'. $permission->name.' added!');
+             'Permission '. $permission->name.' added!');
 
     }
 
@@ -108,9 +113,16 @@ class PermissionController extends Controller
     */
     public function update(Request $request, $id) {
         $permission = Permission::findOrFail($id);
-        Validator::make(['name'=>$request], [
+        $validator = Validator::make(['name'=>$request], [
             'name'=>'required|max:40',
         ]);
+        if ($validator->fails()) {
+            return redirect()->back()
+            ->withErrors($validator)
+            ->withInput();
+        }
+
+
         $input = $request->all();
         $permission->fill($input)->save();
 

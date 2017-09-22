@@ -4,7 +4,7 @@
 
 @section('content')
 
-<div class='col-lg-4 col-lg-offset-4'>
+<div class='col-sm-12'>
 
     <h1><i class='fa fa-key'></i> Edit {{$permission->name}}</h1>
     <br>
@@ -12,7 +12,7 @@
 
     <div class="form-group">
         {{ Form::label('name', 'Permission Name') }}
-        {{ Form::text('name', null, array('class' => 'form-control')) }}
+        {{ Form::text('name', null, array('class' => 'form-control', 'style'=>'max-width:300px;')) }}
     </div>
     <br>
     {{ Form::submit('Edit', array('class' => 'btn btn-primary')) }}

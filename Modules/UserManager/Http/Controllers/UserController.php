@@ -52,11 +52,18 @@ class UserController extends Controller
     */
     public function store(Request $request) {
     //Validate name, email and password fields
-        Validator::make(['name'=>$request,'email'=>$request->email,'password'=>$request->password,'username'=>$request->username], [
-            'name'=>'required|max:120',
+        $validator = Validator::make(['name'=>$request->name,'email'=>$request->email,'password'=>$request->password,'password_confirmation'=>$request->password_confirmation,'username'=>$request->username], [
+            'name'=>'required|max:120', 
+            'username'=>'required|max:120|unique:users',
             'email'=>'required|email|unique:users',
             'password'=>'required|min:6|confirmed'
         ]);
+        if ($validator->fails()) {
+            return redirect()->back()
+            ->withErrors($validator)
+            ->withInput();
+        }
+
         $userdata = [
                         'name' => $request->name,
                         'username' => $request->username,
@@ -130,9 +137,14 @@ class UserController extends Controller
             $data['password'] = $request->password;
             $validator['password'] = 'required|min:6|confirmed';
         }
-        Validator::make($data, $validator);
+        $validator = Validator::make($data, $validator);
+        if ($validator->fails()) {
+            return redirect()->back()
+            ->withErrors($validator)
+            ->withInput();
+        }
 
-        if( $data['password'] )
+        if( isset($data['password'])  )
             $data['password'] = bcrypt($data['password']);
         
         //$input = $request->only(['name', 'email', 'password']); //Retreive the name, email and password fields

@@ -6,7 +6,7 @@
 
 @section('content')
 
-<div class='col-lg-4 col-lg-offset-4'>
+<div class='col-sm-12'>
 
     <h1><i class='fa fa-user-plus'></i> Edit {{$user->name}}</h1>
     <hr>
@@ -15,12 +15,12 @@
 
     <div class="form-group">
         {{ Form::label('name', 'Name') }}
-        {{ Form::text('name', null, array('class' => 'form-control')) }}
+        {{ Form::text('name', null, array('class' => 'form-control', 'style'=>'max-width:300px;')) }}
     </div>
 
     <div class="form-group">
         {{ Form::label('email', 'Email') }}
-        {{ Form::email('email', null, array('class' => 'form-control')) }}
+        {{ Form::email('email', null, array('class' => 'form-control', 'style'=>'max-width:300px;')) }}
     </div>
 
     <h5><b>Give Role</b></h5>
@@ -35,13 +35,13 @@
 
     <div class="form-group">
         {{ Form::label('password', 'Password') }}<br>
-        {{ Form::password('password', array('class' => 'form-control')) }}
+        {{ Form::password('password', array('class' => 'form-control', 'style'=>'max-width:300px;')) }}
 
     </div>
 
     <div class="form-group">
         {{ Form::label('password', 'Confirm Password') }}<br>
-        {{ Form::password('password_confirmation', array('class' => 'form-control')) }}
+        {{ Form::password('password_confirmation', array('class' => 'form-control', 'style'=>'max-width:300px;')) }}
 
     </div>
 
