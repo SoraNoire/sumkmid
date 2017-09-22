@@ -12,6 +12,10 @@ class UserManagerController extends Controller
      * Display a listing of the resource.
      * @return Response
      */
+    function __construct()
+    {
+        $this->middleware(['auth', 'isAdmin'])->except('e401');
+    }
     public function index()
     {
         return view('usermanager::index');

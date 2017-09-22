@@ -4,7 +4,7 @@
 
 @section('content')
 
-<div class='col-lg-4 col-lg-offset-4'>
+<div class='col-sm-12'>
     <h1><i class='fa fa-key'></i> Edit Role: {{$role->name}}</h1>
     <hr>
 
@@ -12,7 +12,7 @@
 
     <div class="form-group">
         {{ Form::label('name', 'Role Name') }}
-        {{ Form::text('name', null, array('class' => 'form-control')) }}
+        {{ Form::text('name', null, array('class' => 'form-control', 'style'=>'max-width:300px;')) }}
     </div>
 
     <h5><b>Assign Permissions</b></h5>

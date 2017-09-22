@@ -5,11 +5,11 @@ namespace Modules\UserManager\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Validator;
 use Auth;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Session;
+use Validator;
 
 class RoleController extends Controller
 {
@@ -51,11 +51,16 @@ class RoleController extends Controller
      */
     public function store(Request $request) {
     //Validate name and permissions field
-        Validator::make(['name'=>$request->name,'permissions'=>$request->permissions], [
+        $validator = Validator::make(['name'=>$request->name,'permissions'=>$request->permissions], [
             'name'=>'required|unique:roles|max:10',
             'permissions' =>'required',
             ]
         );
+        if ($validator->fails()) {
+            return redirect()->back()
+            ->withErrors($validator)
+            ->withInput();
+        }
 
         $name = $request['name'];
         $role = new Role();
@@ -64,12 +69,15 @@ class RoleController extends Controller
         $permissions = $request['permissions'];
 
         $role->save();
-    //Looping thru selected permissions
-        foreach ($permissions as $permission) {
-            $p = Permission::where('id', '=', $permission)->firstOrFail(); 
-         //Fetch the newly created role and assign permission
-            $role = Role::where('name', '=', $name)->first(); 
-            $role->givePermissionTo($p);
+        //Looping thru selected permissions
+        if ( '' != $permissions)
+        {
+            foreach ($permissions as $permission) {
+                $p = Permission::where('id', '=', $permission)->firstOrFail(); 
+             //Fetch the newly created role and assign permission
+                $role = Role::where('name', '=', $name)->first(); 
+                $role->givePermissionTo($p);
+            }
         }
 
         return redirect()->route('roles.index')
@@ -110,11 +118,17 @@ class RoleController extends Controller
     public function update(Request $request, $id) {
 
         $role = Role::findOrFail($id);//Get role with the given id
-    //Validate name and permission fields
-        Validator::make(['name'=>$request->name,'permissions'=>$request->permissions], [
+        //Validate name and permission fields
+        $validator = Validator::make(['name'=>$request->name,'permissions'=>$request->permissions], [
             'name'=>'required|max:10|unique:roles,name,'.$id,
             'permissions' =>'required',
         ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+            ->withErrors($validator)
+            ->withInput();
+        }
 
         $input = $request->except(['permissions']);
         $permissions = $request['permissions'];
