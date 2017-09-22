@@ -4,7 +4,7 @@
 <div class="col-md-12">
 <div class="card">
     <div class="card-header" data-background-color="green">
-        <h4 class="title">Category</h4>
+        <h4 class="title">Event Category</h4>
         <p class="category">{{ $act }} Category</p>
     </div>
 
@@ -14,12 +14,6 @@
             <label class="control-label">Name</label>
             <input class="form-control" type="text" name="name" value="{{ $name }}">
         </div>
-        <div class="form-group">
-            <label class="control-label">Parent</label>
-            <select name="parent" class="form-control myselect2">
-                {!! $allparent !!}
-            </select>
-        </div>
         <button type="submit" class="btn btn-success pull-right">Save</button>
         @if ($act == 'edit')
         <a style="margin-right: 10px;" href="{{ url($prefix.'delete-category/'.$category->id) }}" class="btn btn-danger pull-right" onclick="return confirm('Delete Category?');">Delete</a>
@@ -28,4 +22,3 @@
 </div>
 </div>
 @stop
-
