@@ -5,24 +5,16 @@
     "license": "MIT",
     "type": "project",
     "require": {
-<<<<<<< HEAD
-        "php": ">=5.6.4",
         "intervention/image": "^2.0",
-=======
         "php": ">=7.1",
->>>>>>> 96382d9deb864a888927253161764cdc4e24013b
         "laravel/framework": "5.4.*",
         "laravel/tinker": "~1.0",
         "laravelcollective/html": "^5.4",
         "league/flysystem-aws-s3-v3": "^1.0",
         "nesbot/carbon": "^1.22",
-<<<<<<< HEAD
         "nwidart/laravel-modules": "^1.27",
-        "spatie/laravel-permission": "^1.13"
-=======
-        "league/flysystem-aws-s3-v3": "^1.0",
+        "spatie/laravel-permission": "^1.13",
         "doctrine/dbal": "v2.6.2"
->>>>>>> 96382d9deb864a888927253161764cdc4e24013b
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
