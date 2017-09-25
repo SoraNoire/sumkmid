@@ -2,6 +2,13 @@
 
 @section('content')
 <div class="col-md-12">
+
+@if(session('msg'))
+<div class="alert alert-{{ session('status') }}">
+  {{ session('msg') }}
+</div>
+@endif
+
 <div class="card">
     <div class="card-header" data-background-color="green">
         <h4 class="title">Event Category</h4>

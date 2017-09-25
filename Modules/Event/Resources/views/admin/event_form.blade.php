@@ -37,43 +37,51 @@
                     <div id="event-setting" class="panel-collapse collapse in">
                         <div class="panel-body">
                             <div class="form-group">
-                                <label class="control-label">Tempat</label>
-                                <input value="{{-- $location --}}" class="form-control" type="text" name="location">
+                                <label class="control-label">Select Event Type</label>
+                                <select id="event-type" name="event_type" class="form-control" onchange="select_event_type()">
+                                    <option value="offline" {{ $event_type == 'offline' ? 'selected' : '' }}>Offline</option>
+                                    <option value="online" {{ $event_type == 'online' ? 'selected' : '' }}>Online</option>
+                                </select>
                             </div>
-                            <div class="form-group">
+
+                            <div class="form-group event-type-offline" style="display: none;">
+                                <label class="control-label">Tempat</label>
+                                <input value="{{ $location }}" class="form-control" type="text" name="location">
+                            </div>
+                            <div class="form-group event-type-offline" style="display: none;">
                                 <label class="control-label">HTM</label>
                                 <div class="input-group">
                                     <span class="input-group-addon">Rp</span>
-                                    <input value="{{-- $htm --}}" class="form-control" type="text" name="htm">
+                                    <input value="{{ $htm }}" class="form-control" type="text" name="htm">
                                 </div>
+                            </div>
+                            <div class="form-group event-type-online" style="display: none;">
+                               <label class="control-label">Select Forum</label>
+                                <select name="forum_id" class="form-control myselect2">
+                                   
+                                </select>
+                            </div>
+                            <div class="form-group">
+                               <label class="control-label">Select Mentor</label>
+                                <select name="mentor" class="form-control mytag" multiple>
+                                   
+                                </select>
                             </div>
                             <div class="form-group row">
                                 <div class="col-md-6">
                                     <label class="control-label">Open at</label>
                                     <div class="input-group input-append date datetimepicker">
-                                        <input class="form-control" size="16" type="text" value="{{-- $open_at --}}" name="published_at" readonly>
+                                        <input class="form-control" size="16" type="text" value="{{ $open_at }}" name="open_at" readonly>
                                         <span class="input-group-addon"><i class="fa fa-calendar" aria-hidden="true"></i></span>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <label class="control-label">Closed at</label>
                                     <div class="input-group input-append date datetimepicker">
-                                        <input class="form-control" size="16" type="text" value="{{-- $closed_at --}}" name="published_at" readonly>
+                                        <input class="form-control" size="16" type="text" value="{{ $closed_at }}" name="closed_at" readonly>
                                         <span class="input-group-addon"><i class="fa fa-calendar" aria-hidden="true"></i></span>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                               <label class="control-label">Select Forum</label>
-                                <select name="event_forum" class="form-control myselect2">
-                                   
-                                </select>
-                            </div>
-                            <div class="form-group">
-                               <label class="control-label">Select Mentor</label>
-                                <select name="event_mentor" class="form-control myselect2">
-                                   
-                                </select>
                             </div>
 
                         </div>
@@ -136,23 +144,6 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
-                          Event Type <a data-toggle="collapse" href="#event-types"><i style="float: right;" class="fa fa-caret-down" aria-hidden="true"></i></a>
-                        </h4>
-                    </div>
-                    <div id="event-types" class="panel-collapse collapse in">
-                        <div class="panel-body form-group">
-                            <select id="event-type" name="event_type" class="form-control" onchange="select_post_type()">
-                                <option value="offline" {{ $event_type == 'offline' ? 'selected' : '' }}>Offline</option>
-                                <option value="online" {{ $event_type == 'online' ? 'selected' : '' }}>Online</option>
-                                <option value="lainnya" {{ $event_type == 'lainnya' ? 'selected' : '' }}>Event Lainnya</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
                           Category <a data-toggle="collapse" href="#event-category"><i style="float: right;" class="fa fa-caret-down" aria-hidden="true"></i></a>
                         </h4>
                     </div>
@@ -161,7 +152,7 @@
                             <label class="control-label">All Category</label>
                             <div class="category-wrap">
                                 <ul>
-
+                                    {!! $list_category !!}
                                 </ul>
                             </div>
                             <a data-toggle="collapse" data-target="#add_category" href="#add_category"><i class="fa fa-plus" aria-hidden="true"></i> Add Category</a>

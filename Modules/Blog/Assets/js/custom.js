@@ -563,8 +563,8 @@ $(document).ready(function() {
     }
 
     // tag select 
-    if ($("#mytag").length > 0) {
-        $("#mytag").select2({
+    if ($(".mytag").length > 0) {
+        $(".mytag").select2({
             tags: true
         });
     }

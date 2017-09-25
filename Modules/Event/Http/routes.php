@@ -12,8 +12,8 @@ Route::group(['middleware' => 'web', 'prefix' => 'admin/blog/event', 'namespace'
     Route::post('/store-event', 'EventController@store_event');
     Route::post('/update-event/{id}', 'EventController@update_event');
     Route::post('/bulk-delete-event/', 'EventController@bulk_delete_event');
-    Route::get('/add-category-event/{name}/{parent}', 'EventController@store_category_ajax');
-    Route::get('/get-category-event/', 'EventController@get_all_category');
+    Route::get('/add-category-event/{name}', 'EventController@store_category_ajax');
+    Route::get('/get-category-event/', 'EventController@get_list_category');
 
     Route::get('/category', 'EventController@category');
     Route::get('/get-category', 'EventController@get_category');

@@ -1228,8 +1228,8 @@ $(document).ready(function() {
     }
 
     // tag select 
-    if ($("#mytag").length > 0) {
-        $("#mytag").select2({
+    if ($(".mytag").length > 0) {
+        $(".mytag").select2({
             tags: true
         });
     }
@@ -1597,44 +1597,36 @@ $(document).ready(function() {
 // END DATATABLES
 });
 
-function load_event_category(){
-    $.ajax({
-        type: "GET",
-        url: "/admin/blog/event/get-category-event/",
-        success: function(msg){
-            $('#event .category-wrap ul').html(msg);
-        },
-        error: function(err){
-            console.log(err);
-        }
-    });
-}
-
-if ($('#event .category-wrap').length > 0) {
-    $('#event .category-wrap').ready(load_event_category());
-}
-
 // add category on post ajax function
-$('#event .add_category_button').on('click', function add_category(){
+$('#event-category .add_category_button').on('click', function add_category(){
     var n = $('input[name=category_name]').val();
-    var p = $('select[name=category_parent]').val();
     if (n != '') {
         $.ajax({
             type: "GET",
-            url: "/admin/blog/event/add-category-post/"+n+"/"+p,
+            url: "/admin/blog/event/add-category-event/"+n,
             success: function(msg){
-                console.log(msg);
+                $('#event-category .category-wrap ul').append(msg);
             },
             error: function(err){
                 console.log(err);
             }
         });
 
-        load_event_category();
-        load_event_category_parent();
         $('input[name=category_name]').val('');
-        $('select[name=category_parent]').removeAttr('selected');
     } else {    
         // do nothing
     }
 });
+
+function select_event_type(){
+    var event_type = $('#event-type').val();
+    if (event_type == 'offline') {
+        $('#event-setting .event-type-offline').show();
+        $('#event-setting .event-type-online').hide();
+    } else if (event_type == 'online') {
+        $('#event-setting .event-type-offline').hide();
+        $('#event-setting .event-type-online').show();
+    }
+}
+
+$('#event-setting').on('load', select_event_type());

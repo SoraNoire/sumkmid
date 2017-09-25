@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateEvCategoryRelationTable extends Migration
+class CreateEvForumRelationTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateEvCategoryRelationTable extends Migration
      */
     public function up()
     {
-        Schema::create('ev_category_relation', function (Blueprint $table) {
+        Schema::create('ev_forum_relation', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('event_id');
-            $table->string('category_id')->nullable();
+            $table->integer('forum_id')->nullable();
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ class CreateEvCategoryRelationTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ev_category_relation');
+        Schema::dropIfExists('ev_forum_relation');
     }
 }

@@ -20,14 +20,13 @@ class CreateEventTable extends Migration
             $table->text('description')->nullable();
             $table->string('featured_img')->nullable();
             $table->string('event_type')->nullable();
-            $table->integer('mentor_id')->nullable();
             $table->string('location')->nullable();
             $table->string('htm')->nullable();
             $table->text('option')->nullable();
             $table->integer('author')->nullable();
             $table->integer('status')->default(0);
-            $table->datetime('open_at');
-            $table->datetime('closed_at');
+            $table->datetime('open_at')->nullable();
+            $table->datetime('closed_at')->nullable();
             $table->datetime('published_at');
             $table->timestamps();
         });
