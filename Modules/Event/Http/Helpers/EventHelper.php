@@ -25,8 +25,8 @@ class EventHelper
             $selected_cat_id = json_decode($eventCategory->category_id);
 
             if (count($selected_cat_id) > 0) {
-                foreach ($selected_cat_id as $key) {
-                    $category = EventCategory::where('id', $key)->first()->id;
+                foreach ($selected_cat_id as $id) {
+                    $category = EventCategory::where('id', $id)->first()->id;
                     $selected_cat[] = $category;
                 }   
             }
