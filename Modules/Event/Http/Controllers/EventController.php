@@ -20,6 +20,7 @@ use View;
 class EventController extends Controller
 {
     public function __construct(){
+        $this->EventHelper = new EventHelper;
         $this->prefix = 'admin/blog/event/';
         View::share('prefix', $this->prefix);
     }
@@ -306,7 +307,7 @@ class EventController extends Controller
      */
     public function destroy_event($id)
     {
-        EventHelper::delete_event($id);
+        $this->EventHelper->delete_event($id);
     }
 
     /**
@@ -318,7 +319,7 @@ class EventController extends Controller
     {
         $id = json_decode($request->id);
         foreach ($id as $id) {
-            EventHelper::delete_event($id, 'bulk');
+            $this->EventHelper->delete_event($id, 'bulk');
         }
         return redirect($this->prefix)->with(['msg' => 'Delete Success', 'status' => 'success']);
     }
@@ -456,7 +457,7 @@ class EventController extends Controller
      * @return Response
      */
     public function destroy_category($id){
-        EventHelper::delete_category($id);
+        $this->EventHelper->delete_category($id);
     }
 
     /**
@@ -468,7 +469,7 @@ class EventController extends Controller
     {
         $id = json_decode($request->id);
         foreach ($id as $id) {
-            EventHelper::delete_category($id, 'bulk');
+            $this->EventHelper->delete_category($id, 'bulk');
         }
         return redirect($this->prefix.'category')->with(['msg' => 'Delete Success', 'status' => 'success']);
     }

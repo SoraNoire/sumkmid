@@ -12,6 +12,12 @@ use DB;
 
 class VideoHelper
 {
+    private $prefix;
+
+    public function __construct(){
+        $this->prefix = 'admin/blog/';
+    }
+
     /**
      * Get all category parent to select category parent.
      * @param  $category_id
@@ -78,7 +84,7 @@ class VideoHelper
      * @param  $id, $is_bulk
      * @return Response
      */
-    public static function delete_video($id, $is_bulk){
+    public static function delete_video($id, $is_bulk = ''){
         $video = Video::where('id', $id)->first();
         if (isset($video)) {
             DB::beginTransaction();
@@ -145,14 +151,14 @@ class VideoHelper
                 if ($is_bulk == 'bulk') {
                     // do nothing
                 } else {
-                    return redirect($this->prefix.'category')->with(['msg' => 'Deleted', 'status' => 'success']);
+                    return redirect($this->prefix.'category')->with(['msg' => 'Deleted', 'status' => 'success'])->send();
                 }
             } catch (\Exception $e) {
                 DB::rollback();
-                return redirect($this->prefix.'category')->with(['msg' => 'Delete Error', 'status' => 'danger']);
+                return redirect($this->prefix.'category')->with(['msg' => 'Delete Error', 'status' => 'danger'])->send();
             }
         }else {
-            return redirect($this->prefix.'category')->with(['msg' => 'Category Not Found', 'status' => 'danger']);
+            return redirect($this->prefix.'category')->with(['msg' => 'Category Not Found', 'status' => 'danger'])->send();
         }
     }
 
@@ -188,14 +194,14 @@ class VideoHelper
                 if ($is_bulk == 'bulk') {
                     // do nothing
                 } else {
-                    return redirect($this->prefix.'tag')->with(['msg' => 'Deleted', 'status' => 'success']);
+                    return redirect($this->prefix.'tag')->with(['msg' => 'Deleted', 'status' => 'success'])->send();
                 }
             } catch (\Exception $e) {
                 DB::rollback();
-                return redirect($this->prefix.'tag')->with(['msg' => 'Delete Error', 'status' => 'danger']);
+                return redirect($this->prefix.'tag')->with(['msg' => 'Delete Error', 'status' => 'danger'])->send();
             }
         }else {
-            return redirect($this->prefix.'tag')->with(['msg' => 'Tag Not Found', 'status' => 'danger']);
+            return redirect($this->prefix.'tag')->with(['msg' => 'Tag Not Found', 'status' => 'danger'])->send();
         }
     }
 }

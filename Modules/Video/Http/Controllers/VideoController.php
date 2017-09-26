@@ -28,6 +28,7 @@ class VideoController extends Controller
     private $prefix;
 
     public function __construct(){
+        $this->VideoHelper = new VideoHelper;
         $this->prefix = 'admin/blog/video/';
         View::share('prefix', $this->prefix);
         View::share('body_id', 'video');
@@ -339,7 +340,7 @@ class VideoController extends Controller
      */
     public function destroy_video($id)
     {
-        VideoHelper::delete_tag($id);
+        $this->VideoHelper->delete_tag($id);
     }
 
     /**
@@ -351,7 +352,7 @@ class VideoController extends Controller
     {
         $id = json_decode($request->id);
         foreach ($id as $id) {
-            VideoHelper::delete_tag($id, 'bulk');
+            $this->VideoHelper->delete_tag($id, 'bulk');
         }
         return redirect($this->prefix)->with(['msg' => 'Delete Success', 'status' => 'success']);
     }
@@ -490,7 +491,7 @@ class VideoController extends Controller
      * @return Response
      */
     public function destroy_category($id){
-        VideoHelper::delete_category($id);
+        $this->VideoHelper->delete_category($id);
     }
 
     /**
@@ -502,7 +503,7 @@ class VideoController extends Controller
     {
         $id = json_decode($request->id);
         foreach ($id as $id) {
-            VideoHelper::delete_category($id, 'bulk');
+            $this->VideoHelper->delete_category($id, 'bulk');
         }
         return redirect($this->prefix.'category')->with(['msg' => 'Delete Success', 'status' => 'success']);
     }
@@ -604,7 +605,7 @@ class VideoController extends Controller
      * @return Response
      */
     public function destroy_tag($id){
-        VideoHelper::delete_tag($id);
+        $this->VideoHelper->delete_tag($id);
     }
 
     /**
@@ -616,7 +617,7 @@ class VideoController extends Controller
     {
         $id = json_decode($request->id);
         foreach ($id as $id) {
-            VideoHelper::delete_tag($id, 'bulk');
+            $this->VideoHelper->delete_tag($id, 'bulk');
         }
         return redirect($this->prefix.'tag')->with(['msg' => 'Delete Success', 'status' => 'success']);
     }

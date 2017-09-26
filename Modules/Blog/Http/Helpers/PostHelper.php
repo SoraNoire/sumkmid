@@ -12,6 +12,12 @@ use DB;
 
 class PostHelper
 {
+    private $prefix;
+
+    public function __construct(){
+        $this->prefix = 'admin/blog/';
+    }
+    
 	/**
      * Make slug.
      * @param  $string
@@ -199,7 +205,7 @@ class PostHelper
      * @param  $id, $is_bulk
      * @return Response
      */
-    public static function delete_post($id, $is_bulk){
+    public function delete_post($id, $is_bulk = ''){
         $post = Post::where('id', $id)->first();
         if (isset($post)) {
             DB::beginTransaction();
@@ -214,14 +220,14 @@ class PostHelper
                 if ($is_bulk == 'bulk') {
                     // all good. do nothing
                 } else {
-                    return redirect($this->prefix)->with(['msg' => 'Deleted', 'status' => 'success']);    
+                    return redirect($this->prefix)->with(['msg' => 'Deleted', 'status' => 'success'])->send();    
                 }
             } catch (\Exception $e) {
                 DB::rollback();
-                return redirect($this->prefix)->with(['msg' => 'Delete Error', 'status' => 'danger']);
+                return redirect($this->prefix)->with(['msg' => 'Delete Error', 'status' => 'danger'])->send();
             }
         } else {
-            return redirect($this->prefix)->with(['msg' => 'post Not Found', 'status' => 'danger']);
+            return redirect($this->prefix)->with(['msg' => 'post Not Found', 'status' => 'danger'])->send();
         }
     }
     
@@ -230,8 +236,8 @@ class PostHelper
      * @param  $id
      * @return Response
      */
-    public static function delete_category($id, $is_bulk = ''){
-        $category = PostCategory::where('id', $id)->first();
+    public function delete_category($id, $is_bulk = ''){
+        $category = Category::where('id', $id)->first();
         if (isset($category)) {
             DB::beginTransaction();
             try {
@@ -252,7 +258,7 @@ class PostHelper
                     $post->update();
                 }
 
-                $children = PostCategory::where('parent', $id)->get();
+                $children = Category::where('parent', $id)->get();
                 if (count($children) > 0) {
                     foreach ($children as $child) {
                         $child->parent = null;
@@ -266,14 +272,14 @@ class PostHelper
                 if ($is_bulk == 'bulk') {
                     // do nothing
                 } else {
-                    return redirect($this->prefix.'category')->with(['msg' => 'Deleted', 'status' => 'success']);
+                    return redirect($this->prefix.'category')->with(['msg' => 'Deleted', 'status' => 'success'])->send();
                 }
             } catch (\Exception $e) {
                 DB::rollback();
-                return redirect($this->prefix.'category')->with(['msg' => 'Delete Error', 'status' => 'danger']);
+                return redirect($this->prefix.'category')->with(['msg' => 'Delete Error', 'status' => 'danger'])->send();
             }
         }else {
-            return redirect($this->prefix.'category')->with(['msg' => 'Category Not Found', 'status' => 'danger']);
+            return redirect($this->prefix.'category')->with(['msg' => 'Category Not Found', 'status' => 'danger'])->send();
         }
     }
 
@@ -282,7 +288,7 @@ class PostHelper
      * @param  $id
      * @return Response
      */
-    public static function delete_tag($id, $is_bulk = ''){
+    public function delete_tag($id, $is_bulk = ''){
         $tag = PostTag::where('id', $id)->first();
         if (isset($tag)) {
             DB::beginTransaction();
@@ -309,14 +315,14 @@ class PostHelper
                 if ($is_bulk == 'bulk') {
                     // do nothing
                 } else {
-                    return redirect($this->prefix.'tag')->with(['msg' => 'Deleted', 'status' => 'success']);
+                    return redirect($this->prefix.'tag')->with(['msg' => 'Deleted', 'status' => 'success'])->send();
                 }
             } catch (\Exception $e) {
                 DB::rollback();
-                return redirect($this->prefix.'tag')->with(['msg' => 'Delete Error', 'status' => 'danger']);
+                return redirect($this->prefix.'tag')->with(['msg' => 'Delete Error', 'status' => 'danger'])->send();
             }
         }else {
-            return redirect($this->prefix.'tag')->with(['msg' => 'Tag Not Found', 'status' => 'danger']);
+            return redirect($this->prefix.'tag')->with(['msg' => 'Tag Not Found', 'status' => 'danger'])->send();
         }
     }
 }

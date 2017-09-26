@@ -28,6 +28,7 @@ class BlogController extends Controller
     private $prefix;
 
     public function __construct(){
+        $this->PostHelper = new PostHelper;
         $this->prefix = 'admin/blog/';
         View::share('prefix', $this->prefix);
         View::share('body_id', 'blog');
@@ -351,7 +352,7 @@ class BlogController extends Controller
      */
     public function destroy_post($id)
     {
-        PostHelper::delete_post($id);
+        $this->PostHelper->delete_post($id);
     }
 
     /**
@@ -363,7 +364,7 @@ class BlogController extends Controller
     {
         $id = json_decode($request->id);
         foreach ($id as $id) {
-            PostHelper::delete_post($id, 'bulk');
+            $this->PostHelper->delete_post($id, 'bulk');
         }
         return redirect($this->prefix.'posts')->with(['msg' => 'Delete Success', 'status' => 'success']);
     }
@@ -406,7 +407,7 @@ class BlogController extends Controller
      */
     public function destroy_file($postId, $fileName){
         if(Storage::disk('s3')->exists('files/'.$fileName)){
-            PostHelper::deleteFile($fileName, 'files');
+            $this->PostHelper->deleteFile($fileName, 'files');
             if ($postId != 0) {
                 $post = Posts::where('id', $postId)->first();
                 $option = json_decode($post->option);
@@ -566,7 +567,7 @@ class BlogController extends Controller
      * @return Response
      */
     public function destroy_category($id){
-        PostHelper::delete_category($id);
+        $this->PostHelper->delete_category($id);
     }
 
     /**
@@ -578,7 +579,7 @@ class BlogController extends Controller
     {
         $id = json_decode($request->id);
         foreach ($id as $id) {
-            PostHelper::delete_category($id, 'bulk');
+            $this->PostHelper->delete_category($id, 'bulk');
         }
         return redirect($this->prefix.'category')->with(['msg' => 'Delete Success', 'status' => 'success']);
     }
@@ -680,7 +681,7 @@ class BlogController extends Controller
      * @return Response
      */
     public function destroy_tag($id){
-        PostHelper::delete_tag($id);
+        $this->PostHelper->delete_tag($id);
     }
 
     /**
@@ -692,7 +693,7 @@ class BlogController extends Controller
     {
         $id = json_decode($request->id);
         foreach ($id as $id) {
-            PostHelper::delete_tag($id, 'bulk');
+            $this->PostHelper->delete_tag($id, 'bulk');
         }
         return redirect($this->prefix.'tag')->with(['msg' => 'Delete Success', 'status' => 'success']);
     }
@@ -768,7 +769,7 @@ class BlogController extends Controller
         $medias = Media::where('id',$id)->get();
         if($medias[0]->name != ""){
             if(Storage::disk('s3')->exists('shbtm/media/'.$medias[0]->name)){
-                PostHelper::deleteImage($medias[0]->name, 'media');
+                $this->PostHelper->deleteImage($medias[0]->name, 'media');
             }
         }
         if ($media -> delete()) {
@@ -791,7 +792,7 @@ class BlogController extends Controller
             if (isset($media)) {
                 if($media->name != ""){
                     if(Storage::disk('s3')->exists('shbtm/media/'.$media->name)){
-                        PostHelper::deleteImage($media->name, 'media');
+                        $this->PostHelper->deleteImage($media->name, 'media');
                     }
                 }
                 if ($media->delete()) {
