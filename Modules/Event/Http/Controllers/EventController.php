@@ -306,26 +306,7 @@ class EventController extends Controller
      */
     public function destroy_event($id)
     {
-        $event = Event::where('id', $id)->first();
-        if (isset($event)) {
-
-            DB::beginTransaction();
-            try {
-                $event_forum = EventForumRelation::where('event_id', $id)->first();
-                $event_mentor = EventMentorRelation::where('event_id', $id)->first();
-                $event_forum->delete();       
-                $event_mentor->delete();   
-                $event->delete();  
-                
-                DB::commit();
-                return redirect($this->prefix)->with(['msg' => 'Deleted', 'status' => 'success']);
-            } catch (\Exception $e) {
-                DB::rollback();
-                return redirect($this->prefix)->with(['msg' => 'Delete Error', 'status' => 'danger']);
-            }
-        } else {
-            return redirect($this->prefix)->with(['msg' => 'event Not Found', 'status' => 'danger']);
-        }
+        EventHelper::delete_event($id);
     }
 
     /**
@@ -337,26 +318,7 @@ class EventController extends Controller
     {
         $id = json_decode($request->id);
         foreach ($id as $id) {
-            $event = Event::where('id', $id)->first();
-            if (isset($event)) {
-                DB::beginTransaction();
-                try {
-                    $event_forum = EventForumRelation::where('event_id', $id)->first();
-                    $event_mentor = EventMentorRelation::where('event_id', $id)->first();
-                    $event->delete();
-                    $event_forum->delete();
-                    $event_mentor->delete();
-                    
-                    
-                    DB::commit();
-                    // all good. do nothing
-                } catch (\Exception $e) {
-                    DB::rollback();
-                    return redirect($this->prefix)->with(['msg' => 'Delete Error', 'status' => 'danger']);
-                }
-            } else {
-                return redirect($this->prefix)->with(['msg' => 'Delete Error. event Not Found', 'status' => 'danger']);
-            }
+            EventHelper::delete_event($id, 'bulk');
         }
         return redirect($this->prefix)->with(['msg' => 'Delete Success', 'status' => 'success']);
     }
@@ -494,40 +456,7 @@ class EventController extends Controller
      * @return Response
      */
     public function destroy_category($id){
-        $category = EventCategory::where('id', $id)->first();
-        if (isset($category)) {
-
-            DB::beginTransaction();
-            try {
-                $event_category = EventCategoryRelation::where('category_id', 'like', '%'.$id.'%')->get();
-                dd($event_category);
-                foreach ($event_category as $event) {
-                    $category_id = json_decode($event->category_id);
-                    $newcat = '';
-                    foreach ($category_id as $cat) {
-                        if ($cat != $id) {
-                            $newcat[] = $id;
-                        }
-                    }
-                    if ($newcat == '') {
-                        $event->category_id = '';    
-                    } else {
-                        $event->category_id = json_encode($newcat);
-                    }
-                    $event->update();
-                }
-
-                $category->delete();
-
-                DB::commit();
-                return redirect($this->prefix.'category')->with(['msg' => 'Deleted', 'status' => 'success']);
-            } catch (\Exception $e) {
-                DB::rollback();
-                return redirect($this->prefix.'category')->with(['msg' => 'Delete Error', 'status' => 'danger']);
-            }
-        }else {
-            return redirect($this->prefix.'category')->with(['msg' => 'Category Not Found', 'status' => 'danger']);
-        }
+        EventHelper::delete_category($id);
     }
 
     /**
@@ -539,16 +468,7 @@ class EventController extends Controller
     {
         $id = json_decode($request->id);
         foreach ($id as $id) {
-            $category = EventCategory::where('id', $id)->first();
-            if (isset($category)) {
-                if ($category->delete()) {
-                    // do nothing
-                } else {
-                    return redirect($this->prefix.'category')->with(['msg' => 'Delete Error', 'status' => 'danger']);
-                }
-            } else {
-                return redirect($this->prefix.'category')->with(['msg' => 'Delete Error. Category Not Found', 'status' => 'danger']);
-            }
+            EventHelper::delete_category($id, 'bulk');
         }
         return redirect($this->prefix.'category')->with(['msg' => 'Delete Success', 'status' => 'success']);
     }

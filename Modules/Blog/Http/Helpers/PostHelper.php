@@ -1,10 +1,14 @@
 <?php
 namespace Modules\Blog\Http\Helpers;
 
+use Modules\Blog\Entities\Post;
 use Modules\Blog\Entities\Category;
 use Modules\Blog\Entities\PostCategory;
+use Modules\Blog\Entities\Tag;
+use Modules\Blog\Entities\PostTag;
 use Illuminate\Http\File;
 use Image;
+use DB;
 
 class PostHelper
 {
@@ -188,6 +192,132 @@ class PostHelper
 
         // $filePath = '/'.$path.'/' . $ex[0].'-'.$large.'.'.$ex[1];
         // $s3->delete($filePath);
+    }
+
+    /**
+     * Delete post.
+     * @param  $id, $is_bulk
+     * @return Response
+     */
+    public static function delete_post($id, $is_bulk){
+        $post = Post::where('id', $id)->first();
+        if (isset($post)) {
+            DB::beginTransaction();
+            try {
+                $post_category = PostCategory::where('post_id', $id)->first();
+                $post_tag = PostTag::where('post_id', $id)->first();
+                $post_category->delete();       
+                $post_tag->delete();   
+                $post->delete();  
+                
+                DB::commit();
+                if ($is_bulk == 'bulk') {
+                    // all good. do nothing
+                } else {
+                    return redirect($this->prefix)->with(['msg' => 'Deleted', 'status' => 'success']);    
+                }
+            } catch (\Exception $e) {
+                DB::rollback();
+                return redirect($this->prefix)->with(['msg' => 'Delete Error', 'status' => 'danger']);
+            }
+        } else {
+            return redirect($this->prefix)->with(['msg' => 'post Not Found', 'status' => 'danger']);
+        }
+    }
+    
+    /**
+     * delete category.
+     * @param  $id
+     * @return Response
+     */
+    public static function delete_category($id, $is_bulk = ''){
+        $category = PostCategory::where('id', $id)->first();
+        if (isset($category)) {
+            DB::beginTransaction();
+            try {
+                $post_category = PostCategory::where('category_id', 'like', '%'.$id.'%')->get();
+                foreach ($post_category as $post) {
+                    $category_id = json_decode($post->category_id);
+                    $newcat = '';
+                    foreach ($category_id as $n) {
+                        if ($n != $id) {
+                            $newcat[] = $n;
+                        }
+                    }
+                    if ($newcat == '') {
+                        $post->category_id = '';    
+                    } else {
+                        $post->category_id = json_encode($newcat);
+                    }
+                    $post->update();
+                }
+
+                $children = PostCategory::where('parent', $id)->get();
+                if (count($children) > 0) {
+                    foreach ($children as $child) {
+                        $child->parent = null;
+                        $child->update();
+                    }
+                }
+
+                $category->delete();
+
+                DB::commit();
+                if ($is_bulk == 'bulk') {
+                    // do nothing
+                } else {
+                    return redirect($this->prefix.'category')->with(['msg' => 'Deleted', 'status' => 'success']);
+                }
+            } catch (\Exception $e) {
+                DB::rollback();
+                return redirect($this->prefix.'category')->with(['msg' => 'Delete Error', 'status' => 'danger']);
+            }
+        }else {
+            return redirect($this->prefix.'category')->with(['msg' => 'Category Not Found', 'status' => 'danger']);
+        }
+    }
+
+    /**
+     * delete tag.
+     * @param  $id
+     * @return Response
+     */
+    public static function delete_tag($id, $is_bulk = ''){
+        $tag = PostTag::where('id', $id)->first();
+        if (isset($tag)) {
+            DB::beginTransaction();
+            try {
+                $post_tag = PostTag::where('tag_id', 'like', '%'.$id.'%')->get();
+                foreach ($post_tag as $post) {
+                    $tag_id = json_decode($post->tag_id);
+                    $newcat = '';
+                    foreach ($tag_id as $n) {
+                        if ($n != $id) {
+                            $newcat[] = $n;
+                        }
+                    }
+                    if ($newcat == '') {
+                        $post->tag_id = '';    
+                    } else {
+                        $post->tag_id = json_encode($newcat);
+                    }
+                    $post->update();
+                }
+                $tag->delete();
+
+                DB::commit();
+                if ($is_bulk == 'bulk') {
+                    // do nothing
+                } else {
+                    return redirect($this->prefix.'tag')->with(['msg' => 'Deleted', 'status' => 'success']);
+                }
+            } catch (\Exception $e) {
+                DB::rollback();
+                return redirect($this->prefix.'tag')->with(['msg' => 'Delete Error', 'status' => 'danger']);
+            }
+        }else {
+            return redirect($this->prefix.'tag')->with(['msg' => 'Tag Not Found', 'status' => 'danger']);
+        }
     }
 }
 ?>
