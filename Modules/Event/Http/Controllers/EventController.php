@@ -151,7 +151,8 @@ class EventController extends Controller
             $slug = $slug.'-'.date('s');
         }
 
-        DB::transaction(function() use ($title, $slug, $category, $description, $featured_img, $option, $status, $published_at, $event_type, $location, $htm, $author, $open_at, $closed_at, $mentor, $forum_id) {
+        DB::beginTransaction();
+        try {
             $store = new Event;
             $store->title = $title;
             $store->slug = $slug;
@@ -182,8 +183,15 @@ class EventController extends Controller
             $event_mentor->event_id = $store->id;
             $event_mentor->mentor_id = $mentor;
             $event_mentor->save();
-        });
-        return redirect($this->prefix)->with(['msg' => 'Saved', 'status' => 'success']);
+
+            DB::commit();
+            return redirect($this->prefix)->with(['msg' => 'Saved', 'status' => 'success']);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return redirect($this->prefix)->with(['msg' => 'Error Saving '.$e, 'status' => 'danger']);
+        }
+
+        
     }
 
     /**
@@ -250,7 +258,8 @@ class EventController extends Controller
         $closed_at = $request->input('closed_at');
         $published_at = $request->input('published_at');
 
-        DB::transaction(function() use ($id, $title, $category, $description, $featured_img, $option, $status, $published_at, $event_type, $location, $htm, $author, $open_at, $closed_at, $mentor, $forum_id) {
+        DB::beginTransaction();
+        try {
             $update = Event::where('id', $id)->first();
             $update->title = $title;
             $update->description = $description;
@@ -280,8 +289,13 @@ class EventController extends Controller
             $event_mentor->event_id = $id;
             $event_mentor->mentor_id = $mentor;
             $event_mentor->update();       
-        });
-        return redirect($this->prefix.'edit-event/'.$id)->with(['msg' => 'Saved', 'status' => 'success']);
+
+            DB::commit();
+            return redirect($this->prefix.'edit-event/'.$id)->with(['msg' => 'Saved', 'status' => 'success']);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return redirect($this->prefix.'edit-event/'.$id)->with(['msg' => 'Error updating', 'status' => 'danger']);
+        }
 
     }
 
@@ -292,16 +306,7 @@ class EventController extends Controller
      */
     public function destroy_event($id)
     {
-        $event = Event::where('id', $id)->first();
-        if (isset($event)) {
-            if ($event->delete()) {
-                return redirect($this->prefix)->with(['msg' => 'Deleted', 'status' => 'success']);
-            } else {
-                return redirect($this->prefix)->with(['msg' => 'Delete Error', 'status' => 'danger']);
-            }
-        } else {
-            return redirect($this->prefix)->with(['msg' => 'event Not Found', 'status' => 'danger']);
-        }
+        EventHelper::delete_event($id);
     }
 
     /**
@@ -313,16 +318,7 @@ class EventController extends Controller
     {
         $id = json_decode($request->id);
         foreach ($id as $id) {
-            $event = Event::where('id', $id)->first();
-            if (isset($event)) {
-                if ($event->delete()) {
-                    // do nothing
-                } else {
-                    return redirect($this->prefix)->with(['msg' => 'Delete Error', 'status' => 'danger']);
-                }
-            } else {
-                return redirect($this->prefix)->with(['msg' => 'Delete Error. event Not Found', 'status' => 'danger']);
-            }
+            EventHelper::delete_event($id, 'bulk');
         }
         return redirect($this->prefix)->with(['msg' => 'Delete Success', 'status' => 'success']);
     }
@@ -375,11 +371,12 @@ class EventController extends Controller
      * @return Response
      */
     public function store_category(Request $request){
+        $name = $request->input('name');
         $check = EventCategory::where('name', $name)->first();
         if (!isset($check)) {
-            $slug = PostHelper::make_slug($request->input('name'));
+            $slug = PostHelper::make_slug($name);
             $store = new EventCategory;
-            $store->name = $request->input('name');
+            $store->name = $name;
             $store->slug = $slug;
             if ($store->save()){
                 return redirect($this->prefix.'category')->with(['msg' => 'Saved', 'status' => 'success']);
@@ -459,16 +456,7 @@ class EventController extends Controller
      * @return Response
      */
     public function destroy_category($id){
-        $category = EventCategory::where('id', $id)->first();
-        if (isset($category)) {
-            if ($category->delete()) {
-                return redirect($this->prefix.'category')->with(['msg' => 'Deleted', 'status' => 'success']);
-            } else {
-                return redirect($this->prefix.'category')->with(['msg' => 'Delete Error', 'status' => 'danger']);
-            }
-        }else {
-            return redirect($this->prefix.'category')->with(['msg' => 'Category Not Found', 'status' => 'danger']);
-        }
+        EventHelper::delete_category($id);
     }
 
     /**
@@ -480,16 +468,7 @@ class EventController extends Controller
     {
         $id = json_decode($request->id);
         foreach ($id as $id) {
-            $category = EventCategory::where('id', $id)->first();
-            if (isset($category)) {
-                if ($category->delete()) {
-                    // do nothing
-                } else {
-                    return redirect($this->prefix.'category')->with(['msg' => 'Delete Error', 'status' => 'danger']);
-                }
-            } else {
-                return redirect($this->prefix.'category')->with(['msg' => 'Delete Error. Category Not Found', 'status' => 'danger']);
-            }
+            EventHelper::delete_category($id, 'bulk');
         }
         return redirect($this->prefix.'category')->with(['msg' => 'Delete Success', 'status' => 'success']);
     }

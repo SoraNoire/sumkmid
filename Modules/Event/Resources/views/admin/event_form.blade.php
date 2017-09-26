@@ -3,6 +3,12 @@
 @section('content')
 <script> eventId = {{$event->id ?? 0}}</script>
 <div class="col-md-12">
+    @if(session('msg'))
+    <div class="alert alert-{{ session('status') }}">
+      {{ session('msg') }}
+    </div>
+    @endif
+    
     <h4 class="title">{{ $act }} events</h4>
 
     <form id="event-form" method="post" action="{{ url($action) }}" accept-charset="UTF-8">

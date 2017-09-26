@@ -1,12 +1,14 @@
 <?php
 namespace Modules\Event\Http\Helpers;
 
+use Modules\Event\Entities\Event;
 use Modules\Event\Entities\EventCategory;
 use Modules\Event\Entities\EventCategoryRelation;
 use Modules\Event\Entities\EventForumRelation;
 use Modules\Event\Entities\EventMentorRelation;
 use Illuminate\Http\File;
 use Image;
+use DB;
 
 class EventHelper
 {
@@ -25,8 +27,8 @@ class EventHelper
             $selected_cat_id = json_decode($eventCategory->category_id);
 
             if (count($selected_cat_id) > 0) {
-                foreach ($selected_cat_id as $key) {
-                    $category = EventCategory::where('id', $key)->first()->id;
+                foreach ($selected_cat_id as $id) {
+                    $category = EventCategory::where('id', $id)->first()->id;
                     $selected_cat[] = $category;
                 }   
             }
@@ -87,5 +89,82 @@ class EventHelper
 
         return $event_mentor->mentor_id;
     }
+
+    /**
+     * Delete event.
+     * @param  $id, $is_bulk
+     * @return Response
+     */
+    public static function delete_event($id, $is_bulk){
+        $event = Event::where('id', $id)->first();
+        if (isset($event)) {
+            DB::beginTransaction();
+            try {
+                $event_forum = EventForumRelation::where('event_id', $id)->first();
+                $event_mentor = EventMentorRelation::where('event_id', $id)->first();
+                $event_category = EventCategoryRelation::where('event_id', $id)->first();
+                $event_forum->delete();       
+                $event_mentor->delete();   
+                $event_category->delete();
+                $event->delete();  
+                
+                DB::commit();
+                if ($is_bulk == 'bulk') {
+                    // all good. do nothing
+                } else {
+                    return redirect($this->prefix)->with(['msg' => 'Deleted', 'status' => 'success']);    
+                }
+            } catch (\Exception $e) {
+                DB::rollback();
+                return redirect($this->prefix)->with(['msg' => 'Delete Error', 'status' => 'danger']);
+            }
+        } else {
+            return redirect($this->prefix)->with(['msg' => 'event Not Found', 'status' => 'danger']);
+        }
+    }
+
+    /**
+     * delete category.
+     * @param  $id
+     * @return Response
+     */
+    public static function delete_category($id, $is_bulk = ''){
+        $category = EventCategory::where('id', $id)->first();
+        if (isset($category)) {
+            DB::beginTransaction();
+            try {
+                $event_category = EventCategoryRelation::where('category_id', 'like', '%'.$id.'%')->get();
+                foreach ($event_category as $event) {
+                    $category_id = json_decode($event->category_id);
+                    $newcat = '';
+                    foreach ($category_id as $cat) {
+                        if ($cat != $id) {
+                            $newcat[] = $cat;
+                        }
+                    }
+                    if ($newcat == '') {
+                        $event->category_id = '';    
+                    } else {
+                        $event->category_id = json_encode($newcat);
+                    }
+                    $event->update();
+                }
+                $category->delete();
+
+                DB::commit();
+                if ($is_bulk == 'bulk') {
+                    // do nothing
+                } else {
+                    return redirect($this->prefix.'category')->with(['msg' => 'Deleted', 'status' => 'success']);
+                }
+            } catch (\Exception $e) {
+                DB::rollback();
+                return redirect($this->prefix.'category')->with(['msg' => 'Delete Error', 'status' => 'danger']);
+            }
+        }else {
+            return redirect($this->prefix.'category')->with(['msg' => 'Category Not Found', 'status' => 'danger']);
+        }
+    }
+
 }
 ?>

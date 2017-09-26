@@ -351,16 +351,7 @@ class BlogController extends Controller
      */
     public function destroy_post($id)
     {
-        $post = Posts::where('id', $id)->first();
-        if (isset($post)) {
-            if ($post->delete()) {
-                return redirect($this->prefix.'posts')->with(['msg' => 'Deleted', 'status' => 'success']);
-            } else {
-                return redirect($this->prefix.'posts')->with(['msg' => 'Delete Error', 'status' => 'danger']);
-            }
-        } else {
-            return redirect($this->prefix.'posts')->with(['msg' => 'Post Not Found', 'status' => 'danger']);
-        }
+        PostHelper::delete_post($id);
     }
 
     /**
@@ -372,16 +363,7 @@ class BlogController extends Controller
     {
         $id = json_decode($request->id);
         foreach ($id as $id) {
-            $post = Posts::where('id', $id)->first();
-            if (isset($post)) {
-                if ($post->delete()) {
-                    // do nothing
-                } else {
-                    return redirect($this->prefix.'posts')->with(['msg' => 'Delete Error', 'status' => 'danger']);
-                }
-            } else {
-                return redirect($this->prefix.'posts')->with(['msg' => 'Delete Error. Post Not Found', 'status' => 'danger']);
-            }
+            PostHelper::delete_post($id, 'bulk');
         }
         return redirect($this->prefix.'posts')->with(['msg' => 'Delete Success', 'status' => 'success']);
     }
@@ -584,16 +566,7 @@ class BlogController extends Controller
      * @return Response
      */
     public function destroy_category($id){
-        $category = Category::where('id', $id)->first();
-        if (isset($category)) {
-            if ($category->delete()) {
-                return redirect($this->prefix.'category')->with(['msg' => 'Deleted', 'status' => 'success']);
-            } else {
-                return redirect($this->prefix.'category')->with(['msg' => 'Delete Error', 'status' => 'danger']);
-            }
-        }else {
-            return redirect($this->prefix.'category')->with(['msg' => 'Category Not Found', 'status' => 'danger']);
-        }
+        PostHelper::delete_category($id);
     }
 
     /**
@@ -605,16 +578,7 @@ class BlogController extends Controller
     {
         $id = json_decode($request->id);
         foreach ($id as $id) {
-            $category = Category::where('id', $id)->first();
-            if (isset($category)) {
-                if ($category->delete()) {
-                    // do nothing
-                } else {
-                    return redirect($this->prefix.'category')->with(['msg' => 'Delete Error', 'status' => 'danger']);
-                }
-            } else {
-                return redirect($this->prefix.'category')->with(['msg' => 'Delete Error. Category Not Found', 'status' => 'danger']);
-            }
+            PostHelper::delete_category($id, 'bulk');
         }
         return redirect($this->prefix.'category')->with(['msg' => 'Delete Success', 'status' => 'success']);
     }
@@ -716,16 +680,7 @@ class BlogController extends Controller
      * @return Response
      */
     public function destroy_tag($id){
-        $tag = Tag::where('id', $id)->first();
-        if (isset($tag)) {
-            if ($tag->delete()) {
-                return redirect($this->prefix.'tag')->with(['msg' => 'Deleted', 'status' => 'success']);
-            } else {
-                return redirect($this->prefix.'tag')->with(['msg' => 'Delete Error', 'status' => 'danger']);
-            }
-        }else {
-            return redirect($this->prefix.'tag')->with(['msg' => 'Tag Not Found', 'status' => 'danger']);
-        }
+        PostHelper::delete_tag($id);
     }
 
     /**
@@ -737,16 +692,7 @@ class BlogController extends Controller
     {
         $id = json_decode($request->id);
         foreach ($id as $id) {
-            $tag = Tag::where('id', $id)->first();
-            if (isset($tag)) {
-                if ($tag->delete()) {
-                    // do nothing
-                } else {
-                    return redirect($this->prefix.'tag')->with(['msg' => 'Delete Error', 'status' => 'danger']);
-                }
-            } else {
-                return redirect($this->prefix.'tag')->with(['msg' => 'Delete Error. Tag Not Found', 'status' => 'danger']);
-            }
+            PostHelper::delete_tag($id, 'bulk');
         }
         return redirect($this->prefix.'tag')->with(['msg' => 'Delete Success', 'status' => 'success']);
     }
