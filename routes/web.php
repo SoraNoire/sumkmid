@@ -20,5 +20,3 @@ Route::get('/logout', function(){
 	Auth::logout();
 	return Redirect::to('/login');
 });
-
-Route::get('/home', 'HomeController@index')->name('home');
