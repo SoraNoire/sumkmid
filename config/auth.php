@@ -98,5 +98,10 @@ return [
             'expire' => 60,
         ],
     ],
+    
+    'md_sso' => [
+        'SERVER' => env('MD_SSO_SERVER','127.0.0.1'),
+        'APP_KEY' => env('MD_APP_KEY','')
+    ],
 
 ];

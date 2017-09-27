@@ -16,6 +16,10 @@ Route::get('/', function () {
 });
 
 Auth::routes();
+
+Route::get('sample','SampleController@sample');
+Route::get('loginadmin','SampleController@admin');
+
 Route::get('/logout', function(){
 	Auth::logout();
 	return Redirect::to('/login');
