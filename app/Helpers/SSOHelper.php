@@ -588,7 +588,12 @@ class SSOHelper
 
         if( session()->exists('clientid') and session()->exists('clientsecret')){
 
-            
+            if ( !(self::$MDKey) )
+            {
+                $mdconfig = config('auth.md_sso');
+                self::$MDKey = $mdconfig['APP_KEY'];
+                self::$MDServer = $mdconfig['SERVER'];
+            }
 
             $curl = new \anlutro\cURL\cURL;
             $request = $curl->newRequest('post',self::$MDServer . "/api/s_adduser",$data)
@@ -598,7 +603,6 @@ class SSOHelper
                 ->setHeader('clientid',  session('clientid',''))
                 ->setHeader('clientsecret', session('clientsecret',''))
                 ->setHeader('clientheader', 'website');
-
             $return = ($request->send());
             if ( json_decode($return)->status == 'success' )
                 return true;
@@ -677,13 +681,18 @@ class SSOHelper
      **/
     public static function listMentors()
     {
-        dd(session('clientid'));
         if( session()->exists('clientid') and session()->exists('clientsecret')){
-
+            if ( !(self::$MDKey) )
+            {
+                $mdconfig = config('auth.md_sso');
+                self::$MDKey = $mdconfig['APP_KEY'];
+                self::$MDServer = $mdconfig['SERVER'];
+            }
             $data = [];
-
+            $filter = 'mentor';
+            $table = 'role';
             $curl = new \anlutro\cURL\cURL;
-            $request = $curl->newRequest('get',self::$MDServer . "/api/s_getusers/$str/$definer",$data)
+            $request = $curl->newRequest('get',self::$MDServer . "/api/s_getusers/$filter/$table",$data)
                 ->setHeader('Accept-Charset', 'utf-8')
                 ->setHeader('Accept-Language', 'en-US')
                 ->setHeader('domainsecret', self::$MDKey)

@@ -46,29 +46,39 @@ class SampleController extends Controller
 		$request->session()->put('clientid', $return->message->clientid);
         $request->session()->put('clientsecret', $return->message->clientsecret);
 
-        Session::put('name', 'Sabuz'); 
-		Session::put('data', $data); 
-
         // dd($request->session());
 		return redirect('/sample')->send();
 	}
 
 	public function sample(Request $request)
 	{
-		dd($request->session());
 		$response = $this->getMentors($request);
-		dd($response);
 		return response($response);
 	}
 
 	private function getMentors(Request $request)
 	{
-		dd($request->session());
 		$mentors = SSO::listMentors();
-		dd($mentors);
 		return ($mentors);
 	}
 
+	public function addmentor()
+	{
+		$str = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+		$random = substr(str_shuffle($str),0,10);
+		$data = [
+			'name'=> $random,
+			'role'=> 'mentor',
+			'email' => $random.'@xmail.com',
+			'username' => $random,
+			'password' => $random,
+			'description' => "{}",
+		];
 
+		SSO::SUAddUser($data);
+		return response('ok');// redirect('/sample')->send();
+	}
+
+	
 
 }
