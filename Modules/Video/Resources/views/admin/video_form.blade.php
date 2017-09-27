@@ -77,7 +77,7 @@
                             </div>
                             <div class="form-group">
                                 <label class="control-label">Date Published</label>
-                                <div class="input-group input-append date video-datetime">
+                                <div class="input-group input-append date datetimepicker">
                                     <input class="form-control" size="16" type="text" value="{{ $published_at }}" name="published_at" readonly>
                                     <span class="input-group-addon"><i class="fa fa-calendar" aria-hidden="true"></i></span>
                                 </div>

@@ -16,7 +16,7 @@
         </div>
         <div class="form-group">
             <label class="control-label">Parent</label>
-            <select id="CategoryParent" name="parent" class="form-control">
+            <select name="parent" class="form-control myselect2">
                 {!! $allparent !!}
             </select>
         </div>

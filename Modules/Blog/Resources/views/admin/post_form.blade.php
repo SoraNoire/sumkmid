@@ -104,7 +104,7 @@
                             </div>
                             <div class="form-group">
                                 <label class="control-label">Date Published</label>
-                                <div class="input-group input-append date post-datetime">
+                                <div class="input-group input-append date datetimepicker">
                                     <input class="form-control" size="16" type="text" value="{{ $published_at }}" name="published_at" readonly>
                                     <span class="input-group-addon"><i class="fa fa-calendar" aria-hidden="true"></i></span>
                                 </div>
@@ -135,7 +135,7 @@
                                     <input type="text" name="category_name" class="form-control">
                                 </div>
                                 <div class="form-group">
-                                    <select id="CategoryParent" name="category_parent" class="form-control category-parent" style="width: 100%;"></select>
+                                    <select name="category_parent" class="form-control category-parent myselect2" style="width: 100%;"></select>
                                 </div>
                                 <button class="btn btn-default add_category_button" type="button">Add New Category</button>
                             </div>

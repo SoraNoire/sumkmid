@@ -28,6 +28,7 @@ class VideoController extends Controller
     private $prefix;
 
     public function __construct(){
+        $this->VideoHelper = new VideoHelper;
         $this->prefix = 'admin/blog/video/';
         View::share('prefix', $this->prefix);
         View::share('body_id', 'video');
@@ -339,16 +340,7 @@ class VideoController extends Controller
      */
     public function destroy_video($id)
     {
-        $video = Video::where('id', $id)->first();
-        if (isset($video)) {
-            if ($video->delete()) {
-                return redirect($this->prefix)->with(['msg' => 'Deleted', 'status' => 'success']);
-            } else {
-                return redirect($this->prefix)->with(['msg' => 'Delete Error', 'status' => 'danger']);
-            }
-        } else {
-            return redirect($this->prefix)->with(['msg' => 'video Not Found', 'status' => 'danger']);
-        }
+        $this->VideoHelper->delete_tag($id);
     }
 
     /**
@@ -360,16 +352,7 @@ class VideoController extends Controller
     {
         $id = json_decode($request->id);
         foreach ($id as $id) {
-            $video = Video::where('id', $id)->first();
-            if (isset($video)) {
-                if ($video->delete()) {
-                    // do nothing
-                } else {
-                    return redirect($this->prefix)->with(['msg' => 'Delete Error', 'status' => 'danger']);
-                }
-            } else {
-                return redirect($this->prefix)->with(['msg' => 'Delete Error. video Not Found', 'status' => 'danger']);
-            }
+            $this->VideoHelper->delete_tag($id, 'bulk');
         }
         return redirect($this->prefix)->with(['msg' => 'Delete Success', 'status' => 'success']);
     }
@@ -508,16 +491,7 @@ class VideoController extends Controller
      * @return Response
      */
     public function destroy_category($id){
-        $category = VideoCategory::where('id', $id)->first();
-        if (isset($category)) {
-            if ($category->delete()) {
-                return redirect($this->prefix.'category')->with(['msg' => 'Deleted', 'status' => 'success']);
-            } else {
-                return redirect($this->prefix.'category')->with(['msg' => 'Delete Error', 'status' => 'danger']);
-            }
-        }else {
-            return redirect($this->prefix.'category')->with(['msg' => 'Category Not Found', 'status' => 'danger']);
-        }
+        $this->VideoHelper->delete_category($id);
     }
 
     /**
@@ -529,16 +503,7 @@ class VideoController extends Controller
     {
         $id = json_decode($request->id);
         foreach ($id as $id) {
-            $category = VideoCategory::where('id', $id)->first();
-            if (isset($category)) {
-                if ($category->delete()) {
-                    // do nothing
-                } else {
-                    return redirect($this->prefix.'category')->with(['msg' => 'Delete Error', 'status' => 'danger']);
-                }
-            } else {
-                return redirect($this->prefix.'category')->with(['msg' => 'Delete Error. Category Not Found', 'status' => 'danger']);
-            }
+            $this->VideoHelper->delete_category($id, 'bulk');
         }
         return redirect($this->prefix.'category')->with(['msg' => 'Delete Success', 'status' => 'success']);
     }
@@ -640,16 +605,7 @@ class VideoController extends Controller
      * @return Response
      */
     public function destroy_tag($id){
-        $tag = VideoTag::where('id', $id)->first();
-        if (isset($tag)) {
-            if ($tag->delete()) {
-                return redirect($this->prefix.'tag')->with(['msg' => 'Deleted', 'status' => 'success']);
-            } else {
-                return redirect($this->prefix.'tag')->with(['msg' => 'Delete Error', 'status' => 'danger']);
-            }
-        }else {
-            return redirect($this->prefix.'tag')->with(['msg' => 'Tag Not Found', 'status' => 'danger']);
-        }
+        $this->VideoHelper->delete_tag($id);
     }
 
     /**
@@ -661,16 +617,7 @@ class VideoController extends Controller
     {
         $id = json_decode($request->id);
         foreach ($id as $id) {
-            $tag = VideoTag::where('id', $id)->first();
-            if (isset($tag)) {
-                if ($tag->delete()) {
-                    // do nothing
-                } else {
-                    return redirect($this->prefix.'tag')->with(['msg' => 'Delete Error', 'status' => 'danger']);
-                }
-            } else {
-                return redirect($this->prefix.'tag')->with(['msg' => 'Delete Error. Tag Not Found', 'status' => 'danger']);
-            }
+            $this->VideoHelper->delete_tag($id, 'bulk');
         }
         return redirect($this->prefix.'tag')->with(['msg' => 'Delete Success', 'status' => 'success']);
     }
