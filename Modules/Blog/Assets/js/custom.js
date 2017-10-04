@@ -595,7 +595,25 @@ $(document).ready(function() {
             '//fonts.googleapis.com/css?family=Lato:300,300i,400,400i',
             '//www.tinymce.com/css/codepen.min.css',
             '{{ asset("css/textarea.css") }}'
-            ]
+            ],
+            setup: function(editor) {
+              editor.addButton('mybutton', {
+                type: 'menubutton',
+                text: 'Shortcode',
+                icon: false,
+                menu: [{
+                  text: 'Bold',
+                  onclick: function() {
+                    editor.insertContent('[b="bold"]Text here[/b]');
+                  }
+                }, {
+                  text: 'Italic',
+                  onclick: function() {
+                    editor.insertContent('[i="italic"]Text here[/i]');
+                  }
+                }]
+              });
+            }
         });
     }
 // END TINYMCE
