@@ -15,7 +15,8 @@
         "league/flysystem-aws-s3-v3": "^1.0",
         "nesbot/carbon": "^1.22",
         "nwidart/laravel-modules": "^1.27",
-        "spatie/laravel-permission": "^1.13"
+        "spatie/laravel-permission": "^1.13",
+        "webwizo/laravel-shortcodes": "1.0.*"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
