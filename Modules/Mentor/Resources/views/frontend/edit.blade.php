@@ -1,15 +1,16 @@
-@extends('mentor::layouts.master')
+@extends('auth::layouts.master')
 
-@section('title', '| Edit Mentor')
+@section('title', '| Edit Profile')
 
 @section('content')
 
-<div class='col-sm-12'>
+<div class="row">
+<div class='col-sm-12 col-md-10 col-md-offset-1'>
 
     <h1><i class='fa fa-user-plus'></i> Edit {{$mentor->name}}</h1>
     <hr>
 
-    {{ Form::model($mentor, array('route' => array('mentorm.update', $mentor->id), 'method' => 'PUT')) }}{{-- Form model binding to automatically populate our fields with user data --}}
+    {{ Form::model($mentor, array('route' => array('mentor.update'), 'method' => 'PUT')) }}{{-- Form model binding to automatically populate our fields with user data --}}
 
     <div class="form-group">
         {{ Form::label('name', 'Name') }}

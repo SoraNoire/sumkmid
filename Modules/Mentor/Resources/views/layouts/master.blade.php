@@ -62,7 +62,7 @@
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
             <li class="{{ ($page_meta_title ?? '') == 'Posts' ? 'active' : ''}}"><a href="{{ route('mentor') }}">Mentors</a></li>
-            <li class="{{ ($page_meta_title ?? '') == 'Category' ? 'active' : ''}}"><a href="{{ URL::to('admin/usermanager') }}">Users</a></li>
+            <li class="{{ ($page_meta_title ?? '') == 'Category' ? 'active' : ''}}"><a href="{{ URL::to('auth/users') }}">Users</a></li>
           </ul>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
@@ -77,7 +77,7 @@
 
                     <div class="row">
                         <div class="col-md-12">              
-                            @include ('usermanager::errors.list') {{-- Including error file --}}
+                            @include ('mentor::errors.list') {{-- Including error file --}}
                         </div>
                     </div>
                     @yield('content')

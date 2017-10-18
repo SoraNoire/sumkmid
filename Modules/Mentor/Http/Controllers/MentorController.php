@@ -5,15 +5,31 @@ namespace Modules\Mentor\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
-use App\User;
+use App\Helpers\SSOHelper;
+use Illuminate\Routing\Route;
 use Validator;
 
 class MentorController extends Controller
 {
     
-    function __construct()
+    function __construct(Request $request)
     {
-        $this->middleware(['auth', 'clearance'])->except('frontIndex', 'frontView');
+        $route = (null !=($request->route())) ? $request->route()->getActionName() : '';
+        
+        $method = explode('@',$route)[1] ?? '';
+        
+        $public = in_array($method, ['editMyProfile','frontIndex','updateMyProfile']);
+        if( !$public )
+        {
+            if ( SSOHelper::Auth() )
+            {
+                if ('superadmin' != SSOHelper::Auth()->role) {
+                    return Redirect( route('home') )->send();
+                }
+                return view('auth::auth.index');
+            }
+            return Redirect( route('auth.login') )->send();
+        }
     }
 
     /**
@@ -23,7 +39,7 @@ class MentorController extends Controller
 
     public function index()
     {
-        $mentors = User::role('mentor')->get();
+        $mentors = json_decode(SSOHelper::listMentors());
 
         return view('mentor::mentors.index')->with('mentors',$mentors);
     }
@@ -32,9 +48,9 @@ class MentorController extends Controller
      * Show the form for creating a new resource.
      * @return Response
      */
-    public function create()
+    public function add()
     {
-        return view('mentor::create');
+        return view('mentor::mentors.create');
     }
 
     /**
@@ -44,6 +60,31 @@ class MentorController extends Controller
      */
     public function store(Request $request)
     {
+        $data = [
+                    'name' => $request->name,
+                    'role' => 'mentor',
+                    'username' => $request->username,
+                    'email' => $request->email,
+                    'password' => $request->password,
+                    'password_confirmation' => $request->password_confirmation,
+                ];
+        $validator = [
+                        'name'=>'required|max:120',
+                        'email'=>'required',
+                        'password'=>'required|confirmed',
+                    ];
+
+        $validator = Validator::make($data, $validator);
+        if ($validator->fails()) {
+            return redirect()->back()
+            ->withErrors($validator)
+            ->withInput();
+        }
+
+        SSOHelper::SUAddUser($data);
+        return redirect()->route('mentorm.index')
+            ->with('flash_message',
+             'Mentor Added.');
     }
 
     /**
@@ -61,9 +102,10 @@ class MentorController extends Controller
      */
     public function edit($id)
     {
-        $mentor = User::role('mentor')->where('id',$id)->first(); // get user with given id
+        $mentor = json_decode(SSOHelper::SUGetUserDetail($id, 'id') );
+        // User::role('mentor')->where('id',$id)->first(); // get user with given id
         
-        return view('mentor::mentors.edit', compact('mentor')); //pass user and roles data to view
+        return view('mentor::mentors.edit', ['mentor'=>$mentor]); //pass user and roles data to view
     }
 
     /**
@@ -73,13 +115,14 @@ class MentorController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $user = User::where('id',$id)->first(); //Get role specified by id
+        $user = json_decode(SSOHelper::SUGetUserDetail($id, 'id') );
         $desc = json_decode($user->description) ?? new \stdClass;
 
         //Validate name, email and password fields  
         $data = [
                     'name' => $request->name,
                     'email' => $request->email,
+                    'id'    => $id,
                 ];
         $validator = [
                         'name'=>'required|max:120',
@@ -106,17 +149,16 @@ class MentorController extends Controller
             $data['description'] = json_encode($desc);
         }
 
-        if (!\Auth::user()->hasPermissionTo('administration'))
+        if (SSOHelper::Auth()->role != 'superadmin')
         {
-            if (\Auth::user()->hasPermissionTo('moderation'))
+            if (SSOHelper::Auth()->role !='admin')
             {
-                $user->fill($data)->save();
+                //$user->fill($data)->save();
                 return back()->with('flash_message',
              'Updated Successfully.');
             }    
         }
-
-        $user->fill($data)->save();
+        SSOHelper::SUUpdateUser($data);
         return redirect()->route('mentorm.index')
             ->with('flash_message',
              'User successfully edited.');
@@ -139,7 +181,9 @@ class MentorController extends Controller
      **/
     public function frontIndex()
     {
+        $mentors = json_decode(SSOHelper::mentorList());
 
+        return view('mentor::frontend.index')->with('mentors',$mentors);
     }
 
     /**
@@ -158,9 +202,10 @@ class MentorController extends Controller
      * @return view
      * @author 
      **/
-    public function frontEdit()
+    public function editMyProfile()
     {
-
+        $mentor = json_decode(SSOHelper::getUserDetail())->message;
+        return view('mentor::frontend.edit')->with('mentor',$mentor);
     }
 
     /**

@@ -11,15 +11,18 @@
 |
 */
 
-Route::get('/', function () {
+Route::get('/', ['as'=>'home', 'uses'=>function () {
     return view('welcome');
-});
+}]);
 
-Auth::routes();
+// Auth::routes();
 
 Route::get('sample','SampleController@sample');
 Route::get('loginadmin','SampleController@admin');
 Route::get('am','SampleController@addmentor');
+
+Route::get('appreg','SampleController@appReg');
+Route::get('appupd','SampleController@appUpd');
 
 Route::get('/logout', function(){
 	Auth::logout();

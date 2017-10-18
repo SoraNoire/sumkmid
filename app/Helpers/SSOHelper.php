@@ -36,16 +36,16 @@ class SSOHelper
 	 */
 	public static function register(Request $request){
     	
-        if( $request->has(['role', 'username', 'name', 'email','password','jabatan','phone_number']) ){
+        if (!isset($this)){ self::static_construct();}
+
+        if( $request->has(['role', 'username', 'name', 'email','password']) ){
 
             $validator = Validator::make($request->all(), [
                 'role' => 'required|max:191',
                 'username' => 'required',
                 'name' => 'required',
                 'email' => 'required|email',
-                'password' => 'required',
-                'jabatan' => 'required',
-                'phone_number' => 'required',
+                'password' => 'required'
             ]);
 
             if ($validator->fails()) {
@@ -62,9 +62,7 @@ class SSOHelper
                     'username' => $request->input('username'),
                     'name' => $request->input('name'),
                     'email' => $request->input('email'),
-                    'password' => $request->input('password'),
-                    'jabatan' => $request->input('jabatan'),
-                    'phone_number' => $request->input('phone_number')
+                    'password' => $request->input('password')
                     ];
 
                 $curl = new \anlutro\cURL\cURL;
@@ -96,6 +94,8 @@ class SSOHelper
      */
     public static function activationUser($token = null,$email = null){
         
+        if (!isset($this)){ self::static_construct();}
+
         if(isset($token) and $token !=null and isset($email) and $email != null){
 
             $curl = new \anlutro\cURL\cURL;
@@ -125,6 +125,7 @@ class SSOHelper
      */
     public static function forgotPassword(Request $request){
         
+        if (!isset($this)){ self::static_construct();}
         if($request->has('email')){
             
             $validator = Validator::make($request->all(), [
@@ -170,14 +171,15 @@ class SSOHelper
      */
     public static function updatePassword(Request $request){
 
-        if( $request->has(['email','password','token']) ){
+        if (!isset($this)){ self::static_construct();}
 
+        if( $request->has(['email','password','token']) ){
             $data = [
                     'email' => $request->input('email'),
                     'password' => $request->input('password'),
                     'token' => $request->input('token'),
+                    'action' => $request->action ?? 'check',
                     ];
-
             $curl = new \anlutro\cURL\cURL;
             $request = $curl->newRequest('post',self::$MDServer . '/api/auth/updatepassword',$data)
                 ->setHeader('Accept-Charset', 'utf-8')
@@ -240,6 +242,7 @@ class SSOHelper
      * password
      */
     public static function login(Request $request){
+        if (!isset($this)){ self::static_construct();}
 
         if( $request->has(['username','password']) ){
 
@@ -296,6 +299,7 @@ class SSOHelper
          *
          * on middleware section on kernel.php
          */
+        if (!isset($this)){ self::static_construct();}
 
         if( session()->exists('clientid') and session()->exists('clientsecret')){
 
@@ -331,7 +335,8 @@ class SSOHelper
      * clientsecret
      */
     public static function logout(){
-        
+
+        if (!isset($this)){ self::static_construct();}
         /**
          * if session failed start, you can add
          * 
@@ -480,6 +485,7 @@ class SSOHelper
                 ->setHeader('clientheader', 'website');
 
             $user = ($request->send());
+            // echo($user);die;
             $user = json_decode($user)->message;
 
             return $user;
@@ -505,6 +511,7 @@ class SSOHelper
          *
          * on middleware section on kernel.php
          */
+        if (!isset($this)){ self::static_construct();}
 
         if( session()->exists('clientid') and session()->exists('clientsecret')){
 
@@ -545,6 +552,7 @@ class SSOHelper
          *
          * on middleware section on kernel.php
          */
+        if (!isset($this)){ self::static_construct();}
 
         if( session()->exists('clientid') and session()->exists('clientsecret')){
 
@@ -585,6 +593,7 @@ class SSOHelper
          *
          * on middleware section on kernel.php
          */
+        if (!isset($this)){ self::static_construct();}
 
         if( session()->exists('clientid') and session()->exists('clientsecret')){
 
@@ -596,7 +605,7 @@ class SSOHelper
             }
 
             $curl = new \anlutro\cURL\cURL;
-            $request = $curl->newRequest('post',self::$MDServer . "/api/s_adduser",$data)
+            $request = $curl->newRequest('post',self::$MDServer . "/api/auth/regbyadmin",$data)
                 ->setHeader('Accept-Charset', 'utf-8')
                 ->setHeader('Accept-Language', 'en-US')
                 ->setHeader('domainsecret', self::$MDKey)
@@ -611,6 +620,94 @@ class SSOHelper
 
         }
     }
+
+    /**
+     * [SUUpdateUser description]
+     * @param  Request $request [description]
+     * @return bool           [description]
+     *
+     * session
+     */
+    public static function SUUpdateUser($data=NULL,$request=NULL){
+        /**
+         * if session failed start, you can add
+         * 
+         * \Illuminate\Session\Middleware\StartSession::class,
+         * \Illuminate\View\Middleware\ShareErrorsFromSession::class, 
+         *
+         * on middleware section on kernel.php
+         */
+        if (!isset($this)){ self::static_construct();}
+
+
+        if( session()->exists('clientid') and session()->exists('clientsecret')){
+
+            if ( !(self::$MDKey) )
+            {
+                $mdconfig = config('auth.md_sso');
+                self::$MDKey = $mdconfig['APP_KEY'];
+                self::$MDServer = $mdconfig['SERVER'];
+            }
+
+            $curl = new \anlutro\cURL\cURL;
+            $request = $curl->newRequest('post',self::$MDServer . "/api/auth/updatebyadmin",$data)
+                ->setHeader('Accept-Charset', 'utf-8')
+                ->setHeader('Accept-Language', 'en-US')
+                ->setHeader('domainsecret', self::$MDKey)
+                ->setHeader('clientid',  session('clientid',''))
+                ->setHeader('clientsecret', session('clientsecret',''))
+                ->setHeader('clientheader', 'website');
+
+            $return = ($request->send());
+            if ( json_decode($return)->status == 'success' )
+                return true;
+
+            return false;
+
+        }
+    }
+
+    /**
+     * [mentorList description]
+     * @param  Request $request [description]
+     * @return json           [description]
+     *
+     * session
+     */
+    public static function mentorList(){
+        /**
+         * if session failed start, you can add
+         * 
+         * \Illuminate\Session\Middleware\StartSession::class,
+         * \Illuminate\View\Middleware\ShareErrorsFromSession::class, 
+         *
+         * on middleware section on kernel.php
+         */
+        if (!isset($this)){ self::static_construct();}
+
+        if( session()->exists('clientid') and session()->exists('clientsecret')){
+
+            $data = [];
+
+            $curl = new \anlutro\cURL\cURL;
+            $request = $curl->newRequest('get',self::$MDServer . "/api/users/list/mentor",$data)
+                ->setHeader('Accept-Charset', 'utf-8')
+                ->setHeader('Accept-Language', 'en-US')
+                ->setHeader('domainsecret', self::$MDKey)
+                ->setHeader('clientid',  session('clientid',''))
+                ->setHeader('clientsecret', session('clientsecret',''))
+                ->setHeader('clientheader', 'website');
+
+            $return = ($request->send());
+
+            if ( json_decode($return)->status == 'success' )
+                return json_encode(json_decode($return)->message);
+
+            return [];
+
+        }
+    }
+    
 
 
     /**
@@ -681,6 +778,8 @@ class SSOHelper
      **/
     public static function listMentors()
     {
+        if (!isset($this)){ self::static_construct();}
+            
         if( session()->exists('clientid') and session()->exists('clientsecret')){
             if ( !(self::$MDKey) )
             {
@@ -707,6 +806,14 @@ class SSOHelper
             return [];
 
         }
+    }
+
+
+    static function static_construct()
+    {
+        $mdconfig = config('auth.md_sso');
+        self::$MDKey = $mdconfig['APP_KEY'];
+        self::$MDServer = $mdconfig['SERVER'];
     }
 
 }

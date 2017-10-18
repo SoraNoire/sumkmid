@@ -1,13 +1,13 @@
-{{-- views\users\index.blade.php --}}
-@extends('usermanager::layouts.master')
+@extends('mentor::layouts.master')
 
-@section('title', '| Users')
+@section('title', '| Mentors')
 
 @section('content')
 <div class="col-sm-12">
     <h1><i class="fa fa-users"></i> Mentors Administration </h1>
     <hr>
     <div class="table-responsive">
+
         <table class="table table-bordered table-striped">
 
             <thead>
@@ -26,7 +26,7 @@
 
                     <td>{{ $mentor->name }}</td>
                     <td>{{ $mentor->email }}</td>
-                    <td>{{ $mentor->created_at->format('F d, Y h:ia') }}</td>
+                    <td>{{ \Carbon\Carbon::parse($mentor->created_at)->format('F d, Y h:ia') }}</td>
                     <td>{{  json_decode($mentor->description)->mentor ?? '' }}</td>
 
                     <td style="min-width: 110px;">
@@ -44,7 +44,7 @@
         </table>
     </div>
 
-    <a href="{{ route('users.create') }}" class="btn btn-success">Add User</a>
+    <a href="{{ route('mentor.add') }}" class="btn btn-success">Add Mentor</a>
 
 </div>
 
