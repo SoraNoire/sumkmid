@@ -141,34 +141,26 @@ $("#close_fimg_post, .overlay").click(function() {
 
 // fungsi upload image
 $('#uploadmedia').on('change', function add_media(e){
-    setTimeout(ajaxFn, 10, e);
-
-    $('.table-overlay').show();
-    function ajaxFn(e){
-        e.preventDefault();
-        var fd = new FormData($("#actuploadmedia")[0]);
-        $.ajax({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            type: "POST",
-            url: "/admin/blog/store-media",
-            dataType:'json',
-            async:false,
-            processData: false,
-            contentType: false,
-            data: fd,
-            success: function(msg){
-                $(".mediatable").DataTable().ajax.reload(null, false);
-                console.log('fd');
-            },
-            error: function(err){
+    e.preventDefault();
+    var fd = new FormData($("#actuploadmedia")[0]);
+    $.ajax({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        type: "POST",
+        url: "/admin/blog/store-media",
+        processData: false,
+        contentType: false,
+        data: fd,
+        success: function(msg){
+                    $(".mediatable").DataTable().ajax.reload(null, false);
+                    console.log('add');
+        },
+        error: function(err){
                 $(".mediatable").DataTable().ajax.reload(null, false);
                 console.log(err);
             }
-        });
-        $('.table-overlay').hide();
-    };
+    });
 });
 
 var timeOutId;
@@ -190,6 +182,7 @@ function delete_media(e){
                 $(".mediatable").DataTable().ajax.reload(null, false);
             },
             error: function(err){
+                $(".mediatable").DataTable().ajax.reload(null, false);
                 console.log(err);
             }
         });
@@ -638,9 +631,10 @@ if ($(".datetimepicker").length > 0) {
 }
 
 function load_post_category(){
+    var id = $('meta[name="item-id"]').attr('content');
     $.ajax({
         type: "GET",
-        url: "/admin/blog/get-category-post/",
+        url: "/admin/blog/get-category-post/"+id,
         success: function(msg){
             $('#blog .category-wrap ul').html(msg);
         },
@@ -651,9 +645,10 @@ function load_post_category(){
 }
 
 function load_post_category_parent(){
+    var id = $('meta[name="category-id"]').attr('content');
     $.ajax({
         type: "GET",
-        url: "/admin/blog/get-category-parent/",
+        url: "/admin/blog/get-category-parent/"+id,
         success: function(msg){
             $('#blog .category-parent').html(msg);
         },

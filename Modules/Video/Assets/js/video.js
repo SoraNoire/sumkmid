@@ -116,9 +116,10 @@ $(document).ready(function() {
 });
 
 function load_video_category(){
+    var id = $('meta[name="item-id"]').attr('content');
     $.ajax({
         type: "GET",
-        url: "/admin/blog/video/get-category-video/",
+        url: "/admin/blog/video/get-category-video/"+id,
         success: function(msg){
             $('#video .category-wrap ul').html(msg);
         },
@@ -129,9 +130,10 @@ function load_video_category(){
 }
 
 function load_video_category_parent(){
+    var id = $('meta[name="category-id"]').attr('content');
     $.ajax({
         type: "GET",
-        url: "/admin/blog/video/get-category-parent/",
+        url: "/admin/blog/video/get-category-parent/"+id,
         success: function(msg){
             $('#video .category-parent').html(msg);
         },
