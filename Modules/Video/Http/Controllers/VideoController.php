@@ -340,7 +340,7 @@ class VideoController extends Controller
      */
     public function destroy_video($id)
     {
-        $this->VideoHelper->delete_tag($id);
+        $this->VideoHelper->delete_video($id);
     }
 
     /**
@@ -352,7 +352,7 @@ class VideoController extends Controller
     {
         $id = json_decode($request->id);
         foreach ($id as $id) {
-            $this->VideoHelper->delete_tag($id, 'bulk');
+            $this->VideoHelper->delete_video($id, 'bulk');
         }
         return redirect($this->prefix)->with(['msg' => 'Delete Success', 'status' => 'success']);
     }

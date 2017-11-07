@@ -1,20 +1,20 @@
 <?php
 
-Route::group(['middleware' => 'web', 'prefix' => 'admin/blog/video', 'namespace' => 'Modules\Gallery\Http\Controllers'], function()
+Route::group(['middleware' => 'web', 'prefix' => 'admin/blog/gallery', 'namespace' => 'Modules\Gallery\Http\Controllers'], function()
 {
     Route::get('/', 'GalleryController@index');
     Route::get('/index', 'GalleryController@index');
 
-    Route::get('/show/{slug}', 'GalleryController@show_video');
-    Route::get('/get-videos', 'GalleryController@get_videos');
-    Route::get('/create-video', 'GalleryController@create_video');
-    Route::get('/edit-video/{id}', 'GalleryController@edit_video');
-    Route::get('/delete-video/{id}', 'GalleryController@destroy_video');
-    Route::post('/store-video', 'GalleryController@store_video');
-    Route::post('/update-video/{id}', 'GalleryController@update_video');
-    Route::post('/bulk-delete-video/', 'GalleryController@bulk_delete_video');
-    Route::get('/add-category-video/{name}/{parent}', 'GalleryController@store_category_ajax');
-    Route::get('/get-category-video/', 'GalleryController@get_all_category');
+    Route::get('/show/{slug}', 'GalleryController@show_gallery');
+    Route::get('/get-gallery', 'GalleryController@get_gallery');
+    Route::get('/create-gallery', 'GalleryController@create_gallery');
+    Route::get('/edit-gallery/{id}', 'GalleryController@edit_gallery');
+    Route::get('/delete-gallery/{id}', 'GalleryController@destroy_gallery');
+    Route::post('/store-gallery', 'GalleryController@store_gallery');
+    Route::post('/update-gallery/{id}', 'GalleryController@update_gallery');
+    Route::post('/bulk-delete-gallery/', 'GalleryController@bulk_delete_gallery');
+    Route::get('/add-category-gallery/{name}/{parent}', 'GalleryController@store_category_ajax');
+    Route::get('/get-category-gallery/', 'GalleryController@get_all_category');
     Route::get('/get-category-parent/', 'GalleryController@get_category_parent');
 
     Route::get('/category', 'GalleryController@category');

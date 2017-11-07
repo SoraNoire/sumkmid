@@ -33,6 +33,7 @@
   'Modules/Blog/Assets/js/custom.js',
   'Modules/Video/Assets/js/video.js',
   'Modules/Event/Assets/js/event.js',
+  'Modules/Gallery/Assets/js/gallery.js',
   ],'public/js/index.js')
  .sass('Modules/Blog/Assets/scss/style.scss', 'public/css')
  .browserSync({'proxy' : 'sahabatumkm.dev',files: ['Modules/Blog/Resources/views/admin/*.php','Modules/Blog/Resources/views/layouts/*.php', 'Modules/Blog/Assets/js/*.js']});

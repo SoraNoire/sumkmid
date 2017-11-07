@@ -20,7 +20,7 @@
     </div>
 
     <div class="card-content table-responsive">
-        <table class="table mydatatable" id="VideoTagTable">
+        <table class="table mydatatable" id="GalleryTagTable">
             <thead>
                 <th>Name</th>
                 <th>Created At</th>

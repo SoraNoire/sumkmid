@@ -1,10 +1,10 @@
 $(document).ready(function() {
 // DATATABLES CONFIG
-    // video category table 
-    if ($("#video #VideoCategoryTable").length > 0) {
-        $("#video #VideoCategoryTable").DataTable({
+    // gallery category table 
+    if ($("#gallery #GalleryCategoryTable").length > 0) {
+        $("#gallery #GalleryCategoryTable").DataTable({
             "ajax": $.fn.dataTable.pipeline( {
-                url: '/admin/blog/video/get-category',
+                url: '/admin/blog/gallery/get-category',
                 pages: 5 // number of pages to cache
             } ),
             "processing": true,
@@ -19,14 +19,14 @@ $(document).ready(function() {
                     "targets": -1,
                     "data": 'id',
                     "render": function ( data, type, row ) {
-                        return '<a href="/admin/blog/video/edit-category/'+row.id+'">Edit</a> | <a onclick="return confirm(\'Delete Category?\');" href="/admin/blog/video/delete-category/'+row.id+'">Delete</a>';
+                        return '<a href="/admin/blog/gallery/edit-category/'+row.id+'">Edit</a> | <a onclick="return confirm(\'Delete Category?\');" href="/admin/blog/gallery/delete-category/'+row.id+'">Delete</a>';
                     }
                 },
                     {
                     "targets": 0,
                     "data": 'name',
                     "render": function ( data, type, row ) {
-                        return '<a href="/admin/blog/video/edit-category/'+row.id+'">'+data+'</a>';
+                        return '<a href="/admin/blog/gallery/edit-category/'+row.id+'">'+data+'</a>';
                     }
                 }
             ],
@@ -37,11 +37,11 @@ $(document).ready(function() {
         });
     } 
 
-    // videos table
-    if ($("#video #myTableVideos").length > 0) {
-        $("#video #myTableVideos").DataTable({
+    // gallery table
+    if ($("#myTableGallery").length > 0) {
+        $("#myTableGallery").DataTable({
             "ajax": $.fn.dataTable.pipeline( {
-                url: '/admin/blog/video/get-videos',
+                url: '/admin/blog/gallery/get-gallery',
                 pages: 5 // number of pages to cache
             } ),
             "processing": true,
@@ -58,14 +58,14 @@ $(document).ready(function() {
                     "targets": -1,
                     "data": 'id',
                     "render": function ( data, type, row ) {
-                        return '<a href="/admin/blog/video/edit-video/'+row.id+'">Edit</a> | <a onclick="return confirm(\'Delete Video?\');" href="/admin/blog/video/delete-video/'+row.id+'">Hapus</a>';
+                        return '<a href="/admin/blog/gallery/edit-gallery/'+row.id+'">Edit</a> | <a onclick="return confirm(\'Delete gallery?\');" href="/admin/blog/gallery/delete-gallery/'+row.id+'">Hapus</a>';
                     }
                 },
                     {
                     "targets": 0,
                     "data": 'title',
                     "render": function ( data, type, row ) {
-                        return '<a href="/admin/blog/video/edit-video/'+row.id+'">'+data+'</a>';
+                        return '<a href="/admin/blog/gallery/edit-gallery/'+row.id+'">'+data+'</a>';
                     }
                 }
             ],
@@ -77,10 +77,10 @@ $(document).ready(function() {
     }
 
     // tag table
-    if ($("#video #VideoTagTable").length > 0) {
-        $("#video #VideoTagTable").DataTable({
+    if ($("#GalleryTagTable").length > 0) {
+        $("#GalleryTagTable").DataTable({
             "ajax": $.fn.dataTable.pipeline( {
-                url: '/admin/blog/video/get-tag',
+                url: '/admin/blog/gallery/get-tag',
                 pages: 5 // number of pages to cache
             } ),
             "processing": true,
@@ -95,14 +95,14 @@ $(document).ready(function() {
                     "targets": -1,
                     "data": 'id',
                     "render": function ( data, type, row ) {
-                        return '<a href="/admin/blog/video/edit-tag/'+row.id+'">Edit</a> | <a onclick="return confirm(\'Delete Tag?\');" href="/admin/blog/video/delete-tag/'+row.id+'">Hapus</a>';
+                        return '<a href="/admin/blog/gallery/edit-tag/'+row.id+'">Edit</a> | <a onclick="return confirm(\'Delete Tag?\');" href="/admin/blog/gallery/delete-tag/'+row.id+'">Hapus</a>';
                     }
                 },
                     {
                     "targets": 0,
                     "data": 'title',
                     "render": function ( data, type, row ) {
-                        return '<a href="/admin/blog/video/edit-tag/'+row.id+'">'+data+'</a>';
+                        return '<a href="/admin/blog/gallery/edit-tag/'+row.id+'">'+data+'</a>';
                     }
                 }
             ],
@@ -112,15 +112,16 @@ $(document).ready(function() {
             ]
         });
     }
+
 // END DATATABLES
 });
 
-function load_video_category(){
+function load_gallery_category(){
     $.ajax({
         type: "GET",
-        url: "/admin/blog/video/get-category-video/",
+        url: "/admin/blog/gallery/get-category-gallery/",
         success: function(msg){
-            $('#video .category-wrap ul').html(msg);
+            $('#gallery .category-wrap ul').html(msg);
         },
         error: function(err){
             console.log(err);
@@ -128,12 +129,12 @@ function load_video_category(){
     });
 }
 
-function load_video_category_parent(){
+function load_gallery_category_parent(){
     $.ajax({
         type: "GET",
-        url: "/admin/blog/video/get-category-parent/",
+        url: "/admin/blog/gallery/get-category-parent/",
         success: function(msg){
-            $('#video .category-parent').html(msg);
+            $('#gallery .category-parent').html(msg);
         },
         error: function(err){
             console.log(err);
@@ -141,22 +142,22 @@ function load_video_category_parent(){
     });
 }
 
-if ($('#video .category-wrap').length > 0) {
-    $('#video .category-wrap').ready(load_video_category());
+if ($('#gallery .category-wrap').length > 0) {
+    $('#gallery .category-wrap').ready(load_gallery_category());
 }
 
-if ($('#video .category-parent').length > 0) {
-    $('#video .category-parent').ready(load_video_category_parent());
+if ($('#gallery .category-parent').length > 0) {
+    $('#gallery .category-parent').ready(load_gallery_category_parent());
 }
 
 // add category on post ajax function
-$('#video .add_category_button').on('click', function add_category(){
+$('#gallery .add_category_button').on('click', function add_category(){
     var n = $('input[name=category_name]').val();
     var p = $('select[name=category_parent]').val();
     if (n != '') {
         $.ajax({
             type: "GET",
-            url: "/admin/blog/video/add-category-post/"+n+"/"+p,
+            url: "/admin/blog/gallery/add-category-gallery/"+n+"/"+p,
             success: function(msg){
                 console.log(msg);
             },
@@ -165,11 +166,94 @@ $('#video .add_category_button').on('click', function add_category(){
             }
         });
 
-        load_video_category();
-        load_video_category_parent();
+        load_gallery_category();
+        load_gallery_category_parent();
         $('input[name=category_name]').val('');
         $('select[name=category_parent]').removeAttr('selected');
     } else {    
         // do nothing
     }
 });
+
+// gallery form
+// gallery table
+if ($("#MediaGallery").length > 0) {
+    $("#MediaGallery").DataTable({
+        "ajax":  $.fn.dataTable.pipeline( {
+            url: '/admin/blog/get-media',
+            pages: 5 // number of pages to cache
+        } ),
+        "processing": true,
+        "serverSide": true,
+        "stateSave":true,
+        "columns": [
+            { "data": "id" },
+            { "data": "name" },
+            { "data": "name" },
+            { "data": "name" },
+            { "data": "created_at" },
+        ],
+        "columnDefs": [
+            {
+                "targets":  2 ,
+                "data": 'name',
+                "render": function ( data, type, full, meta ) {
+                    return '<img style="width: 100px; max-height: 100px;" src="'+mediaPath+'/'+data+'">';
+                }
+            },
+            {
+                "targets": 0,
+                "visible": false,
+                "searchable": false
+            },
+            {
+                "targets": 1,
+                "visible": false,
+                "searchable": false,
+                "data": 'name',
+                "render": function ( data, type, full, meta ) {
+                    return mediaPath+'/'+data;
+                }
+            },
+        ],
+        order: [
+            [3, "desc"],
+            [4, "desc"]
+        ]
+    });
+}
+
+// select image for galery
+if ($("#MediaGallery").length > 0) {
+    $('#MediaGallery tbody').on( 'click', 'tr', function () {
+        $(this).toggleClass('selected');
+        $('#count-galeri').html( $("#MediaGallery").DataTable().rows('.selected').data().length +' row(s) selected' );
+        $('#select-image-galeri').show();
+    });
+}
+
+// select selected image for galery
+if ($("#select-image-galeri").length > 0) {
+    $('#select-image-galeri').on('click', function(){
+        var images = $.map($("#MediaGallery").DataTable().rows('.selected').data(), function (item) {
+            return item.name
+        });
+        var ids = $.map($("#MediaGallery").DataTable().rows('.selected').data(), function (item) {
+            return item.id
+        });
+
+        images.forEach(function(image, index) {  
+            $("#selected-images").append("<div id='img-"+ids[index]+"' class='image'> <input id='input-"+ids[index]+"' type='hidden' name='selected_image[]' class='form-control' value='"+ids[index]+"'> <a class='close'> <i class='fa fa-times' aria-hidden='true'></i> </a> <image src='"+mediaPath+"/"+image+"'> </div>");
+        });
+
+        $(".overlay").fadeOut(), $(".custom-modal").fadeOut(), $('#count-galeri').html(''), $('#MediaGallery').find('tr').removeClass('selected')
+        
+    });
+}
+
+// remove selected image galery
+if ($('#selected-images').length > 0) {
+    $('#selected-images').on('click', '.close', function(){
+        $(this).parents('.image').remove();
+    }); 
+}

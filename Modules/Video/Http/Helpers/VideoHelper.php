@@ -15,7 +15,7 @@ class VideoHelper
     private $prefix;
 
     public function __construct(){
-        $this->prefix = 'admin/blog/';
+        $this->prefix = 'admin/blog/video';
     }
 
     /**
@@ -84,7 +84,7 @@ class VideoHelper
      * @param  $id, $is_bulk
      * @return Response
      */
-    public static function delete_video($id, $is_bulk = ''){
+    public function delete_video($id, $is_bulk = ''){
         $video = Video::where('id', $id)->first();
         if (isset($video)) {
             DB::beginTransaction();
@@ -99,14 +99,14 @@ class VideoHelper
                 if ($is_bulk == 'bulk') {
                     // all good. do nothing
                 } else {
-                    return redirect($this->prefix)->with(['msg' => 'Deleted', 'status' => 'success']);    
+                    return redirect($this->prefix)->with(['msg' => 'Deleted', 'status' => 'success'])->send();    
                 }
             } catch (\Exception $e) {
                 DB::rollback();
-                return redirect($this->prefix)->with(['msg' => 'Delete Error', 'status' => 'danger']);
+                return redirect($this->prefix)->with(['msg' => 'Delete Error', 'status' => 'danger'])->send();
             }
         } else {
-            return redirect($this->prefix)->with(['msg' => 'video Not Found', 'status' => 'danger']);
+            return redirect($this->prefix)->with(['msg' => 'video Not Found', 'status' => 'danger'])->send();
         }
     }
     
@@ -115,7 +115,7 @@ class VideoHelper
      * @param  $id
      * @return Response
      */
-    public static function delete_category($id, $is_bulk = ''){
+    public function delete_category($id, $is_bulk = ''){
         $category = VideoCategory::where('id', $id)->first();
         if (isset($category)) {
             DB::beginTransaction();
@@ -167,7 +167,7 @@ class VideoHelper
      * @param  $id
      * @return Response
      */
-    public static function delete_tag($id, $is_bulk = ''){
+    public function delete_tag($id, $is_bulk = ''){
         $tag = VideoTag::where('id', $id)->first();
         if (isset($tag)) {
             DB::beginTransaction();

@@ -1,7 +1,7 @@
 <?php
 namespace Modules\Blog\Http\Helpers;
 
-use Modules\Blog\Entities\Post;
+use Modules\Blog\Entities\Posts;
 use Modules\Blog\Entities\Category;
 use Modules\Blog\Entities\PostCategory;
 use Modules\Blog\Entities\Tag;
@@ -206,7 +206,7 @@ class PostHelper
      * @return Response
      */
     public function delete_post($id, $is_bulk = ''){
-        $post = Post::where('id', $id)->first();
+        $post = Posts::where('id', $id)->first();
         if (isset($post)) {
             DB::beginTransaction();
             try {
