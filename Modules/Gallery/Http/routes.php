@@ -14,8 +14,8 @@ Route::group(['middleware' => 'web', 'prefix' => 'admin/blog/gallery', 'namespac
     Route::post('/update-gallery/{id}', 'GalleryController@update_gallery');
     Route::post('/bulk-delete-gallery/', 'GalleryController@bulk_delete_gallery');
     Route::get('/add-category-gallery/{name}/{parent}', 'GalleryController@store_category_ajax');
-    Route::get('/get-category-gallery/', 'GalleryController@get_all_category');
-    Route::get('/get-category-parent/', 'GalleryController@get_category_parent');
+    Route::get('/get-category-gallery/{gallery_id}', 'GalleryController@get_all_category');
+    Route::get('/get-category-parent/{category_id}', 'GalleryController@get_category_parent');
 
     Route::get('/category', 'GalleryController@category');
     Route::get('/get-category', 'GalleryController@get_category');

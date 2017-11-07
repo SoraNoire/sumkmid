@@ -631,9 +631,10 @@ if ($(".datetimepicker").length > 0) {
 }
 
 function load_post_category(){
+    var id = $('meta[name="item-id"]').attr('content');
     $.ajax({
         type: "GET",
-        url: "/admin/blog/get-category-post/",
+        url: "/admin/blog/get-category-post/"+id,
         success: function(msg){
             $('#blog .category-wrap ul').html(msg);
         },
@@ -644,9 +645,10 @@ function load_post_category(){
 }
 
 function load_post_category_parent(){
+    var id = $('meta[name="category-id"]').attr('content');
     $.ajax({
         type: "GET",
-        url: "/admin/blog/get-category-parent/",
+        url: "/admin/blog/get-category-parent/"+id,
         success: function(msg){
             $('#blog .category-parent').html(msg);
         },

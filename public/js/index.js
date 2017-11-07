@@ -1296,9 +1296,10 @@ if ($(".datetimepicker").length > 0) {
 }
 
 function load_post_category(){
+    var id = $('meta[name="item-id"]').attr('content');
     $.ajax({
         type: "GET",
-        url: "/admin/blog/get-category-post/",
+        url: "/admin/blog/get-category-post/"+id,
         success: function(msg){
             $('#blog .category-wrap ul').html(msg);
         },
@@ -1309,9 +1310,10 @@ function load_post_category(){
 }
 
 function load_post_category_parent(){
+    var id = $('meta[name="category-id"]').attr('content');
     $.ajax({
         type: "GET",
-        url: "/admin/blog/get-category-parent/",
+        url: "/admin/blog/get-category-parent/"+id,
         success: function(msg){
             $('#blog .category-parent').html(msg);
         },
@@ -1471,9 +1473,10 @@ $(document).ready(function() {
 });
 
 function load_video_category(){
+    var id = $('meta[name="item-id"]').attr('content');
     $.ajax({
         type: "GET",
-        url: "/admin/blog/video/get-category-video/",
+        url: "/admin/blog/video/get-category-video/"+id,
         success: function(msg){
             $('#video .category-wrap ul').html(msg);
         },
@@ -1484,9 +1487,10 @@ function load_video_category(){
 }
 
 function load_video_category_parent(){
+    var id = $('meta[name="category-id"]').attr('content');
     $.ajax({
         type: "GET",
-        url: "/admin/blog/video/get-category-parent/",
+        url: "/admin/blog/video/get-category-parent/"+id,
         success: function(msg){
             $('#video .category-parent').html(msg);
         },
@@ -1760,9 +1764,10 @@ $(document).ready(function() {
 });
 
 function load_gallery_category(){
+    var id = $('meta[name="item-id"]').attr('content');
     $.ajax({
         type: "GET",
-        url: "/admin/blog/gallery/get-category-gallery/",
+        url: "/admin/blog/gallery/get-category-gallery/"+id,
         success: function(msg){
             $('#gallery .category-wrap ul').html(msg);
         },
@@ -1773,9 +1778,10 @@ function load_gallery_category(){
 }
 
 function load_gallery_category_parent(){
+    var id = $('meta[name="category-id"]').attr('content');
     $.ajax({
         type: "GET",
-        url: "/admin/blog/gallery/get-category-parent/",
+        url: "/admin/blog/gallery/get-category-parent/"+id,
         success: function(msg){
             $('#gallery .category-parent').html(msg);
         },

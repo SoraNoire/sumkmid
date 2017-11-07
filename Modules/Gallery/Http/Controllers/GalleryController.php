@@ -39,7 +39,7 @@ class GalleryController extends Controller
      */
     public function index()
     {
-        $page_meta_title = 'Gallerys';
+        $page_meta_title = 'Gallery';
         return view('gallery::admin.index')->with(['page_meta_title' => $page_meta_title]);
     }
 
@@ -49,7 +49,7 @@ class GalleryController extends Controller
      * @return Response
      */
     public function show_gallery($slug){
-        $page_meta_title = 'Single Gallery';
+        $page_meta_title = 'Gallery';
         $gallery = Gallery::where('slug', $slug)->first();
         if (isset($gallery)) {
             $galleryTag = json_decode(GalleryTagRelation::where('gallery_id', $gallery->id)->first()->tag_id);
@@ -108,7 +108,7 @@ class GalleryController extends Controller
      */
     public function create_gallery()
     {
-        $page_meta_title = 'Gallerys';
+        $page_meta_title = 'Gallery';
         $act = 'New';
         $action = $this->prefix.'store-gallery';
 
@@ -226,7 +226,7 @@ class GalleryController extends Controller
      */
     public function edit_gallery($id)
     {
-        $page_meta_title = 'Gallerys';
+        $page_meta_title = 'Gallery';
         $act = 'Edit';
         $action = $this->prefix.'update-gallery/'.$id;
         $gallery = Gallery::where('id', $id)->first();
@@ -257,7 +257,7 @@ class GalleryController extends Controller
             $status = $gallery->status;
             $published_at = $gallery->published_at;
 
-            return view('gallery::admin.gallery_form')->with(['page_meta_title' => $page_meta_title, 'act' => $act, 'action' => $action, 'gallery' => $gallery , 'title' => $title, 'images' => $images, 'alltag' => $alltag, 'selected_tag' => $selected_tag, 'allcategory' => $allcategory, 'media' => $media, 'allparent' => $allparent, 'meta_desc' => $meta_desc, 'meta_title' => $meta_title, 'meta_keyword' => $meta_keyword, 'status' => $status, 'published_at' => $published_at]);
+            return view('gallery::admin.gallery_form')->with(['item_id' => $id, 'page_meta_title' => $page_meta_title, 'act' => $act, 'action' => $action, 'gallery' => $gallery , 'title' => $title, 'images' => $images, 'alltag' => $alltag, 'selected_tag' => $selected_tag, 'allcategory' => $allcategory, 'media' => $media, 'allparent' => $allparent, 'meta_desc' => $meta_desc, 'meta_title' => $meta_title, 'meta_keyword' => $meta_keyword, 'status' => $status, 'published_at' => $published_at]);
         } else {
             return redirect($this->prefix)->with(['msg' => 'gallery Not Found', 'status' => 'danger']);
         }
@@ -467,7 +467,7 @@ class GalleryController extends Controller
             $maincategory = GalleryCategory::where('parent', null)->get(); 
             $allparent = GalleryHelper::get_category_parent($category->id);
             $name = $category->name;
-            return view('gallery::admin.category_form')->with(['page_meta_title' => $page_meta_title, 'act' => $act, 'action' => $action, 'category' => $category, 'name' => $name, 'allparent' => $allparent]);
+            return view('gallery::admin.category_form')->with(['category_id' => $id, 'page_meta_title' => $page_meta_title, 'act' => $act, 'action' => $action, 'category' => $category, 'name' => $name, 'allparent' => $allparent]);
         }else {
             return redirect($this->prefix.'category')->with(['msg' => 'Category Not Found', 'status' => 'danger']);
         }
@@ -637,7 +637,7 @@ class GalleryController extends Controller
      * @return Response
      */
     public static function get_category_parent($category_id = ''){
-         return GalleryHelper::get_category_parent($category_id);
+        return GalleryHelper::get_category_parent($category_id);
     }
 
     /**
@@ -645,7 +645,7 @@ class GalleryController extends Controller
      * @param  $post_id
      * @return Response
      */
-    public static function get_all_category($post_id = ''){
-        return GalleryHelper::get_all_category($post_id);
+    public static function get_all_category($gallery_id = ''){
+        return GalleryHelper::get_all_category($gallery_id);
     }
 }

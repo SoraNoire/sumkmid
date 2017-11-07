@@ -39,7 +39,7 @@ class GalleryHelper
             $selected = $main->id == $category_parent ? 'selected' : '';
             $allparent .= '<option '.$selected.' value="'.$main->id.'">'.$main->name.'</option>';
         }
-
+        
         return $allparent;
     }
 
@@ -66,7 +66,7 @@ class GalleryHelper
         } 
 
         foreach ($maincategory as $main) {
-            $selected = in_array($main->id, $selected_cat) ? 'checked' : '';
+            $selected = in_array($main->id, $selected_cat) ? 'checked="checked"' : '';
             $allcategory .= '<li><label><input '.$selected.' name="category[]" type="checkbox" value="'.$main->id.'">'.$main->name.'</label><ul>';
             $subcategory = GalleryCategory::where('parent', $main->id)->get(); 
             foreach ($subcategory as $sub) {
