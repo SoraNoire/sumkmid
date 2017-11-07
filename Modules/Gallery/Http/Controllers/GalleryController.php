@@ -1,29 +1,12 @@
 <?php
 
-namespace Modules\Video\Http\Controllers;
+namespace Modules\Gallery\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Contracts\Filesystem\Filesystem;
-use Illuminate\Routing\Controller as BaseController;
-use App\Http\Controllers\Controller;
-use Modules\Video\Entities\Video;
-use Modules\Video\Entities\VideoCategory;
-use Modules\Video\Entities\VideoTag;
-use Modules\Video\Entities\VideoCategoryRelation;
-use Modules\Video\Entities\VideoTagRelation;
-use Modules\Blog\Entities\Media;
-use Modules\Blog\Http\Helpers\PostHelper;
-use Modules\Video\Http\Helpers\VideoHelper;
-use Carbon\Carbon;
-use Auth;
-use DB;
-use File;
-use Image;
-use View;
+use Illuminate\Routing\Controller;
 
-class VideoController extends Controller
+class GalleryController extends Controller
 {
     private $prefix;
 
