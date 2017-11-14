@@ -828,6 +828,29 @@ $('#uploadmedia').on('change', function add_media(e){
     });
 });
 
+$('#uploadfimg').on('change', function add_media(e){
+    e.preventDefault();
+    var fd = new FormData($("#actuploadfimg")[0]);
+    $.ajax({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        type: "POST",
+        url: "/admin/blog/store-media",
+        processData: false,
+        contentType: false,
+        data: fd,
+        success: function(msg){
+                    $(".mediatable").DataTable().ajax.reload(null, false);
+                    console.log('add');
+        },
+        error: function(err){
+                $(".mediatable").DataTable().ajax.reload(null, false);
+                console.log(err);
+            }
+    });
+});
+
 var timeOutId;
 function delete_media(e){
     timeOutId = setTimeout(ajaxFn, 2000, e);
@@ -1017,10 +1040,9 @@ $(document).ready(function() {
     // media table
     if ($("#MediaTable").length > 0) {
         $("#MediaTable").DataTable({
-            "ajax":  $.fn.dataTable.pipeline( {
-                url: '/admin/blog/get-media',
-                pages: 5 // number of pages to cache
-            } ),
+            "ajax": {
+                url: '/admin/blog/get-media'
+            },
             "processing": true,
             "serverSide": true,
             "stateSave":true,
@@ -1828,10 +1850,9 @@ $('#gallery .add_category_button').on('click', function add_category(){
 // gallery table
 if ($("#MediaGallery").length > 0) {
     $("#MediaGallery").DataTable({
-        "ajax":  $.fn.dataTable.pipeline( {
-            url: '/admin/blog/get-media',
-            pages: 5 // number of pages to cache
-        } ),
+        "ajax":  {
+            url: '/admin/blog/get-media'
+        },
         "processing": true,
         "serverSide": true,
         "stateSave":true,

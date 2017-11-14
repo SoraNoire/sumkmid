@@ -716,13 +716,18 @@ class BlogController extends Controller
         $order = $request->order[0];
         $col = $request->columns["{$order['column']}"]['data'] ?? 'created_at'; 
         $direction = $order['dir'] ?? 'desc';
-        
-        $query = Media::orderBy($col,$direction);;
-        $output['data'] = $query->get();
-        $output['recordsTotal'] = $query->count();
+
+        $medias = Media::orderBy($col,$direction);
+        $output['recordsTotal'] = $medias->count();
+        $search = $request->search['value'];
+        if (isset($search)) {
+            $medias = $medias->where('name', 'like', '%'.$search.'%');   
+        }
+        $output['data'] = $medias->offset($request['start'])->limit($request['length'])->get();
         $output['recordsFiltered'] = $output['recordsTotal'];
         $output['draw'] = intval($request->input('draw'));
-        $output['length'] = 10;
+        $output['length'] = $request['length'];
+        $output['start']=$request['start'];
 
         return $output;
     }

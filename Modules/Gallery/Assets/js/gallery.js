@@ -181,10 +181,9 @@ $('#gallery .add_category_button').on('click', function add_category(){
 // gallery table
 if ($("#MediaGallery").length > 0) {
     $("#MediaGallery").DataTable({
-        "ajax":  $.fn.dataTable.pipeline( {
-            url: '/admin/blog/get-media',
-            pages: 5 // number of pages to cache
-        } ),
+        "ajax":  {
+            url: '/admin/blog/get-media'
+        },
         "processing": true,
         "serverSide": true,
         "stateSave":true,
