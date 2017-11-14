@@ -93,6 +93,10 @@ class VideoController extends Controller
         $direction = $order['dir'] ?? 'desc';
         
         $query = Video::orderBy($col,$direction);
+        $search = $request->search['value'];
+        if (isset($search)) {
+            $query = $query->where('title', 'like', '%'.$search.'%');   
+        }
         $output['data'] = $query->get();
         $output['recordsTotal'] = $query->count();
         $output['recordsFiltered'] = $output['recordsTotal'];
@@ -378,6 +382,10 @@ class VideoController extends Controller
         $direction = $order['dir'] ?? 'desc';
         
         $query = VideoCategory::orderBy($col,$direction);
+        $search = $request->search['value'];
+        if (isset($search)) {
+            $query = $query->where('name', 'like', '%'.$search.'%');   
+        }
         $output['data'] = $query->get();
         $output['recordsTotal'] = $query->count();
         $output['recordsFiltered'] = $output['recordsTotal'];
@@ -528,6 +536,10 @@ class VideoController extends Controller
         $direction = $order['dir'] ?? 'desc';
         
         $query = VideoTag::orderBy($col,$direction);
+        $search = $request->search['value'];
+        if (isset($search)) {
+            $query = $query->where('name', 'like', '%'.$search.'%');   
+        }
         $output['data'] = $query->get();
         $output['recordsTotal'] = $query->count();
         $output['recordsFiltered'] = $output['recordsTotal'];

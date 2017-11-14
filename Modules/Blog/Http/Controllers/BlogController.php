@@ -93,6 +93,10 @@ class BlogController extends Controller
         $direction = $order['dir'] ?? 'desc';
         
         $query = Posts::orderBy($col,$direction);
+        $search = $request->search['value'];
+        if (isset($search)) {
+            $query = $query->where('title', 'like', '%'.$search.'%');   
+        }
         $output['data'] = $query->get();
         $output['recordsTotal'] = $query->count();
         $output['recordsFiltered'] = $output['recordsTotal'];
@@ -454,6 +458,10 @@ class BlogController extends Controller
         $direction = $order['dir'] ?? 'desc';
         
         $query = Category::orderBy($col,$direction);
+        $search = $request->search['value'];
+        if (isset($search)) {
+            $query = $query->where('name', 'like', '%'.$search.'%');   
+        }
         $output['data'] = $query->get();
         $output['recordsTotal'] = $query->count();
         $output['recordsFiltered'] = $output['recordsTotal'];
@@ -604,6 +612,10 @@ class BlogController extends Controller
         $direction = $order['dir'] ?? 'desc';
         
         $query = Tag::orderBy($col,$direction);
+        $search = $request->search['value'];
+        if (isset($search)) {
+            $query = $query->where('name', 'like', '%'.$search.'%');   
+        }
         $output['data'] = $query->get();
         $output['recordsTotal'] = $query->count();
         $output['recordsFiltered'] = $output['recordsTotal'];
@@ -849,6 +861,10 @@ class BlogController extends Controller
         $direction = $order['dir'] ?? 'desc';
         
         $query = Page::orderBy($col,$direction);
+        $search = $request->search['value'];
+        if (isset($search)) {
+            $query = $query->where('title', 'like', '%'.$search.'%');   
+        }
         $output['data'] = $query->get();
         $output['recordsTotal'] = $query->count();
         $output['recordsFiltered'] = $output['recordsTotal'];
