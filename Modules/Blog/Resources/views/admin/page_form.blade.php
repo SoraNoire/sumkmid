@@ -143,9 +143,9 @@
 <div class="custom-modal fimg-modal">
 <div class="btn btn-round btn-fill btn-info" style="margin-bottom: 10px;">
 <div class="form-group" style="margin-top: 0px;margin-bottom: 0px;padding-bottom: 0px;cursor: default;">
-    <form id="actuploadmedia" method="post" action="{{ URL::to($prefix.'store-media') }}" accept-charset="UTF-8" enctype="multipart/form-data">
+    <form id="actuploadfimg" method="post" action="{{ URL::to($prefix.'store-media') }}" accept-charset="UTF-8" enctype="multipart/form-data">
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
-        <input type="file" id="uploadmedia" name="media[]" style="cursor: pointer;" multiple>
+        <input type="file" id="uploadfimg" name="media[]" style="cursor: pointer;" multiple>
     </form>
 
 </div>

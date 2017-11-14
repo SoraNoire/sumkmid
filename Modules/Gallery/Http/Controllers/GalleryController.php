@@ -93,6 +93,10 @@ class GalleryController extends Controller
         $direction = $order['dir'] ?? 'desc';
         
         $query = Gallery::orderBy($col,$direction);
+        $search = $request->search['value'];
+        if (isset($search)) {
+            $query = $query->where('title', 'like', '%'.$search.'%');   
+        }
         $output['data'] = $query->get();
         $output['recordsTotal'] = $query->count();
         $output['recordsFiltered'] = $output['recordsTotal'];
@@ -387,6 +391,10 @@ class GalleryController extends Controller
         $direction = $order['dir'] ?? 'desc';
         
         $query = GalleryCategory::orderBy($col,$direction);
+        $search = $request->search['value'];
+        if (isset($search)) {
+            $query = $query->where('name', 'like', '%'.$search.'%');   
+        }
         $output['data'] = $query->get();
         $output['recordsTotal'] = $query->count();
         $output['recordsFiltered'] = $output['recordsTotal'];
@@ -537,6 +545,10 @@ class GalleryController extends Controller
         $direction = $order['dir'] ?? 'desc';
         
         $query = GalleryTag::orderBy($col,$direction);
+        $search = $request->search['value'];
+        if (isset($search)) {
+            $query = $query->where('name', 'like', '%'.$search.'%');   
+        }
         $output['data'] = $query->get();
         $output['recordsTotal'] = $query->count();
         $output['recordsFiltered'] = $output['recordsTotal'];
