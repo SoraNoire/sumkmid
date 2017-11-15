@@ -242,27 +242,15 @@ class VideoController extends Controller
 
             $featured_img = $video->featured_img;
             $media = Media::orderBy('created_at','desc')->get();
-
-            $videoCategory = VideoCategoryRelation::where('video_id', $id)->first();
-            $selected_cat_id = json_decode($videoCategory->category_id);
-            $selected_cat = array();
-            if (count($selected_cat_id) > 0) {
-                foreach ($selected_cat_id as $key) {
-                    $category = VideoCategory::where('id', $key)->first()->id;
-                    $selected_cat[] = $category;
-                }
-            }
-
-            $allcategory = VideoHelper::get_all_category($video->id);
-            $allparent = VideoHelper::get_category_parent();
             $option = json_decode($video->option);
             $meta_desc = $option->meta_desc;
             $meta_title = $option->meta_title;
             $meta_keyword = $option->meta_keyword;
             $status = $video->status;
             $published_at = $video->published_at;
+            $item_id = $video->id;
 
-            return view('video::admin.video_form')->with(['page_meta_title' => $page_meta_title, 'act' => $act, 'action' => $action, 'video' => $video , 'title' => $title, 'body' => $body, 'alltag' => $alltag, 'selected_tag' => $selected_tag, 'allcategory' => $allcategory, 'media' => $media, 'featured_img' => $featured_img, 'allparent' => $allparent, 'meta_desc' => $meta_desc, 'meta_title' => $meta_title, 'meta_keyword' => $meta_keyword, 'status' => $status, 'published_at' => $published_at, 'video_url' => $video_url]);
+            return view('video::admin.video_form')->with(['item_id' => $item_id, 'page_meta_title' => $page_meta_title, 'act' => $act, 'action' => $action, 'video' => $video , 'title' => $title, 'body' => $body, 'alltag' => $alltag, 'selected_tag' => $selected_tag, 'allcategory' => $allcategory, 'media' => $media, 'featured_img' => $featured_img, 'allparent' => $allparent, 'meta_desc' => $meta_desc, 'meta_title' => $meta_title, 'meta_keyword' => $meta_keyword, 'status' => $status, 'published_at' => $published_at, 'video_url' => $video_url]);
         } else {
             return redirect($this->prefix)->with(['msg' => 'video Not Found', 'status' => 'danger']);
         }
@@ -440,7 +428,7 @@ class VideoController extends Controller
             $parent = null;
         }
         $slug = PostHelper::make_slug($name);
-        $store = new Category;
+        $store = new VideoCategory;
         $store->name = $name;
         $store->slug = $slug;
         $store->parent = $parent;
@@ -466,7 +454,8 @@ class VideoController extends Controller
             $maincategory = VideoCategory::where('parent', null)->get(); 
             $allparent = VideoHelper::get_category_parent($category->id);
             $name = $category->name;
-            return view('video::admin.category_form')->with(['page_meta_title' => $page_meta_title, 'act' => $act, 'action' => $action, 'category' => $category, 'name' => $name, 'allparent' => $allparent]);
+            $category_id = $category->id;
+            return view('video::admin.category_form')->with(['category_id' => $category_id, 'page_meta_title' => $page_meta_title, 'act' => $act, 'action' => $action, 'category' => $category, 'name' => $name, 'allparent' => $allparent]);
         }else {
             return redirect($this->prefix.'category')->with(['msg' => 'Category Not Found', 'status' => 'danger']);
         }

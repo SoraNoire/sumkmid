@@ -158,7 +158,7 @@ $('#video .add_category_button').on('click', function add_category(){
     if (n != '') {
         $.ajax({
             type: "GET",
-            url: "/admin/blog/video/add-category-post/"+n+"/"+p,
+            url: "/admin/blog/video/add-category-video/"+n+"/"+p,
             success: function(msg){
                 console.log(msg);
             },
