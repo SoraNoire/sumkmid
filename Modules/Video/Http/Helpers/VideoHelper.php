@@ -70,7 +70,7 @@ class VideoHelper
             $allcategory .= '<li><label><input '.$selected.' name="category[]" type="checkbox" value="'.$main->id.'">'.$main->name.'</label><ul>';
             $subcategory = VideoCategory::where('parent', $main->id)->get(); 
             foreach ($subcategory as $sub) {
-                $selected = in_array($sub->id, $selected_cat) ? 'selected' : '';
+                $selected = in_array($sub->id, $selected_cat) ? 'checked' : '';
                 $allcategory .= '<li><label><input '.$selected.' name="category[]" type="checkbox" value="'.$sub->id.'">'.$sub->name.'</label></li>';
             }
             $allcategory .= '</ul></li>';
