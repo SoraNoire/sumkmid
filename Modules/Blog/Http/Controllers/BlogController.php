@@ -200,7 +200,6 @@ class BlogController extends Controller
             $store->slug = $slug;
             $store->body = $body;
             $store->featured_img = $featured_img;
-            $store->featured_img = $featured_img;
             $store->author = 1;
             $store->status = $status;
             $store->option = $option;
