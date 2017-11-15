@@ -127,8 +127,9 @@ class GalleryController extends Controller
         $meta_keyword = '';
         $status = 1;
         $published_at = 'immediately';
+        $featured_img = '';
 
-        return view('gallery::admin.gallery_form')->with(['page_meta_title' => $page_meta_title, 'act' => $act, 'action' => $action, 'title' => $title, 'alltag' => $alltag, 'selected_tag' => $selected_tag, 'allcategory' => $allcategory, 'media' => $media, 'allparent' => $allparent, 'meta_desc' => $meta_desc, 'meta_title' => $meta_title, 'meta_keyword' => $meta_keyword, 'status' => $status, 'published_at' => $published_at]);
+        return view('gallery::admin.gallery_form')->with(['page_meta_title' => $page_meta_title, 'act' => $act, 'action' => $action, 'title' => $title, 'alltag' => $alltag, 'selected_tag' => $selected_tag, 'allcategory' => $allcategory, 'media' => $media, 'allparent' => $allparent, 'meta_desc' => $meta_desc, 'meta_title' => $meta_title, 'meta_keyword' => $meta_keyword, 'status' => $status, 'published_at' => $published_at, 'featured_img' => $featured_img]);
     }
 
     /**
@@ -145,6 +146,7 @@ class GalleryController extends Controller
         $tag = $request->input('tag');
         $status = $request->get('status');
         $published_at = $request->input('published_at');
+        $featured_img = $request->input('featured_img');
         $option['meta_title'] = $request->input('meta_title');
         $option['meta_desc'] = $request->input('meta_desc');
         $option['meta_keyword'] = $request->input('meta_keyword');
@@ -197,6 +199,7 @@ class GalleryController extends Controller
             $store->title = $title;
             $store->slug = $slug;
             $store->images = $images;
+            $store->featured_img = $featured_img;
             $store->author = 1;
             $store->status = $status;
             $store->option = $option;
@@ -260,8 +263,9 @@ class GalleryController extends Controller
             $meta_keyword = $option->meta_keyword;
             $status = $gallery->status;
             $published_at = $gallery->published_at;
+            $featured_img = $gallery->featured_img;
 
-            return view('gallery::admin.gallery_form')->with(['item_id' => $id, 'page_meta_title' => $page_meta_title, 'act' => $act, 'action' => $action, 'gallery' => $gallery , 'title' => $title, 'images' => $images, 'alltag' => $alltag, 'selected_tag' => $selected_tag, 'allcategory' => $allcategory, 'media' => $media, 'allparent' => $allparent, 'meta_desc' => $meta_desc, 'meta_title' => $meta_title, 'meta_keyword' => $meta_keyword, 'status' => $status, 'published_at' => $published_at]);
+            return view('gallery::admin.gallery_form')->with(['item_id' => $id, 'page_meta_title' => $page_meta_title, 'act' => $act, 'action' => $action, 'gallery' => $gallery , 'title' => $title, 'images' => $images, 'alltag' => $alltag, 'selected_tag' => $selected_tag, 'allcategory' => $allcategory, 'media' => $media, 'allparent' => $allparent, 'meta_desc' => $meta_desc, 'meta_title' => $meta_title, 'meta_keyword' => $meta_keyword, 'status' => $status, 'published_at' => $published_at, 'featured_img' => $featured_img]);
         } else {
             return redirect($this->prefix)->with(['msg' => 'gallery Not Found', 'status' => 'danger']);
         }
@@ -280,6 +284,7 @@ class GalleryController extends Controller
         $tag = $request->input('tag');
         $status = $request->get('status');
         $published_at = $request->input('published_at');
+        $featured_img = $request->input('featured_img');
         $option['meta_title'] = $request->input('meta_title');
         $option['meta_desc'] = $request->input('meta_desc');
         $option['meta_keyword'] = $request->input('meta_keyword');
@@ -322,6 +327,7 @@ class GalleryController extends Controller
             $update = Gallery::where('id', $id)->first();
             $update->title = $title;
             $update->images = $images;
+            $update->featured_img = $featured_img;
             $update->author = 1;
             $update->status = $status;
             $update->option = $option;
