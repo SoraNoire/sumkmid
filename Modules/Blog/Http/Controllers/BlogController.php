@@ -267,8 +267,9 @@ class BlogController extends Controller
             $meta_keyword = $option->meta_keyword;
             $status = $post->status;
             $published_at = $post->published_at;
+            $item_id = $post->id;
 
-            return view('blog::admin.post_form')->with(['page_meta_title' => $page_meta_title, 'act' => $act, 'action' => $action, 'post' => $post , 'title' => $title, 'body' => $body, 'alltag' => $alltag, 'selected_tag' => $selected_tag, 'allcategory' => $allcategory, 'media' => $media, 'featured_img' => $featured_img, 'allparent' => $allparent, 'meta_desc' => $meta_desc, 'meta_title' => $meta_title, 'meta_keyword' => $meta_keyword, 'status' => $status, 'published_at' => $published_at, 'files' => $files]);
+            return view('blog::admin.post_form')->with(['item_id' => $item_id, 'page_meta_title' => $page_meta_title, 'act' => $act, 'action' => $action, 'post' => $post , 'title' => $title, 'body' => $body, 'alltag' => $alltag, 'selected_tag' => $selected_tag, 'allcategory' => $allcategory, 'media' => $media, 'featured_img' => $featured_img, 'allparent' => $allparent, 'meta_desc' => $meta_desc, 'meta_title' => $meta_title, 'meta_keyword' => $meta_keyword, 'status' => $status, 'published_at' => $published_at, 'files' => $files]);
         } else {
             return redirect($this->prefix.'posts')->with(['msg' => 'Post Not Found', 'status' => 'danger']);
         }
@@ -542,7 +543,8 @@ class BlogController extends Controller
             $maincategory = Category::where('parent', null)->get(); 
             $allparent = PostHelper::get_category_parent($category->id);
             $name = $category->name;
-            return view('blog::admin.category_form')->with(['page_meta_title' => $page_meta_title, 'act' => $act, 'action' => $action, 'category' => $category, 'name' => $name, 'allparent' => $allparent]);
+            $category_id = $category->id;
+            return view('blog::admin.category_form')->with(['category_id' => $category_id, 'page_meta_title' => $page_meta_title, 'act' => $act, 'action' => $action, 'category' => $category, 'name' => $name, 'allparent' => $allparent]);
         }else {
             return redirect($this->prefix.'category')->with(['msg' => 'Category Not Found', 'status' => 'danger']);
         }
