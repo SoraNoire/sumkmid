@@ -54,8 +54,6 @@ class BlogController extends Controller
             $tag = PostHelper::get_post_tag($post->id);
             $category = PostHelper::get_post_category($post->id);
 
-            dd($category);
-
             $option = json_decode($post->option);
             $files = $option->files;
             $meta_desc = $option->meta_desc;
