@@ -52,21 +52,8 @@ class VideoController extends Controller
         $page_meta_title = 'Single Video';
         $video = Video::where('slug', $slug)->first();
         if (isset($video)) {
-            $videoTag = json_decode(VideoTagRelation::where('video_id', $video->id)->first()->tag_id);
-            $tag = array();
-            if (count($tag) > 0) {
-                foreach ($videoTag as $videoTag) {
-                    $tag[] = VideoTag::where('id', $videoTag)->first();
-                }
-            }
-
-            $videoCategory = json_decode(VideoCategoryRelation::where('video_id', $video->id)->first()->category_id);
-            $category = array();
-            if (count($category) > 0) {
-                foreach ($videoCategory as $videoCategory) {
-                    $category[] = VideoCategory::where('id', $videoCategory)->first();
-                }
-            }
+            $tag = VideoHelper::get_video_tag($video->id);
+            $category = VideoHelper::get_video_category($video->id);
 
             $option = json_decode($video->option);
             $meta_desc = $option->meta_desc;
@@ -122,8 +109,6 @@ class VideoController extends Controller
         $featured_img = '';
         $media = Media::orderBy('created_at','desc')->get();
         $alltag = VideoTag::orderBy('created_at','desc')->get();
-        $allcategory = VideoHelper::get_all_category();
-        $allparent = VideoHelper::get_category_parent();
         $video_url = '';
         $meta_desc = '';
         $meta_title = '';
@@ -131,7 +116,7 @@ class VideoController extends Controller
         $status = 1;
         $published_at = 'immediately';
 
-        return view('video::admin.video_form')->with(['page_meta_title' => $page_meta_title, 'act' => $act, 'action' => $action, 'title' => $title, 'body' => $body, 'alltag' => $alltag, 'selected_tag' => $selected_tag, 'allcategory' => $allcategory, 'media' => $media, 'featured_img' => $featured_img, 'allparent' => $allparent, 'meta_desc' => $meta_desc, 'meta_title' => $meta_title, 'meta_keyword' => $meta_keyword, 'status' => $status, 'published_at' => $published_at, 'video_url' => $video_url]);
+        return view('video::admin.video_form')->with(['page_meta_title' => $page_meta_title, 'act' => $act, 'action' => $action, 'title' => $title, 'body' => $body, 'alltag' => $alltag, 'selected_tag' => $selected_tag, 'media' => $media, 'featured_img' => $featured_img, 'meta_desc' => $meta_desc, 'meta_title' => $meta_title, 'meta_keyword' => $meta_keyword, 'status' => $status, 'published_at' => $published_at, 'video_url' => $video_url]);
     }
 
     /**
@@ -230,15 +215,7 @@ class VideoController extends Controller
             $body = $video->body;
             $video_url = $video->video_url;
             $alltag = VideoTag::get();
-            $videoTag = VideoTagRelation::where('video_id', $id)->first();
-            $selected_tag_id = json_decode($videoTag->tag_id);
-            $selected_tag = array();
-            if (count($selected_tag_id) > 0) {
-                foreach ($selected_tag_id as $key) {
-                    $tag = VideoTag::where('id', $key)->first()->id;
-                    $selected_tag[] = $tag;
-                }
-            }
+            $selected_tag = VideoHelper::get_video_category($video->id, 'id');
 
             $featured_img = $video->featured_img;
             $media = Media::orderBy('created_at','desc')->get();

@@ -52,22 +52,8 @@ class GalleryController extends Controller
         $page_meta_title = 'Gallery';
         $gallery = Gallery::where('slug', $slug)->first();
         if (isset($gallery)) {
-            $galleryTag = json_decode(GalleryTagRelation::where('gallery_id', $gallery->id)->first()->tag_id);
-            $tag = array();
-            if (count($tag) > 0) {
-                foreach ($galleryTag as $galleryTag) {
-                    $tag[] = GalleryTag::where('id', $galleryTag)->first();
-                }
-            }
-
-            $galleryCategory = json_decode(GalleryCategoryRelation::where('gallery_id', $gallery->id)->first()->category_id);
-            $category = array();
-            if (count($category) > 0) {
-                foreach ($galleryCategory as $galleryCategory) {
-                    $category[] = GalleryCategory::where('id', $galleryCategory)->first();
-                }
-            }
-
+            $tag = GalleryHelper::get_gallery_tag($gallery->id);
+            $category = GalleryHelper::get_gallery_category($gallery->id);
             $option = json_decode($gallery->option);
             $meta_desc = $option->meta_desc;
             $meta_title = $option->meta_title;
@@ -120,8 +106,6 @@ class GalleryController extends Controller
         $selected_tag = '';
         $media = Media::orderBy('created_at','desc')->get();
         $alltag = GalleryTag::orderBy('created_at','desc')->get();
-        $allcategory = GalleryHelper::get_all_category();
-        $allparent = GalleryHelper::get_category_parent();
         $meta_desc = '';
         $meta_title = '';
         $meta_keyword = '';
@@ -243,20 +227,10 @@ class GalleryController extends Controller
             $images = Media::whereIn('id', $ids)->get();
 
             $alltag = GalleryTag::get();
-            $galleryTag = GalleryTagRelation::where('gallery_id', $id)->first();
-            $selected_tag_id = json_decode($galleryTag->tag_id);
-            $selected_tag = array();
-            if (count($selected_tag_id) > 0) {
-                foreach ($selected_tag_id as $key) {
-                    $tag = GalleryTag::where('id', $key)->first()->id;
-                    $selected_tag[] = $tag;
-                }
-            }
+            $selected_tag = GalleryHelper::get_gallery_tag($gallery->id, 'id');
 
             $media = Media::orderBy('created_at','desc')->get();
 
-            $allcategory = GalleryHelper::get_all_category($gallery->id);
-            $allparent = GalleryHelper::get_category_parent();
             $option = json_decode($gallery->option);
             $meta_desc = $option->meta_desc;
             $meta_title = $option->meta_title;
@@ -265,7 +239,7 @@ class GalleryController extends Controller
             $published_at = $gallery->published_at;
             $featured_img = $gallery->featured_img;
 
-            return view('gallery::admin.gallery_form')->with(['item_id' => $id, 'page_meta_title' => $page_meta_title, 'act' => $act, 'action' => $action, 'gallery' => $gallery , 'title' => $title, 'images' => $images, 'alltag' => $alltag, 'selected_tag' => $selected_tag, 'allcategory' => $allcategory, 'media' => $media, 'allparent' => $allparent, 'meta_desc' => $meta_desc, 'meta_title' => $meta_title, 'meta_keyword' => $meta_keyword, 'status' => $status, 'published_at' => $published_at, 'featured_img' => $featured_img]);
+            return view('gallery::admin.gallery_form')->with(['item_id' => $id, 'page_meta_title' => $page_meta_title, 'act' => $act, 'action' => $action, 'gallery' => $gallery , 'title' => $title, 'images' => $images, 'alltag' => $alltag, 'selected_tag' => $selected_tag, 'media' => $media, 'meta_desc' => $meta_desc, 'meta_title' => $meta_title, 'meta_keyword' => $meta_keyword, 'status' => $status, 'published_at' => $published_at, 'featured_img' => $featured_img]);
         } else {
             return redirect($this->prefix)->with(['msg' => 'gallery Not Found', 'status' => 'danger']);
         }

@@ -51,18 +51,9 @@ class GalleryHelper
     public static function get_all_category($gallery_id = ''){
         $maincategory = GalleryCategory::where('parent', null)->get(); 
         $allcategory = '';
-        $selected_cat = array();
 
         if ($gallery_id > 0) {
-            $galleryCategory = GalleryCategoryRelation::where('gallery_id', $gallery_id)->first();
-            $selected_cat_id = json_decode($galleryCategory->category_id);
-
-            if (count($selected_cat_id) > 0) {
-                foreach ($selected_cat_id as $key) {
-                    $category = GalleryCategory::where('id', $key)->first()->id;
-                    $selected_cat[] = $category;
-                }   
-            }
+            $selected_cat = GalleryHelper::get_gallery_category($gallery_id, 'id');
         } 
 
         foreach ($maincategory as $main) {
@@ -77,6 +68,51 @@ class GalleryHelper
         }
 
         return $allcategory;
+    }
+
+    /**
+     * Get all gallery categories.
+     * @param  $gallery_id
+     * @return Response
+     */
+    public static function get_gallery_category($gallery_id, $select = ''){
+        $GalleryCategory = GalleryCategoryRelation::where('gallery_id', $gallery_id)->first();
+        $selected_cat_id = json_decode($GalleryCategory->category_id);
+
+        if (count($selected_cat_id) > 0) {
+            foreach ($selected_cat_id as $key) {
+                if ($select != '') {
+                    $category = GalleryCategory::where('id', $key)->first()->$select;
+                } else {
+                    $category = GalleryCategory::where('id', $key)->first();
+                }
+                $selected_cat[] = $category;
+            }   
+        }
+
+        return $selected_cat;
+    }
+
+    /**
+     * Get all gallery tags.
+     * @param  $gallery_id
+     * @return Response
+     */
+    public static function get_gallery_tag($gallery_id, $select = '' ){
+        $GalleryTag = json_decode(GalleryTagRelation::where('gallery_id', $gallery_id)->first()->tag_id);
+        $tag = array();
+        if (count($GalleryTag) > 0) {
+            foreach ($GalleryTag as $GalleryTag) {
+                if ($select != '') {
+                    $get = GalleryTag::where('id', $GalleryTag)->first()->$select;   
+                } else {
+                    $get = GalleryTag::where('id', $GalleryTag)->first();   
+                }
+                $tag[] = $get;
+            }
+        }
+
+        return $tag;
     }
 
     /**
