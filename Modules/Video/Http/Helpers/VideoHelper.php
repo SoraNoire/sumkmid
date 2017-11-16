@@ -51,18 +51,9 @@ class VideoHelper
     public static function get_all_category($video_id = ''){
         $maincategory = VideoCategory::where('parent', null)->get(); 
         $allcategory = '';
-        $selected_cat = array();
 
         if ($video_id > 0) {
-            $videoCategory = VideoCategoryRelation::where('video_id', $video_id)->first();
-            $selected_cat_id = json_decode($videoCategory->category_id);
-
-            if (count($selected_cat_id) > 0) {
-                foreach ($selected_cat_id as $key) {
-                    $category = VideoCategory::where('id', $key)->first()->id;
-                    $selected_cat[] = $category;
-                }   
-            }
+            $selected_cat = VideoHelper::get_video_category($video_id, 'id');
         } 
 
         foreach ($maincategory as $main) {
@@ -77,6 +68,51 @@ class VideoHelper
         }
 
         return $allcategory;
+    }
+
+    /**
+     * Get all video categories.
+     * @param  $video_id
+     * @return Response
+     */
+    public static function get_video_category($video_id, $select = ''){
+        $VideoCategory = VideoCategoryRelation::where('video_id', $video_id)->first();
+        $selected_cat_id = json_decode($VideoCategory->category_id);
+
+        if (count($selected_cat_id) > 0) {
+            foreach ($selected_cat_id as $key) {
+                if ($select != '') {
+                    $category = VideoCategory::where('id', $key)->first()->$select;
+                } else {
+                    $category = VideoCategory::where('id', $key)->first();
+                }
+                $selected_cat[] = $category;
+            }   
+        }
+
+        return $selected_cat;
+    }
+
+    /**
+     * Get all video tags.
+     * @param  $video_id
+     * @return Response
+     */
+    public static function get_video_tag($video_id, $select = '' ){
+        $VideoTag = json_decode(VideoTagRelation::where('video_id', $video_id)->first()->tag_id);
+        $tag = array();
+        if (count($VideoTag) > 0) {
+            foreach ($VideoTag as $VideoTag) {
+                if ($select != '') {
+                    $get = VideoTag::where('id', $VideoTag)->first()->$select;   
+                } else {
+                    $get = VideoTag::where('id', $VideoTag)->first();   
+                }
+                $tag[] = $get;
+            }
+        }
+
+        return $tag;
     }
 
     /**
