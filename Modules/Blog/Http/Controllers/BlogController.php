@@ -51,21 +51,8 @@ class BlogController extends Controller
         $page_meta_title = 'Single Post';
         $post = Posts::where('slug', $slug)->first();
         if (isset($post)) {
-            $PostTag = json_decode(PostTag::where('post_id', $post->id)->first()->tag_id);
-            $tag = array();
-            if (count($tag) > 0) {
-                foreach ($PostTag as $PostTag) {
-                    $tag[] = tag::where('id', $PostTag)->first();
-                }
-            }
-
-            $PostCategory = json_decode(PostCategory::where('post_id', $post->id)->first()->category_id);
-            $category = array();
-            if (count($category) > 0) {
-                foreach ($PostCategory as $PostCategory) {
-                    $category[] = Category::where('id', $PostCategory)->first();
-                }
-            }
+            $tag = PostHelper::get_post_tag($post->id);
+            $category = PostHelper::get_post_category($post->id);
 
             $option = json_decode($post->option);
             $files = $option->files;
@@ -93,6 +80,10 @@ class BlogController extends Controller
         $direction = $order['dir'] ?? 'desc';
         
         $query = Posts::orderBy($col,$direction);
+        $search = $request->search['value'];
+        if (isset($search)) {
+            $query = $query->where('title', 'like', '%'.$search.'%');   
+        }
         $output['data'] = $query->get();
         $output['recordsTotal'] = $query->count();
         $output['recordsFiltered'] = $output['recordsTotal'];
@@ -196,7 +187,6 @@ class BlogController extends Controller
             $store->slug = $slug;
             $store->body = $body;
             $store->featured_img = $featured_img;
-            $store->featured_img = $featured_img;
             $store->author = 1;
             $store->status = $status;
             $store->option = $option;
@@ -231,31 +221,10 @@ class BlogController extends Controller
             $title = $post->title;
             $body = $post->body;
             $alltag = Tag::get();
-            $PostTag = PostTag::where('post_id', $id)->first();
-            $selected_tag_id = json_decode($PostTag->tag_id);
-            $selected_tag = array();
-            if (count($selected_tag_id) > 0) {
-                foreach ($selected_tag_id as $key) {
-                    $tag = Tag::where('id', $key)->first()->id;
-                    $selected_tag[] = $tag;
-                }
-            }
+            $selected_tag = PostHelper::get_post_tag($post->id, 'id');
 
             $featured_img = $post->featured_img;
             $media = Media::orderBy('created_at','desc')->get();
-
-            $PostCategory = PostCategory::where('post_id', $id)->first();
-            $selected_cat_id = json_decode($PostCategory->category_id);
-            $selected_cat = array();
-            if (count($selected_cat_id) > 0) {
-                foreach ($selected_cat_id as $key) {
-                    $category = Category::where('id', $key)->first()->id;
-                    $selected_cat[] = $category;
-                }
-            }
-
-            $allcategory = PostHelper::get_all_category($post->id);
-            $allparent = PostHelper::get_category_parent();
             $option = json_decode($post->option);
             $files = $option->files;
             $meta_desc = $option->meta_desc;
@@ -263,8 +232,9 @@ class BlogController extends Controller
             $meta_keyword = $option->meta_keyword;
             $status = $post->status;
             $published_at = $post->published_at;
+            $item_id = $post->id;
 
-            return view('blog::admin.post_form')->with(['page_meta_title' => $page_meta_title, 'act' => $act, 'action' => $action, 'post' => $post , 'title' => $title, 'body' => $body, 'alltag' => $alltag, 'selected_tag' => $selected_tag, 'allcategory' => $allcategory, 'media' => $media, 'featured_img' => $featured_img, 'allparent' => $allparent, 'meta_desc' => $meta_desc, 'meta_title' => $meta_title, 'meta_keyword' => $meta_keyword, 'status' => $status, 'published_at' => $published_at, 'files' => $files]);
+            return view('blog::admin.post_form')->with(['item_id' => $item_id, 'page_meta_title' => $page_meta_title, 'act' => $act, 'action' => $action, 'post' => $post , 'title' => $title, 'body' => $body, 'alltag' => $alltag, 'selected_tag' => $selected_tag, 'media' => $media, 'featured_img' => $featured_img, 'meta_desc' => $meta_desc, 'meta_title' => $meta_title, 'meta_keyword' => $meta_keyword, 'status' => $status, 'published_at' => $published_at, 'files' => $files]);
         } else {
             return redirect($this->prefix.'posts')->with(['msg' => 'Post Not Found', 'status' => 'danger']);
         }
@@ -454,6 +424,10 @@ class BlogController extends Controller
         $direction = $order['dir'] ?? 'desc';
         
         $query = Category::orderBy($col,$direction);
+        $search = $request->search['value'];
+        if (isset($search)) {
+            $query = $query->where('name', 'like', '%'.$search.'%');   
+        }
         $output['data'] = $query->get();
         $output['recordsTotal'] = $query->count();
         $output['recordsFiltered'] = $output['recordsTotal'];
@@ -534,7 +508,8 @@ class BlogController extends Controller
             $maincategory = Category::where('parent', null)->get(); 
             $allparent = PostHelper::get_category_parent($category->id);
             $name = $category->name;
-            return view('blog::admin.category_form')->with(['page_meta_title' => $page_meta_title, 'act' => $act, 'action' => $action, 'category' => $category, 'name' => $name, 'allparent' => $allparent]);
+            $category_id = $category->id;
+            return view('blog::admin.category_form')->with(['category_id' => $category_id, 'page_meta_title' => $page_meta_title, 'act' => $act, 'action' => $action, 'category' => $category, 'name' => $name, 'allparent' => $allparent]);
         }else {
             return redirect($this->prefix.'category')->with(['msg' => 'Category Not Found', 'status' => 'danger']);
         }
@@ -604,6 +579,10 @@ class BlogController extends Controller
         $direction = $order['dir'] ?? 'desc';
         
         $query = Tag::orderBy($col,$direction);
+        $search = $request->search['value'];
+        if (isset($search)) {
+            $query = $query->where('name', 'like', '%'.$search.'%');   
+        }
         $output['data'] = $query->get();
         $output['recordsTotal'] = $query->count();
         $output['recordsFiltered'] = $output['recordsTotal'];
@@ -716,13 +695,18 @@ class BlogController extends Controller
         $order = $request->order[0];
         $col = $request->columns["{$order['column']}"]['data'] ?? 'created_at'; 
         $direction = $order['dir'] ?? 'desc';
-        
-        $query = Media::orderBy($col,$direction);;
-        $output['data'] = $query->get();
-        $output['recordsTotal'] = $query->count();
+
+        $medias = Media::orderBy($col,$direction);
+        $output['recordsTotal'] = $medias->count();
+        $search = $request->search['value'];
+        if (isset($search)) {
+            $medias = $medias->where('name', 'like', '%'.$search.'%');   
+        }
+        $output['data'] = $medias->offset($request['start'])->limit($request['length'])->get();
         $output['recordsFiltered'] = $output['recordsTotal'];
         $output['draw'] = intval($request->input('draw'));
-        $output['length'] = 10;
+        $output['length'] = $request['length'];
+        $output['start']=$request['start'];
 
         return $output;
     }
@@ -844,6 +828,10 @@ class BlogController extends Controller
         $direction = $order['dir'] ?? 'desc';
         
         $query = Page::orderBy($col,$direction);
+        $search = $request->search['value'];
+        if (isset($search)) {
+            $query = $query->where('title', 'like', '%'.$search.'%');   
+        }
         $output['data'] = $query->get();
         $output['recordsTotal'] = $query->count();
         $output['recordsFiltered'] = $output['recordsTotal'];

@@ -184,6 +184,9 @@ return [
 
         // lara collective
         Collective\Html\HtmlServiceProvider::class,
+        // custom shortcode
+        Webwizo\Shortcodes\ShortcodesServiceProvider::class,
+        Modules\Blog\Providers\ShortcodesServiceProvider::class,
 
     ],
 
@@ -236,6 +239,7 @@ return [
         'Module' => Nwidart\Modules\Facades\Module::class,
         'Image' => Intervention\Image\Facades\Image::class,
         'PostHelper' => Modules\Blog\Http\Helpers\PostHelper::class,
+        'Shortcode' => Webwizo\Shortcodes\Facades\Shortcode::class,
 
         // lara collective
         'Form' => Collective\Html\FormFacade::class,

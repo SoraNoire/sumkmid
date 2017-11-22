@@ -52,21 +52,8 @@ class VideoController extends Controller
         $page_meta_title = 'Single Video';
         $video = Video::where('slug', $slug)->first();
         if (isset($video)) {
-            $videoTag = json_decode(VideoTagRelation::where('video_id', $video->id)->first()->tag_id);
-            $tag = array();
-            if (count($tag) > 0) {
-                foreach ($videoTag as $videoTag) {
-                    $tag[] = VideoTag::where('id', $videoTag)->first();
-                }
-            }
-
-            $videoCategory = json_decode(VideoCategoryRelation::where('video_id', $video->id)->first()->category_id);
-            $category = array();
-            if (count($category) > 0) {
-                foreach ($videoCategory as $videoCategory) {
-                    $category[] = VideoCategory::where('id', $videoCategory)->first();
-                }
-            }
+            $tag = VideoHelper::get_video_tag($video->id);
+            $category = VideoHelper::get_video_category($video->id);
 
             $option = json_decode($video->option);
             $meta_desc = $option->meta_desc;
@@ -93,6 +80,10 @@ class VideoController extends Controller
         $direction = $order['dir'] ?? 'desc';
         
         $query = Video::orderBy($col,$direction);
+        $search = $request->search['value'];
+        if (isset($search)) {
+            $query = $query->where('title', 'like', '%'.$search.'%');   
+        }
         $output['data'] = $query->get();
         $output['recordsTotal'] = $query->count();
         $output['recordsFiltered'] = $output['recordsTotal'];
@@ -118,8 +109,6 @@ class VideoController extends Controller
         $featured_img = '';
         $media = Media::orderBy('created_at','desc')->get();
         $alltag = VideoTag::orderBy('created_at','desc')->get();
-        $allcategory = VideoHelper::get_all_category();
-        $allparent = VideoHelper::get_category_parent();
         $video_url = '';
         $meta_desc = '';
         $meta_title = '';
@@ -127,7 +116,7 @@ class VideoController extends Controller
         $status = 1;
         $published_at = 'immediately';
 
-        return view('video::admin.video_form')->with(['page_meta_title' => $page_meta_title, 'act' => $act, 'action' => $action, 'title' => $title, 'body' => $body, 'alltag' => $alltag, 'selected_tag' => $selected_tag, 'allcategory' => $allcategory, 'media' => $media, 'featured_img' => $featured_img, 'allparent' => $allparent, 'meta_desc' => $meta_desc, 'meta_title' => $meta_title, 'meta_keyword' => $meta_keyword, 'status' => $status, 'published_at' => $published_at, 'video_url' => $video_url]);
+        return view('video::admin.video_form')->with(['page_meta_title' => $page_meta_title, 'act' => $act, 'action' => $action, 'title' => $title, 'body' => $body, 'alltag' => $alltag, 'selected_tag' => $selected_tag, 'media' => $media, 'featured_img' => $featured_img, 'meta_desc' => $meta_desc, 'meta_title' => $meta_title, 'meta_keyword' => $meta_keyword, 'status' => $status, 'published_at' => $published_at, 'video_url' => $video_url]);
     }
 
     /**
@@ -226,39 +215,19 @@ class VideoController extends Controller
             $body = $video->body;
             $video_url = $video->video_url;
             $alltag = VideoTag::get();
-            $videoTag = VideoTagRelation::where('video_id', $id)->first();
-            $selected_tag_id = json_decode($videoTag->tag_id);
-            $selected_tag = array();
-            if (count($selected_tag_id) > 0) {
-                foreach ($selected_tag_id as $key) {
-                    $tag = VideoTag::where('id', $key)->first()->id;
-                    $selected_tag[] = $tag;
-                }
-            }
+            $selected_tag = VideoHelper::get_video_category($video->id, 'id');
 
             $featured_img = $video->featured_img;
             $media = Media::orderBy('created_at','desc')->get();
-
-            $videoCategory = VideoCategoryRelation::where('video_id', $id)->first();
-            $selected_cat_id = json_decode($videoCategory->category_id);
-            $selected_cat = array();
-            if (count($selected_cat_id) > 0) {
-                foreach ($selected_cat_id as $key) {
-                    $category = VideoCategory::where('id', $key)->first()->id;
-                    $selected_cat[] = $category;
-                }
-            }
-
-            $allcategory = VideoHelper::get_all_category($video->id);
-            $allparent = VideoHelper::get_category_parent();
             $option = json_decode($video->option);
             $meta_desc = $option->meta_desc;
             $meta_title = $option->meta_title;
             $meta_keyword = $option->meta_keyword;
             $status = $video->status;
             $published_at = $video->published_at;
+            $item_id = $video->id;
 
-            return view('video::admin.video_form')->with(['page_meta_title' => $page_meta_title, 'act' => $act, 'action' => $action, 'video' => $video , 'title' => $title, 'body' => $body, 'alltag' => $alltag, 'selected_tag' => $selected_tag, 'allcategory' => $allcategory, 'media' => $media, 'featured_img' => $featured_img, 'allparent' => $allparent, 'meta_desc' => $meta_desc, 'meta_title' => $meta_title, 'meta_keyword' => $meta_keyword, 'status' => $status, 'published_at' => $published_at, 'video_url' => $video_url]);
+            return view('video::admin.video_form')->with(['item_id' => $item_id, 'page_meta_title' => $page_meta_title, 'act' => $act, 'action' => $action, 'video' => $video , 'title' => $title, 'body' => $body, 'alltag' => $alltag, 'selected_tag' => $selected_tag, 'media' => $media, 'featured_img' => $featured_img, 'meta_desc' => $meta_desc, 'meta_title' => $meta_title, 'meta_keyword' => $meta_keyword, 'status' => $status, 'published_at' => $published_at, 'video_url' => $video_url]);
         } else {
             return redirect($this->prefix)->with(['msg' => 'video Not Found', 'status' => 'danger']);
         }
@@ -340,7 +309,7 @@ class VideoController extends Controller
      */
     public function destroy_video($id)
     {
-        $this->VideoHelper->delete_tag($id);
+        $this->VideoHelper->delete_video($id);
     }
 
     /**
@@ -352,7 +321,7 @@ class VideoController extends Controller
     {
         $id = json_decode($request->id);
         foreach ($id as $id) {
-            $this->VideoHelper->delete_tag($id, 'bulk');
+            $this->VideoHelper->delete_video($id, 'bulk');
         }
         return redirect($this->prefix)->with(['msg' => 'Delete Success', 'status' => 'success']);
     }
@@ -378,6 +347,10 @@ class VideoController extends Controller
         $direction = $order['dir'] ?? 'desc';
         
         $query = VideoCategory::orderBy($col,$direction);
+        $search = $request->search['value'];
+        if (isset($search)) {
+            $query = $query->where('name', 'like', '%'.$search.'%');   
+        }
         $output['data'] = $query->get();
         $output['recordsTotal'] = $query->count();
         $output['recordsFiltered'] = $output['recordsTotal'];
@@ -432,7 +405,7 @@ class VideoController extends Controller
             $parent = null;
         }
         $slug = PostHelper::make_slug($name);
-        $store = new Category;
+        $store = new VideoCategory;
         $store->name = $name;
         $store->slug = $slug;
         $store->parent = $parent;
@@ -458,7 +431,8 @@ class VideoController extends Controller
             $maincategory = VideoCategory::where('parent', null)->get(); 
             $allparent = VideoHelper::get_category_parent($category->id);
             $name = $category->name;
-            return view('video::admin.category_form')->with(['page_meta_title' => $page_meta_title, 'act' => $act, 'action' => $action, 'category' => $category, 'name' => $name, 'allparent' => $allparent]);
+            $category_id = $category->id;
+            return view('video::admin.category_form')->with(['category_id' => $category_id, 'page_meta_title' => $page_meta_title, 'act' => $act, 'action' => $action, 'category' => $category, 'name' => $name, 'allparent' => $allparent]);
         }else {
             return redirect($this->prefix.'category')->with(['msg' => 'Category Not Found', 'status' => 'danger']);
         }
@@ -528,6 +502,10 @@ class VideoController extends Controller
         $direction = $order['dir'] ?? 'desc';
         
         $query = VideoTag::orderBy($col,$direction);
+        $search = $request->search['value'];
+        if (isset($search)) {
+            $query = $query->where('name', 'like', '%'.$search.'%');   
+        }
         $output['data'] = $query->get();
         $output['recordsTotal'] = $query->count();
         $output['recordsFiltered'] = $output['recordsTotal'];
@@ -632,7 +610,7 @@ class VideoController extends Controller
     }
 
     /**
-     * Get all video category for list on post form.
+     * Get all video category for list on video form.
      * @param  $post_id
      * @return Response
      */

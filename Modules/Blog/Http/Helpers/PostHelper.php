@@ -1,7 +1,7 @@
 <?php
 namespace Modules\Blog\Http\Helpers;
 
-use Modules\Blog\Entities\Post;
+use Modules\Blog\Entities\Posts;
 use Modules\Blog\Entities\Category;
 use Modules\Blog\Entities\PostCategory;
 use Modules\Blog\Entities\Tag;
@@ -72,18 +72,9 @@ class PostHelper
     public static function get_all_category($post_id = ''){
         $maincategory = Category::where('parent', null)->get(); 
         $allcategory = '';
-        $selected_cat = array();
 
         if ($post_id > 0) {
-            $PostCategory = PostCategory::where('post_id', $post_id)->first();
-            $selected_cat_id = json_decode($PostCategory->category_id);
-
-            if (count($selected_cat_id) > 0) {
-                foreach ($selected_cat_id as $key) {
-                    $category = Category::where('id', $key)->first()->id;
-                    $selected_cat[] = $category;
-                }   
-            }
+            $selected_cat = PostHelper::get_post_category($post_id, 'id');
         } 
 
         foreach ($maincategory as $main) {
@@ -100,6 +91,56 @@ class PostHelper
         return $allcategory;
     }
 
+    /**
+     * Get all post categories.
+     * @param  $post_id
+     * @return Response
+     */
+    public static function get_post_category($post_id, $select = ''){
+        $PostCategory = PostCategory::where('post_id', $post_id)->first();
+        $selected_cat_id = json_decode($PostCategory->category_id);
+
+        if (count($selected_cat_id) > 0) {
+            foreach ($selected_cat_id as $key) {
+                if ($select != '') {
+                    $category = Category::where('id', $key)->first()->$select;
+                } else {
+                    $category = Category::where('id', $key)->first();
+                }
+                $selected_cat[] = $category;
+            }   
+        }
+
+        return $selected_cat;
+    }
+
+    /**
+     * Get all post tags.
+     * @param  $post_id
+     * @return Response
+     */
+    public static function get_post_tag($post_id, $select = '' ){
+        $PostTag = json_decode(PostTag::where('post_id', $post_id)->first()->tag_id);
+        $tag = array();
+        if (count($PostTag) > 0) {
+            foreach ($PostTag as $PostTag) {
+                if ($select != '') {
+                    $get = Tag::where('id', $PostTag)->first()->$select;   
+                } else {
+                    $get = Tag::where('id', $PostTag)->first();   
+                }
+                $tag[] = $get;
+            }
+        }
+
+        return $tag;
+    }
+
+    /**
+     * Get full link file
+     * @param  $url, $path
+     * @return Response
+     */
     public static function getLinkFile($url, $path){
         $region = config('filesystems.disks')['s3']['region'];
         $bucket = config('filesystems.disks')['s3']['bucket'];
@@ -107,17 +148,32 @@ class PostHelper
         return 'https://s3-'.$region.'.amazonaws.com/'.$bucket.'/shbtm/'.$path.'/'.$url;
     }
 
+    /**
+     * Store file to s3
+     * @param  $file, $path, $fileName
+     * @return Response
+     */
     public static function putFile($file, $path, $fileName){
         $s3 = \Storage::disk('s3');
         $s3->putFileAs('/shbtm/'.$path, new File($file), $fileName, 'public');
     }
 
+    /**
+     * Delete file from s3.
+     * @param  $file, $path
+     * @return Response
+     */
     public static function deleteFile($file, $path){
         $s3 = \Storage::disk('s3');
         $filePath = '/shbtm/'.$path.'/' . $file;
         $s3->delete($filePath);
     }
 
+    /**
+     * Get full link media.
+     * @param  $url, $path, $size = ''
+     * @return Response
+     */
     public static function getLinkImage($url, $path, $size = ''){
         $region = config('filesystems.disks')['s3']['region'];
         $bucket = config('filesystems.disks')['s3']['bucket'];
@@ -138,6 +194,11 @@ class PostHelper
         return 'https://s3-'.$region.'.amazonaws.com/'.$bucket.'/shbtm/'.$path.'/'.$imageUrl;
     }
 
+    /**
+     * Store file to s3.
+     * @param  $file, $path, $fileName
+     * @return Response
+     */
     public static function putImage($file, $path, $fileName){
         $imgObject = Image::make($file);
         $ext = $file->getClientOriginalExtension();
@@ -179,7 +240,12 @@ class PostHelper
         // $filePath = '/'.$path.'/' . $fileName. '-'. $thumb.'.'.$ext;
         // $s3->put($filePath, $imgThumb->__toString(), 'public');
     }
-
+    
+    /**
+     * Delete media from s3.
+     * @param  $file, $path
+     * @return Response
+     */
     public static function deleteImage($file, $path){
         $large = 1200;
         $medium = 800;
@@ -206,7 +272,7 @@ class PostHelper
      * @return Response
      */
     public function delete_post($id, $is_bulk = ''){
-        $post = Post::where('id', $id)->first();
+        $post = Posts::where('id', $id)->first();
         if (isset($post)) {
             DB::beginTransaction();
             try {

@@ -14,12 +14,17 @@ use Modules\Blog\Entities\PostCategory;
 use Modules\Blog\Entities\PostTag;
 use Modules\Blog\Entities\Media;
 use Carbon\Carbon;
+use Shortcode;
 
 class FrontController extends Controller{
     /**
      * Display a listing of the resource.
      * @return Response
      */
+    
+    public function __construct(){
+      Shortcode::enable();
+    }
 
     // post controller
     public function index(){
@@ -45,7 +50,7 @@ class FrontController extends Controller{
                   $category[] = Category::where('id', $PostCategory)->first();
               }
           }
-          return view('blog::pages.blog.single')->with(['meta_title' => $meta_title, 'post' => $post, 'tag' => $tag, 'category' => $category]);
+          return view('blog::pages.blog.single')->with(['meta_title' => $meta_title, 'post' => $post, 'tag' => $tag, 'category' => $category])->withShortcodes();
       } else {
           return redirect('/')->with('msg', 'Post Not Found')->with('status', 'danger');
       }
