@@ -187,6 +187,7 @@ return [
         // custom shortcode
         Webwizo\Shortcodes\ShortcodesServiceProvider::class,
         Modules\Blog\Providers\ShortcodesServiceProvider::class,
+        App\Providers\SSOServiceProvider::class,
 
     ],
 

@@ -32,7 +32,7 @@ class AuthController extends Controller
     public function login()
     {
         // dd( SSOHelper::Auth() );
-        if ( SSOHelper::Auth())
+        if ( SSOHelper::$Auth)
         {
             return Redirect( route('auth') );
         }

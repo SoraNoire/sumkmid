@@ -100,8 +100,11 @@ return [
     ],
     
     'md_sso' => [
-        'SERVER' => env('MD_SSO_SERVER','127.0.0.1'),
-        'APP_KEY' => env('MD_APP_KEY','')
+        'APP_SERVER' => env('MD_SSO_SERVER','127.0.0.1'),
+        'APP_ID' => env('MD_APP_ID',''),
+        'APP_SECRET' => env('MD_APP_SECRET','')
     ],
+    'ssocookie' => env('SSO_COOKIE_NAME','app_session'),
+
 
 ];
