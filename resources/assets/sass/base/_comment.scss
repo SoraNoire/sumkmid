@@ -1,0 +1,54 @@
+.post-comments{
+  .comment-box{
+    position: relative;
+  }
+  ul{
+    li{
+      list-style: none;
+    }
+    .comment{
+      list-style: none;
+      .comment-name{
+        font-weight: 700;
+      }
+      .comment-image{
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        overflow: hidden;
+        display: inline-block;
+        vertical-align: top;
+        float: left;
+        img{
+          width: 100%;
+        }
+      }
+      .comment-content{
+        width: calc(100% - 55px);
+        float: left;
+        margin: 5px 0px 20px 15px;
+        display: inline-block;
+        vertical-align: top;
+        .comment-action{
+          display: block;
+          span{
+            font-size: .8em;
+            font-weight: $bold;
+            &:hover{
+              text-decoration: underline;
+              cursor: pointer;
+            }
+          }
+        }
+        .comment-value{
+          p{
+            margin-bottom: 5px;
+          }
+        }
+      }
+    }
+  }
+}
+.sublvlform{
+
+}

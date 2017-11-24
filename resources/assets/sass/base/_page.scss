@@ -1,0 +1,42 @@
+body{
+	margin: unset;
+}
+:after, :before {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.container{
+	@include grid-container;
+	max-width: $defaultContainer;
+	padding: 0px ($gutter);
+	margin: auto;
+}
+.container-md{
+	@include grid-container;
+	max-width: $mediumContainer;
+	padding: 0px ($gutter);
+	margin: auto;
+}
+.container-full{
+	@include grid-container;
+	max-width: 100%;
+	padding: 0px ($gutter);
+	margin: auto;
+}
+.content{
+	display: block;
+	clear: both;
+}
+.content-read{
+	display: block;
+	clear: both;
+}
+.row{
+	margin:0 (-$gutter);
+	display: block;
+	position: relative;
+	clear: both;
+}
+
+

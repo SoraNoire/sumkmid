@@ -56,7 +56,51 @@ class PublicController extends Controller
 		$next = urlencode(url()->previous()) ?? '/';
 		$appid = env('MD_APP_ID');
         return redirect("http://authdev.mdirect.id/client_login?appid=$appid&next=$next")->send();
+	}
 
+	/**
+     * Show homepage.
+     * @return Response
+     */
+	public function home(){
+        $var['page'] = "Home";
+		return view('page.home')->with(['var' => $var]);
+	}
+
+	/**
+     * Show kontak page.
+     * @return Response
+     */
+	public function kontak(){
+        $var['page'] = "Kontak";
+		return view('kontak')->with(['var' => $var]);
+	}
+
+	/**
+     * Show mentor page.
+     * @return Response
+     */
+	public function mentor(){
+        $var['page'] = "Mentor";
+		return view('mentor')->with(['var' => $var]);
+	}
+
+	/**
+     * Show event page.
+     * @return Response
+     */
+	public function event(){
+        $var['page'] = "Event";
+		return view('event')->with(['var' => $var]);
+	}
+
+	/**
+     * Show video page.
+     * @return Response
+     */
+	public function video(){
+        $var['page'] = "Video";
+		return view('video')->with(['var' => $var]);
 	}
 
 }

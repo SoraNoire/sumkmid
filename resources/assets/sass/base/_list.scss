@@ -1,0 +1,15 @@
+//unordered list
+ul {
+	list-style: disc;
+}
+ol, ul {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+li > ul, li > ol {
+	margin-bottom: 0;
+	margin-left: 1.5em;
+}
+ol {
+	list-style: decimal;
+}

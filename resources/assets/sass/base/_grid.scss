@@ -1,0 +1,143 @@
+.col-1{
+  @include grid-column(1);
+}
+.col-2{
+  @include grid-column(2);
+}
+.col-3{
+  @include grid-column(3);
+}
+.col-4{
+  @include grid-column(4);
+}
+.col-5{
+  @include grid-column(5);
+}
+.col-6{
+  @include grid-column(6);
+}
+.col-7{
+  @include grid-column(7);
+}
+.col-8{
+  @include grid-column(8);
+}
+.col-9{
+  @include grid-column(9);
+}
+.col-10{
+  @include grid-column(10);
+}
+.col-11{
+  @include grid-column(11);
+}
+.col-12{
+  @include grid-column(12);
+}
+.col-1,.col-2,.col-3,.col-4,.col-5,.col-6,.col-7,.col-8,.col-9,.col-10,.col-11,.col-12{
+  position: relative;
+  padding : 0 ($gutter);
+  margin-left: 0px;
+}
+$custom-grid-1: (
+  columns: 1,
+  gutter: $gutter,
+);
+$custom-grid-2: (
+  columns: 2,
+  gutter: $gutter,
+);
+$custom-grid-3: (
+  columns: 3,
+  gutter: $gutter,
+);
+$custom-grid-4: (
+  columns: 4,
+  gutter: $gutter,
+);
+$custom-grid-5: (
+  columns: 5,
+  gutter: $gutter,
+);
+$custom-grid-6: (
+  columns: 6,
+  gutter: $gutter,
+);
+$custom-grid-7: (
+  columns: 7,
+  gutter: $gutter,
+);
+$custom-grid-8: (
+  columns: 8,
+  gutter: $gutter,
+);
+$custom-grid-9: (
+  columns: 9,
+  gutter: $gutter,
+);
+$custom-grid-10: (
+  columns: 10,
+  gutter: $gutter,
+);
+$custom-grid-11: (
+  columns: 11,
+  gutter: $gutter,
+);
+$custom-grid-12: (
+  columns: 12,
+  gutter: $gutter,
+);
+.the-row {
+  @include grid-container;
+	margin-left:-($gutter);
+  margin-right:-($gutter);
+  display: flex;
+}
+.cst-1-col {
+  @include grid-column(1, $custom-grid-1);
+  position: relative;
+}
+.cst-2-col {
+  @include grid-column(1, $custom-grid-2);
+  position: relative;
+}
+.cst-3-col {
+  @include grid-column(1, $custom-grid-3);
+  position: relative;
+}
+.cst-4-col {
+  @include grid-column(1, $custom-grid-4);
+  position: relative;
+}
+.cst-5-col {
+  @include grid-column(1, $custom-grid-5);
+  position: relative;
+}
+.cst-6-col {
+  @include grid-column(1, $custom-grid-6);
+  position: relative;
+}
+.cst-7-col {
+  @include grid-column(1, $custom-grid-7);
+  position: relative;
+}
+.cst-8-col {
+  @include grid-column(1, $custom-grid-8);
+  position: relative;
+}
+.cst-9-col {
+  @include grid-column(1, $custom-grid-9);
+  position: relative;
+}
+.cst-10-col {
+  @include grid-column(1, $custom-grid-10);
+  position: relative;
+}
+.cst-11-col {
+  @include grid-column(1, $custom-grid-11);
+  position: relative;
+}
+.cst-12-col {
+  @include grid-column(1, $custom-grid-12);
+  position: relative;
+}

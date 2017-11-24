@@ -1,0 +1,52 @@
+#heroes {
+	
+}
+
+#event {
+	
+}
+
+#video {
+	
+}
+
+#mentor {
+	
+}
+
+#forum {
+	
+}
+
+#newsletter {
+	text-align: center;
+	padding-top: 60px;
+	padding-bottom: 71px;
+	span {
+		color: #fff;
+		font-size: 16px;
+	}
+	.newsletter-form {
+		margin-top: 30px;
+		input {
+			background: #fff;
+		    border-radius: 6px 0 0 6px;
+		    border: 1px solid #d3d3d3;
+		    padding: 10px 20px;
+		    width: 450px;
+		}
+		button {
+			padding: 10px 45px;
+		    margin-left: -5px;
+		    border-radius: 0 6px 6px 0;
+		    background-color: $headerColor;
+		    color: #fff;
+		    border: 1px solid $headerColor;
+		}
+	}
+}
+
+.blue-bg {
+    background-image: url('/img/blue-bg.png');
+    background-size: cover;
+}
