@@ -36,10 +36,12 @@ Route::get('login','PublicController@login');
 Route::get('ssologin',['as'=>'ssologin','uses'=>'PublicController@ssoLogin']);
 
 
+Route::get('/', 'PublicController@home')->name('home');
+Route::get('/mentor', 'PublicController@mentor')->name('mentor');
+Route::get('/kontak', 'PublicController@kontak')->name('kontak');
+Route::get('/event', 'PublicController@event')->name('event');
+Route::get('/video', 'PublicController@video')->name('video');
 
-Route::get('/', ['as'=>'home', 'uses'=>function () {
-    return view('welcome');
-}]);
 
 // Auth::routes();
 

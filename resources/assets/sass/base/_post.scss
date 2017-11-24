@@ -1,0 +1,15 @@
+.fimg-single-post{
+  max-width: 100%;
+  margin:10px 0px;
+  text-align: center;
+  img{
+    max-width: 100%;
+  }
+  .fimg-caption{
+    width: 100%;
+    p{
+      word-wrap: break-word;
+      font-size: .8em;
+    }
+  }
+}

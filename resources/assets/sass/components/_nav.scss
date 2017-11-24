@@ -1,0 +1,40 @@
+.navWrapper{
+    width: 100%;
+    .toggleMenu{
+        &:hover{
+            ul{
+                display: block;
+            }
+        }
+    }
+    ul {
+        padding: 0;
+        margin: 0;
+        li{
+            display: inline-block;
+            padding: 12px 12px;
+            a {
+                font-size: 18px;
+                color: #fff;
+                text-decoration: none;
+            }
+        }
+        .loginButton {
+            padding: unset;
+            a{
+                font-size: 16px !important;
+                font-weight: 500;
+                line-height: 1;
+            }
+        }
+    }
+}
+.toggleMenu{
+    display: none;
+    background-color: #4C617D;
+    padding: 15px;
+    right: 0;
+    top: -15px;
+    text-align: center;
+    font-weight: $light;
+}

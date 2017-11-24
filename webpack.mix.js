@@ -35,5 +35,9 @@
   'Modules/Event/Assets/js/event.js',
   'Modules/Gallery/Assets/js/gallery.js',
   ],'public/js/index.js')
+  .combine([
+    'resources/assets/js/home.js'
+  ], 'public/js/home.js')
  .sass('Modules/Blog/Assets/scss/style.scss', 'public/css')
- .browserSync({'proxy' : 'sahabatumkm.dev',files: ['Modules/Blog/Resources/views/admin/*.php','Modules/Blog/Resources/views/layouts/*.php', 'Modules/Blog/Assets/js/*.js']});
+ .sass('resources/assets/sass/index.scss', 'public/css')
+ .browserSync({'proxy' : 'sahabatumkm.dev',files: ['Modules/Blog/Resources/views/admin/*.php','Modules/Blog/Resources/views/layouts/*.php', 'Modules/Blog/Assets/js/*.js', 'resources/views/layouts/*.php', 'resources/views/page/*.php']});
