@@ -18,6 +18,7 @@
         <div class="row" style="margin-top: 15px;">
             <div class="col-md-9">
                 <div class="form-group">
+                    <label class="control-label">Title</label>
                     <input class="form-control" type="text" name="title" value="{{ $title }}" placeholder="Enter Title Here">
                 </div>
 
