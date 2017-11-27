@@ -2,7 +2,7 @@
 namespace Modules\Blog\Http\Helpers;
 
 use Modules\Blog\Entities\Posts;
-use Modules\Blog\Entities\Category;
+use Modules\Blog\Entities\Categories;
 use Modules\Blog\Entities\PostCategory;
 use Modules\Blog\Entities\Tag;
 use Modules\Blog\Entities\PostTag;
@@ -45,13 +45,13 @@ class PostHelper
      * @return Response
      */
     public static function get_category_parent($category_id = ''){
-        $maincategory = Category::where('parent', null)->get(); 
+        $maincategory = Categories::where('parent', null)->get(); 
         $allparent = '';
         $category_parent = '';
         $allparent .= '<option value="none">None</option>';
 
         if ($category_id > 0) {
-            $category = Category::where('id', $category_id)->first();
+            $category = Categories::where('id', $category_id)->first();
             $category_parent = $category->parent;
 
         }
@@ -70,7 +70,7 @@ class PostHelper
      * @return Response
      */
     public static function get_all_category($post_id = ''){
-        $maincategory = Category::where('parent', null)->get(); 
+        $maincategory = Categories::where('parent', null)->get(); 
         $allcategory = '';
 
         if ($post_id > 0) {
@@ -80,7 +80,7 @@ class PostHelper
         foreach ($maincategory as $main) {
             $selected = in_array($main->id, $selected_cat) ? 'checked' : '';
             $allcategory .= '<li><label><input '.$selected.' name="category[]" type="checkbox" value="'.$main->id.'">'.$main->name.'</label><ul>';
-            $subcategory = Category::where('parent', $main->id)->get(); 
+            $subcategory = Categories::where('parent', $main->id)->get(); 
             foreach ($subcategory as $sub) {
                 $selected = in_array($sub->id, $selected_cat) ? 'selected' : '';
                 $allcategory .= '<li><label><input '.$selected.' name="category[]" type="checkbox" value="'.$sub->id.'">'.$sub->name.'</label></li>';
@@ -97,15 +97,15 @@ class PostHelper
      * @return Response
      */
     public static function get_post_category($post_id, $select = ''){
-        $PostCategory = PostCategory::where('post_id', $post_id)->first();
+        $PostCategory = PostCategories::where('post_id', $post_id)->first();
         $selected_cat_id = json_decode($PostCategory->category_id);
 
         if (count($selected_cat_id) > 0) {
             foreach ($selected_cat_id as $key) {
                 if ($select != '') {
-                    $category = Category::where('id', $key)->first()->$select;
+                    $category = Categories::where('id', $key)->first()->$select;
                 } else {
-                    $category = Category::where('id', $key)->first();
+                    $category = Categories::where('id', $key)->first();
                 }
                 $selected_cat[] = $category;
             }   
@@ -276,7 +276,7 @@ class PostHelper
         if (isset($post)) {
             DB::beginTransaction();
             try {
-                $post_category = PostCategory::where('post_id', $id)->first();
+                $post_category = PostCategories::where('post_id', $id)->first();
                 $post_tag = PostTag::where('post_id', $id)->first();
                 $post_category->delete();       
                 $post_tag->delete();   
@@ -303,28 +303,28 @@ class PostHelper
      * @return Response
      */
     public function delete_category($id, $is_bulk = ''){
-        $category = Category::where('id', $id)->first();
+        $category = Categories::where('id', $id)->first();
         if (isset($category)) {
             DB::beginTransaction();
             try {
-                $post_category = PostCategory::where('category_id', 'like', '%'.$id.'%')->get();
-                foreach ($post_category as $post) {
-                    $category_id = json_decode($post->category_id);
-                    $newcat = '';
-                    foreach ($category_id as $n) {
-                        if ($n != $id) {
-                            $newcat[] = $n;
-                        }
-                    }
-                    if ($newcat == '') {
-                        $post->category_id = '';    
-                    } else {
-                        $post->category_id = json_encode($newcat);
-                    }
-                    $post->update();
-                }
+                // $post_category = PostCategories::where('category_id', 'like', '%'.$id.'%')->get();
+                // foreach ($post_category as $post) {
+                //     $category_id = json_decode($post->category_id);
+                //     $newcat = '';
+                //     foreach ($category_id as $n) {
+                //         if ($n != $id) {
+                //             $newcat[] = $n;
+                //         }
+                //     }
+                //     if ($newcat == '') {
+                //         $post->category_id = '';    
+                //     } else {
+                //         $post->category_id = json_encode($newcat);
+                //     }
+                //     $post->update();
+                // }
 
-                $children = Category::where('parent', $id)->get();
+                $children = Categories::where('parent', $id)->get();
                 if (count($children) > 0) {
                     foreach ($children as $child) {
                         $child->parent = null;
@@ -338,14 +338,14 @@ class PostHelper
                 if ($is_bulk == 'bulk') {
                     // do nothing
                 } else {
-                    return redirect($this->prefix.'category')->with(['msg' => 'Deleted', 'status' => 'success'])->send();
+                    return redirect(route('categories'))->with(['msg' => 'Deleted', 'status' => 'success'])->send();
                 }
             } catch (\Exception $e) {
                 DB::rollback();
-                return redirect($this->prefix.'category')->with(['msg' => 'Delete Error', 'status' => 'danger'])->send();
+                return redirect(route('categories'))->with(['msg' => 'Delete Error', 'status' => 'danger'])->send();
             }
         }else {
-            return redirect($this->prefix.'category')->with(['msg' => 'Category Not Found', 'status' => 'danger'])->send();
+            return redirect(route('categories'))->with(['msg' => 'Category Not Found', 'status' => 'danger'])->send();
         }
     }
 

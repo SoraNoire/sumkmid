@@ -61,6 +61,9 @@
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
+            
+            <li class="{{ ($page_meta_title ?? '') == 'Categories' ? 'active' : ''}}"><a href="{{ route('categories') }}">Categories</a></li>
+
             <li class="{{ ($page_meta_title ?? '') == 'Events' ? 'active' : ''}}"><a href="{{ url('admin/blog/event') }}">Event</a></li>
             <li class="{{ ($page_meta_title ?? '') == 'Event Category' ? 'active' : ''}}"><a href="{{ url('admin/blog/event/category') }}">Event Category</a></li>
             <li class="{{ ($page_meta_title ?? '') == 'Page' ? 'active' : ''}}"><a href="{{ url('admin/blog/pages') }}">Pages</a></li>

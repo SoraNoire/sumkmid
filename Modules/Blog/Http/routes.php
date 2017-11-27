@@ -29,6 +29,19 @@ Route::group(['middleware' => ['web','admin'], 'prefix' => 'admin/blog', 'namesp
     Route::post('/update-category/{id}', 'BlogController@update_category');
     Route::post('/bulk-delete-category/', 'BlogController@bulk_delete_category');
 
+
+    // category
+
+    Route::get('/categories', ['as'=> 'categories', 'uses' => 'BlogController@categories']);
+    Route::get('/ajaxcategories', ['as'=> 'ajaxcategories', 'uses' => 'BlogController@ajaxCategories']);
+    Route::get('/category/add', ['as'=> 'addcategory', 'uses' => 'BlogController@addCategory']);
+    Route::post('/category/add', ['as'=> 'storecategory', 'uses' => 'BlogController@addCategoryPost']);
+    Route::get('/category/{id}/view', ['as'=> 'viewcategory', 'uses' => 'BlogController@viewCategory']);
+    Route::post('/category/{id}/update', ['as'=> 'updatecategory', 'uses' => 'BlogController@updateCategory']);
+    Route::get('/category/{id}/remove', ['as'=> 'removecategory', 'uses' => 'BlogController@removeCategory']);
+    Route::post('/category/massdelete', ['as'=> 'massdeletecategory', 'uses' => 'BlogController@massdeleteCategory']);
+
+
     Route::get('/tag', 'BlogController@tag');
     Route::get('/get-tag', 'BlogController@get_tag');
     Route::get('/create-tag', 'BlogController@create_tag');
