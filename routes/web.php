@@ -20,14 +20,14 @@ Route::group(['middleware' => ['admin']], function () {
 });
 
 
-Route::get('/cs', ['as'=>'home', 'uses'=>function () {
+Route::get('/cs', ['uses'=>function () {
 	    // Cookie::queue("encu", "asujsanjsjbsaasu", 10080);
 	}]);
-Route::get('/cr', ['as'=>'home', 'uses'=>function () {
+Route::get('/cr', ['uses'=>function () {
 	    Cookie::queue("encu", "", -10080);
 	}]);
 
-Route::get('/cg', ['as'=>'home', 'uses'=>function () {
+Route::get('/cg', ['uses'=>function () {
 		dd(\App\Helpers\SSOHelper::$Auth);
 	    dd(Cookie::get());
 	}]);
