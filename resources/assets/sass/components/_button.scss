@@ -2,4 +2,18 @@
  	border-radius: 19px;
   	background-color: $secondaryColor;
   	padding: 8px 20px;
+  	color: #fff;
+  	text-decoration: none;
+  	font-size: 16px;
+
+  	&.blue {
+  		background-color: $primaryColor;
+  	}
+  	&.blue-shadow {
+  		background-color: $primaryColor;
+  		box-shadow: 0 3px 15px 0 rgba(29, 61, 111, 0.44);
+  	}
+  	&.orange-shadow {
+  		box-shadow: 0 3px 15px 0 rgba(207, 104, 25, 0.44);
+  	}
 }

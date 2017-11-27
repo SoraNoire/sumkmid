@@ -42,14 +42,9 @@
 	                                    Video
 	                                </a>
 	                            </li>
-	                            <li class="{{ ($var['page'] == 'Forum' ? 'active' : '') }}">
-	                                <a href="#">
-	                                    Forum
-	                                </a>
-	                            </li>
 	                            <li class="{{ ($var['page'] == 'Ijin Usaha' ? 'active' : '') }}">
 	                                <a href="#">
-	                                    Ijin Usaha & Sertifikasi
+	                                    Ask Me Anything
 	                                </a>
 	                            </li>
 	                            <li class="{{ ($var['page'] == 'Kontak' ? 'active' : '') }}">
@@ -116,14 +111,9 @@
                             Video
                         </a>
                     </li>
-                    <li class="{{ ($var['page'] == 'Forum' ? 'active' : '') }}">
-                        <a href="#">
-                            Forum
-                        </a>
-                    </li>
                     <li class="{{ ($var['page'] == 'Ijin Usaha' ? 'active' : '') }}">
                         <a href="#">
-                            Ijin Usaha & Sertifikasi
+                            Ask Me Anything
                         </a>
                     </li>
                     <li class="{{ ($var['page'] == 'Kontak' ? 'active' : '') }}">

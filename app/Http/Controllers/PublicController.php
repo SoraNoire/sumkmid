@@ -73,7 +73,7 @@ class PublicController extends Controller
      */
 	public function kontak(){
         $var['page'] = "Kontak";
-		return view('kontak')->with(['var' => $var]);
+		return view('page.kontak')->with(['var' => $var]);
 	}
 
 	/**
@@ -82,7 +82,7 @@ class PublicController extends Controller
      */
 	public function mentor(){
         $var['page'] = "Mentor";
-		return view('mentor')->with(['var' => $var]);
+		return view('page.mentor')->with(['var' => $var]);
 	}
 
 	/**
@@ -91,7 +91,7 @@ class PublicController extends Controller
      */
 	public function event(){
         $var['page'] = "Event";
-		return view('event')->with(['var' => $var]);
+		return view('page.event')->with(['var' => $var]);
 	}
 
 	/**
@@ -100,7 +100,7 @@ class PublicController extends Controller
      */
 	public function video(){
         $var['page'] = "Video";
-		return view('video')->with(['var' => $var]);
+		return view('page.video')->with(['var' => $var]);
 	}
 
 }
