@@ -4,7 +4,7 @@ namespace Modules\Blog\Http\Helpers;
 use Modules\Blog\Entities\Posts;
 use Modules\Blog\Entities\Categories;
 use Modules\Blog\Entities\PostCategory;
-use Modules\Blog\Entities\Tag;
+use Modules\Blog\Entities\Tags;
 use Modules\Blog\Entities\PostTag;
 use Illuminate\Http\File;
 use Image;
@@ -355,40 +355,40 @@ class PostHelper
      * @return Response
      */
     public function delete_tag($id, $is_bulk = ''){
-        $tag = PostTag::where('id', $id)->first();
+        $tag = Tags::where('id', $id)->first();
         if (isset($tag)) {
             DB::beginTransaction();
             try {
-                $post_tag = PostTag::where('tag_id', 'like', '%'.$id.'%')->get();
-                foreach ($post_tag as $post) {
-                    $tag_id = json_decode($post->tag_id);
-                    $newcat = '';
-                    foreach ($tag_id as $n) {
-                        if ($n != $id) {
-                            $newcat[] = $n;
-                        }
-                    }
-                    if ($newcat == '') {
-                        $post->tag_id = '';    
-                    } else {
-                        $post->tag_id = json_encode($newcat);
-                    }
-                    $post->update();
-                }
+                // $post_tag = Tags::where('tag_id', 'like', '%'.$id.'%')->get();
+                // foreach ($post_tag as $post) {
+                //     $tag_id = json_decode($post->tag_id);
+                //     $newcat = '';
+                //     foreach ($tag_id as $n) {
+                //         if ($n != $id) {
+                //             $newcat[] = $n;
+                //         }
+                //     }
+                //     if ($newcat == '') {
+                //         $post->tag_id = '';    
+                //     } else {
+                //         $post->tag_id = json_encode($newcat);
+                //     }
+                //     $post->update();
+                // }
                 $tag->delete();
 
                 DB::commit();
                 if ($is_bulk == 'bulk') {
                     // do nothing
                 } else {
-                    return redirect($this->prefix.'tag')->with(['msg' => 'Deleted', 'status' => 'success'])->send();
+                    return redirect(route('tags'))->with(['msg' => 'Deleted', 'status' => 'success'])->send();
                 }
             } catch (\Exception $e) {
                 DB::rollback();
-                return redirect($this->prefix.'tag')->with(['msg' => 'Delete Error', 'status' => 'danger'])->send();
+                return redirect(route('tags'))->with(['msg' => 'Delete Error', 'status' => 'danger'])->send();
             }
         }else {
-            return redirect($this->prefix.'tag')->with(['msg' => 'Tag Not Found', 'status' => 'danger'])->send();
+            return redirect(route('tags'))->with(['msg' => 'Tag Not Found', 'status' => 'danger'])->send();
         }
     }
 }

@@ -1258,6 +1258,44 @@ $(document).ready(function() {
         });
     }
 
+    // table-tags
+
+    if ($("#table-tags").length > 0) {
+        $("#table-tags").DataTable({
+            "ajax": $.fn.dataTable.pipeline( {
+                url: '/admin/blog/ajaxtags',
+                pages: 5 // number of pages to cache
+            } ),
+            "processing": true,
+            "serverSide": true,
+            "stateSave":true,
+            "columns": [
+                { "data": "name" },
+                { "data": "created_at" },
+                { "data": "id" },
+            ],
+            "columnDefs": [ {
+                    "targets": -1,
+                    "data": 'id',
+                    "render": function ( data, type, row ) {
+                        return '<a href="/admin/blog/tag/'+row.id+'/view">Edit</a> | <a onclick="return confirm(\'Delete Tag?\');" href="/admin/blog/tag/'+row.id+'/remove">Hapus</a>';
+                    }
+                },
+                    {
+                    "targets": 0,
+                    "data": 'title',
+                    "render": function ( data, type, row ) {
+                        return '<a href="/admin/blog/tag/'+row.id+'/view">'+data+'</a>';
+                    }
+                }
+            ],
+            order: [
+                [0, "desc"],
+                [1, "desc"]
+            ]
+        });
+    }
+
     // multiselect for bulk delete
     $('.mydatatable tbody').on( 'click', 'tr', function () {
         $(this).toggleClass('selected');

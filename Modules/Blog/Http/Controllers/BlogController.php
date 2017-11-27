@@ -12,7 +12,7 @@ use Modules\Blog\Entities\Page;
 use Modules\Blog\Entities\Posts;
 use Modules\Blog\Entities\Category;
 use Modules\Blog\Entities\Categories;
-use Modules\Blog\Entities\Tag;
+use Modules\Blog\Entities\Tags;
 use Modules\Blog\Entities\PostCategory;
 use Modules\Blog\Entities\PostTag;
 use Modules\Blog\Entities\Media;
@@ -414,6 +414,116 @@ class BlogController extends Controller
         return view('blog::admin.category')->with(['page_meta_title' => $page_meta_title, 'category' => $category]);
     }
 
+
+
+    // tags
+
+    public function tags(){
+        $page_meta_title = 'Tags';
+        $data = Tags::get();
+        return view('blog::admin.tags')->with(['page_meta_title' => $page_meta_title, 'tags' => $data]);
+    }
+
+    public function ajaxTags(Request $request){
+        $order = $request->order[0];
+        $col = $request->columns["{$order['column']}"]['data'] ?? 'created_at'; 
+        $direction = $order['dir'] ?? 'desc';
+        
+        $query = Tags::orderBy($col,$direction);
+        $search = $request->search['value'];
+        if (isset($search)) {
+            $query = $query->where('name', 'like', '%'.$search.'%');   
+        }
+        $output['data'] = $query->get();
+        $output['recordsTotal'] = $query->count();
+        $output['recordsFiltered'] = $output['recordsTotal'];
+        $output['draw'] = intval($request->input('draw'));
+        $output['length'] = 10;
+
+        return $output;
+    }
+
+    public function addTag()
+    {
+        $page_meta_title = 'Tag';
+        $act = 'New';
+        $name = '';
+        return view('blog::admin.tagform')->with(['page_meta_title' => $page_meta_title, 'act' => $act, 'name' => $name, 'isEdit'=>false]);
+    }
+
+    public function addTagPost(Request $request)
+    {
+        $slug = PostHelper::make_slug($request->input('name'));
+        $store = new Tags;
+        $store->name = $request->input('name');
+        $store->slug = $slug;
+        if ($store->save()){
+            return redirect(route('tags'))->with(['msg' => 'Saved', 'status' => 'success']);
+        } else {
+            return redirect(route('tags'))->with(['msg' => 'Save Error', 'status' => 'danger']);
+        }
+    }
+
+    /**
+     * edit category
+     * @param $id
+     * @return Response
+     */
+    public function viewTag($id){
+        $page_meta_title = 'Tag';
+        $act = 'Edit';
+        $tag = Tags::where('id', $id)->first();
+        if (isset($tag)) {
+            $name = $tag->name;
+            return view('blog::admin.tagform')->with(['id'=>$id, 'page_meta_title' => $page_meta_title, 'act' => $act, 'tag' => $tag, 'name' => $name, 'isEdit'=>true]);
+        } else {
+            return redirect($this->prefix.'tag')->with('msg', 'Tag Not Found')->with('status', 'danger');
+        }
+    }
+
+    /**
+     * Update category
+     * @param  Request $request, $id
+     * @return Response
+     */
+    public function updateTag(Request $request, $id){
+        $update = Tags::where('id', $id)->first();
+        $update->name = $request->input('name');
+        if ($update->save()){
+            return redirect(route('tags'))->with(['msg' => 'Saved', 'status' => 'success']);
+        } else {
+            return redirect(route('tags'))->with(['msg' => 'Save Error', 'status' => 'danger']);
+        }
+    }
+
+    /**
+     * remove Category
+     *
+     * @return void
+     * @author 
+     **/
+    public function removeTag($id){
+        $this->PostHelper->delete_tag($id);
+    }
+
+    /**
+     * mass delete cat
+     *
+     * @return void
+     * @author 
+     **/
+    public function massdeleteTag(Request $request)
+    {
+        $id = json_decode($request->id);
+        foreach ($id as $id) {
+            $this->PostHelper->delete_tag($id, 'bulk');
+        }
+        return redirect(route('tags'))->with(['msg' => 'Delete Success', 'status' => 'success']);
+    }
+
+
+    // categories
+
     public function categories(){
         $page_meta_title = 'Categories';
         $categories = Categories::get();
@@ -520,8 +630,22 @@ class BlogController extends Controller
      * @author 
      **/
     public function removeCategory($id){
-        
         $this->PostHelper->delete_category($id);
+    }
+
+    /**
+     * mass delete cat
+     *
+     * @return void
+     * @author 
+     **/
+    public function massdeleteCategory(Request $request)
+    {
+        $id = json_decode($request->id);
+        foreach ($id as $id) {
+            $this->PostHelper->delete_category($id, 'bulk');
+        }
+        return redirect(route('categories'))->with(['msg' => 'Delete Success', 'status' => 'success']);
     }
 
     /**

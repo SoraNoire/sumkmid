@@ -64,18 +64,19 @@
             
             <li class="{{ ($page_meta_title ?? '') == 'Categories' ? 'active' : ''}}"><a href="{{ route('categories') }}">Categories</a></li>
 
+            <li class="{{ ($page_meta_title ?? '') == 'Tags' ? 'active' : ''}}"><a href="{{ route('tags') }}">Tags</a></li>
+
             <li class="{{ ($page_meta_title ?? '') == 'Events' ? 'active' : ''}}"><a href="{{ url('admin/blog/event') }}">Event</a></li>
-            <li class="{{ ($page_meta_title ?? '') == 'Event Category' ? 'active' : ''}}"><a href="{{ url('admin/blog/event/category') }}">Event Category</a></li>
             <li class="{{ ($page_meta_title ?? '') == 'Page' ? 'active' : ''}}"><a href="{{ url('admin/blog/pages') }}">Pages</a></li>
             <li class="{{ ($page_meta_title ?? '') == 'Posts' ? 'active' : ''}}"><a href="{{ url('admin/blog/posts') }}">Post</a></li>
-            <li class="{{ ($page_meta_title ?? '') == 'Post Category' ? 'active' : ''}}"><a href="{{ url('admin/blog/category') }}">Post Category</a></li>
-            <li class="{{ ($page_meta_title ?? '') == 'Tag' ? 'active' : ''}}"><a href="{{ url('admin/blog/tag') }}">Post Tag</a></li>
+            
+            
             <li class="{{ ($page_meta_title ?? '') == 'Videos' ? 'active' : ''}}"><a href="{{ url('admin/blog/video/') }}">Video</a></li>
-            <li class="{{ ($page_meta_title ?? '') == 'Video Category' ? 'active' : ''}}"><a href="{{ url('admin/blog/video/category') }}">Video Category</a></li>
-            <li class="{{ ($page_meta_title ?? '') == 'Video Tag' ? 'active' : ''}}"><a href="{{ url('admin/blog/video/tag') }}">Video Tag</a></li>
+            
+            
             <li class="{{ ($page_meta_title ?? '') == 'Gallery' ? 'active' : ''}}"><a href="{{ url('admin/blog/gallery/') }}">Gallery</a></li>
-            <li class="{{ ($page_meta_title ?? '') == 'Gallery Category' ? 'active' : ''}}"><a href="{{ url('admin/blog/gallery/category') }}">Gallery Category</a></li>
-            <li class="{{ ($page_meta_title ?? '') == 'Gallery Tag' ? 'active' : ''}}"><a href="{{ url('admin/blog/gallery/tag') }}">Gallery Tag</a></li>
+            
+            
             <li class="{{ ($page_meta_title ?? '') == 'Media' ? 'active' : ''}}"><a href="{{ url('admin/blog/media') }}">Media</a></li>
             <li class="{{ ($page_meta_title ?? '') == 'Menu' ? 'active' : ''}}"><a href="{{ url('admin/blog/menu') }}">Menu</a></li>
           </ul>
