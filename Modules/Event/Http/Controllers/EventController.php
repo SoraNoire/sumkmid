@@ -68,7 +68,7 @@ class EventController extends Controller
      * @param  Request $request
      * @return Response
      */
-    public function get_events(Request $request)
+    public function ajaxEvents(Request $request)
     {
         $order = $request->order[0];
         $col = $request->columns["{$order['column']}"]['data'] ?? 'created_at'; 
@@ -92,7 +92,7 @@ class EventController extends Controller
      * Show the form for creating a new event.
      * @return Response
      */
-    public function create_event()
+    public function addEvent()
     {
         $page_meta_title = 'Events';
         $act = 'New';
@@ -124,7 +124,7 @@ class EventController extends Controller
      * @param  Request $request
      * @return Response
      */
-    public function store_event(Request $request)
+    public function addEventPost(Request $request)
     {
         $title = $request->input('title');
         $slug = PostHelper::make_slug($title);
@@ -204,7 +204,7 @@ class EventController extends Controller
      * @param $id
      * @return Response
      */
-    public function edit_event($id)
+    public function viewEvent($id)
     {
         $page_meta_title = 'Events';
         $act = 'Edit';
@@ -241,7 +241,7 @@ class EventController extends Controller
      * @param  Request $request, $id
      * @return Response
      */
-    public function update_event(Request $request, $id)
+    public function updateEvent(Request $request, $id)
     {
         $title = $request->input('title');
         $description = $request->input('description');
@@ -309,7 +309,7 @@ class EventController extends Controller
      * @param $id
      * @return Response
      */
-    public function destroy_event($id)
+    public function removeEvent($id)
     {
         $this->EventHelper->delete_event($id);
     }
@@ -319,7 +319,7 @@ class EventController extends Controller
      * @param Request $request
      * @return Response
      */
-    public function bulk_delete_event(Request $request)
+    public function massdeleteEvent(Request $request)
     {
         $id = json_decode($request->id);
         foreach ($id as $id) {
@@ -334,7 +334,7 @@ class EventController extends Controller
      */
     public function category(){
         $page_meta_title = 'Category';
-        $category = EventCategory::get();
+        $category = categories::get();
         return view('event::admin.category')->with(['page_meta_title' => $page_meta_title, 'category' => $category]);
     }
 
