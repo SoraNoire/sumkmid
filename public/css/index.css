@@ -444,6 +444,7 @@ th {
 
 * {
   font-family: "Ubuntu", sans-serif;
+  color: #404040;
 }
 
 body,
@@ -1695,6 +1696,41 @@ footer .copyright {
 
 #mentor-list .item .item-title .sub {
   font-size: 14px;
+}
+
+#map {
+  height: 400px;
+  margin-bottom: 62px;
+}
+
+#contact {
+  padding-bottom: 50px;
+  color: #404040;
+}
+
+#contact .contact-form input {
+  display: block;
+  width: 97%;
+  border-radius: 5px;
+  border: solid 1px #404040;
+  padding: 6px;
+  margin-bottom: 15px;
+}
+
+#contact .contact-form textarea {
+  display: block;
+  height: 139px;
+  width: 97%;
+  border-radius: 5px;
+  border: solid 1px #404040;
+  padding: 6px;
+  margin-bottom: 27px;
+}
+
+#contact .contact-form button {
+  border: unset;
+  padding: 8px 23px;
+  float: right;
 }
 
 .button {
