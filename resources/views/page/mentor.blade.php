@@ -12,10 +12,11 @@
 	<div class="container">
 
 		@for ($i = 0; $i <=12; $i++)
-		<div class="item" style="background-image: url('/img/top-video-bg.png');">
-    		<a href="#"><span class="play-button"><i class="fa fa-play fa-lg" aria-hidden="true"></i></span></a>
+		<div class="item">
+			<div class="item-image" style="background-image: url('/img/Group.png');"></div>
         	<div class="item-title">
-        		<a href="#">Teknik Marketing Usaha Konveksi Konveksi</a>
+        		<a href="#" title="Dito Arifin">Dito Arifin</a>
+        		<a href="#" class="sub" title="CEO Anak Mas">CEO Anak Mas</a>
         	</div>		
 		</div>
 		@endfor
