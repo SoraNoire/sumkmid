@@ -21,24 +21,24 @@
             <div class="container">
                 <div class="the-row">
                     <div class="col-3 mainLogo">
-                        <a href="{{ route('home') }}"><img src="{{ asset('img/logo.png') }}" alt="sahabat-umkm-logo"></a>
+                        <a href="{{ route('public_home') }}"><img src="{{ asset('img/logo.png') }}" alt="sahabat-umkm-logo"></a>
                     </div>
                     <nav class="col-9 topNav">
                         <div class="navWrapper">
 	                        <span class="toggleMenu">MENU</span>
 	                        <ul>
 	                            <li class="{{ ($var['page'] == 'Event' ? 'active' : '') }}">
-	                                <a href="{{ route('event') }}">
+	                                <a href="{{ route('public_event') }}">
 	                                    Event
 	                                </a>
 	                            </li>
 	                            <li class="{{ ($var['page'] == 'mentor' ? 'active' : '') }}">
-	                                <a href="{{ route('mentor') }}">
+	                                <a href="{{ route('public_mentor') }}">
 	                                    Mentor
 	                                </a>
 	                            </li>
 	                            <li class="{{ ($var['page'] == 'video' ? 'active' : '') }}">
-	                                <a href="{{ route('video') }}">
+	                                <a href="{{ route('public_video') }}">
 	                                    Video
 	                                </a>
 	                            </li>
@@ -48,7 +48,7 @@
 	                                </a>
 	                            </li>
 	                            <li class="{{ ($var['page'] == 'Kontak' ? 'active' : '') }}">
-	                                <a href="{{ route('kontak') }}">
+	                                <a href="{{ route('public_kontak') }}">
 	                                    Kontak
 	                                </a>
 	                            </li>
@@ -97,17 +97,17 @@
  			<div class="footer-nav">
  				<ul>
                     <li class="{{ ($var['page'] == 'Event' ? 'active' : '') }}">
-                        <a href="{{ route('event') }}">
+                        <a href="{{ route('public_event') }}">
                             Event
                         </a>
                     </li>
                     <li class="{{ ($var['page'] == 'mentor' ? 'active' : '') }}">
-                        <a href="{{ route('mentor') }}">
+                        <a href="{{ route('public_mentor') }}">
                             Mentor
                         </a>
                     </li>
                     <li class="{{ ($var['page'] == 'video' ? 'active' : '') }}">
-                        <a href="{{ route('video') }}">
+                        <a href="{{ route('public_video') }}">
                             Video
                         </a>
                     </li>
@@ -117,7 +117,7 @@
                         </a>
                     </li>
                     <li class="{{ ($var['page'] == 'Kontak' ? 'active' : '') }}">
-                        <a href="{{ route('kontak') }}">
+                        <a href="{{ route('public_kontak') }}">
                             Kontak
                         </a>
                     </li>

@@ -444,6 +444,7 @@ th {
 
 * {
   font-family: "Ubuntu", sans-serif;
+  color: #404040;
 }
 
 body,
@@ -1627,17 +1628,49 @@ footer .copyright {
 }
 
 #mentor-list .item {
-  width: calc(100% / 4 - 20px);
+  width: calc(100% / 4 - 38px);
   height: 200px;
   display: inline-block;
   -webkit-box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.3);
           box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.3);
   margin-bottom: 20px;
   margin-right: 20px;
+  padding: 10px;
 }
 
 #mentor-list .item:nth-child(4n) {
   margin-right: 0;
+}
+
+#mentor-list .item .item-image {
+  position: relative;
+  width: 100%;
+  height: 56%;
+  border-radius: 5px;
+}
+
+#mentor-list .item .item-image:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-image: url("/img/combined-shape.svg");
+  background-repeat: no-repeat;
+  background-size: contain;
+  height: 50%;
+  width: 27%;
+}
+
+#mentor-list .item .item-image:after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background-image: url("/img/combined-shape2.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 44%;
+  width: 25%;
 }
 
 #mentor-list .item .item-title {
@@ -1647,14 +1680,57 @@ footer .copyright {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  padding: 11px;
+  margin-top: 12px;
 }
 
 #mentor-list .item .item-title a {
-  font-size: 16px;
-  line-height: 1.25;
-  color: #ffffff;
+  display: block;
+  color: #404040;
   text-decoration: none;
+}
+
+#mentor-list .item .item-title a:first-child {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+#mentor-list .item .item-title .sub {
+  font-size: 14px;
+}
+
+#map {
+  height: 400px;
+  margin-bottom: 62px;
+}
+
+#contact {
+  padding-bottom: 50px;
+  color: #404040;
+}
+
+#contact .contact-form input {
+  display: block;
+  width: 97%;
+  border-radius: 5px;
+  border: solid 1px #404040;
+  padding: 6px;
+  margin-bottom: 15px;
+}
+
+#contact .contact-form textarea {
+  display: block;
+  height: 139px;
+  width: 97%;
+  border-radius: 5px;
+  border: solid 1px #404040;
+  padding: 6px;
+  margin-bottom: 27px;
+}
+
+#contact .contact-form button {
+  border: unset;
+  padding: 8px 23px;
+  float: right;
 }
 
 .button {
