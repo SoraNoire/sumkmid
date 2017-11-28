@@ -11,7 +11,8 @@ use App\Http\Controllers\Controller;
 use Modules\Blog\Entities\Page;
 use Modules\Blog\Entities\Posts;
 use Modules\Blog\Entities\Category;
-use Modules\Blog\Entities\Tag;
+use Modules\Blog\Entities\Categories;
+use Modules\Blog\Entities\Tags;
 use Modules\Blog\Entities\PostCategory;
 use Modules\Blog\Entities\PostTag;
 use Modules\Blog\Entities\Media;
@@ -411,6 +412,240 @@ class BlogController extends Controller
         $page_meta_title = 'Category';
         $category = Category::get();
         return view('blog::admin.category')->with(['page_meta_title' => $page_meta_title, 'category' => $category]);
+    }
+
+
+
+    // tags
+
+    public function tags(){
+        $page_meta_title = 'Tags';
+        $data = Tags::get();
+        return view('blog::admin.tags')->with(['page_meta_title' => $page_meta_title, 'tags' => $data]);
+    }
+
+    public function ajaxTags(Request $request){
+        $order = $request->order[0];
+        $col = $request->columns["{$order['column']}"]['data'] ?? 'created_at'; 
+        $direction = $order['dir'] ?? 'desc';
+        
+        $query = Tags::orderBy($col,$direction);
+        $search = $request->search['value'];
+        if (isset($search)) {
+            $query = $query->where('name', 'like', '%'.$search.'%');   
+        }
+        $output['data'] = $query->get();
+        $output['recordsTotal'] = $query->count();
+        $output['recordsFiltered'] = $output['recordsTotal'];
+        $output['draw'] = intval($request->input('draw'));
+        $output['length'] = 10;
+
+        return $output;
+    }
+
+    public function addTag()
+    {
+        $page_meta_title = 'Tag';
+        $act = 'New';
+        $name = '';
+        return view('blog::admin.tagform')->with(['page_meta_title' => $page_meta_title, 'act' => $act, 'name' => $name, 'isEdit'=>false]);
+    }
+
+    public function addTagPost(Request $request)
+    {
+        $slug = PostHelper::make_slug($request->input('name'));
+        $store = new Tags;
+        $store->name = $request->input('name');
+        $store->slug = $slug;
+        if ($store->save()){
+            return redirect(route('tags'))->with(['msg' => 'Saved', 'status' => 'success']);
+        } else {
+            return redirect(route('tags'))->with(['msg' => 'Save Error', 'status' => 'danger']);
+        }
+    }
+
+    /**
+     * edit category
+     * @param $id
+     * @return Response
+     */
+    public function viewTag($id){
+        $page_meta_title = 'Tag';
+        $act = 'Edit';
+        $tag = Tags::where('id', $id)->first();
+        if (isset($tag)) {
+            $name = $tag->name;
+            return view('blog::admin.tagform')->with(['id'=>$id, 'page_meta_title' => $page_meta_title, 'act' => $act, 'tag' => $tag, 'name' => $name, 'isEdit'=>true]);
+        } else {
+            return redirect($this->prefix.'tag')->with('msg', 'Tag Not Found')->with('status', 'danger');
+        }
+    }
+
+    /**
+     * Update category
+     * @param  Request $request, $id
+     * @return Response
+     */
+    public function updateTag(Request $request, $id){
+        $update = Tags::where('id', $id)->first();
+        $update->name = $request->input('name');
+        if ($update->save()){
+            return redirect(route('tags'))->with(['msg' => 'Saved', 'status' => 'success']);
+        } else {
+            return redirect(route('tags'))->with(['msg' => 'Save Error', 'status' => 'danger']);
+        }
+    }
+
+    /**
+     * remove Category
+     *
+     * @return void
+     * @author 
+     **/
+    public function removeTag($id){
+        $this->PostHelper->delete_tag($id);
+    }
+
+    /**
+     * mass delete cat
+     *
+     * @return void
+     * @author 
+     **/
+    public function massdeleteTag(Request $request)
+    {
+        $id = json_decode($request->id);
+        foreach ($id as $id) {
+            $this->PostHelper->delete_tag($id, 'bulk');
+        }
+        return redirect(route('tags'))->with(['msg' => 'Delete Success', 'status' => 'success']);
+    }
+
+
+    // categories
+
+    public function categories(){
+        $page_meta_title = 'Categories';
+        $categories = Categories::get();
+        return view('blog::admin.categories')->with(['page_meta_title' => $page_meta_title, 'categories' => $categories]);
+    }
+
+    public function ajaxCategories(Request $request){
+        $order = $request->order[0];
+        $col = $request->columns["{$order['column']}"]['data'] ?? 'created_at'; 
+        $direction = $order['dir'] ?? 'desc';
+        
+        $query = Categories::orderBy($col,$direction);
+        $search = $request->search['value'];
+        if (isset($search)) {
+            $query = $query->where('name', 'like', '%'.$search.'%');   
+        }
+        $output['data'] = $query->get();
+        $output['recordsTotal'] = $query->count();
+        $output['recordsFiltered'] = $output['recordsTotal'];
+        $output['draw'] = intval($request->input('draw'));
+        $output['length'] = 10;
+
+        return $output;
+    }
+
+    public function addCategory()
+    {
+        $page_meta_title = 'Category';
+        $act = 'New';
+        $name = '';
+        $desc = '';
+        $allparent = PostHelper::get_category_parent();
+        return view('blog::admin.catform')->with(['page_meta_title' => $page_meta_title, 'act' => $act, 'name' => $name,'desc'=>$desc, 'allparent' => $allparent , 'isEdit'=>false]);
+    }
+
+    public function addCategoryPost(Request $request)
+    {
+        $parent = $request->get('parent');
+        if ($parent == 'none') {
+            $parent = null;
+        }
+        $slug = PostHelper::make_slug($request->input('name'));
+        $store = new Categories;
+        $store->name = $request->input('name');
+        $store->description = $request->input('description');
+        $store->slug = $slug;
+        $store->parent = $parent;
+        if ($store->save()){
+            return redirect(route('categories'))->with(['msg' => 'Saved', 'status' => 'success']);
+        } else {
+            return redirect(route('categories'))->with(['msg' => 'Save Error', 'status' => 'danger']);
+        }
+    }
+
+    /**
+     * edit category
+     * @param $id
+     * @return Response
+     */
+    public function viewCategory($id){
+        $page_meta_title = 'Category';
+        $act = 'Edit';
+        $action = $this->prefix.'update-category/'.$id;
+        $category = Categories::where('id', $id)->first();
+        // dd($category->id);
+        if (isset($category)) {
+            $maincategory = Categories::where('parent', null)->get(); 
+            $allparent = PostHelper::get_category_parent($category->id);
+            $name = $category->name;
+            $desc = $category->description;
+            $category_id = $category->id;
+            return view('blog::admin.catform')->with(['category_id' => $category_id, 'page_meta_title' => $page_meta_title, 'act' => $act, 'action' => $action,'desc'=>$desc, 'category' => $category, 'name' => $name, 'allparent' => $allparent,'isEdit'=>true]);
+        }else {
+            return redirect($this->prefix.'category')->with(['msg' => 'Category Not Found', 'status' => 'danger']);
+        }
+    }
+
+    /**
+     * Update category
+     * @param  Request $request, $id
+     * @return Response
+     */
+    public function updateCategory(Request $request, $id){
+        $parent = $request->get('parent');
+        if ($parent == 'none') {
+            $parent = null;
+        }
+        $update = Categories::where('id', $id)->first();
+        $update->name = $request->input('name');
+        $update->description = $request->input('description');
+        $update->parent = $parent;
+        if ($update->save()){
+            return redirect(route('categories'))->with(['msg' => 'Saved', 'status' => 'success']);
+        } else {
+            return redirect(route('categories'))->with(['msg' => 'Save Error', 'status' => 'danger']);
+        }
+        return redirect(route('categories'));
+    }
+
+    /**
+     * remove Category
+     *
+     * @return void
+     * @author 
+     **/
+    public function removeCategory($id){
+        $this->PostHelper->delete_category($id);
+    }
+
+    /**
+     * mass delete cat
+     *
+     * @return void
+     * @author 
+     **/
+    public function massdeleteCategory(Request $request)
+    {
+        $id = json_decode($request->id);
+        foreach ($id as $id) {
+            $this->PostHelper->delete_category($id, 'bulk');
+        }
+        return redirect(route('categories'))->with(['msg' => 'Delete Success', 'status' => 'success']);
     }
 
     /**

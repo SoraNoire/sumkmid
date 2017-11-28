@@ -38,7 +38,7 @@ class PublicController extends Controller
 			Cookie::queue(config('auth.ssocookie'), "", -10080);
 			return redirect(route('ssologin'));
 		}
-	    return response('cannot login');
+	    return response('cannot login <a href="/">home</a>');
 
 	}
 
@@ -55,7 +55,7 @@ class PublicController extends Controller
 		}
 		$next = urlencode(url()->previous()) ?? '/';
 		$appid = env('MD_APP_ID');
-        return redirect("http://authdev.mdirect.id/client_login?appid=$appid&next=$next")->send();
+		return redirect(config('auth.md_sso.APP_LOGIN') . "?appid=$appid&next=$next")->send();
 	}
 
 	/**

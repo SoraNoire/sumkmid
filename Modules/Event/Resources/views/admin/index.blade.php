@@ -7,8 +7,8 @@
   {{ session('msg') }}
 </div>
 @endif
-<form method="post" action="{{ URL::to($prefix.'bulk-delete-event/')}}" accept-charset="UTF-8">
-<a href="{{ URL::to($prefix.'create-event') }}" class="btn btn-round btn-fill btn-info">New Event +<div class="ripple-container"></div></a>
+<form method="post" action="{{ route('massdeleteevent') }}" accept-charset="UTF-8">
+<a href="{{ route('addevent') }}" class="btn btn-round btn-fill btn-info">New Event +<div class="ripple-container"></div></a>
 
 <input type="hidden" name="_token" value="{{ csrf_token() }}">
 <input type="hidden" name="id" class="bulk-delete-id">

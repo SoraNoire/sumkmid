@@ -8,7 +8,7 @@
         <p class="category">{{ $act }} Tag</p>
     </div>
 
-    <form method="post" action="{{ url($action) }}" accept-charset="UTF-8">
+    <form method="post" action="{{ ($isEdit) ? route('updatetag',$id) : route('storetag') }}" accept-charset="UTF-8">
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
         <div class="form-group">
             <label class="control-label">Name</label>
@@ -16,7 +16,7 @@
         </div>
         <button type="submit" class="btn btn-success pull-right">Save</button>
         @if ($act == 'edit')
-        <a style="margin-right: 10px;" href="{{ url($prefix.'delete-tag/'.$tag->id) }}" class="btn btn-danger pull-right" onclick="return confirm('Delete Tag?');">Delete</a>
+        <a style="margin-right: 10px;" href="{{ route('removetag',$id) }}" class="btn btn-danger pull-right" onclick="return confirm('Delete Tag?');">Delete</a>
         @endif
     </form>
 </div>
