@@ -568,11 +568,18 @@ class BlogController extends Controller
         $slug = PostHelper::make_slug($request->input('name'));
         $store = new Categories;
         $store->name = $request->input('name');
-        $store->description = $request->input('description');
+        $store->description = $request->input('description') ?? '';
+        $categoryajax = $request->input('catjax') ?? false;
         $store->slug = $slug;
         $store->parent = $parent;
         if ($store->save()){
+
+            if ( $categoryajax ){
+                return response("<li><label><input selected name='categories[]' type='checkbox' value='$store->id'>$store->name</label></li>");
+            }
+
             return redirect(route('categories'))->with(['msg' => 'Saved', 'status' => 'success']);
+
         } else {
             return redirect(route('categories'))->with(['msg' => 'Save Error', 'status' => 'danger']);
         }

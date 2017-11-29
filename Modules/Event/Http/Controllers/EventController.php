@@ -17,6 +17,9 @@ use Carbon\Carbon;
 use DB;
 use View;
 
+use Modules\Blog\Entities\Posts;
+use Modules\Blog\Entities\PostMeta;
+
 class EventController extends Controller
 {
     public function __construct(){
@@ -40,7 +43,7 @@ class EventController extends Controller
      */
     public function show_event($slug){
         $page_meta_title = 'Single Event';
-        $event = Event::where('slug', $slug)->first();
+        $event = Posts::where('slug', $slug)->first();
         if (isset($event)) {
             $category = EventHelper::get_event_category($event->id);
             $forum = EventHelper::get_event_forum($event->id);
@@ -74,7 +77,7 @@ class EventController extends Controller
         $col = $request->columns["{$order['column']}"]['data'] ?? 'created_at'; 
         $direction = $order['dir'] ?? 'desc';
         
-        $query = Event::orderBy($col,$direction);
+        $query = Posts::where('post_type','event')->where('deleted','0')->orderBy($col,$direction);
         $search = $request->search['value'];
         if (isset($search)) {
             $query = $query->where('title', 'like', '%'.$search.'%');   
@@ -116,7 +119,7 @@ class EventController extends Controller
         $closed_at = '';
         $list_category = EventHelper::get_list_category();
 
-        return view('event::admin.event_form')->with(['page_meta_title' => $page_meta_title, 'act' => $act, 'action' => $action, 'title' => $title, 'description' => $description, 'media' => $media, 'featured_img' => $featured_img, 'meta_desc' => $meta_desc, 'meta_title' => $meta_title, 'meta_keyword' => $meta_keyword, 'status' => $status, 'published_at' => $published_at, 'event_type' => $event_type, 'forum_id' => $forum_id, 'mentor_id' => $mentor_id, 'location' => $location, 'htm' => $htm, 'open_at' => $open_at, 'closed_at' => $closed_at, 'list_category' => $list_category]);
+        return view('event::admin.event_form')->with(['page_meta_title' => $page_meta_title, 'act' => $act, 'action' => $action, 'title' => $title, 'description' => $description, 'media' => $media, 'featured_img' => $featured_img, 'meta_desc' => $meta_desc, 'meta_title' => $meta_title, 'meta_keyword' => $meta_keyword, 'status' => $status, 'published_at' => $published_at, 'event_type' => $event_type, 'forum_id' => $forum_id, 'mentor_id' => $mentor_id, 'location' => $location, 'htm' => $htm, 'open_at' => $open_at, 'closed_at' => $closed_at, 'list_category' => $list_category, 'isEdit'=>false]);
     }
 
     /**
@@ -131,7 +134,7 @@ class EventController extends Controller
         $description = $request->input('description');
         $featured_img = $request->input('featured_img');
         $event_type = $request->get('event_type');
-        $category = $request->get('category');
+        $categories = $request->get('categories');
         $location = $request->input('location');
         $htm = $request->input('htm');
         $author = 1;
@@ -139,61 +142,55 @@ class EventController extends Controller
         $mentor = $request->input('mentor');
         $status = $request->get('status');
         $event_type = $request->get('event_type');
-        $option['meta_title'] = $request->input('meta_title');
-        $option['meta_desc'] = $request->input('meta_desc');
-        $option['meta_keyword'] = $request->input('meta_keyword');
-        $option = json_encode($option);
+        $meta_title = $request->input('meta_title') ?? '';
+        $meta_desc = $request->input('meta_desc') ?? '';
+        $meta_keyword = $request->input('meta_keyword') ?? '';
         $open_at = $request->input('open_at');
         $closed_at = $request->input('closed_at');
-        $published_at = $request->input('published_at');
+        $published_date = $request->input('published_date');
 
         if ($published_at = 'immediately') {
             $published_at = Carbon::now()->toDateTimeString();
         }
 
-        $slug_check = Event::where('slug', $slug)->first();
+        $slug_check = Posts::where('slug', $slug)->first();
         if (isset($slug_check)) {
             $slug = $slug.'-'.date('s');
         }
 
         DB::beginTransaction();
         try {
-            $store = new Event;
+
+            $store = new Posts;
             $store->title = $title;
             $store->slug = $slug;
-            $store->description = $description;
-            $store->featured_img = $featured_img;
-            $store->event_type = $event_type;
-            $store->location = $location;
-            $store->htm = $htm;
-            $store->option = $option;
+            $store->featured_image = $featured_img;
             $store->author = $author;
+            $store->content = $description;
+            $store->post_type = 'event';
             $store->status = $status;
-            $store->open_at = $open_at;
-            $store->closed_at = $closed_at;
-            $store->published_at = $published_at;
+            $store->published_date = $published_date;
             $store->save();
 
-            $event_category = new EventCategoryRelation;
-            $event_category->event_id = $store->id;
-            $event_category->category_id = json_encode($category);
-            $event_category->save();
-
-            $event_forum = new EventForumRelation;
-            $event_forum->event_id = $store->id;
-            $event_forum->forum_id = $forum_id;
-            $event_forum->save();
-
-            $event_mentor = new EventMentorRelation;
-            $event_mentor->event_id = $store->id;
-            $event_mentor->mentor_id = $mentor;
-            $event_mentor->save();
+            $meta_contents = [
+                                ['post_id'=>$store->id, 'key'=> 'event_type', 'value'=> $event_type],
+                                ['post_id'=>$store->id, 'key'=> 'event_location', 'value'=> $location],
+                                ['post_id'=>$store->id, 'key'=> 'event_htm', 'value'=> $htm],
+                                ['post_id'=>$store->id, 'key'=> 'event_meta_title', 'value'=> $meta_title],
+                                ['post_id'=>$store->id, 'key'=> 'event_meta_desc', 'value'=> $meta_desc],
+                                ['post_id'=>$store->id, 'key'=> 'event_meta_keyword', 'value'=> $meta_keyword],
+                                ['post_id'=>$store->id, 'key'=> 'event_open_at', 'value'=> $open_at],
+                                ['post_id'=>$store->id, 'key'=> 'event_closed_at', 'value'=> $closed_at],
+                                ['post_id'=>$store->id, 'key'=> 'event_categories', 'value'=> json_encode($categories)],
+                                ['post_id'=>$store->id, 'key'=> 'event_mentor', 'value'=> json_encode(explode(',', $mentor))],
+                            ];
+            PostMeta::insert($meta_contents);
 
             DB::commit();
-            return redirect($this->prefix)->with(['msg' => 'Saved', 'status' => 'success']);
+            return redirect(route('events'))->with(['msg' => 'Saved', 'status' => 'success']);
         } catch (\Exception $e) {
             DB::rollback();
-            return redirect($this->prefix)->with(['msg' => 'Error Saving '.$e, 'status' => 'danger']);
+            return redirect(route('events'))->with(['msg' => 'Error Saving '.$e, 'status' => 'danger']);
         }
 
         
@@ -209,31 +206,74 @@ class EventController extends Controller
         $page_meta_title = 'Events';
         $act = 'Edit';
         $action = $this->prefix.'update-event/'.$id;
-        $event = Event::where('id', $id)->first();
+        $event = Posts::where('id', $id)->first();
         if (isset($event)) {
-            $title = $event->title;
-            $description = $event->description;
-            $featured_img = $event->featured_img;
-            $media = Media::orderBy('created_at','desc')->get();           
-            $option = json_decode($event->option);
-            $meta_desc = $option->meta_desc;
-            $meta_title = $option->meta_title;
-            $meta_keyword = $option->meta_keyword;
-            $status = $event->status;
-            $published_at = $event->published_at;
-            $event_type = $event->event_type;
-            $forum_id = '';
-            $mentor_id = '';
-            $location = $event->location;
-            $htm = $event->htm;
-            $open_at = $event->open_at;
-            $closed_at = $event->closed_at;
-            $list_category = EventHelper::get_list_category($event->id);
 
-            return view('event::admin.event_form')->with(['page_meta_title' => $page_meta_title, 'act' => $act, 'action' => $action, 'event' => $event , 'title' => $title, 'description' => $description, 'media' => $media, 'featured_img' => $featured_img, 'meta_desc' => $meta_desc, 'meta_title' => $meta_title, 'meta_keyword' => $meta_keyword, 'status' => $status, 'published_at' => $published_at, 'event_type' => $event_type, 'forum_id' => $forum_id, 'mentor_id' => $mentor_id, 'location' => $location, 'htm' => $htm, 'open_at' => $open_at, 'closed_at' => $closed_at, 'list_category' => $list_category]);
+            $post_metas = PostMeta::where('post_id',$event->id)->get();
+
+            $title = $event->title;
+            $description = $event->content; 
+            $featured_img = $event->featured_img;
+            $media = Media::orderBy('created_at','desc')->get();
+            $status = $event->status;
+            $published_date = $event->published_date;
+            
+            
+            
+            $post_metas = $this->readMetas($post_metas);
+            
+            $event_type     = $post_metas->key ?? '';
+            $location       = $post_metas->event_location ?? '';
+            $htm            = $post_metas->event_htm ?? '';
+            $open_at        = $post_metas->event_open_at ?? '';
+            $closed_at      = $post_metas->event_closed_at ?? '';
+            $meta_desc      = $post_metas->event_meta_desc ?? '';
+            $meta_title     = $post_metas->event_meta_title ?? '';
+            $meta_keyword   = $post_metas->event_meta_keyword ?? '';
+            $mentor_id      = json_decode($post_metas->event_mentor) ?? [];
+            $categories     = json_decode($post_metas->event_categories) ?? [];
+
+            
+            $list_category = EventHelper::get_list_category($categories);
+
+            return view('event::admin.event_form')->with(
+                            [
+                                'id'=>$id,
+                                'page_meta_title' => $page_meta_title,
+                                'act' => $act,
+                                'action' => $action,
+                                'event' => $event ,
+                                'title' => $title,
+                                'description' => $description,
+                                'media' => $media,
+                                'featured_img' => $featured_img,
+                                'meta_desc' => $meta_desc,
+                                'meta_title' => $meta_title,
+                                'meta_keyword' => $meta_keyword,
+                                'status' => $status,
+                                'published_date' => $published_date,
+                                'event_type' => $event_type,
+                                'mentor_id' => $mentor_id,
+                                'location' => $location,
+                                'htm' => $htm,
+                                'open_at' => $open_at,
+                                'closed_at' => $closed_at,
+                                'list_category' => $list_category,
+                                'isEdit'=>true
+                            ]
+                    );
         } else {
             return redirect($this->prefix)->with(['msg' => 'Event Not Found', 'status' => 'danger']);
         }
+    }
+
+    function readMetas($arr=[])
+    {
+        $metas = new \stdClass;;
+        foreach ($arr as $key => $value) {
+            $metas->{$value->key} = $value->value;
+        }
+        return $metas;
     }
 
     /**
@@ -246,60 +286,55 @@ class EventController extends Controller
         $title = $request->input('title');
         $description = $request->input('description');
         $featured_img = $request->input('featured_img');
-        $event_type = $request->get('event_type');
-        $category = $request->get('category');
+        // $event_type = $request->get('event_type');
+        // $categories = json_encode($request->get('category'));
         $location = $request->input('location');
-        $htm = $request->input('htm');
+        // $htm = $request->input('htm');
         $author = 1;
-        $forum_id = $request->input('forum_id');
+        // $forum_id = $request->input('forum_id');
         $mentor = $request->input('mentor');
         $status = $request->get('status');
-        $event_type = $request->get('event_type');
-        $option['meta_title'] = $request->input('meta_title');
-        $option['meta_desc'] = $request->input('meta_desc');
-        $option['meta_keyword'] = $request->input('meta_keyword');
-        $option = json_encode($option);
-        $open_at = $request->input('open_at');
-        $closed_at = $request->input('closed_at');
-        $published_at = $request->input('published_at');
+        // $event_type = $request->get('event_type');
+        // $event_meta_title = $request->input('meta_title');
+        // $event_meta_desc = $request->input('meta_desc');
+        // $event_meta_keyword = $request->input('meta_keyword');
+        // $open_at = $request->input('open_at');
+        // $closed_at = $request->input('closed_at');
+        $published_date = $request->input('published_date');
 
         DB::beginTransaction();
         try {
-            $update = Event::where('id', $id)->first();
+
+            $post_metas = PostMeta::where('post_id',$id)->get();
+            $update = Posts::where('id', $id)->first();
             $update->title = $title;
-            $update->description = $description;
-            $update->featured_img = $featured_img;
-            $update->event_type = $event_type;
-            $update->location = $location;
-            $update->htm = $htm;
-            $update->option = $option;
+            $update->content = $description;
+            $update->featured_image = $featured_img;
             $update->author = $author;
             $update->status = $status;
-            $update->open_at = $open_at;
-            $update->closed_at = $closed_at;
-            $update->published_at = $published_at;
+            $update->published_date = $published_date;
             $update->update();
 
-            $event_category = EventCategoryRelation::where('event_id', $id)->first();
-            $event_category->event_id = $id;
-            $event_category->category_id = json_encode($category);
-            $event_category->update();     
+            $meta_fields = [ 'event_type', 'event_location', 'event_htm', 'event_meta_title', 'event_meta_desc', 'event_meta_keyword', 'event_open_at', 'event_closed_at', 'event_categories' ];
+            foreach ($post_metas as $key => &$value) {
+                if( in_array($value->key, $meta_fields)){
+                    $fieldCheck = ( 
+                                    'event_type' == $value->key
+                                    ) ? $value->key : str_ireplace("event_", "", $value->key); 
 
-            $event_forum = EventForumRelation::where('event_id', $id)->first();
-            $event_forum->event_id = $id;
-            $event_forum->forum_id = $forum_id;
-            $event_forum->update();       
-
-            $event_mentor = EventMentorRelation::where('event_id', $id)->first();
-            $event_mentor->event_id = $id;
-            $event_mentor->mentor_id = $mentor;
-            $event_mentor->update();       
+                    if ( $request->input($fieldCheck))
+                    {
+                        $value->value = ( is_array($request->input($fieldCheck)) || is_object($request->input($fieldCheck)) ) ? json_encode($request->input($fieldCheck)) : $request->input($fieldCheck);
+                        $value->save();
+                    }
+                }
+            }
 
             DB::commit();
-            return redirect($this->prefix.'edit-event/'.$id)->with(['msg' => 'Saved', 'status' => 'success']);
+            return redirect(route('viewevent',$id))->with(['msg' => 'Saved', 'status' => 'success']);
         } catch (\Exception $e) {
             DB::rollback();
-            return redirect($this->prefix.'edit-event/'.$id)->with(['msg' => 'Error updating', 'status' => 'danger']);
+            return redirect(route('viewevent',$id))->with(['msg' => 'Error updating', 'status' => 'danger']);
         }
 
     }
@@ -325,7 +360,7 @@ class EventController extends Controller
         foreach ($id as $id) {
             $this->EventHelper->delete_event($id, 'bulk');
         }
-        return redirect($this->prefix)->with(['msg' => 'Delete Success', 'status' => 'success']);
+        return redirect(route('events'))->with(['msg' => 'Delete Success', 'status' => 'success']);
     }
 
     /**
