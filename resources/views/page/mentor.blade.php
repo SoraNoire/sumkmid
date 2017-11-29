@@ -8,7 +8,7 @@
 	</div>
 </div>
 
-<div id="mentor-list">
+<div id="mentor-archive">
 	<div class="container">
 
 		@for ($i = 0; $i <=12; $i++)

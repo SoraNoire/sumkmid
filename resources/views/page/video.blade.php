@@ -8,7 +8,7 @@
 	</div>
 </div>
 
-<div id="video-list">
+<div id="video-archive">
 	<div class="container">
 
 		@for ($i = 0; $i <=12; $i++)
