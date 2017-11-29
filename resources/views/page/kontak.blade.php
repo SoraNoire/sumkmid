@@ -17,8 +17,8 @@
 				<p style="margin: 0">Jln. Kebon Kacang Raya No. 25 Tanah Abang</p>
 				<p style="margin: 0">Jakarta Pusat, Indonesia</p>
 				<p style="margin-bottom: 14px">Kode Pos 10240</p>
-				<p style="margin-bottom: 8px"><i class="fa fa-phone" aria-hidden="true"></i> (021) 3917399</p>
-				<p><i class="fa fa-envelope" aria-hidden="true"></i> info@mdirect.id</p>
+				<p style="margin-bottom: 8px"><img src="/img/contact-telephone-icon.svg">&nbsp; (021) 3917399</p>
+				<p><img src="/img/contact-mail-icon.svg">&nbsp; info@mdirect.id</p>
 			</div>
 			<div class="col-6 contact-form">
 				<h3>Leave a message</h3>
@@ -32,9 +32,5 @@
 		</div>
 	</div>
 </div>
-
-<script>function initMap(){var e=-6.193724,n=106.817485,o={lat:e,lng:n},a=new google.maps.Map(document.getElementById("map"),{zoom:16,center:o});new google.maps.Marker({position:o,map:a})}</script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAyE7KLJT2rPz-8N2Fi6Ump53yabrvNj5g&callback=initMap" async defer></script>
-<script src="https://apis.google.com/js/platform.js" async defer></script>
 
 @endsection

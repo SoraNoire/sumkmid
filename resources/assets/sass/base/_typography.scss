@@ -1,10 +1,10 @@
 *{
 	font-family: $font;
-	color: $fontColor;
 }
 body, button, input, select, textarea {
 	font-size: 14px;
 	line-height: 1.42857143;
+	color: $fontColor;
 }
 p{
 	margin: 0 0 10px;
