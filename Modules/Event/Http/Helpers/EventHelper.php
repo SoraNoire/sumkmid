@@ -3,12 +3,15 @@ namespace Modules\Event\Http\Helpers;
 
 use Modules\Event\Entities\Event;
 use Modules\Event\Entities\EventCategory;
+use Modules\Blog\Entities\Categories;
 use Modules\Event\Entities\EventCategoryRelation;
 use Modules\Event\Entities\EventForumRelation;
 use Modules\Event\Entities\EventMentorRelation;
 use Illuminate\Http\File;
 use Image;
 use DB;
+
+use Modules\Blog\Entities\Posts;
 
 class EventHelper
 {
@@ -23,20 +26,16 @@ class EventHelper
      * @param  $event_id
      * @return Response
      */
-    public static function get_list_category($event_id = ''){
-        $maincategory = EventCategory::get(); 
+    public static function get_list_category($categories=[0]){
+
+        $maincategory = Categories::get(); 
         $allcategory = '';
-
-        if ($event_id > 0) {
-            $selected_cat = EventHelper::get_event_category($event_id, 'id');
-        } 
-
+        $selected_cat = [];
         foreach ($maincategory as $main) {
-            $selected = in_array($main->id, $selected_cat) ? 'checked' : '';
-            $allcategory .= '<li><label><input '.$selected.' name="category[]" type="checkbox" value="'.$main->id.'">'.$main->name.'</label>';
+            $selected = in_array($main->id, $categories) ? 'checked' : '';
+            $allcategory .= '<li><label><input '.$selected.' name="categories[]" type="checkbox" value="'.$main->id.'">'.$main->name.'</label>';
             $allcategory .= '</li>';
         }
-
         return $allcategory;
     }
 
@@ -53,9 +52,9 @@ class EventHelper
         if (count($selected_cat_id) > 0) {
             foreach ($selected_cat_id as $key) {
                 if ($select != '') {
-                    $category = EventCategory::where('id', $key)->first()->$select;
+                    $category = Categories::where('id', $key)->first()->$select;
                 } else {
-                    $category = EventCategory::where('id', $key)->first();
+                    $category = Categories::where('id', $key)->first();
                 }
                 $selected_cat[] = $category;
             }   
@@ -92,30 +91,25 @@ class EventHelper
      * @return Response
      */
     public static function delete_event($id, $is_bulk = ''){
-        $event = Event::where('id', $id)->first();
-        if (isset($event)) {
+        $event = Posts::where('id', $id)->first();
+        if ($event) {
             DB::beginTransaction();
             try {
-                $event_forum = EventForumRelation::where('event_id', $id)->first();
-                $event_mentor = EventMentorRelation::where('event_id', $id)->first();
-                $event_category = EventCategoryRelation::where('event_id', $id)->first();
-                $event_forum->delete();       
-                $event_mentor->delete();   
-                $event_category->delete();
-                $event->delete();  
+                $event->deleted = 1;
+                $event->save();  
                 
                 DB::commit();
                 if ($is_bulk == 'bulk') {
                     // all good. do nothing
                 } else {
-                    return redirect($this->prefix)->with(['msg' => 'Deleted', 'status' => 'success'])->send();    
+                    return redirect(route('events'))->with(['msg' => 'Deleted', 'status' => 'success'])->send();    
                 }
             } catch (\Exception $e) {
                 DB::rollback();
-                return redirect($this->prefix)->with(['msg' => 'Delete Error', 'status' => 'danger'])->send();
+                return redirect(route('events'))->with(['msg' => 'Delete Error', 'status' => 'danger'])->send();
             }
         } else {
-            return redirect($this->prefix)->with(['msg' => 'event Not Found', 'status' => 'danger'])->send();
+            return redirect(route('events'))->with(['msg' => 'event Not Found', 'status' => 'danger'])->send();
         }
     }
 
@@ -125,7 +119,7 @@ class EventHelper
      * @return Response
      */
     public static function delete_category($id, $is_bulk = ''){
-        $category = EventCategory::where('id', $id)->first();
+        $category = Categories::where('id', $id)->first();
         if (isset($category)) {
             DB::beginTransaction();
             try {

@@ -11,12 +11,12 @@
     
     <h4 class="title">{{ $act }} events</h4>
 
-    <form id="event-form" method="post" action="{{ url($action) }}" accept-charset="UTF-8">
+    <form id="event-form" method="post" action="{{  ($isEdit) ? route('updateevent',$id) : route('storeevent') }}" accept-charset="UTF-8">
         @if ($act == 'New')
         <a href="{{ URL::to($prefix.'create-event') }}" class="btn btn-round btn-fill btn-info">New Event +<div class="ripple-container"></div></a>
         @elseif ($act == 'Edit')
         <a target="_blank" href="{{ URL::to($prefix.'show/'.$event->slug) }}" class="btn btn-round btn-fill btn-info">View Event<div class="ripple-container"></div></a>
-        <a onclick="return confirm('Delete Event?');" href="{{URL::to($prefix.'delete-event/'.$event->id)}}" class="btn btn-round btn-fill btn-danger">Delete Event<div class="ripple-container"></div></a>
+        <a onclick="return confirm('Delete Event?');" href="{{route('removeevent',$event->id)}}" class="btn btn-round btn-fill btn-danger">Delete Event<div class="ripple-container"></div></a>
         @endif
         <button type="submit" class="btn btn-success pull-right">Save Event</button>
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -140,7 +140,7 @@
                             <div class="form-group">
                                 <label class="control-label">Date Published</label>
                                 <div class="input-group input-append date datetimepicker">
-                                    <input class="form-control" size="16" type="text" value="{{ $published_at }}" name="published_at" readonly>
+                                    <input class="form-control" size="16" type="text" value="{{ $published_date ?? '' }}" name="published_date" readonly>
                                     <span class="input-group-addon"><i class="fa fa-calendar" aria-hidden="true"></i></span>
                                 </div>
                             </div>
@@ -168,6 +168,7 @@
                                 <div class="form-group">
                                     <label class="control-label">Add Category</label>
                                     <input type="text" name="category_name" class="form-control">
+                                    <input type="hidden" name="c_token" value="{{ csrf_token() }}">
                                 </div>
                                 <button class="btn btn-default add_category_button" type="button">Add New Category</button>
                             </div>
