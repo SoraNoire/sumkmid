@@ -4,7 +4,7 @@ $(document).ready(function() {
     if ($("#EventCategoryTable").length > 0) {
         $("#EventCategoryTable").DataTable({
             "ajax": $.fn.dataTable.pipeline( {
-                url: '/admin/blog/event/get-category',
+                url: '/admin/blog/ajaxcategories',
                 pages: 5 // number of pages to cache
             } ),
             "processing": true,
@@ -19,14 +19,14 @@ $(document).ready(function() {
                     "targets": -1,
                     "data": 'id',
                     "render": function ( data, type, row ) {
-                        return '<a href="/admin/blog/event/edit-category/'+row.id+'">Edit</a> | <a onclick="return confirm(\'Delete Category?\');" href="/admin/blog/event/delete-category/'+row.id+'">Delete</a>';
+                        return '<a href="/admin/blog/category/'+row.id+'/view">Edit</a> | <a onclick="return confirm(\'Delete Category?\');" href="/admin/blog/category/'+row.id+'/delete">Delete</a>';
                     }
                 },
                     {
                     "targets": 0,
                     "data": 'name',
                     "render": function ( data, type, row ) {
-                        return '<a href="/admin/blog/event/edit-category/'+row.id+'">'+data+'</a>';
+                        return '<a href="/admin/blog/category/'+row.id+'/view">'+data+'</a>';
                     }
                 }
             ],
@@ -38,10 +38,10 @@ $(document).ready(function() {
     } 
 
     // event table
-    if ($("#myTableEvent").length > 0) {
-        $("#myTableEvent").DataTable({
+    if ($("#event-table").length > 0) {
+        $("#event-table").DataTable({
             "ajax": $.fn.dataTable.pipeline( {
-                url: '/admin/blog/event/get-events',
+                url: '/admin/blog/event/ajaxevents',
                 pages: 5 // number of pages to cache
             } ),
             "processing": true,
@@ -51,21 +51,21 @@ $(document).ready(function() {
             "columns": [
                 { "data": "title" },
                 { "data": "author" },
-                { "data": "published_at" },
+                { "data": "published_date" },
                 { "data": "id" },
             ],
             "columnDefs": [ {
                     "targets": -1,
                     "data": 'id',
                     "render": function ( data, type, row ) {
-                        return '<a href="/admin/blog/event/edit-event/'+row.id+'">Edit</a> | <a onclick="return confirm(\'Delete Event?\');" href="/admin/blog/event/delete-event/'+row.id+'">Hapus</a>';
+                        return '<a href="/admin/blog/event/'+row.id+'/view">Edit</a> | <a onclick="return confirm(\'Delete Event?\');" href="/admin/blog/event/'+row.id+'/delete">Hapus</a>';
                     }
                 },
                     {
                     "targets": 0,
                     "data": 'title',
                     "render": function ( data, type, row ) {
-                        return '<a href="/admin/blog/event/edit-event/'+row.id+'">'+data+'</a>';
+                        return '<a href="/admin/blog/event/'+row.id+'/view">'+data+'</a>';
                     }
                 }
             ],
@@ -81,10 +81,16 @@ $(document).ready(function() {
 // add category on post ajax function
 $('#event-category .add_category_button').on('click', function add_category(){
     var n = $('input[name=category_name]').val();
+    var token = $('input[name=c_token]').val();
     if (n != '') {
         $.ajax({
-            type: "GET",
-            url: "/admin/blog/event/add-category-event/"+n,
+            type: "POST",
+            url: "/admin/blog/category/ajaxadd",
+            data:{
+              "_token": token,
+              name: n, // Second add quotes on the value.
+              catjax: true,
+            },
             success: function(msg){
                 $('#event-category .category-wrap ul').append(msg);
             },

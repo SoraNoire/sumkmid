@@ -21,7 +21,7 @@
     </div>
 
     <div class="card-content table-responsive">
-        <table class="table mydatatable" id="myTableEvent">
+        <table class="table mydatatable" id="event-table">
             <thead>
                 <th>Title</th>
                 <th>Author</th>

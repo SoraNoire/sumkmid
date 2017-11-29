@@ -36,6 +36,7 @@ Route::group(['middleware' => ['web','admin'], 'prefix' => 'admin/blog', 'namesp
     Route::get('/ajaxcategories', ['as'=> 'ajaxcategories', 'uses' => 'BlogController@ajaxCategories']);
     Route::get('/category/add', ['as'=> 'addcategory', 'uses' => 'BlogController@addCategory']);
     Route::post('/category/add', ['as'=> 'storecategory', 'uses' => 'BlogController@addCategoryPost']);
+    Route::post('/category/ajaxadd', ['as'=> 'storecategoryajax', 'uses' => 'BlogController@addCategoryPost']);
     Route::get('/category/{id}/view', ['as'=> 'viewcategory', 'uses' => 'BlogController@viewCategory']);
     Route::post('/category/{id}/update', ['as'=> 'updatecategory', 'uses' => 'BlogController@updateCategory']);
     Route::get('/category/{id}/remove', ['as'=> 'removecategory', 'uses' => 'BlogController@removeCategory']);

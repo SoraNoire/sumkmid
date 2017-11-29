@@ -4,8 +4,8 @@ namespace Modules\Blog\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Posts extends Model
+class PostMeta extends Model
 {
-    protected $table = 'nposts';
+    protected $table = 'post_meta';
     protected $fillable = ['*'];
 }
