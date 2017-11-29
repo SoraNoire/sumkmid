@@ -223,15 +223,15 @@ class EventController extends Controller
             $post_metas = $this->readMetas($post_metas);
             
             $event_type     = $post_metas->key ?? '';
-            $location       = $post_metas->event_location ?? '';
-            $htm            = $post_metas->event_htm ?? '';
-            $open_at        = $post_metas->event_open_at ?? '';
-            $closed_at      = $post_metas->event_closed_at ?? '';
-            $meta_desc      = $post_metas->event_meta_desc ?? '';
-            $meta_title     = $post_metas->event_meta_title ?? '';
-            $meta_keyword   = $post_metas->event_meta_keyword ?? '';
-            $mentor_id      = json_decode($post_metas->event_mentor) ?? [];
-            $categories     = json_decode($post_metas->event_categories) ?? [];
+            $location       = $post_metas->location ?? '';
+            $htm            = $post_metas->htm ?? '';
+            $open_at        = $post_metas->open_at ?? '';
+            $closed_at      = $post_metas->closed_at ?? '';
+            $meta_desc      = $post_metas->meta_desc ?? '';
+            $meta_title     = $post_metas->meta_title ?? '';
+            $meta_keyword   = $post_metas->meta_keyword ?? '';
+            $mentor_id      = json_decode($post_metas->mentor ?? '') ?? [];
+            $categories     = json_decode($post_metas->categories ?? '') ?? [];
 
             
             $list_category = EventHelper::get_list_category($categories);
@@ -313,22 +313,55 @@ class EventController extends Controller
             $update->author = $author;
             $update->status = $status;
             $update->published_date = $published_date;
-            $update->update();
+            
+            if($update->update())
+            {
+                $newMeta = false;
+                $post_metas = PostMeta::where('post_id',$id)->get();
+                $meta_fields = ['event_type', 'location', 'htm', 'open_at', 'closed_at', 'categories', 'forum_id', 'meta_title', 'meta_desc', 'meta_keyword', 'mentor' ];
 
-            $meta_fields = [ 'event_type', 'event_location', 'event_htm', 'event_meta_title', 'event_meta_desc', 'event_meta_keyword', 'event_open_at', 'event_closed_at', 'event_categories' ];
-            foreach ($post_metas as $key => &$value) {
-                if( in_array($value->key, $meta_fields)){
-                    $fieldCheck = ( 
-                                    'event_type' == $value->key
-                                    ) ? $value->key : str_ireplace("event_", "", $value->key); 
-
-                    if ( $request->input($fieldCheck))
+                foreach ($meta_fields as $key => $meta) {
+                    $updated = false;
+                    $post_metas->map(function($field) use ($meta,$request,&$updated){
+                        if ( $meta == $field->key )
+                        {
+                            $value = ( 
+                                        is_array($request->input($field->key)) ||
+                                        is_object($request->input($field->key)) 
+                                    )
+                                    ? json_encode($request->input($field->key)) : $request->input($field->key);
+                            $field->value = $value ?? $field->value;
+                            $field->save();
+                            $updated = true;
+                            return true;
+                        }
+                    });
+                    if(!$updated && $request->input($meta))
                     {
-                        $value->value = ( is_array($request->input($fieldCheck)) || is_object($request->input($fieldCheck)) ) ? json_encode($request->input($fieldCheck)) : $request->input($fieldCheck);
-                        $value->save();
+                        $value = ( 
+                                    is_array($request->input($meta)) ||
+                                    is_object($request->input($meta)) 
+                                )
+                                ? json_encode($request->input($meta)) : $request->input($meta);
+                         PostMeta::insert(['post_id'=>$update->id,'key' => $meta, 'value'=>$value]);
                     }
                 }
             }
+
+            // $meta_fields = [ 'event_type', 'event_location', 'event_htm', 'event_meta_title', 'event_meta_desc', 'event_meta_keyword', 'event_open_at', 'event_closed_at', 'event_categories' ];
+            // foreach ($post_metas as $key => &$value) {
+            //     if( in_array($value->key, $meta_fields)){
+            //         $fieldCheck = ( 
+            //                         'event_type' == $value->key
+            //                         ) ? $value->key : str_ireplace("event_", "", $value->key); 
+
+            //         if ( $request->input($fieldCheck))
+            //         {
+            //             $value->value = ( is_array($request->input($fieldCheck)) || is_object($request->input($fieldCheck)) ) ? json_encode($request->input($fieldCheck)) : $request->input($fieldCheck);
+            //             $value->save();
+            //         }
+            //     }
+            // }
 
             DB::commit();
             return redirect(route('viewevent',$id))->with(['msg' => 'Saved', 'status' => 'success']);
@@ -358,9 +391,17 @@ class EventController extends Controller
     {
         $id = json_decode($request->id);
         foreach ($id as $id) {
-            $this->EventHelper->delete_event($id, 'bulk');
+            $delete = Posts::find($id);
+            if ($delete) {
+                $delete->deleted = 1;
+                if (!$delete->save()) {
+                    return redirect(route('pages'))->with(['msg' => 'Delete Error', 'status' => 'danger']);
+                }
+            } else {
+                return redirect(route('pages'))->with(['msg' => 'Delete Error. Event does not exists', 'status' => 'danger']);
+            }
         }
-        return redirect(route('events'))->with(['msg' => 'Delete Success', 'status' => 'success']);
+        return redirect(route('pages'))->with(['msg' => 'Delete Success', 'status' => 'success']);
     }
 
     /**

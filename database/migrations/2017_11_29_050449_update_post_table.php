@@ -14,7 +14,8 @@ class UpdatePostTable extends Migration
      public function up()
     {
         Schema::table('nposts', function($table){
-            $table->integer('deleted')->default(0);
+            $table->integer('deleted')->unsigned()->default(0);
+            $table->integer('status')->unsigned()->default(1)->change();
         });
     }
 
@@ -26,7 +27,7 @@ class UpdatePostTable extends Migration
     public function down()
     {
         Schema::table('nposts', function($table){
-            $table->dropColummn('deleted');
+            $table->dropColumn('deleted');
         });
     }
 }

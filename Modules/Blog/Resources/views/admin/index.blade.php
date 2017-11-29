@@ -7,8 +7,8 @@
   {{ session('msg') }}
 </div>
 @endif
-<form method="post" action="{{ URL::to($prefix.'bulk-delete-post/')}}" accept-charset="UTF-8">
-<a href="{{ URL::to($prefix.'create-post') }}" class="btn btn-round btn-fill btn-info">New Post +<div class="ripple-container"></div></a>
+<form method="post" action="{{ route('massdeletepost') }}" accept-charset="UTF-8">
+<a href="{{ route('addpost') }}" class="btn btn-round btn-fill btn-info">New Post +<div class="ripple-container"></div></a>
 
 <input type="hidden" name="_token" value="{{ csrf_token() }}">
 <input type="hidden" name="id" class="bulk-delete-id">
@@ -21,7 +21,7 @@
     </div>
 
     <div class="card-content table-responsive">
-        <table class="table mydatatable" id="myTableNews">
+        <table class="table mydatatable" id="posts-table">
             <thead>
                 <th>Title</th>
                 <th>Author</th>

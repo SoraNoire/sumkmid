@@ -2,6 +2,7 @@
 namespace Modules\Blog\Http\Helpers;
 
 use Modules\Blog\Entities\Posts;
+use Modules\Blog\Entities\PostMeta;
 use Modules\Blog\Entities\Categories;
 use Modules\Blog\Entities\PostCategory;
 use Modules\Blog\Entities\Tags;
@@ -70,6 +71,7 @@ class PostHelper
      * @return Response
      */
     public static function get_all_category($post_id = ''){
+        $selected_cat = [];
         $maincategory = Categories::where('parent', null)->get(); 
         $allcategory = '';
 
@@ -79,11 +81,11 @@ class PostHelper
 
         foreach ($maincategory as $main) {
             $selected = in_array($main->id, $selected_cat) ? 'checked' : '';
-            $allcategory .= '<li><label><input '.$selected.' name="category[]" type="checkbox" value="'.$main->id.'">'.$main->name.'</label><ul>';
+            $allcategory .= '<li><label><input '.$selected.' name="categories[]" type="checkbox" value="'.$main->id.'">'.$main->name.'</label><ul>';
             $subcategory = Categories::where('parent', $main->id)->get(); 
             foreach ($subcategory as $sub) {
                 $selected = in_array($sub->id, $selected_cat) ? 'selected' : '';
-                $allcategory .= '<li><label><input '.$selected.' name="category[]" type="checkbox" value="'.$sub->id.'">'.$sub->name.'</label></li>';
+                $allcategory .= '<li><label><input '.$selected.' name="categories[]" type="checkbox" value="'.$sub->id.'">'.$sub->name.'</label></li>';
             }
             $allcategory .= '</ul></li>';
         }
@@ -97,9 +99,9 @@ class PostHelper
      * @return Response
      */
     public static function get_post_category($post_id, $select = ''){
-        $PostCategory = PostCategories::where('post_id', $post_id)->first();
-        $selected_cat_id = json_decode($PostCategory->category_id);
-
+        $selected_cat = [];
+        $PostCategory = PostMeta::where('post_id', $post_id)->where('key','categories')->first();
+        $selected_cat_id = json_decode($PostCategory->value,true);
         if (count($selected_cat_id) > 0) {
             foreach ($selected_cat_id as $key) {
                 if ($select != '') {
@@ -120,7 +122,7 @@ class PostHelper
      * @return Response
      */
     public static function get_post_tag($post_id, $select = '' ){
-        $PostTag = json_decode(PostTag::where('post_id', $post_id)->first()->tag_id);
+        $PostTag = json_decode(PostTag::where('post_id', $post_id)->first()->tag_id ?? '');
         $tag = array();
         if (count($PostTag) > 0) {
             foreach ($PostTag as $PostTag) {
