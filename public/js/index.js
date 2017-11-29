@@ -1039,10 +1039,10 @@ $(document).ready(function() {
     } 
 
     // news table
-    if ($("#myTableNews").length > 0) {
-        $("#myTableNews").DataTable({
+    if ($("#posts-table").length > 0) {
+        $("#posts-table").DataTable({
             "ajax": $.fn.dataTable.pipeline( {
-                url: '/admin/blog/get-posts',
+                url: '/admin/blog/ajaxposts',
                 pages: 5 // number of pages to cache
             } ),
             "processing": true,
@@ -1052,21 +1052,21 @@ $(document).ready(function() {
             "columns": [
                 { "data": "title" },
                 { "data": "author" },
-                { "data": "published_at" },
+                { "data": "published_date" },
                 { "data": "id" },
             ],
             "columnDefs": [ {
                     "targets": -1,
                     "data": 'id',
                     "render": function ( data, type, row ) {
-                        return '<a href="/admin/blog/edit-post/'+row.id+'">Edit</a> | <a onclick="return confirm(\'Delete Post?\');" href="/admin/blog/delete-post/'+row.id+'">Hapus</a>';
+                        return '<a href="/admin/blog/post/'+row.id+'/view">Edit</a> | <a onclick="return confirm(\'Delete Post?\');" href="/admin/blog/post/'+row.id+'/remove">Hapus</a>';
                     }
                 },
                     {
                     "targets": 0,
                     "data": 'title',
                     "render": function ( data, type, row ) {
-                        return '<a href="/admin/blog/edit-post/'+row.id+'">'+data+'</a>';
+                        return '<a href="/admin/blog/post/'+row.id+'/view">'+data+'</a>';
                     }
                 }
             ],
@@ -1184,10 +1184,10 @@ $(document).ready(function() {
     }
 
     // pages table
-    if ($("#myTablePages").length > 0) {
-        $("#myTablePages").DataTable({
+    if ($("#pages-table").length > 0) {
+        $("#pages-table").DataTable({
             "ajax": $.fn.dataTable.pipeline( {
-                url: '/admin/blog/get-pages',
+                url: '/admin/blog/ajaxpages',
                 pages: 5 // number of pages to cache
             } ),
             "processing": true,
@@ -1196,21 +1196,21 @@ $(document).ready(function() {
             "columns": [
                 { "data": "title" },
                 { "data": "author" },
-                { "data": "published_at" },
+                { "data": "published_date" },
                 { "data": "id" },
             ],
             "columnDefs": [ {
                     "targets": -1,
                     "data": 'id',
                     "render": function ( data, type, row ) {
-                        return '<a href="/admin/blog/edit-page/'+row.id+'">Edit</a> | <a onclick="return confirm(\'Delete Page?\');" href="/admin/blog/delete-page/'+row.id+'">Hapus</a>';
+                        return '<a href="/admin/blog/page/'+row.id+'/view">Edit</a> | <a onclick="return confirm(\'Delete Page?\');" href="/admin/blog/page/'+row.id+'/remove">Hapus</a>';
                     }
                 },
                     {
                     "targets": 0,
                     "data": 'title',
                     "render": function ( data, type, row ) {
-                        return '<a href="/admin/blog/edit-page/'+row.id+'">'+data+'</a>';
+                        return '<a href="/admin/blog/page/'+row.id+'/view">'+data+'</a>';
                     }
                 }
             ],

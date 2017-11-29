@@ -5,12 +5,12 @@
 <div class="col-md-12">
     <h4 class="title">{{ $act }} Page</h4>
 
-    <form id="post-form" method="post" action="{{ url($action) }}" accept-charset="UTF-8">
+    <form id="post-form" method="post" action="{{  ($isEdit) ? route('updatepage',$page->id) : route('storepage') }}" accept-charset="UTF-8">
         @if ($act == 'New')
         <a href="{{ URL::to($prefix.'create-page') }}" class="btn btn-round btn-fill btn-info">New Page +<div class="ripple-container"></div></a>
         @elseif ($act == 'Edit')
         <a target="_blank" href="{{ URL::to($prefix.'page/'.$page->slug) }}" class="btn btn-round btn-fill btn-info">View Page<div class="ripple-container"></div></a>
-        <a onclick="return confirm('Delete Page?');" href="{{URL::to($prefix.'delete-page/'.$page->id)}}" class="btn btn-round btn-fill btn-danger">Delete Page<div class="ripple-container"></div></a>
+        <a onclick="return confirm('Delete Page?');" href="{{route('removepage',$page->id)}}" class="btn btn-round btn-fill btn-danger">Delete Page<div class="ripple-container"></div></a>
         @endif
         <button type="submit" class="btn btn-success pull-right">Save Post</button>
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -26,7 +26,7 @@
                 
                 <div class="form-group">
                     <label class="control-label">Post Content</label>
-                    <textarea class="form-control mytextarea" name="body">{{ $body }}</textarea>
+                    <textarea class="form-control mytextarea" name="content">{{ $content }}</textarea>
                 </div>
 
                 <div class="panel panel-default">
@@ -74,7 +74,7 @@
                             <div class="form-group">
                                 <label class="control-label">Date Published</label>
                                 <div class="input-group input-append date datetimepicker">
-                                    <input class="form-control" size="16" type="text" value="{{ $published_at }}" name="published_at" readonly>
+                                    <input class="form-control" size="16" type="text" value="{{ $published_date }}" name="published_date" readonly>
                                     <span class="input-group-addon"><i class="fa fa-calendar" aria-hidden="true"></i></span>
                                 </div>
                             </div>
@@ -91,9 +91,9 @@
                     <div id="post-fimg" class="panel-collapse collapse in">
                         <div class="panel-body form-group">
                             <a id="browse_fimg_post" data-toggle="modal" data-target="#myFimg" class="btn btn-round btn-fill btn-default" style="margin-bottom: 10px;">Set Featured Image</a>
-                            <input type="hidden" name="featured_img" id="featured_img" value="{{ $featured_img }}">
-                            <div class="preview-fimg-wrap" style="display: {{ $featured_img != '' ? 'block' : ''  }};">
-                                <div class="preview-fimg" style="background-image: url({{ $featured_img }});"></div>
+                            <input type="hidden" name="featured_image" id="featured_img" value="{{ $featured_image }}">
+                            <div class="preview-fimg-wrap" style="display: {{ $featured_image != '' ? 'block' : ''  }};">
+                                <div class="preview-fimg" style="background-image: url({{ $featured_image }});"></div>
                                 <a href="#" onclick="remove_fimg()" class="remove-fimg"><i class="fa fa-times" aria-hidden="true"></i> Remove Featured Image</a>
                             </div>
                         </div>
