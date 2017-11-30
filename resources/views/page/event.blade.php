@@ -11,7 +11,7 @@
 <div id="event-archive">
 	<div class="container">
 		<div class="archive-list">
-			<div class="post event the-row active" id="event-12">
+			<!-- <div class="post event the-row active" id="event-12">
 				<div class="event-datetime col-3">
 					<span>13 Desember 2017</span>
 					<span>08:00 WIB - till drop</span>
@@ -83,7 +83,7 @@
 						</ul>
 					</div>
 				</div>
-			</div>
+			</div> -->
 			@foreach ($events as $event)
 			<div class="post event the-row" id="event-{{$event->id}}">
 				<div class="event-datetime col-3">
@@ -144,7 +144,7 @@
 
 		<!-- pagination has path -->
 		<p class="pagination">
-		  	<a class="pagination__next" href="{{ url('/event/page/2') }}">Next page</a>
+		  	<a class="pagination__next" href="{{ url('/event/page/'.$next) }}">Next page</a>
 		</p>
 	</div>
 </div>

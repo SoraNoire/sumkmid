@@ -92,8 +92,34 @@ class PublicController extends Controller
      */
 	public function event(){
         $var['page'] = "Event";
-        $events = Events::get();
-		return view('page.event')->with(['var' => $var, 'events' => $events]);
+        $paginate = 5;
+        $offset = $paginate - $paginate;
+        $next = 2;
+
+        $events = Events::orderby('published_at', 'desc')->offset($offset)->limit($paginate)->get();
+
+        $max_post = count($events);
+        $max_per_page = $paginate;
+        $max_page = ceil($max_post/$paginate);
+		return view('page.event')->with(['var' => $var, 'events' => $events, 'next' => $next]);
+	}
+
+	/**
+     * Show event page.
+     * @return Response
+     */
+	public function event_archive($page){
+        $var['page'] = "Event";
+        $paginate = 5;
+        $offset = ($page * $paginate) - $paginate;
+        $next = $page + 1;
+
+        $events = Events::orderby('published_at', 'desc')->offset($offset)->limit($paginate)->get();
+        // dd($events);
+        $max_post = count($events);
+        $max_per_page = $paginate * $page;
+        $max_page = ceil($max_post/$paginate);
+		return view('page.event')->with(['var' => $var, 'events' => $events, 'next' => $next]);
 	}
 
 	/**
