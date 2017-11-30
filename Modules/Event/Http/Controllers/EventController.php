@@ -137,7 +137,7 @@ class EventController extends Controller
         $categories = $request->get('categories');
         $location = $request->input('location');
         $htm = $request->input('htm');
-        $author = 1;
+        $author = app()->SSO->Auth()->id;
         $forum_id = $request->input('forum_id');
         $mentor = $request->input('mentor');
         $status = $request->get('status');
@@ -290,7 +290,6 @@ class EventController extends Controller
         // $categories = json_encode($request->get('category'));
         $location = $request->input('location');
         // $htm = $request->input('htm');
-        $author = 1;
         // $forum_id = $request->input('forum_id');
         $mentor = $request->input('mentor');
         $status = $request->get('status');
@@ -310,7 +309,6 @@ class EventController extends Controller
             $update->title = $title;
             $update->content = $description;
             $update->featured_image = $featured_img;
-            $update->author = $author;
             $update->status = $status;
             $update->published_date = $published_date;
             

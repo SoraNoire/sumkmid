@@ -7,8 +7,8 @@
   {{ session('msg') }}
 </div>
 @endif
-<form method="post" action="{{ URL::to($prefix.'bulk-delete-video/')}}" accept-charset="UTF-8">
-<a href="{{ URL::to($prefix.'create-video') }}" class="btn btn-round btn-fill btn-info">New Video +<div class="ripple-container"></div></a>
+<form method="post" action="{{ route('massdeletevideo') }}" accept-charset="UTF-8">
+<a href="{{ route('addvideo') }}" class="btn btn-round btn-fill btn-info">New Video +<div class="ripple-container"></div></a>
 
 <input type="hidden" name="_token" value="{{ csrf_token() }}">
 <input type="hidden" name="id" class="bulk-delete-id">
@@ -21,7 +21,7 @@
     </div>
 
     <div class="card-content table-responsive">
-        <table class="table mydatatable" id="myTableVideos">
+        <table class="table mydatatable" id="table-videos">
             <thead>
                 <th>Title</th>
                 <th>Author</th>

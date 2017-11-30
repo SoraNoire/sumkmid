@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTagTable extends Migration
+class CreateVideoCategoryTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class CreateTagTable extends Migration
      */
     public function up()
     {
-        Schema::create('gallery_tag', function (Blueprint $table) {
+        Schema::create('video_category', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->string('slug');
+            $table->integer('parent')->nullable();
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ class CreateTagTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('gallery_tag');
+        Schema::dropIfExists('video_category');
     }
 }

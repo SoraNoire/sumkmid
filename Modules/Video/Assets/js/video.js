@@ -4,7 +4,7 @@ $(document).ready(function() {
     if ($("#video #VideoCategoryTable").length > 0) {
         $("#video #VideoCategoryTable").DataTable({
             "ajax": $.fn.dataTable.pipeline( {
-                url: '/admin/blog/video/get-category',
+                url: '/admin/blog/ajaxcategories',
                 pages: 5 // number of pages to cache
             } ),
             "processing": true,
@@ -19,14 +19,14 @@ $(document).ready(function() {
                     "targets": -1,
                     "data": 'id',
                     "render": function ( data, type, row ) {
-                        return '<a href="/admin/blog/video/edit-category/'+row.id+'">Edit</a> | <a onclick="return confirm(\'Delete Category?\');" href="/admin/blog/video/delete-category/'+row.id+'">Delete</a>';
+                        return '<a href="/admin/blog/category/'+row.id+'/edit">Edit</a> | <a onclick="return confirm(\'Delete Category?\');" href="/admin/blog/category/'+row.id+'/remove">Delete</a>';
                     }
                 },
                     {
                     "targets": 0,
                     "data": 'name',
                     "render": function ( data, type, row ) {
-                        return '<a href="/admin/blog/video/edit-category/'+row.id+'">'+data+'</a>';
+                            return '<a href="/admin/blog/category/'+row.id+'/edit">'+data+'</a>';
                     }
                 }
             ],
@@ -38,10 +38,10 @@ $(document).ready(function() {
     } 
 
     // videos table
-    if ($("#video #myTableVideos").length > 0) {
-        $("#video #myTableVideos").DataTable({
+    if ($("#video #table-videos").length > 0) {
+        $("#video #table-videos").DataTable({
             "ajax": $.fn.dataTable.pipeline( {
-                url: '/admin/blog/video/get-videos',
+                url: '/admin/blog/video/ajaxvideos',
                 pages: 5 // number of pages to cache
             } ),
             "processing": true,
@@ -51,21 +51,21 @@ $(document).ready(function() {
             "columns": [
                 { "data": "title" },
                 { "data": "author" },
-                { "data": "published_at" },
+                { "data": "published_date" },
                 { "data": "id" },
             ],
             "columnDefs": [ {
                     "targets": -1,
                     "data": 'id',
                     "render": function ( data, type, row ) {
-                        return '<a href="/admin/blog/video/edit-video/'+row.id+'">Edit</a> | <a onclick="return confirm(\'Delete Video?\');" href="/admin/blog/video/delete-video/'+row.id+'">Hapus</a>';
+                        return '<a href="/admin/blog/video/'+row.id+'/edit">Edit</a> | <a onclick="return confirm(\'Delete Video?\');" href="/admin/blog/video/'+row.id+'/remove">Hapus</a>';
                     }
                 },
                     {
                     "targets": 0,
                     "data": 'title',
                     "render": function ( data, type, row ) {
-                        return '<a href="/admin/blog/video/edit-video/'+row.id+'">'+data+'</a>';
+                        return '<a href="/admin/blog/video/'+row.id+'/edit">'+data+'</a>';
                     }
                 }
             ],
@@ -80,7 +80,7 @@ $(document).ready(function() {
     if ($("#video #VideoTagTable").length > 0) {
         $("#video #VideoTagTable").DataTable({
             "ajax": $.fn.dataTable.pipeline( {
-                url: '/admin/blog/video/get-tag',
+                url: '/admin/blog/ajaxtags',
                 pages: 5 // number of pages to cache
             } ),
             "processing": true,
@@ -88,21 +88,21 @@ $(document).ready(function() {
             "stateSave":true,
             "columns": [
                 { "data": "name" },
-                { "data": "created_at" },
+                { "data": "created_date" },
                 { "data": "id" },
             ],
             "columnDefs": [ {
                     "targets": -1,
                     "data": 'id',
                     "render": function ( data, type, row ) {
-                        return '<a href="/admin/blog/video/edit-tag/'+row.id+'">Edit</a> | <a onclick="return confirm(\'Delete Tag?\');" href="/admin/blog/video/delete-tag/'+row.id+'">Hapus</a>';
+                        return '<a href="/admin/blog/tag/'+row.id+'/edit">Edit</a> | <a onclick="return confirm(\'Delete Tag?\');" href="/admin/blog/tags/'+row.id+'/delete">Hapus</a>';
                     }
                 },
                     {
                     "targets": 0,
                     "data": 'title',
                     "render": function ( data, type, row ) {
-                        return '<a href="/admin/blog/video/edit-tag/'+row.id+'">'+data+'</a>';
+                        return '<a href="/admin/blog/tag/'+row.id+'/edit">'+data+'</a>';
                     }
                 }
             ],
@@ -119,9 +119,14 @@ function load_video_category(){
     var id = $('meta[name="item-id"]').attr('content');
     $.ajax({
         type: "GET",
-        url: "/admin/blog/video/get-category-video/"+id,
+        url: "/admin/blog/ajaxcategories",
         success: function(msg){
-            $('#video .category-wrap ul').html(msg);
+            var _el = '';
+            for(i=0;i<msg.data.length;i++){
+                var d = msg.data[i];
+                _el += "<li><label><input name='categories[]' type='checkbox' value='"+d.id+"'>"+d.name+"</label></li>";
+            }
+            $('#video .category-wrap ul').html(_el);
         },
         error: function(err){
             console.log(err);
@@ -133,7 +138,7 @@ function load_video_category_parent(){
     var id = $('meta[name="category-id"]').attr('content');
     $.ajax({
         type: "GET",
-        url: "/admin/blog/video/get-category-parent/"+id,
+        url: "/admin/blog/video/ajaxparentcat/"+id,
         success: function(msg){
             $('#video .category-parent').html(msg);
         },
@@ -157,8 +162,12 @@ $('#video .add_category_button').on('click', function add_category(){
     var p = $('select[name=category_parent]').val();
     if (n != '') {
         $.ajax({
-            type: "GET",
-            url: "/admin/blog/video/add-category-video/"+n+"/"+p,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: "POST",
+            url: "/admin/blog/video/addcat",
+            data: {'name':n, 'parent':p},
             success: function(msg){
                 console.log(msg);
             },
@@ -168,7 +177,7 @@ $('#video .add_category_button').on('click', function add_category(){
         });
 
         load_video_category();
-        load_video_category_parent();
+        // load_video_category_parent();
         $('input[name=category_name]').val('');
         $('select[name=category_parent]').removeAttr('selected');
     } else {    

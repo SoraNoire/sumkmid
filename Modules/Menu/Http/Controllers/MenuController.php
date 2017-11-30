@@ -7,7 +7,7 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Modules\Blog\Entities\Posts;
 use Modules\Blog\Entities\Page;
-use Modules\Blog\Entities\Category;
+use Modules\Blog\Entities\Categories;
 use Modules\Blog\Entities\Tag;
 use Modules\Blog\Entities\PostCategory;
 use Modules\Blog\Entities\PostTag;
@@ -40,9 +40,9 @@ class MenuController extends Controller
                 $menu_structure .= '<li class="dd-item" data-id="'.$key->id.'" data-link="'.$key->link.'" data-label="'.$key->label.'"><div class="dd-handle dd3-handle">Drag</div><div class="menu-item dd3-content panel panel-default" id="menu'.$key->id.'"><div class="menu-title"><span>'.$key->label.'</span><a data-toggle="collapse" data-parent="#menu-structure" href="#menu-collapse-'.$key->id.'"><i style="float: right;" class="fa fa-caret-down" aria-hidden="true"></i></a></div><div id="menu-collapse-'.$key->id.'" class="collapse menu-collapse panel panel-default"><div class="form-group"><label>Label</label><input class="form-control" type="text" name="title" value="'.$key->label.'"><label>URL</label><input class="form-control" type="url" name="url" value="'.$key->link.'"></div><a href="#" class="remove_item">Remove</a></div></div></li>';
             }
         }
-        $pages = Page::orderby('created_at', 'desc')->get();
+        $pages = Posts::where('post_type','page')->where('deleted',0)->orderby('created_at', 'desc')->get();
         $posts = Posts::orderby('created_at', 'desc')->get();
-        $category = Category::orderby('created_at', 'desc')->get();
+        $category = Categories::orderby('created_at', 'desc')->get();
         return view('menu::index')->with(['meta_title' => $meta_title, 'pages' => $pages, 'posts' => $posts, 'category' => $category, 'menu_structure' => $menu_structure]);
     }
 

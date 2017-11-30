@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTagRelationTable extends Migration
+class CreateVideoTagTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateTagRelationTable extends Migration
      */
     public function up()
     {
-        Schema::create('gallery_tag_relation', function (Blueprint $table) {
+        Schema::create('video_tag', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('gallery_id');
-            $table->string('tag_id')->nullable();
+            $table->string('name');
+            $table->string('slug');
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ class CreateTagRelationTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('gallery_tag_relation');
+        Schema::dropIfExists('video_tag');
     }
 }

@@ -162,7 +162,7 @@ class BlogController extends Controller
             $store->post_type = 'post';
             $store->content = $request->input('content');
             $store->featured_image = $request->input('featured_image');
-            $store->author = 1;
+            $store->author = app()->SSO->Auth()->id;
             $store->status = $request->get('status');
             $store->published_date = $published_date;
             if ($store->save()) {
@@ -226,7 +226,7 @@ class BlogController extends Controller
 
             return view('blog::admin.post_form')->with(['isEdit'=>true,'item_id' => $item_id, 'page_meta_title' => $page_meta_title, 'act' => $act, 'action' => $action, 'post' => $post , 'title' => $title, 'content' => $content, 'alltag' => $alltag, 'selected_tag' => $tags, 'media' => $media, 'featured_image' => $featured_image, 'meta_desc' => $meta_desc, 'meta_title' => $meta_title, 'meta_keyword' => $meta_keyword, 'status' => $status, 'published_date' => $published_date, 'files' => $files]);
         } else {
-            return redirect($this->prefix.'posts')->with(['msg' => 'Post Not Found', 'status' => 'danger']);
+            return redirect(route('posts'))->with(['msg' => 'Post Not Found', 'status' => 'danger']);
         }
     }
 
@@ -270,7 +270,6 @@ class BlogController extends Controller
             $update->title = $request->input('title');
             $update->content = $request->input('content');
             $update->featured_image = $request->input('featured_image');
-            $update->author = 1;
             $update->status = $request->input('status');
             $update->published_date = $published_date;
             
@@ -1138,7 +1137,7 @@ class BlogController extends Controller
         $store->post_type = 'page';
         $store->content = $body;
         $store->featured_image = $featured_img;
-        $store->author = 1;
+        $store->author = app()->SSO->Auth()->id;
         $store->status = $status;
         
         $store->published_date = $published_at;

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class UpdateUserTable extends Migration
+class CreateGalleryCategoryRelationTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,11 @@ class UpdateUserTable extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->longText('description')->nullable();
+        Schema::create('gallery_category_relation', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('gallery_id');
+            $table->string('category_id')->nullable();
+            $table->timestamps();
         });
     }
 
@@ -25,8 +28,6 @@ class UpdateUserTable extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('description');
-        });
+        Schema::dropIfExists('gallery_category_relation');
     }
 }

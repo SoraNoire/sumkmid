@@ -7,7 +7,7 @@
 
     <form id="post-form" method="post" action="{{  ($isEdit) ? route('updatepage',$page->id) : route('storepage') }}" accept-charset="UTF-8">
         @if ($act == 'New')
-        <a href="{{ URL::to($prefix.'create-page') }}" class="btn btn-round btn-fill btn-info">New Page +<div class="ripple-container"></div></a>
+        <a href="{{ route('addpage') }}" class="btn btn-round btn-fill btn-info">New Page +<div class="ripple-container"></div></a>
         @elseif ($act == 'Edit')
         <a target="_blank" href="{{ URL::to($prefix.'page/'.$page->slug) }}" class="btn btn-round btn-fill btn-info">View Page<div class="ripple-container"></div></a>
         <a onclick="return confirm('Delete Page?');" href="{{route('removepage',$page->id)}}" class="btn btn-round btn-fill btn-danger">Delete Page<div class="ripple-container"></div></a>
