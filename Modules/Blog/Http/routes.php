@@ -2,7 +2,7 @@
 
 Route::group(['middleware' => ['web','admin'], 'prefix' => 'admin/blog', 'namespace' => 'Modules\Blog\Http\Controllers'], function()
 {
-    // Route::get('/', 'BlogController@index');
+    Route::get('/', 'BlogController@index');
     Route::get('/index', 'BlogController@index');
     Route::get('/posts', 'BlogController@index');
     Route::get('/show/{slug}', 'BlogController@show_post');
