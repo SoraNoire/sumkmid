@@ -1861,6 +1861,27 @@ footer .copyright {
   margin-right: 0;
 }
 
+#event-archive .scroller-status {
+  margin-top: -8px;
+}
+
+#event-archive .scroller-status .event .event-timeline .event-indicator {
+  background-color: #d13d1e;
+}
+
+#event-archive .scroller-status .infinity-scroll-message img {
+  vertical-align: middle;
+  display: inline-block;
+  margin-right: 10px;
+  -webkit-animation: spin 1.5s linear infinite;
+  animation: spin 1.5s linear infinite;
+}
+
+#event-archive .scroller-status .infinity-scroll-message span {
+  margin-left: 10px;
+  display: inline-block;
+}
+
 #map {
   height: 400px;
   margin-bottom: 62px;
@@ -1898,6 +1919,19 @@ footer .copyright {
   border: unset;
   padding: 8px 23px;
   float: right;
+}
+
+@-webkit-keyframes spin {
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
 }
 
 .button {

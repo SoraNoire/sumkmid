@@ -8,6 +8,7 @@ use NewsApi;
 use Session;
 use Cookie;
 use App\Helpers\SSOHelper as SSO;
+use App\Events;
 
 class PublicController extends Controller
 {
@@ -91,7 +92,8 @@ class PublicController extends Controller
      */
 	public function event(){
         $var['page'] = "Event";
-		return view('page.event')->with(['var' => $var]);
+        $events = Events::get();
+		return view('page.event')->with(['var' => $var, 'events' => $events]);
 	}
 
 	/**
