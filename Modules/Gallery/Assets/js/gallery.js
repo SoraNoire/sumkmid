@@ -38,10 +38,10 @@ $(document).ready(function() {
     } 
 
     // gallery table
-    if ($("#myTableGallery").length > 0) {
-        $("#myTableGallery").DataTable({
+    if ($("#table-gallery").length > 0) {
+        $("#table-gallery").DataTable({
             "ajax": $.fn.dataTable.pipeline( {
-                url: '/admin/blog/gallery/get-gallery',
+                url: '/admin/blog/gallery/ajaxgalleries',
                 pages: 5 // number of pages to cache
             } ),
             "processing": true,
@@ -58,14 +58,14 @@ $(document).ready(function() {
                     "targets": -1,
                     "data": 'id',
                     "render": function ( data, type, row ) {
-                        return '<a href="/admin/blog/gallery/edit-gallery/'+row.id+'">Edit</a> | <a onclick="return confirm(\'Delete gallery?\');" href="/admin/blog/gallery/delete-gallery/'+row.id+'">Hapus</a>';
+                        return '<a href="/admin/blog/gallery/'+row.id+'/view">Edit</a> | <a onclick="return confirm(\'Delete gallery?\');" href="/admin/blog/gallery/'+row.id+'/remove">Hapus</a>';
                     }
                 },
                     {
                     "targets": 0,
                     "data": 'title',
                     "render": function ( data, type, row ) {
-                        return '<a href="/admin/blog/gallery/edit-gallery/'+row.id+'">'+data+'</a>';
+                        return '<a href="/admin/blog/gallery/'+row.id+'/view">'+data+'</a>';
                     }
                 }
             ],
@@ -80,7 +80,7 @@ $(document).ready(function() {
     if ($("#GalleryTagTable").length > 0) {
         $("#GalleryTagTable").DataTable({
             "ajax": $.fn.dataTable.pipeline( {
-                url: '/admin/blog/gallery/get-tag',
+                url: '/admin/blog/tags/ajaxtags',
                 pages: 5 // number of pages to cache
             } ),
             "processing": true,
@@ -95,14 +95,14 @@ $(document).ready(function() {
                     "targets": -1,
                     "data": 'id',
                     "render": function ( data, type, row ) {
-                        return '<a href="/admin/blog/gallery/edit-tag/'+row.id+'">Edit</a> | <a onclick="return confirm(\'Delete Tag?\');" href="/admin/blog/gallery/delete-tag/'+row.id+'">Hapus</a>';
+                        return '<a href="/admin/blog/tag/'+row.id+'/view">Edit</a> | <a onclick="return confirm(\'Delete Tag?\');" href="/admin/blog/tag/'+row.id+'/remove">Hapus</a>';
                     }
                 },
                     {
                     "targets": 0,
                     "data": 'title',
                     "render": function ( data, type, row ) {
-                        return '<a href="/admin/blog/gallery/edit-tag/'+row.id+'">'+data+'</a>';
+                        return '<a href="/admin/blog/tag/'+row.id+'/view">'+data+'</a>';
                     }
                 }
             ],
@@ -120,7 +120,7 @@ function load_gallery_category(){
     var id = $('meta[name="item-id"]').attr('content');
     $.ajax({
         type: "GET",
-        url: "/admin/blog/gallery/get-category-gallery/"+id,
+        url: "/admin/blog/categori/get-category-gallery/"+id,
         success: function(msg){
             $('#gallery .category-wrap ul').html(msg);
         },

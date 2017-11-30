@@ -21,7 +21,7 @@
     </div>
 
     <div class="card-content table-responsive">
-        <table class="table mydatatable" id="myTableGallery">
+        <table class="table mydatatable" id="table-gallery">
             <thead>
                 <th>Title</th>
                 <th>Author</th>
