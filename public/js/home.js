@@ -46,3 +46,12 @@ $('#myalert').on('click', 'a', function(e){
 	e.preventDefault();
 	$('#myalert').hide();
 });
+
+function show_event_detail(id) {
+	$('#'+id).find('.lihat-detail').hide();
+	$('#'+id).find('.event-meta').fadeIn();
+}
+
+function show_event_sharer(id) {
+	$('#'+id).find('.share-socmed ul').fadeIn();
+}

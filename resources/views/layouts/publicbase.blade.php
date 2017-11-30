@@ -88,10 +88,10 @@
  			</div>
  			<div class="footer-socmed">
  				<ul>
- 					<li><a target="_blank" href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                    <li><a target="_blank" href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                    <li><a target="_blank" href="#"><i class="fa fa-youtube-play" aria-hidden="true"></i></a></li>
-                    <li><a target="_blank" href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+                    <li><a target="_blank" href="#" style="background-image: url('/img/home-facebook-logo.svg');"></a></li>
+                    <li><a target="_blank" href="#" style="background-image: url('/img/home-twitter-logo.svg');"></a></li>
+                    <li><a target="_blank" href="#" style="background-image: url('/img/home-youtube-logo.svg');"></a></li>
+                    <li><a target="_blank" href="#" style="background-image: url('/img/home-instagram-logo.svg');"></a></li>
  				</ul>
  			</div>
  			<div class="footer-nav">

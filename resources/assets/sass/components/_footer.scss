@@ -5,28 +5,25 @@ footer {
   	text-align:center;
   	.footer-socmed {
   		margin-top: 15px;
-  		margin-bottom: 7px;
+  		margin-bottom: 11px;
   		ul {
-  			padding: 0;
-  			margin: 0;
+			margin: unset;
+			padding: unset;
   			li{
-			    list-style: none;
 			    display: inline-block;
-			    padding: 18px;
 			    margin-right: 15px;
-			    border-radius: 50%;
-			    background-color: #fff;
-			    text-align: center;
-			    position: relative;
+				vertical-align: middle;
 			    &:last-child {
 			    	margin-right: 0;
 			    }
 	  			a {
-	  				font-size: 22px;
-				    position: absolute;
-				    left: 0;
-				    right: 0px;
-				    bottom: 2px;
+	  				display: block;
+					margin: unset;
+					background-repeat: no-repeat;
+					background-position: center;
+					width: 35px;
+					height: 35px;
+					padding: 0;
 	  			}
 	  		}
 	  	}
