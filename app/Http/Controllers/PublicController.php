@@ -39,7 +39,9 @@ class PublicController extends Controller
 			Cookie::queue(config('auth.ssocookie'), "", -10080);
 			return redirect(route('ssologin'));
 		}
-	    return response('cannot login <a href="/">home</a>');
+	    // return response('cannot login <a href="/">home</a>');
+	    Cookie::queue(config('auth.ssocookie'), "", -10080);
+		return redirect(route('ssologin'));
 
 	}
 
