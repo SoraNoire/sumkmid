@@ -8443,6 +8443,10 @@ img {
   border: 1px solid #5BC0DE;
 }
 
+.navbar-fixed-top .navbar-collapse {
+  max-height: unset;
+}
+
 .navbar-inverse {
   background-color: #5BC0DE;
 }

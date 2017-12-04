@@ -663,6 +663,147 @@ d.trigger("activate.bs.scrollspy")},b.prototype.clear=function(){a(this.selector
 
 })(window.jQuery || window.Zepto, window, document);
 
+$(document).ready(function() {
+// NESTABLE
+    if ($('#menu-structure').length > 0) {
+        $('#menu-structure').nestable({ group: 1 });
+    }
+// END NESTABLE
+});
+
+// menu function
+$('.save-menu').on('click', function(){
+    var data_menu = JSON.stringify($('#menu-structure').nestable('serialize'));
+    $.ajax({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        data: {menu :data_menu},
+        type: 'POST',
+        url: '/administrator/menu/save-menu',
+        success: function(response){
+             $("html, body").animate({
+                scrollTop: 0
+            }, 200);
+            $('#saved').show();
+        },
+        error: function(err){
+             $("html, body").animate({
+                scrollTop: 0
+            }, 200);
+            $('#saved').text('Error');
+            $('#saved').show();
+        }
+    });
+    setTimeout(function(){ $('#saved').hide() }, 2000);
+});
+
+var menu_id = parseInt($("#menu-structure li:last-child").attr('data-id'));
+
+$('#menu_page').on('click', '.add_menu', function(){
+    $("input[type=checkbox][name=menu_page]:checked").each(function(){ 
+        menu_id += 1;
+        var url = $(this).attr('data-link');
+        var label = $(this).attr('data-label');
+
+        $('#menu-structure .dd-list:first-child').append('<li class="dd-item" data-id="'+menu_id+'" data-link="'+url+'" data-label="'+label+'"><div class="dd-handle dd3-handle">Drag</div><div class="menu-item dd3-content panel panel-default" id="menu'+menu_id+'"><div class="menu-title"><span>'+label+'</span><a data-toggle="collapse" data-parent="#menu-structure" href="#menu-collapse-'+menu_id+'"><i style="float: right;" class="fa fa-caret-down" aria-hidden="true"></i></a></div><div id="menu-collapse-'+menu_id+'" class="collapse menu-collapse panel panel-default"><div class="form-group"><label>Label</label><input class="form-control" type="text" name="title" value="'+label+'"><label>URL</label><input class="form-control" type="url" name="url" value="'+url+'"></div><a href="#" class="remove_item">Remove</a></div></div></li>')
+
+        $(this).prop('checked',false);
+    });
+});
+
+$('#menu_category').on('click', '.add_menu', function(){
+    $("input[type=checkbox][name=menu_category]:checked").each(function(){ 
+        menu_id += 1;
+        var url = $(this).attr('data-link');
+        var label = $(this).attr('data-label');
+
+        $('#menu-structure .dd-list:first-child').append('<li class="dd-item" data-id="'+menu_id+'" data-link="'+url+'" data-label="'+label+'"><div class="dd-handle dd3-handle">Drag</div><div class="menu-item dd3-content panel panel-default" id="menu'+menu_id+'"><div class="menu-title"><span>'+label+'</span><a data-toggle="collapse" data-parent="#menu-structure" href="#menu-collapse-'+menu_id+'"><i style="float: right;" class="fa fa-caret-down" aria-hidden="true"></i></a></div><div id="menu-collapse-'+menu_id+'" class="collapse menu-collapse panel panel-default"><div class="form-group"><label>Label</label><input class="form-control" type="text" name="title" value="'+label+'"><label>URL</label><input class="form-control" type="url" name="url" value="'+url+'"></div><a href="#" class="remove_item">Remove</a></div></div></li>')
+
+        $(this).prop('checked',false);
+    });
+});
+
+$('#menu_url').on('click', '.add_menu', function(){
+    menu_id += 1;
+    var label = $('#custom-label').val();
+    var url = $('#custom-url').val();
+
+    $('#menu-structure .dd-list:first-child').append('<li class="dd-item" data-id="'+menu_id+'" data-link="'+url+'" data-label="'+label+'"><div class="dd-handle dd3-handle">Drag</div><div class="menu-item dd3-content panel panel-default" id="menu'+menu_id+'"><div class="menu-title"><span>'+label+'</span><a data-toggle="collapse" data-parent="#menu-structure" href="#menu-collapse-'+menu_id+'"><i style="float: right;" class="fa fa-caret-down" aria-hidden="true"></i></a></div><div id="menu-collapse-'+menu_id+'" class="collapse menu-collapse panel panel-default"><div class="form-group"><label>Label</label><input class="form-control" type="text" name="title" value="'+label+'"><label>URL</label><input class="form-control" type="url" name="url" value="'+url+'"></div><a href="#" class="remove_item">Remove</a></div></div></li>')
+
+    $('#custom-label').val('');
+    $('#custom-url').val('http://');
+});
+
+$('.remove_item').on('click', function(){
+    $(this).parents('li').remove();
+});
+
+$('.menu-item').on('change', 'input[type=text][name=title]', function(){
+    var a = $(this).val();
+    console.log($(this).parent('.menu-item #menu_title'));
+    $(this).parent().parent().parent().find('.menu-title span').text(a);
+});
+
+$('#menu_page').on('change', 'input[name=search_component]', function(){
+    $('#search_page_component .add_menu').show();
+
+    var a = $(this).val();
+    if (a == '') {
+        a = 'none';
+    }
+    $.ajax({
+        type: 'GET',
+        url: '/administrator/menu/search-page-component/'+a,
+        success: function(response){
+            $('#search_page_component .search-result ul').html(response);
+        },
+        error: function(err){
+            $('#search_page_component .search-result ul').html('<li>Something went wrong</li>');
+        }
+    });
+});
+
+$('#menu_page').on('click', 'a', function(){
+    $("input[type=checkbox][name=menu_page]:checked").each(function(){ 
+        $(this).prop('checked',false);
+    });
+    console.log('search')
+});
+
+$('#menu_page').on('click', 'a', function(){
+    $('input[name=search_component]').val('');
+    console.log('all');
+});
+
+$('#menu_category').on('change', 'input[name=search_component]', function(){
+    $('#search_cat_component .add_menu').show();
+    var a = $(this).val();
+    if (a == '') {
+        a = 'none';
+    }
+    $.ajax({
+        type: 'GET',
+        url: '/administrator/menu/search-category-component/'+a,
+        success: function(response){
+            $('#search_cat_component .search-result ul').html(response);
+        },
+        error: function(err){
+            $('#search_cat_component .search-result ul').html('<li>Something went wrong</li>');
+        }
+    });
+});
+
+$('#menu_category').on('click', 'a', function(){
+    $("input[type=checkbox][name=menu_category]:checked").each(function(){ 
+        $(this).prop('checked',false);
+    });
+});
+
+$('#menu_category').on('click', 'a', function(){
+    $('input[name=search_component]').val('');
+});
+// end menu function
 mediaPath = 'https://s3-ap-southeast-1.amazonaws.com/mdirect/shbtm/media';
 filePath = 'https://s3-ap-southeast-1.amazonaws.com/mdirect/shbtm/files'
 //
