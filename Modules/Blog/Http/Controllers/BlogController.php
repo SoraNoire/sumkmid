@@ -184,7 +184,7 @@ class BlogController extends Controller
 
 
         });
-        return redirect($this->prefix.'posts')->with(['msg' => 'Saved', 'status' => 'success']);
+        return redirect(route('posts'))->with(['msg' => 'Saved', 'status' => 'success']);
     }
 
     /**

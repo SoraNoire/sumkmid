@@ -4,7 +4,7 @@ $(document).ready(function() {
     if ($("#gallery #GalleryCategoryTable").length > 0) {
         $("#gallery #GalleryCategoryTable").DataTable({
             "ajax": $.fn.dataTable.pipeline( {
-                url: '/admin/blog/gallery/get-category',
+                url: '/admin/blog/ajaxcategories',
                 pages: 5 // number of pages to cache
             } ),
             "processing": true,
@@ -19,14 +19,14 @@ $(document).ready(function() {
                     "targets": -1,
                     "data": 'id',
                     "render": function ( data, type, row ) {
-                        return '<a href="/admin/blog/gallery/edit-category/'+row.id+'">Edit</a> | <a onclick="return confirm(\'Delete Category?\');" href="/admin/blog/gallery/delete-category/'+row.id+'">Delete</a>';
+                        return '<a href="/admin/blog/'+row.id+'/view">Edit</a> | <a onclick="return confirm(\'Delete Category?\');" href="/admin/blog/'+row.id+'/remove">Delete</a>';
                     }
                 },
                     {
                     "targets": 0,
                     "data": 'name',
                     "render": function ( data, type, row ) {
-                        return '<a href="/admin/blog/gallery/edit-category/'+row.id+'">'+data+'</a>';
+                        return '<a href="/admin/blog/'+row.id+'/view">'+data+'</a>';
                     }
                 }
             ],
@@ -51,7 +51,7 @@ $(document).ready(function() {
             "columns": [
                 { "data": "title" },
                 { "data": "author" },
-                { "data": "published_at" },
+                { "data": "published_date" },
                 { "data": "id" },
             ],
             "columnDefs": [ {
@@ -120,7 +120,7 @@ function load_gallery_category(){
     var id = $('meta[name="item-id"]').attr('content');
     $.ajax({
         type: "GET",
-        url: "/admin/blog/categori/get-category-gallery/"+id,
+        url: "/admin/blog/ajaxcategories",
         success: function(msg){
             $('#gallery .category-wrap ul').html(msg);
         },
@@ -134,9 +134,14 @@ function load_gallery_category_parent(){
     var id = $('meta[name="category-id"]').attr('content');
     $.ajax({
         type: "GET",
-        url: "/admin/blog/gallery/get-category-parent/"+id,
+        url: "/admin/blog/ajaxcategories",
         success: function(msg){
-            $('#gallery .category-parent').html(msg);
+            console.log(msg);
+            var msg = msg.data, _el = '';
+            for(i=0;i<msg.length;i++){
+                _el += '<option value="'+msg[i].id+'">'+msg[i].name+'</option>';
+            }
+            $('#gallery #CategoryParent').html(_el);
         },
         error: function(err){
             console.log(err);
