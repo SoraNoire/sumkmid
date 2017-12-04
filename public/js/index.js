@@ -585,8 +585,7 @@ $(document).ready(function() {
                     }
                 }
             ],
-            order: [
-                [0, "desc"],
+            order: [,
                 [2, "desc"]
             ]
         });
@@ -730,7 +729,6 @@ $(document).ready(function() {
                 }
             ],
             order: [
-                [0, "desc"],
                 [2, "desc"]
             ]
         });

@@ -29,6 +29,13 @@
             <div class="col-md-9">
                 <div class="form-group">
                     <label class="control-label">Title</label>
+                    @if ($errors->has('title'))
+                    <div class="has-error">
+                        <span class="help-block">
+                            <strong>{{ $errors->first('title') }}</strong>
+                        </span>
+                    </div>
+                    @endif
                     <input class="form-control" type="text" name="title" value="{{ $title }}" placeholder="Enter Title Here">
                 </div>
 
@@ -36,6 +43,13 @@
 
                 <div class="form-group">
                     <label class="control-label">Event Description</label>
+                    @if ($errors->has('description'))
+                    <div class="has-error">
+                        <span class="help-block">
+                            <strong>{{ $errors->first('description') }}</strong>
+                        </span>
+                    </div>
+                    @endif
                     <textarea class="form-control mytextarea" name="description">{{ $description }}</textarea>
                 </div>
 
