@@ -214,8 +214,6 @@ class EventController extends Controller
             $status = $event->status;
             $published_date = $event->published_date;
             
-            
-            
             $post_metas = $this->readMetas($post_metas);
 
             $event_type     = $post_metas->event_type ?? '';

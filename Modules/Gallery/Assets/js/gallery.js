@@ -70,7 +70,6 @@ $(document).ready(function() {
                 }
             ],
             order: [
-                [0, "desc"],
                 [2, "desc"]
             ]
         });
@@ -258,7 +257,7 @@ if ($("#select-image-galeri").length > 0) {
         });
 
         images.forEach(function(image, index) {  
-            $("#selected-images").append("<div id='img-"+ids[index]+"' class='image'> <input id='input-"+ids[index]+"' type='hidden' name='selected_image[]' class='form-control' value='"+ids[index]+"'> <a class='close'> <i class='fa fa-times' aria-hidden='true'></i> </a> <image src='"+mediaPath+"/"+image+"'> </div>");
+            $("#selected-images").append("<div id='img-"+ids[index]+"' class='image'> <input id='input-"+ids[index]+"' type='hidden' name='gallery_images[]' class='form-control' value='"+ids[index]+"'> <a class='close'> <i class='fa fa-times' aria-hidden='true'></i> </a> <image src='"+mediaPath+"/"+image+"'> </div>");
         });
 
         $(".overlay").fadeOut(), $(".custom-modal").fadeOut(), $('#count-galeri').html(''), $('#MediaGallery').find('tr').removeClass('selected')
