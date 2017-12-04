@@ -1,0 +1,9 @@
+.loadmore{
+    
+}
+.loadVideo{
+    &:after{
+        content: "Memuat Mentor";
+        font-weight: $bold;
+    }
+}
