@@ -9,10 +9,8 @@ use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Routing\Controller as BaseController;
 use App\Http\Controllers\Controller;
 use Modules\Gallery\Entities\Gallery;
-use Modules\Gallery\Entities\GalleryCategory;
-use Modules\Gallery\Entities\GalleryTag;
-use Modules\Gallery\Entities\GalleryCategoryRelation;
-use Modules\Gallery\Entities\GalleryTagRelation;
+use Modules\Blog\Entities\Categories;
+use Modules\Blog\Entities\Tags;
 use Modules\Blog\Entities\Media;
 use Modules\Blog\Http\Helpers\PostHelper;
 use Modules\Gallery\Http\Helpers\GalleryHelper;
@@ -22,6 +20,8 @@ use DB;
 use File;
 use Image;
 use View;
+use Modules\Blog\Entities\Posts;
+use Modules\Blog\Entities\PostMeta;
 
 class GalleryController extends Controller
 {
@@ -48,9 +48,9 @@ class GalleryController extends Controller
      * @param  $slug
      * @return Response
      */
-    public function show_gallery($slug){
+    public function showGallery($slug){
         $page_meta_title = 'Gallery';
-        $gallery = Gallery::where('slug', $slug)->first();
+        $gallery = Posts::where('slug', $slug)->first();
         if (isset($gallery)) {
             $tag = GalleryHelper::get_gallery_tag($gallery->id);
             $category = GalleryHelper::get_gallery_category($gallery->id);
@@ -72,13 +72,13 @@ class GalleryController extends Controller
      * @param  Request $request
      * @return Response
      */
-    public function get_gallery(Request $request)
+    public function ajaxGalleries(Request $request)
     {
         $order = $request->order[0];
         $col = $request->columns["{$order['column']}"]['data'] ?? 'published_at'; 
         $direction = $order['dir'] ?? 'desc';
         
-        $query = Gallery::orderBy($col,$direction);
+        $query = Posts::where('post_type','gallery')->where('deleted',0)->orderBy($col,$direction);
         $search = $request->search['value'];
         if (isset($search)) {
             $query = $query->where('title', 'like', '%'.$search.'%');   
@@ -96,7 +96,7 @@ class GalleryController extends Controller
      * Show the form for creating a new gallery.
      * @return Response
      */
-    public function create_gallery()
+    public function addGallery()
     {
         $page_meta_title = 'Gallery';
         $act = 'New';
@@ -105,15 +105,16 @@ class GalleryController extends Controller
         $title = '';
         $selected_tag = '';
         $media = Media::orderBy('created_at','desc')->get();
-        $alltag = GalleryTag::orderBy('created_at','desc')->get();
+        $alltag = Tags::orderBy('created_at','desc')->get();
+        $allcategory = Categories::orderBy('created_at','desc')->get();
         $meta_desc = '';
         $meta_title = '';
         $meta_keyword = '';
         $status = 1;
-        $published_at = 'immediately';
-        $featured_img = '';
+        $published_date = 'immediately';
+        $featured_image = '';
 
-        return view('gallery::admin.gallery_form')->with(['page_meta_title' => $page_meta_title, 'act' => $act, 'action' => $action, 'title' => $title, 'alltag' => $alltag, 'selected_tag' => $selected_tag, 'allcategory' => $allcategory, 'media' => $media, 'allparent' => $allparent, 'meta_desc' => $meta_desc, 'meta_title' => $meta_title, 'meta_keyword' => $meta_keyword, 'status' => $status, 'published_at' => $published_at, 'featured_img' => $featured_img]);
+        return view('gallery::admin.gallery_form')->with(['isEdit'=>false, 'page_meta_title' => $page_meta_title, 'act' => $act, 'action' => $action, 'title' => $title, 'alltag' => $alltag, 'selected_tag' => $selected_tag, 'allcategory' => $allcategory, 'media' => $media, 'meta_desc' => $meta_desc, 'meta_title' => $meta_title, 'meta_keyword' => $meta_keyword, 'status' => $status, 'published_date' => $published_date, 'featured_image' => $featured_image]);
     }
 
     /**
@@ -121,93 +122,55 @@ class GalleryController extends Controller
      * @param  Request $request
      * @return Response
      */
-    public function store_gallery(Request $request)
+    public function addGalleryPost(Request $request)
     {
-        $title = $request->input('title');
-        $slug = PostHelper::make_slug($title);
-        $images = $request->input('selected_image');
-        $category = $request->get('category');
-        $tag = $request->input('tag');
-        $status = $request->get('status');
-        $published_at = $request->input('published_at');
-        $featured_img = $request->input('featured_img');
-        $option['meta_title'] = $request->input('meta_title');
-        $option['meta_desc'] = $request->input('meta_desc');
-        $option['meta_keyword'] = $request->input('meta_keyword');
-        $option = json_encode($option);
 
-        if (empty($images)) {
-            return redirect($this->prefix.'create-gallery')->with(['msg' => 'Error saving. There is no image selected', 'status' => 'danger']);
-        }
+        /* ======================================================================== */
 
-        if (is_array($images)) {
-            $images = implode(",", $request->get('selected_image'));
-        } else {
-            $images = $request->input('selected_image');
-        }
 
-        if ($published_at = 'immediately') {
-            $published_at = Carbon::now()->toDateTimeString();
-        }
-
-        $slug_check = Gallery::where('slug', $slug)->first();
-        if (isset($slug_check)) {
-            $slug = $slug.'-'.date('s');
-        }
-
-        DB::beginTransaction();
-        try {
-            if (isset($tag)) {
-                // save tag to table tag
-                $tag_id = array();
-                foreach ($tag as $key) {
-                    $tag_slug = PostHelper::make_slug($key);
-                    $check = GalleryTag::where('slug', $tag_slug)->first();
-                    if (!isset($check)) {
-                        $save_tag = new GalleryTag;
-                        $save_tag->name = $key;
-                        $save_tag->slug = $tag_slug;
-                        $save_tag->save();
-                        $key = $save_tag->id;
-
-                    } else {
-                      $key = $check->id;
-                    }
-                    $tag_id[] = $key;
-                }
-            } else {
-                $tag_id = null;
+        DB::transaction(function() use ($request) {
+        
+            $slug = PostHelper::make_slug($request->input('title'));
+            if (Posts::where('slug', $slug)->first()) {
+                $slug = $slug.'-'.date('s');
             }
 
-            $store = new Gallery;
-            $store->title = $title;
+            $published_date = $request->input('published_date');
+            if ($published_date = 'immediately') {
+                $published_date = Carbon::now()->toDateTimeString();
+            }
+
+            $store = new Posts;
+            $store->title = $request->input('title');
             $store->slug = $slug;
-            $store->images = $images;
-            $store->featured_img = $featured_img;
-            $store->author = 1;
-            $store->status = $status;
-            $store->option = $option;
-            $store->published_at = $published_at;
-            $store->save();
+            $store->post_type = 'gallery';
+            $store->content = $request->input('title');
+            $store->featured_image = $request->input('featured_image');
+            $store->author = app()->SSO->Auth()->id;
+            $store->status = $request->get('status');
+            $store->published_date = $published_date;
+            if ($store->save()) {
 
-            $gallery_category = new GalleryCategoryRelation;
-            $gallery_category->gallery_id = $store->id;
-            $gallery_category->category_id = json_encode($category);
-            $gallery_category->save();
+                $meta_contents = [
+                                    ['post_id'=>$store->id, 'key'=> 'meta_title', 'value'=> $request->input('meta_title')],
+                                    ['post_id'=>$store->id, 'key'=> 'meta_desc', 'value'=> $request->input('meta_desc')],
+                                    ['post_id'=>$store->id, 'key'=> 'meta_keyword', 'value'=> $request->input('meta_keyword')],
+                                    ['post_id'=>$store->id, 'key'=> 'categories', 'value'=> json_encode($request->input('categories') ?? [] )],
+                                    ['post_id'=>$store->id, 'key'=> 'tags', 'value'=> json_encode($request->input('tags') ?? [] )],
+                                    ['post_id'=>$store->id, 'key'=> 'gallery_images', 'value'=> json_encode($request->input('gallery_images') ?? [] )],
+                                ];
+                PostMeta::insert($meta_contents);
 
-            $gallery_tag = new GalleryTagRelation;
-            $gallery_tag->gallery_id = $store->id;
-            $gallery_tag->tag_id = json_encode($tag_id);
-            $gallery_tag->save();
+                return redirect(route('galleries'))->with(['msg' => 'Saved', 'status' => 'success']);
+            } else {
+                return redirect(route('galleries'))->with(['msg' => 'Save Error', 'status' => 'danger']);
+            }
 
-            DB::commit();
 
-            return redirect($this->prefix)->with(['msg' => 'Saved', 'status' => 'success']);
-        } catch (Illuminate\Filesystem\FileNotFoundException $e) {
-            DB::rollBack();
+        });
+        return redirect(route('galleries'))->with(['msg' => 'Saved', 'status' => 'success']);
 
-            return redirect($this->prefix)->with(['msg' => 'Error saving. Something went wrong', 'status' => 'danger']);
-        }
+        /* ======================================================================== */
     }
 
     /**
@@ -215,12 +178,12 @@ class GalleryController extends Controller
      * @param $id
      * @return Response
      */
-    public function edit_gallery($id)
+    public function viewGallery($id)
     {
         $page_meta_title = 'Gallery';
         $act = 'Edit';
         $action = $this->prefix.'update-gallery/'.$id;
-        $gallery = Gallery::where('id', $id)->first();
+        $gallery = Posts::where('id', $id)->first();
         if (isset($gallery)) {
             $title = $gallery->title;
             $ids = explode(',', $gallery->images);
@@ -250,7 +213,7 @@ class GalleryController extends Controller
      * @param  Request $request, $id
      * @return Response
      */
-    public function update_gallery(Request $request, $id)
+    public function updateGallery(Request $request, $id)
     {
         $title = $request->input('title');
         $images = $request->input('selected_image');
@@ -298,7 +261,7 @@ class GalleryController extends Controller
                 $tag_id = null;
             }
 
-            $update = Gallery::where('id', $id)->first();
+            $update = Posts::where('id', $id)->first();
             $update->title = $title;
             $update->images = $images;
             $update->featured_img = $featured_img;
@@ -331,7 +294,7 @@ class GalleryController extends Controller
      * @param $id
      * @return Response
      */
-    public function destroy_gallery($id)
+    public function removeGallery($id)
     {
         $this->GalleryHelper->delete_gallery($id);
     }
@@ -341,7 +304,7 @@ class GalleryController extends Controller
      * @param Request $request
      * @return Response
      */
-    public function bulk_delete_gallery(Request $request)
+    public function massdeleteGallery(Request $request)
     {
         $id = json_decode($request->id);
         foreach ($id as $id) {

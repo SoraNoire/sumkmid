@@ -41,7 +41,7 @@ class MenuController extends Controller
             }
         }
         $pages = Posts::where('post_type','page')->where('deleted',0)->orderby('created_at', 'desc')->get();
-        $posts = Posts::orderby('created_at', 'desc')->get();
+        $posts = Posts::where('post_type','post')->orderby('created_at', 'desc')->get();
         $category = Categories::orderby('created_at', 'desc')->get();
         return view('menu::index')->with(['meta_title' => $meta_title, 'pages' => $pages, 'posts' => $posts, 'category' => $category, 'menu_structure' => $menu_structure]);
     }
