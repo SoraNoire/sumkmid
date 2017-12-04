@@ -55,3 +55,11 @@ function show_event_detail(id) {
 function show_event_sharer(id) {
 	$('#'+id).find('.share-socmed ul').fadeIn();
 }
+
+// init Infinite Scroll
+$('.archive-list').infiniteScroll({
+  path: '.pagination__next',
+  append: '.post',
+  status: '.scroller-status',
+  hideNav: '.pagination',
+});
