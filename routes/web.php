@@ -42,6 +42,10 @@ Route::get('/kontak', 'PublicController@kontak')->name('public_kontak');
 Route::get('/event', 'PublicController@event')->name('public_event');
 Route::get('/video', 'PublicController@video')->name('public_video');
 
+Route::get('/mentor/page/{page}', 'PublicController@mentor_archive');
+Route::get('/event/page/{page}', 'PublicController@event_archive');
+Route::get('/video/page/{page}', 'PublicController@video_archive');
+
 
 // Auth::routes();
 
