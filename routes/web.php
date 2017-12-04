@@ -41,6 +41,7 @@ Route::get('/mentor', 'PublicController@mentor')->name('public_mentor');
 Route::get('/kontak', 'PublicController@kontak')->name('public_kontak');
 Route::get('/event', 'PublicController@event')->name('public_event');
 Route::get('/video', 'PublicController@video')->name('public_video');
+Route::get('/user-setting', 'PublicController@userSetting')->name('user_setting');
 
 Route::get('/mentor/page/{page}', 'PublicController@mentor_archive');
 Route::get('/event/page/{page}', 'PublicController@event_archive');

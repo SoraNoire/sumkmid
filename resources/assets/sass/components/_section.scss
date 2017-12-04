@@ -6,17 +6,6 @@
 	position: relative;
 	z-index: 1;
 	// box-shadow: 2px 2px 30px 0px rgba(0, 0, 0, 0.5);
-	&::before {
-		content: "";
-		width: 100%;
-		display: block;
-		position: absolute;
-		top: 0;
-		left: 0;
-		z-index: 1;
-		-webkit-box-shadow: 0px 0px 17px 2px #000000;
-		box-shadow: 0px 0px 17px 2px #000000;
-	}
 	&:after {
 		content: "";
 		width: 100%;
@@ -38,6 +27,17 @@
 	.left-content {
 		text-align: right;
 		color: rgba(255, 255, 255, 0.87);
+		@media screen and (max-width: 688px) {
+			@include grid-column(12);
+			width: calc(100% - 30px);
+			text-align: left;
+			margin-bottom: 40px;
+			margin-left: 0px;
+			.button{
+				display: block;
+				width: max-content;
+			}
+		}
 		.section-title {
 			margin-bottom: 34px;    
 			margin-top: 10px;
@@ -49,11 +49,22 @@
 	.right-content {
 	    display: flex;
     	justify-content: center;
-
+		@media screen and (max-width: 688px) {
+			@include grid-column(12);
+			width: calc(100% - 30px);
+			margin-left: 0px;
+		}
     	.video-wraper {
     		margin-left: -30px;
     		width: 83%;
-    		height: 105%;
+			height: 249px;
+			@media screen and (max-width: 688px) {
+				margin-left: 0px;
+				width: 80%;
+			}
+			@media screen and (max-width: 500px) {
+				width: 100%;
+			}
     		.play-button {
 				padding: 22px 25px;
 			}
@@ -68,12 +79,30 @@
     background-repeat: no-repeat;
     background-position-y: -50px;
 	
-	.the-row {
+	.row {
 		margin-left: 65px;
+		@media screen and (max-width: 838px) {
+			margin-left: -10px;
+		}
+		@media screen and (max-width: 768px) {
+			margin-left: -10px;
+		}
+		@media screen and (max-width: 688px) {
+			margin-left: -15px;
+		}
 	}
 	.left-content {
 		color: rgba(64, 64, 64, 0.87);
-
+		@media screen and (max-width: 688px) {
+			@include grid-column(12);
+			width: calc(100% - 30px);
+			margin-bottom: 40px;
+			margin-left: unset;
+			.button{
+				display: block;
+				width: max-content;
+			}
+		}
 		.section-title {
 			margin-bottom: 22px;
 			margin-top: 32px;
@@ -83,17 +112,26 @@
 		}
 	}
 	.right-content {
+		@media screen and (max-width: 688px) {
+			@include grid-column(12);
+			width: calc(100% - 30px);
+			margin-left: unset;
+		}
+		@media screen and (max-width: 424px) {
+			display: none;
+		}
 		.block-wraper {
 			width: 406px;
 			height: 357px;
     		border: solid 2px #3167bb;
     		border-right: unset; 
-
+			@media screen and (max-width: 688px) {
+				margin: auto;
+			}
     		.block {
     			float: left;
     			width: 55%;
     			height: 100%;
-
     			&:nth-child(n+2) {
     				width: 44%;
   					height: 50%;
@@ -148,19 +186,41 @@
 	color: rgba(255, 255, 255, 0.87);
 	padding-top: 62px;
 	padding-bottom: 40px;
-
 	.section-title {
 		text-align: center;
 		margin-bottom: 63px;
 		color: inherit;
+		@media screen and (max-width: 425px) {
+			font-size: 19px;
+		}
 	}
 	.video-wraper {
-	    width: 103%;
+	    width: 100%;
     	height: 124px;
     	margin-bottom: 24px;
-
+		@media screen and (max-width: 768px) {
+			margin-bottom: 10px;
+			text-align: center;
+		}
 		.play-button {
 			padding: 12.5px 15.5px;
+		}
+	}
+	.the-row{
+		@media screen and (max-width: 768px) {
+			display: block;
+		}
+	}
+	.col-3{
+		@media screen and (max-width: 768px) {
+			width: calc(50% - 30px);
+			margin-bottom: 20px;
+			.tilte{
+				text-align: center;
+				height: 40px;
+				overflow: hidden;
+				text-overflow: ellipsis;
+			}
 		}
 	}
 	
@@ -270,13 +330,28 @@
 #video-archive {
 	margin-top: 59px;
 	margin-bottom: 49px;
-
+	.container{
+		.row{
+			@media screen and (max-width: 830px) {
+				.cst-3-col{
+					@include grid-column(6);
+				}
+			}
+			@media screen and (max-width: 500px) {
+				.cst-3-col{
+					@include grid-column(12);
+				}
+			}
+		}
+	}
 	.item {
-		width: calc(100% / 3 - 20px);
+		width: 100%;
   		height: 225px;
   		display: inline-block;
   		border-radius: 10px;
-	  	background-color: #d8d8d8;
+		  background-color: #d8d8d8;
+		  background-size: cover;
+		  background-repeat: no-repeat;
 	  	box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.3);
 	  	position: relative;
 	  	margin-bottom: 20px;
@@ -329,11 +404,26 @@
 #mentor-archive {
 	margin-top: 59px;
 	margin-bottom: 49px;
-
+	.container{
+		.row{
+			@media screen and (max-width: 768px) {
+				.cst-4-col{
+					@include grid-column(4);						}
+			}
+			@media screen and (max-width: 512px) {
+				.cst-4-col{
+					@include grid-column(6);						}
+			}
+			@media screen and (max-width: 375px) {
+				.cst-4-col{
+					@include grid-column(12);						}
+			}
+		}
+	}
 	.item {
 		vertical-align: top;
-		width: calc(100% / 4 - 38px);
-  		height: 200px;
+		width: 90%;
+  		max-height: 200px;
   		display: inline-block;
   		box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.3);
 	  	margin-bottom: 20px;
@@ -347,7 +437,7 @@
     	.item-image {
     		position: relative;
     		width: 100%;
-    		height: 56%;
+    		height: 112px;
     		border-radius: 5px;
     		
     		&:before {
@@ -377,8 +467,8 @@
 		.item-title {
     		align-items: center;
     		justify-content: center;
-    		margin-top: 12px;
-
+			margin-top: 12px;
+			min-height: 70px;
   			a {
   				display: block;
 				color: $fontColor;
@@ -386,7 +476,9 @@
 
 		  		&:first-child {
   					font-size: 18px;
-  					font-weight: 500;
+					font-weight: 500;
+					max-height: 50px;
+					overflow: hidden;
 		  		}
   			}
   			.sub {
@@ -401,12 +493,34 @@
 	padding-bottom: 50px;
 
 	.event {
+		.event-datetime{
+			@media screen and (max-width: 433px) {
+				display: none;
+			}
+		}
+		.event-timeline{
+			@media screen and (max-width: 433px) {
+				margin-left: 10px;
+			}
+		}
+		.event-content{
+			@media screen and (max-width: 433px) {
+				width: calc(100% - 50px);
+			}
+		}
+		.event-datetime-mobile{
+			font-size: 13px;
+			color: #AEAEAE;
+			display: none;
+			@media screen and (max-width: 433px) {
+				display: block;
+			}
+		}
 		&:nth-child(n+2) {
 			margin-top: -8px;
 		}
 		&.active {
 			.event-datetime {
-
 				color: $fontColor;
 			}
 			.event-timeline {
@@ -482,8 +596,15 @@
 				}
 			}
 			.event-meta {
-				display: none;
+				display: block;
+				margin-bottom: 10px;
+				.col-1{
+					width: max-content;
 
+				}
+				.col-4{
+					width: max-content;
+				}
 				.mentor {
 					color: rgba(64, 64, 64, 0.87);
 					margin-bottom: 12px;
@@ -507,18 +628,49 @@
 			.button {
 				display: inline-block;
 				margin-right: 20px;
+				@media screen and (max-width: 425px) {
+					margin-right: 10px;
+				}
 			}
 			.lihat-detail {
 				margin-top: 11px;
 			}
 			.share-socmed {
-				display: inline-block;
+				display: none;
+				@media screen and (max-width: 659px) {
+					color: #000;
+					width: 80%;
+					background-color: #ffffff;
+					position: absolute;
+					z-index: 99;
+					width: 200px;
+					height: 100px;
+					top: 0;
+					bottom: 0;
+					left: 0;
+					right: 0;
+					margin: auto;
+					-webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.25);
+					-moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.25);
+					box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.25);
+					border-radius: 10px;
+					&:before{
+						content: "Bagikan : ";
+						font-weight: $bold;
+						margin-top: 5px;
+						margin-left: 10px;
+						display: block;
+					}
+				}
 
 				ul {
-					display: none;
-					margin: unset;
-					padding: unset;
-
+					@media screen and (max-width: 659px) {
+						display: block;
+						margin: unset;
+						padding: unset;
+						text-align: center;
+						margin-top: 15px;
+					}
 					li {
 						display: inline-block;
 						margin-right: 8px;
@@ -554,7 +706,14 @@
 		margin-top: -8px;
 		
 		.event {
-
+			@media screen and (max-width: 433px) {
+				.col-3{
+					display: none;
+				}
+				.col-9{
+					width: calc(100% - 50px);
+				}
+			}
 			.event-timeline {
 				.event-indicator{
 					background-color: #d13d1e;
@@ -583,13 +742,39 @@
 	height: 338px;
 	margin-bottom: 64px;
 	.fullWrap{
-
 		.question{
 			width: 20%;
 			display: block;
 			float: left;
 			position: relative;
 			height: 169px;
+			@media screen and (max-width: 991px) {
+				width: 25%;
+				&:nth-child(9){
+					display: none;
+				}
+				&:nth-child(10){
+					display: none;
+				}
+			}
+			@media screen and (max-width: 768px) {
+				width: 33.33333333%;
+				&:nth-child(7){
+					display: none;
+				}
+				&:nth-child(8){
+					display: none;
+				}
+			}
+			@media screen and (max-width: 426px) {
+				width: 50%;
+				&:nth-child(5){
+					display: none;
+				}
+				&:nth-child(6){
+					display: none;
+				}
+			}
 			&:nth-child(3n-2){
 				background-color: #E0E8F5;	
 			}
@@ -639,7 +824,21 @@
 #contact {
 	padding-bottom: 50px;
 	color: $fontColor;
-
+	.container{
+		.row{
+			.col-6{
+				@media screen and (max-width: 512px) {
+					@include grid-column(12);
+					margin-left: 3px;
+				}
+			}
+			.contact-address{
+				@media screen and (max-width: 512px) {
+					margin-bottom: 20px;
+				}
+			}
+		}
+	}
 	.contact-form {
 		input {
 			display: block;
@@ -662,6 +861,92 @@
 			border: unset;
 		    padding: 8px 23px;
 		    float: right;
+		}
+	}
+}
+
+#userSetting{
+	margin-top: 52px;
+	h3{
+		margin-bottom: 22px;
+	}
+	.leftForm{
+		float: left;
+		.photoUser{
+			position: relative;
+			.photoPreview{
+				border-radius: 50%;
+				width: 160px;
+				height: 160px;
+				overflow: hidden;
+				img{
+
+				}
+			}
+			.inputTrigger{
+				position: absolute;
+				bottom: 10px;
+				right: 10px;
+				background-image: url('/img/camera.svg');
+				cursor: pointer;
+				background-size: 100% 100%;
+				width: 23px;
+				height: 26px;
+				background-position: center;	
+			}
+			input{
+				display: none;
+			}
+		}
+	}
+	.rightForm{
+		float: left;
+		margin-left: 31px;
+		width: 460px;
+		margin-bottom: 252px;
+		.formSprt{
+			margin-top: 22px;
+			margin-bottom: 12px;
+			font-weight: $bold;
+		}
+		.submitUserSet{
+			border: none;
+			float: right;
+		}
+		.formGroup{
+			color: #404040;
+			margin-bottom: 15px;
+			.inputTitle{
+				margin-bottom: 7px;
+			}
+			.inputText{
+				
+				input{
+					width: calc(100% - 28px);
+					height: 35px;
+					border-radius: 5px;
+					border: solid 1px #404040;
+					outline: none;
+					padding: 0px 14px;
+				}
+			}
+		}
+		.withError{
+			position: relative;
+			.tootTip{
+				position: absolute;
+				top: 0;
+				right: 0;
+				float: right;
+				color: #d13d1e;
+			}
+			.inputText{
+
+				input{
+					color: #d13d1e;
+					border: solid 1px #d13d1e;
+				}
+			}	
 		}
 	}
 }

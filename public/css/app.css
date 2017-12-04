@@ -9335,7 +9335,7 @@ img {
   font-weight: bold;
   border: 1px solid #ccc;
   background: #fafafa;
-  background: -webkit-gradient(linear, left top, left bottom, from(#fafafa), to(#eee));
+  background: -webkit-gradient(linear, left top, left bottom, from(top), color-stop(0%, #fafafa), to(#eee));
   background: linear-gradient(top, #fafafa 0%, #eee 100%);
   border-radius: 3px;
   -webkit-box-sizing: border-box;

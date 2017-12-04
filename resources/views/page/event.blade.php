@@ -94,7 +94,13 @@
 					<div class="event-indicator"></div>
 				</div>
 				<div class="event-content col-9">
-					<div class="event-title"><img src="/img/event-icon.svg"> Ngobrol Bareng Saudagar Muda</div>
+					<div class="event-title"><img src="/img/event-icon.svg"> Ngobrol Bareng Saudagar Muda
+						<div class="event-datetime-mobile">
+							<span>{{$event->id}} |</span>
+							<span>08:00 WIB - till drop</span>
+						</div>
+					</div>
+					
 					<div class="event-desc">
 						<p>Monotonectally communicate plug-and-play imperatives before wireless collaboration and idea-sharing. Rapidiously facilitate dynamic synergy and flexible channels. Efficiently enhance effective opportunities without market-driven infrastructures. Interactively reinvent bleeding-edge bandwidth and frictionless niches. Intrinsicly communicate resource maximizing products after leveraged leadership.</p>
 					</div>
@@ -104,6 +110,13 @@
 							<div class="col-4">
 								<p>-Indra Kusumawati</p>
 								<p>-Badri Suprangat</p>
+							</div>
+						</div>
+						<div class="tempat the-row">
+							<div class="col-1">Tempat:</div>
+							<div class="col-4">
+								<p>Rumah Makan Padang Pariangan Jl. Kusuma Bangsa 31, Kab. Bogor</p>
+								<i class="fa fa-map-marker" aria-hidden="true">&nbsp;&nbsp;</i><a href="#">view on google maps</a>
 							</div>
 						</div>						
 					</div>

@@ -11,7 +11,7 @@
 <div id="contact">
 	<div id="map"></div>
 	<div class="container">
-		<div class="the-row">
+		<div class="row">
 			<div class="col-6 contact-address">
 				<h3>Head Office</h3>
 				<p style="margin: 0">Jln. Kebon Kacang Raya No. 25 Tanah Abang</p>
