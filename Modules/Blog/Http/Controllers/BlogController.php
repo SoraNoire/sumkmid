@@ -575,7 +575,7 @@ class BlogController extends Controller
         if ($store->save()){
 
             if ( $categoryajax ){
-                return response("<li><label><input selected name='categories[]' type='checkbox' value='$store->id'>$store->name</label></li>");
+                return response("<li><label><input checked selected name='categories[]' type='checkbox' value='$store->id'>$store->name</label></li>");
             }
 
             return redirect(route('categories'))->with(['msg' => 'Saved', 'status' => 'success']);
