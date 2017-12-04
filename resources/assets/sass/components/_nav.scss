@@ -11,9 +11,20 @@
         padding: 0;
         margin: 0;
         float: right;
+        @media screen and (max-width: 830px) {
+            position: absolute;
+            right: 0;
+            text-align: right;
+            background-color: #1D3D6F;
+            padding: 0px 10px 20px 10px;
+
+        }
         li{
             display: inline-block;
             padding: 12px 12px;
+            @media screen and (max-width: 830px) {
+                display: block;
+            }
             a {
                 font-size: 18px;
                 color: #fff;

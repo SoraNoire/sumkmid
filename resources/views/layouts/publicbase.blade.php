@@ -25,7 +25,7 @@
                     </div>
                     <nav class="col-9 topNav">
                         <div class="navWrapper">
-	                        <span class="toggleMenu">MENU</span>
+	                        <div class="burgerBtn"></div>
 	                        <ul>
 	                            <li class="{{ ($var['page'] == 'Event' ? 'active' : '') }}">
 	                                <a href="{{ route('public_event') }}">
