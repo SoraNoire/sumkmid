@@ -18,7 +18,7 @@
             <div class="col-md-9">
                 <div class="form-group">
                     <label class="control-label">Title</label>
-                    <input class="form-control" type="text" name="title" value="{{ $title }}" placeholder="Enter Title Here">
+                    <input required class="form-control" type="text" name="title" value="{{ $title }}" placeholder="Enter Title Here">
                 </div>
 
                 <div class="panel panel-default">
@@ -58,7 +58,7 @@
                         <div class="panel-body">
                             <div class="form-group">
                                 <label class="control-label">Meta Title</label>
-                                <input value="{{ $meta_title }}" class="form-control" type="text" name="meta_title" maxlength="191">
+                                <input required value="{{ $meta_title }}" class="form-control" type="text" name="meta_title" maxlength="191">
                             </div>
                             <div class="form-group">
                                 <label class="control-label">Meta Deskripsi</label>
@@ -66,7 +66,7 @@
                             </div>
                             <div class="form-group">
                                 <label class="control-label">Keyword</label>
-                                <input value="{{ $meta_keyword }}" class="form-control" type="text" name="meta_keyword" maxlength="191">
+                                <input required value="{{ $meta_keyword }}" class="form-control" type="text" name="meta_keyword" maxlength="191">
                                 <small>Contoh : keyword 1, keyword 2, keyword 3</small>
                             </div>
                         </div>
@@ -112,7 +112,11 @@
                             <label class="control-label">All Category</label>
                             <div class="category-wrap">
                                 <ul>
-
+                                    @foreach($allcategory as $cat)
+                                        <li>
+                                            <input type="checkbox" name="categories[]" value="{{$cat->id}}"> {{ $cat->name}}
+                                        </li>
+                                    @endforeach
                                 </ul>
                             </div>
                             <a data-toggle="collapse" data-target="#add_category" href="#add_category"><i class="fa fa-plus" aria-hidden="true"></i> Add Category</a>
