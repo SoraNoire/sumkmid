@@ -85,6 +85,10 @@ img {
 
 .navbar-fixed-top {
   border: 1px solid #5BC0DE;
+
+  .navbar-collapse {
+    max-height: unset;
+  }
 }
 
 .navbar-inverse {
@@ -275,4 +279,13 @@ img {
 
 #menu_title .title {
   float: left;
+}
+
+.close-modal {
+  float: right;
+  font-weight: 700;
+  margin-right: 15px;
+  margin-top: 10px;
+  cursor: pointer;
+  text-decoration: none;
 }

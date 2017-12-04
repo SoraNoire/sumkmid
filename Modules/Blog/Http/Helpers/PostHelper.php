@@ -52,9 +52,9 @@ class PostHelper
         $allparent .= '<option value="none">None</option>';
 
         if ($category_id > 0) {
+            $maincategory = Categories::where('parent', null)->where('id', '!=', $category_id)->get(); 
             $category = Categories::where('id', $category_id)->first();
             $category_parent = $category->parent;
-
         }
 
         foreach ($maincategory as $main) {   

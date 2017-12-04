@@ -58,7 +58,7 @@ $(document).ready(function() {
                     "targets": -1,
                     "data": 'id',
                     "render": function ( data, type, row ) {
-                        return '<a href="/admin/blog/event/'+row.id+'/view">Edit</a> | <a onclick="return confirm(\'Delete Event?\');" href="/admin/blog/event/'+row.id+'/delete">Hapus</a>';
+                        return '<a href="/admin/blog/event/'+row.id+'/view">Edit</a> | <a onclick="return confirm(\'Delete Event?\');" href="/admin/blog/event/'+row.id+'/remove">Hapus</a>';
                     }
                 },
                     {
@@ -70,7 +70,6 @@ $(document).ready(function() {
                 }
             ],
             order: [
-                [0, "desc"],
                 [2, "desc"]
             ]
         });

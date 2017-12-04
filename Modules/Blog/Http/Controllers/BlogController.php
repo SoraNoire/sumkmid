@@ -37,6 +37,16 @@ class BlogController extends Controller
         View::share('prefix', $this->prefix);
         View::share('body_id', 'blog');
     }
+    
+    /**
+     * Display a listing of event (Dashboard).
+     * @return Response
+     */
+    public function dashboard(){
+        $page_meta_title = 'Events';
+        return view('event::admin.index')->with(['page_meta_title' => $page_meta_title]);
+    }
+
     /**
      * Display a listing of post.
      * @return Response
@@ -104,25 +114,11 @@ class BlogController extends Controller
     public function addPost()
     {
         $page_meta_title = 'Posts';
-        $act = 'New';
-        $action = $this->prefix.'store-post';
 
-        $title = '';
-        $content = '';
-        $selected_tag = '';
-        $featured_image = '';
         $media = Media::orderBy('created_at','desc')->get();
         $alltag = Tags::orderBy('created_at','desc')->get();
-        $allcategory = PostHelper::get_all_category();
-        $allparent = PostHelper::get_category_parent();
-        $files = '';
-        $meta_desc = '';
-        $meta_title = '';
-        $meta_keyword = '';
-        $status = 1;
-        $published_date = 'immediately';
 
-        return view('blog::admin.post_form')->with(['isEdit'=>false,'page_meta_title' => $page_meta_title, 'act' => $act, 'action' => $action, 'title' => $title, 'content' => $content, 'alltag' => $alltag, 'selected_tag' => $selected_tag, 'allcategory' => $allcategory, 'media' => $media, 'featured_image' => $featured_image, 'allparent' => $allparent, 'meta_desc' => $meta_desc, 'meta_title' => $meta_title, 'meta_keyword' => $meta_keyword, 'status' => $status, 'published_date' => $published_date, 'files' => $files]);
+        return view('blog::admin.post_add')->with(['page_meta_title' => $page_meta_title, 'alltag' => $alltag, 'media' => $media]);
     }
 
     /**
@@ -132,9 +128,19 @@ class BlogController extends Controller
      */
     public function addPostPost(Request $request)
     {
+        $this->validate($request, [
+            'title' => 'required',
+            'content' => 'required'
+        ]);
 
+        $categories = json_encode($request->input('categories') ?? [] );
+        $tags = json_encode($request->get('tags') ?? [] );
+        $meta_title = $request->input('meta_title');
+        $meta_desc = $request->input('meta_desc');
+        $meta_keyword = $request->input('meta_keyword');
         $file_doc = $request->input('file_doc');
         $file_label = $request->input('file_label');
+
         $files = [];
         if (isset($file_doc)) {
             for ($i=0; $i < count($file_doc); $i++) {
@@ -142,20 +148,20 @@ class BlogController extends Controller
                 $files[$i]['file_doc'] = $file_doc[$i];
             }
         }
+        $files = json_encode($files);
 
+        $slug = PostHelper::make_slug($request->input('title'));
+        if (Posts::where('slug', $slug)->first()) {
+            $slug = $slug.'-'.date('s');
+        }
 
-        DB::transaction(function() use ($request,$files) {
-        
-            $slug = PostHelper::make_slug($request->input('title'));
-            if (Posts::where('slug', $slug)->first()) {
-                $slug = $slug.'-'.date('s');
-            }
+        $published_date = $request->input('published_date');
+        if ($published_date = 'immediately') {
+            $published_date = Carbon::now()->toDateTimeString();
+        }
 
-            $published_date = $request->input('published_date');
-            if ($published_date = 'immediately') {
-                $published_date = Carbon::now()->toDateTimeString();
-            }
-
+        DB::beginTransaction();
+        try {
             $store = new Posts;
             $store->title = $request->input('title');
             $store->slug = $slug;
@@ -165,26 +171,30 @@ class BlogController extends Controller
             $store->author = app()->SSO->Auth()->id;
             $store->status = $request->get('status');
             $store->published_date = $published_date;
-            if ($store->save()) {
+            $store->save();
 
-                $meta_contents = [
-                                    ['post_id'=>$store->id, 'key'=> 'meta_title', 'value'=> $request->input('meta_title')],
-                                    ['post_id'=>$store->id, 'key'=> 'meta_desc', 'value'=> $request->input('meta_desc')],
-                                    ['post_id'=>$store->id, 'key'=> 'meta_keyword', 'value'=> $request->input('meta_keyword')],
-                                    ['post_id'=>$store->id, 'key'=> 'files', 'value'=> json_encode($files)],
-                                    ['post_id'=>$store->id, 'key'=> 'categories', 'value'=> json_encode($request->input('categories') ?? [] )],
-                                    ['post_id'=>$store->id, 'key'=> 'tags', 'value'=> json_encode($request->input('tags') ?? [] )],
-                                ];
-                PostMeta::insert($meta_contents);
+            $meta_contents = array();
+            $metas[0] = ['name' => 'meta_title', 'value' => $meta_title];
+            $metas[1] = ['name' => 'meta_desc', 'value' => $meta_desc];
+            $metas[2] = ['name' => 'meta_keyword', 'value' => $meta_keyword];
+            $metas[3] = ['name' => 'files', 'value' => $files];
+            $metas[4] = ['name' => 'categories', 'value' => $categories];
+            $metas[5] = ['name' => 'tags', 'value' => $tags];
 
-                return redirect(route('posts'))->with(['msg' => 'Saved', 'status' => 'success']);
-            } else {
-                return redirect(route('posts'))->with(['msg' => 'Save Error', 'status' => 'danger']);
+            foreach ($metas as $meta) {
+                if ($meta['value'] != '') {
+                    $meta_contents[] = [ 'post_id'=>$store->id, 'key'=> $meta['name'], 'value'=> $meta['value'] ];
+                }
             }
 
-
-        });
-        return redirect($this->prefix.'posts')->with(['msg' => 'Saved', 'status' => 'success']);
+            PostMeta::insert($meta_contents);
+            
+            DB::commit();
+            return redirect(route('posts'))->with(['msg' => 'Saved', 'status' => 'success']);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return redirect(route('posts'))->with(['msg' => 'Save Error', 'status' => 'danger']);
+        }
     }
 
     /**
@@ -224,7 +234,7 @@ class BlogController extends Controller
             $published_date = $post->published_date;
             $item_id = $post->id;
 
-            return view('blog::admin.post_form')->with(['isEdit'=>true,'item_id' => $item_id, 'page_meta_title' => $page_meta_title, 'act' => $act, 'action' => $action, 'post' => $post , 'title' => $title, 'content' => $content, 'alltag' => $alltag, 'selected_tag' => $tags, 'media' => $media, 'featured_image' => $featured_image, 'meta_desc' => $meta_desc, 'meta_title' => $meta_title, 'meta_keyword' => $meta_keyword, 'status' => $status, 'published_date' => $published_date, 'files' => $files]);
+            return view('blog::admin.post_edit')->with(['isEdit'=>true,'item_id' => $item_id, 'page_meta_title' => $page_meta_title, 'act' => $act, 'action' => $action, 'post' => $post , 'title' => $title, 'content' => $content, 'alltag' => $alltag, 'selected_tag' => $tags, 'media' => $media, 'featured_image' => $featured_image, 'meta_desc' => $meta_desc, 'meta_title' => $meta_title, 'meta_keyword' => $meta_keyword, 'status' => $status, 'published_date' => $published_date, 'files' => $files]);
         } else {
             return redirect(route('posts'))->with(['msg' => 'Post Not Found', 'status' => 'danger']);
         }
@@ -237,6 +247,11 @@ class BlogController extends Controller
      */
     public function updatePost(Request $request, $id)
     {
+        $this->validate($request, [
+            'title' => 'required',
+            'content' => 'required'
+        ]);
+
         $files = [];
         if (isset($file_doc)) {
             for ($i=0; $i < count($file_doc); $i++) { 
@@ -247,7 +262,7 @@ class BlogController extends Controller
 
         $post_metas = PostMeta::where('post_id',$id)->get();
         $post_metas = $this->readMetas($post_metas);
-        $tags     = $request->input('tags') ?? [0];
+        $tags = $request->get('tags') ?? [];
         $tags = Tags::whereIn('name',$tags)->select(['id'])->get();
         $tag = [];
         foreach ($tags as $key => $t) {
@@ -257,63 +272,60 @@ class BlogController extends Controller
         $selected_tag = Tags::whereIn('id', $tags)->get();
         $request->request->add(['files'=>json_encode($files)]);
         $request->request->add(['tags'=>$tags]);
-        DB::transaction(function() use ($request,$id) {
 
+        $published_date = $request->input('published_date');
+        if ($published_date = 'immediately') {
+            $published_date = Carbon::now()->toDateTimeString();
+        }
+
+        DB::beginTransaction();
+        try {
             $post_metas = PostMeta::where('post_id',$id)->get();
-
-            $published_date = $request->input('published_date');
-            if ($published_date = 'immediately') {
-                $published_date = Carbon::now()->toDateTimeString();
-            }
-
             $update = Posts::where('id', $id)->first();
             $update->title = $request->input('title');
             $update->content = $request->input('content');
             $update->featured_image = $request->input('featured_image');
             $update->status = $request->input('status');
             $update->published_date = $published_date;
+            $update->update();
             
-            if($update->update())
-            {
-                $newMeta = false;
-                $post_metas = PostMeta::where('post_id',$id)->get();
-                $meta_fields = ['meta_title', 'meta_desc', 'meta_keyword', 'categories', 'tags', 'files' ];
+            $newMeta = false;
+            $post_metas = PostMeta::where('post_id',$id)->get();
+            $meta_fields = ['meta_title', 'meta_desc', 'meta_keyword', 'categories', 'tags', 'files' ];
 
-                foreach ($meta_fields as $key => $meta) {
-                    $updated = false;
-                    $post_metas->map(function($field) use ($meta,$request,&$updated){
-                        if ( $meta == $field->key )
-                        {
-                            $value = ( 
-                                        is_array($request->input($field->key)) ||
-                                        is_object($request->input($field->key)) 
-                                    )
-                                    ? json_encode($request->input($field->key)) : $request->input($field->key);
-                            $field->value = $value ?? $field->value;
-                            $field->save();
-                            $updated = true;
-                            return true;
-                        }
-                    });
-                    if(!$updated && $request->input($meta))
+            foreach ($meta_fields as $key => $meta) {
+                $updated = false;
+                $post_metas->map(function($field) use ($meta,$request,&$updated){
+                    if ( $meta == $field->key )
                     {
                         $value = ( 
-                                    is_array($request->input($meta)) ||
-                                    is_object($request->input($meta)) 
+                                    is_array($request->input($field->key)) ||
+                                    is_object($request->input($field->key)) 
                                 )
-                                ? json_encode($request->input($meta)) : $request->input($meta);
-                         PostMeta::insert(['post_id'=>$update->id,'key' => $meta, 'value'=>$value]);
+                                ? json_encode($request->input($field->key)) : $request->input($field->key);
+                        $field->value = $value ?? $field->value;
+                        $field->save();
+                        $updated = true;
+                        return true;
                     }
+                });
+                if(!$updated && $request->input($meta))
+                {
+                    $value = ( 
+                                is_array($request->input($meta)) ||
+                                is_object($request->input($meta)) 
+                            )
+                            ? json_encode($request->input($meta)) : $request->input($meta);
+                     PostMeta::insert(['post_id'=>$update->id,'key' => $meta, 'value'=>$value]);
                 }
-                return redirect(route('posts'))->with(['msg' => 'Saved', 'status' => 'success']);
             }
-            else
-            {
-                return redirect(route('posts'))->with(['msg' => 'Save error', 'status' => 'alert']);
-            }
-        });
-        return redirect(route('posts'))->with(['msg' => 'Saved', 'status' => 'success']);
 
+            DB::commit();
+            return redirect(route('posts'))->with(['msg' => 'Saved', 'status' => 'success']);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return redirect(route('posts'))->with(['msg' => 'Save error', 'status' => 'alert']);
+        }
     }
 
     /**
@@ -575,7 +587,7 @@ class BlogController extends Controller
         if ($store->save()){
 
             if ( $categoryajax ){
-                return response("<li><label><input selected name='categories[]' type='checkbox' value='$store->id'>$store->name</label></li>");
+                return response("<li><label><input checked selected name='categories[]' type='checkbox' value='$store->id'>$store->name</label></li>");
             }
 
             return redirect(route('categories'))->with(['msg' => 'Saved', 'status' => 'success']);
@@ -1090,19 +1102,9 @@ class BlogController extends Controller
     public function addPage()
     {
         $page_meta_title = 'Page';
-        $act = 'New';
-        $action = $this->prefix.'store-page';
-        $title = '';
-        $content = '';
-        $featured_image = '';
-        $meta_desc = '';
-        $meta_title = '';
-        $meta_keyword = '';
-        $status = 1;
-        $published_at = 'immediately';
-
         $media = Media::orderBy('created_at','desc')->get();
-        return view('blog::admin.page_form')->with(['isEdit'=>false,'page_meta_title' => $page_meta_title, 'act' => $act, 'action' => $action, 'title' => $title, 'content' => $content, 'media' => $media, 'featured_image' => $featured_image, 'meta_desc' => $meta_desc, 'meta_title' => $meta_title, 'meta_keyword' => $meta_keyword, 'status' => $status, 'published_date' => $published_at]);
+
+        return view('blog::admin.page_add')->with(['page_meta_title' => $page_meta_title, 'media' => $media]);
     }
 
     /**
@@ -1112,6 +1114,11 @@ class BlogController extends Controller
      */
     public function addPagePost(Request $request)
     {
+        $this->validate($request, [
+            'title' => 'required',
+            'content' => 'required'
+        ]);
+
         $title = $request->input('title');
         $slug = PostHelper::make_slug($title);
         $body = $request->input('content');
@@ -1131,27 +1138,36 @@ class BlogController extends Controller
             $slug = $slug.'-'.date('s');
         }
 
-        $store = new Posts;
-        $store->title = $title;
-        $store->slug = $slug;
-        $store->post_type = 'page';
-        $store->content = $body;
-        $store->featured_image = $featured_img;
-        $store->author = app()->SSO->Auth()->id;
-        $store->status = $status;
-        
-        $store->published_date = $published_at;
-        if ($store->save()) {
+        DB::beginTransaction();
+        try {
+            $store = new Posts;
+            $store->title = $title;
+            $store->slug = $slug;
+            $store->post_type = 'page';
+            $store->content = $body;
+            $store->featured_image = $featured_img;
+            $store->author = app()->SSO->Auth()->id;
+            $store->status = $status;
+            $store->published_date = $published_at;
+            $store->save();
 
-            $meta_contents = [
-                                ['post_id'=>$store->id, 'key'=> 'meta_title', 'value'=> $meta_title],
-                                ['post_id'=>$store->id, 'key'=> 'meta_desc', 'value'=> $meta_desc],
-                                ['post_id'=>$store->id, 'key'=> 'meta_keyword', 'value'=> $meta_keyword],
-                            ];
+            $meta_contents = array();
+            $metas[0] = ['name' => 'meta_title', 'value' => $meta_title];
+            $metas[1] = ['name' => 'meta_desc', 'value' => $meta_desc];
+            $metas[2] = ['name' => 'meta_keyword', 'value' => $meta_keyword];
+
+            foreach ($metas as $meta) {
+                if ($meta['value'] != '') {
+                    $meta_contents[] = [ 'post_id'=>$store->id, 'key'=> $meta['name'], 'value'=> $meta['value'] ];
+                }
+            }
+
             PostMeta::insert($meta_contents);
 
+            DB::commit();
             return redirect(route('pages'))->with(['msg' => 'Saved', 'status' => 'success']);
-        } else {
+        } catch (\Exception $e) {
+            DB::rollback();
             return redirect(route('pages'))->with(['msg' => 'Save Error', 'status' => 'danger']);
         }
     }
@@ -1170,7 +1186,7 @@ class BlogController extends Controller
             $post_metas = $this->readMetas($post_metas);
             $media = Media::orderBy('created_at','desc')->get();
 
-            return view('blog::admin.page_form')->with([
+            return view('blog::admin.page_edit')->with([
                         'page_meta_title' => 'Page',
                         'act' => 'Edit',
                         'action' => $this->prefix.'update-page/'.$id ?? '',
@@ -1207,6 +1223,11 @@ class BlogController extends Controller
      */
     public function updatePage(Request $request, $id)
     {
+        $this->validate($request, [
+            'title' => 'required',
+            'content' => 'required'
+        ]);
+
         $update = Posts::where('id', $id)->first();
         $update->title = $request->input('title');
         $update->content = $request->input('content');

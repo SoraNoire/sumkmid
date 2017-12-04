@@ -2,8 +2,8 @@
 
 Route::group(['middleware' => ['web','admin'], 'prefix' => 'admin/blog', 'namespace' => 'Modules\Blog\Http\Controllers'], function()
 {
-    Route::get('/', 'BlogController@index');
-    Route::get('/index', 'BlogController@index');
+    Route::get('/', 'BlogController@dashboard');
+    Route::get('/index', 'BlogController@dashboard');
     Route::get('/posts', 'BlogController@index');
     Route::get('/show/{slug}', 'BlogController@show_post');
 
@@ -81,7 +81,7 @@ Route::group(['middleware' => ['web','admin'], 'prefix' => 'admin/blog', 'namesp
     Route::get('/media', 'BlogController@media');
     Route::get('/get-media', 'BlogController@get_media');
     Route::get('/delete-media/{id}', 'BlogController@destroy_media');
-    Route::post('/store-media', 'BlogController@store_media');
+    Route::post('/store-media', 'BlogController@store_media')->name('store_media');
     Route::post('/bulk-delete-media/', 'BlogController@bulk_delete_media');
 
      //pages
