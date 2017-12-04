@@ -189,20 +189,21 @@ class GalleryController extends Controller
             $ids = explode(',', $gallery->images);
             $images = Media::whereIn('id', $ids)->get();
 
-            $alltag = GalleryTag::get();
-            $selected_tag = GalleryHelper::get_gallery_tag($gallery->id, 'id');
+            $alltag = Tags::get();
+            $allcategory = Categories::all();
 
             $media = Media::orderBy('created_at','desc')->get();
 
-            $option = json_decode($gallery->option);
-            $meta_desc = $option->meta_desc;
-            $meta_title = $option->meta_title;
-            $meta_keyword = $option->meta_keyword;
-            $status = $gallery->status;
-            $published_at = $gallery->published_at;
-            $featured_img = $gallery->featured_img;
+            $selected_tag = '';
 
-            return view('gallery::admin.gallery_form')->with(['item_id' => $id, 'page_meta_title' => $page_meta_title, 'act' => $act, 'action' => $action, 'gallery' => $gallery , 'title' => $title, 'images' => $images, 'alltag' => $alltag, 'selected_tag' => $selected_tag, 'media' => $media, 'meta_desc' => $meta_desc, 'meta_title' => $meta_title, 'meta_keyword' => $meta_keyword, 'status' => $status, 'published_at' => $published_at, 'featured_img' => $featured_img]);
+            $meta_desc = '';
+            $meta_title = '';
+            $meta_keyword = '';
+            $status = $gallery->status;
+            $published_date = $gallery->published_at;
+            $featured_image = $gallery->featured_image;
+
+            return view('gallery::admin.gallery_form')->with(['isEdit'=>true, 'item_id' => $id, 'page_meta_title' => $page_meta_title, 'act' => $act, 'action' => $action, 'gallery' => $gallery , 'title' => $title, 'images' => $images, 'alltag' => $alltag, 'selected_tag' => $selected_tag, 'media' => $media, 'meta_desc' => $meta_desc, 'meta_title' => $meta_title, 'meta_keyword' => $meta_keyword, 'status' => $status, 'published_date' => $published_date, 'featured_image' => $featured_image, 'allcategory'=>$allcategory]);
         } else {
             return redirect($this->prefix)->with(['msg' => 'gallery Not Found', 'status' => 'danger']);
         }

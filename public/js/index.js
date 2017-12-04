@@ -1396,7 +1396,11 @@ function load_gallery_category(){
         type: "GET",
         url: "/admin/blog/ajaxcategories",
         success: function(msg){
-            $('#gallery .category-wrap ul').html(msg);
+            var msg = msg.data, _el = '';
+            for(i=0;i<msg.length;i++){
+                _el += '<li><input name="categories" type="checkbox" value="'+msg[i].id+'"> '+msg[i].name+'</li>';
+            }
+            $('#gallery .category-wrap ul').html(_el);
         },
         error: function(err){
             console.log(err);
@@ -1411,7 +1415,7 @@ function load_gallery_category_parent(){
         url: "/admin/blog/ajaxcategories",
         success: function(msg){
             console.log(msg);
-            var msg = msg.data, _el = '';
+            var msg = msg.data, _el = '<option></option>';
             for(i=0;i<msg.length;i++){
                 _el += '<option value="'+msg[i].id+'">'+msg[i].name+'</option>';
             }
@@ -1424,7 +1428,7 @@ function load_gallery_category_parent(){
 }
 
 if ($('#gallery .category-wrap').length > 0) {
-    $('#gallery .category-wrap').ready(load_gallery_category());
+    // $('#gallery .category-wrap').ready(load_gallery_category());
 }
 
 if ($('#gallery .category-parent').length > 0) {
@@ -1437,18 +1441,23 @@ $('#gallery .add_category_button').on('click', function add_category(){
     var p = $('select[name=category_parent]').val();
     if (n != '') {
         $.ajax({
-            type: "GET",
-            url: "/admin/blog/gallery/add-category-gallery/"+n+"/"+p,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: "POST",
+            url: "/admin/blog/category/ajaxadd",
+            data: {'name':n, 'parent':p, 'catjax':'true'},
             success: function(msg){
-                console.log(msg);
+                // console.log(msg);
+                $("#gallery-category ul").append(msg);
             },
             error: function(err){
                 console.log(err);
             }
         });
 
-        load_gallery_category();
-        load_gallery_category_parent();
+        load_video_category();
+        // load_video_category_parent();
         $('input[name=category_name]').val('');
         $('select[name=category_parent]').removeAttr('selected');
     } else {    
