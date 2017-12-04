@@ -1,17 +1,15 @@
 @extends('blog::layouts.master')
 
 @section('content')
-<script> videoId = {{$video->id ?? 0}}</script>
+<script> videoId = 0</script>
 <div class="col-md-12">
-    <h4 class="title">{{ $act }} Videos</h4>
+    <h4 class="title">New Videos</h4>
 
-    <form id="post-form" method="post" action="{{  ($isEdit) ? route('updatevideo',$video->id) : route('storevideo') }}" accept-charset="UTF-8">
-        @if ($act == 'New')
-        <a href="{{ route('addvideo') }}" class="btn btn-round btn-fill btn-info">New Video +<div class="ripple-container"></div></a>
-        @elseif ($act == 'Edit')
-        <a target="_blank" href="{{ route('showvideo',$video->slug) }}" class="btn btn-round btn-fill btn-info">View Video<div class="ripple-container"></div></a>
-        <a onclick="return confirm('Delete video?');" href="{{route('removevideo',$video->id)}}" class="btn btn-round btn-fill btn-danger">Delete Video<div class="ripple-container"></div></a>
-        @endif
+    <form id="post-form" method="post" action="{{ route('storevideo') }}" accept-charset="UTF-8">
+        <a href="{{ route('addvideo') }}" class="btn btn-round btn-fill btn-info">
+            New Video +<div class="ripple-container"></div>
+        </a>
+        
         <button type="submit" class="btn btn-success pull-right">Save Video</button>
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
@@ -19,19 +17,26 @@
             <div class="col-md-9">
                 <div class="form-group">
                     <label class="control-label">Title</label>
-                    <input class="form-control" type="text" name="title" value="{{ $title }}" placeholder="Enter Title Here">
+                    <input class="form-control" type="text" name="title" value="{{ old('title') }}" placeholder="Enter Title Here">
                 </div>
 
                 <a id="browse_media_post" data-toggle="modal" data-target="#myMedia" class="btn btn-round btn-fill btn-default" style="margin-bottom: 10px;">Add Media</a>
 
                 <div class="form-group">
                     <label class="control-label">Description Video</label>
-                    <textarea class="form-control mytextarea" name="content">{{ $content }}</textarea>
+                    @if ($errors->has('content'))
+                    <div class="has-error">
+                        <span class="help-block">
+                            <strong>{{ $errors->first('content') }}</strong>
+                        </span>
+                    </div>
+                    @endif
+                    <textarea class="form-control mytextarea" name="content">{{ old('content') }}</textarea>
                 </div>
 
                 <div class="form-group">
                     <label class="control-label">Url Video</label>
-                    <input class="form-control" type="url" name="video_url" value="{{ $video_url }}" placeholder="Enter url video here">
+                    <input class="form-control" type="url" name="video_url" value="{{ old('video_url') }}" placeholder="Enter url video here" required="required">
                 </div>
 
                 <div class="panel panel-default">
@@ -44,15 +49,15 @@
                         <div class="panel-body">
                             <div class="form-group">
                                 <label class="control-label">Meta Title</label>
-                                <input value="{{ $meta_title }}" class="form-control" type="text" name="meta_title" maxlength="191">
+                                <input value="{{ old('meta_title') }}" class="form-control" type="text" name="meta_title" maxlength="191">
                             </div>
                             <div class="form-group">
                                 <label class="control-label">Meta Deskripsi</label>
-                                <textarea class="form-control" id="inputan" name="meta_desc" style="min-height: 100px;" maxlength="300">{{ $meta_desc }}</textarea>
+                                <textarea class="form-control" id="inputan" name="meta_desc" style="min-height: 100px;" maxlength="300">{{ old('meta_desc') }}</textarea>
                             </div>
                             <div class="form-group">
                                 <label class="control-label">Keyword</label>
-                                <input value="{{ $meta_keyword }}" class="form-control" type="text" name="meta_keyword" maxlength="191">
+                                <input value="{{ old('meta_keyword') }}" class="form-control" type="text" name="meta_keyword" maxlength="191">
                                 <small>Contoh : keyword 1, keyword 2, keyword 3</small>
                             </div>
                         </div>
@@ -72,14 +77,14 @@
                             <div class="form-group">
                                 <label>Video Status</label>
                                 <select name="status" class="form-control">
-                                    <option {{ $status == 1 ? 'selected' : '' }} value="1">Published</option>
-                                    <option {{ $status == 0 ? 'selected' : '' }} value="0">Draft</option>
+                                    <option value="1"{{ old('status') == '1' ? 'selected' : '' }}>Published</option>
+                                    <option value="0" {{ old('status') == '0' ? 'selected' : '' }}>Draft</option>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label class="control-label">Date Published</label>
                                 <div class="input-group input-append date datetimepicker">
-                                    <input class="form-control" size="16" type="text" value="{{ $published_date }}" name="published_date" readonly>
+                                    <input class="form-control" size="16" type="text" value="immediately" name="published_date" readonly>
                                     <span class="input-group-addon"><i class="fa fa-calendar" aria-hidden="true"></i></span>
                                 </div>
                             </div>
@@ -127,8 +132,7 @@
                         <div class="panel-body form-group">
                             <select id="mytag" name="tags[]" class="mytag form-control" multiple>
                                 @foreach ($alltags as $alltag)
-
-                                    <option {{ in_array($alltag->id, $tags) ? 'selected' : "" }} value="{{$alltag->name}}" >{{$alltag->name}}</option>
+                                    <option {{ in_array($alltag->id, old('tags')) ? 'selected' : "" }} value="{{$alltag->name}}" >{{$alltag->name}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -144,9 +148,9 @@
                     <div id="video-fimg" class="panel-collapse collapse in">
                         <div class="panel-body form-group">
                             <a id="browse_fimg_post" data-toggle="modal" data-target="#myFimg" class="btn btn-round btn-fill btn-default" style="margin-bottom: 10px;">Set Featured Image</a>
-                            <input type="hidden" name="featured_image" id="featured_image" value="{{ $featured_image }}">
-                            <div class="preview-fimg-wrap" style="display: {{ $featured_image != '' ? 'block' : ''  }};">
-                                <div class="preview-fimg" style="background-image: url({{ $featured_image }});"></div>
+                            <input type="hidden" name="featured_image" id="featured_img" value="{{ old('featured_image') }}">
+                            <div class="preview-fimg-wrap" style="display: {{ old('featured_image') != '' ? 'block' : ''  }};">
+                                <div class="preview-fimg" style="background-image: url({{ old('featured_image') }});"></div>
                                 <a href="#" onclick="remove_fimg()" class="remove-fimg"><i class="fa fa-times" aria-hidden="true"></i> Remove Featured Image</a>
                             </div>
                         </div>
@@ -169,7 +173,7 @@
 <div class="custom-modal media-modal">
 <div class="btn btn-round btn-fill btn-info" style="margin-bottom: 10px;">
 <div class="form-group" style="margin-top: 0px;margin-bottom: 0px;padding-bottom: 0px;cursor: default;">
-    <form id="actuploadmedia" method="post" action="{{ URL::to($prefix.'store-media') }}" accept-charset="UTF-8" enctype="multipart/form-data">
+    <form id="actuploadmedia" method="post" action="" accept-charset="UTF-8" enctype="multipart/form-data">
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
         <input type="file" id="uploadmedia" name="media[]" style="cursor: pointer;" multiple>
     </form>
@@ -197,7 +201,7 @@
 <div class="custom-modal fimg-modal">
 <div class="btn btn-round btn-fill btn-info" style="margin-bottom: 10px;">
 <div class="form-group" style="margin-top: 0px;margin-bottom: 0px;padding-bottom: 0px;cursor: default;">
-    <form id="actuploadfimg" method="post" action="{{ URL::to($prefix.'store-media') }}" accept-charset="UTF-8" enctype="multipart/form-data">
+    <form id="actuploadfimg" method="post" action="" accept-charset="UTF-8" enctype="multipart/form-data">
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
         <input type="file" id="uploadfimg" name="media[]" style="cursor: pointer;" multiple>
     </form>
