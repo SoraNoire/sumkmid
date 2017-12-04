@@ -87,7 +87,7 @@
 			@foreach ($events as $event)
 			<div class="post event the-row" id="event-{{$event->id}}">
 				<div class="event-datetime col-3">
-					<span>13 Desember 2017</span>
+					<span>{{$event->id}}</span>
 					<span>08:00 WIB - till drop</span>
 				</div>
 				<div class="event-timeline">
