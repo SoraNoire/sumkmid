@@ -29,8 +29,6 @@
   'Modules/Blog/Assets/js/bootstrap.min.js',
   'Modules/Blog/Assets/js/ie10-viewport-bug-workaround.js',
   'Modules/Blog/Assets/js/bootstrap-datetimepicker.min.js',
-  'Modules/Menu/Assets/js/jquery.nestable.js',
-  'Modules/Menu/Assets/js/menu.js',
   'Modules/Blog/Assets/js/custom.js',
   'Modules/Video/Assets/js/video.js',
   'Modules/Event/Assets/js/event.js',

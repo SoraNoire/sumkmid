@@ -1,23 +1,20 @@
 @extends('blog::layouts.master')
 
 @section('content')
-<script> eventId = {{$event->id ?? 0}}</script>
+<script> eventId = 0</script>
 <div class="col-md-12">
     @if(session('msg'))
-    <div class="alert alert-{{ session('status') }}">
+    <div class="alert alert-{{ session('status') }} alert-dismissable">
       {{ session('msg') }}
     </div>
     @endif
     
-    <h4 class="title">{{ $act }} events</h4>
+    <h4 class="title">New events</h4>
 
-    <form id="event-form" method="post" action="{{  ($isEdit) ? route('updateevent',$id) : route('storeevent') }}" accept-charset="UTF-8">
-        @if ($act == 'New')
-        <a href="{{ URL::to($prefix.'create-event') }}" class="btn btn-round btn-fill btn-info">New Event +<div class="ripple-container"></div></a>
-        @elseif ($act == 'Edit')
-        <a target="_blank" href="{{ URL::to($prefix.'show/'.$event->slug) }}" class="btn btn-round btn-fill btn-info">View Event<div class="ripple-container"></div></a>
-        <a onclick="return confirm('Delete Event?');" href="{{route('removeevent',$event->id)}}" class="btn btn-round btn-fill btn-danger">Delete Event<div class="ripple-container"></div></a>
-        @endif
+    <form id="event-form" method="post" action="{{ route('storeevent') }}" accept-charset="UTF-8">
+        <a href="{{ route('addevent') }}" class="btn btn-round btn-fill btn-info">
+            New Event +<div class="ripple-container"></div>
+        </a>
         <button type="submit" class="btn btn-success pull-right">Save Event</button>
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
@@ -25,14 +22,14 @@
             <div class="col-md-9">
                 <div class="form-group">
                     <label class="control-label">Title</label>
-                    <input class="form-control" type="text" name="title" value="{{ $title }}" placeholder="Enter Title Here">
+                    <input class="form-control" type="text" name="title" value="{{ old('title') }}" placeholder="Enter Title Here">
                 </div>
 
                 <a id="browse_media_post" data-toggle="modal" data-target="#myMedia" class="btn btn-round btn-fill btn-default" style="margin-bottom: 10px;">Add Media</a>
 
                 <div class="form-group">
                     <label class="control-label">Event Description</label>
-                    <textarea class="form-control mytextarea" name="description">{{ $description }}</textarea>
+                    <textarea class="form-control mytextarea" name="description">{{ old('description') }}</textarea>
                 </div>
 
                 <div class="panel panel-default">
@@ -46,27 +43,25 @@
                             <div class="form-group">
                                 <label class="control-label">Select Event Type</label>
                                 <select id="event-type" name="event_type" class="form-control" onchange="select_event_type()">
-                                    <option value="offline" {{ $event_type == 'offline' ? 'selected' : '' }}>Offline</option>
-                                    <option value="online" {{ $event_type == 'online' ? 'selected' : '' }}>Online</option>
+                                    <option value="offline" {{ old('event_type') == 'offline' ? 'selected' : '' }}>Offline</option>
+                                    <option value="online" {{ old('event_type') == 'online' ? 'selected' : '' }}>Online</option>
                                 </select>
                             </div>
 
                             <div class="form-group event-type-offline" style="display: none;">
                                 <label class="control-label">Tempat</label>
-                                <input value="{{ $location }}" class="form-control" type="text" name="location">
+                                <input value="{{ old('location') }}" class="form-control" type="text" name="location">
                             </div>
                             <div class="form-group event-type-offline" style="display: none;">
                                 <label class="control-label">HTM</label>
                                 <div class="input-group">
                                     <span class="input-group-addon">Rp</span>
-                                    <input value="{{ $htm }}" class="form-control" type="text" name="htm">
+                                    <input value="{{ old('htm') }}" class="form-control" type="text" name="htm">
                                 </div>
                             </div>
-                            <div class="form-group event-type-online" style="display: none;">
-                               <label class="control-label">Select Forum</label>
-                                <select name="forum_id" class="form-control myselect2">
-                                   
-                                </select>
+                            <div class="form-group event-type-online">
+                                <label>URL</label>
+                                <input class="form-control" type="url" name="url_event" value="{{ old('url_event') }}">
                             </div>
                             <div class="form-group">
                                <label class="control-label">Select Mentor</label>
@@ -78,14 +73,14 @@
                                 <div class="col-md-6">
                                     <label class="control-label">Open at</label>
                                     <div class="input-group input-append date datetimepicker">
-                                        <input class="form-control" size="16" type="text" value="{{ $open_at }}" name="open_at" readonly>
+                                        <input class="form-control" size="16" type="text" value="{{ old('open_at') }}" name="open_at" readonly>
                                         <span class="input-group-addon"><i class="fa fa-calendar" aria-hidden="true"></i></span>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <label class="control-label">Closed at</label>
                                     <div class="input-group input-append date datetimepicker">
-                                        <input class="form-control" size="16" type="text" value="{{ $closed_at }}" name="closed_at" readonly>
+                                        <input class="form-control" size="16" type="text" value="{{ old('closed_at') }}" name="closed_at" readonly>
                                         <span class="input-group-addon"><i class="fa fa-calendar" aria-hidden="true"></i></span>
                                     </div>
                                 </div>
@@ -105,15 +100,15 @@
                         <div class="panel-body">
                             <div class="form-group">
                                 <label class="control-label">Meta Title</label>
-                                <input value="{{ $meta_title }}" class="form-control" type="text" name="meta_title" maxlength="191">
+                                <input value="{{ old('meta_title') }}" class="form-control" type="text" name="meta_title" maxlength="191">
                             </div>
                             <div class="form-group">
                                 <label class="control-label">Meta Deskripsi</label>
-                                <textarea class="form-control" id="inputan" name="meta_desc" style="min-height: 100px;" maxlength="300">{{ $meta_desc }}</textarea>
+                                <textarea class="form-control" id="inputan" name="meta_desc" style="min-height: 100px;" maxlength="300">{{ old('meta_desc') }}</textarea>
                             </div>
                             <div class="form-group">
                                 <label class="control-label">Keyword</label>
-                                <input value="{{ $meta_keyword }}" class="form-control" type="text" name="meta_keyword" maxlength="191">
+                                <input value="{{ old('meta_keyword') }}" class="form-control" type="text" name="meta_keyword" maxlength="191">
                                 <small>Contoh : keyword 1, keyword 2, keyword 3</small>
                             </div>
                         </div>
@@ -133,8 +128,8 @@
                             <div class="form-group">
                                 <label>Event Status</label>
                                 <select name="status" class="form-control">
-                                    <option {{ $status == 1 ? 'selected' : '' }} value="1">Published</option>
-                                    <option {{ $status == 0 ? 'selected' : '' }} value="0">Draft</option>
+                                    <option value="1" {{ old('status') == '1' ? 'selected' : '' }}>Published</option>
+                                    <option value="0" {{ old('status') == '0' ? 'selected' : '' }}>Draft</option>
                                 </select>
                             </div>
                             <div class="form-group">
@@ -185,9 +180,9 @@
                     <div id="event-fimg" class="panel-collapse collapse in">
                         <div class="panel-body form-group">
                             <a id="browse_fimg_post" data-toggle="modal" data-target="#myFimg" class="btn btn-round btn-fill btn-default" style="margin-bottom: 10px;">Set Featured Image</a>
-                            <input type="hidden" name="featured_img" id="featured_img" value="{{ $featured_img }}">
-                            <div class="preview-fimg-wrap" style="display: {{ $featured_img != '' ? 'block' : ''  }};">
-                                <div class="preview-fimg" style="background-image: url({{ $featured_img }});"></div>
+                            <input type="hidden" name="featured_img" id="featured_img" value="{{ old('featured_img') }}">
+                            <div class="preview-fimg-wrap" style="display: {{ old('featured_img') != '' ? 'block' : ''  }};">
+                                <div class="preview-fimg" style="background-image: url({{ old('featured_img') }});"></div>
                                 <a href="#" onclick="remove_fimg()" class="remove-fimg"><i class="fa fa-times" aria-hidden="true"></i> Remove Featured Image</a>
                             </div>
                         </div>
@@ -210,7 +205,7 @@
 <div class="custom-modal media-modal">
 <div class="btn btn-round btn-fill btn-info" style="margin-bottom: 10px;">
 <div class="form-group" style="margin-top: 0px;margin-bottom: 0px;padding-bottom: 0px;cursor: default;">
-    <form id="actuploadmedia" method="post" action="{{ URL::to($prefix.'store-media') }}" accept-charset="UTF-8" enctype="multipart/form-data">
+    <form id="actuploadmedia" method="post" action="" accept-charset="UTF-8" enctype="multipart/form-data">
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
         <input type="file" id="uploadmedia" name="media[]" style="cursor: pointer;" multiple>
     </form>
@@ -238,7 +233,7 @@
 <div class="custom-modal fimg-modal">
 <div class="btn btn-round btn-fill btn-info" style="margin-bottom: 10px;">
 <div class="form-group" style="margin-top: 0px;margin-bottom: 0px;padding-bottom: 0px;cursor: default;">
-    <form id="actuploadfimg" method="post" action="{{ URL::to($prefix.'store-media') }}" accept-charset="UTF-8" enctype="multipart/form-data">
+    <form id="actuploadfimg" method="post" action="" accept-charset="UTF-8" enctype="multipart/form-data">
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
         <input type="file" id="uploadfimg" name="media[]" style="cursor: pointer;" multiple>
     </form>

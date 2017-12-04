@@ -3,7 +3,7 @@
 @section('content')
 <div class="col-md-12">
 @if(session('msg'))
-<div class="alert alert-{{ session('status') }}">
+<div class="alert alert-{{ session('status') }} alert-dismissable">
   {{ session('msg') }}
 </div>
 @endif
