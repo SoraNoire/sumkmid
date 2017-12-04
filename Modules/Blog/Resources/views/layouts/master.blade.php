@@ -116,6 +116,13 @@
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
             <div class="container-fluid">
                 <div class="row">
+                    @if(session('msg'))
+                    <div class="alert alert-{{ session('status') }} alert-dismissable ">
+                      <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                      {{ session('msg') }}
+                    </div>
+                    @endif
+                    
                     @yield('content')
                 </div>
             </div>

@@ -12,7 +12,7 @@
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
         <div class="form-group">
             <label class="control-label">Name</label>
-            <input class="form-control" type="text" name="name" value="{{ $name }}">
+            <input class="form-control" type="text" name="name" value="{{ $name }}" required="required">
         </div>
         <div class="form-group">
             <label class="control-label">Description</label>

@@ -2,11 +2,6 @@
 
 @section('content')
 <div class="col-md-12">
-@if(session('msg'))
-<div class="alert alert-{{ session('status') }}">
-  {{ session('msg') }}
-</div>
-@endif
 <form method="post" action="{{ URL::to($prefix.'bulk-delete-category/')}}" accept-charset="UTF-8">
     <a href="{{ URL::to($prefix.'/create-category') }}" class="btn btn-round btn-fill btn-info">New Category +<div class="ripple-container"></div></a>
     <input type="hidden" name="_token" value="{{ csrf_token() }}">

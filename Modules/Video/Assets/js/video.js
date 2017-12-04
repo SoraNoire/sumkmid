@@ -70,7 +70,6 @@ $(document).ready(function() {
                 }
             ],
             order: [
-                [0, "desc"],
                 [2, "desc"]
             ]
         });

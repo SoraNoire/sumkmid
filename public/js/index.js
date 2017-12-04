@@ -509,7 +509,6 @@ $(document).ready(function() {
                 }
             ],
             order: [
-                [0, "desc"],
                 [1, "desc"]
             ]
         });
@@ -563,7 +562,6 @@ $(document).ready(function() {
             "processing": true,
             "serverSide": true,
             "stateSave":true,
-            bSortable: true,
             "columns": [
                 { "data": "title" },
                 { "data": "author" },
@@ -585,7 +583,7 @@ $(document).ready(function() {
                     }
                 }
             ],
-            order: [,
+            order: [
                 [2, "desc"]
             ]
         });
@@ -803,7 +801,6 @@ $(document).ready(function() {
                 }
             ],
             order: [
-                [0, "desc"],
                 [1, "desc"]
             ]
         });
@@ -1040,7 +1037,6 @@ $(document).ready(function() {
                 }
             ],
             order: [
-                [0, "desc"],
                 [2, "desc"]
             ]
         });
@@ -1321,7 +1317,6 @@ $(document).ready(function() {
             "processing": true,
             "serverSide": true,
             "stateSave":true,
-            bSortable: true,
             "columns": [
                 { "data": "title" },
                 { "data": "author" },
@@ -1344,7 +1339,6 @@ $(document).ready(function() {
                 }
             ],
             order: [
-                [0, "desc"],
                 [2, "desc"]
             ]
         });
@@ -1517,7 +1511,7 @@ if ($("#MediaGallery").length > 0) {
     $('#MediaGallery tbody').on( 'click', 'tr', function () {
         $(this).toggleClass('selected');
         $('#count-galeri').html( $("#MediaGallery").DataTable().rows('.selected').data().length +' row(s) selected' );
-        $('#select-image-galeri').show();
+        $('#selected-image-galeri').show();
     });
 }
 
@@ -1532,7 +1526,7 @@ if ($("#select-image-galeri").length > 0) {
         });
 
         images.forEach(function(image, index) {  
-            $("#selected-images").append("<div id='img-"+ids[index]+"' class='image'> <input id='input-"+ids[index]+"' type='hidden' name='selected_image[]' class='form-control' value='"+ids[index]+"'> <a class='close'> <i class='fa fa-times' aria-hidden='true'></i> </a> <image src='"+mediaPath+"/"+image+"'> </div>");
+            $("#selected-images").append("<div id='img-"+ids[index]+"' class='image'> <input id='input-"+ids[index]+"' type='hidden' name='gallery_images[]' class='form-control' value='"+ids[index]+"'> <a class='close'> <i class='fa fa-times' aria-hidden='true'></i> </a> <image src='"+mediaPath+"/"+image+"'> </div>");
         });
 
         $(".overlay").fadeOut(), $(".custom-modal").fadeOut(), $('#count-galeri').html(''), $('#MediaGallery').find('tr').removeClass('selected')
