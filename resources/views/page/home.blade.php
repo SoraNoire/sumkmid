@@ -42,7 +42,7 @@
 	        		<div class="block quote">
 	        			<span class="quote-logo"><i class="material-icons">format_quote</i></span>
 	        			<div class="the-quote">
-		        			<p>Event-nya seru semua, ajang yang tepat buat  cari partner  dan peluang baru</p>
+		        			<p>Event-nya seru semua, ajang yang tepat buat cari partner dan peluang baru</p>
 		        			<span>- umar</span>
 	        			</div>
 	        		</div>
@@ -71,11 +71,74 @@
 
 <section id="mentor">
 	<div class="container">
-		<h3 class="section-title gray"><span>Mentoring</span> <span>Gratis</span></h3>
+		<h3 class="section-title gray"><span>Punya Masalah</span> <span>Bisnis?</span></h3>
 		<div class="section-desc">
-	    	<p>
-	    		Phosfluorescently actualize professional e-markets via real-time e-business. Phosfluorescently aggregate 
-	    	</p>
+	    	<p>Kami punya lebih dari 100 mentor untuk menjawab semua<br> permasalahan bisnis UMKM anda</p>
+		</div>
+	</div>
+</section>
+
+<section id="questions">
+	<div class="fullWrap">
+		<div class="question">
+			<div class="caption">
+				<p>Bagaimana cara promosi produk tanpa bayar iklan ?</p>
+				<small>Ryan Purbo</small>
+			</div>
+		</div>
+		<div class="question">
+			<div class="caption">
+				<p>Bagaimana cara promosi produk tanpa bayar iklan ?</p>
+				<small>Ryan Purbo</small>
+			</div>
+		</div>
+		<div class="question">
+			<div class="caption">
+				<p>Bagaimana cara promosi produk tanpa bayar iklan ?</p>
+				<small>Ryan Purbo</small>
+			</div>
+		</div>
+		<div class="question">
+			<div class="caption">
+				<p>Bagaimana cara promosi produk tanpa bayar iklan ?</p>
+				<small>Ryan Purbo</small>
+			</div>
+		</div>
+		<div class="question">
+			<div class="caption">
+				<p>Bagaimana cara promosi produk tanpa bayar iklan ?</p>
+				<small>Ryan Purbo</small>
+			</div>
+		</div>
+		<div class="question">
+			<div class="caption">
+				<p>Bagaimana cara promosi produk tanpa bayar iklan ?</p>
+				<small>Ryan Purbo</small>
+			</div>
+		</div>
+		<div class="question">
+			<div class="caption">
+				<p>Bagaimana cara promosi produk tanpa bayar iklan ?</p>
+				<small>Ryan Purbo</small>
+			</div>
+		</div>
+		<div class="question">
+			<div class="caption">
+				<p>Bagaimana cara promosi produk tanpa bayar iklan ?</p>
+				<small>Ryan Purbo</small>
+			</div>
+		</div>
+		<div class="question">
+			<div class="caption">
+				<p>Bagaimana cara promosi produk tanpa bayar iklan ?</p>
+				<small>Ryan Purbo</small>
+			</div>
+		</div>
+		<div class="question">
+			<div class="caption">
+				<p>Bagaimana cara promosi produk tanpa bayar iklan ?</p>
+				<small>Ryan Purbo</small>
+			</div>
 		</div>
 	</div>
 </section>

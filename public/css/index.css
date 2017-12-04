@@ -1194,9 +1194,9 @@ template,
 
 .headerTop {
   background-color: #1d3d6f;
-  -webkit-box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.5);
-          box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.5);
   padding: 12px 0px;
+  z-index: 3;
+  position: relative;
 }
 
 .breadcrumb {
@@ -1287,8 +1287,31 @@ footer .copyright {
   background-image: url("/img/top-bg.png");
   background-size: cover;
   position: relative;
-  -webkit-box-shadow: 2px 2px 30px 0px rgba(0, 0, 0, 0.5);
-          box-shadow: 2px 2px 30px 0px rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+
+#what-we-do::before {
+  content: "";
+  width: 100%;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  -webkit-box-shadow: 0px 0px 17px 2px #000000;
+  box-shadow: 0px 0px 17px 2px #000000;
+}
+
+#what-we-do:after {
+  content: "";
+  width: 100%;
+  display: block;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+  -webkit-box-shadow: 0px 0px 17px 2px #000000;
+  box-shadow: 0px 0px 17px 2px #000000;
 }
 
 #what-we-do .bg-overlay {
@@ -1337,7 +1360,7 @@ footer .copyright {
   padding-bottom: 50px;
   background-image: url("/img/triangle.png");
   background-repeat: no-repeat;
-  background-position-y: -25px;
+  background-position-y: -50px;
 }
 
 #event .the-row {
@@ -1859,6 +1882,59 @@ footer .copyright {
 
 #event-archive .event .event-content .share-socmed ul li:last-child {
   margin-right: 0;
+}
+
+#questions {
+  height: 338px;
+  margin-bottom: 64px;
+}
+
+#questions .fullWrap .question {
+  width: 20%;
+  display: block;
+  float: left;
+  position: relative;
+  height: 169px;
+}
+
+#questions .fullWrap .question:nth-child(3n-2) {
+  background-color: #E0E8F5;
+}
+
+#questions .fullWrap .question:nth-child(3n-1) {
+  background-color: #F8E9DD;
+}
+
+#questions .fullWrap .question:nth-child(3n) {
+  background-color: #FDEFDD;
+}
+
+#questions .fullWrap .question .caption {
+  position: absolute;
+  height: -webkit-max-content;
+  height: -moz-max-content;
+  height: max-content;
+  max-width: 100%;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto 19px;
+}
+
+#questions .fullWrap .question .caption p {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.25;
+  text-align: left;
+  color: rgba(64, 64, 64, 0.87);
+  margin-bottom: 5px;
+}
+
+#questions .fullWrap .question .caption small {
+  font-size: 12px;
+  text-align: right;
+  color: #878787;
 }
 
 #map {
