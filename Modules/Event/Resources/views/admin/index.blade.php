@@ -2,11 +2,6 @@
 
 @section('content')
 <div class="col-md-12">
-@if(session('msg'))
-<div class="alert alert-{{ session('status') }} alert-dismissable">
-  {{ session('msg') }}
-</div>
-@endif
 <form method="post" action="{{ route('massdeleteevent') }}" accept-charset="UTF-8">
 <a href="{{ route('addevent') }}" class="btn btn-round btn-fill btn-info">New Event +<div class="ripple-container"></div></a>
 

@@ -184,25 +184,17 @@
 @stop
 
 @section('modal')
-@if(isset($media))
 <div class="overlay"></div>
 
 <div class="custom-modal media-modal">
-<div class="btn btn-round btn-fill btn-info" style="margin-bottom: 10px;">
-<div class="form-group" style="margin-top: 0px;margin-bottom: 0px;padding-bottom: 0px;cursor: default;">
-    <form id="actuploadmedia" method="post" action="" accept-charset="UTF-8" enctype="multipart/form-data">
-        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-        <input type="file" id="uploadmedia" name="media[]" style="cursor: pointer;" multiple>
-    </form>
-</div>
-</div>
-<div style="float: right;" id="close_media_post" data-toggle="modal" data-target="#myMedia" class="btn btn-round btn-fill btn-default">Close</div>
+<div class="close-modal" id="close_media_post" data-toggle="modal" data-target="#myModal">X</div>
+
     <div class="card">
-        <div class="card-header" data-background-color="blue">
-            <h4 class="title">Browse Media</h4>
-            <p class="category">Cari Media untuk ditambahkan</p>
-            <p style="display: inline-block;" id="count-galeri"></p>
-            <button id="select-image-galeri" style="display: none;">select image</button>
+        <div class="btn btn-round btn-fill btn-info" style="margin-bottom: 10px;" onclick="document.getElementById('uploadmedia').click();">Upload media +
+            <form id="actuploadmedia" method="post" action="{{ URL::to('/administrator/act_new_media') }}" accept-charset="UTF-8" enctype="multipart/form-data">
+                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                <input type="file" id="uploadmedia" name="media[]" style="cursor: pointer;display: none;" multiple>
+            </form>
         </div>
     <div class="card-content table-responsive">
         <table style="width: 100%;" class="table mediatable" id="MediaGallery">
@@ -217,24 +209,21 @@
             </thead>
         </table>
     </div>
+    <div id="selected-image-galeri" style="text-align: left;display: none;">
+        <button style="padding: 8px 14px;" id="select-image-galeri" class="btn btn-round btn-fill btn-success">Select Images</button>
+        <!-- <p style="display: inline-block;" id="count-galeri"></p> -->
+    </div>
     </div>
 </div>
 
 <div class="custom-modal fimg-modal">
-<div class="btn btn-round btn-fill btn-info" style="margin-bottom: 10px;">
-<div class="form-group" style="margin-top: 0px;margin-bottom: 0px;padding-bottom: 0px;cursor: default;">
-    <form id="actuploadfimg" method="post" action="" accept-charset="UTF-8" enctype="multipart/form-data">
-        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-        <input type="file" id="uploadfimg" name="media[]" style="cursor: pointer;" multiple>
-    </form>
-
-</div>
-</div>
-<div style="float: right;" id="close_fimg_post" data-toggle="modal" data-target="#myFimg" class="btn btn-round btn-fill btn-default">Close</div>
+<div class="close-modal" id="close_fimg_post" data-toggle="modal" data-target="#myFimg">X</div>
     <div class="card">
-        <div class="card-header" data-background-color="blue">
-            <h4 class="title">Browse Media</h4>
-            <p class="category">Cari Media untuk ditambahkan</p>
+        <div class="btn btn-round btn-fill btn-info" style="margin-bottom: 10px;" onclick="document.getElementById('uploadfimg').click();">Upload media +
+            <form id="actuploadfimg" method="post" action="{{ URL::to('/administrator/act_new_media') }}" accept-charset="UTF-8" enctype="multipart/form-data">
+                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                <input type="file" id="uploadfimg" name="media[]" style="cursor: pointer;display: none;" multiple>
+            </form>
         </div>
         <div class="card-content table-responsive">
             <table style="width: 100%;" class="table mediatable" id="FeaturedImg">
@@ -248,5 +237,4 @@
         </div>
     </div>
 </div>
-@endif
 @endsection

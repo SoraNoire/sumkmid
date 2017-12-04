@@ -2,11 +2,6 @@
 
 @section('content')
 <div class="col-md-12">
-    @if(session('msg'))
-    <div class="alert alert-{{ session('status') }}">
-      {{ session('msg') }}
-    </div>
-    @endif
     <h3>{{ $page->title }}</h3>
     <small style="float: left;width: 100%;margin-bottom: 10px;"><a href="{{ url($prefix.'edit-page/'.$page->id) }}">Edit Page</a></small>
     <table>

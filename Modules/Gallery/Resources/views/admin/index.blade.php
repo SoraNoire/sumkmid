@@ -2,11 +2,6 @@
 
 @section('content')
 <div class="col-md-12">
-@if(session('msg'))
-<div class="alert alert-{{ session('status') }}">
-  {{ session('msg') }}
-</div>
-@endif
 <form method="post" action="{{ route('massdeletegallery') }}" accept-charset="UTF-8">
 <a href="{{ route('addgallery') }}" class="btn btn-round btn-fill btn-info">New Gallery +<div class="ripple-container"></div></a>
 

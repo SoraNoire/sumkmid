@@ -329,7 +329,6 @@ $(document).ready(function() {
                 }
             ],
             order: [
-                [0, "desc"],
                 [1, "desc"]
             ]
         });
@@ -383,7 +382,6 @@ $(document).ready(function() {
             "processing": true,
             "serverSide": true,
             "stateSave":true,
-            bSortable: true,
             "columns": [
                 { "data": "title" },
                 { "data": "author" },
@@ -405,7 +403,7 @@ $(document).ready(function() {
                     }
                 }
             ],
-            order: [,
+            order: [
                 [2, "desc"]
             ]
         });
@@ -623,7 +621,6 @@ $(document).ready(function() {
                 }
             ],
             order: [
-                [0, "desc"],
                 [1, "desc"]
             ]
         });
