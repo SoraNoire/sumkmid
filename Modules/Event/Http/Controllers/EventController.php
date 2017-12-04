@@ -120,6 +120,7 @@ class EventController extends Controller
         $categories = $request->get('categories');
         $location = $request->input('location');
         $htm = $request->input('htm');
+        $event_url = $request->input('event_url'); 
         $author = app()->SSO->Auth()->id;
         $mentor = $request->get('mentor');
         $status = $request->get('status');
@@ -167,6 +168,7 @@ class EventController extends Controller
             $metas[7] = ['name' => 'event_closed_at', 'value' => $closed_at];
             $metas[8] = ['name' => 'event_categories', 'value' => $categories];
             $metas[9] = ['name' => 'event_mentor', 'value' => $mentor];
+            $metas[10] = ['name' => 'event_url', 'value' => $event_url];
             foreach ($metas as $meta) {
                 if ($meta['value'] != '') {
                     $meta_contents[] = [ 'post_id'=>$store->id, 'key'=> $meta['name'], 'value'=> $meta['value'] ];
@@ -202,7 +204,7 @@ class EventController extends Controller
 
             $title = $event->title;
             $description = $event->content; 
-            $featured_img = $event->featured_img;
+            $featured_img = $event->featured_image;
             $media = Media::orderBy('created_at','desc')->get();
             $status = $event->status;
             $published_date = $event->published_date;
@@ -210,17 +212,18 @@ class EventController extends Controller
             
             
             $post_metas = $this->readMetas($post_metas);
-            
-            $event_type     = $post_metas->key ?? '';
-            $location       = $post_metas->location ?? '';
-            $htm            = $post_metas->htm ?? '';
-            $open_at        = $post_metas->open_at ?? '';
-            $closed_at      = $post_metas->closed_at ?? '';
-            $meta_desc      = $post_metas->meta_desc ?? '';
-            $meta_title     = $post_metas->meta_title ?? '';
-            $meta_keyword   = $post_metas->meta_keyword ?? '';
-            $mentor_id      = json_decode($post_metas->mentor ?? '') ?? [];
-            $categories     = json_decode($post_metas->categories ?? '') ?? [];
+
+            $event_type     = $post_metas->event_type ?? '';
+            $location       = $post_metas->event_location ?? '';
+            $htm            = $post_metas->event_htm ?? '';
+            $open_at        = $post_metas->event_open_at ?? '';
+            $closed_at      = $post_metas->event_closed_at ?? '';
+            $event_url      = $post_metas->event_url ?? '';
+            $meta_desc      = $post_metas->event_meta_desc ?? '';
+            $meta_title     = $post_metas->event_meta_title ?? '';
+            $meta_keyword   = $post_metas->event_meta_keyword ?? '';
+            $mentor_id      = json_decode($post_metas->event_mentor ?? '') ?? [];
+            $categories     = json_decode($post_metas->event_categories ?? '') ?? [];
             
             $list_category = EventHelper::get_list_category($categories);
 
@@ -247,7 +250,7 @@ class EventController extends Controller
                                 'open_at' => $open_at,
                                 'closed_at' => $closed_at,
                                 'list_category' => $list_category,
-                                'isEdit'=>true
+                                'event_url' => $event_url
                             ]
                     );
         } else {
