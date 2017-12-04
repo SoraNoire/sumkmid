@@ -34,7 +34,7 @@ class PublicController extends Controller
 		{
 			// test token 
 			if (app()->SSO->auth()){
-				return redirect('/')->send();
+				return redirect('/admin/blog')->send();
 			}
 			Cookie::queue(config('auth.ssocookie'), "", -10080);
 			return redirect(route('ssologin'));
@@ -49,7 +49,7 @@ class PublicController extends Controller
 		{
 			// test token 
 			if (app()->SSO->auth()){
-				return redirect('/')->send();
+				return redirect('/admin/blog')->send();
 			}
 			Cookie::queue(config('auth.ssocookie'), "", -10080);
 			return redirect(route('ssologin'));

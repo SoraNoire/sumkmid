@@ -19,18 +19,10 @@
 
     <title>Blog - {{ $page_meta_title ?? ''}}</title>
 
-    <!-- Bootstrap core CSS -->
     <link href="{{ asset('css/app.css') }}?v=1.0.0" rel="stylesheet">
 
-    <!-- Custom styles for this template -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">
     <script src="https://use.fontawesome.com/0c0c4bc012.js"></script>
-
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
     
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
     <script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
@@ -47,11 +39,44 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="{{ url('/blog') }}">Project name</a>
+          <a class="navbar-brand" href="{{ url('/') }}">Sahabat UMKM</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="{{ url('/blog') }}">Dashboard</a></li>
+            <li>
+              <a href="{{ url('/admin/blog') }}">Dashboard</a>
+            </li>
+
+            <li class="mobile-admin-nav {{ ($page_meta_title ?? '') == 'Events' ? 'active' : ''}}">
+              <a href="{{ url('admin/blog/event') }}">Event</a>
+            </li>
+            <li class="mobile-admin-nav {{ ($page_meta_title ?? '') == 'Page' ? 'active' : ''}}">
+              <a href="{{ url('admin/blog/pages') }}">Pages</a>
+            </li>
+            <li class="mobile-admin-nav {{ ($page_meta_title ?? '') == 'Posts' ? 'active' : ''}}">
+              <a href="{{ url('admin/blog/posts') }}">Post</a>
+            </li>
+            <li class="mobile-admin-nav {{ ($page_meta_title ?? '') == 'Videos' ? 'active' : ''}}">
+              <a href="{{ url('admin/blog/video/') }}">Video</a>
+            </li>
+            <li class="mobile-admin-nav {{ ($page_meta_title ?? '') == 'Gallery' ? 'active' : ''}}">
+              <a href="{{ url('admin/blog/gallery/') }}">Gallery</a>
+            </li>
+            <li class="mobile-admin-nav {{ ($page_meta_title ?? '') == 'Categories' ? 'active' : ''}}">
+              <a href="{{ route('categories') }}">Categories</a>
+            </li>
+            <li class="mobile-admin-nav {{ ($page_meta_title ?? '') == 'Tags' ? 'active' : ''}}">
+              <a href="{{ route('tags') }}">Tags</a>
+            </li>
+            <li class="mobile-admin-nav {{ ($page_meta_title ?? '') == 'Media' ? 'active' : ''}}">
+              <a href="{{ url('admin/blog/media') }}">Media</a>
+            </li>
+
+            <li>
+                <a href="{{URL::to('/logout')}}">
+                    Logout
+                </a>
+            </li>
           </ul>
         </div>
       </div>
@@ -61,24 +86,31 @@
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
-            
-            <li class="{{ ($page_meta_title ?? '') == 'Categories' ? 'active' : ''}}"><a href="{{ route('categories') }}">Categories</a></li>
 
-            <li class="{{ ($page_meta_title ?? '') == 'Tags' ? 'active' : ''}}"><a href="{{ route('tags') }}">Tags</a></li>
-
-            <li class="{{ ($page_meta_title ?? '') == 'Events' ? 'active' : ''}}"><a href="{{ url('admin/blog/event') }}">Event</a></li>
-            <li class="{{ ($page_meta_title ?? '') == 'Page' ? 'active' : ''}}"><a href="{{ url('admin/blog/pages') }}">Pages</a></li>
-            <li class="{{ ($page_meta_title ?? '') == 'Posts' ? 'active' : ''}}"><a href="{{ url('admin/blog/posts') }}">Post</a></li>
-            
-            
-            <li class="{{ ($page_meta_title ?? '') == 'Videos' ? 'active' : ''}}"><a href="{{ url('admin/blog/video/') }}">Video</a></li>
-            
-            
-            <li class="{{ ($page_meta_title ?? '') == 'Gallery' ? 'active' : ''}}"><a href="{{ url('admin/blog/gallery/') }}">Gallery</a></li>
-            
-            
-            <li class="{{ ($page_meta_title ?? '') == 'Media' ? 'active' : ''}}"><a href="{{ url('admin/blog/media') }}">Media</a></li>
-            <li class="{{ ($page_meta_title ?? '') == 'Menu' ? 'active' : ''}}"><a href="{{ url('admin/blog/menu') }}">Menu</a></li>
+            <li class="{{ ($page_meta_title ?? '') == 'Events' ? 'active' : ''}}">
+              <a href="{{ url('admin/blog/event') }}">Event</a>
+            </li>
+            <li class="{{ ($page_meta_title ?? '') == 'Page' ? 'active' : ''}}">
+              <a href="{{ url('admin/blog/pages') }}">Pages</a>
+            </li>
+            <li class="{{ ($page_meta_title ?? '') == 'Posts' ? 'active' : ''}}">
+              <a href="{{ url('admin/blog/posts') }}">Post</a>
+            </li>
+            <li class="{{ ($page_meta_title ?? '') == 'Videos' ? 'active' : ''}}">
+              <a href="{{ url('admin/blog/video/') }}">Video</a>
+            </li>
+            <li class="{{ ($page_meta_title ?? '') == 'Gallery' ? 'active' : ''}}">
+              <a href="{{ url('admin/blog/gallery/') }}">Gallery</a>
+            </li>
+            <li class="{{ ($page_meta_title ?? '') == 'Categories' ? 'active' : ''}}">
+              <a href="{{ route('categories') }}">Categories</a>
+            </li>
+            <li class="{{ ($page_meta_title ?? '') == 'Tags' ? 'active' : ''}}">
+              <a href="{{ route('tags') }}">Tags</a>
+            </li>
+            <li class="{{ ($page_meta_title ?? '') == 'Media' ? 'active' : ''}}">
+              <a href="{{ url('admin/blog/media') }}">Media</a>
+            </li>
           </ul>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
@@ -93,15 +125,7 @@
 
     @yield('modal')
 
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="{{ asset('js/index.js') }}?v=1.0.1" type="text/javascript"></script>
-   <!--  
-    <script src="{{ asset('Modules/Blog/Assets/js/jquery-3.1.0.min.js') }}" type="text/javascript"></script>
-    <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
-    <script src="{{ asset('Modules/Blog/Assets/js/bootstrap.min.js') }}" type="text/javascript"></script>
-    <script type="text/javascript" src="{{ asset('Modules/Blog/Assets/js/custom.js') }}"></script> -->
   </body>
 </html>

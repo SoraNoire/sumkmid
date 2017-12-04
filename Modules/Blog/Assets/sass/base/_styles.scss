@@ -85,6 +85,10 @@ img {
 
 .navbar-fixed-top {
   border: 1px solid #5BC0DE;
+
+  .navbar-collapse {
+    max-height: unset;
+  }
 }
 
 .navbar-inverse {
