@@ -1,10 +1,20 @@
+
+.topNav{
+    @media screen and (max-width: 830px) {
+        text-align: right;
+    }
+}
 .navWrapper{
     width: 100%;
-    .toggleMenu{
-        &:hover{
-            ul{
-                display: block;
-            }
+    .burgerBtn{
+        width: 30px;
+        height: 30px;
+        background-image: url('/img/burger-white.png');
+        background-size: cover;
+        display: none;
+        margin-top: 10px;
+        @media screen and (max-width: 830px) {
+            display: inline-block;
         }
     }
     ul {
@@ -12,6 +22,7 @@
         margin: 0;
         float: right;
         @media screen and (max-width: 830px) {
+            display: none;
             position: absolute;
             right: 0;
             text-align: right;
@@ -37,6 +48,11 @@
                 font-size: 16px !important;
                 font-weight: 500;
                 line-height: 1;
+                @media screen and (max-width: 830px) {
+                    display: block;
+                    width: max-content;
+                    float: right;
+                }
             }
         }
     }

@@ -5,7 +5,7 @@
 <section id="what-we-do">
 	<div class="bg-overlay"></div>
 	<div class="container">
-	    <div class="the-row">
+	    <div class="row">
 	        <div class="col-5 left-content">
 	        	<h3 class="section-title"><span>What</span> <span>We Do</span></h3>
 	        	<div class="section-desc">
@@ -26,7 +26,7 @@
 
 <section id="event">
 	<div class="container">
-	    <div class="the-row">
+	    <div class="row">
 	        <div class="col-5 left-content">
 	        	<h3 class="section-title gray"><span>Event</span> <span>UMKM</span></h3>
 	        	<div class="section-desc">
