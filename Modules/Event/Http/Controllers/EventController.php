@@ -443,13 +443,13 @@ class EventController extends Controller
             if ($delete) {
                 $delete->deleted = 1;
                 if (!$delete->save()) {
-                    return redirect(route('pages'))->with(['msg' => 'Delete Error', 'status' => 'danger']);
+                    return redirect(route('events'))->with(['msg' => 'Delete Error', 'status' => 'danger']);
                 }
             } else {
-                return redirect(route('pages'))->with(['msg' => 'Delete Error. Event does not exists', 'status' => 'danger']);
+                return redirect(route('events'))->with(['msg' => 'Delete Error. Event does not exists', 'status' => 'danger']);
             }
         }
-        return redirect(route('pages'))->with(['msg' => 'Delete Success', 'status' => 'success']);
+        return redirect(route('events'))->with(['msg' => 'Delete Success', 'status' => 'success']);
     }
 
     /**

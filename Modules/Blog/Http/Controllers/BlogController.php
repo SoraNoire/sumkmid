@@ -360,6 +360,44 @@ class BlogController extends Controller
     }
 
     /**
+     * Change post status delete to 1.
+     * @param $id
+     * @return Response
+     */
+    public function removePost($id)
+    {
+        $delete = Posts::find($id);
+        if ($delete){
+            $delete->deleted = 1;
+            $delete->save();
+            return redirect(route('posts'))->with(['msg' => 'Deleted', 'status' => 'success']);
+        }
+        return redirect(route('posts'))->with(['msg' => 'Delete error', 'status' => 'danger']);
+    }
+
+    /**
+     * Change multiple post status delete to 1.
+     * @param  Request $request
+     * @return Response
+     */
+    public function massdeletePost(Request $request)
+    {
+        $id = json_decode($request->id);
+        foreach ($id as $id) {
+            $delete = Posts::find($id);
+            if ($delete) {
+                $delete->deleted = 1;
+                if (!$delete->save()) {
+                    return redirect(route('posts'))->with(['msg' => 'Delete Error', 'status' => 'danger']);
+                }
+            } else {
+                return redirect(route('posts'))->with(['msg' => 'Delete Error. Page Not Found', 'status' => 'danger']);
+            }
+        }
+        return redirect(route('posts'))->with(['msg' => 'Delete Success', 'status' => 'success']);
+    }
+
+    /**
      * Remove the specified post from storage.
      * @param $id
      * @return Response

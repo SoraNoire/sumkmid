@@ -344,7 +344,13 @@ class GalleryController extends Controller
      */
     public function removeGallery($id)
     {
-        $this->GalleryHelper->delete_gallery($id);
+        $delete = Posts::find($id);
+        if ($delete){
+            $delete->deleted = 1;
+            $delete->save();
+            return redirect(route('galleries'))->with(['msg' => 'Deleted', 'status' => 'success']);
+        }
+        return redirect(route('galleries'))->with(['msg' => 'Delete error', 'status' => 'danger']);
     }
 
     /**
@@ -356,7 +362,15 @@ class GalleryController extends Controller
     {
         $id = json_decode($request->id);
         foreach ($id as $id) {
-            $this->GalleryHelper->delete_gallery($id, 'bulk');
+            $delete = Posts::find($id);
+            if ($delete) {
+                $delete->deleted = 1;
+                if (!$delete->save()) {
+                    return redirect(route('galleries'))->with(['msg' => 'Delete Error', 'status' => 'danger']);
+                }
+            } else {
+                return redirect(route('galleries'))->with(['msg' => 'Delete Error. Page Not Found', 'status' => 'videos']);
+            }
         }
         return redirect(route('galleries'))->with(['msg' => 'Delete Success', 'status' => 'success']);
     }
