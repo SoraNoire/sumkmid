@@ -13,7 +13,7 @@ class AdminMiddleware
         {
         	$next = url()->current();
             $appid = env('MD_APP_ID');
-            return redirect("http://authdev.mdirect.id/client_login?appid=$appid&next=$next")->send();
+            return redirect(route('ssologin')."?appid=$appid&next=$next")->send();
         }
 
         if (! in_array(app()->SSO->Auth()->role, ['admin','superadmin']) )

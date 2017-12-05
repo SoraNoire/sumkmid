@@ -39,4 +39,4 @@
   ], 'public/js/home.js')
  .sass('Modules/Blog/Assets/scss/style.scss', 'public/css')
  .sass('resources/assets/sass/index.scss', 'public/css')
- .browserSync({'proxy' : 'sahabat.dev',files: ['Modules/Blog/Resources/views/admin/*.php','Modules/Blog/Resources/views/layouts/*.php', 'Modules/Blog/Assets/js/*.js', 'resources/assets/js/*.js', 'resources/views/layouts/*.php', 'resources/views/page/*.php']});
+ .browserSync({'proxy' : 'sahabatumkm.dev',files: ['Modules/Blog/Resources/views/admin/*.php','Modules/Blog/Resources/views/layouts/*.php', 'Modules/Blog/Assets/js/*.js', 'resources/assets/js/*.js', 'resources/views/layouts/*.php', 'resources/views/page/*.php']});

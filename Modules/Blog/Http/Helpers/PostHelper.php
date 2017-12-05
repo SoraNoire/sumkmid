@@ -147,7 +147,7 @@ class PostHelper
         $region = config('filesystems.disks')['s3']['region'];
         $bucket = config('filesystems.disks')['s3']['bucket'];
        
-        return 'https://s3-'.$region.'.amazonaws.com/'.$bucket.'/shbtm/'.$path.'/'.$url;
+        return 'https://s3-'.$region.'.amazonaws.com/'.$bucket.'/shbtmdev/'.$path.'/'.$url;
     }
 
     /**
@@ -157,7 +157,7 @@ class PostHelper
      */
     public static function putFile($file, $path, $fileName){
         $s3 = \Storage::disk('s3');
-        $s3->putFileAs('/shbtm/'.$path, new File($file), $fileName, 'public');
+        $s3->putFileAs('/shbtmdev/'.$path, new File($file), $fileName, 'public');
     }
 
     /**
@@ -167,7 +167,7 @@ class PostHelper
      */
     public static function deleteFile($file, $path){
         $s3 = \Storage::disk('s3');
-        $filePath = '/shbtm/'.$path.'/' . $file;
+        $filePath = '/shbtmdev/'.$path.'/' . $file;
         $s3->delete($filePath);
     }
 
