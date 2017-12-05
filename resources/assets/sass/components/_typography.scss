@@ -1,0 +1,86 @@
+.styledText{
+    padding-bottom: 64px;
+
+    p{
+        color: #464646;
+        line-height: 22px;
+        margin-bottom: 20px;
+        font-size: 15px;
+    }
+    a{
+        color: #CF6819;
+        text-decoration: none;
+
+    }
+    ol{
+        margin: 0;
+        margin-bottom: 29.4px;
+        padding-left: 30px;
+        list-style-type: none;
+        li{
+            counter-increment: step-counter;
+            margin-bottom: 10px;
+            &:before{
+                content: counter(step-counter);
+                margin-right: 5px;
+                font-size: 80%;
+                background-color: #474747;
+                color: white;
+                padding: 3px 8px;
+                border-radius: 50%;
+                display: block;
+                position: absolute;
+                left: 15px;
+            }
+            h5{
+                font-size: 16px;
+                margin-bottom: 5px;
+                font-weight: $bold;
+            }
+            blockquote{
+                line-height: 22px;
+                text-decoration: none;
+                color: inherit;
+                font-style: normal;
+                font-size: 15px;
+                border-left: solid 3px rgba(64, 64, 64, 0.87);
+                padding-left: 19.5px;
+            }
+        }
+    }
+    ul{
+        padding-left: 30px;
+        margin-bottom: 29.4px;
+        li{
+            list-style: none;
+            &:before{
+                content: "";
+                width: 20px;
+                height: 20px;
+                border: 6px solid #474747;
+                margin-right: 5px;
+                font-size: 80%;
+                background-color: #ffffff;
+                color: white;
+                border-radius: 50%;
+                display: block;
+                position: absolute;
+                left: 15px;
+            }
+        }
+        h5{
+            font-size: 16px;
+            margin-bottom: 5px;
+            font-weight: $bold;
+        }
+        blockquote{
+            line-height: 22px;
+            text-decoration: none;
+            color: inherit;
+            font-style: normal;
+            font-size: 15px;
+            border-left: solid 3px rgba(64, 64, 64, 0.87);
+            padding-left: 19.5px;
+        }
+    }
+}

@@ -6,7 +6,7 @@
     <a href="{{ route('addcategory') }}" class="btn btn-round btn-fill btn-info">New Category +<div class="ripple-container"></div></a>
     <input type="hidden" name="_token" value="{{ csrf_token() }}">
     <input type="hidden" name="id" class="bulk-delete-id">
-    <button type="sumbit" style="display: none;" class="btn btn-round btn-fill btn-danger bulk-delete-item">Delete <span id="delete-count"></span> Post</button>
+    <button type="sumbit" style="display: none;" class="btn btn-round btn-fill btn-danger bulk-delete-item">Delete <span id="bulk-delete-count"></span> Category</button>
 </form>
 <div class="card">
     <div class="card-header" data-background-color="green">

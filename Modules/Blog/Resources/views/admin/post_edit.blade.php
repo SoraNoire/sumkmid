@@ -236,7 +236,6 @@
         <div class="card-content table-responsive">
             <table style="width: 100%;" class="table filestable" id="postFile">
                 <thead >
-                    <th>URL</th>
                     <th>Name</th>
                     <th>Label</th>
                     <th>Action</th>

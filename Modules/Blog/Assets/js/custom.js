@@ -153,6 +153,7 @@ $("#close_file_post, .overlay").click(function() {
 // fungsi upload image
 $('#uploadmedia').on('change', function add_media(e){
     e.preventDefault();
+    $('.dataTables_processing').show();
     var fd = new FormData($("#actuploadmedia")[0]);
     $.ajax({
         headers: {
@@ -172,10 +173,12 @@ $('#uploadmedia').on('change', function add_media(e){
                 console.log(err);
             }
     });
+    $('.dataTables_processing').hide();
 });
 
 $('#uploadfimg').on('change', function add_media(e){
     e.preventDefault();
+    $('.dataTables_processing').show();
     var fd = new FormData($("#actuploadfimg")[0]);
     $.ajax({
         headers: {
@@ -195,11 +198,13 @@ $('#uploadfimg').on('change', function add_media(e){
                 console.log(err);
             }
     });
+    $('.dataTables_processing').hide();
 });
 
 // fungsi upload file
 $('#fileUpload').on('change', function add_file(e){
     e.preventDefault();
+    $('.dataTables_processing').show();
     var fd = new FormData($("#fileupload-form")[0]);
     $.ajax({
         headers: {
@@ -223,6 +228,7 @@ $('#fileUpload').on('change', function add_file(e){
             // console.log(a);
         }
     });
+    $('.dataTables_processing').hide();
 });
 
 
@@ -698,22 +704,6 @@ $(document).ready(function() {
     }
 // END TINYMCE
 });
-// multiselect for bulk delete
-$('.mydatatable tbody').on( 'click', 'tr', function () {
-    $(this).toggleClass('selected');
-    var count = $(".mydatatable").DataTable().rows('.selected').data().length;
-    if (count > 0) {
-        $('.bulk-delete-item').show();   
-        $('.bulk-delete-count').html( $(".mydatatable").DataTable().rows('.selected').data().length ); 
-    } else {
-        $('.bulk-delete-item').hide(); 
-    }
-    var ids = $.map($(".mydatatable").DataTable().rows('.selected').data(), function (item) {
-        return item.id
-    });
-    $('.bulk-delete-id').val(JSON.stringify(ids));
-});
-// end multiselect for bulk delete
 
 function cancelDelete(){
     clearTimeout(timeOutId);

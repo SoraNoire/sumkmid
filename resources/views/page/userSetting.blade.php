@@ -12,6 +12,7 @@
 	<div class="container">
 		<div class="formAlert alertSuccess">
 			<span>Profil berhasil disimpan</span>
+			<div class="closeAlert">x</div>
 		</div>
 		<h3>Hallo, Syarief Navi</h3>
 		<div class="leftForm">

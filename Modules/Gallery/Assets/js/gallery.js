@@ -1,193 +1,115 @@
-$(document).ready(function() {
 // DATATABLES CONFIG
-    // gallery category table 
-    if ($("#gallery #GalleryCategoryTable").length > 0) {
-        $("#gallery #GalleryCategoryTable").DataTable({
-            "ajax": $.fn.dataTable.pipeline( {
-                url: '/admin/blog/ajaxcategories',
-                pages: 5 // number of pages to cache
-            } ),
-            "processing": true,
-            "serverSide": true,
-            "stateSave":true,
-            "columns": [
-                { "data": "name" },
-                { "data": "created_at" },
-                { "data": "id" },
-            ],
-            "columnDefs": [ {
-                    "targets": -1,
-                    "data": 'id',
-                    "render": function ( data, type, row ) {
-                        return '<a href="/admin/blog/'+row.id+'/view">Edit</a> | <a onclick="return confirm(\'Delete Category?\');" href="/admin/blog/'+row.id+'/remove">Delete</a>';
-                    }
-                },
-                    {
-                    "targets": 0,
-                    "data": 'name',
-                    "render": function ( data, type, row ) {
-                        return '<a href="/admin/blog/'+row.id+'/view">'+data+'</a>';
-                    }
+// gallery category table 
+if ($("#gallery #GalleryCategoryTable").length > 0) {
+    $("#gallery #GalleryCategoryTable").DataTable({
+        "ajax": $.fn.dataTable.pipeline( {
+            url: '/admin/blog/ajaxcategories',
+            pages: 5 // number of pages to cache
+        } ),
+        "processing": true,
+        "serverSide": true,
+        "stateSave":true,
+        "columns": [
+            { "data": "name" },
+            { "data": "created_at" },
+            { "data": "id" },
+        ],
+        "columnDefs": [ {
+                "targets": -1,
+                "data": 'id',
+                "render": function ( data, type, row ) {
+                    return '<a href="/admin/blog/'+row.id+'/view">Edit</a> | <a onclick="return confirm(\'Delete Category?\');" href="/admin/blog/'+row.id+'/remove">Delete</a>';
                 }
-            ],
-            order: [
-                [0, "desc"],
-                [1, "desc"]
-            ]
-        });
-    } 
-
-    // gallery table
-    if ($("#table-gallery").length > 0) {
-        $("#table-gallery").DataTable({
-            "ajax": $.fn.dataTable.pipeline( {
-                url: '/admin/blog/gallery/ajaxgalleries',
-                pages: 5 // number of pages to cache
-            } ),
-            "processing": true,
-            "serverSide": true,
-            "stateSave":true,
-            "columns": [
-                { "data": "title" },
-                { "data": "author" },
-                { "data": "published_date" },
-                { "data": "id" },
-            ],
-            "columnDefs": [ {
-                    "targets": -1,
-                    "data": 'id',
-                    "render": function ( data, type, row ) {
-                        return '<a href="/admin/blog/gallery/'+row.id+'/view">Edit</a> | <a onclick="return confirm(\'Delete gallery?\');" href="/admin/blog/gallery/'+row.id+'/remove">Hapus</a>';
-                    }
-                },
-                    {
-                    "targets": 0,
-                    "data": 'title',
-                    "render": function ( data, type, row ) {
-                        return '<a href="/admin/blog/gallery/'+row.id+'/view">'+data+'</a>';
-                    }
+            },
+                {
+                "targets": 0,
+                "data": 'name',
+                "render": function ( data, type, row ) {
+                    return '<a href="/admin/blog/'+row.id+'/view">'+data+'</a>';
                 }
-            ],
-            order: [
-                [2, "desc"]
-            ]
-        });
-    }
+            }
+        ],
+        order: [
+            [0, "desc"],
+            [1, "desc"]
+        ]
+    });
+} 
 
-    // tag table
-    if ($("#GalleryTagTable").length > 0) {
-        $("#GalleryTagTable").DataTable({
-            "ajax": $.fn.dataTable.pipeline( {
-                url: '/admin/blog/tags/ajaxtags',
-                pages: 5 // number of pages to cache
-            } ),
-            "processing": true,
-            "serverSide": true,
-            "stateSave":true,
-            "columns": [
-                { "data": "name" },
-                { "data": "created_at" },
-                { "data": "id" },
-            ],
-            "columnDefs": [ {
-                    "targets": -1,
-                    "data": 'id',
-                    "render": function ( data, type, row ) {
-                        return '<a href="/admin/blog/tag/'+row.id+'/view">Edit</a> | <a onclick="return confirm(\'Delete Tag?\');" href="/admin/blog/tag/'+row.id+'/remove">Hapus</a>';
-                    }
-                },
-                    {
-                    "targets": 0,
-                    "data": 'title',
-                    "render": function ( data, type, row ) {
-                        return '<a href="/admin/blog/tag/'+row.id+'/view">'+data+'</a>';
-                    }
+// gallery table
+if ($("#table-gallery").length > 0) {
+    $("#table-gallery").DataTable({
+        "ajax": $.fn.dataTable.pipeline( {
+            url: '/admin/blog/gallery/ajaxgalleries',
+            pages: 5 // number of pages to cache
+        } ),
+        "processing": true,
+        "serverSide": true,
+        "stateSave":true,
+        "columns": [
+            { "data": "title" },
+            { "data": "author" },
+            { "data": "published_date" },
+            { "data": "id" },
+        ],
+        "columnDefs": [ {
+                "targets": -1,
+                "data": 'id',
+                "render": function ( data, type, row ) {
+                    return '<a href="/admin/blog/gallery/'+row.id+'/view">Edit</a> | <a onclick="return confirm(\'Delete gallery?\');" href="/admin/blog/gallery/'+row.id+'/remove">Hapus</a>';
                 }
-            ],
-            order: [
-                [0, "desc"],
-                [1, "desc"]
-            ]
-        });
-    }
+            },
+                {
+                "targets": 0,
+                "data": 'title',
+                "render": function ( data, type, row ) {
+                    return '<a href="/admin/blog/gallery/'+row.id+'/view">'+data+'</a>';
+                }
+            }
+        ],
+        order: [
+            [2, "desc"]
+        ]
+    });
+}
 
+// tag table
+if ($("#GalleryTagTable").length > 0) {
+    $("#GalleryTagTable").DataTable({
+        "ajax": $.fn.dataTable.pipeline( {
+            url: '/admin/blog/tags/ajaxtags',
+            pages: 5 // number of pages to cache
+        } ),
+        "processing": true,
+        "serverSide": true,
+        "stateSave":true,
+        "columns": [
+            { "data": "name" },
+            { "data": "created_at" },
+            { "data": "id" },
+        ],
+        "columnDefs": [ {
+                "targets": -1,
+                "data": 'id',
+                "render": function ( data, type, row ) {
+                    return '<a href="/admin/blog/tag/'+row.id+'/view">Edit</a> | <a onclick="return confirm(\'Delete Tag?\');" href="/admin/blog/tag/'+row.id+'/remove">Hapus</a>';
+                }
+            },
+                {
+                "targets": 0,
+                "data": 'title',
+                "render": function ( data, type, row ) {
+                    return '<a href="/admin/blog/tag/'+row.id+'/view">'+data+'</a>';
+                }
+            }
+        ],
+        order: [
+            [0, "desc"],
+            [1, "desc"]
+        ]
+    });
+}
 // END DATATABLES
-});
-
-function load_gallery_category(){
-    var id = $('meta[name="item-id"]').attr('content');
-    $.ajax({
-        type: "GET",
-        url: "/admin/blog/ajaxcategories",
-        success: function(msg){
-            var msg = msg.data, _el = '';
-            for(i=0;i<msg.length;i++){
-                _el += '<li><input name="categories" type="checkbox" value="'+msg[i].id+'"> '+msg[i].name+'</li>';
-            }
-            $('#gallery .category-wrap ul').html(_el);
-        },
-        error: function(err){
-            console.log(err);
-        }
-    });
-}
-
-function load_gallery_category_parent(){
-    var id = $('meta[name="category-id"]').attr('content');
-    $.ajax({
-        type: "GET",
-        url: "/admin/blog/ajaxcategories",
-        success: function(msg){
-            console.log(msg);
-            var msg = msg.data, _el = '<option></option>';
-            for(i=0;i<msg.length;i++){
-                _el += '<option value="'+msg[i].id+'">'+msg[i].name+'</option>';
-            }
-            $('#gallery #CategoryParent').html(_el);
-        },
-        error: function(err){
-            console.log(err);
-        }
-    });
-}
-
-if ($('#gallery .category-wrap').length > 0) {
-    // $('#gallery .category-wrap').ready(load_gallery_category());
-}
-
-if ($('#gallery .category-parent').length > 0) {
-    $('#gallery .category-parent').ready(load_gallery_category_parent());
-}
-
-// add category on post ajax function
-$('#gallery .add_category_button').on('click', function add_category(){
-    var n = $('input[name=category_name]').val();
-    var p = $('select[name=category_parent]').val();
-    if (n != '') {
-        $.ajax({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            type: "POST",
-            url: "/admin/blog/category/ajaxadd",
-            data: {'name':n, 'parent':p, 'catjax':'true'},
-            success: function(msg){
-                // console.log(msg);
-                $("#gallery-category ul").append(msg);
-            },
-            error: function(err){
-                console.log(err);
-            }
-        });
-
-        load_video_category();
-        // load_video_category_parent();
-        $('input[name=category_name]').val('');
-        $('select[name=category_parent]').removeAttr('selected');
-    } else {    
-        // do nothing
-    }
-});
 
 // gallery form
 // gallery table

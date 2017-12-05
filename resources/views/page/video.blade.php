@@ -11,16 +11,16 @@
 <div id="video-archive">
 	<div class="container">
 	<div class="row">
-	@for ($i = 0; $i < 12; $i++)
+	@foreach($var['videos'] as $video)
 		<div class="cst-3-col">
-			<div class="item" style="background-image: url('/img/top-video-bg.png');">
-				<a href="#"><span class="play-button"><i class="fa fa-play fa-lg" aria-hidden="true"></i></span></a>
+			<div class="item" style="background-image: url('{{$video->featured_image}}');">
+				<a href="{{route('public_video').'/'.$video->slug}}"><span class="play-button"><i class="fa fa-play fa-lg" aria-hidden="true"></i></span></a>
 				<div class="item-title">
-					<a href="#">Teknik Marketing Usaha Konveksi Konveksi</a>
+					<a href="{{route('public_video').'/'.$video->slug}}">{{ $video->title }}</a>
 				</div>		
 			</div>
 		</div>
-	@endfor
+	@endforeach
 	</div>
 </div>
 @endsection

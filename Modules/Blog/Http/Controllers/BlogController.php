@@ -490,14 +490,46 @@ class BlogController extends Controller
      * @param $id
      * @return Response
      */
-    public function destroy_file($fileName){
-        if(Storage::disk('s3')->exists('files/'.$fileName)){
-            $this->PostHelper->deleteFile($fileName, 'files');
-            
+    public function destroy_file($id){
+        $file = Files::where('id',$id)->first();
+        if($file->name != ""){
+            if(Storage::disk('s3')->exists('shbtmdev/files/'.$file->name)){
+                $this->PostHelper->deleteFile($file->name, 'files');
+            }
+        }
+        if ($file -> delete()) {
             return "File deleted";
         }else{
-            return "File not found";
+            return "failed deleting file";
         }
+    }
+
+    /**
+     * Remove multiple file from storage.
+     * @param Request $request
+     * @return Response
+     */
+    public function bulk_delete_file(Request $request)
+    {
+        $id = json_decode($request->id);
+        foreach ($id as $id) {
+            $file = Files::where('id', $id)->first();
+            if (isset($file)) {
+                if($file->name != ""){
+                    if(Storage::disk('s3')->exists('shbtmdev/files/'.$file->name)){
+                        $this->PostHelper->deleteFile($file->name, 'files');
+                    }
+                }
+                if ($file->delete()) {
+                    // do nothing
+                } else {
+                    return redirect( route('files') )->with(['msg' => 'Delete Error', 'status' => 'danger']);
+                }
+            } else {
+                return redirect( route('files') )->with(['msg' => 'Delete Error.Some File Not Found', 'status' => 'danger']);
+            }
+        }
+        return redirect( route('files') )->with(['msg' => 'Delete Success', 'status' => 'success']);
     }
 
     /**
@@ -1089,10 +1121,9 @@ class BlogController extends Controller
      */
     public function destroy_media($id){
         $media = Media::where('id',$id)->first();
-        $medias = Media::where('id',$id)->get();
-        if($medias[0]->name != ""){
-            if(Storage::disk('s3')->exists('shbtm/media/'.$medias[0]->name)){
-                $this->PostHelper->deleteImage($medias[0]->name, 'media');
+        if($media->name != ""){
+            if(Storage::disk('s3')->exists('shbtm/media/'.$media->name)){
+                $this->PostHelper->deleteImage($media->name, 'media');
             }
         }
         if ($media -> delete()) {
@@ -1124,7 +1155,7 @@ class BlogController extends Controller
                     return redirect($this->prefix.'media')->with(['msg' => 'Delete Error', 'status' => 'danger']);
                 }
             } else {
-                return redirect($this->prefix.'media')->with(['msg' => 'Delete Error. Media Not Found', 'status' => 'danger']);
+                return redirect($this->prefix.'media')->with(['msg' => 'Delete Error.Some Media Not Found', 'status' => 'danger']);
             }
         }
         return redirect($this->prefix.'media')->with(['msg' => 'Delete Success', 'status' => 'success']);

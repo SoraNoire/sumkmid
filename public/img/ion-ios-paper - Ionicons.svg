@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="15px" height="15px" viewBox="0 0 15 15" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 46.2 (44496) - http://www.bohemiancoding.com/sketch -->
+    <title>ion-ios-paper - Ionicons</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="web-design" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="video-single" transform="translate(-180.000000, -268.000000)" fill="#464646">
+            <g id="Group-5" transform="translate(179.000000, 231.000000)">
+                <g id="kategori" transform="translate(1.000000, 34.000000)">
+                    <path d="M1.875,3 L15,3 L15,16.7890625 C15,17.1276059 14.8828137,17.4140613 14.6484375,17.6484375 C14.4140613,17.8828137 14.1276059,18 13.7890625,18 L1.2109375,18 C0.872394141,18 0.585938672,17.8828137 0.3515625,17.6484375 C0.117186328,17.4140613 0,17.1276059 0,16.7890625 L0,4.875 L1.25,4.875 L1.25,16.125 L1.875,16.125 L1.875,3 Z M3.75,4.875 L3.75,5.5 L8.75,5.5 L8.75,4.875 L3.75,4.875 Z M3.75,11.125 L3.75,11.75 L11.25,11.75 L11.25,11.125 L3.75,11.125 Z M13.125,14.875 L13.125,14.25 L3.75,14.25 L3.75,14.875 L13.125,14.875 Z M13.125,8.625 L13.125,8 L3.75,8 L3.75,8.625 L13.125,8.625 Z" id="ion-ios-paper---Ionicons"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
