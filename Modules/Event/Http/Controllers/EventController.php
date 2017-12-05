@@ -255,6 +255,7 @@ class EventController extends Controller
 
             return view('event::admin.edit_event')->with(
                             [
+                                'item_id' => $id,
                                 'id'=>$id,
                                 'page_meta_title' => $page_meta_title,
                                 'act' => $act,

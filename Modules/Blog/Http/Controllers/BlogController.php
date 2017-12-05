@@ -820,9 +820,10 @@ class BlogController extends Controller
             $parent = null;
         }
         $slug = PostHelper::make_slug($name);
-        $store = new Category;
+        $store = new Categories;
         $store->name = $name;
         $store->slug = $slug;
+        $store->description = '';
         $store->parent = $parent;
         if ($store->save()){
             return 'success saving category';
