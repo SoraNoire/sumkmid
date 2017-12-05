@@ -131,7 +131,7 @@
                     <div id="post-tag" class="panel-collapse collapse in">
                         <div class="panel-body form-group">
                             <select id="mytag" name="tags[]" class="mytag form-control" multiple>
-                                @foreach ($alltag as $tag)
+                                @foreach ($alltags as $tag)
                                     <option {{ is_array(old('selected_tag')) && in_array($tag->id, old('$selected_tag')) ? 'selected' : ''}} value="{{$tag->name}}" >{{$tag->name}}</option>
                                 @endforeach
                             </select>

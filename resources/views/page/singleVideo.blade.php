@@ -11,7 +11,7 @@
 <section class="singleVideo">
 	<div class="videoHeading">
 		<div class="container">
-			<h3>Kripik Singkong Naik Kelas</h3>
+			<h3>{{$var['video']->title}}</h3>
 			<div class="postMeta">
 				<div class="postCategory">
 					<span class="icon i-paper"></span>

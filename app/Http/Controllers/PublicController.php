@@ -9,7 +9,9 @@ use Session;
 use Cookie;
 use App\Helpers\SSOHelper as SSO;
 use App\Events;
+use DB;
 use Modules\Blog\Entities\Posts;
+use Modules\Video\Entities\Video;
 
 class PublicController extends Controller
 {
@@ -98,8 +100,16 @@ class PublicController extends Controller
 		return view('page.userSetting')->with(['var' => $var]);
 	}
 
-	public function singleVideo(){
+	public function singleVideo($slug){
 		$var['page'] = "singleVideo";
+		$var['video'] = DB::table('posts')->where('slug',$slug)->first();
+		$postMetas = DB::table('post_meta')->where('post_id',$var['video']->id)->get();
+		$postMetas = $this->readMetas($postMetas);
+		
+
+		$var['tags'] = $postMetas->tags ?? '';
+		$var['categories'] = $postMetas->categories ?? '';
+
 		return view('page.singleVideo')->with(['var' => $var]);
 	}
 
@@ -144,8 +154,16 @@ class PublicController extends Controller
      * @return Response
      */
 	public function video(){
-        $var['page'] = "Video";
+		$var['page'] = "Video";
+		$var['videos'] = DB::table('posts')->where('post_type','video')->orderBy('published_date','desc')->get();
 		return view('page.video')->with(['var' => $var]);
 	}
 
+	function readMetas($arr=[]){
+        $metas = new \stdClass;;
+        foreach ($arr as $key => $value) {
+            $metas->{$value->key} = $value->value;
+        }
+        return $metas;
+    }
 }

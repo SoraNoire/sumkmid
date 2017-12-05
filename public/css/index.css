@@ -1935,6 +1935,7 @@ footer .copyright {
       -ms-flex-pack: center;
           justify-content: center;
   padding: 20px 20px 11px 20px;
+  width: calc(100% - 40px);
 }
 
 #video-archive .item .item-title a {
