@@ -128,9 +128,9 @@ class PostHelper
         if (count($selected_tag_id) > 0) {
             foreach ($selected_tag_id as $tag_id) {
                 if ($select != '') {
-                    $get = Tag::where('id', $tag_id)->first()->$select;   
+                    $get = Tags::where('id', $tag_id)->first()->$select;   
                 } else {
-                    $get = Tag::where('id', $tag_id)->first();   
+                    $get = Tags::where('id', $tag_id)->first();   
                 }
                 $tag[] = $get;
             }
