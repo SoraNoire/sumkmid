@@ -26,14 +26,17 @@ Route::group(['middleware' => ['web','admin'], 'prefix' => 'admin/blog', 'namesp
     Route::get('/post/{id}/remove', ['as'=> 'removepost', 'uses' => 'BlogController@removePost']);
     Route::post('/post/massdelete', ['as'=> 'massdeletepost', 'uses' => 'BlogController@massdeletePost']);
 
-
-
     Route::get('/add-category-post/{name}/{parent}', 'BlogController@store_category_ajax');
     Route::get('/get-category-post/{post_id}', 'BlogController@get_all_category');
     Route::get('/get-category-parent/{category_id}', 'BlogController@get_category_parent');
     
-    Route::post('/store-file', 'BlogController@store_file');
-    Route::get('/delete-file/{postId}/{fileName}', 'BlogController@destroy_file');
+    Route::get('/files', 'BlogController@files')->name('files');
+    Route::get('/get-files', 'BlogController@get_file')->name('ajaxfiles');
+    Route::post('/store-file', 'BlogController@store_file')->name('storefiles');
+    Route::get('/delete-file/{fileName}', 'BlogController@destroy_file')->name('destroyfiles');
+    Route::post('/bulk-delete-file/', 'BlogController@destroy_file')->name('massdeletefiles');
+    Route::get('/edit-file/{id}', 'BlogController@edit_file')->name('editfile');
+    Route::post('/update-file/{id}', 'BlogController@update_file')->name('updatefile');
 
     // Route::get('/category', 'BlogController@category');
     // Route::get('/get-category', 'BlogController@get_category');

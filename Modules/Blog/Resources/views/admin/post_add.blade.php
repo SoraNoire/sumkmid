@@ -42,12 +42,12 @@
                     </div>
                     <div id="post-file" class="panel-collapse collapse in">
                         <div class="panel-body">
-                            <div class="btn btn-round btn-fill btn-info" style="margin-bottom: 10px;">
-                            <input type="file" id="fileUpload" name="fileUpload[]" style="cursor: pointer;" multiple>
-                            </div>
+                            <a id="browse_file_post" data-toggle="modal" data-target="#myFile" class="btn btn-round btn-fill btn-default" style="margin-bottom: 10px;">Browse File</a>
 
-                            <div class="file-list">
-                               
+                            <div class="panel-body">
+                                <div class="file-list">
+                                   
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -180,7 +180,6 @@
 </div>
 @stop
 
-@
 @section('modal')
 <div class="overlay"></div>
 
@@ -225,6 +224,32 @@
                     <th>Aksi</th>
                 </thead>
             </table>
+        </div>
+    </div>
+</div>
+
+<div class="custom-modal file-modal">
+<div class="close-modal" id="close_file_post" data-toggle="modal" data-target="#myFile">X</div>
+    <div class="card">
+       <div class="btn btn-round btn-fill btn-info" style="margin-bottom: 10px;" onclick="document.getElementById('fileUpload').click();">Upload file +
+            <form id="fileupload-form" method="post" action="" accept-charset="UTF-8" enctype="multipart/form-data">
+                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                <input type="file" id="fileUpload" name="fileUpload[]" style="cursor: pointer;display: none;" multiple>
+            </form>
+        </div>
+        <div class="card-content table-responsive">
+            <table style="width: 100%;" class="table filestable" id="postFile">
+                <thead >
+                    <th>URL</th>
+                    <th>Name</th>
+                    <th>Label</th>
+                    <th>Action</th>
+                    <th>Created At</th>
+                </thead>
+            </table>
+        </div>
+        <div id="selected-files" style="text-align: left;display: none;">
+            <button style="padding: 8px 14px;" id="select-files" class="btn btn-round btn-fill btn-success">Select Files</button>
         </div>
     </div>
 </div>

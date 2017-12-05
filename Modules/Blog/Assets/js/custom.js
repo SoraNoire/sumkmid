@@ -1,5 +1,5 @@
 mediaPath = 'https://s3-ap-southeast-1.amazonaws.com/mdirect/shbtm/media';
-filePath = 'https://s3-ap-southeast-1.amazonaws.com/mdirect/shbtm/files'
+filePath = 'https://s3-ap-southeast-1.amazonaws.com/mdirect/shbtmdev/files'
 //
 // Pipelining function for DataTables. To be used to the `ajax` option of DataTables
 //
@@ -139,6 +139,17 @@ $("#close_fimg_post, .overlay").click(function() {
     $(".overlay").fadeOut(), $(".fimg-modal").fadeOut()
 });
 
+$("#browse_file_post").click(function() {
+    $("html, body").animate({
+        scrollTop: 0
+    }, 500);
+    $(".overlay").fadeIn(), $(".file-modal").fadeIn();
+});
+
+$("#close_file_post, .overlay").click(function() {
+    $(".overlay").fadeOut(), $(".file-modal").fadeOut()
+});
+
 // fungsi upload image
 $('#uploadmedia').on('change', function add_media(e){
     e.preventDefault();
@@ -177,7 +188,7 @@ $('#uploadfimg').on('change', function add_media(e){
         data: fd,
         success: function(msg){
                     $(".mediatable").DataTable().ajax.reload(null, false);
-                    console.log('add');
+                    console.log(msg);
         },
         error: function(err){
                 $(".mediatable").DataTable().ajax.reload(null, false);
@@ -186,12 +197,41 @@ $('#uploadfimg').on('change', function add_media(e){
     });
 });
 
+// fungsi upload file
+$('#fileUpload').on('change', function add_file(e){
+    e.preventDefault();
+    var fd = new FormData($("#fileupload-form")[0]);
+    $.ajax({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        type: "POST",
+        url: "/admin/blog/store-file",
+        processData: false,
+        contentType: false,
+        data: fd,
+        success: function(msg){
+            $(".filestable").DataTable().ajax.reload(null, false);
+            // console.log(msg);
+        },
+        error: function(err){
+            $(".filestable").DataTable().ajax.reload(null, false);
+             // console.log(err);
+        },
+        always: function(a){
+            $(".filestable").DataTable().ajax.reload(null, false);
+            // console.log(a);
+        }
+    });
+});
+
+
 var timeOutId;
 function delete_media(e){
     timeOutId = setTimeout(ajaxFn, 2000, e);
 
     $('#canceldelete').show();
-    $('.table-overlay').show();
+    $('.dataTables_processing').show();
     function ajaxFn(e){
         $.ajax({
             headers: {
@@ -210,7 +250,7 @@ function delete_media(e){
             }
         });
         $('#canceldelete').hide();
-        $('.table-overlay').hide();
+        $('.dataTables_processing').hide();
     };
 };
 
@@ -244,54 +284,6 @@ function remove_fimg(){
     a.css('background-image', 'url()');
     b.val('');
 }
-
-// fungsi upload file
-$('#fileUpload').on('change', function add_file(e){
-    e.preventDefault();
-    var fd = new FormData($("#post-form")[0]);
-    $.ajax({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        type: "POST",
-        url: "/admin/blog/store-file",
-        dataType:'json',
-        processData: false,
-        contentType: false,
-        data: fd,
-        success: function(msg){
-            for (var i = 0; i < msg.length; i++) {
-                $('.file-list').append('<div class="form-group input-group file-item"><span class="input-group-addon"><i class="fa fa-file-o" aria-hidden="true"></i></span><input type="text" name="file_label[]" class="form-control" placeholder="insert label for file here" value="'+msg[i].oriName+'"><span class="input-group-btn"><button class="btn btn-danger file-delete" type="button" data-postid = "'+postId+'" data-filename="'+msg[i].name+'"><i class="fa fa-times" aria-hidden="true"></i></button></span><input type="hidden" name="file_doc[]" value="'+msg[i].name+'"></div>');
-            }
-        },
-        error: function(err){
-             // console.log(err);
-        },
-        always: function(a){
-            // console.log(a);
-        }
-    });
-});
-
-// fungsi delete file 
-$('.file-list').on('click', '.file-delete', function(){
-    var fileName = $(this).attr('data-filename');
-    var postId = $(this).attr('data-postid');
-    var parent = $(this).parents('.file-item');
-    $.ajax({
-        type: "GET",
-        url: "/admin/blog/delete-file/"+postId+'/'+fileName,
-        success: function(msg){
-            $(parent).remove();
-        },
-        error: function(err){
-             // console.log(err);
-        },
-        always: function(a){
-            // console.log(a);
-        }
-    });
-});
 
 $(document).ready(function() {
 // DATATABLES CONFIG
@@ -706,6 +698,22 @@ $(document).ready(function() {
     }
 // END TINYMCE
 });
+// multiselect for bulk delete
+$('.mydatatable tbody').on( 'click', 'tr', function () {
+    $(this).toggleClass('selected');
+    var count = $(".mydatatable").DataTable().rows('.selected').data().length;
+    if (count > 0) {
+        $('.bulk-delete-item').show();   
+        $('.bulk-delete-count').html( $(".mydatatable").DataTable().rows('.selected').data().length ); 
+    } else {
+        $('.bulk-delete-item').hide(); 
+    }
+    var ids = $.map($(".mydatatable").DataTable().rows('.selected').data(), function (item) {
+        return item.id
+    });
+    $('.bulk-delete-id').val(JSON.stringify(ids));
+});
+// end multiselect for bulk delete
 
 function cancelDelete(){
     clearTimeout(timeOutId);
@@ -785,3 +793,124 @@ $('#blog .add_category_button').on('click', function add_category(){
         // do nothing
     }
 });
+
+// files table
+if ($("#filesTable").length > 0) {
+    $("#filesTable").DataTable({
+        "ajax":  {
+            url: '/admin/blog/get-files'
+        },
+        "processing": true,
+        "serverSide": true,
+        "stateSave":true,
+        "columns": [
+            { "data": "name" },
+            { "data": "label" },
+            { "data": "id" },
+            { "data": "created_at" },
+        ],
+        "columnDefs": [
+            {
+                "targets": 2,
+                "data": 'id',
+                "render": function ( data, type, row ) {
+                    return '<a href="/admin/blog/edit-file/'+data+'" id="edit_file_label" style="cursor: pointer;">Edit</a>';
+                }
+            }
+        ],
+        order: [
+            [3, "desc"]
+        ]
+    });
+}
+
+if ($("#postFile").length > 0) {
+    $("#postFile").DataTable({
+        "ajax":  {
+            url: '/admin/blog/get-files'
+        },
+        "processing": true,
+        "serverSide": true,
+        "stateSave":true,
+        "columns": [
+            { "data": "name" },
+            { "data": "label" },
+            { "data": "id" },
+            { "data": "created_at" },
+        ],
+        "columnDefs": [
+            {
+                "targets": 2,
+                "data": 'id',
+                "render": function ( data, type, row ) {
+                    return '<div onclick="delete_file(\''+data+'\')" id="delete_file_post" class="btn btn-round btn-fill btn-danger">Delete</div>';
+                }
+            }
+        ],
+        order: [
+            [3, "desc"]
+        ]
+    });
+}
+
+// select file for post
+if ($("#postFile").length > 0) {
+    $('#postFile tbody').on( 'click', 'tr', function () {
+        $(this).toggleClass('selected');
+        $('#count-files').html( $("#postFile").DataTable().rows('.selected').data().length +' row(s) selected' );
+        $('#selected-files').show();
+    });
+}
+
+// select selected files for post
+if ($("#select-files").length > 0) {
+    $('#select-files').on('click', function(){
+        var files = $.map($("#postFile").DataTable().rows('.selected').data(), function (item) {
+            return item.label
+        });
+        var names = $.map($("#postFile").DataTable().rows('.selected').data(), function (item) {
+            return item.name
+        });
+
+        files.forEach(function(file, index) {  
+            $(".file-list").append('<div class="form-group input-group file-item"><span class="input-group-addon"><i class="fa fa-file-o" aria-hidden="true"></i></span><input type="text" name="file_label[]" class="form-control" placeholder="insert label for file here" value="'+file+'"><span class="input-group-btn"><button class="btn btn-danger file-delete" type="button"><i class="fa fa-times" aria-hidden="true"></i></button></span><input type="hidden" name="file_name[]" value="'+names[index]+'"></div>');
+        });
+
+        $(".overlay").fadeOut(), $(".custom-modal").fadeOut(), $('#count-files').html(''), $('#postFile').find('tr').removeClass('selected')
+        
+    });
+}
+
+// fungsi delete file 
+if ($('.file-list').length > 0) {
+    $('.file-list').on('click', '.file-delete', function(){
+        $(this).parents('.file-item').remove();
+    });
+}
+
+function delete_file(e){
+    timeOutId = setTimeout(ajaxFn, 2000, e);
+
+    $('.dataTables_processing').show();
+    $('#canceldelete').show();
+    function ajaxFn(e){
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: "GET",
+            url: "/admin/blog/delete-file/"+e,
+            processData: false,
+            contentType: false,
+            success: function(msg){
+                $(".filestable").DataTable().ajax.reload(null, false);
+            },
+            error: function(err){
+                $(".filestable").DataTable().ajax.reload(null, false);
+                console.log(err);
+            }
+        });
+        $('#canceldelete').hide();
+        $('.dataTables_processing').hide();
+    };
+};
