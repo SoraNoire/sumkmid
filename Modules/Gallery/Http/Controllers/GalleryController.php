@@ -99,10 +99,9 @@ class GalleryController extends Controller
     public function addGallery()
     {
         $page_meta_title = 'Gallery';
-        $media = Media::orderBy('created_at','desc')->get();
         $alltag = Tags::orderBy('created_at','desc')->get();
 
-        return view('gallery::admin.gallery_add')->with(['page_meta_title' => $page_meta_title, 'alltag' => $alltag, 'media' => $media]);
+        return view('gallery::admin.gallery_add')->with(['page_meta_title' => $page_meta_title, 'alltag' => $alltag]);
     }
 
     /**
@@ -122,7 +121,7 @@ class GalleryController extends Controller
         $meta_desc =  $request->input('meta_desc');
         $meta_keyword =  $request->input('meta_keyword');
         $categories = json_encode($request->get('categories') ?? [] );
-        $categories = json_encode($request->get('tags') ?? [] );
+        $tag_input = $request->input('tags') ?? [];
         $gallery_images = json_encode($request->get('gallery_images') ?? [] );
 
         $slug = PostHelper::make_slug($request->input('title'));
@@ -137,6 +136,29 @@ class GalleryController extends Controller
 
         DB::beginTransaction();
         try {
+            if (isset($tag_input)) {
+                $tags = array();
+                foreach ($tag_input as $key) {
+                    $tag_slug = PostHelper::make_slug($key);
+                    $check = Tags::where('slug', $tag_slug)->first();
+                    if (!isset($check)) {
+                        // save tag to table tag
+                        $save_tag = new Tags;
+                        $save_tag->name = $key;
+                        $save_tag->slug = $tag_slug;
+                        $save_tag->save();
+                        $key = $save_tag->id;
+
+                    } else {
+                      $key = $check->id;
+                    }
+                    $tags[] = $key;
+                }
+            } else {
+                $tags = null;
+            }
+            $tags = json_encode($tags);
+
             $store = new Posts;
             $store->title = $request->input('title');
             $store->slug = $slug;
@@ -149,11 +171,12 @@ class GalleryController extends Controller
             $store->save();
 
             $meta_contents = array();
-            $metas[0] = ['name' => 'meta_title', 'value' => $meta_title];
-            $metas[1] = ['name' => 'meta_desc', 'value' => $meta_desc];
-            $metas[2] = ['name' => 'meta_keyword', 'value' => $meta_keyword];
-            $metas[3] = ['name' => 'categories', 'value' => $categories];
-            $metas[5] = ['name' => 'gallery_images', 'value' => $gallery_images];
+            $metas[] = ['name' => 'meta_title', 'value' => $meta_title];
+            $metas[] = ['name' => 'meta_desc', 'value' => $meta_desc];
+            $metas[] = ['name' => 'meta_keyword', 'value' => $meta_keyword];
+            $metas[] = ['name' => 'categories', 'value' => $categories];
+            $metas[] = ['name' => 'tags', 'value' => $tags];
+            $metas[] = ['name' => 'gallery_images', 'value' => $gallery_images];
             foreach ($metas as $meta) {
                 if ($meta['value'] != '') {
                     $meta_contents[] = [ 'post_id'=>$store->id, 'key'=> $meta['name'], 'value'=> $meta['value'] ];
@@ -232,48 +255,77 @@ class GalleryController extends Controller
 
         $title = $request->input('title');
         $content = $request->input('content');
-        $gallery_images = json_encode($request->get('gallery_images') ?? [] );
-        $categories = json_encode($request->input('categories') ?? [] );
         $tag = $request->input('tag');
         $status = $request->get('status');
         $published_date = $request->input('published_date');
         $featured_img = $request->input('featured_image');
-
-        $tags     = $request->input('tags') ?? [0];
-        $tags = Tags::whereIn('name',$tags)->select(['id'])->get();
-        $tag = [];
-        foreach ($tags as $key => $t) {
-            $tag[] = $t->id;
-        }
-        $tags = $tag;
-        $tags = json_encode($tags ?? [] );
+        $tag_input = $request->input('tags') ?? [];
 
         DB::beginTransaction();
         try {
-            $update = Posts::where('id', $id)->first();
-            $store->title = $title;
-            $store->post_type = 'gallery';
-            $store->content = $content;
-            $store->featured_image = $featured_img;
-            $store->author = app()->SSO->Auth()->id;
-            $store->status = $request->get('status');
-            $store->published_date = $published_date;
-            $store->save();
+            if (isset($tag_input)) {
+                $tags = array();
+                foreach ($tag_input as $key) {
+                    $tag_slug = PostHelper::make_slug($key);
+                    $check = Tags::where('slug', $tag_slug)->first();
+                    if (!isset($check)) {
+                        // save tag to table tag
+                        $save_tag = new Tags;
+                        $save_tag->name = $key;
+                        $save_tag->slug = $tag_slug;
+                        $save_tag->save();
+                        $key = $save_tag->id;
 
-            $meta_contents = array();
-            $metas[0] = ['name' => 'meta_title', 'value' => $meta_title];
-            $metas[1] = ['name' => 'meta_desc', 'value' => $meta_desc];
-            $metas[2] = ['name' => 'meta_keyword', 'value' => $meta_keyword];
-            $metas[3] = ['name' => 'categories', 'value' => $categories];
-            $metas[4] = ['name' => 'tags', 'value' => $tags];
-            $metas[5] = ['name' => 'gallery_images', 'value' => $gallery_images];
-            foreach ($metas as $meta) {
-                if ($meta['value'] != '') {
-                    $meta_contents[] = [ 'post_id'=>$store->id, 'key'=> $meta['name'], 'value'=> $meta['value'] ];
+                    } else {
+                      $key = $check->id;
+                    }
+                    $tags[] = $key;
+                }
+            } else {
+                $tags = null;
+            }
+            $tags = json_encode($tags);
+
+            $update = Posts::where('id', $id)->first();
+            $update->title = $title;
+            $update->post_type = 'gallery';
+            $update->content = $content;
+            $update->featured_image = $featured_img;
+            $update->author = app()->SSO->Auth()->id;
+            $update->status = $request->get('status');
+            $update->published_date = $published_date;
+            $update->save();
+
+            $newMeta = false;
+            $post_metas = PostMeta::where('post_id',$id)->get();
+            $meta_fields = ['categories', 'meta_title', 'meta_desc', 'meta_keyword', 'gallery_images', 'tags' ];
+
+            foreach ($meta_fields as $key => $meta) {
+                $updated = false;
+                $post_metas->map(function($field) use ($meta,$request,&$updated){
+                    if ( $meta == $field->key )
+                    {
+                        $value = ( 
+                                    is_array($request->input($field->key)) ||
+                                    is_object($request->input($field->key)) 
+                                )
+                                ? json_encode($request->input($field->key)) : $request->input($field->key);
+                        $field->value = $value ?? $field->value;
+                        $field->save();
+                        $updated = true;
+                        return true;
+                    }
+                });
+                if(!$updated && $request->input($meta))
+                {
+                    $value = ( 
+                                is_array($request->input($meta)) ||
+                                is_object($request->input($meta)) 
+                            )
+                            ? json_encode($request->input($meta)) : $request->input($meta);
+                     PostMeta::insert(['post_id'=>$update->id,'key' => $meta, 'value'=>$value]);
                 }
             }
-
-            PostMeta::insert($meta_contents);
 
             DB::commit();
             return redirect(route('galleries'))->with(['msg' => 'Saved', 'status' => 'success']);

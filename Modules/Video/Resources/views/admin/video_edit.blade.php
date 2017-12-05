@@ -131,15 +131,14 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
-                          Tag <a data-toggle="collapse" href="#video-tag"><i style="float: right;" class="fa fa-caret-down" aria-hidden="true"></i></a>
+                          Tag <a data-toggle="collapse" href="#post-tag"><i style="float: right;" class="fa fa-caret-down" aria-hidden="true"></i></a>
                         </h4>
                     </div>
-                    <div id="video-tag" class="panel-collapse collapse in">
+                    <div id="post-tag" class="panel-collapse collapse in">
                         <div class="panel-body form-group">
                             <select id="mytag" name="tags[]" class="mytag form-control" multiple>
-                                @foreach ($alltags as $alltag)
-
-                                    <option {{ in_array($alltag->id, $tags) ? 'selected' : "" }} value="{{$alltag->name}}" >{{$alltag->name}}</option>
+                                @foreach ($alltag as $tag)
+                                    <option {{ is_array($selected_tag) && in_array($tag->id, $selected_tag) ? 'selected' : ''}} value="{{$tag->name}}" >{{$tag->name}}</option>
                                 @endforeach
                             </select>
                         </div>

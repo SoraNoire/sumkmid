@@ -739,7 +739,7 @@ function load_post_category(){
         type: "GET",
         url: "/admin/blog/get-category-post/"+id,
         success: function(msg){
-            $('#blog .category-wrap ul').html(msg);
+            $('.category-wrap ul').html(msg);
         },
         error: function(err){
             console.log(err);
@@ -753,7 +753,7 @@ function load_post_category_parent(){
         type: "GET",
         url: "/admin/blog/get-category-parent/"+id,
         success: function(msg){
-            $('#blog .category-parent').html(msg);
+            $('.category-parent').html(msg);
         },
         error: function(err){
             console.log(err);
@@ -761,16 +761,16 @@ function load_post_category_parent(){
     });
 }
 
-if ($('#blog .category-wrap').length > 0) {
-    $('#blog .category-wrap').ready(load_post_category());
+if ($('.category-wrap').length > 0) {
+    $('.category-wrap').ready(load_post_category());
 }
 
-if ($('#blog .category-parent').length > 0) {
-    $('#blog .category-parent').ready(load_post_category_parent());
+if ($('.category-parent').length > 0) {
+    $('.category-parent').ready(load_post_category_parent());
 }
 
 // add category on post ajax function
-$('#blog .add_category_button').on('click', function add_category(){
+$('.add_category_button').on('click', function add_category(){
     var n = $('input[name=category_name]').val();
     var p = $('select[name=category_parent]').val();
     if (n != '') {
