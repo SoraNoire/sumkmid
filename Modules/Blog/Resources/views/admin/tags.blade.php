@@ -2,12 +2,7 @@
 
 @section('content')
 <div class="col-md-12">
-@if(session('msg'))
-<div class="alert alert-{{ session('status') }}">
-  {{ session('msg') }}
-</div>
-@endif
-<form method="post" action="{{ route('massdeletecategory') }}" accept-charset="UTF-8">
+<form method="post" action="{{ route('massdeletetag') }}" accept-charset="UTF-8">
     <a href="{{ route('addtag') }}" class="btn btn-round btn-fill btn-info">New Tag +<div class="ripple-container"></div></a>
     <input type="hidden" name="_token" value="{{ csrf_token() }}">
     <input type="hidden" name="id" class="bulk-delete-id">

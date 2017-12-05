@@ -9,6 +9,7 @@ use Session;
 use Cookie;
 use App\Helpers\SSOHelper as SSO;
 use App\Events;
+use Modules\Blog\Entities\Posts;
 
 class PublicController extends Controller
 {
@@ -89,6 +90,15 @@ class PublicController extends Controller
 	}
 
 	/**
+     * Show User Setting page.
+     * @return Response
+     */
+	public function userSetting(){
+        $var['page'] = "userSetting";
+		return view('page.userSetting')->with(['var' => $var]);
+	}
+
+	/**
      * Show event page.
      * @return Response
      */
@@ -98,7 +108,7 @@ class PublicController extends Controller
         $offset = $paginate - $paginate;
         $next = 2;
 
-        $events = Events::orderby('published_at', 'desc')->offset($offset)->limit($paginate)->get();
+        $events = Posts::where('post_type','event')->orderby('published_date', 'desc')->offset($offset)->limit($paginate)->get();
 
         $max_post = count($events);
         $max_per_page = $paginate;

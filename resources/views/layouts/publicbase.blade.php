@@ -126,6 +126,8 @@
             <span class="copyright">&copy;2017 SahabatUMKM.id, All Right Reserved Worldwide</span>
  		</div>
     </footer>
+    <div class="trnsOverlay"></div>
+    <div class="whiteOverlay"></div>
     <!-- end of footer -->
     <script
         src="https://code.jquery.com/jquery-3.2.1.min.js"

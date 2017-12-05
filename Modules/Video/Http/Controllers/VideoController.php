@@ -104,23 +104,10 @@ class VideoController extends Controller
     public function addVideo()
     {
         $page_meta_title = 'Videos';
-        $act = 'New';
-        $action = $this->prefix.'store-video';
-
-        $title = '';
-        $content = '';
-        $tags = [];
-        $featured_image = '';
         $media = Media::orderBy('created_at','desc')->get();
         $alltags = Tags::orderBy('created_at','desc')->get();
-        $video_url = '';
-        $meta_desc = '';
-        $meta_title = '';
-        $meta_keyword = '';
-        $status = 1;
-        $published_date = 'immediately';
 
-        return view('video::admin.video_form')->with(['isEdit'=>false,'page_meta_title' => $page_meta_title, 'act' => $act, 'action' => $action, 'title' => $title, 'content' => $content, 'alltags' => $alltags, 'tags' => $tags, 'media' => $media, 'featured_image' => $featured_image, 'meta_desc' => $meta_desc, 'meta_title' => $meta_title, 'meta_keyword' => $meta_keyword, 'status' => $status, 'published_date' => $published_date, 'video_url' => $video_url]);
+        return view('video::admin.video_add')->with(['page_meta_title' => $page_meta_title, 'alltags' => $alltags, 'media' => $media]);
     }
 
     /**
@@ -129,31 +116,39 @@ class VideoController extends Controller
      * @return Response
      */
     public function addVideoPost(Request $request)
-    {
+    {   
+        $this->validate($request, [
+            'title' => 'required',
+            'content' => 'required'
+        ]);
 
-        $msg = ['msg' => 'Error saving', 'status' => 'warning'];
+        $meta_title =  $request->input('meta_title');
+        $meta_desc =  $request->input('meta_desc');
+        $meta_keyword =  $request->input('meta_keyword');
+        $video_url = str_replace('watch?v=', 'embed/', $request->input('video_url')) ?? "";
+        $categories = json_encode($request->input('categories') ?? [] );
 
-        DB::transaction(function() use (&$msg,$request)
-        {
+        $tags     = $request->input('tags') ?? [0];
+        $tags = Tags::whereIn('name',$tags)->select(['id'])->get();
+        $tag = [];
+        foreach ($tags as $key => $t) {
+            $tag[] = $t->id;
+        }
+        $tags = $tag;
+        $tags = json_encode($tags ?? [] );
 
-            $tags     = $request->input('tags') ?? [0];
-            $tags = Tags::whereIn('name',$tags)->select(['id'])->get();
-            $tag = [];
-            foreach ($tags as $key => $t) {
-                $tag[] = $t->id;
-            }
-            $tags = $tag;
+        $slug = PostHelper::make_slug($request->input('title'));
+        if (Posts::where('slug', $slug)->first()) {
+            $slug = $slug.'-'.date('s');
+        }
 
-            $slug = PostHelper::make_slug($request->input('title'));
-            if (Posts::where('slug', $slug)->first()) {
-                $slug = $slug.'-'.date('s');
-            }
+        $published_date = $request->input('published_date');
+        if ($published_date = 'immediately') {
+            $published_date = Carbon::now()->toDateTimeString();
+        }
 
-            $published_date = $request->input('published_date');
-            if ($published_date = 'immediately') {
-                $published_date = Carbon::now()->toDateTimeString();
-            }
-
+        DB::beginTransaction();
+        try {
             $store = new Posts;
             $store->title = $request->input('title');
             $store->slug = $slug;
@@ -163,30 +158,29 @@ class VideoController extends Controller
             $store->author = app()->SSO->Auth()->id;
             $store->status = $request->get('status');
             $store->published_date = $published_date;
-            try {
-                if ($store->save()) {
+            $store->save();
 
-                    $meta_contents = [
-                                        ['post_id'=>$store->id, 'key'=> 'meta_title', 'value'=> $request->input('meta_title')],
-                                        ['post_id'=>$store->id, 'key'=> 'meta_desc', 'value'=> $request->input('meta_desc')],
-                                        ['post_id'=>$store->id, 'key'=> 'meta_keyword', 'value'=> $request->input('meta_keyword')],
-                                        ['post_id'=>$store->id, 'key'=> 'categories', 'value'=> json_encode($request->input('categories') ?? [] )],
-                                        ['post_id'=>$store->id, 'key'=> 'tags', 'value'=> json_encode($tags ?? [] )],
-                                        ['post_id'=>$store->id, 'key'=> 'video_url', 'value'=> str_replace('watch?v=', 'embed/', $request->input('video_url')) ?? "" ],
-                                    ];
-                    PostMeta::insert($meta_contents);
-
-                    $msg = ['msg' => 'Saved', 'status' => 'success'];
+            $meta_contents = array();
+            $metas[0] = ['name' => 'meta_title', 'value' => $meta_title];
+            $metas[1] = ['name' => 'meta_desc', 'value' => $meta_desc];
+            $metas[2] = ['name' => 'meta_keyword', 'value' => $meta_keyword];
+            $metas[3] = ['name' => 'categories', 'value' => $categories];
+            $metas[4] = ['name' => 'tags', 'value' => $tags];
+            $metas[5] = ['name' => 'video_url', 'value' => $video_url];
+            foreach ($metas as $meta) {
+                if ($meta['value'] != '') {
+                    $meta_contents[] = [ 'post_id'=>$store->id, 'key'=> $meta['name'], 'value'=> $meta['value'] ];
                 }
             }
-            catch (\Exception $e)
-            {
-                $msg = ['msg' => 'Error saving', 'status' => 'warning'];
-            }
 
-        });
+            PostMeta::insert($meta_contents);
 
-        return redirect(route('videos'))->with($msg)->send();
+            DB::commit();
+            return redirect(route('videos'))->with(['msg' => 'Saved', 'status' => 'success'])->send();         
+        } catch (\Exception $e) {
+            DB::rollback();
+            return redirect(route('videos'))->with(['msg' => 'Error saving', 'status' => 'warning'])->send();
+        }
     }
 
     /**
@@ -221,7 +215,7 @@ class VideoController extends Controller
             $status = $video->status;
             $published_date = $video->published_date;
             $item_id = $video->id;
-            return view('video::admin.video_form')->with(['isEdit'=>true,'item_id' => $item_id, 'page_meta_title' => $page_meta_title, 'act' => $act, 'action' => $action, 'video' => $video , 'title' => $title, 'content' => $content,'alltags'=>$alltags, 'tags' => (array)$tags, 'media' => $media, 'featured_image' => $video->featured_image, 'meta_desc' => $meta_desc, 'meta_title' => $meta_title, 'meta_keyword' => $meta_keyword, 'status' => $status, 'published_date' => $published_date, 'video_url' => $video_url]);
+            return view('video::admin.video_edit')->with(['item_id' => $item_id, 'page_meta_title' => $page_meta_title, 'act' => $act, 'action' => $action, 'video' => $video , 'title' => $title, 'content' => $content,'alltags'=>$alltags, 'tags' => (array)$tags, 'media' => $media, 'featured_image' => $video->featured_image, 'meta_desc' => $meta_desc, 'meta_title' => $meta_title, 'meta_keyword' => $meta_keyword, 'status' => $status, 'published_date' => $published_date, 'video_url' => $video_url]);
         } else {
             return redirect($this->prefix)->with(['msg' => 'video Not Found', 'status' => 'danger']);
         }
@@ -244,6 +238,10 @@ class VideoController extends Controller
      */
     public function updateVideo(Request $request, $id)
     {
+        $this->validate($request, [
+            'title' => 'required',
+            'content' => 'required'
+        ]);
 
         $post_metas = PostMeta::where('post_id',$id)->get();
         $post_metas = $this->readMetas($post_metas);
@@ -257,61 +255,60 @@ class VideoController extends Controller
         $selected_tag = Tags::whereIn('id', $tags)->get();
         $request->request->add(['tags'=>$tags]);
 
-        DB::transaction(function() use ($request,$id) {
-            $post_metas = PostMeta::where('post_id',$id)->get();
+        $post_metas = PostMeta::where('post_id',$id)->get();
 
-            $published_date = $request->input('published_date');
-            if ($published_date = 'immediately') {
-                $published_date = Carbon::now()->toDateTimeString();
-            }
+        $published_date = $request->input('published_date');
+        if ($published_date = 'immediately') {
+            $published_date = Carbon::now()->toDateTimeString();
+        }
 
+        DB::beginTransaction();
+        try {
             $update = Posts::where('id', $id)->first();
             $update->title = $request->input('title');
             $update->content = $request->input('content');
             $update->featured_image = $request->input('featured_image');
             $update->status = $request->input('status');
             $update->published_date = $published_date;
+            $update->update();
             
-            if($update->update())
-            {
-                $newMeta = false;
-                $post_metas = PostMeta::where('post_id',$id)->get();
-                $meta_fields = ['meta_title', 'meta_desc', 'meta_keyword', 'categories', 'tags', 'video_url' ];
+            $newMeta = false;
+            $post_metas = PostMeta::where('post_id',$id)->get();
+            $meta_fields = ['meta_title', 'meta_desc', 'meta_keyword', 'categories', 'tags', 'video_url' ];
 
-                foreach ($meta_fields as $key => $meta) {
-                    $updated = false;
-                    $post_metas->map(function($field) use ($meta,$request,&$updated){
-                        if ( $meta == $field->key )
-                        {
-                            $value = ( 
-                                        is_array($request->input($field->key)) ||
-                                        is_object($request->input($field->key)) 
-                                    )
-                                    ? json_encode($request->input($field->key)) : $request->input($field->key);
-                            $field->value = $value ?? $field->value;
-                            $field->save();
-                            $updated = true;
-                            return true;
-                        }
-                    });
-                    if(!$updated && $request->input($meta))
+            foreach ($meta_fields as $key => $meta) {
+                $updated = false;
+                $post_metas->map(function($field) use ($meta,$request,&$updated){
+                    if ( $meta == $field->key )
                     {
                         $value = ( 
-                                    is_array($request->input($meta)) ||
-                                    is_object($request->input($meta)) 
+                                    is_array($request->input($field->key)) ||
+                                    is_object($request->input($field->key)) 
                                 )
-                                ? json_encode($request->input($meta)) : $request->input($meta);
-                         PostMeta::insert(['post_id'=>$update->id,'key' => $meta, 'value'=>$value]);
+                                ? json_encode($request->input($field->key)) : $request->input($field->key);
+                        $field->value = $value ?? $field->value;
+                        $field->save();
+                        $updated = true;
+                        return true;
                     }
+                });
+                if(!$updated && $request->input($meta))
+                {
+                    $value = ( 
+                                is_array($request->input($meta)) ||
+                                is_object($request->input($meta)) 
+                            )
+                            ? json_encode($request->input($meta)) : $request->input($meta);
+                     PostMeta::insert(['post_id'=>$update->id,'key' => $meta, 'value'=>$value]);
                 }
-                return redirect(route('videos'))->with(['msg' => 'Saved', 'status' => 'success']);
             }
-            else
-            {
-                return redirect(route('videos'))->with(['msg' => 'Save error', 'status' => 'alert']);
-            }
-        });
-        return redirect(route('videos'))->with(['msg' => 'Saved', 'status' => 'success']);
+
+            DB::commit();
+            return redirect(route('videos'))->with(['msg' => 'Saved', 'status' => 'success']);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return redirect(route('videos'))->with(['msg' => 'Save error', 'status' => 'alert']);
+        }
 
     }
 

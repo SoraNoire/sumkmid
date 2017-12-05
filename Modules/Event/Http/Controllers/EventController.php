@@ -112,10 +112,15 @@ class EventController extends Controller
      */
     public function addEventPost(Request $request)
     {
+        $this->validate($request, [
+            'title' => 'required',
+            'description' => 'required'
+        ]);
+
         $title = $request->input('title');
         $slug = PostHelper::make_slug($title);
         $description = $request->input('description');
-        $featured_img = $request->input('featured_img');
+        $featured_image = $request->input('featured_image');
         $event_type = $request->get('event_type');
         $categories = $request->get('categories');
         $location = $request->input('location');
@@ -149,7 +154,7 @@ class EventController extends Controller
             $store = new Posts;
             $store->title = $title;
             $store->slug = $slug;
-            $store->featured_image = $featured_img;
+            $store->featured_image = $featured_image;
             $store->author = $author;
             $store->content = $description;
             $store->post_type = 'event';
@@ -204,12 +209,10 @@ class EventController extends Controller
 
             $title = $event->title;
             $description = $event->content; 
-            $featured_img = $event->featured_image;
+            $featured_image = $event->featured_image;
             $media = Media::orderBy('created_at','desc')->get();
             $status = $event->status;
             $published_date = $event->published_date;
-            
-            
             
             $post_metas = $this->readMetas($post_metas);
 
@@ -237,7 +240,7 @@ class EventController extends Controller
                                 'title' => $title,
                                 'description' => $description,
                                 'media' => $media,
-                                'featured_img' => $featured_img,
+                                'featured_image' => $featured_image,
                                 'meta_desc' => $meta_desc,
                                 'meta_title' => $meta_title,
                                 'meta_keyword' => $meta_keyword,
@@ -274,9 +277,14 @@ class EventController extends Controller
      */
     public function updateEvent(Request $request, $id)
     {
+        $this->validate($request, [
+            'title' => 'required',
+            'description' => 'required'
+        ]);
+        
         $title = $request->input('title');
         $description = $request->input('description');
-        $featured_img = $request->input('featured_img');
+        $featured_image = $request->input('featured_image');
         // $event_type = $request->get('event_type');
         // $categories = json_encode($request->get('category'));
         $location = $request->input('location');
@@ -299,7 +307,7 @@ class EventController extends Controller
             $update = Posts::where('id', $id)->first();
             $update->title = $title;
             $update->content = $description;
-            $update->featured_image = $featured_img;
+            $update->featured_image = $featured_image;
             $update->status = $status;
             $update->published_date = $published_date;
             

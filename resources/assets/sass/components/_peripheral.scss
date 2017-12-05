@@ -1,9 +1,26 @@
-.loadmore{
-    
-}
 .loadVideo{
     &:after{
         content: "Memuat Mentor";
         font-weight: $bold;
     }
+}
+
+.trnsOverlay{
+    display: none;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    top: 0;
+    left: 0;
+}
+.whiteOverlay{
+    display: none;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: rgba(255, 255, 255, .8)
 }

@@ -3,15 +3,19 @@
 @section('content')
 
 <div class="col-md-12">
-    <h4 class="title">{{ $act }} Page</h4>
+    <h4 class="title">Edit Page</h4>
 
-    <form id="post-form" method="post" action="{{  ($isEdit) ? route('updatepage',$page->id) : route('storepage') }}" accept-charset="UTF-8">
-        @if ($act == 'New')
-        <a href="{{ route('addpage') }}" class="btn btn-round btn-fill btn-info">New Page +<div class="ripple-container"></div></a>
-        @elseif ($act == 'Edit')
-        <a target="_blank" href="{{ URL::to($prefix.'page/'.$page->slug) }}" class="btn btn-round btn-fill btn-info">View Page<div class="ripple-container"></div></a>
-        <a onclick="return confirm('Delete Page?');" href="{{route('removepage',$page->id)}}" class="btn btn-round btn-fill btn-danger">Delete Page<div class="ripple-container"></div></a>
-        @endif
+    <form id="post-form" method="post" action="{{ route('updatepage',$page->id) }}" accept-charset="UTF-8">
+        <a href="{{ route('addpage') }}" class="btn btn-round btn-fill btn-info">
+            New Page +<div class="ripple-container"></div>
+        </a>
+        <a target="_blank" href="{{ URL::to($prefix.'page/'.$page->slug) }}" class="btn btn-round btn-fill btn-info">
+            View Page<div class="ripple-container"></div>
+        </a>
+        <a onclick="return confirm('Delete Page?');" href="{{route('removepage',$page->id)}}" class="btn btn-round btn-fill btn-danger">
+            Delete Page<div class="ripple-container"></div>
+        </a>
+        
         <button type="submit" class="btn btn-success pull-right">Save Post</button>
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
@@ -19,14 +23,28 @@
             <div class="col-md-9">
                 <div class="form-group">
                     <label class="control-label">Title</label>
-                    <input class="form-control" type="text" name="title" value="{{ $title }}" placeholder="Enter Title Here">
+                    @if ($errors->has('title'))
+                    <div class="has-error">
+                        <span class="help-block">
+                            <strong>{{ $errors->first('title') }}</strong>
+                        </span>
+                    </div>
+                    @endif
+                    <input class="form-control" type="text" name="title" value="{{ $title }}" placeholder="Enter Title Here" required="required">
                 </div>
 
                 <a id="browse_media_post" data-toggle="modal" data-target="#myMedia" class="btn btn-round btn-fill btn-default" style="margin-bottom: 10px;">Add Media</a>
                 
                 <div class="form-group">
                     <label class="control-label">Post Content</label>
-                    <textarea class="form-control mytextarea" name="content">{{ $content }}</textarea>
+                    @if ($errors->has('content'))
+                    <div class="has-error">
+                        <span class="help-block">
+                            <strong>{{ $errors->first('content') }}</strong>
+                        </span>
+                    </div>
+                    @endif
+                    <textarea class="form-control mytextarea" name="content" required="required">{{ $content }}</textarea>
                 </div>
 
                 <div class="panel panel-default">
@@ -109,24 +127,19 @@
 </div>
 @stop
 
+
 @section('modal')
-@if(isset($media))
 <div class="overlay"></div>
 
 <div class="custom-modal media-modal">
-<div class="btn btn-round btn-fill btn-info" style="margin-bottom: 10px;">
-<div class="form-group" style="margin-top: 0px;margin-bottom: 0px;padding-bottom: 0px;cursor: default;">
-    <form id="actuploadmedia" method="post" action="{{ URL::to($prefix.'store-media') }}" accept-charset="UTF-8" enctype="multipart/form-data">
-        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-        <input type="file" id="uploadmedia" name="media[]" style="cursor: pointer;" multiple>
-    </form>
-</div>
-</div>
-<div style="float: right;" id="close_media_post" data-toggle="modal" data-target="#myMedia" class="btn btn-round btn-fill btn-default">Close</div>
+<div class="close-modal" id="close_media_post" data-toggle="modal" data-target="#myModal">X</div>
+    
     <div class="card">
-        <div class="card-header" data-background-color="blue">
-            <h4 class="title">Browse Media</h4>
-            <p class="category">Cari Media untuk ditambahkan</p>
+        <div class="btn btn-round btn-fill btn-info" style="margin-bottom: 10px;" onclick="document.getElementById('uploadmedia').click();">Upload media +
+            <form id="actuploadmedia" method="post" action="{{ URL::to('/administrator/act_new_media') }}" accept-charset="UTF-8" enctype="multipart/form-data">
+                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                <input type="file" id="uploadmedia" name="media[]" style="cursor: pointer;display: none;" multiple>
+            </form>
         </div>
     <div class="card-content table-responsive">
         <table style="width: 100%;" class="table mediatable" id="MediaPost">
@@ -142,20 +155,13 @@
 </div>
 
 <div class="custom-modal fimg-modal">
-<div class="btn btn-round btn-fill btn-info" style="margin-bottom: 10px;">
-<div class="form-group" style="margin-top: 0px;margin-bottom: 0px;padding-bottom: 0px;cursor: default;">
-    <form id="actuploadfimg" method="post" action="{{ URL::to($prefix.'store-media') }}" accept-charset="UTF-8" enctype="multipart/form-data">
-        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-        <input type="file" id="uploadfimg" name="media[]" style="cursor: pointer;" multiple>
-    </form>
-
-</div>
-</div>
-<div style="float: right;" id="close_fimg_post" data-toggle="modal" data-target="#myFimg" class="btn btn-round btn-fill btn-default">Close</div>
+<div class="close-modal" id="close_fimg_post" data-toggle="modal" data-target="#myFimg">X</div>
     <div class="card">
-        <div class="card-header" data-background-color="blue">
-            <h4 class="title">Browse Media</h4>
-            <p class="category">Cari Media untuk ditambahkan</p>
+        <div class="btn btn-round btn-fill btn-info" style="margin-bottom: 10px;" onclick="document.getElementById('uploadfimg').click();">Upload media +
+            <form id="actuploadfimg" method="post" action="{{ URL::to('/administrator/act_new_media') }}" accept-charset="UTF-8" enctype="multipart/form-data">
+                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                <input type="file" id="uploadfimg" name="media[]" style="cursor: pointer;display: none;" multiple>
+            </form>
         </div>
         <div class="card-content table-responsive">
             <table style="width: 100%;" class="table mediatable" id="FeaturedImg">
@@ -169,5 +175,4 @@
         </div>
     </div>
 </div>
-@endif
 @endsection

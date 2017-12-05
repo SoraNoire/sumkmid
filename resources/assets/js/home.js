@@ -1,3 +1,14 @@
+// Burger Dropdown
+$('.burgerBtn').click(function(){
+	$('.navWrapper ul').slideToggle();
+	$('.trnsOverlay').show();
+});
+
+$('.trnsOverlay').click(function(){
+	$('.trnsOverlay').hide();
+	$('.navWrapper ul').slideUp();
+});
+
 if ($('.topSlider').length > 0) {
 	var mySwiper = new Swiper ('.topSlider', {
 	    direction: 'horizontal',
@@ -53,8 +64,20 @@ function show_event_detail(id) {
 }
 
 function show_event_sharer(id) {
-	$('#'+id).find('.share-socmed ul').fadeIn();
+
+	if(window.outerWidth < 659){
+		$('#'+id).find('.share-socmed').fadeIn().css("display","inline-block");
+		$('.whiteOverlay').fadeIn();
+	}else{
+		$('#'+id).find('.share-socmed').fadeIn().css("display","inline-block");
+	}
+	
 }
+
+$('.whiteOverlay').click(function(){
+	$('.whiteOverlay').fadeOut();
+	$('.share-socmed').fadeOut();
+});
 
 // init Infinite Scroll
 $('.archive-list').infiniteScroll({

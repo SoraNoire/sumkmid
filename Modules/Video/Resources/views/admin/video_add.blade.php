@@ -1,111 +1,51 @@
 @extends('blog::layouts.master')
 
 @section('content')
-<script> eventId = 0</script>
+<script> videoId = 0</script>
 <div class="col-md-12">
-    
-    <h4 class="title">New events</h4>
+    <h4 class="title">New Videos</h4>
 
-    <form id="event-form" method="post" action="{{ route('storeevent') }}" accept-charset="UTF-8">
-        <a href="{{ route('addevent') }}" class="btn btn-round btn-fill btn-info">
-            New Event +<div class="ripple-container"></div>
+    <form id="post-form" method="post" action="{{ route('storevideo') }}" accept-charset="UTF-8">
+        <a href="{{ route('addvideo') }}" class="btn btn-round btn-fill btn-info">
+            New Video +<div class="ripple-container"></div>
         </a>
-        <button type="submit" class="btn btn-success pull-right">Save Event</button>
+        
+        <button type="submit" class="btn btn-success pull-right">Save Video</button>
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
         <div class="row" style="margin-top: 15px;">
             <div class="col-md-9">
                 <div class="form-group">
                     <label class="control-label">Title</label>
-                    @if ($errors->has('title'))
-                    <div class="has-error">
-                        <span class="help-block">
-                            <strong>{{ $errors->first('title') }}</strong>
-                        </span>
-                    </div>
-                    @endif
-                    <input class="form-control" type="text" name="title" value="{{ old('title') }}" placeholder="Enter Title Here" required="required">
+                    <input class="form-control" type="text" name="title" value="{{ old('title') }}" placeholder="Enter Title Here">
                 </div>
 
                 <a id="browse_media_post" data-toggle="modal" data-target="#myMedia" class="btn btn-round btn-fill btn-default" style="margin-bottom: 10px;">Add Media</a>
 
                 <div class="form-group">
-                    <label class="control-label">Event Description</label>
-                    @if ($errors->has('description'))
+                    <label class="control-label">Description Video</label>
+                    @if ($errors->has('content'))
                     <div class="has-error">
                         <span class="help-block">
-                            <strong>{{ $errors->first('description') }}</strong>
+                            <strong>{{ $errors->first('content') }}</strong>
                         </span>
                     </div>
                     @endif
-                    <textarea class="form-control mytextarea" name="description" required="required">{{ old('description') }}</textarea>
+                    <textarea class="form-control mytextarea" name="content">{{ old('content') }}</textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">Url Video</label>
+                    <input class="form-control" type="url" name="video_url" value="{{ old('video_url') }}" placeholder="Enter url video here" required="required">
                 </div>
 
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
-                          Event Details <a data-toggle="collapse" href="#event-setting"><i style="float: right;" class="fa fa-caret-down" aria-hidden="true"></i></a>
+                          SEO Setting <a data-toggle="collapse" href="#video-seo"><i style="float: right;" class="fa fa-caret-down" aria-hidden="true"></i></a>
                         </h4>
                     </div>
-                    <div id="event-setting" class="panel-collapse collapse in">
-                        <div class="panel-body">
-                            <div class="form-group">
-                                <label class="control-label">Select Event Type</label>
-                                <select id="event-type" name="event_type" class="form-control" onchange="select_event_type()">
-                                    <option value="offline" {{ old('event_type') == 'offline' ? 'selected' : '' }}>Offline</option>
-                                    <option value="online" {{ old('event_type') == 'online' ? 'selected' : '' }}>Online</option>
-                                </select>
-                            </div>
-
-                            <div class="form-group event-type-offline" style="display: none;">
-                                <label class="control-label">Tempat</label>
-                                <input value="{{ old('location') }}" class="form-control" type="text" name="location">
-                            </div>
-                            <div class="form-group event-type-offline" style="display: none;">
-                                <label class="control-label">HTM</label>
-                                <div class="input-group">
-                                    <span class="input-group-addon">Rp</span>
-                                    <input value="{{ old('htm') }}" class="form-control" type="text" name="htm">
-                                </div>
-                            </div>
-                            <div class="form-group event-type-online">
-                                <label>URL</label>
-                                <input class="form-control" type="url" name="event_url" value="{{ old('event_url') }}">
-                            </div>
-                            <div class="form-group">
-                               <label class="control-label">Select Mentor</label>
-                                <select name="mentor" class="form-control mytag" multiple>
-                                   
-                                </select>
-                            </div>
-                            <div class="form-group row">
-                                <div class="col-md-6">
-                                    <label class="control-label">Open at</label>
-                                    <div class="input-group input-append date datetimepicker">
-                                        <input class="form-control" size="16" type="text" value="{{ old('open_at') }}" name="open_at" readonly>
-                                        <span class="input-group-addon"><i class="fa fa-calendar" aria-hidden="true"></i></span>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="control-label">Closed at</label>
-                                    <div class="input-group input-append date datetimepicker">
-                                        <input class="form-control" size="16" type="text" value="{{ old('closed_at') }}" name="closed_at" readonly>
-                                        <span class="input-group-addon"><i class="fa fa-calendar" aria-hidden="true"></i></span>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                          SEO Setting <a data-toggle="collapse" href="#event-seo"><i style="float: right;" class="fa fa-caret-down" aria-hidden="true"></i></a>
-                        </h4>
-                    </div>
-                    <div id="event-seo" class="panel-collapse collapse in">
+                    <div id="video-seo" class="panel-collapse collapse in">
                         <div class="panel-body">
                             <div class="form-group">
                                 <label class="control-label">Meta Title</label>
@@ -129,22 +69,22 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
-                          Publish <a data-toggle="collapse" href="#event-status"><i style="float: right;" class="fa fa-caret-down" aria-hidden="true"></i></a>
+                          Publish <a data-toggle="collapse" href="#video-status"><i style="float: right;" class="fa fa-caret-down" aria-hidden="true"></i></a>
                         </h4>
                     </div>
-                    <div id="event-status" class="panel-collapse collapse in">
+                    <div id="video-status" class="panel-collapse collapse in">
                         <div class="panel-body">
                             <div class="form-group">
-                                <label>Event Status</label>
+                                <label>Video Status</label>
                                 <select name="status" class="form-control">
-                                    <option value="1" {{ old('status') == '1' ? 'selected' : '' }}>Published</option>
+                                    <option value="1"{{ old('status') == '1' ? 'selected' : '' }}>Published</option>
                                     <option value="0" {{ old('status') == '0' ? 'selected' : '' }}>Draft</option>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label class="control-label">Date Published</label>
                                 <div class="input-group input-append date datetimepicker">
-                                    <input class="form-control" size="16" type="text" value="{{ $published_date ?? '' }}" name="published_date" readonly>
+                                    <input class="form-control" size="16" type="text" value="immediately" name="published_date" readonly>
                                     <span class="input-group-addon"><i class="fa fa-calendar" aria-hidden="true"></i></span>
                                 </div>
                             </div>
@@ -155,15 +95,15 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
-                          Category <a data-toggle="collapse" href="#event-category"><i style="float: right;" class="fa fa-caret-down" aria-hidden="true"></i></a>
+                          Category <a data-toggle="collapse" href="#video-category"><i style="float: right;" class="fa fa-caret-down" aria-hidden="true"></i></a>
                         </h4>
                     </div>
-                    <div id="event-category" class="panel-collapse collapse in">
+                    <div id="video-category" class="panel-collapse collapse in">
                         <div class="panel-body form-group">
                             <label class="control-label">All Category</label>
                             <div class="category-wrap">
                                 <ul>
-                                    {!! $list_category !!}
+
                                 </ul>
                             </div>
                             <a data-toggle="collapse" data-target="#add_category" href="#add_category"><i class="fa fa-plus" aria-hidden="true"></i> Add Category</a>
@@ -172,7 +112,9 @@
                                 <div class="form-group">
                                     <label class="control-label">Add Category</label>
                                     <input type="text" name="category_name" class="form-control">
-                                    <input type="hidden" name="c_token" value="{{ csrf_token() }}">
+                                </div>
+                                <div class="form-group">
+                                    <select id="CategoryParent" name="category_parent" class="form-control category-parent" style="width: 100%;"></select>
                                 </div>
                                 <button class="btn btn-default add_category_button" type="button">Add New Category</button>
                             </div>
@@ -183,10 +125,27 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
-                          Featured Image <a data-toggle="collapse" href="#event-fimg"><i style="float: right;" class="fa fa-caret-down" aria-hidden="true"></i></a>
+                          Tag <a data-toggle="collapse" href="#video-tag"><i style="float: right;" class="fa fa-caret-down" aria-hidden="true"></i></a>
                         </h4>
                     </div>
-                    <div id="event-fimg" class="panel-collapse collapse in">
+                    <div id="video-tag" class="panel-collapse collapse in">
+                        <div class="panel-body form-group">
+                            <select id="mytag" name="tags[]" class="mytag form-control" multiple>
+                                @foreach ($alltags as $alltag)
+                                    <option {{ in_array($alltag->id, old('tags')) ? 'selected' : "" }} value="{{$alltag->name}}" >{{$alltag->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                          Featured Image <a data-toggle="collapse" href="#video-fimg"><i style="float: right;" class="fa fa-caret-down" aria-hidden="true"></i></a>
+                        </h4>
+                    </div>
+                    <div id="video-fimg" class="panel-collapse collapse in">
                         <div class="panel-body form-group">
                             <a id="browse_fimg_post" data-toggle="modal" data-target="#myFimg" class="btn btn-round btn-fill btn-default" style="margin-bottom: 10px;">Set Featured Image</a>
                             <input type="hidden" name="featured_image" id="featured_img" value="{{ old('featured_image') }}">
