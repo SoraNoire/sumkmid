@@ -10,6 +10,12 @@
 
 <section id="userSetting">
 	<div class="container">
+<<<<<<< HEAD
+=======
+		<div class="formAlert alertSuccess">
+			<span>Profil berhasil disimpan</span>
+		</div>
+>>>>>>> eef18f9b3ea150b02f09ebe8312b3f1a12c57af6
 		<h3>Hallo, Syarief Navi</h3>
 		<div class="leftForm">
 			<div class="photoUser">
