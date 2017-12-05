@@ -71,6 +71,9 @@
             <li class="mobile-admin-nav {{ ($page_meta_title ?? '') == 'Media' ? 'active' : ''}}">
               <a href="{{ url('admin/blog/media') }}">Media</a>
             </li>
+            <li class="mobile-admin-nav {{ ($page_meta_title ?? '') == 'Files' ? 'active' : ''}}">
+              <a href="{{ route('files') }}">Files</a>
+            </li>
 
             <li>
                 <a href="{{URL::to('/logout')}}">
@@ -110,6 +113,9 @@
             </li>
             <li class="{{ ($page_meta_title ?? '') == 'Media' ? 'active' : ''}}">
               <a href="{{ url('admin/blog/media') }}">Media</a>
+            </li>
+            <li class="{{ ($page_meta_title ?? '') == 'Files' ? 'active' : ''}}">
+              <a href="{{ route('files') }}">Files</a>
             </li>
           </ul>
         </div>

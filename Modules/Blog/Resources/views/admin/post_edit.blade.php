@@ -48,9 +48,7 @@
                     </div>
                     <div id="post-file" class="panel-collapse collapse in">
                         <div class="panel-body">
-                            <div class="btn btn-round btn-fill btn-info" style="margin-bottom: 10px;">
-                            <input type="file" id="fileUpload" name="fileUpload[]" style="cursor: pointer;" multiple>
-                            </div>
+                            <a id="browse_file_post" data-toggle="modal" data-target="#myFile" class="btn btn-round btn-fill btn-default" style="margin-bottom: 10px;">Browse File</a>
 
                             <div class="file-list">
                                 @if ($files != '')
@@ -61,9 +59,9 @@
                                         </span>
                                         <input type="text" name="file_label[]" class="form-control" placeholder="insert label for file here" value="{{ $file->file_label }}">
                                         <span class="input-group-btn">
-                                            <button class="btn btn-danger file-delete" type="button" data-postid="{{$post->id ?? 0}}" data-filename="{{ $file->file_doc }}"><i class="fa fa-times" aria-hidden="true"></i></button>
+                                            <button class="btn btn-danger file-delete" type="button"><i class="fa fa-times" aria-hidden="true"></i></button>
                                         </span>
-                                        <input type="hidden" name="file_doc[]" value="{{ $file->file_doc }}">
+                                        <input type="hidden" name="file_name[]" value="{{ $file->file_name }}">
                                     </div>
                                     @endforeach
                                 @endif
@@ -226,24 +224,28 @@
     </div>
 </div>
 
-<div class="custom-modal fimg-modal">
-<div class="close-modal" id="close_fimg_post" data-toggle="modal" data-target="#myFimg">X</div>
+<div class="custom-modal file-modal">
+<div class="close-modal" id="close_file_post" data-toggle="modal" data-target="#myFile">X</div>
     <div class="card">
-        <div class="btn btn-round btn-fill btn-info" style="margin-bottom: 10px;" onclick="document.getElementById('uploadfimg').click();">Upload media +
-            <form id="actuploadfimg" method="post" action="{{ URL::to('/administrator/act_new_media') }}" accept-charset="UTF-8" enctype="multipart/form-data">
+       <div class="btn btn-round btn-fill btn-info" style="margin-bottom: 10px;" onclick="document.getElementById('fileUpload').click();">Upload file +
+            <form id="fileupload-form" method="post" action="" accept-charset="UTF-8" enctype="multipart/form-data">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                <input type="file" id="uploadfimg" name="media[]" style="cursor: pointer;display: none;" multiple>
+                <input type="file" id="fileUpload" name="fileUpload[]" style="cursor: pointer;display: none;" multiple>
             </form>
         </div>
         <div class="card-content table-responsive">
-            <table style="width: 100%;" class="table mediatable" id="FeaturedImg">
+            <table style="width: 100%;" class="table filestable" id="postFile">
                 <thead >
-                    <th>Preview</th>
-                    <th>Judul</th>
-                    <th>Tanggal</th>
-                    <th>Aksi</th>
+                    <th>URL</th>
+                    <th>Name</th>
+                    <th>Label</th>
+                    <th>Action</th>
+                    <th>Created At</th>
                 </thead>
             </table>
+        </div>
+        <div id="selected-files" style="text-align: left;display: none;">
+            <button style="padding: 8px 14px;" id="select-files" class="btn btn-round btn-fill btn-success">Select Files</button>
         </div>
     </div>
 </div>
