@@ -104,9 +104,9 @@ class VideoController extends Controller
     public function addVideo()
     {
         $page_meta_title = 'Videos';
-        $alltags = Tags::orderBy('created_at','desc')->get();
+        $alltag = Tags::orderBy('created_at','desc')->get();
 
-        return view('video::admin.video_add')->with(['page_meta_title' => $page_meta_title, 'alltags' => $alltags]);
+        return view('video::admin.video_add')->with(['page_meta_title' => $page_meta_title, 'alltag' => $alltag]);
     }
 
     /**
@@ -219,7 +219,7 @@ class VideoController extends Controller
             $categories     = json_decode($post_metas->categories ?? '') ?? [];
             $tags     = json_decode($post_metas->tags ?? '') ?? [];
 
-            $alltags = Tags::orderBy('created_at','desc')->get();
+            $alltag = Tags::orderBy('created_at','desc')->get();
             $title = $video->title;
             $content = $video->content;
             $video_url = $post_metas->video_url;
@@ -229,7 +229,7 @@ class VideoController extends Controller
             $status = $video->status;
             $published_date = $video->published_date;
             $item_id = $video->id;
-            return view('video::admin.video_edit')->with(['item_id' => $item_id, 'page_meta_title' => $page_meta_title, 'act' => $act, 'action' => $action, 'video' => $video , 'title' => $title, 'content' => $content,'alltags'=>$alltags, 'tags' => (array)$tags, 'media' => $media, 'featured_image' => $video->featured_image, 'meta_desc' => $meta_desc, 'meta_title' => $meta_title, 'meta_keyword' => $meta_keyword, 'status' => $status, 'published_date' => $published_date, 'video_url' => $video_url]);
+            return view('video::admin.video_edit')->with(['item_id' => $item_id, 'page_meta_title' => $page_meta_title, 'act' => $act, 'action' => $action, 'video' => $video , 'title' => $title, 'content' => $content,'alltag'=>$alltag, 'selected_tag' => $tags, 'media' => $media, 'featured_image' => $video->featured_image, 'meta_desc' => $meta_desc, 'meta_title' => $meta_title, 'meta_keyword' => $meta_keyword, 'status' => $status, 'published_date' => $published_date, 'video_url' => $video_url]);
         } else {
             return redirect($this->prefix)->with(['msg' => 'video Not Found', 'status' => 'danger']);
         }
@@ -286,6 +286,8 @@ class VideoController extends Controller
             } else {
                 $tags = null;
             }
+
+            $request->request->add(['tags'=>$tags]);
 
             $update = Posts::where('id', $id)->first();
             $update->title = $request->input('title');

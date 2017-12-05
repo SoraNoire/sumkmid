@@ -4,7 +4,8 @@ namespace Modules\Event\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Routing\Controller;
+use Illuminate\Routing\Controller as BaseController;
+use App\Http\Controllers\Controller;
 use Modules\Event\Entities\Event;
 use Modules\Event\Entities\EventCategory;
 use Modules\Event\Entities\EventCategoryRelation;
@@ -122,7 +123,7 @@ class EventController extends Controller
         $description = $request->input('description');
         $featured_image = $request->input('featured_image');
         $event_type = $request->get('event_type');
-        $categories = $request->get('categories');
+        $categories = $request->input('categories');
         $location = $request->input('location');
         $htm = $request->input('htm');
         $event_url = $request->input('event_url'); 
@@ -227,6 +228,7 @@ class EventController extends Controller
         $act = 'Edit';
         $action = $this->prefix.'update-event/'.$id;
         $event = Posts::where('id', $id)->first();
+        $alltag = Tags::orderBy('created_at','desc')->get();
         if (isset($event)) {
 
             $post_metas = PostMeta::where('post_id',$event->id)->get();
@@ -276,8 +278,9 @@ class EventController extends Controller
                                 'htm' => $htm,
                                 'open_at' => $open_at,
                                 'closed_at' => $closed_at,
-                                'selected_tag' => $tags;
-                                'event_url' => $event_url
+                                'selected_tag' => $tags,
+                                'event_url' => $event_url,
+                                'alltag' => $alltag
                             ]
                     );
         } else {
@@ -349,6 +352,8 @@ class EventController extends Controller
                 $tags = null;
             }
 
+            $request->request->add(['tags'=>$tags]);
+
             $post_metas = PostMeta::where('post_id',$id)->get();
             $update = Posts::where('id', $id)->first();
             $update->title = $title;
@@ -407,10 +412,10 @@ class EventController extends Controller
             // }
 
             DB::commit();
-            return redirect(route('viewevent',$id))->with(['msg' => 'Saved', 'status' => 'success']);
+            return redirect(route('events'))->with(['msg' => 'Saved', 'status' => 'success']);
         } catch (\Exception $e) {
             DB::rollback();
-            return redirect(route('viewevent',$id))->with(['msg' => 'Error updating', 'status' => 'danger']);
+            return redirect(route('events'))->with(['msg' => 'Error updating', 'status' => 'danger']);
         }
 
     }

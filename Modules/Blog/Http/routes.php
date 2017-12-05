@@ -34,7 +34,7 @@ Route::group(['middleware' => ['web','admin'], 'prefix' => 'admin/blog', 'namesp
     Route::get('/get-files', 'BlogController@get_file')->name('ajaxfiles');
     Route::post('/store-file', 'BlogController@store_file')->name('storefiles');
     Route::get('/delete-file/{fileName}', 'BlogController@destroy_file')->name('destroyfiles');
-    Route::post('/bulk-delete-file/', 'BlogController@destroy_file')->name('massdeletefiles');
+    Route::post('/bulk-delete-file/', 'BlogController@bulk_delete_file')->name('massdeletefiles');
     Route::get('/edit-file/{id}', 'BlogController@edit_file')->name('editfile');
     Route::post('/update-file/{id}', 'BlogController@update_file')->name('updatefile');
 

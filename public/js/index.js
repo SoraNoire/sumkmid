@@ -333,6 +333,7 @@ $("#close_file_post, .overlay").click(function() {
 // fungsi upload image
 $('#uploadmedia').on('change', function add_media(e){
     e.preventDefault();
+    $('.dataTables_processing').show();
     var fd = new FormData($("#actuploadmedia")[0]);
     $.ajax({
         headers: {
@@ -352,10 +353,12 @@ $('#uploadmedia').on('change', function add_media(e){
                 console.log(err);
             }
     });
+    $('.dataTables_processing').hide();
 });
 
 $('#uploadfimg').on('change', function add_media(e){
     e.preventDefault();
+    $('.dataTables_processing').show();
     var fd = new FormData($("#actuploadfimg")[0]);
     $.ajax({
         headers: {
@@ -375,11 +378,13 @@ $('#uploadfimg').on('change', function add_media(e){
                 console.log(err);
             }
     });
+    $('.dataTables_processing').hide();
 });
 
 // fungsi upload file
 $('#fileUpload').on('change', function add_file(e){
     e.preventDefault();
+    $('.dataTables_processing').show();
     var fd = new FormData($("#fileupload-form")[0]);
     $.ajax({
         headers: {
@@ -403,6 +408,7 @@ $('#fileUpload').on('change', function add_file(e){
             // console.log(a);
         }
     });
+    $('.dataTables_processing').hide();
 });
 
 
@@ -878,22 +884,6 @@ $(document).ready(function() {
     }
 // END TINYMCE
 });
-// multiselect for bulk delete
-$('.mydatatable tbody').on( 'click', 'tr', function () {
-    $(this).toggleClass('selected');
-    var count = $(".mydatatable").DataTable().rows('.selected').data().length;
-    if (count > 0) {
-        $('.bulk-delete-item').show();   
-        $('.bulk-delete-count').html( $(".mydatatable").DataTable().rows('.selected').data().length ); 
-    } else {
-        $('.bulk-delete-item').hide(); 
-    }
-    var ids = $.map($(".mydatatable").DataTable().rows('.selected').data(), function (item) {
-        return item.id
-    });
-    $('.bulk-delete-id').val(JSON.stringify(ids));
-});
-// end multiselect for bulk delete
 
 function cancelDelete(){
     clearTimeout(timeOutId);
@@ -1094,269 +1084,196 @@ function delete_file(e){
         $('.dataTables_processing').hide();
     };
 };
-$(document).ready(function() {
 // DATATABLES CONFIG
-    // video category table 
-    if ($("#video #VideoCategoryTable").length > 0) {
-        $("#video #VideoCategoryTable").DataTable({
-            "ajax": $.fn.dataTable.pipeline( {
-                url: '/admin/blog/ajaxcategories',
-                pages: 5 // number of pages to cache
-            } ),
-            "processing": true,
-            "serverSide": true,
-            "stateSave":true,
-            "columns": [
-                { "data": "name" },
-                { "data": "created_at" },
-                { "data": "id" },
-            ],
-            "columnDefs": [ {
-                    "targets": -1,
-                    "data": 'id',
-                    "render": function ( data, type, row ) {
-                        return '<a href="/admin/blog/category/'+row.id+'/edit">Edit</a> | <a onclick="return confirm(\'Delete Category?\');" href="/admin/blog/category/'+row.id+'/remove">Delete</a>';
-                    }
-                },
-                    {
-                    "targets": 0,
-                    "data": 'name',
-                    "render": function ( data, type, row ) {
-                            return '<a href="/admin/blog/category/'+row.id+'/edit">'+data+'</a>';
-                    }
+// video category table 
+if ($("#video #VideoCategoryTable").length > 0) {
+    $("#video #VideoCategoryTable").DataTable({
+        "ajax": $.fn.dataTable.pipeline( {
+            url: '/admin/blog/ajaxcategories',
+            pages: 5 // number of pages to cache
+        } ),
+        "processing": true,
+        "serverSide": true,
+        "stateSave":true,
+        "columns": [
+            { "data": "name" },
+            { "data": "created_at" },
+            { "data": "id" },
+        ],
+        "columnDefs": [ {
+                "targets": -1,
+                "data": 'id',
+                "render": function ( data, type, row ) {
+                    return '<a href="/admin/blog/category/'+row.id+'/edit">Edit</a> | <a onclick="return confirm(\'Delete Category?\');" href="/admin/blog/category/'+row.id+'/remove">Delete</a>';
                 }
-            ],
-            order: [
-                [0, "desc"],
-                [1, "desc"]
-            ]
-        });
-    } 
-
-    // videos table
-    if ($("#video #table-videos").length > 0) {
-        $("#video #table-videos").DataTable({
-            "ajax": $.fn.dataTable.pipeline( {
-                url: '/admin/blog/video/ajaxvideos',
-                pages: 5 // number of pages to cache
-            } ),
-            "processing": true,
-            "serverSide": true,
-            "stateSave":true,
-            bSortable: true,
-            "columns": [
-                { "data": "title" },
-                { "data": "author" },
-                { "data": "published_date" },
-                { "data": "id" },
-            ],
-            "columnDefs": [ {
-                    "targets": -1,
-                    "data": 'id',
-                    "render": function ( data, type, row ) {
-                        return '<a href="/admin/blog/video/'+row.id+'/edit">Edit</a> | <a onclick="return confirm(\'Delete Video?\');" href="/admin/blog/video/'+row.id+'/remove">Hapus</a>';
-                    }
-                },
-                    {
-                    "targets": 0,
-                    "data": 'title',
-                    "render": function ( data, type, row ) {
-                        return '<a href="/admin/blog/video/'+row.id+'/edit">'+data+'</a>';
-                    }
+            },
+                {
+                "targets": 0,
+                "data": 'name',
+                "render": function ( data, type, row ) {
+                        return '<a href="/admin/blog/category/'+row.id+'/edit">'+data+'</a>';
                 }
-            ],
-            order: [
-                [2, "desc"]
-            ]
-        });
-    }
-
-    // tag table
-    if ($("#video #VideoTagTable").length > 0) {
-        $("#video #VideoTagTable").DataTable({
-            "ajax": $.fn.dataTable.pipeline( {
-                url: '/admin/blog/ajaxtags',
-                pages: 5 // number of pages to cache
-            } ),
-            "processing": true,
-            "serverSide": true,
-            "stateSave":true,
-            "columns": [
-                { "data": "name" },
-                { "data": "created_date" },
-                { "data": "id" },
-            ],
-            "columnDefs": [ {
-                    "targets": -1,
-                    "data": 'id',
-                    "render": function ( data, type, row ) {
-                        return '<a href="/admin/blog/tag/'+row.id+'/edit">Edit</a> | <a onclick="return confirm(\'Delete Tag?\');" href="/admin/blog/tags/'+row.id+'/delete">Hapus</a>';
-                    }
-                },
-                    {
-                    "targets": 0,
-                    "data": 'title',
-                    "render": function ( data, type, row ) {
-                        return '<a href="/admin/blog/tag/'+row.id+'/edit">'+data+'</a>';
-                    }
-                }
-            ],
-            order: [
-                [0, "desc"],
-                [1, "desc"]
-            ]
-        });
-    }
-// END DATATABLES
-});
-
-function load_video_category(){
-    var id = $('meta[name="item-id"]').attr('content');
-    $.ajax({
-        type: "GET",
-        url: "/admin/blog/ajaxcategories",
-        success: function(msg){
-            var _el = '';
-            for(i=0;i<msg.data.length;i++){
-                var d = msg.data[i];
-                _el += "<li><label><input name='categories[]' type='checkbox' value='"+d.id+"'>"+d.name+"</label></li>";
             }
-            $('#video .category-wrap ul').html(_el);
-        },
-        error: function(err){
-            console.log(err);
-        }
+        ],
+        order: [
+            [0, "desc"],
+            [1, "desc"]
+        ]
+    });
+} 
+
+// videos table
+if ($("#video #table-videos").length > 0) {
+    $("#video #table-videos").DataTable({
+        "ajax": $.fn.dataTable.pipeline( {
+            url: '/admin/blog/video/ajaxvideos',
+            pages: 5 // number of pages to cache
+        } ),
+        "processing": true,
+        "serverSide": true,
+        "stateSave":true,
+        bSortable: true,
+        "columns": [
+            { "data": "title" },
+            { "data": "author" },
+            { "data": "published_date" },
+            { "data": "id" },
+        ],
+        "columnDefs": [ {
+                "targets": -1,
+                "data": 'id',
+                "render": function ( data, type, row ) {
+                    return '<a href="/admin/blog/video/'+row.id+'/edit">Edit</a> | <a onclick="return confirm(\'Delete Video?\');" href="/admin/blog/video/'+row.id+'/remove">Hapus</a>';
+                }
+            },
+                {
+                "targets": 0,
+                "data": 'title',
+                "render": function ( data, type, row ) {
+                    return '<a href="/admin/blog/video/'+row.id+'/edit">'+data+'</a>';
+                }
+            }
+        ],
+        order: [
+            [2, "desc"]
+        ]
     });
 }
 
-function load_video_category_parent(){
-    var id = $('meta[name="category-id"]').attr('content');
-    $.ajax({
-        type: "GET",
-        url: "/admin/blog/video/ajaxparentcat/"+id,
-        success: function(msg){
-            $('#video .category-parent').html(msg);
-        },
-        error: function(err){
-            console.log(err);
-        }
+// tag table
+if ($("#video #VideoTagTable").length > 0) {
+    $("#video #VideoTagTable").DataTable({
+        "ajax": $.fn.dataTable.pipeline( {
+            url: '/admin/blog/ajaxtags',
+            pages: 5 // number of pages to cache
+        } ),
+        "processing": true,
+        "serverSide": true,
+        "stateSave":true,
+        "columns": [
+            { "data": "name" },
+            { "data": "created_date" },
+            { "data": "id" },
+        ],
+        "columnDefs": [ {
+                "targets": -1,
+                "data": 'id',
+                "render": function ( data, type, row ) {
+                    return '<a href="/admin/blog/tag/'+row.id+'/edit">Edit</a> | <a onclick="return confirm(\'Delete Tag?\');" href="/admin/blog/tags/'+row.id+'/delete">Hapus</a>';
+                }
+            },
+                {
+                "targets": 0,
+                "data": 'title',
+                "render": function ( data, type, row ) {
+                    return '<a href="/admin/blog/tag/'+row.id+'/edit">'+data+'</a>';
+                }
+            }
+        ],
+        order: [
+            [0, "desc"],
+            [1, "desc"]
+        ]
     });
 }
-
-if ($('#video .category-wrap').length > 0) {
-    $('#video .category-wrap').ready(load_video_category());
-}
-
-if ($('#video .category-parent').length > 0) {
-    $('#video .category-parent').ready(load_video_category_parent());
-}
-
-// add category on post ajax function
-$('#video .add_category_button').on('click', function add_category(){
-    var n = $('input[name=category_name]').val();
-    var p = $('select[name=category_parent]').val();
-    if (n != '') {
-        $.ajax({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            type: "POST",
-            url: "/admin/blog/video/addcat",
-            data: {'name':n, 'parent':p},
-            success: function(msg){
-                console.log(msg);
-            },
-            error: function(err){
-                console.log(err);
-            }
-        });
-
-        load_video_category();
-        // load_video_category_parent();
-        $('input[name=category_name]').val('');
-        $('select[name=category_parent]').removeAttr('selected');
-    } else {    
-        // do nothing
-    }
-});
-$(document).ready(function() {
-// DATATABLES CONFIG
-    // event category table 
-    if ($("#EventCategoryTable").length > 0) {
-        $("#EventCategoryTable").DataTable({
-            "ajax": $.fn.dataTable.pipeline( {
-                url: '/admin/blog/ajaxcategories',
-                pages: 5 // number of pages to cache
-            } ),
-            "processing": true,
-            "serverSide": true,
-            "stateSave":true,
-            "columns": [
-                { "data": "name" },
-                { "data": "created_at" },
-                { "data": "id" },
-            ],
-            "columnDefs": [ {
-                    "targets": -1,
-                    "data": 'id',
-                    "render": function ( data, type, row ) {
-                        return '<a href="/admin/blog/category/'+row.id+'/view">Edit</a> | <a onclick="return confirm(\'Delete Category?\');" href="/admin/blog/category/'+row.id+'/delete">Delete</a>';
-                    }
-                },
-                    {
-                    "targets": 0,
-                    "data": 'name',
-                    "render": function ( data, type, row ) {
-                        return '<a href="/admin/blog/category/'+row.id+'/view">'+data+'</a>';
-                    }
-                }
-            ],
-            order: [
-                [0, "desc"],
-                [1, "desc"]
-            ]
-        });
-    } 
-
-    // event table
-    if ($("#event-table").length > 0) {
-        $("#event-table").DataTable({
-            "ajax": $.fn.dataTable.pipeline( {
-                url: '/admin/blog/event/ajaxevents',
-                pages: 5 // number of pages to cache
-            } ),
-            "processing": true,
-            "serverSide": true,
-            "stateSave":true,
-            bSortable: true,
-            "columns": [
-                { "data": "title" },
-                { "data": "author" },
-                { "data": "published_date" },
-                { "data": "id" },
-            ],
-            "columnDefs": [ {
-                    "targets": -1,
-                    "data": 'id',
-                    "render": function ( data, type, row ) {
-                        return '<a href="/admin/blog/event/'+row.id+'/view">Edit</a> | <a onclick="return confirm(\'Delete Event?\');" href="/admin/blog/event/'+row.id+'/remove">Hapus</a>';
-                    }
-                },
-                    {
-                    "targets": 0,
-                    "data": 'title',
-                    "render": function ( data, type, row ) {
-                        return '<a href="/admin/blog/event/'+row.id+'/view">'+data+'</a>';
-                    }
-                }
-            ],
-            order: [
-                [2, "desc"]
-            ]
-        });
-    }
 // END DATATABLES
-});
+
+// DATATABLES CONFIG
+// event category table 
+if ($("#EventCategoryTable").length > 0) {
+    $("#EventCategoryTable").DataTable({
+        "ajax": $.fn.dataTable.pipeline( {
+            url: '/admin/blog/ajaxcategories',
+            pages: 5 // number of pages to cache
+        } ),
+        "processing": true,
+        "serverSide": true,
+        "stateSave":true,
+        "columns": [
+            { "data": "name" },
+            { "data": "created_at" },
+            { "data": "id" },
+        ],
+        "columnDefs": [ {
+                "targets": -1,
+                "data": 'id',
+                "render": function ( data, type, row ) {
+                    return '<a href="/admin/blog/category/'+row.id+'/view">Edit</a> | <a onclick="return confirm(\'Delete Category?\');" href="/admin/blog/category/'+row.id+'/delete">Delete</a>';
+                }
+            },
+                {
+                "targets": 0,
+                "data": 'name',
+                "render": function ( data, type, row ) {
+                    return '<a href="/admin/blog/category/'+row.id+'/view">'+data+'</a>';
+                }
+            }
+        ],
+        order: [
+            [0, "desc"],
+            [1, "desc"]
+        ]
+    });
+} 
+
+// event table
+if ($("#event-table").length > 0) {
+    $("#event-table").DataTable({
+        "ajax": $.fn.dataTable.pipeline( {
+            url: '/admin/blog/event/ajaxevents',
+            pages: 5 // number of pages to cache
+        } ),
+        "processing": true,
+        "serverSide": true,
+        "stateSave":true,
+        bSortable: true,
+        "columns": [
+            { "data": "title" },
+            { "data": "author" },
+            { "data": "published_date" },
+            { "data": "id" },
+        ],
+        "columnDefs": [ {
+                "targets": -1,
+                "data": 'id',
+                "render": function ( data, type, row ) {
+                    return '<a href="/admin/blog/event/'+row.id+'/view">Edit</a> | <a onclick="return confirm(\'Delete Event?\');" href="/admin/blog/event/'+row.id+'/remove">Hapus</a>';
+                }
+            },
+                {
+                "targets": 0,
+                "data": 'title',
+                "render": function ( data, type, row ) {
+                    return '<a href="/admin/blog/event/'+row.id+'/view">'+data+'</a>';
+                }
+            }
+        ],
+        order: [
+            [2, "desc"]
+        ]
+    });
+}
+// END DATATABLES
 
 // add category on post ajax function
 $('#event-category .add_category_button').on('click', function add_category(){
@@ -1397,196 +1314,118 @@ function select_event_type(){
 }
 
 $('#event-setting').on('load', select_event_type());
-$(document).ready(function() {
 // DATATABLES CONFIG
-    // gallery category table 
-    if ($("#gallery #GalleryCategoryTable").length > 0) {
-        $("#gallery #GalleryCategoryTable").DataTable({
-            "ajax": $.fn.dataTable.pipeline( {
-                url: '/admin/blog/ajaxcategories',
-                pages: 5 // number of pages to cache
-            } ),
-            "processing": true,
-            "serverSide": true,
-            "stateSave":true,
-            "columns": [
-                { "data": "name" },
-                { "data": "created_at" },
-                { "data": "id" },
-            ],
-            "columnDefs": [ {
-                    "targets": -1,
-                    "data": 'id',
-                    "render": function ( data, type, row ) {
-                        return '<a href="/admin/blog/'+row.id+'/view">Edit</a> | <a onclick="return confirm(\'Delete Category?\');" href="/admin/blog/'+row.id+'/remove">Delete</a>';
-                    }
-                },
-                    {
-                    "targets": 0,
-                    "data": 'name',
-                    "render": function ( data, type, row ) {
-                        return '<a href="/admin/blog/'+row.id+'/view">'+data+'</a>';
-                    }
+// gallery category table 
+if ($("#gallery #GalleryCategoryTable").length > 0) {
+    $("#gallery #GalleryCategoryTable").DataTable({
+        "ajax": $.fn.dataTable.pipeline( {
+            url: '/admin/blog/ajaxcategories',
+            pages: 5 // number of pages to cache
+        } ),
+        "processing": true,
+        "serverSide": true,
+        "stateSave":true,
+        "columns": [
+            { "data": "name" },
+            { "data": "created_at" },
+            { "data": "id" },
+        ],
+        "columnDefs": [ {
+                "targets": -1,
+                "data": 'id',
+                "render": function ( data, type, row ) {
+                    return '<a href="/admin/blog/'+row.id+'/view">Edit</a> | <a onclick="return confirm(\'Delete Category?\');" href="/admin/blog/'+row.id+'/remove">Delete</a>';
                 }
-            ],
-            order: [
-                [0, "desc"],
-                [1, "desc"]
-            ]
-        });
-    } 
-
-    // gallery table
-    if ($("#table-gallery").length > 0) {
-        $("#table-gallery").DataTable({
-            "ajax": $.fn.dataTable.pipeline( {
-                url: '/admin/blog/gallery/ajaxgalleries',
-                pages: 5 // number of pages to cache
-            } ),
-            "processing": true,
-            "serverSide": true,
-            "stateSave":true,
-            "columns": [
-                { "data": "title" },
-                { "data": "author" },
-                { "data": "published_date" },
-                { "data": "id" },
-            ],
-            "columnDefs": [ {
-                    "targets": -1,
-                    "data": 'id',
-                    "render": function ( data, type, row ) {
-                        return '<a href="/admin/blog/gallery/'+row.id+'/view">Edit</a> | <a onclick="return confirm(\'Delete gallery?\');" href="/admin/blog/gallery/'+row.id+'/remove">Hapus</a>';
-                    }
-                },
-                    {
-                    "targets": 0,
-                    "data": 'title',
-                    "render": function ( data, type, row ) {
-                        return '<a href="/admin/blog/gallery/'+row.id+'/view">'+data+'</a>';
-                    }
+            },
+                {
+                "targets": 0,
+                "data": 'name',
+                "render": function ( data, type, row ) {
+                    return '<a href="/admin/blog/'+row.id+'/view">'+data+'</a>';
                 }
-            ],
-            order: [
-                [2, "desc"]
-            ]
-        });
-    }
+            }
+        ],
+        order: [
+            [0, "desc"],
+            [1, "desc"]
+        ]
+    });
+} 
 
-    // tag table
-    if ($("#GalleryTagTable").length > 0) {
-        $("#GalleryTagTable").DataTable({
-            "ajax": $.fn.dataTable.pipeline( {
-                url: '/admin/blog/tags/ajaxtags',
-                pages: 5 // number of pages to cache
-            } ),
-            "processing": true,
-            "serverSide": true,
-            "stateSave":true,
-            "columns": [
-                { "data": "name" },
-                { "data": "created_at" },
-                { "data": "id" },
-            ],
-            "columnDefs": [ {
-                    "targets": -1,
-                    "data": 'id',
-                    "render": function ( data, type, row ) {
-                        return '<a href="/admin/blog/tag/'+row.id+'/view">Edit</a> | <a onclick="return confirm(\'Delete Tag?\');" href="/admin/blog/tag/'+row.id+'/remove">Hapus</a>';
-                    }
-                },
-                    {
-                    "targets": 0,
-                    "data": 'title',
-                    "render": function ( data, type, row ) {
-                        return '<a href="/admin/blog/tag/'+row.id+'/view">'+data+'</a>';
-                    }
+// gallery table
+if ($("#table-gallery").length > 0) {
+    $("#table-gallery").DataTable({
+        "ajax": $.fn.dataTable.pipeline( {
+            url: '/admin/blog/gallery/ajaxgalleries',
+            pages: 5 // number of pages to cache
+        } ),
+        "processing": true,
+        "serverSide": true,
+        "stateSave":true,
+        "columns": [
+            { "data": "title" },
+            { "data": "author" },
+            { "data": "published_date" },
+            { "data": "id" },
+        ],
+        "columnDefs": [ {
+                "targets": -1,
+                "data": 'id',
+                "render": function ( data, type, row ) {
+                    return '<a href="/admin/blog/gallery/'+row.id+'/view">Edit</a> | <a onclick="return confirm(\'Delete gallery?\');" href="/admin/blog/gallery/'+row.id+'/remove">Hapus</a>';
                 }
-            ],
-            order: [
-                [0, "desc"],
-                [1, "desc"]
-            ]
-        });
-    }
+            },
+                {
+                "targets": 0,
+                "data": 'title',
+                "render": function ( data, type, row ) {
+                    return '<a href="/admin/blog/gallery/'+row.id+'/view">'+data+'</a>';
+                }
+            }
+        ],
+        order: [
+            [2, "desc"]
+        ]
+    });
+}
 
+// tag table
+if ($("#GalleryTagTable").length > 0) {
+    $("#GalleryTagTable").DataTable({
+        "ajax": $.fn.dataTable.pipeline( {
+            url: '/admin/blog/tags/ajaxtags',
+            pages: 5 // number of pages to cache
+        } ),
+        "processing": true,
+        "serverSide": true,
+        "stateSave":true,
+        "columns": [
+            { "data": "name" },
+            { "data": "created_at" },
+            { "data": "id" },
+        ],
+        "columnDefs": [ {
+                "targets": -1,
+                "data": 'id',
+                "render": function ( data, type, row ) {
+                    return '<a href="/admin/blog/tag/'+row.id+'/view">Edit</a> | <a onclick="return confirm(\'Delete Tag?\');" href="/admin/blog/tag/'+row.id+'/remove">Hapus</a>';
+                }
+            },
+                {
+                "targets": 0,
+                "data": 'title',
+                "render": function ( data, type, row ) {
+                    return '<a href="/admin/blog/tag/'+row.id+'/view">'+data+'</a>';
+                }
+            }
+        ],
+        order: [
+            [0, "desc"],
+            [1, "desc"]
+        ]
+    });
+}
 // END DATATABLES
-});
-
-function load_gallery_category(){
-    var id = $('meta[name="item-id"]').attr('content');
-    $.ajax({
-        type: "GET",
-        url: "/admin/blog/ajaxcategories",
-        success: function(msg){
-            var msg = msg.data, _el = '';
-            for(i=0;i<msg.length;i++){
-                _el += '<li><input name="categories" type="checkbox" value="'+msg[i].id+'"> '+msg[i].name+'</li>';
-            }
-            $('#gallery .category-wrap ul').html(_el);
-        },
-        error: function(err){
-            console.log(err);
-        }
-    });
-}
-
-function load_gallery_category_parent(){
-    var id = $('meta[name="category-id"]').attr('content');
-    $.ajax({
-        type: "GET",
-        url: "/admin/blog/ajaxcategories",
-        success: function(msg){
-            console.log(msg);
-            var msg = msg.data, _el = '<option></option>';
-            for(i=0;i<msg.length;i++){
-                _el += '<option value="'+msg[i].id+'">'+msg[i].name+'</option>';
-            }
-            $('#gallery #CategoryParent').html(_el);
-        },
-        error: function(err){
-            console.log(err);
-        }
-    });
-}
-
-if ($('#gallery .category-wrap').length > 0) {
-    // $('#gallery .category-wrap').ready(load_gallery_category());
-}
-
-if ($('#gallery .category-parent').length > 0) {
-    $('#gallery .category-parent').ready(load_gallery_category_parent());
-}
-
-// add category on post ajax function
-$('#gallery .add_category_button').on('click', function add_category(){
-    var n = $('input[name=category_name]').val();
-    var p = $('select[name=category_parent]').val();
-    if (n != '') {
-        $.ajax({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            type: "POST",
-            url: "/admin/blog/category/ajaxadd",
-            data: {'name':n, 'parent':p, 'catjax':'true'},
-            success: function(msg){
-                // console.log(msg);
-                $("#gallery-category ul").append(msg);
-            },
-            error: function(err){
-                console.log(err);
-            }
-        });
-
-        load_video_category();
-        // load_video_category_parent();
-        $('input[name=category_name]').val('');
-        $('select[name=category_parent]').removeAttr('selected');
-    } else {    
-        // do nothing
-    }
-});
 
 // gallery form
 // gallery table
