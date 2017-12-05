@@ -139,17 +139,17 @@
                     </div>
                 </div>
 
-                <div class="panel panel-default">
+                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
-                          Tag <a data-toggle="collapse" href="#gallery-tag"><i style="float: right;" class="fa fa-caret-down" aria-hidden="true"></i></a>
+                          Tag <a data-toggle="collapse" href="#post-tag"><i style="float: right;" class="fa fa-caret-down" aria-hidden="true"></i></a>
                         </h4>
                     </div>
-                    <div id="gallery-tag" class="panel-collapse collapse in">
+                    <div id="post-tag" class="panel-collapse collapse in">
                         <div class="panel-body form-group">
                             <select id="mytag" name="tags[]" class="mytag form-control" multiple>
                                 @foreach ($alltag as $tag)
-                                    <option {{ is_array(old('tags')) && in_array($tag->id, old('tags')) ? 'selected' : ''}} value="{{$tag->name}}" >{{$tag->name}}</option>
+                                    <option {{ is_array(old('selected_tag')) && in_array($tag->id, old('$selected_tag')) ? 'selected' : ''}} value="{{$tag->name}}" >{{$tag->name}}</option>
                                 @endforeach
                             </select>
                         </div>

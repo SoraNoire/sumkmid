@@ -144,7 +144,7 @@
                             <div class="form-group">
                                 <label class="control-label">Date Published</label>
                                 <div class="input-group input-append date datetimepicker">
-                                    <input class="form-control" size="16" type="text" value="{{ $published_date ?? '' }}" name="published_date" readonly>
+                                    <input class="form-control" size="16" type="text" value="immediately" name="published_date" readonly>
                                     <span class="input-group-addon"><i class="fa fa-calendar" aria-hidden="true"></i></span>
                                 </div>
                             </div>
@@ -163,7 +163,7 @@
                             <label class="control-label">All Category</label>
                             <div class="category-wrap">
                                 <ul>
-                                    {!! $list_category !!}
+                                    
                                 </ul>
                             </div>
                             <a data-toggle="collapse" data-target="#add_category" href="#add_category"><i class="fa fa-plus" aria-hidden="true"></i> Add Category</a>
@@ -176,6 +176,23 @@
                                 </div>
                                 <button class="btn btn-default add_category_button" type="button">Add New Category</button>
                             </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                          Tag <a data-toggle="collapse" href="#post-tag"><i style="float: right;" class="fa fa-caret-down" aria-hidden="true"></i></a>
+                        </h4>
+                    </div>
+                    <div id="post-tag" class="panel-collapse collapse in">
+                        <div class="panel-body form-group">
+                            <select id="mytag" name="tags[]" class="mytag form-control" multiple>
+                                @foreach ($alltag as $tag)
+                                    <option {{ is_array(old('selected_tag')) && in_array($tag->id, old('$selected_tag')) ? 'selected' : ''}} value="{{$tag->name}}" >{{$tag->name}}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                 </div>
