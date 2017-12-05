@@ -64,14 +64,12 @@ function show_event_detail(id) {
 }
 
 function show_event_sharer(id) {
-
 	if(window.outerWidth < 659){
 		$('#'+id).find('.share-socmed').fadeIn().css("display","inline-block");
 		$('.whiteOverlay').fadeIn();
 	}else{
 		$('#'+id).find('.share-socmed').fadeIn().css("display","inline-block");
 	}
-	
 }
 
 $('.whiteOverlay').click(function(){
@@ -79,6 +77,9 @@ $('.whiteOverlay').click(function(){
 	$('.share-socmed').fadeOut();
 });
 
+$('.closeAlert').click(function(){
+	$('.formAlert').slideUp();
+})
 // init Infinite Scroll
 $('.archive-list').infiniteScroll({
   path: '.pagination__next',

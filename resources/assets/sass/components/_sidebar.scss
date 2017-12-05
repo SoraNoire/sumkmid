@@ -1,0 +1,68 @@
+.sidebarVideo{
+    .sidebar{
+        margin-bottom: 29px;
+    }
+    .kategoriWidget{
+        h4{
+            font-size: 18px;
+            margin-bottom: 11px;
+        }
+        ul{
+            padding-left: 10px;
+            li{
+                a{
+                    text-decoration: none;
+                }
+                &:hover{
+                    a{
+                        color: #D13D1E;
+                    }
+                    &:before{
+                        border-left: 6px solid #D13D1E;
+                    }
+                }
+                list-style: none;
+                font-size: 16px;
+                margin-bottom: 10px;
+                &:before{
+                    width: 10px;
+                    height: 10px;
+                    position: absolute;
+                    left: 15px;
+                    margin-top: 5px;
+                    content: "";
+                    border-top: 6px solid transparent;
+                    border-bottom: 6px solid transparent;
+                    border-left: 6px solid #464646;
+                }
+            }
+        }
+    }
+    .searchVideo{
+        .searchBox{
+            background-color: #EEEEEE;
+            .inputWrap{
+                padding: 5px 10px;
+                border: 1px solid #C0C0C0;
+                position: relative;
+                input{
+                    width: calc(100% - 35px);
+                    border: none;
+                    background-color: transparent;
+                    font-size: 14px;
+                    outline: none;
+                }
+                button{
+                    outline: none;
+                    cursor: pointer;
+                    position: absolute;
+                    right: 2px;
+                    top: 7px;
+                    background-color: transparent;
+                    border: none;
+                    width: 27px;
+                }
+            }
+        }
+    }
+}

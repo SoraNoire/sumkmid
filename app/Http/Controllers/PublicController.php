@@ -98,6 +98,11 @@ class PublicController extends Controller
 		return view('page.userSetting')->with(['var' => $var]);
 	}
 
+	public function singleVideo(){
+		$var['page'] = "singleVideo";
+		return view('page.singleVideo')->with(['var' => $var]);
+	}
+
 	/**
      * Show event page.
      * @return Response
