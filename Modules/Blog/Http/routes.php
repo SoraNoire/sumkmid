@@ -7,6 +7,13 @@ Route::group(['middleware' => ['web','admin'], 'prefix' => 'admin/blog', 'namesp
     Route::get('/posts', 'BlogController@index');
     Route::get('/show/{slug}', 'BlogController@show_post');
 
+    Route::get('/trash', ['as'=> 'trash', 'uses' => 'BlogController@trash']); 
+    Route::get('/ajaxtrashposts', ['as'=> 'ajaxtrash', 'uses' => 'BlogController@ajaxtrashPosts']);
+    Route::get('/trash/{id}/delete', ['as'=> 'deletepostpermanent', 'uses' => 'BlogController@deleteTrash']);   
+    Route::get('/trash/{id}/restore', ['as'=> 'restorepost', 'uses' => 'BlogController@restoreTrash']); 
+    Route::post('/trash/massdelete', ['as'=> 'massdeletepostpermanent', 'uses' => 'BlogController@massdeleteTrash']);   
+    Route::post('/trash/massrestore', ['as'=> 'massrestorepost', 'uses' => 'BlogController@massrestoreTrash']);  
+    Route::get('/trash/empty', ['as'=> 'emptytrash', 'uses' => 'BlogController@emptyTrash']);  
 
     // Route::get('/get-posts', 'BlogController@get_posts');
     // Route::get('/create-post', 'BlogController@create_post');

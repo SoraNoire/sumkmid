@@ -495,7 +495,7 @@ $(document).ready(function() {
                     "targets": -1,
                     "data": 'id',
                     "render": function ( data, type, row ) {
-                        return '<a href="/admin/blog/category/'+row.id+'/view">Edit</a> | <a onclick="return confirm(\'Delete Category?\');" href="/admin/blog/category/'+row.id+'/remove">Delete</a>';
+                        return '<a href="/admin/blog/category/'+row.id+'/view">Edit</a> | <a onclick="return confirm(\'Delete Category?\');" href="/admin/blog/category/'+row.id+'/remove" style="color: #d9534f;">Delete</a>';
                     }
                 },
                     {
@@ -532,7 +532,7 @@ $(document).ready(function() {
                     "targets": -1,
                     "data": 'id',
                     "render": function ( data, type, row ) {
-                        return '<a href="/admin/blog/edit-category/'+row.id+'">Edit</a> | <a onclick="return confirm(\'Delete Category?\');" href="/admin/blog/delete-category/'+row.id+'">Delete</a>';
+                        return '<a href="/admin/blog/edit-category/'+row.id+'">Edit</a> | <a onclick="return confirm(\'Delete Category?\');" href="/admin/blog/delete-category/'+row.id+'" style="color: #d9534f;">Delete</a>';
                     }
                 },
                     {
@@ -570,7 +570,7 @@ $(document).ready(function() {
                     "targets": -1,
                     "data": 'id',
                     "render": function ( data, type, row ) {
-                        return '<a href="/admin/blog/post/'+row.id+'/view">Edit</a> | <a onclick="return confirm(\'Delete Post?\');" href="/admin/blog/post/'+row.id+'/remove">Hapus</a>';
+                        return '<a href="/admin/blog/post/'+row.id+'/view">Edit</a> | <a onclick="return confirm(\'Delete Post?\');" href="/admin/blog/post/'+row.id+'/remove" style="color: #d9534f;">Hapus</a>';
                     }
                 },
                     {
@@ -1084,6 +1084,37 @@ function delete_file(e){
         $('.dataTables_processing').hide();
     };
 };
+
+if ($("#posts-trash").length > 0) {
+    $("#posts-trash").DataTable({
+        "ajax": $.fn.dataTable.pipeline( {
+            url: '/admin/blog/ajaxtrashposts',
+            pages: 5 // number of pages to cache
+        } ),
+        "processing": true,
+        "serverSide": true,
+        "stateSave":true,
+        "columns": [
+            { "data": "title" },
+            { "data": "author" },
+            { "data": "post_type" },
+            { "data": "published_date" },
+            { "data": "id" },
+        ],
+        "columnDefs": [
+            {
+                "targets": 4,
+                "data": 'id',
+                "render": function ( data, type, row ) {
+                    return '<a href="/admin/blog/trash/'+data+'/restore">Restore</a> | <a onclick="return confirm(\'Delete Post?\');" href="/admin/blog/trash/'+data+'/delete" style="color: #d9534f;">Delete Permanently</a>';
+                }
+            }
+        ],
+        order: [
+            [3, "desc"]
+        ]
+    });
+}
 // DATATABLES CONFIG
 // video category table 
 if ($("#video #VideoCategoryTable").length > 0) {

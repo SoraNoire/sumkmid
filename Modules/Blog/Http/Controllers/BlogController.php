@@ -360,6 +360,44 @@ class BlogController extends Controller
     }
 
     /**
+     * Change post status delete to 1.
+     * @param $id
+     * @return Response
+     */
+    public function removePost($id)
+    {
+        $delete = Posts::find($id);
+        if ($delete){
+            $delete->deleted = 1;
+            $delete->save();
+            return redirect(route('posts'))->with(['msg' => 'Deleted', 'status' => 'success']);
+        }
+        return redirect(route('posts'))->with(['msg' => 'Delete error', 'status' => 'danger']);
+    }
+
+    /**
+     * Change multiple post status delete to 1.
+     * @param  Request $request
+     * @return Response
+     */
+    public function massdeletePost(Request $request)
+    {
+        $id = json_decode($request->id);
+        foreach ($id as $id) {
+            $delete = Posts::find($id);
+            if ($delete) {
+                $delete->deleted = 1;
+                if (!$delete->save()) {
+                    return redirect(route('posts'))->with(['msg' => 'Delete Error', 'status' => 'danger']);
+                }
+            } else {
+                return redirect(route('posts'))->with(['msg' => 'Delete Error. Page Not Found', 'status' => 'danger']);
+            }
+        }
+        return redirect(route('posts'))->with(['msg' => 'Delete Success', 'status' => 'success']);
+    }
+
+    /**
      * Remove the specified post from storage.
      * @param $id
      * @return Response
@@ -1442,6 +1480,137 @@ class BlogController extends Controller
         return redirect(route('pages'))->with(['msg' => 'Delete Success', 'status' => 'success']);
     }
     // end page controller
+
+    // trash controller
+    /**
+     * Display list of deleted post.
+     * @param  Request $request
+     * @return Response
+     */
+    public function trash()
+    {
+        $page_meta_title = 'Trash';
+        return view('blog::admin.trash')->with(['page_meta_title' => $page_meta_title]);
+    }
+
+    /**
+     * Get posts for datatable(ajax).
+     * @param  Request $request
+     * @return Response
+     */
+    public function ajaxtrashPosts(Request $request)
+    {
+        $order = $request->order[0];
+        $col = $request->columns["{$order['column']}"]['data'] ?? 'created_at'; 
+        $direction = $order['dir'] ?? 'desc';
+        
+        $query = Posts::where('deleted',1)->orderBy($col,$direction);
+        $search = $request->search['value'];
+        if (isset($search)) {
+            $query = $query->where('title', 'like', '%'.$search.'%');   
+        }
+        $output['data'] = $query->get();
+        $output['recordsTotal'] = $query->count();
+        $output['recordsFiltered'] = $output['recordsTotal'];
+        $output['draw'] = intval($request->input('draw'));
+        $output['length'] = 10;
+
+        return $output;
+    }
+
+     /**
+     * Remove permanent multiple page from storage.
+     * @param  Request $request
+     * @return Response
+     */
+    public function deleteTrash($id)
+    {
+        $delete = Posts::find($id);
+        if ($delete){  
+            $delete->delete();  
+            return redirect(route('trash'))->with(['msg' => 'Deleted', 'status' => 'success']);
+        }
+        return redirect(route('trash'))->with(['msg' => 'Delete error', 'status' => 'danger']);
+    }
+
+     /**
+     * Restore multiple page from storage.
+     * @param  Request $request
+     * @return Response
+     */
+    public function restoreTrash($id)
+    {
+        $post = Posts::find($id);
+        if ($post){  
+            $post->deleted = 0;
+            $post->save();  
+            return redirect(route('trash'))->with(['msg' => 'Restored', 'status' => 'success']);
+        }
+        return redirect(route('trash'))->with(['msg' => 'Restore Error', 'status' => 'danger']);
+    }
+
+     /**
+     * Remove permanent multiple post from storage.
+     * @param  Request $request
+     * @return Response
+     */
+    public function massdeleteTrash(Request $request)
+    {
+        $id = json_decode($request->id);
+        foreach ($id as $id) {
+            $delete = Posts::find($id);
+            if ($delete) {
+                if (!$delete->delete()) {
+                    return redirect(route('trash'))->with(['msg' => 'Delete Error', 'status' => 'danger']);
+                }
+            } else {
+                return redirect(route('trash'))->with(['msg' => 'Delete Error. Page Not Found', 'status' => 'danger']);
+            }
+        }
+        return redirect(route('trash'))->with(['msg' => 'Delete Success', 'status' => 'success']);
+    }
+
+     /**
+     * Restore multiple post from storage.
+     * @param  Request $request
+     * @return Response
+     */
+    public function massrestoreTrash(Request $request)
+    {
+        $id = json_decode($request->id);
+        foreach ($id as $id) {
+            $delete = Posts::find($id);
+            if ($delete) {
+                $delete->deleted = 0;
+                if (!$delete->save()) {
+                    return redirect(route('trash'))->with(['msg' => 'Restore Error', 'status' => 'danger']);
+                }
+            } else {
+                return redirect(route('trash'))->with(['msg' => 'Restore Error. Page Not Found', 'status' => 'danger']);
+            }
+        }
+        return redirect(route('trash'))->with(['msg' => 'Restore Success', 'status' => 'success']);
+    }
+
+    /**
+     * Empty trash.
+     * @return Response
+     */
+    public function emptyTrash()
+    {
+        $posts = Posts::where('deleted', 1)->get();
+        foreach ($posts as $post) {
+            if ($post) {
+                if (!$post->delete()) {
+                    return redirect(route('trash'))->with(['msg' => 'Delete Error', 'status' => 'danger']);
+                }
+            } else {
+                return redirect(route('trash'))->with(['msg' => 'Delete Error. Page Not Found', 'status' => 'danger']);
+            }
+        }
+        return redirect(route('trash'))->with(['msg' => 'ResDeletetore Success', 'status' => 'success']);
+    }
+    // end trash controller
 
     /**
      * Get all category parent to select category parent.
