@@ -84,7 +84,7 @@ class PostHelper
             $allcategory .= '<li><label><input '.$selected.' name="categories[]" type="checkbox" value="'.$main->id.'">'.$main->name.'</label><ul>';
             $subcategory = Categories::where('parent', $main->id)->get(); 
             foreach ($subcategory as $sub) {
-                $selected = in_array($sub->id, $selected_cat) ? 'selected' : '';
+                $selected = in_array($sub->id, $selected_cat) ? 'checked' : '';
                 $allcategory .= '<li><label><input '.$selected.' name="categories[]" type="checkbox" value="'.$sub->id.'">'.$sub->name.'</label></li>';
             }
             $allcategory .= '</ul></li>';
@@ -122,14 +122,15 @@ class PostHelper
      * @return Response
      */
     public static function get_post_tag($post_id, $select = '' ){
-        $PostTag = json_decode(PostTag::where('post_id', $post_id)->first()->tag_id ?? '');
+        $PostTag = PostMeta::where('post_id', $post_id)->where('key','tags')->first();
+        $selected_tag_id = json_decode($PostTag->value, true);
         $tag = array();
-        if (count($PostTag) > 0) {
-            foreach ($PostTag as $PostTag) {
+        if (count($selected_tag_id) > 0) {
+            foreach ($selected_tag_id as $tag_id) {
                 if ($select != '') {
-                    $get = Tag::where('id', $PostTag)->first()->$select;   
+                    $get = Tag::where('id', $tag_id)->first()->$select;   
                 } else {
-                    $get = Tag::where('id', $PostTag)->first();   
+                    $get = Tag::where('id', $tag_id)->first();   
                 }
                 $tag[] = $get;
             }

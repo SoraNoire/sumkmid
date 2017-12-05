@@ -120,7 +120,7 @@ class GalleryController extends Controller
         $meta_title =  $request->input('meta_title');
         $meta_desc =  $request->input('meta_desc');
         $meta_keyword =  $request->input('meta_keyword');
-        $categories = json_encode($request->get('categories') ?? [] );
+        $categories = json_encode($request->input('categories') ?? [] );
         $tag_input = $request->input('tags') ?? [];
         $gallery_images = json_encode($request->get('gallery_images') ?? [] );
 
@@ -216,16 +216,17 @@ class GalleryController extends Controller
 
             $images = Media::whereIn('id', $gallery_images)->get();
 
-            $alltag = Tags::get();
+            $alltag = Tags::orderBy('created_at','desc')->get();
             $media = Media::orderBy('created_at','desc')->get();
 
             $title = $gallery->title;
+            $content = $gallery->content;
             $item_id = $gallery->id;
             $status = $gallery->status;
             $published_date = $gallery->published_date;
             $featured_image = $gallery->featured_image;
 
-            return view('gallery::admin.gallery_edit')->with(['item_id' => $item_id, 'page_meta_title' => $page_meta_title, 'gallery' => $gallery, 'title' => $title, 'images' => $images, 'alltag' => $alltag, 'selected_tag' => $tags, 'media' => $media, 'meta_desc' => $meta_desc, 'meta_title' => $meta_title, 'meta_keyword' => $meta_keyword, 'status' => $status, 'published_date' => $published_date, 'featured_image' => $featured_image]);
+            return view('gallery::admin.gallery_edit')->with(['item_id' => $item_id, 'page_meta_title' => $page_meta_title, 'gallery' => $gallery, 'title' => $title, 'images' => $images, 'alltag' => $alltag, 'selected_tag' => $tags, 'media' => $media, 'meta_desc' => $meta_desc, 'meta_title' => $meta_title, 'meta_keyword' => $meta_keyword, 'status' => $status, 'published_date' => $published_date, 'featured_image' => $featured_image, 'content' => $content]);
         } else {
             return redirect(route('galleries'))->with(['msg' => 'gallery Not Found', 'status' => 'danger']);
         }
@@ -284,7 +285,8 @@ class GalleryController extends Controller
             } else {
                 $tags = null;
             }
-            $tags = json_encode($tags);
+            
+            $request->request->add(['tags'=>$tags]);
 
             $update = Posts::where('id', $id)->first();
             $update->title = $title;

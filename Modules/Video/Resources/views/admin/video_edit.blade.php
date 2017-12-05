@@ -101,10 +101,10 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
-                          Category <a data-toggle="collapse" href="#video-category"><i style="float: right;" class="fa fa-caret-down" aria-hidden="true"></i></a>
+                          Category <a data-toggle="collapse" href="#post-category"><i style="float: right;" class="fa fa-caret-down" aria-hidden="true"></i></a>
                         </h4>
                     </div>
-                    <div id="video-category" class="panel-collapse collapse in">
+                    <div id="post-category" class="panel-collapse collapse in">
                         <div class="panel-body form-group">
                             <label class="control-label">All Category</label>
                             <div class="category-wrap">
@@ -120,7 +120,7 @@
                                     <input type="text" name="category_name" class="form-control">
                                 </div>
                                 <div class="form-group">
-                                    <select id="CategoryParent" name="category_parent" class="form-control category-parent" style="width: 100%;"></select>
+                                    <select name="category_parent" class="form-control category-parent myselect2" style="width: 100%;"></select>
                                 </div>
                                 <button class="btn btn-default add_category_button" type="button">Add New Category</button>
                             </div>
