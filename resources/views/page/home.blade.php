@@ -34,7 +34,7 @@
 		        		Completely communicate granular processes whereas ethical ideas. Dynamically streamline high-payoff methodologies and resource-leveling process improvements. Collaboratively create wireless opportunities via high-quality convergence. 
 		        	</p>
 	        	</div>
-	        	<a href="#" class="button blue-shadow">Lihat Event</a>
+	        	<a href="{{ route('public_event') }}" class="button blue-shadow">Lihat Event</a>
 	        </div>
 	        <div class="col-7 right-content">
 	        	<div class="block-wraper">

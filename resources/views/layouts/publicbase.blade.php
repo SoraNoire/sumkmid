@@ -27,33 +27,33 @@
                         <div class="navWrapper">
 	                        <div class="burgerBtn"></div>
 	                        <ul>
-	                            <li class="{{ ($var['page'] == 'Event' ? 'active' : '') }}">
+	                            <li class="{{ ($var['page'] ?? '' == 'Event' ? 'active' : '') }}">
 	                                <a href="{{ route('public_event') }}">
 	                                    Event
 	                                </a>
 	                            </li>
-	                            <li class="{{ ($var['page'] == 'mentor' ? 'active' : '') }}">
+	                            <li class="{{ ($var['page'] ?? '' == 'mentor' ? 'active' : '') }}">
 	                                <a href="{{ route('public_mentor') }}">
 	                                    Mentor
 	                                </a>
 	                            </li>
-	                            <li class="{{ ($var['page'] == 'video' ? 'active' : '') }}">
+	                            <li class="{{ ($var['page'] ?? '' == 'video' ? 'active' : '') }}">
 	                                <a href="{{ route('public_video') }}">
 	                                    Video
 	                                </a>
 	                            </li>
-	                            <li class="{{ ($var['page'] == 'Ijin Usaha' ? 'active' : '') }}">
+	                            <li class="{{ ($var['page'] ?? '' == 'Ijin Usaha' ? 'active' : '') }}">
 	                                <a href="#">
-	                                    Ask Me Anything
+	                                    Tanya Jawab
 	                                </a>
 	                            </li>
-	                            <li class="{{ ($var['page'] == 'Kontak' ? 'active' : '') }}">
+	                            <li class="{{ ($var['page'] ?? '' == 'Kontak' ? 'active' : '') }}">
 	                                <a href="{{ route('public_kontak') }}">
 	                                    Kontak
 	                                </a>
 	                            </li>
 	                            <li class="loginButton">
-	                                <a href="#" class="button">
+	                                <a href="{{ route('login') }}" class="button">
 	                                    Masuk
 	                                </a>
 	                            </li>
@@ -96,27 +96,27 @@
  			</div>
  			<div class="footer-nav">
  				<ul>
-                    <li class="{{ ($var['page'] == 'Event' ? 'active' : '') }}">
+                    <li class="{{ ($var['page'] ?? '' == 'Event' ? 'active' : '') }}">
                         <a href="{{ route('public_event') }}">
                             Event
                         </a>
                     </li>
-                    <li class="{{ ($var['page'] == 'mentor' ? 'active' : '') }}">
+                    <li class="{{ ($var['page'] ?? '' == 'mentor' ? 'active' : '') }}">
                         <a href="{{ route('public_mentor') }}">
                             Mentor
                         </a>
                     </li>
-                    <li class="{{ ($var['page'] == 'video' ? 'active' : '') }}">
+                    <li class="{{ ($var['page'] ?? '' == 'video' ? 'active' : '') }}">
                         <a href="{{ route('public_video') }}">
                             Video
                         </a>
                     </li>
-                    <li class="{{ ($var['page'] == 'Ijin Usaha' ? 'active' : '') }}">
+                    <li class="{{ ($var['page'] ?? '' == 'Ijin Usaha' ? 'active' : '') }}">
                         <a href="#">
-                            Ask Me Anything
+                            Tanya Jawab
                         </a>
                     </li>
-                    <li class="{{ ($var['page'] == 'Kontak' ? 'active' : '') }}">
+                    <li class="{{ ($var['page'] ?? '' == 'Kontak' ? 'active' : '') }}">
                         <a href="{{ route('public_kontak') }}">
                             Kontak
                         </a>
