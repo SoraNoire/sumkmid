@@ -15,6 +15,7 @@ use Modules\Blog\Http\Helpers\PostHelper;
 use Modules\Blog\Entities\PostMeta;
 use Modules\Video\Entities\Video;
 use Carbon\Carbon;
+use Mail;
 
 class PublicController extends Controller
 {
@@ -91,15 +92,8 @@ class PublicController extends Controller
      */
 	public function mentor(){
 		$var['page'] = "Mentor";
-		$mentors = [
-			(object)	[
-				'name'=>'navi','role'=>'mentor','username'=>'navnavi'
-			],
-			(object)[
-				'name'=>'sarep','role'=>'mentor','username'=>'repsarep'
-			]
-			];
-		$var['mentors'] = (object)$mentors;
+		$user = new \App\Helpers\SSOHelper;
+		$var['mentors'] =  $user->mentors()->users;
 		
 		return view('page.mentor')->with(['var' => $var]);
 	}
@@ -145,12 +139,10 @@ class PublicController extends Controller
     				->where('status', 1)
         			->join('post_meta', 'posts.id', '=', 'post_meta.post_id')
         			->where('post_meta.key', '=', 'open_at')
-    				->orderby('published_date', 'desc')
+    				->orderby('value', 'desc')
     				->offset($offset)
     				->limit($limit)
     				->get();
-
-        dd($events);
 
         $newdata = array();
         foreach ($events as $data) {
@@ -197,7 +189,7 @@ class PublicController extends Controller
      */
 	public function video(){
 		$var['page'] = "Video";
-		$var['videos'] = DB::table('posts')->where('post_type','video')->orderBy('published_date','desc')->get();
+		$var['videos'] = DB::table('posts')->where('post_type','video')->orderBy('published_date','desc')->paginate(6);
 		return view('page.video')->with(['var' => $var]);
 	}
 	public function searchVideo(request $request){
@@ -214,5 +206,33 @@ class PublicController extends Controller
             $metas->{$value->key} = $value->value;
         }
         return $metas;
+    }
+
+    
+    /**
+     * Send email to contact service.
+     * @param  $req
+     * @return Response
+     */
+    public function messages_store_act(Request $req){
+        $name = $req->input('nama');
+        $email = $req->input('email');
+        $pesan = $req->input('pesan');
+
+        $data = array(
+            'name' => $name,
+            'email_from' => $email,
+            'pesan' => $pesan,
+        );
+
+        Mail::send('emails.contact', $data, function ($message) use ($data) {
+
+            $message->from($data['email_from'], $data['name']);
+            $message->to('fahmial51@gmail.com', 'info@sahabatumkm.id')->subject('Pesan dari form kontak sahabatumkm.id');
+
+        });
+
+        return redirect('kontak')->with("msg","Terimakasih sudah menghubungi kami. Pesan yang anda kirimkan akan di baca langsung oleh departement yang bersangkutan. Kami akan hubungi anda melalui Email atau Telpon. Terimakasih ");
+
     }
 }
