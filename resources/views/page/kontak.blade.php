@@ -22,12 +22,17 @@
 			</div>
 			<div class="col-6 contact-form">
 				<h3>Leave a message</h3>
-				<form action="" method="post">
+				@if(session('msg'))
+				<p>{{ session('msg') }}</p>
+				@else
+				<form action="{{ route('sendemailcontact') }}" method="post">
+                	<input type="hidden" name="_token" value="{{ csrf_token() }}">
 					<input type="text" name="nama" placeholder="nama">
 					<input type="email" name="email" placeholder="email">
 					<textarea name="pesan" placeholder="pesan"></textarea>
 					<button type="sumbit" class="button blue">Kirim</button>
 				</form>
+				@endif
 			</div>
 		</div>
 	</div>
