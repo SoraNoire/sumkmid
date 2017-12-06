@@ -74,6 +74,7 @@ class PublicController extends Controller
      */
 	public function home(){
         $var['page'] = "Home";
+		$var['videos'] = DB::table('posts')->where('post_type','video')->where('deleted',0)->orderBy('published_date','desc')->paginate(4);
 		return view('page.home')->with(['var' => $var]);
 	}
 

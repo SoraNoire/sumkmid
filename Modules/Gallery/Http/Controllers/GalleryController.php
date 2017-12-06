@@ -32,7 +32,6 @@ class GalleryController extends Controller
         $this->GalleryHelper = new GalleryHelper;
         $this->prefix = 'admin/blog/gallery/';
         View::share('prefix', $this->prefix);
-        View::share('body_id', 'gallery');
     }
     /**
      * Display a listing of gallery.
@@ -143,7 +142,7 @@ class GalleryController extends Controller
         }
 
         $published_date = $request->input('published_date');
-        if ($published_date = 'immediately') {
+        if ($published_date == 'immediately') {
             $published_date = Carbon::now()->toDateTimeString();
         }
 

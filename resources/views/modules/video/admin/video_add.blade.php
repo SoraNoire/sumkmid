@@ -43,6 +43,7 @@
                 <div class="form-group">
                     <label class="control-label">Url Video</label>
                     <input class="form-control" type="url" name="video_url" value="{{ old('video_url') }}" placeholder="Enter url video here" required="required">
+                    <small><b>Contoh</b> : https://www.youtube.com/<b>watch?v=</b>wlsdMpnDBn8 <b>ATAU</b> https://www.youtube.com/<b>embed/</b>wlsdMpnDBn8</small>
                 </div>
 
                 <div class="panel panel-default">

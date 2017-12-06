@@ -17,7 +17,9 @@
 	        </div>
 	        <div class="col-7 right-content">
 	        	<div class="video-wraper" style="background-image: url('/img/top-video-bg.png');">
-	        		<span class="play-button"><i class="fa fa-play fa-2x" aria-hidden="true"></i></span>
+	        		<a href="/video/what-we-do">
+	        			<img src="/img/play-button.png">
+	        		</a>
 	        	</div>
 	        </div>
 	    </div>
@@ -57,14 +59,14 @@
 	<div class="container">
 		<h3 class="section-title"><span>Kisah Sukses Pelaku</span> <span>UMKM</span></h3>
 		<div class="the-row">
-			@for ($i = 0; $i <=3; $i++)
+			@foreach ($var['videos'] as $video)
 			<div class="col-3">
-				<div class="video-wraper" style="background-image: url('/img/top-video-bg.png');">
-	        		<span class="play-button"><i class="fa fa-play fa-lg" aria-hidden="true"></i></span>
+				<div class="video-wraper" style="background-image: url('{{ $video->featured_image }}');">
+	        		<a href="{{route('public_video').'/'.$video->slug}}"><span class="play-button"><i class="fa fa-play fa-lg" aria-hidden="true"></i></span></a>
 	        	</div>
-				<div class="tilte">Sukses Usaha Konveksi Berkat Facebook</div>
+				<a href="{{route('public_video').'/'.$video->slug}}" class="tilte">{{ $video->title }}</a>
 			</div>
-			@endfor
+			@endforeach
 		</div>
 	</div>
 </section>

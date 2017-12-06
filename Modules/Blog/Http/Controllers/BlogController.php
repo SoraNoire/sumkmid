@@ -165,7 +165,7 @@ class BlogController extends Controller
         }
 
         $published_date = $request->input('published_date');
-        if ($published_date = 'immediately') {
+        if ($published_date == 'immediately') {
             $published_date = Carbon::now()->toDateTimeString();
         }
 
@@ -293,7 +293,7 @@ class BlogController extends Controller
         $post_metas = $this->readMetas($post_metas);
 
         $published_date = $request->input('published_date');
-        if ($published_date = 'immediately') {
+        if ($published_date == 'immediately') {
             $published_date = Carbon::now()->toDateTimeString();
         }
 
@@ -1310,7 +1310,7 @@ class BlogController extends Controller
         $meta_desc = $request->input('meta_desc');
         $meta_keyword = $request->input('meta_keyword');
 
-        if ($published_at = 'immediately') {
+        if ($published_at == 'immediately') {
             $published_at = Carbon::now()->toDateTimeString();
         }
 
@@ -1414,7 +1414,7 @@ class BlogController extends Controller
         $update->content = $request->input('content');
         $update->featured_image = $request->input('featured_image');
         $update->status = $request->input('status');
-        $update->published_date = Carbon::parse($request->input('published_at'))->toDateTimeString();
+        $update->published_date = Carbon::parse($request->input('published_date'))->toDateTimeString();
 
         if ( $update->update()) {
             $newMeta = false;
