@@ -57,7 +57,37 @@ class SSOHelper
         return false;
     }
 
+    /**
+     * retrieve users by id
+     *
+     * @return mixed
+     * @author 
+     **/
+    public function users($id='',$page=1)
+    {
 
+        $data = [];
+        $path = "/user?page=$page&id=$id";
+        $user = self::curl($path,$data);
+        return null !== $user->data ? $user->data : false;
+
+    }
+
+    /**
+     * retrieve mentors by id
+     *
+     * @return mixed
+     * @author 
+     **/
+    public static function mentors($id='',$page=1)
+    {
+
+        $data = [];
+        $path = "/mentor?page=$page&id=$id";
+        $user = self::curl($path,$data);
+        return null !== $user->data ? $user->data : false;
+
+    }
 
 
 
@@ -152,6 +182,8 @@ class SSOHelper
 
         return false;
     }
+
+
 
 
 
