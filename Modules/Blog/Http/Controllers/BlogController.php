@@ -25,6 +25,7 @@ use DB;
 use File;
 use Image;
 use View;
+use Validator;
 use Illuminate\Support\Facades\Input;
 
 
@@ -462,8 +463,9 @@ class BlogController extends Controller
      */
     public function store_file(Request $req){
         $this->validate($req, [
-            'fileUpload.*' => 'mimes:pdf,doc,docx,xlsx,xml,txt',
+            'fileUpload.*' => 'mimes:pdf,doc,dot,docx,xlsx,xml,ppt,ppa,pptx,ppsx,mdb,txt,zip,rar',
         ]);
+        
         if ($req->hasFile('fileUpload')) {
             try {
                 $file = $req->file('fileUpload');

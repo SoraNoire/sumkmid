@@ -410,11 +410,12 @@ $('#fileUpload').on('change', function add_file(e){
             data: fd,
             success: function(msg){
                 $(".filestable").DataTable().ajax.reload(null, false);
-                // console.log(msg);
+                // var obj = JSON.parse(msg);
+                console.log(msg);
             },
             error: function(err){
                 $(".filestable").DataTable().ajax.reload(null, false);
-                 // console.log(err);
+                alert('Invalid File Extension');
             },
             always: function(a){
                 $(".filestable").DataTable().ajax.reload(null, false);
