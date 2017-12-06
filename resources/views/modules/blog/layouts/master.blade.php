@@ -19,7 +19,7 @@
 
     <title>Blog - {{ $page_meta_title ?? ''}}</title>
 
-    <link href="{{ asset('css/app.css') }}?v=1.0.2" rel="stylesheet">
+    <link href="{{ asset('css/app.css') }}?v=1.1.0" rel="stylesheet">
 
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">
     <script src="https://use.fontawesome.com/0c0c4bc012.js"></script>
@@ -145,6 +145,6 @@
     @yield('modal')
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="{{ asset('js/index.js') }}?v=1.0.3" type="text/javascript"></script>
+    <script src="{{ asset('js/index.js') }}?v=1.1.0" type="text/javascript"></script>
   </body>
 </html>

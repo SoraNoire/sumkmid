@@ -12,10 +12,11 @@
 		<div class="archive-list">
 			<div class="infinite-scroll">
 			@foreach ($var['events'] as $event)
-			<div class="post event the-row {{ $event->open_at > Carbon::now() ? 'active' : '' }}" id="event-{{ $event->id }}">
+			<?php  $meta = PostHelper::get_post_meta($event->id); ?>
+			<div class="post event the-row {{ $meta['open_at'] > Carbon::now() ? 'active' : '' }}" id="event-{{ $event->id }}">
 				<div class="event-datetime col-3">
-					<span>{{ date('d F Y', strtotime($event->open_at)) }}</span>
-					<span>{{ date('H:i', strtotime($event->open_at)) }} WIB - {{ $event->closed_at != '' ? date('H:i', strtotime($event->closed_at)).' WIB' : 'till drop' }} </span>
+					<span>{{ date('d M Y', strtotime($meta['open_at'])) }}</span>
+					<span>{{ date('H:i', strtotime($meta['open_at'])) }} WIB - {{ $meta['closed_at'] != '' ? date('H:i', strtotime($meta['closed_at'])).' WIB' : 'till drop' }} </span>
 				</div>
 				<div class="event-timeline">
 					<div class="event-indicator"></div>
@@ -23,41 +24,39 @@
 				<div class="event-content col-9">
 					<div class="event-title">{{ $event->title }}</div>
 					<div class="event-datetime-mobile">
-							<span>{{ date('d F Y', strtotime($event->open_at)) }} |</span>
-							<span>{{ date('H:i', strtotime($event->open_at)) }} WIB - {{ $event->closed_at != '' ? date('H:i', strtotime($event->closed_at)).' WIB' : 'till drop' }} </span>
+							<span>{{ date('d M Y', strtotime($meta['open_at'])) }} |</span>
+							<span>{{ date('H:i', strtotime($meta['open_at'])) }} WIB - {{ $meta['closed_at'] != '' ? date('H:i', strtotime($meta['closed_at'])).' WIB' : 'till drop' }} </span>
 						</div>
 					<div class="event-desc">
 						{!! $event->content !!}
 					</div>
 					<div class="event-meta">
 						<table>
+							@if (count($meta['mentors']) > 0)
 							<tr class="mentor">
 								<td>Speaker :</td>
 								<td>
-									@if (count($event->mentors) > 0)
-										@foreach ($event->mentors as $mentor)
-											<p>- {{ $mentor }}</p>
-										@endforeach
-									@else 
-										<p>-</p>
-									@endif
+									@foreach ($meta['mentors'] as $mentor)
+										<p>- {{ $mentor }}</p>
+									@endforeach
 								</td>
 							</tr>
+							@endif
 
-							@if ($event->event_type == 'offline')
-							@if ($event->htm != '')
+							@if ($meta['event_type'] == 'offline')
+							@if ($meta['htm'] != '')
 							<tr class="htm">
 								<td>HTM :</td>
-								<td>Rp {{ number_format($event->htm) }}</td>
+								<td>Rp {{ number_format($meta['htm']) }}</td>
 							</tr>
 							@endif
 
 							<tr class="tempat">
 								<td>Tempat :</td>
 								<td>
-									<p>{{ $event->location }}</p>
-									@if ($event->gmaps_url != '')
-									<i class="fa fa-map-marker" aria-hidden="true">&nbsp;&nbsp;</i><a href="{{ $event->gmaps_url }}">view on google maps</a>
+									<p>{{ $meta['location'] }}</p>
+									@if ($meta['gmaps_url'] != '')
+									<i class="fa fa-map-marker" aria-hidden="true">&nbsp;&nbsp;</i><a href="{{ $meta['gmaps_url'] }}">view on google maps</a>
 									@endif
 								</td>
 							</tr>
@@ -66,7 +65,7 @@
 					</div>
 					<div class="lihat-detail button orange-shadow" onclick="show_event_detail('event-{{ $event->id }}')">Lihat Detail</div>
 					<div class="lihat-sedikit button orange-shadow" onclick="show_less_event_detail('event-{{ $event->id }}')">Sembunyikan Detail</div>
-					@if ($event->event_type == 'online')
+					@if ($meta['event_type'] == 'online')
 					<div class="event-buttons">
 						<a href="#" class="join-event button orange-shadow">Join</a>
 						<!-- <div class="share-event button blue blue-shadow" onclick="show_event_sharer('event-{{ $event->id }}')">Bagikan ke Teman</div>
