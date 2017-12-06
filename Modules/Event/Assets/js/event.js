@@ -49,7 +49,7 @@ if ($("#event-table").length > 0) {
         bSortable: true,
         "columns": [
             { "data": "title" },
-            { "data": "author" },
+            { "data": "author_name" },
             { "data": "published_date" },
             { "data": "id" },
         ],

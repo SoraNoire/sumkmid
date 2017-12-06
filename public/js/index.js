@@ -575,7 +575,7 @@ $(document).ready(function() {
             "stateSave":true,
             "columns": [
                 { "data": "title" },
-                { "data": "author" },
+                { "data": "author_name" },
                 { "data": "published_date" },
                 { "data": "id" },
             ],
@@ -718,7 +718,7 @@ $(document).ready(function() {
             "stateSave":true,
             "columns": [
                 { "data": "title" },
-                { "data": "author" },
+                { "data": "author_name" },
                 { "data": "published_date" },
                 { "data": "id" },
             ],
@@ -1109,7 +1109,7 @@ if ($("#posts-trash").length > 0) {
         "stateSave":true,
         "columns": [
             { "data": "title" },
-            { "data": "author" },
+            { "data": "author_name" },
             { "data": "post_type" },
             { "data": "published_date" },
             { "data": "id" },
@@ -1179,7 +1179,7 @@ if ($("#video #table-videos").length > 0) {
         bSortable: true,
         "columns": [
             { "data": "title" },
-            { "data": "author" },
+            { "data": "author_name" },
             { "data": "published_date" },
             { "data": "id" },
         ],
@@ -1293,7 +1293,7 @@ if ($("#event-table").length > 0) {
         bSortable: true,
         "columns": [
             { "data": "title" },
-            { "data": "author" },
+            { "data": "author_name" },
             { "data": "published_date" },
             { "data": "id" },
         ],
@@ -1408,7 +1408,7 @@ if ($("#table-gallery").length > 0) {
         "stateSave":true,
         "columns": [
             { "data": "title" },
-            { "data": "author" },
+            { "data": "author_name" },
             { "data": "published_date" },
             { "data": "id" },
         ],
