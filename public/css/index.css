@@ -2674,6 +2674,7 @@ footer .copyright {
 }
 
 .singleVideo .attachmentVideo {
+  display: none;
   border-top: solid 1px #474747;
   padding-top: 19px;
   margin-left: 30px;
@@ -2709,6 +2710,22 @@ footer .copyright {
   margin-right: 13px;
   display: inline-block;
   vertical-align: middle;
+}
+
+.singleVideo .singleNavPrev .nextVideo {
+  display: none !important;
+}
+
+.singleVideo .singleNavNext {
+  text-align: right;
+}
+
+.singleVideo .singleNavNext .prevVideo {
+  display: none !important;
+}
+
+.singleVideo .singleNavNext .nextVideo {
+  float: unset !important;
 }
 
 .singleVideo .videoNavigation {
