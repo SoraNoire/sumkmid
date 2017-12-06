@@ -11,6 +11,7 @@ use App\Helpers\SSOHelper as SSO;
 use App\Events;
 use DB;
 use Modules\Blog\Entities\Posts;
+use Modules\Blog\Http\Helpers\PostHelper;
 use Modules\Blog\Entities\PostMeta;
 use Modules\Video\Entities\Video;
 use Carbon\Carbon;
@@ -89,7 +90,17 @@ class PublicController extends Controller
      * @return Response
      */
 	public function mentor(){
-        $var['page'] = "Mentor";
+		$var['page'] = "Mentor";
+		$mentors = [
+			(object)	[
+				'name'=>'navi','role'=>'mentor','username'=>'navnavi'
+			],
+			(object)[
+				'name'=>'sarep','role'=>'mentor','username'=>'repsarep'
+			]
+			];
+		$var['mentors'] = (object)$mentors;
+		
 		return view('page.mentor')->with(['var' => $var]);
 	}
 
@@ -107,11 +118,14 @@ class PublicController extends Controller
 		$var['video'] = DB::table('posts')->where('slug',$slug)->first();
 		$postMetas = DB::table('post_meta')->where('post_id',$var['video']->id)->get();
 		$postMetas = $this->readMetas($postMetas);
-		
+		$var['tags'] = PostHelper::get_post_tag($var['video']->id);
+		$var['categories'] = PostHelper::get_post_category($var['video']->id);
+		$var['videoEmbed'] = $postMetas->video_url ?? [];
 
-		$var['tags'] = $postMetas->tags ?? '';
-		$var['categories'] = $postMetas->categories ?? '';
-
+		$nextVideo = DB::table('posts')->where('post_type','video')->orderBy('published_date','desc')->where('published_date','>',$var['video']->published_date)->limit(1)->get();
+		$prevVideo = DB::table('posts')->where('post_type','video')->orderBy('published_date','desc')->where('published_date','<',$var['video']->published_date)->limit(1)->get();
+		$var['nextVid'] = $nextVideo[0]->slug ?? '';
+		$var['prevVid'] = $prevVideo[0]->slug ?? '';
 		return view('page.singleVideo')->with(['var' => $var]);
 	}
 
