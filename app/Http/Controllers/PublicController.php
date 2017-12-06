@@ -12,14 +12,16 @@ use App\Events;
 use DB;
 use Modules\Blog\Entities\Posts;
 use Modules\Blog\Http\Helpers\PostHelper;
+use Modules\Blog\Entities\PostMeta;
 use Modules\Video\Entities\Video;
+use Carbon\Carbon;
 
 class PublicController extends Controller
 {
 
 	function __construct(Request $request)
 	{
-		
+		Carbon::setLocale('Indonesia');
 	}
 
 	public function login(Request $request)
@@ -133,15 +135,38 @@ class PublicController extends Controller
      */
 	public function event(){
         $var['page'] = "Event";
-        $paginate = 5;
-        $offset = $paginate - $paginate;
+        $limit = 5;
+        $offset = $limit - $limit;
         $next = 2;
 
-        $events = Posts::where('post_type','event')->orderby('published_date', 'desc')->offset($offset)->limit($paginate)->get();
+        $events = Posts::where('post_type','event')->where('deleted', 0)->where('status', 1)->orderby('published_date', 'desc')->offset($offset)->limit($limit)->get();
 
-        $max_post = count($events);
-        $max_per_page = $paginate;
-        $max_page = ceil($max_post/$paginate);
+        $newdata = array();
+        foreach ($events as $data) {
+            $post_metas = PostMeta::where('post_id',$data->id)->get();
+            $post_metas = $this->readMetas($post_metas);
+
+            $data->event_type	= $post_metas->event_type ?? '';
+            $data->event_url    = $post_metas->event_url ?? '';
+            $data->gmaps_url	= $post_metas->gmaps_url ?? '';
+            $data->location     = $post_metas->location ?? '';
+            $data->htm          = $post_metas->htm ?? '';
+            $data->open_at      = $post_metas->open_at ?? '';
+            $data->closed_at    = $post_metas->closed_at ?? '';
+            $data->meta_desc    = $post_metas->meta_desc ?? '';
+            $data->meta_title   = $post_metas->meta_title ?? '';
+            $data->meta_keyword = $post_metas->meta_keyword ?? '';
+            $data->mentors      = json_decode($post_metas->event_mentor ?? '') ?? [];
+
+            $newdata[] = $data;
+        }
+        $events = $newdata;
+        // foreach ($events[0]->mentors as $key) {
+        // 	var_dump($key);
+        // }
+        // die();
+        // dd($events[0]->mentors);
+
 		return view('page.event')->with(['var' => $var, 'events' => $events, 'next' => $next]);
 	}
 
@@ -151,15 +176,12 @@ class PublicController extends Controller
      */
 	public function event_archive($page){
         $var['page'] = "Event";
-        $paginate = 5;
-        $offset = ($page * $paginate) - $paginate;
+        $limit = 5;
+        $offset = ($page * $limit) - $limit;
         $next = $page + 1;
 
-        $events = Events::orderby('published_at', 'desc')->offset($offset)->limit($paginate)->get();
-        // dd($events);
-        $max_post = count($events);
-        $max_per_page = $paginate * $page;
-        $max_page = ceil($max_post/$paginate);
+        $events = Posts::where('post_type','event')->orderby('published_date', 'desc')->offset($offset)->limit($limit)->get();
+        
 		return view('page.event')->with(['var' => $var, 'events' => $events, 'next' => $next]);
 	}
 

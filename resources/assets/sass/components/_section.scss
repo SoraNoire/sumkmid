@@ -595,6 +595,18 @@
 		.event-content {
 			margin-bottom: 48px;
 
+			.event-desc {
+				height: 63px;
+				overflow: hidden;
+				display: -webkit-box;
+    			-webkit-line-clamp: 3;
+    			-webkit-box-orient: vertical;
+
+    			&.show {
+    				height: auto;
+    				display: block;
+    			}
+			}
 			.event-title {
 				font-size:	 21px;
 				margin-bottom: 10px;
@@ -617,12 +629,21 @@
 			.event-meta {
 				display: block;
 				margin-bottom: 10px;
-				.col-1{
-					width: max-content;
+				
+				table {
+					margin: unset;
 
-				}
-				.col-4{
-					width: max-content;
+					tr {
+						border: unset;
+
+						td{
+							vertical-align: top;
+
+							&:first-child {
+								width: 82px;
+							}
+						}
+					}
 				}
 				.mentor {
 					color: rgba(64, 64, 64, 0.87);
@@ -631,7 +652,12 @@
 						margin: unset;
 					}
 				}
+				.htm{
+					display: none;
+				}
 				.tempat {
+					display: none;
+
 					p {
 						margin-bottom: 5px;
 					}
@@ -650,9 +676,12 @@
 				@media screen and (max-width: 425px) {
 					margin-right: 10px;
 				}
+				&.lihat-sedikit {
+					display: none;
+				}
 			}
-			.lihat-detail {
-				margin-top: 11px;
+			.event-buttons {
+				display: none;
 			}
 			.share-socmed {
 				display: none;

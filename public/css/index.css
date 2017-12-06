@@ -2150,6 +2150,19 @@ footer .copyright {
   margin-bottom: 48px;
 }
 
+#event-archive .event .event-content .event-desc {
+  height: 63px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+#event-archive .event .event-content .event-desc.show {
+  height: auto;
+  display: block;
+}
+
 #event-archive .event .event-content .event-title {
   font-size: 21px;
   margin-bottom: 10px;
@@ -2176,16 +2189,20 @@ footer .copyright {
   margin-bottom: 10px;
 }
 
-#event-archive .event .event-content .event-meta .col-1 {
-  width: -webkit-max-content;
-  width: -moz-max-content;
-  width: max-content;
+#event-archive .event .event-content .event-meta table {
+  margin: unset;
 }
 
-#event-archive .event .event-content .event-meta .col-4 {
-  width: -webkit-max-content;
-  width: -moz-max-content;
-  width: max-content;
+#event-archive .event .event-content .event-meta table tr {
+  border: unset;
+}
+
+#event-archive .event .event-content .event-meta table tr td {
+  vertical-align: top;
+}
+
+#event-archive .event .event-content .event-meta table tr td:first-child {
+  width: 82px;
 }
 
 #event-archive .event .event-content .event-meta .mentor {
@@ -2195,6 +2212,14 @@ footer .copyright {
 
 #event-archive .event .event-content .event-meta .mentor p {
   margin: unset;
+}
+
+#event-archive .event .event-content .event-meta .htm {
+  display: none;
+}
+
+#event-archive .event .event-content .event-meta .tempat {
+  display: none;
 }
 
 #event-archive .event .event-content .event-meta .tempat p {
@@ -2221,8 +2246,12 @@ footer .copyright {
   }
 }
 
-#event-archive .event .event-content .lihat-detail {
-  margin-top: 11px;
+#event-archive .event .event-content .button.lihat-sedikit {
+  display: none;
+}
+
+#event-archive .event .event-content .event-buttons {
+  display: none;
 }
 
 #event-archive .event .event-content .share-socmed {
