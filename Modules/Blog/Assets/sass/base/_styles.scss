@@ -289,3 +289,9 @@ img {
   cursor: pointer;
   text-decoration: none;
 }
+
+.dataTables_wrapper {
+  .dataTables_processing {
+    top: 0% !important;
+  }
+}

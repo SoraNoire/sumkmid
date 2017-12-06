@@ -63,3 +63,15 @@ Route::get('/logout', function(){
 	\App\Helpers\SSOHelper::logout();
 	return Redirect::to('/');
 });
+
+Route::get('ssotestusers',function(){
+	$user = new App\Helpers\SSOHelper;
+	$u = $user->users('1,2,3,4,5,6,7,45,46,47');
+	return response(json_encode($u));
+});
+
+Route::get('ssotestmentors',function(){
+	$user = new App\Helpers\SSOHelper;
+	$u = $user->mentors();
+	return response(json_encode($u));
+});
