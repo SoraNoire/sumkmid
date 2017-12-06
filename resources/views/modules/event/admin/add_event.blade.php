@@ -3,7 +3,12 @@
 @section('content')
 <script> eventId = 0</script>
 <div class="col-md-12">
-    
+    @if ($errors->any())
+    <div class="alert alert-danger alert-dismissable ">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        There is some error. Please check again
+    </div>
+    @endif
     <h4 class="title">New events</h4>
 
     <form id="event-form" method="post" action="{{ route('storeevent') }}" accept-charset="UTF-8">
@@ -20,7 +25,7 @@
                     @if ($errors->has('title'))
                     <div class="has-error">
                         <span class="help-block">
-                            <strong>{{ $errors->first('title') }}</strong>
+                            <strong>This field is required</strong>
                         </span>
                     </div>
                     @endif
@@ -34,7 +39,7 @@
                     @if ($errors->has('description'))
                     <div class="has-error">
                         <span class="help-block">
-                            <strong>{{ $errors->first('description') }}</strong>
+                            <strong>This field is required</strong>
                         </span>
                     </div>
                     @endif
@@ -88,14 +93,21 @@
                                 <div class="col-md-6">
                                     <label class="control-label">Open at</label>
                                     <div class="input-group input-append date datetimepicker">
-                                        <input class="form-control" size="16" type="text" value="{{ old('open_at') }}" name="open_at" readonly>
+                                        <input class="form-control" size="16" type="text" value="{{ old('open_at') }}" name="open_at" readonly required>
                                         <span class="input-group-addon"><i class="fa fa-calendar" aria-hidden="true"></i></span>
                                     </div>
+                                    @if ($errors->has('open_at'))
+                                    <div class="has-error">
+                                        <span class="help-block">
+                                            <strong>This field is required</strong>
+                                        </span>
+                                    </div>
+                                    @endif
                                 </div>
                                 <div class="col-md-6">
                                     <label class="control-label">Closed at</label>
                                     <div class="input-group input-append date datetimepicker">
-                                        <input class="form-control" size="16" type="text" value="{{ old('closed_at') }}" name="closed_at" readonly>
+                                        <input class="form-control" size="16" type="text" value="{{ old('closed_at') }}" name="closed_at" readonly required="required">
                                         <span class="input-group-addon"><i class="fa fa-calendar" aria-hidden="true"></i></span>
                                     </div>
                                 </div>

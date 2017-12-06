@@ -130,7 +130,8 @@ class EventController extends Controller
     {
         $this->validate($request, [
             'title' => 'required',
-            'description' => 'required'
+            'description' => 'required',
+            'open_at' => 'required'
         ]);
 
         $title = $request->input('title');
@@ -295,7 +296,8 @@ class EventController extends Controller
     {
         $this->validate($request, [
             'title' => 'required',
-            'description' => 'required'
+            'description' => 'required',
+            'open_at' => 'required'
         ]);
         
         $title = $request->input('title');

@@ -3,6 +3,12 @@
 @section('content')
 <script> galleryId = {{$gallery->id ?? 0}}</script>
 <div class="col-md-12">
+    @if ($errors->any())
+    <div class="alert alert-danger alert-dismissable ">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        There is some error. Please check again
+    </div>
+    @endif
     <h4 class="title">Edit Gallery</h4>
 
     <form id="post-form" method="post" action="{{ route('updategallery',$gallery->id) }}" accept-charset="UTF-8">
@@ -33,6 +39,13 @@
                     </div>
                     <div id="gallery-images" class="panel-collapse collapse in">
                         <div class="panel-body">
+                            @if ($errors->has('gallery_images'))
+                            <div class="has-error">
+                                <span class="help-block">
+                                    <strong>You must select an image</strong>
+                                </span>
+                            </div>
+                            @endif
                              <a id="browse_media_post" data-toggle="modal" data-target="#myMedia" class="btn btn-round btn-fill btn-default" style="margin-bottom: 10px;">Browse Media</a>
 
                              <div id="selected-images" class="form-group">
@@ -51,11 +64,11 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label">Description Video</label>
+                    <label class="control-label">Description Gallery</label>
                     @if ($errors->has('content'))
                     <div class="has-error">
                         <span class="help-block">
-                            <strong>{{ $errors->first('content') }}</strong>
+                            <strong>This field is required</strong>
                         </span>
                     </div>
                     @endif
