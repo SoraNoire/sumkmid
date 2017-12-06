@@ -147,7 +147,7 @@ class VideoController extends Controller
         }
 
         $published_date = $request->input('published_date');
-        if ($published_date = 'immediately') {
+        if ($published_date == 'immediately') {
             $published_date = Carbon::now()->toDateTimeString();
         }
 
@@ -271,7 +271,7 @@ class VideoController extends Controller
         ]);
 
         $published_date = $request->input('published_date');
-        if ($published_date = 'immediately') {
+        if ($published_date == 'immediately') {
             $published_date = Carbon::now()->toDateTimeString();
         }
 
