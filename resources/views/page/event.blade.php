@@ -40,10 +40,12 @@
 							</tr>
 
 							@if ($event->event_type == 'offline')
+							@if ($event->htm != '')
 							<tr class="htm">
 								<td>HTM :</td>
 								<td>Rp {{ number_format($event->htm) }}</td>
 							</tr>
+							@endif
 
 							<tr class="tempat">
 								<td>Tempat :</td>
@@ -62,7 +64,7 @@
 					@if ($event->event_type == 'online')
 					<div class="event-buttons">
 						<a href="#" class="join-event button orange-shadow">Join</a>
-						<div class="share-event button blue blue-shadow" onclick="show_event_sharer('event-{{ $event->id }}')">Bagikan ke Teman</div>
+						<!-- <div class="share-event button blue blue-shadow" onclick="show_event_sharer('event-{{ $event->id }}')">Bagikan ke Teman</div>
 						<div class="share-socmed">
 							<ul>
 								<li>
@@ -75,7 +77,7 @@
 									<a href="#" class="button blue share-gplus"></a>
 								</li>
 							</ul>
-						</div>
+						</div> -->
 					</div>
 					@endif
 				</div>

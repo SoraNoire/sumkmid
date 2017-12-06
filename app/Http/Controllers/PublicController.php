@@ -132,7 +132,16 @@ class PublicController extends Controller
         $offset = $limit - $limit;
         $next = 2;
 
-        $events = Posts::where('post_type','event')->where('deleted', 0)->where('status', 1)->orderby('published_date', 'desc')->offset($offset)->limit($limit)->get();
+        $events = DB::table('posts')
+        			->where('post_type','event')
+    				->where('deleted', 0)
+    				->where('status', 1)
+        			->join('post_meta', 'posts.id', '=', 'post_meta.post_id')
+        			->where('post_meta.key', '=', 'open_at')
+    				->orderby('value', 'desc')
+    				->offset($offset)
+    				->limit($limit)
+    				->get();
 
         $newdata = array();
         foreach ($events as $data) {
@@ -154,11 +163,6 @@ class PublicController extends Controller
             $newdata[] = $data;
         }
         $events = $newdata;
-        // foreach ($events[0]->mentors as $key) {
-        // 	var_dump($key);
-        // }
-        // die();
-        // dd($events[0]->mentors);
 
 		return view('page.event')->with(['var' => $var, 'events' => $events, 'next' => $next]);
 	}
