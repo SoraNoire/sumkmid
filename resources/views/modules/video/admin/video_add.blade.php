@@ -3,6 +3,12 @@
 @section('content')
 <script> videoId = 0</script>
 <div class="col-md-12">
+    @if ($errors->any())
+    <div class="alert alert-danger alert-dismissable ">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        There is some error. Please check again
+    </div>
+    @endif
     <h4 class="title">New Videos</h4>
 
     <form id="post-form" method="post" action="{{ route('storevideo') }}" accept-charset="UTF-8">
@@ -27,7 +33,7 @@
                     @if ($errors->has('content'))
                     <div class="has-error">
                         <span class="help-block">
-                            <strong>{{ $errors->first('content') }}</strong>
+                            <strong>This field is required</strong>
                         </span>
                     </div>
                     @endif
@@ -122,7 +128,7 @@
                     </div>
                 </div>
 
-                 <div class="panel panel-default">
+                <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
                           Tag <a data-toggle="collapse" href="#post-tag"><i style="float: right;" class="fa fa-caret-down" aria-hidden="true"></i></a>
@@ -131,7 +137,7 @@
                     <div id="post-tag" class="panel-collapse collapse in">
                         <div class="panel-body form-group">
                             <select id="mytag" name="tags[]" class="mytag form-control" multiple>
-                                @foreach ($alltags as $tag)
+                                @foreach ($alltag as $tag)
                                     <option {{ is_array(old('selected_tag')) && in_array($tag->id, old('$selected_tag')) ? 'selected' : ''}} value="{{$tag->name}}" >{{$tag->name}}</option>
                                 @endforeach
                             </select>

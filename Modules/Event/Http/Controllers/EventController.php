@@ -26,6 +26,7 @@ use Modules\Blog\Entities\PostMeta;
 class EventController extends Controller
 {
     public function __construct(){
+        $this->user = new \App\Helpers\SSOHelper;
         $this->EventHelper = new EventHelper;
         $this->prefix = 'admin/blog/event/';
         View::share('prefix', $this->prefix);
@@ -86,6 +87,19 @@ class EventController extends Controller
             $query = $query->where('title', 'like', '%'.$search.'%');   
         }
         $output['data'] = $query->get();
+
+        $newdata = array();
+        $user = new \App\Helpers\SSOHelper;
+        foreach ($output['data'] as $data) {
+            $u= $user->users($data->author);
+            $name = $u->users[0]->username;
+            if ($name != '') {
+                $data->author_name = $name;
+            }
+            $newdata[] = $data;
+        }
+        $output['data'] = $newdata;
+        
         $output['recordsTotal'] = $query->count();
         $output['recordsFiltered'] = $output['recordsTotal'];
         $output['draw'] = intval($request->input('draw'));
@@ -101,8 +115,10 @@ class EventController extends Controller
     public function addEvent()
     {
         $page_meta_title = 'Events';
+        $u = $this->user->mentors();
+        $mentors = $u->users;
 
-        return view('event::admin.add_event')->with(['page_meta_title' => $page_meta_title]);
+        return view('event::admin.add_event')->with(['page_meta_title' => $page_meta_title, 'mentors' => $mentors]);
     }
 
     /**
@@ -114,7 +130,8 @@ class EventController extends Controller
     {
         $this->validate($request, [
             'title' => 'required',
-            'description' => 'required'
+            'description' => 'required',
+            'open_at' => 'required'
         ]);
 
         $title = $request->input('title');
@@ -135,7 +152,7 @@ class EventController extends Controller
         $open_at = $request->input('open_at');
         $closed_at = $request->input('closed_at');
         $published_date = $request->input('published_date');
-
+        
         $mentor = json_encode($mentor);
 
         if ($published_date == 'immediately') {
@@ -226,6 +243,8 @@ class EventController extends Controller
             $mentor_id      = json_decode($post_metas->mentor ?? '') ?? [];
             $gmaps_url      = $post_metas->gmaps_url ?? '';
 
+            $mentors = $this->user->mentors()->users;
+
             return view('event::admin.edit_event')->with(
                             [
                                 'gmaps_url' => $gmaps_url,
@@ -245,7 +264,8 @@ class EventController extends Controller
                                 'status' => $status,
                                 'published_date' => $published_date,
                                 'event_type' => $event_type,
-                                'mentor_id' => $mentor_id,
+                                'mentors' => $mentors,
+                                'selected_mentors' => $mentor_id,
                                 'location' => $location,
                                 'htm' => $htm,
                                 'open_at' => $open_at,
@@ -276,7 +296,8 @@ class EventController extends Controller
     {
         $this->validate($request, [
             'title' => 'required',
-            'description' => 'required'
+            'description' => 'required',
+            'open_at' => 'required'
         ]);
         
         $title = $request->input('title');

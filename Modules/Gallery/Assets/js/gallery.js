@@ -48,7 +48,7 @@ if ($("#table-gallery").length > 0) {
         "stateSave":true,
         "columns": [
             { "data": "title" },
-            { "data": "author" },
+            { "data": "author_name" },
             { "data": "published_date" },
             { "data": "id" },
         ],

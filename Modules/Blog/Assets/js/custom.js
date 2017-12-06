@@ -1,5 +1,6 @@
 mediaPath = 'https://s3-ap-southeast-1.amazonaws.com/mdirect/shbtm/media';
-filePath = 'https://s3-ap-southeast-1.amazonaws.com/mdirect/shbtmdev/files'
+filePath = 'https://s3-ap-southeast-1.amazonaws.com/mdirect/shbtmdev/files';
+var timeOutId;
 //
 // Pipelining function for DataTables. To be used to the `ajax` option of DataTables
 //
@@ -153,86 +154,98 @@ $("#close_file_post, .overlay").click(function() {
 // fungsi upload image
 $('#uploadmedia').on('change', function add_media(e){
     e.preventDefault();
+    timeOutId = setTimeout(ajaxFn, 1000, e);
+
     $('.dataTables_processing').show();
-    var fd = new FormData($("#actuploadmedia")[0]);
-    $.ajax({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        type: "POST",
-        url: "/admin/blog/store-media",
-        processData: false,
-        contentType: false,
-        data: fd,
-        success: function(msg){
+
+    function ajaxFn(e){
+        var fd = new FormData($("#actuploadmedia")[0]);
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: "POST",
+            url: "/admin/blog/store-media",
+            processData: false,
+            contentType: false,
+            data: fd,
+            success: function(msg){
+                        $(".mediatable").DataTable().ajax.reload(null, false);
+                        console.log('add');
+            },
+            error: function(err){
                     $(".mediatable").DataTable().ajax.reload(null, false);
-                    console.log('add');
-        },
-        error: function(err){
-                $(".mediatable").DataTable().ajax.reload(null, false);
-                console.log(err);
-            }
-    });
-    $('.dataTables_processing').hide();
+                    console.log(err);
+                }
+        });
+        $('.dataTables_processing').hide();
+    };
 });
 
 $('#uploadfimg').on('change', function add_media(e){
     e.preventDefault();
+    timeOutId = setTimeout(ajaxFn, 1000, e);
     $('.dataTables_processing').show();
-    var fd = new FormData($("#actuploadfimg")[0]);
-    $.ajax({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        type: "POST",
-        url: "/admin/blog/store-media",
-        processData: false,
-        contentType: false,
-        data: fd,
-        success: function(msg){
+
+    function ajaxFn(e){
+        var fd = new FormData($("#actuploadfimg")[0]);
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: "POST",
+            url: "/admin/blog/store-media",
+            processData: false,
+            contentType: false,
+            data: fd,
+            success: function(msg){
+                        $(".mediatable").DataTable().ajax.reload(null, false);
+                        console.log(msg);
+            },
+            error: function(err){
                     $(".mediatable").DataTable().ajax.reload(null, false);
-                    console.log(msg);
-        },
-        error: function(err){
-                $(".mediatable").DataTable().ajax.reload(null, false);
-                console.log(err);
-            }
-    });
-    $('.dataTables_processing').hide();
+                    console.log(err);
+                }
+        });
+        $('.dataTables_processing').hide();
+    };
 });
 
 // fungsi upload file
 $('#fileUpload').on('change', function add_file(e){
     e.preventDefault();
+    timeOutId = setTimeout(ajaxFn, 1000, e);
     $('.dataTables_processing').show();
-    var fd = new FormData($("#fileupload-form")[0]);
-    $.ajax({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        type: "POST",
-        url: "/admin/blog/store-file",
-        processData: false,
-        contentType: false,
-        data: fd,
-        success: function(msg){
-            $(".filestable").DataTable().ajax.reload(null, false);
-            // console.log(msg);
-        },
-        error: function(err){
-            $(".filestable").DataTable().ajax.reload(null, false);
-             // console.log(err);
-        },
-        always: function(a){
-            $(".filestable").DataTable().ajax.reload(null, false);
-            // console.log(a);
-        }
-    });
-    $('.dataTables_processing').hide();
+
+    function ajaxFn(e){
+        var fd = new FormData($("#fileupload-form")[0]);
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: "POST",
+            url: "/admin/blog/store-file",
+            processData: false,
+            contentType: false,
+            data: fd,
+            success: function(msg){
+                $(".filestable").DataTable().ajax.reload(null, false);
+                // var obj = JSON.parse(msg);
+                console.log(msg);
+            },
+            error: function(err){
+                $(".filestable").DataTable().ajax.reload(null, false);
+                alert('Invalid File Extension');
+            },
+            always: function(a){
+                $(".filestable").DataTable().ajax.reload(null, false);
+                // console.log(a);
+            }
+        });
+        $('.dataTables_processing').hide();
+    }
 });
 
-
-var timeOutId;
 function delete_media(e){
     timeOutId = setTimeout(ajaxFn, 2000, e);
 
@@ -382,7 +395,7 @@ $(document).ready(function() {
             "stateSave":true,
             "columns": [
                 { "data": "title" },
-                { "data": "author" },
+                { "data": "author_name" },
                 { "data": "published_date" },
                 { "data": "id" },
             ],
@@ -525,7 +538,7 @@ $(document).ready(function() {
             "stateSave":true,
             "columns": [
                 { "data": "title" },
-                { "data": "author" },
+                { "data": "author_name" },
                 { "data": "published_date" },
                 { "data": "id" },
             ],
@@ -916,7 +929,7 @@ if ($("#posts-trash").length > 0) {
         "stateSave":true,
         "columns": [
             { "data": "title" },
-            { "data": "author" },
+            { "data": "author_name" },
             { "data": "post_type" },
             { "data": "published_date" },
             { "data": "id" },

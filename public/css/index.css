@@ -1176,6 +1176,7 @@ template,
   padding: 0;
   margin: 0;
   float: right;
+  display: block;
 }
 
 @media screen and (max-width: 830px) {
@@ -1204,6 +1205,10 @@ template,
   font-size: 18px;
   color: #fff;
   text-decoration: none;
+}
+
+.navWrapper ul li a:hover {
+  text-decoration: underline;
 }
 
 .navWrapper ul .loginButton {
@@ -1561,7 +1566,7 @@ footer .copyright {
   }
 }
 
-@media screen and (max-width: 688px) {
+@media screen and (max-width: 750px) {
   #event .row {
     margin-left: -15px;
   }
@@ -1571,7 +1576,7 @@ footer .copyright {
   color: rgba(64, 64, 64, 0.87);
 }
 
-@media screen and (max-width: 688px) {
+@media screen and (max-width: 750px) {
   #event .left-content {
     width: calc(100% - 40px);
     float: left;
@@ -1590,12 +1595,6 @@ footer .copyright {
   }
 }
 
-@media screen and (max-width: 424px) {
-  #event .left-content {
-    margin-top: 0px;
-  }
-}
-
 #event .left-content .section-title {
   margin-bottom: 22px;
   margin-top: 32px;
@@ -1605,7 +1604,7 @@ footer .copyright {
   margin-bottom: 24px;
 }
 
-@media screen and (max-width: 688px) {
+@media screen and (max-width: 750px) {
   #event .right-content {
     width: calc(100% - 40px);
     float: left;
@@ -1617,12 +1616,6 @@ footer .copyright {
   }
 }
 
-@media screen and (max-width: 424px) {
-  #event .right-content {
-    display: none;
-  }
-}
-
 #event .right-content .block-wraper {
   width: 406px;
   height: 357px;
@@ -1630,7 +1623,22 @@ footer .copyright {
   border-right: unset;
 }
 
-@media screen and (max-width: 688px) {
+@media screen and (max-width: 426px) {
+  #event .right-content .block-wraper {
+    width: 288px;
+    height: 340px;
+  }
+
+  #event .right-content .block-wraper .block {
+    width: 45% !important;
+  }
+
+  #event .right-content .block-wraper .block:nth-child(n+2) {
+    width: 53.57% !important;
+  }
+}
+
+@media screen and (max-width: 750px) {
   #event .right-content .block-wraper {
     margin: auto;
   }
@@ -1863,6 +1871,11 @@ footer .copyright {
 #video-archive {
   margin-top: 59px;
   margin-bottom: 49px;
+}
+
+#video-archive .container .row .resultSearchHeading {
+  margin-bottom: 30px;
+  margin-left: 15px;
 }
 
 @media screen and (max-width: 830px) {
@@ -2623,6 +2636,12 @@ footer .copyright {
   margin-bottom: 10px;
 }
 
+@media screen and (max-width: 768px) {
+  .singleVideo .videoHeading .container h3 {
+    font-size: 19px;
+  }
+}
+
 .singleVideo .videoHeading .container .postMeta .postCategory {
   display: inline-block;
   margin-right: 55px;
@@ -2634,6 +2653,19 @@ footer .copyright {
   margin-right: 9px;
 }
 
+.singleVideo .videoHeading .container .postMeta .postCategory span span {
+  margin-right: 0px;
+}
+
+.singleVideo .videoHeading .container .postMeta .postCategory span span:after {
+  content: ',';
+  color: #000000;
+}
+
+.singleVideo .videoHeading .container .postMeta .postCategory span span:last-child:after {
+  content: "";
+}
+
 .singleVideo .videoHeading .container .postMeta .postTag {
   display: inline-block;
 }
@@ -2642,6 +2674,19 @@ footer .copyright {
   display: inline-block;
   vertical-align: middle;
   margin-right: 9px;
+}
+
+.singleVideo .videoHeading .container .postMeta .postTag span span {
+  margin-right: 0px;
+}
+
+.singleVideo .videoHeading .container .postMeta .postTag span span:after {
+  content: ',';
+  color: #000000;
+}
+
+.singleVideo .videoHeading .container .postMeta .postTag span span:last-child:after {
+  content: "";
 }
 
 @media screen and (max-width: 400px) {
@@ -2662,6 +2707,17 @@ footer .copyright {
 .singleVideo .videoContainer {
   background-color: rgba(64, 64, 64, 0.87);
   overflow: hidden;
+}
+
+@media screen and (max-width: 970px) {
+  .singleVideo .videoContainer .container {
+    padding: unset;
+    width: 100%;
+  }
+
+  .singleVideo .videoContainer .container iframe {
+    width: 100%;
+  }
 }
 
 .singleVideo .videoContainer iframe {
@@ -2703,6 +2759,7 @@ footer .copyright {
 }
 
 .singleVideo .attachmentVideo {
+  display: none;
   border-top: solid 1px #474747;
   padding-top: 19px;
   margin-left: 30px;
@@ -2738,6 +2795,22 @@ footer .copyright {
   margin-right: 13px;
   display: inline-block;
   vertical-align: middle;
+}
+
+.singleVideo .singleNavPrev .nextVideo {
+  display: none !important;
+}
+
+.singleVideo .singleNavNext {
+  text-align: right;
+}
+
+.singleVideo .singleNavNext .prevVideo {
+  display: none !important;
+}
+
+.singleVideo .singleNavNext .nextVideo {
+  float: unset !important;
 }
 
 .singleVideo .videoNavigation {
