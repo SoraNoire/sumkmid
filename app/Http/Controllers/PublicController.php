@@ -88,7 +88,17 @@ class PublicController extends Controller
      * @return Response
      */
 	public function mentor(){
-        $var['page'] = "Mentor";
+		$var['page'] = "Mentor";
+		$mentors = [
+			(object)	[
+				'name'=>'navi','role'=>'mentor','username'=>'navnavi'
+			],
+			(object)[
+				'name'=>'sarep','role'=>'mentor','username'=>'repsarep'
+			]
+			];
+		$var['mentors'] = (object)$mentors;
+		
 		return view('page.mentor')->with(['var' => $var]);
 	}
 
