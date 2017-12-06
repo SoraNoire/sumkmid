@@ -128,23 +128,24 @@ class PublicController extends Controller
      */
 	public function event(){
         $var['page'] = "Event";
-        $limit = 5;
-        $offset = $limit - $limit;
-        $next = 2;
+        // $limit = 5;
+        // $offset = $limit - $limit;
+        // $next = 2;
 
-        $events = DB::table('posts')
+        $var['events'] = DB::table('posts')
         			->where('post_type','event')
     				->where('deleted', 0)
     				->where('status', 1)
         			->join('post_meta', 'posts.id', '=', 'post_meta.post_id')
         			->where('post_meta.key', '=', 'open_at')
     				->orderby('value', 'desc')
-    				->offset($offset)
-    				->limit($limit)
-    				->get();
+    				// ->offset($offset)
+    				// ->limit($limit)
+					// ->get();
+					->paginate(3);
 
         $newdata = array();
-        foreach ($events as $data) {
+        foreach ($var['events'] as $data) {
             $post_metas = PostMeta::where('post_id',$data->id)->get();
             $post_metas = $this->readMetas($post_metas);
 
@@ -164,7 +165,7 @@ class PublicController extends Controller
         }
         $events = $newdata;
 
-		return view('page.event')->with(['var' => $var, 'events' => $events, 'next' => $next]);
+		return view('page.event')->with(['var' => $var]);
 	}
 
 	/**
@@ -188,7 +189,7 @@ class PublicController extends Controller
      */
 	public function video(){
 		$var['page'] = "Video";
-		$var['videos'] = DB::table('posts')->where('post_type','video')->orderBy('published_date','desc')->paginate(6);
+		$var['videos'] = DB::table('posts')->where('post_type','video')->where('deleted',0)->orderBy('published_date','desc')->paginate(6);
 		return view('page.video')->with(['var' => $var]);
 	}
 	public function searchVideo(request $request){

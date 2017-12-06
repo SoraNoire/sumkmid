@@ -10,7 +10,8 @@
 <div id="event-archive">
 	<div class="container">
 		<div class="archive-list">
-			@foreach ($events as $event)
+			<div class="infinite-scroll">
+			@foreach ($var['events'] as $event)
 			<div class="post event the-row {{ $event->open_at > Carbon::now() ? 'active' : '' }}" id="event-{{ $event->id }}">
 				<div class="event-datetime col-3">
 					<span>{{ date('d F Y', strtotime($event->open_at)) }}</span>
@@ -21,6 +22,10 @@
 				</div>
 				<div class="event-content col-9">
 					<div class="event-title">{{ $event->title }}</div>
+					<div class="event-datetime-mobile">
+							<span>{{ date('d F Y', strtotime($event->open_at)) }} |</span>
+							<span>{{ date('H:i', strtotime($event->open_at)) }} WIB - {{ $event->closed_at != '' ? date('H:i', strtotime($event->closed_at)).' WIB' : 'till drop' }} </span>
+						</div>
 					<div class="event-desc">
 						{!! $event->content !!}
 					</div>
@@ -83,27 +88,25 @@
 				</div>
 			</div>
 			@endforeach
+			{{ $var['events']->links() }}
+			</div>
 		</div>
 
 		<!-- status elements -->
-		<div class="scroller-status">
+		<div class="scroller-status ">
 		  	<div class="event the-row">
 				<div class="col-3"></div>
 				<div class="event-timeline">
 					<div class="event-indicator"></div>
 				</div>
 				<div class="col-9 infinity-scroll-message">
-					<span class="infinite-scroll-request"><img src="/img/infinity-load.svg"> Memuat Event</span>
-					<span class="infinite-scroll-last">Tidak Ada Event Lagi</span>
-					<span class="infinite-scroll-error">Tidak Ada Event Lagi</span>
+					<div class="loadingItems">
+						<span class="infinite-scroll-request"><img src="/img/infinity-load.svg"></span>
+						<span class="infinite-scroll-last">Tidak Ada Event Lagi</span>
+					</div>
 				</div>
 		  	</div>
 		</div>
-
-		<!-- pagination has path -->
-		<p class="pagination">
-		  	<a class="pagination__next" href="{{ url('/event/page/'.$next) }}">Next page</a>
-		</p>
 	</div>
 </div>
 

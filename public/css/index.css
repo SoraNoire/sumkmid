@@ -1870,12 +1870,11 @@ footer .copyright {
 
 #video-archive {
   margin-top: 59px;
-  margin-bottom: 49px;
 }
 
 #video-archive .container .row .resultSearchHeading {
   margin-bottom: 30px;
-  margin-left: 15px;
+  margin-left: 13px;
 }
 
 #video-archive .container .row .cst-3-col {
@@ -1909,11 +1908,11 @@ footer .copyright {
   background-color: #d8d8d8;
   background-size: cover;
   background-repeat: no-repeat;
+  background-position: center;
   -webkit-box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.3);
           box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.3);
   position: relative;
   margin-bottom: 20px;
-  margin-right: 20px;
 }
 
 #video-archive .item:nth-child(3n) {
@@ -2150,7 +2149,7 @@ footer .copyright {
 #event-archive .event .event-timeline {
   width: 8px;
   background-color: #404040;
-  margin-top: 7px;
+  margin-top: 0px;
   position: relative;
 }
 
@@ -2173,13 +2172,33 @@ footer .copyright {
   height: 63px;
   overflow: hidden;
   display: -webkit-box;
+  line-height: 18px;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
+  position: relative;
+}
+
+#event-archive .event .event-content .event-desc:after {
+  content: "";
+  width: 100%;
+  height: 40px;
+  background: rgba(255, 255, 255, 0);
+  background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(255, 255, 255, 0)), color-stop(100%, white));
+  background: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0)), to(white));
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, white 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ffffff', GradientType=0 );
+  position: absolute;
+  bottom: 0;
+  left: 0;
 }
 
 #event-archive .event .event-content .event-desc.show {
   height: auto;
   display: block;
+}
+
+#event-archive .event .event-content .event-desc.show:after {
+  content: unset;
 }
 
 #event-archive .event .event-content .event-title {
@@ -2348,6 +2367,7 @@ footer .copyright {
 
 #event-archive .scroller-status {
   margin-top: -8px;
+  display: none;
 }
 
 @media screen and (max-width: 433px) {
@@ -2375,6 +2395,22 @@ footer .copyright {
 #event-archive .scroller-status .infinity-scroll-message span {
   margin-left: 10px;
   display: inline-block;
+}
+
+#event-archive .loading {
+  display: block;
+}
+
+#event-archive .end-of-page {
+  display: block;
+}
+
+#event-archive .end-of-page .event-timeline {
+  height: 10px;
+}
+
+.jscroll-added {
+  margin-top: -8px;
 }
 
 #questions {
@@ -2908,6 +2944,10 @@ footer .copyright {
   text-decoration: none;
   font-size: 16px;
   cursor: pointer;
+}
+
+.button:hover {
+  background-color: #a15114;
 }
 
 .button.blue {
