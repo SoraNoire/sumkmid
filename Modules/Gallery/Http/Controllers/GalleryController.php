@@ -32,6 +32,7 @@ class GalleryController extends Controller
         $this->GalleryHelper = new GalleryHelper;
         $this->prefix = 'admin/blog/gallery/';
         View::share('prefix', $this->prefix);
+        View::share('body_id', 'gallery');
     }
     /**
      * Display a listing of gallery.

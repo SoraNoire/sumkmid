@@ -30,6 +30,7 @@ class EventController extends Controller
         $this->EventHelper = new EventHelper;
         $this->prefix = 'admin/blog/event/';
         View::share('prefix', $this->prefix);
+        View::share('body_id', 'event');
     }
     /**
      * Display a listing of event.
