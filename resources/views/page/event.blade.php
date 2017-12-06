@@ -40,10 +40,12 @@
 							</tr>
 
 							@if ($event->event_type == 'offline')
+							@if ($event->htm != '')
 							<tr class="htm">
 								<td>HTM :</td>
 								<td>Rp {{ number_format($event->htm) }}</td>
 							</tr>
+							@endif
 
 							<tr class="tempat">
 								<td>Tempat :</td>
