@@ -145,12 +145,10 @@ class PublicController extends Controller
     				->where('status', 1)
         			->join('post_meta', 'posts.id', '=', 'post_meta.post_id')
         			->where('post_meta.key', '=', 'open_at')
-    				->orderby('published_date', 'desc')
+    				->orderby('value', 'desc')
     				->offset($offset)
     				->limit($limit)
     				->get();
-
-        dd($events);
 
         $newdata = array();
         foreach ($events as $data) {
