@@ -9,7 +9,8 @@
 </div>
 
 <div id="contact">
-	<div id="map"></div>
+	<div id="map">
+	</div>
 	<div class="container">
 		<div class="row">
 			<div class="col-6 contact-address">
@@ -38,4 +39,7 @@
 	</div>
 </div>
 
+<script>function initMap(){var e=-6.193724,n=106.817485,o={lat:e,lng:n},a=new google.maps.Map(document.getElementById("map"),{zoom:16,center:o});new google.maps.Marker({position:o,map:a})}</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAyE7KLJT2rPz-8N2Fi6Ump53yabrvNj5g&callback=initMap" async defer></script>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
 @endsection
