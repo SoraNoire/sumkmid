@@ -129,11 +129,13 @@
     <div class="trnsOverlay"></div>
     <div class="whiteOverlay"></div>
     <!-- end of footer -->
-    <script
+    <!-- <script
         src="https://code.jquery.com/jquery-3.2.1.min.js"
         integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-        crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/infinite-scroll@3/dist/infinite-scroll.pkgd.min.js"></script>
+        crossorigin="anonymous"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <!-- <script src="https://unpkg.com/infinite-scroll@3/dist/infinite-scroll.pkgd.min.js"></script> -->
+    <script src="{{asset('js/jscroll.js')}}"></script>
     <script src="{{ asset('js/home.js') }}?v=1.0.0"></script>
 
 </body>

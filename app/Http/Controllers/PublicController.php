@@ -91,15 +91,8 @@ class PublicController extends Controller
      */
 	public function mentor(){
 		$var['page'] = "Mentor";
-		$mentors = [
-			(object)	[
-				'name'=>'navi','role'=>'mentor','username'=>'navnavi'
-			],
-			(object)[
-				'name'=>'sarep','role'=>'mentor','username'=>'repsarep'
-			]
-			];
-		$var['mentors'] = (object)$mentors;
+		$user = new \App\Helpers\SSOHelper;
+		$var['mentors'] =  $user->mentors()->users;
 		
 		return view('page.mentor')->with(['var' => $var]);
 	}
@@ -191,7 +184,7 @@ class PublicController extends Controller
      */
 	public function video(){
 		$var['page'] = "Video";
-		$var['videos'] = DB::table('posts')->where('post_type','video')->orderBy('published_date','desc')->get();
+		$var['videos'] = DB::table('posts')->where('post_type','video')->orderBy('published_date','desc')->paginate(6);
 		return view('page.video')->with(['var' => $var]);
 	}
 	public function searchVideo(request $request){

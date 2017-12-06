@@ -355,14 +355,20 @@
 				margin-bottom: 30px;
 				margin-left: 15px;
 			}
+			.cst-3-col{
+				float: unset;
+				display: inline-block;
+			}
 			@media screen and (max-width: 830px) {
 				.cst-3-col{
 					@include grid-column(6);
+					float: unset;
 				}
 			}
 			@media screen and (max-width: 500px) {
 				.cst-3-col{
 					@include grid-column(12);
+					float: unset;
 				}
 			}
 		}
@@ -462,7 +468,8 @@
     		width: 100%;
     		height: 112px;
     		border-radius: 5px;
-    		
+			background-size: cover;
+			background-position: top;
     		&:before {
     			content: '';
     			position: absolute;
