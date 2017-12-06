@@ -18,6 +18,7 @@
 		<p class="resultSearchHeading">Hasil pencarian dari "{{$var['query']}}"</p>
 		@endif
 	@endif
+	<div class="infinite-scroll">
 	@foreach($var['videos'] as $video)
 		<div class="cst-3-col">
 			<div class="item" style="background-image: url('{{$video->featured_image}}');">
@@ -28,6 +29,12 @@
 			</div>
 		</div>
 	@endforeach
+	{{ $var['videos']->links() }}
+	</div>
+	<div class="loadingVideo">
+		<span class="infinite-scroll-request"><img src="/img/infinity-load.svg"></span>
+		<span class="infinite-scroll-last">Tidak Ada Event Lagi</span>
+	</div>
 	</div>
 </div>
 @endsection

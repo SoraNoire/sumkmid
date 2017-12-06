@@ -36,7 +36,6 @@ class VideoController extends Controller
         $this->VideoHelper = new VideoHelper;
         $this->prefix = 'admin/blog/video/';
         View::share('prefix', $this->prefix);
-        View::share('body_id', 'video');
     }
     /**
      * Display a listing of videos.
@@ -147,7 +146,7 @@ class VideoController extends Controller
         }
 
         $published_date = $request->input('published_date');
-        if ($published_date = 'immediately') {
+        if ($published_date == 'immediately') {
             $published_date = Carbon::now()->toDateTimeString();
         }
 
@@ -271,7 +270,7 @@ class VideoController extends Controller
         ]);
 
         $published_date = $request->input('published_date');
-        if ($published_date = 'immediately') {
+        if ($published_date == 'immediately') {
             $published_date = Carbon::now()->toDateTimeString();
         }
 
