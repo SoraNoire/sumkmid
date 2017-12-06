@@ -188,7 +188,6 @@ return [
         Webwizo\Shortcodes\ShortcodesServiceProvider::class,
         Modules\Blog\Providers\ShortcodesServiceProvider::class,
         App\Providers\SSOServiceProvider::class,
-        Casinelli\Currency\CurrencyServiceProvider::class,
 
     ],
 
@@ -242,7 +241,6 @@ return [
         'Image' => Intervention\Image\Facades\Image::class,
         'PostHelper' => Modules\Blog\Http\Helpers\PostHelper::class,
         'Shortcode' => Webwizo\Shortcodes\Facades\Shortcode::class,
-        'Currency' => Casinelli\Currency\Facades\Currency::class,
         'Carbon' => \Carbon\Carbon::class,
 
         // lara collective
