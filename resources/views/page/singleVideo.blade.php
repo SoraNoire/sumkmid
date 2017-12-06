@@ -91,8 +91,8 @@
 							<h4 class="sidebarDefaultHeading">Cari Video</h4>
 							<div class="searchBox">
 								<div class="inputWrap">
-									<form action="">
-										<input placeholder="Kata Kunci" type="text" name="searchVideo" id="">
+									<form action="{{ route('search_video','') }}" method="get">
+										<input placeholder="Kata Kunci" type="text" name="q" id="">
 										<button><span class="icon i-search"></span></button>
 									</form>
 								</div>

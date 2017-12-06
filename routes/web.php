@@ -42,6 +42,7 @@ Route::get('/kontak', 'PublicController@kontak')->name('public_kontak');
 Route::get('/event', 'PublicController@event')->name('public_event');
 Route::get('/video', 'PublicController@video')->name('public_video');
 Route::get('/user-setting', 'PublicController@userSetting')->name('user_setting');
+Route::get('/video/search', 'PublicController@searchVideo')->name('search_video');
 Route::get('/video/{slug}', 'PublicController@singleVideo')->name('single_video');
 
 Route::get('/mentor/page/{page}', 'PublicController@mentor_archive');

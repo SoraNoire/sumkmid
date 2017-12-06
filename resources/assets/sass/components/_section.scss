@@ -351,6 +351,10 @@
 	margin-bottom: 49px;
 	.container{
 		.row{
+			.resultSearchHeading{
+				margin-bottom: 30px;
+				margin-left: 15px;
+			}
 			@media screen and (max-width: 830px) {
 				.cst-3-col{
 					@include grid-column(6);
