@@ -32,7 +32,7 @@ Route::get('/cg', ['uses'=>function () {
 	    dd(Cookie::get());
 	}]);
 
-Route::get('login','PublicController@login');
+Route::get('login','PublicController@login')->name('login');
 Route::get('ssologin',['as'=>'ssologin','uses'=>'PublicController@ssoLogin']);
 
 

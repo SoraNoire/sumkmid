@@ -44,7 +44,7 @@
 	                            </li>
 	                            <li class="{{ ($var['page'] == 'Ijin Usaha' ? 'active' : '') }}">
 	                                <a href="#">
-	                                    Ask Me Anything
+	                                    Tanya Jawab
 	                                </a>
 	                            </li>
 	                            <li class="{{ ($var['page'] == 'Kontak' ? 'active' : '') }}">
@@ -53,7 +53,7 @@
 	                                </a>
 	                            </li>
 	                            <li class="loginButton">
-	                                <a href="#" class="button">
+	                                <a href="{{ route('login') }}" class="button">
 	                                    Masuk
 	                                </a>
 	                            </li>
@@ -113,7 +113,7 @@
                     </li>
                     <li class="{{ ($var['page'] == 'Ijin Usaha' ? 'active' : '') }}">
                         <a href="#">
-                            Ask Me Anything
+                            Tanya Jawab
                         </a>
                     </li>
                     <li class="{{ ($var['page'] == 'Kontak' ? 'active' : '') }}">
