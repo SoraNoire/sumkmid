@@ -12,7 +12,7 @@
 
     <link rel="icon" type="image/x-icon" href="{{ asset('img/logo-ico.png') }}">
     <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/index.css') }}?v=1.0.0">
+    <link rel="stylesheet" href="{{ asset('css/index.css') }}?v=1.1.0">
 </head>
 <body>
 	<!-- header -->
@@ -189,7 +189,7 @@
         });
     </script>
     @endif
-    <script src="{{ asset('js/home.js') }}?v=1.0.0"></script>
+    <script src="{{ asset('js/home.js') }}?v=1.1.0"></script>
 
 </body>
 </html>

@@ -394,5 +394,33 @@ class PostHelper
             return redirect(route('tags'))->with(['msg' => 'Tag Not Found', 'status' => 'danger'])->send();
         }
     }
+
+    public static function get_post_meta($id){
+        $post_metas = PostMeta::where('post_id',$id)->get();
+
+        $metas = new \stdClass;;
+        foreach ($post_metas as $key => $value) {
+            $metas->{$value->key} = $value->value;
+        }
+
+        // var_dump($metas);
+        // die();
+
+        $data = [];
+
+        $data['event_type']   = $metas->event_type ?? '';
+        $data['event_url']    = $metas->event_url ?? '';
+        $data['gmaps_url']    = $metas->gmaps_url ?? '';
+        $data['location']     = $metas->location ?? '';
+        $data['htm']          = $metas->htm ?? '';
+        $data['open_at']      = $metas->open_at ?? '';
+        $data['closed_at']    = $metas->closed_at ?? '';
+        $data['meta_desc']    = $metas->meta_desc ?? '';
+        $data['meta_title']   = $metas->meta_title ?? '';
+        $data['meta_keyword'] = $metas->meta_keyword ?? '';
+        $data['mentors']      = json_decode($metas->event_mentor ?? '') ?? [];
+
+        return $data;
+    }
 }
 ?>
