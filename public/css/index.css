@@ -1231,6 +1231,10 @@ template,
   }
 }
 
+.navWrapper ul .loginButton a:hover {
+  text-decoration: none;
+}
+
 .toggleMenu {
   display: none;
   background-color: #4C617D;
@@ -1992,6 +1996,12 @@ footer .copyright {
 #mentor-archive {
   margin-top: 59px;
   margin-bottom: 49px;
+}
+
+#mentor-archive .atEnd {
+  margin: 30px 0px 40px 0px;
+  text-align: center;
+  font-weight: 700;
 }
 
 @media screen and (max-width: 768px) {

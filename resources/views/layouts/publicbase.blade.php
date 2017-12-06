@@ -159,7 +159,25 @@
         $(function(){
         $('.infinite-scroll').jscroll({
             autoTrigger: true,
-            loadingHtml: '<div class="loadingVideo atEnd"> <span class="infinite-scroll-request"><img src="/img/infinity-load.svg"></span> <span class="infinite-scroll-last">Loading Video...</span> <span class="end-text">Tidak Ada Video Lagi</span> </div>',
+            loadingHtml: '<div class="loadingVideo atEnd"> <span class="infinite-scroll-request"><img src="/img/infinity-load.svg"></span> <span class="infinite-scroll-last">Loading Video...</span></div>',
+            padding: 0,
+            nextSelector: '.pagination li.active + li a',
+            contentSelector: 'div.infinite-scroll',
+            callback: function() {
+                $('ul.pagination').remove();
+                $('.atEnd').show();
+            }
+        });
+        });
+    </script>
+    @endif
+    @if($var['page'] == 'Mentor')
+    <script>
+        //Mentor
+        $(function(){
+        $('.infinite-scroll').jscroll({
+            autoTrigger: true,
+            loadingHtml: '<div class="loadingVideo"> <span class="infinite-scroll-request"><img src="/img/infinity-load.svg"></span> <span class="infinite-scroll-last">Memuat Mentor...</span> </div>',
             padding: 0,
             nextSelector: '.pagination li.active + li a',
             contentSelector: 'div.infinite-scroll',

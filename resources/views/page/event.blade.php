@@ -101,7 +101,6 @@
 				</div>
 				<div class="col-9 infinity-scroll-message">
 					<div class="loadingItems">
-						<span class="infinite-scroll-request"><img src="/img/infinity-load.svg"></span>
 						<span class="infinite-scroll-last">Tidak Ada Event Lagi</span>
 					</div>
 				</div>

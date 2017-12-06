@@ -969,6 +969,7 @@ $('.add_category_button').on('click', function add_category(){
         });
 
         load_post_category();
+        console.log('ss');
         load_post_category_parent();
         $('input[name=category_name]').val('');
         $('select[name=category_parent]').removeAttr('selected');
