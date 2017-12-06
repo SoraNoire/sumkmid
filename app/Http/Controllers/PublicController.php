@@ -134,12 +134,14 @@ class PublicController extends Controller
         // $offset = $limit - $limit;
         // $next = 2;
 
-        $var['events'] = DB::table('posts')
-        			->where('post_type','event')
-    				->where('deleted', 0)
-    				->where('status', 1)
-        			->join('post_meta', 'posts.id', '=', 'post_meta.post_id')
-        			->where('post_meta.key', '=', 'open_at')
+        $var['events'] = DB::table('post_meta')
+        			->where('key', '=', 'open_at')
+        			->join('posts', function ($join) {
+            			$join->on('post_meta.post_id', '=', 'posts.id')
+            				 ->where('posts.post_type','event')
+		    				 ->where('posts.deleted', 0)
+		    				 ->where('posts.status', 1);
+        			})
     				->orderby('value', 'desc')
     				// ->offset($offset)
     				// ->limit($limit)
@@ -165,7 +167,7 @@ class PublicController extends Controller
 
             $newdata[] = $data;
         }
-        $events = $newdata;
+        $var['events'] = $newdata;
 
 		return view('page.event')->with(['var' => $var]);
 	}
