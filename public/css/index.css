@@ -1176,6 +1176,7 @@ template,
   padding: 0;
   margin: 0;
   float: right;
+  display: block;
 }
 
 @media screen and (max-width: 830px) {
@@ -1204,6 +1205,10 @@ template,
   font-size: 18px;
   color: #fff;
   text-decoration: none;
+}
+
+.navWrapper ul li a:hover {
+  text-decoration: underline;
 }
 
 .navWrapper ul .loginButton {
@@ -1866,6 +1871,11 @@ footer .copyright {
 #video-archive {
   margin-top: 59px;
   margin-bottom: 49px;
+}
+
+#video-archive .container .row .resultSearchHeading {
+  margin-bottom: 30px;
+  margin-left: 15px;
 }
 
 @media screen and (max-width: 830px) {

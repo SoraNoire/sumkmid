@@ -85,6 +85,24 @@ function show_event_sharer(id) {
 	}
 }
 
+
+// $(document).bind('DOMSubtreeModified', function() {
+// 	if(window.outerWidth > 830){
+// 		// alert('aa');
+// 		// $('.navWrapper ul').show();
+// 	}
+// });
+
+window.onresize = function(){
+    
+    if (window.innerWidth > 830)
+    {
+        $('.navWrapper ul').show();
+    }else{
+		$('.navWrapper ul').hide();
+	}
+} 
+
 $('.whiteOverlay').click(function(){
 	$('.whiteOverlay').fadeOut();
 	$('.share-socmed').fadeOut();

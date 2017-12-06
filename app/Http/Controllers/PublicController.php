@@ -194,6 +194,13 @@ class PublicController extends Controller
 		$var['videos'] = DB::table('posts')->where('post_type','video')->orderBy('published_date','desc')->get();
 		return view('page.video')->with(['var' => $var]);
 	}
+	public function searchVideo(request $request){
+		$query = $request->input('q');
+		$var['page'] = "searchVideo";
+		$var['query'] = $query;
+		$var['videos'] = DB::table('posts')->where('post_type','video')->where('title','like','%'.$query.'%')->orderBy('published_date','desc')->get();
+		return view('page.video')->with(['var' => $var]);
+	}
 
 	function readMetas($arr=[]){
         $metas = new \stdClass;;
