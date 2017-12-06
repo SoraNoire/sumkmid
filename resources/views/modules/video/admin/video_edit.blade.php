@@ -15,7 +15,7 @@
         <a href="{{ route('addvideo') }}" class="btn btn-round btn-fill btn-info">
             New Video +<div class="ripple-container"></div>
         </a>
-        <a target="_blank" href="{{ route('showvideo',$video->slug) }}" class="btn btn-round btn-fill btn-info">
+        <a target="_blank" href="{{ route('single_video',$video->slug) }}" class="btn btn-round btn-fill btn-info">
             View Video<div class="ripple-container"></div>
         </a>
         <a onclick="return confirm('Delete video?');" href="{{route('removevideo',$video->id)}}" class="btn btn-round btn-fill btn-danger">
@@ -49,6 +49,7 @@
                 <div class="form-group">
                     <label class="control-label">Url Video</label>
                     <input class="form-control" type="url" name="video_url" value="{{ $video_url }}" placeholder="Enter url video here" required>
+                    <small><b>Contoh</b> : https://www.youtube.com/<b>watch?v=</b>wlsdMpnDBn8 <b>ATAU</b> https://www.youtube.com/<b>embed/</b>wlsdMpnDBn8</small>
                 </div>
 
                 <div class="panel panel-default">
