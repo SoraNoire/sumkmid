@@ -101,9 +101,8 @@ class EventController extends Controller
     public function addEvent()
     {
         $page_meta_title = 'Events';
-        $alltag = Tags::orderBy('created_at','desc')->get();
 
-        return view('event::admin.add_event')->with(['page_meta_title' => $page_meta_title, 'alltag' => $alltag]);
+        return view('event::admin.add_event')->with(['page_meta_title' => $page_meta_title]);
     }
 
     /**
@@ -123,7 +122,6 @@ class EventController extends Controller
         $description = $request->input('description');
         $featured_image = $request->input('featured_image');
         $event_type = $request->get('event_type');
-        $categories = $request->input('categories');
         $location = $request->input('location');
         $gmaps_url = $request->input('gmaps_url');
         $htm = $request->input('htm');
@@ -137,9 +135,7 @@ class EventController extends Controller
         $open_at = $request->input('open_at');
         $closed_at = $request->input('closed_at');
         $published_date = $request->input('published_date');
-        $tag_input = $request->input('tags') ?? [];
 
-        $categories = json_encode($categories);
         $mentor = json_encode($mentor);
 
         if ($published_date == 'immediately') {
@@ -153,29 +149,6 @@ class EventController extends Controller
 
         DB::beginTransaction();
         try {
-            if (isset($tag_input)) {
-                $tags = array();
-                foreach ($tag_input as $key) {
-                    $tag_slug = PostHelper::make_slug($key);
-                    $check = Tags::where('slug', $tag_slug)->first();
-                    if (!isset($check)) {
-                        // save tag to table tag
-                        $save_tag = new Tags;
-                        $save_tag->name = $key;
-                        $save_tag->slug = $tag_slug;
-                        $save_tag->save();
-                        $key = $save_tag->id;
-
-                    } else {
-                      $key = $check->id;
-                    }
-                    $tags[] = $key;
-                }
-            } else {
-                $tags = null;
-            }
-            $tags = json_encode($tags);
-
             $store = new Posts;
             $store->title = $title;
             $store->slug = $slug;
@@ -189,17 +162,15 @@ class EventController extends Controller
 
             $meta_contents = array();
             $metas[] = ['name' => 'event_type', 'value' => $event_type];
-            $metas[] = ['name' => 'event_location', 'value' => $location];
-            $metas[] = ['name' => 'event_htm', 'value' => $htm];
-            $metas[] = ['name' => 'event_open_at', 'value' => $open_at];
-            $metas[] = ['name' => 'event_closed_at', 'value' => $closed_at];
-            $metas[] = ['name' => 'event_mentor', 'value' => $mentor];
+            $metas[] = ['name' => 'location', 'value' => $location];
+            $metas[] = ['name' => 'htm', 'value' => $htm];
+            $metas[] = ['name' => 'open_at', 'value' => $open_at];
+            $metas[] = ['name' => 'closed_at', 'value' => $closed_at];
+            $metas[] = ['name' => 'mentor', 'value' => $mentor];
             $metas[] = ['name' => 'event_url', 'value' => $event_url];
             $metas[] = ['name' => 'meta_title', 'value' => $meta_title];
             $metas[] = ['name' => 'meta_desc', 'value' => $meta_desc];
             $metas[] = ['name' => 'meta_keyword', 'value' => $meta_keyword];
-            $metas[] = ['name' => 'categories', 'value' => $categories];
-            $metas[] = ['name' => 'tags', 'value' => $tags];
             $metas[] = ['name' => 'gmaps_url', 'value' => $gmaps_url];
             foreach ($metas as $meta) {
                 if ($meta['value'] != '') {
@@ -230,7 +201,6 @@ class EventController extends Controller
         $act = 'Edit';
         $action = $this->prefix.'update-event/'.$id;
         $event = Posts::where('id', $id)->first();
-        $alltag = Tags::orderBy('created_at','desc')->get();
         if (isset($event)) {
 
             $post_metas = PostMeta::where('post_id',$event->id)->get();
@@ -245,18 +215,16 @@ class EventController extends Controller
             $post_metas = $this->readMetas($post_metas);
 
             $event_type     = $post_metas->event_type ?? '';
-            $location       = $post_metas->event_location ?? '';
-            $htm            = $post_metas->event_htm ?? '';
-            $open_at        = $post_metas->event_open_at ?? '';
-            $closed_at      = $post_metas->event_closed_at ?? '';
+            $location       = $post_metas->location ?? '';
+            $htm            = $post_metas->htm ?? '';
+            $open_at        = $post_metas->open_at ?? '';
+            $closed_at      = $post_metas->closed_at ?? '';
             $event_url      = $post_metas->event_url ?? '';
             $meta_desc      = $post_metas->meta_desc ?? '';
             $meta_title     = $post_metas->meta_title ?? '';
             $meta_keyword   = $post_metas->meta_keyword ?? '';
-            $mentor_id      = json_decode($post_metas->event_mentor ?? '') ?? [];
-            $categories     = json_decode($post_metas->categories ?? '') ?? [];
-            $tags     = json_decode($post_metas->tags ?? '') ?? [];
-            $gmaps_url = $post_metas->gmaps_url ?? '';
+            $mentor_id      = json_decode($post_metas->mentor ?? '') ?? [];
+            $gmaps_url      = $post_metas->gmaps_url ?? '';
 
             return view('event::admin.edit_event')->with(
                             [
@@ -282,9 +250,7 @@ class EventController extends Controller
                                 'htm' => $htm,
                                 'open_at' => $open_at,
                                 'closed_at' => $closed_at,
-                                'selected_tag' => $tags,
                                 'event_url' => $event_url,
-                                'alltag' => $alltag
                             ]
                     );
         } else {
@@ -331,34 +297,9 @@ class EventController extends Controller
         // $open_at = $request->input('open_at');
         // $closed_at = $request->input('closed_at');
         $published_date = $request->input('published_date');
-        $tag_input = $request->input('tags') ?? [];
 
         DB::beginTransaction();
         try {
-            if (isset($tag_input)) {
-                $tags = array();
-                foreach ($tag_input as $key) {
-                    $tag_slug = PostHelper::make_slug($key);
-                    $check = Tags::where('slug', $tag_slug)->first();
-                    if (!isset($check)) {
-                        // save tag to table tag
-                        $save_tag = new Tags;
-                        $save_tag->name = $key;
-                        $save_tag->slug = $tag_slug;
-                        $save_tag->save();
-                        $key = $save_tag->id;
-
-                    } else {
-                      $key = $check->id;
-                    }
-                    $tags[] = $key;
-                }
-            } else {
-                $tags = null;
-            }
-
-            $request->request->add(['tags'=>$tags]);
-
             $post_metas = PostMeta::where('post_id',$id)->get();
             $update = Posts::where('id', $id)->first();
             $update->title = $title;
@@ -371,7 +312,7 @@ class EventController extends Controller
             {
                 $newMeta = false;
                 $post_metas = PostMeta::where('post_id',$id)->get();
-                $meta_fields = ['event_type', 'location', 'htm', 'open_at', 'closed_at', 'categories', 'forum_id', 'meta_title', 'meta_desc', 'meta_keyword', 'mentor', 'tags', 'gmaps_url' ];
+                $meta_fields = ['event_type', 'location', 'htm', 'open_at', 'closed_at', 'meta_title', 'meta_desc', 'meta_keyword', 'mentor', 'event_url', 'gmaps_url' ];
 
                 foreach ($meta_fields as $key => $meta) {
                     $updated = false;

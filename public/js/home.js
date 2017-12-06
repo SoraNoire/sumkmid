@@ -60,7 +60,20 @@ $('#myalert').on('click', 'a', function(e){
 
 function show_event_detail(id) {
 	$('#'+id).find('.lihat-detail').hide();
-	$('#'+id).find('.event-meta').fadeIn();
+	$('#'+id).find('.lihat-sedikit').css('display', 'inline-block');
+	$('#'+id).find('.tempat').show();
+	$('#'+id).find('.htm').show();
+	$('#'+id).find('.event-buttons').css('display', 'inline-block');
+	$('#'+id).find('.event-desc').addClass('show');
+}
+
+function show_less_event_detail(id) {
+	$('#'+id).find('.lihat-detail').show();
+	$('#'+id).find('.lihat-sedikit').hide();
+	$('#'+id).find('.tempat').hide();
+	$('#'+id).find('.htm').hide();
+	$('#'+id).find('.event-buttons').hide();
+	$('#'+id).find('.event-desc').removeClass('show');
 }
 
 function show_event_sharer(id) {
