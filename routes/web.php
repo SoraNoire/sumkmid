@@ -65,7 +65,7 @@ Route::get('/logout', function(){
 
 Route::get('ssotestusers',function(){
 	$user = new App\Helpers\SSOHelper;
-	$u = $user->users('1,2,3,4,5,6,7,45,46,47');
+	$u = $user->users('2');
 	return response(json_encode($u));
 });
 

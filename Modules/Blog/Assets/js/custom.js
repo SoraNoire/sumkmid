@@ -395,7 +395,7 @@ $(document).ready(function() {
             "stateSave":true,
             "columns": [
                 { "data": "title" },
-                { "data": "author" },
+                { "data": "author_name" },
                 { "data": "published_date" },
                 { "data": "id" },
             ],
@@ -538,7 +538,7 @@ $(document).ready(function() {
             "stateSave":true,
             "columns": [
                 { "data": "title" },
-                { "data": "author" },
+                { "data": "author_name" },
                 { "data": "published_date" },
                 { "data": "id" },
             ],
@@ -929,7 +929,7 @@ if ($("#posts-trash").length > 0) {
         "stateSave":true,
         "columns": [
             { "data": "title" },
-            { "data": "author" },
+            { "data": "author_name" },
             { "data": "post_type" },
             { "data": "published_date" },
             { "data": "id" },

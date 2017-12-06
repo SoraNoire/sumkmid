@@ -34,6 +34,7 @@ class BlogController extends Controller
     private $prefix;
 
     public function __construct(){
+        $this->user = new \App\Helpers\SSOHelper;
         $this->PostHelper = new PostHelper;
         $this->prefix = 'admin/blog/';
         View::share('prefix', $this->prefix);
@@ -101,6 +102,18 @@ class BlogController extends Controller
             $query = $query->where('title', 'like', '%'.$search.'%');   
         }
         $output['data'] = $query->get();
+
+        $newdata = array();
+        foreach ($output['data'] as $data) {
+            $u= $this->user->users($data->author);
+            $name = $u->users[0]->username;
+            if ($name != '') {
+                $data->author_name = $name;
+            }
+            $newdata[] = $data;
+        }
+        $output['data'] = $newdata;
+
         $output['recordsTotal'] = $query->count();
         $output['recordsFiltered'] = $output['recordsTotal'];
         $output['draw'] = intval($request->input('draw'));
@@ -1243,6 +1256,18 @@ class BlogController extends Controller
             $query = $query->where('title', 'like', '%'.$search.'%');   
         }
         $output['data'] = $query->get();
+
+        $newdata = array();
+        foreach ($events as $data) {
+            $u= $this->user->users($data->author);
+            $name = $u->users[0]->username;
+            if ($name != '') {
+                $data->author_name = $name;
+            }
+            $newdata[] = $data;
+        }
+        $output['data'] = $newdata;
+
         $output['recordsTotal'] = $query->count();
         $output['recordsFiltered'] = $output['recordsTotal'];
         $output['draw'] = intval($request->input('draw'));
@@ -1512,6 +1537,18 @@ class BlogController extends Controller
             $query = $query->where('title', 'like', '%'.$search.'%');   
         }
         $output['data'] = $query->get();
+
+        $newdata = array();
+        foreach ($output['data'] as $data) {
+            $u= $this->user->users($data->author);
+            $name = $u->users[0]->username;
+            if ($name != '') {
+                $data->author_name = $name;
+            }
+            $newdata[] = $data;
+        }
+        $output['data'] = $newdata;
+        
         $output['recordsTotal'] = $query->count();
         $output['recordsFiltered'] = $output['recordsTotal'];
         $output['draw'] = intval($request->input('draw'));

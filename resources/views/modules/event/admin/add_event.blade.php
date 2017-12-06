@@ -78,8 +78,10 @@
                             </div>
                             <div class="form-group">
                                <label class="control-label">Select Mentor</label>
-                                <select name="mentor" class="form-control mytag" multiple>
-                                   
+                                <select name="mentor[]" class="form-control myselect2" multiple>
+                                   @foreach ($mentors as $mentor)
+                                        <option value="{{ $mentor->id }}" {{ old('mentor') == $mentor->id ? 'selected' : '' }}>{{ $mentor->name }}</option>
+                                   @endforeach
                                 </select>
                             </div>
                             <div class="form-group row">
