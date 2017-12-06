@@ -125,6 +125,7 @@ class EventController extends Controller
         $event_type = $request->get('event_type');
         $categories = $request->input('categories');
         $location = $request->input('location');
+        $gmaps_url = $request->input('gmaps_url');
         $htm = $request->input('htm');
         $event_url = $request->input('event_url'); 
         $author = app()->SSO->Auth()->id;
@@ -199,6 +200,7 @@ class EventController extends Controller
             $metas[] = ['name' => 'meta_keyword', 'value' => $meta_keyword];
             $metas[] = ['name' => 'categories', 'value' => $categories];
             $metas[] = ['name' => 'tags', 'value' => $tags];
+            $metas[] = ['name' => 'gmaps_url', 'value' => $gmaps_url];
             foreach ($metas as $meta) {
                 if ($meta['value'] != '') {
                     $meta_contents[] = [ 'post_id'=>$store->id, 'key'=> $meta['name'], 'value'=> $meta['value'] ];
@@ -254,9 +256,11 @@ class EventController extends Controller
             $mentor_id      = json_decode($post_metas->event_mentor ?? '') ?? [];
             $categories     = json_decode($post_metas->categories ?? '') ?? [];
             $tags     = json_decode($post_metas->tags ?? '') ?? [];
+            $gmaps_url = $post_metas->gmaps_url ?? '';
 
             return view('event::admin.edit_event')->with(
                             [
+                                'gmaps_url' => $gmaps_url,
                                 'item_id' => $id,
                                 'id'=>$id,
                                 'page_meta_title' => $page_meta_title,
@@ -315,6 +319,7 @@ class EventController extends Controller
         // $event_type = $request->get('event_type');
         // $categories = json_encode($request->get('category'));
         $location = $request->input('location');
+        $gmaps_url = $request->input('gmaps_url');
         // $htm = $request->input('htm');
         // $forum_id = $request->input('forum_id');
         $mentor = $request->input('mentor');
@@ -366,7 +371,7 @@ class EventController extends Controller
             {
                 $newMeta = false;
                 $post_metas = PostMeta::where('post_id',$id)->get();
-                $meta_fields = ['event_type', 'location', 'htm', 'open_at', 'closed_at', 'categories', 'forum_id', 'meta_title', 'meta_desc', 'meta_keyword', 'mentor', 'tags' ];
+                $meta_fields = ['event_type', 'location', 'htm', 'open_at', 'closed_at', 'categories', 'forum_id', 'meta_title', 'meta_desc', 'meta_keyword', 'mentor', 'tags', 'gmaps_url' ];
 
                 foreach ($meta_fields as $key => $meta) {
                     $updated = false;
@@ -443,13 +448,13 @@ class EventController extends Controller
             if ($delete) {
                 $delete->deleted = 1;
                 if (!$delete->save()) {
-                    return redirect(route('pages'))->with(['msg' => 'Delete Error', 'status' => 'danger']);
+                    return redirect(route('events'))->with(['msg' => 'Delete Error', 'status' => 'danger']);
                 }
             } else {
-                return redirect(route('pages'))->with(['msg' => 'Delete Error. Event does not exists', 'status' => 'danger']);
+                return redirect(route('events'))->with(['msg' => 'Delete Error. Event does not exists', 'status' => 'danger']);
             }
         }
-        return redirect(route('pages'))->with(['msg' => 'Delete Success', 'status' => 'success']);
+        return redirect(route('events'))->with(['msg' => 'Delete Success', 'status' => 'success']);
     }
 
     /**

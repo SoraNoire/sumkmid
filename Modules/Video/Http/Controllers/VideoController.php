@@ -363,9 +363,17 @@ class VideoController extends Controller
     {
         $id = json_decode($request->id);
         foreach ($id as $id) {
-            $this->VideoHelper->delete_video($id, 'bulk');
+            $delete = Posts::find($id);
+            if ($delete) {
+                $delete->deleted = 1;
+                if (!$delete->save()) {
+                    return redirect(route('videos'))->with(['msg' => 'Delete Error', 'status' => 'danger']);
+                }
+            } else {
+                return redirect(route('videos'))->with(['msg' => 'Delete Error. Page Not Found', 'status' => 'videos']);
+            }
         }
-        return redirect($this->prefix)->with(['msg' => 'Delete Success', 'status' => 'success']);
+        return redirect(route('videos'))->with(['msg' => 'Delete Success', 'status' => 'success']);
     }
 
     /**
