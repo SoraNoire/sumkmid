@@ -15,6 +15,7 @@ use Modules\Blog\Http\Helpers\PostHelper;
 use Modules\Blog\Entities\PostMeta;
 use Modules\Video\Entities\Video;
 use Carbon\Carbon;
+use Mail;
 
 class PublicController extends Controller
 {
@@ -205,5 +206,33 @@ class PublicController extends Controller
             $metas->{$value->key} = $value->value;
         }
         return $metas;
+    }
+
+    
+    /**
+     * Send email to contact service.
+     * @param  $req
+     * @return Response
+     */
+    public function messages_store_act(Request $req){
+        $name = $req->input('nama');
+        $email = $req->input('email');
+        $pesan = $req->input('pesan');
+
+        $data = array(
+            'name' => $name,
+            'email_from' => $email,
+            'pesan' => $pesan,
+        );
+
+        Mail::send('emails.contact', $data, function ($message) use ($data) {
+
+            $message->from($data['email_from'], $data['name']);
+            $message->to('fahmial51@gmail.com', 'info@sahabatumkm.id')->subject('Pesan dari form kontak sahabatumkm.id');
+
+        });
+
+        return redirect('kontak')->with("msg","Terimakasih sudah menghubungi kami. Pesan yang anda kirimkan akan di baca langsung oleh departement yang bersangkutan. Kami akan hubungi anda melalui Email atau Telpon. Terimakasih ");
+
     }
 }
