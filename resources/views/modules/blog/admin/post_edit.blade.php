@@ -15,9 +15,9 @@
         <a href="{{ route('addpost') }}" class="btn btn-round btn-fill btn-info">
             New Post +<div class="ripple-container"></div>
         </a>
-        <a target="_blank" href="{{ URL::to($prefix.'show/'.$post->slug) }}" class="btn btn-round btn-fill btn-info">
+        <!-- <a target="_blank" href="{{ URL::to($prefix.'show/'.$post->slug) }}" class="btn btn-round btn-fill btn-info">
             View Post<div class="ripple-container"></div>
-        </a>
+        </a> -->
         <a onclick="return confirm('Delete Post?');" href="{{ route('removepost', $post->id) }}" class="btn btn-round btn-fill btn-danger">
             Delete Post<div class="ripple-container"></div>
         </a>

@@ -15,9 +15,9 @@
         <a href="{{ route('addevent')}}" class="btn btn-round btn-fill btn-info">
             New Event +<div class="ripple-container"></div>
         </a>
-        <a target="_blank" href="{{ URL::to($prefix.'show/'.$event->slug) }}" class="btn btn-round btn-fill btn-info">
+        <!-- <a target="_blank" href="{{ URL::to($prefix.'show/'.$event->slug) }}" class="btn btn-round btn-fill btn-info">
             View Event<div class="ripple-container"></div>
-        </a>
+        </a> -->
         <a onclick="return confirm('Delete Event?');" href="{{route('removeevent',$event->id)}}" class="btn btn-round btn-fill btn-danger">
             Delete Event<div class="ripple-container"></div>
         </a>

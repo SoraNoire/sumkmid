@@ -15,9 +15,9 @@
         <a href="{{ route('addgallery') }}" class="btn btn-round btn-fill btn-info">
             New Gallery +<div class="ripple-container"></div>
         </a>
-        <a target="_blank" href="{{ URL::to($prefix.'show/'.$gallery->slug) }}" class="btn btn-round btn-fill btn-info">
+        <!-- <a target="_blank" href="{{ URL::to($prefix.'show/'.$gallery->slug) }}" class="btn btn-round btn-fill btn-info">
             View Gallery<div class="ripple-container"></div>
-        </a>
+        </a> -->
         <a onclick="return confirm('Delete gallery?');" href="{{ route('removegallery', $gallery->id)}}" class="btn btn-round btn-fill btn-danger">
             Delete Gallery<div class="ripple-container"></div>
         </a>

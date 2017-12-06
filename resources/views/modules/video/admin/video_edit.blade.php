@@ -15,7 +15,7 @@
         <a href="{{ route('addvideo') }}" class="btn btn-round btn-fill btn-info">
             New Video +<div class="ripple-container"></div>
         </a>
-        <a target="_blank" href="{{ route('showvideo',$video->slug) }}" class="btn btn-round btn-fill btn-info">
+        <a target="_blank" href="{{ route('single_video',$video->slug) }}" class="btn btn-round btn-fill btn-info">
             View Video<div class="ripple-container"></div>
         </a>
         <a onclick="return confirm('Delete video?');" href="{{route('removevideo',$video->id)}}" class="btn btn-round btn-fill btn-danger">

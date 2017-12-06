@@ -15,9 +15,9 @@
         <a href="{{ route('addpage') }}" class="btn btn-round btn-fill btn-info">
             New Page +<div class="ripple-container"></div>
         </a>
-        <a target="_blank" href="{{ URL::to($prefix.'page/'.$page->slug) }}" class="btn btn-round btn-fill btn-info">
+        <!-- <a target="_blank" href="{{ URL::to($prefix.'page/'.$page->slug) }}" class="btn btn-round btn-fill btn-info">
             View Page<div class="ripple-container"></div>
-        </a>
+        </a> -->
         <a onclick="return confirm('Delete Page?');" href="{{route('removepage',$page->id)}}" class="btn btn-round btn-fill btn-danger">
             Delete Page<div class="ripple-container"></div>
         </a>
