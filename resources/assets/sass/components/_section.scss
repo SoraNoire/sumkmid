@@ -426,6 +426,30 @@
   			}
 	  	}
 	}
+	.atEnd{
+		margin: 40px;
+		text-align: center;
+		font-weight: $bold;
+		display: none;
+	}
+	.loadingVideo{
+		margin: 20px auto;
+		text-align: center;
+		.infinite-scroll-request {
+			img {
+				vertical-align: middle;
+				display: inline-block;
+			    margin-right: 10px;
+			    -webkit-animation:spin 1.5s linear infinite;
+			    -moz-animation:spin 1.5s linear infinite;
+			    animation:spin 1.5s linear infinite;
+			}
+			span {
+				margin-left: 10px;
+				display: inline-block;
+			}
+		}
+	}
 }
 
 
