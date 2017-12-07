@@ -348,12 +348,11 @@
 
 #video-archive {
 	margin-top: 59px;
-	margin-bottom: 49px;
 	.container{
 		.row{
 			.resultSearchHeading{
 				margin-bottom: 30px;
-				margin-left: 15px;
+				margin-left: 13px;
 			}
 			.cst-3-col{
 				float: unset;
@@ -381,10 +380,10 @@
 		  background-color: #d8d8d8;
 		  background-size: cover;
 		  background-repeat: no-repeat;
+		  background-position: center;
 	  	box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.3);
 	  	position: relative;
 	  	margin-bottom: 20px;
-    	margin-right: 20px;
 
     	&:nth-child(3n) {
     		margin-right: 0;
@@ -427,12 +426,42 @@
   			}
 	  	}
 	}
+	.atEnd{
+		margin: 40px;
+		text-align: center;
+		font-weight: $bold;
+		display: none;
+	}
+	.loadingVideo{
+		margin: 20px auto;
+		text-align: center;
+		.infinite-scroll-request {
+			img {
+				vertical-align: middle;
+				display: inline-block;
+			    margin-right: 10px;
+			    -webkit-animation:spin 1.5s linear infinite;
+			    -moz-animation:spin 1.5s linear infinite;
+			    animation:spin 1.5s linear infinite;
+			}
+			span {
+				margin-left: 10px;
+				display: inline-block;
+			}
+		}
+	}
 }
 
 
 #mentor-archive {
 	margin-top: 59px;
 	margin-bottom: 49px;
+	.atEnd{
+		margin: 30px 0px 40px 0px;
+		text-align: center;
+		font-weight: $bold;
+		// display: none;
+	}
 	.container{
 		.row{
 			@media screen and (max-width: 768px) {
@@ -589,7 +618,7 @@
 		.event-timeline {
 			width: 8px;
 			background-color: $fontColor;
-			margin-top: 7px;
+			margin-top: 0px;
 			position: relative;
 
 			.event-indicator {
@@ -610,12 +639,34 @@
 				height: 63px;
 				overflow: hidden;
 				display: -webkit-box;
+				line-height: 18px;
     			-webkit-line-clamp: 3;
-    			-webkit-box-orient: vertical;
+				-webkit-box-orient: vertical;
+				position: relative;
+				&:after{
+					content: "";
+					width: 100%;
+					height: 40px;
+					background: rgba(255,255,255,0);
+					background: -moz-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
+					background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(255,255,255,0)), color-stop(100%, rgba(255,255,255,1)));
+					background: -webkit-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
+					background: -o-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
+					background: -ms-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
+					background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
+					filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ffffff', GradientType=0 );
+					position: absolute;
+					bottom: 0;
+					left: 0;
 
+				}
     			&.show {
     				height: auto;
-    				display: block;
+					display: block;
+					&:after{
+						content: unset;
+	
+					}
     			}
 			}
 			.event-title {
@@ -763,6 +814,7 @@
 
 	.scroller-status {
 		margin-top: -8px;
+		display: none;
 		
 		.event {
 			@media screen and (max-width: 433px) {
@@ -795,8 +847,19 @@
 			}
 		}
 	}
+	.loading{
+		display: block;
+	}
+	.end-of-page{
+		display: block;
+		.event-timeline{
+			height: 10px;
+		}
+	}
 }
-
+.jscroll-added{
+	margin-top: -8px;
+}
 #questions{
 	height: 338px;
 	margin-bottom: 64px;

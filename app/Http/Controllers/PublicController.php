@@ -74,6 +74,7 @@ class PublicController extends Controller
      */
 	public function home(){
         $var['page'] = "Home";
+		$var['videos'] = DB::table('posts')->where('post_type','video')->where('deleted',0)->where('published_date','<=',Carbon::now())->orderBy('published_date','desc')->paginate(4);
 		return view('page.home')->with(['var' => $var]);
 	}
 
@@ -129,43 +130,25 @@ class PublicController extends Controller
      */
 	public function event(){
         $var['page'] = "Event";
-        $limit = 5;
-        $offset = $limit - $limit;
-        $next = 2;
+        // $limit = 5;
+        // $offset = $limit - $limit;
+        // $next = 2;
 
-        $events = DB::table('posts')
-        			->where('post_type','event')
-    				->where('deleted', 0)
-    				->where('status', 1)
-        			->join('post_meta', 'posts.id', '=', 'post_meta.post_id')
-        			->where('post_meta.key', '=', 'open_at')
+        $var['events'] = DB::table('post_meta')
+        			->where('key', '=', 'open_at')
+        			->join('posts', function ($join) {
+            			$join->on('post_meta.post_id', '=', 'posts.id')
+            				 ->where('posts.post_type','event')
+		    				 ->where('posts.deleted', 0)
+		    				 ->where('posts.status', 1);
+        			})
     				->orderby('value', 'desc')
-    				->offset($offset)
-    				->limit($limit)
-    				->get();
+    				// ->offset($offset)
+    				// ->limit($limit)
+					// ->get();
+					->paginate(3);
 
-        $newdata = array();
-        foreach ($events as $data) {
-            $post_metas = PostMeta::where('post_id',$data->id)->get();
-            $post_metas = $this->readMetas($post_metas);
-
-            $data->event_type	= $post_metas->event_type ?? '';
-            $data->event_url    = $post_metas->event_url ?? '';
-            $data->gmaps_url	= $post_metas->gmaps_url ?? '';
-            $data->location     = $post_metas->location ?? '';
-            $data->htm          = $post_metas->htm ?? '';
-            $data->open_at      = $post_metas->open_at ?? '';
-            $data->closed_at    = $post_metas->closed_at ?? '';
-            $data->meta_desc    = $post_metas->meta_desc ?? '';
-            $data->meta_title   = $post_metas->meta_title ?? '';
-            $data->meta_keyword = $post_metas->meta_keyword ?? '';
-            $data->mentors      = json_decode($post_metas->event_mentor ?? '') ?? [];
-
-            $newdata[] = $data;
-        }
-        $events = $newdata;
-
-		return view('page.event')->with(['var' => $var, 'events' => $events, 'next' => $next]);
+		return view('page.event')->with(['var' => $var]);
 	}
 
 	/**
@@ -189,7 +172,7 @@ class PublicController extends Controller
      */
 	public function video(){
 		$var['page'] = "Video";
-		$var['videos'] = DB::table('posts')->where('post_type','video')->orderBy('published_date','desc')->paginate(6);
+		$var['videos'] = DB::table('posts')->where('post_type','video')->where('deleted',0)->where('published_date','<=',Carbon::now())->orderBy('published_date','desc')->paginate(3);
 		return view('page.video')->with(['var' => $var]);
 	}
 	public function searchVideo(request $request){

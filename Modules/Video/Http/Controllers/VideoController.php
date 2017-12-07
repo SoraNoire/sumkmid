@@ -36,6 +36,7 @@ class VideoController extends Controller
         $this->VideoHelper = new VideoHelper;
         $this->prefix = 'admin/blog/video/';
         View::share('prefix', $this->prefix);
+        View::share('body_id', 'video');
     }
     /**
      * Display a listing of videos.

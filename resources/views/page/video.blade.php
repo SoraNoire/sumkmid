@@ -31,7 +31,9 @@
 	@endforeach
 	{{ $var['videos']->links() }}
 	</div>
-	
+	<div class="atEnd">
+		<span class="end-text">Tidak Ada Video Lagi</span>
+	</div>
 	</div>
 </div>
 @endsection
