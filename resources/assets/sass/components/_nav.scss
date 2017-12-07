@@ -41,8 +41,26 @@
                 font-size: 18px;
                 color: #fff;
                 text-decoration: none;
+                vertical-align: middle;
                 &:hover{
                     text-decoration: underline;
+                }
+            }
+        }
+        .userNavSetting{
+            border-left: 1.5px solid #ffffff;
+            padding: 0px 12px;
+            span{
+                color: #fff;
+                font-size: 18px;
+                vertical-align: middle;
+            }
+            .goToProfile{
+                display: inline-block;
+                vertical-align: middle;
+                margin-left: 10px;
+                img{
+                    margin-top: 9px;
                 }
             }
         }

@@ -88,7 +88,7 @@ class PublicController extends Controller
 	}
 
 	/**
-     * Show mentor page.
+     * Show mentors page.
      * @return Response
      */
 	public function mentor(){
@@ -97,6 +97,14 @@ class PublicController extends Controller
 		$var['mentors'] =  $user->mentors()->users;
 		
 		return view('page.mentor')->with(['var' => $var]);
+	}
+	/**
+     * Show single mentor page.
+     * @return Response
+     */
+	public function mentorSingle(){
+        $var['page'] = "mentorSingle";
+		return view('page.mentorSingle')->with(['var' => $var]);
 	}
 
 	/**
@@ -107,6 +115,11 @@ class PublicController extends Controller
         $var['page'] = "userSetting";
 		return view('page.userSetting')->with(['var' => $var]);
 	}
+
+	public function saveUserSetting(){
+
+	}
+
 
 	public function singleVideo($slug){
 		$var['page'] = "singleVideo";

@@ -1205,10 +1205,32 @@ template,
   font-size: 18px;
   color: #fff;
   text-decoration: none;
+  vertical-align: middle;
 }
 
 .navWrapper ul li a:hover {
   text-decoration: underline;
+}
+
+.navWrapper ul .userNavSetting {
+  border-left: 1.5px solid #ffffff;
+  padding: 0px 12px;
+}
+
+.navWrapper ul .userNavSetting span {
+  color: #fff;
+  font-size: 18px;
+  vertical-align: middle;
+}
+
+.navWrapper ul .userNavSetting .goToProfile {
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 10px;
+}
+
+.navWrapper ul .userNavSetting .goToProfile img {
+  margin-top: 9px;
 }
 
 .navWrapper ul .loginButton {
@@ -2634,6 +2656,8 @@ footer .copyright {
   width: 160px;
   height: 160px;
   overflow: hidden;
+  background-position: center;
+  background-size: cover;
 }
 
 #userSetting .leftForm .photoUser .inputTrigger {

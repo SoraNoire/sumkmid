@@ -51,12 +51,21 @@
 	                                <a href="{{ route('public_kontak') }}">
 	                                    Kontak
 	                                </a>
-	                            </li>
+                                </li>
+                                @if(app()->SSO->Auth())
+                                <li class="userNavSetting">
+                                    <span>{{app()->SSO->Auth()->name}}</span>
+                                    <div class="goToProfile">
+                                        <a href="{{route('user_setting')}}"><img src="{{ asset('img/invalid-name.svg') }}" alt=""></a>
+                                    </div>
+                                </li>
+                                @else
 	                            <li class="loginButton">
 	                                <a href="{{ route('login') }}" class="button">
 	                                    Masuk
 	                                </a>
-	                            </li>
+                                </li>
+                                @endif
 	                        </ul>
                         </div>
                     </nav>
