@@ -355,7 +355,8 @@ $('#uploadmedia').on('change', function add_media(e){
             },
             error: function(err){
                     $(".mediatable").DataTable().ajax.reload(null, false);
-                    console.log(err);
+                    var obj = err.responseJSON;
+                    alert(Object.values(obj)[0].toString());
                 }
         });
         $('.dataTables_processing').hide();
@@ -384,7 +385,8 @@ $('#uploadfimg').on('change', function add_media(e){
             },
             error: function(err){
                     $(".mediatable").DataTable().ajax.reload(null, false);
-                    console.log(err);
+                    var obj = err.responseJSON;
+                    alert(Object.values(obj)[0].toString());
                 }
         });
         $('.dataTables_processing').hide();
@@ -415,7 +417,8 @@ $('#fileUpload').on('change', function add_file(e){
             },
             error: function(err){
                 $(".filestable").DataTable().ajax.reload(null, false);
-                alert('Invalid File Extension');
+                var obj = err.responseJSON;
+                alert(Object.values(obj)[0].toString());
             },
             always: function(a){
                 $(".filestable").DataTable().ajax.reload(null, false);
@@ -445,7 +448,7 @@ function delete_media(e){
             },
             error: function(err){
                 $(".mediatable").DataTable().ajax.reload(null, false);
-                console.log(err);
+                alert('delete error');
             }
         });
         $('#canceldelete').hide();

@@ -447,6 +447,8 @@ class BlogController extends Controller
     public function store_file(Request $req){
         $this->validate($req, [
             'fileUpload.*' => 'mimes:pdf,doc,dot,docx,xlsx,xml,ppt,ppa,pptx,ppsx,mdb,txt,zip,rar',
+        ], [
+            'mimes' => 'Cannot upload file with this extension',
         ]);
         
         if ($req->hasFile('fileUpload')) {
@@ -1112,7 +1114,11 @@ class BlogController extends Controller
      */
     public function store_media(Request $req){
         $this->validate($req, [
-            'media.*' => 'image|max:3000',
+            'media.*' => 'image|max:3000|mimes:jpg,jpeg,png,gif',
+        ], [
+            'mimes' => 'Cannot upload media with this extension',
+            'image' => 'Cannot upload media with this extension',
+            'max' => 'Max upload size 3MB',
         ]);
         if ($req->hasFile('media')) {
             try {
@@ -1228,7 +1234,7 @@ class BlogController extends Controller
         $output['data'] = $query->get();
 
         $newdata = array();
-        foreach ($events as $data) {
+        foreach ($output['data'] as $data) {
             $u= $this->user->users($data->author);
             $name = $u->users[0]->username;
             if ($name != '') {
