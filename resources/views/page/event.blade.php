@@ -27,7 +27,7 @@
 							<span>{{ date('d M Y', strtotime($meta['open_at'])) }} |</span>
 							<span>{{ date('H:i', strtotime($meta['open_at'])) }} WIB - {{ $meta['closed_at'] != '' ? date('H:i', strtotime($meta['closed_at'])).' WIB' : 'till drop' }} </span>
 						</div>
-					<div class="event-desc">
+					<div class="event-desc hidden">
 						{!! $event->content !!}
 					</div>
 					<div class="event-meta">

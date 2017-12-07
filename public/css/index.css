@@ -1552,6 +1552,8 @@ footer .copyright {
   background-image: url("/img/triangle.png");
   background-repeat: no-repeat;
   background-position-y: -50px;
+  -webkit-transition: .5s;
+  transition: .5s;
 }
 
 #event .row {
@@ -2204,7 +2206,8 @@ footer .copyright {
 }
 
 #event-archive .event .event-content .event-desc {
-  height: 63px;
+  -webkit-transition: max-height 0.8s;
+  transition: max-height 0.8s;
   overflow: hidden;
   display: -webkit-box;
   line-height: 18px;
@@ -2227,8 +2230,12 @@ footer .copyright {
   left: 0;
 }
 
+#event-archive .event .event-content .event-desc.hidden {
+  max-height: 63px;
+}
+
 #event-archive .event .event-content .event-desc.show {
-  height: auto;
+  max-height: auto;
   display: block;
 }
 

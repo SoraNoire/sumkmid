@@ -80,7 +80,8 @@
 	padding-bottom: 50px;
 	background-image: url('/img/triangle.png');
     background-repeat: no-repeat;
-    background-position-y: -50px;
+	background-position-y: -50px;
+	transition: .5s;
 	
 	.row {
 		margin-left: 65px;
@@ -634,9 +635,10 @@
 		}
 		.event-content {
 			margin-bottom: 48px;
-
 			.event-desc {
-				height: 63px;
+				-webkit-transition: max-height 0.8s;
+				-moz-transition: max-height 0.8s;
+				transition: max-height 0.8s;
 				overflow: hidden;
 				display: -webkit-box;
 				line-height: 18px;
@@ -658,14 +660,15 @@
 					position: absolute;
 					bottom: 0;
 					left: 0;
-
+				}
+				&.hidden {
+					max-height: 63px;
 				}
     			&.show {
-    				height: auto;
+					max-height: auto;
 					display: block;
 					&:after{
 						content: unset;
-	
 					}
     			}
 			}

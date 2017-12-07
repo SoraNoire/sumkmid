@@ -65,6 +65,7 @@ function show_event_detail(id) {
 	$('#'+id).find('.htm').show();
 	$('#'+id).find('.event-buttons').css('display', 'inline-block');
 	$('#'+id).find('.event-desc').addClass('show');
+	$('#'+id).find('.event-desc').removeClass('hidden');
 }
 
 function show_less_event_detail(id) {
@@ -74,6 +75,7 @@ function show_less_event_detail(id) {
 	$('#'+id).find('.htm').hide();
 	$('#'+id).find('.event-buttons').hide();
 	$('#'+id).find('.event-desc').removeClass('show');
+	$('#'+id).find('.event-desc').addClass('hidden');
 }
 
 function show_event_sharer(id) {
