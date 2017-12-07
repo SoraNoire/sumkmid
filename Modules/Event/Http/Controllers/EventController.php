@@ -31,6 +31,7 @@ class EventController extends Controller
         $this->prefix = 'admin/blog/event/';
         View::share('prefix', $this->prefix);
         View::share('body_id', 'event');
+        View::share('tinymceApiKey', config('app.tinymce_api_key'));
     }
     /**
      * Display a listing of event.
@@ -199,7 +200,7 @@ class EventController extends Controller
             PostMeta::insert($meta_contents);
 
             DB::commit();
-            return redirect(route('events'))->with(['msg' => 'Saved', 'status' => 'success']);
+            return redirect(route('viewevent', $store->id))->with(['msg' => 'Saved', 'status' => 'success']);
         } catch (\Exception $e) {
             DB::rollback();
             return redirect(route('events'))->with(['msg' => 'Error Saving '.substr($e, 0, 50), 'status' => 'danger']);
@@ -275,7 +276,7 @@ class EventController extends Controller
                             ]
                     );
         } else {
-            return redirect($this->prefix)->with(['msg' => 'Event Not Found', 'status' => 'danger']);
+            return redirect(route('events'))->with(['msg' => 'Event Not Found', 'status' => 'danger']);
         }
     }
 
@@ -380,10 +381,10 @@ class EventController extends Controller
             // }
 
             DB::commit();
-            return redirect(route('events'))->with(['msg' => 'Saved', 'status' => 'success']);
+            return redirect(route('viewevent', $id))->with(['msg' => 'Saved', 'status' => 'success']);
         } catch (\Exception $e) {
             DB::rollback();
-            return redirect(route('events'))->with(['msg' => 'Error updating', 'status' => 'danger']);
+            return redirect(route('viewevent', $id))->with(['msg' => 'Error updating', 'status' => 'danger']);
         }
 
     }

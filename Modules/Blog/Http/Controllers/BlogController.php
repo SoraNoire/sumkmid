@@ -39,6 +39,7 @@ class BlogController extends Controller
         $this->prefix = 'admin/blog/';
         View::share('prefix', $this->prefix);
         View::share('body_id', 'blog');
+        View::share('tinymceApiKey', config('app.tinymce_api_key'));
     }
     
     /**
@@ -206,7 +207,7 @@ class BlogController extends Controller
             PostMeta::insert($meta_contents);
             
             DB::commit();
-            return redirect(route('posts'))->with(['msg' => 'Saved', 'status' => 'success']);
+            return redirect(route('viewpost', $store->id))->with(['msg' => 'Saved', 'status' => 'success']);
         } catch (\Exception $e) {
             DB::rollback();
             return redirect(route('posts'))->with(['msg' => 'Save Error'.$e, 'status' => 'danger']);
@@ -247,7 +248,7 @@ class BlogController extends Controller
 
             return view('blog::admin.post_edit')->with(['isEdit'=>true,'item_id' => $item_id, 'page_meta_title' => $page_meta_title, 'act' => $act, 'action' => $action, 'post' => $post , 'title' => $title, 'content' => $content, 'alltag' => $alltag, 'selected_tag' => $tags, 'featured_image' => $featured_image, 'meta_desc' => $meta_desc, 'meta_title' => $meta_title, 'meta_keyword' => $meta_keyword, 'status' => $status, 'published_date' => $published_date, 'files' => $files]);
         } else {
-            return redirect(route('posts'))->with(['msg' => 'Post Not Found', 'status' => 'danger']);
+            return redirect(route('viewpost', $id))->with(['msg' => 'Post Not Found', 'status' => 'danger']);
         }
     }
 
@@ -335,10 +336,10 @@ class BlogController extends Controller
             }
 
             DB::commit();
-            return redirect(route('posts'))->with(['msg' => 'Saved', 'status' => 'success']);
+            return redirect(route('viewpost', $update->id))->with(['msg' => 'Saved', 'status' => 'success']);
         } catch (\Exception $e) {
             DB::rollback();
-            return redirect(route('posts'))->with(['msg' => 'Save error'.$e, 'status' => 'danger']);
+            return redirect(route('viewpost', $update->id))->with(['msg' => 'Save error'.$e, 'status' => 'danger']);
         }
     }
 

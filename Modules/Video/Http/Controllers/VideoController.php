@@ -37,6 +37,7 @@ class VideoController extends Controller
         $this->prefix = 'admin/blog/video/';
         View::share('prefix', $this->prefix);
         View::share('body_id', 'video');
+        View::share('tinymceApiKey', config('app.tinymce_api_key'));
     }
     /**
      * Display a listing of videos.
@@ -188,7 +189,7 @@ class VideoController extends Controller
             PostMeta::insert($meta_contents);
 
             DB::commit();
-            return redirect(route('videos'))->with(['msg' => 'Saved', 'status' => 'success'])->send();         
+            return redirect(route('viewvideo', $store->id))->with(['msg' => 'Saved', 'status' => 'success'])->send();         
         } catch (\Exception $e) {
             DB::rollback();
             return redirect(route('videos'))->with(['msg' => 'Error saving', 'status' => 'warning'])->send();
@@ -214,7 +215,7 @@ class VideoController extends Controller
             $meta_desc      = $post_metas->meta_desc ?? '';
             $meta_title     = $post_metas->meta_title ?? '';
             $meta_keyword   = $post_metas->meta_keyword ?? '';
-            $tags = PostHelper::get_post_tag($post->id, 'id');  
+            $tags = PostHelper::get_post_tag($video->id, 'id');  
 
             $alltag = Tags::orderBy('created_at','desc')->get();
             $title = $video->title;
@@ -227,7 +228,7 @@ class VideoController extends Controller
             $item_id = $video->id;
             return view('video::admin.video_edit')->with(['item_id' => $item_id, 'page_meta_title' => $page_meta_title, 'act' => $act, 'action' => $action, 'video' => $video , 'title' => $title, 'content' => $content,'alltag'=>$alltag, 'selected_tag' => $tags, 'featured_image' => $video->featured_image, 'meta_desc' => $meta_desc, 'meta_title' => $meta_title, 'meta_keyword' => $meta_keyword, 'status' => $status, 'published_date' => $published_date, 'video_url' => $video_url]);
         } else {
-            return redirect($this->prefix)->with(['msg' => 'video Not Found', 'status' => 'danger']);
+            return redirect(route('videos'))->with(['msg' => 'video Not Found', 'status' => 'danger']);
         }
     }
 
@@ -311,10 +312,10 @@ class VideoController extends Controller
             }
 
             DB::commit();
-            return redirect(route('videos'))->with(['msg' => 'Saved', 'status' => 'success']);
+            return redirect(route('viewvideo', $update->id))->with(['msg' => 'Saved', 'status' => 'success']);
         } catch (\Exception $e) {
             DB::rollback();
-            return redirect(route('videos'))->with(['msg' => 'Save error', 'status' => 'alert']);
+            return redirect(route('viewvideo', $id))->with(['msg' => 'Save error', 'status' => 'alert']);
         }
 
     }

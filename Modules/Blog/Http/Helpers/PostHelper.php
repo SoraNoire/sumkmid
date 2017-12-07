@@ -174,7 +174,7 @@ class PostHelper
      * @return Response
      */
     public static function save_post_meta_tag($post_id, $new_tags){
-        $tag_metas = PostMeta::where('post_id',$post_id)->where('key', 'tags')->get();
+        $tag_metas = PostMeta::where('post_id',$post_id)->where('key', 'tag')->get();
         $old_tags = [];
         foreach ($tag_metas as $tag_meta) {
             $old_tags[] = $tag_meta->value;
@@ -185,7 +185,9 @@ class PostHelper
 
         foreach ($delete_tags as $tag_id) {
             $tag = PostMeta::where('post_id',$post_id)->where('key', 'tag')->where('value', $tag_id)->first();
-            $tag->delete();
+            if (isset($tag)) {
+                $tag->delete();
+            }
         }
 
         foreach ($update_tags as $tag_id) {
@@ -210,7 +212,9 @@ class PostHelper
 
         foreach ($delete_categories as $cat_id) {
             $cat = PostMeta::where('post_id',$post_id)->where('key', 'category')->where('value', $cat_id)->first();
-            $cat->delete();
+            if (isset($cat)) {
+                $cat->delete();
+            }
         }
 
         foreach ($update_categories as $cat_id) {

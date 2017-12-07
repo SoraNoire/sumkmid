@@ -33,6 +33,7 @@ class GalleryController extends Controller
         $this->prefix = 'admin/blog/gallery/';
         View::share('prefix', $this->prefix);
         View::share('body_id', 'gallery');
+        View::share('tinymceApiKey', config('app.tinymce_api_key'));
     }
     /**
      * Display a listing of gallery.
@@ -184,7 +185,7 @@ class GalleryController extends Controller
             PostMeta::insert($meta_contents);
 
             DB::commit();
-            return redirect(route('galleries'))->with(['msg' => 'Saved', 'status' => 'success']);
+            return redirect(route('viewgallery', $store->id))->with(['msg' => 'Saved', 'status' => 'success']);
         } catch (\Exception $e) {
             DB:rollback();
             return redirect(route('galleries'))->with(['msg' => 'Save Error', 'status' => 'danger']);
@@ -216,7 +217,7 @@ class GalleryController extends Controller
             $alltag = Tags::orderBy('created_at','desc')->get();
             $media = Media::orderBy('created_at','desc')->get();
 
-            $tags = PostHelper::get_post_tag($post->id, 'id'); 
+            $tags = PostHelper::get_post_tag($gallery->id, 'id'); 
 
             $title = $gallery->title;
             $content = $gallery->content;
@@ -315,10 +316,10 @@ class GalleryController extends Controller
             }
 
             DB::commit();
-            return redirect(route('galleries'))->with(['msg' => 'Saved', 'status' => 'success']);
+            return redirect(route('viewgallery', $id))->with(['msg' => 'Saved', 'status' => 'success']);
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect(route('galleries'))->with(['msg' => 'Error. Something went wrong.', 'status' => 'danger']);
+            return redirect(route('viewgallery', $id))->with(['msg' => 'Error. Something went wrong.', 'status' => 'danger']);
         }     
     }
 
