@@ -138,7 +138,7 @@ class VideoController extends Controller
         $meta_desc =  $request->input('meta_desc');
         $meta_keyword =  $request->input('meta_keyword');
         $video_url = str_replace('watch?v=', 'embed/', $request->input('video_url')) ?? "";
-        $categories = json_encode($request->input('categories') ?? [] );
+        $categories = $request->input('categories') ?? [];
         $tag_input = $request->input('tags') ?? [];
 
         $slug = PostHelper::make_slug($request->input('title'));
@@ -153,28 +153,7 @@ class VideoController extends Controller
 
         DB::beginTransaction();
         try {
-            if (isset($tag_input)) {
-                $tags = array();
-                foreach ($tag_input as $key) {
-                    $tag_slug = PostHelper::make_slug($key);
-                    $check = Tags::where('slug', $tag_slug)->first();
-                    if (!isset($check)) {
-                        // save tag to table tag
-                        $save_tag = new Tags;
-                        $save_tag->name = $key;
-                        $save_tag->slug = $tag_slug;
-                        $save_tag->save();
-                        $key = $save_tag->id;
-
-                    } else {
-                      $key = $check->id;
-                    }
-                    $tags[] = $key;
-                }
-            } else {
-                $tags = null;
-            }
-            $tags = json_encode($tags);
+            $tags = PostHelper::check_tags_input($tag_input);
 
             $store = new Posts;
             $store->title = $request->input('title');
@@ -191,9 +170,15 @@ class VideoController extends Controller
             $metas[] = ['name' => 'meta_title', 'value' => $meta_title];
             $metas[] = ['name' => 'meta_desc', 'value' => $meta_desc];
             $metas[] = ['name' => 'meta_keyword', 'value' => $meta_keyword];
-            $metas[] = ['name' => 'categories', 'value' => $categories];
-            $metas[] = ['name' => 'tags', 'value' => $tags];
             $metas[] = ['name' => 'video_url', 'value' => $video_url];
+
+            foreach ($categories as $cat) {
+                $metas[] = ['name' => 'category', 'value' => $cat];
+            }
+            foreach ($tags as $tag) {
+                $metas[] = ['name' => 'tag', 'value' => $tag];
+            }
+
             foreach ($metas as $meta) {
                 if ($meta['value'] != '') {
                     $meta_contents[] = [ 'post_id'=>$store->id, 'key'=> $meta['name'], 'value'=> $meta['value'] ];
@@ -229,20 +214,18 @@ class VideoController extends Controller
             $meta_desc      = $post_metas->meta_desc ?? '';
             $meta_title     = $post_metas->meta_title ?? '';
             $meta_keyword   = $post_metas->meta_keyword ?? '';
-            $categories     = json_decode($post_metas->categories ?? '') ?? [];
-            $tags     = json_decode($post_metas->tags ?? '') ?? [];
+            $tags = PostHelper::get_post_tag($post->id, 'id');  
 
             $alltag = Tags::orderBy('created_at','desc')->get();
             $title = $video->title;
             $content = $video->content;
             $video_url = $post_metas->video_url;
-            $media = '';
 
             $featured_img = $video->featured_image;
             $status = $video->status;
             $published_date = $video->published_date;
             $item_id = $video->id;
-            return view('video::admin.video_edit')->with(['item_id' => $item_id, 'page_meta_title' => $page_meta_title, 'act' => $act, 'action' => $action, 'video' => $video , 'title' => $title, 'content' => $content,'alltag'=>$alltag, 'selected_tag' => $tags, 'media' => $media, 'featured_image' => $video->featured_image, 'meta_desc' => $meta_desc, 'meta_title' => $meta_title, 'meta_keyword' => $meta_keyword, 'status' => $status, 'published_date' => $published_date, 'video_url' => $video_url]);
+            return view('video::admin.video_edit')->with(['item_id' => $item_id, 'page_meta_title' => $page_meta_title, 'act' => $act, 'action' => $action, 'video' => $video , 'title' => $title, 'content' => $content,'alltag'=>$alltag, 'selected_tag' => $tags, 'featured_image' => $video->featured_image, 'meta_desc' => $meta_desc, 'meta_title' => $meta_title, 'meta_keyword' => $meta_keyword, 'status' => $status, 'published_date' => $published_date, 'video_url' => $video_url]);
         } else {
             return redirect($this->prefix)->with(['msg' => 'video Not Found', 'status' => 'danger']);
         }
@@ -270,6 +253,7 @@ class VideoController extends Controller
             'content' => 'required'
         ]);
 
+        $categories = $request->input('categories') ?? [] ;
         $published_date = $request->input('published_date');
         if ($published_date == 'immediately') {
             $published_date = Carbon::now()->toDateTimeString();
@@ -278,27 +262,7 @@ class VideoController extends Controller
         DB::beginTransaction();
         try {
             $tag_input = $request->input('tags') ?? [];
-            if (isset($tag_input)) {
-                $tags = array();
-                foreach ($tag_input as $key) {
-                    $tag_slug = PostHelper::make_slug($key);
-                    $check = Tags::where('slug', $tag_slug)->first();
-                    if (!isset($check)) {
-                        // save tag to table tag
-                        $save_tag = new Tags;
-                        $save_tag->name = $key;
-                        $save_tag->slug = $tag_slug;
-                        $save_tag->save();
-                        $key = $save_tag->id;
-
-                    } else {
-                      $key = $check->id;
-                    }
-                    $tags[] = $key;
-                }
-            } else {
-                $tags = null;
-            }
+            $tags = PostHelper::check_tags_input($tag_input);
 
             $request->request->add(['tags'=>$tags]);
 
@@ -312,7 +276,12 @@ class VideoController extends Controller
             
             $newMeta = false;
             $post_metas = PostMeta::where('post_id',$id)->get();
-            $meta_fields = ['meta_title', 'meta_desc', 'meta_keyword', 'categories', 'tags', 'video_url' ];
+            $meta_fields = ['meta_title', 'meta_desc', 'meta_keyword', 'video_url' ];
+
+            // save tags meta 
+            PostHelper::save_post_meta_tag($update->id, $tags);
+            // save categories meta 
+            PostHelper::save_post_meta_category($update->id, $categories);
 
             foreach ($meta_fields as $key => $meta) {
                 $updated = false;

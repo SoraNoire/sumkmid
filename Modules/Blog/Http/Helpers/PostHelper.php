@@ -99,21 +99,20 @@ class PostHelper
      * @return Response
      */
     public static function get_post_category($post_id, $select = ''){
-        $selected_cat = [];
-        $PostCategory = PostMeta::where('post_id', $post_id)->where('key','categories')->first();
-        $selected_cat_id = json_decode($PostCategory->value,true);
-        if (count($selected_cat_id) > 0) {
-            foreach ($selected_cat_id as $key) {
+        $categories_metas = PostMeta::where('post_id',$post_id)->where('key', 'category')->get();
+        $categories = [];
+        if (count($categories_metas) > 0) {
+            foreach ($categories_metas as $meta) {
                 if ($select != '') {
-                    $category = Categories::where('id', $key)->first()->$select;
+                    $get = Categories::where('id', $meta->value)->first()->$select;   
                 } else {
-                    $category = Categories::where('id', $key)->first();
+                    $get = Categories::where('id', $meta->value)->first();   
                 }
-                $selected_cat[] = $category;
-            }   
+                $categories[] = $get;
+            }
         }
 
-        return $selected_cat;
+        return $categories;
     }
 
     /**
@@ -122,21 +121,101 @@ class PostHelper
      * @return Response
      */
     public static function get_post_tag($post_id, $select = '' ){
-        $PostTag = PostMeta::where('post_id', $post_id)->where('key','tags')->first();
-        $selected_tag_id = json_decode($PostTag->value, true);
-        $tag = array();
-        if (count($selected_tag_id) > 0) {
-            foreach ($selected_tag_id as $tag_id) {
+        $tag_metas = PostMeta::where('post_id',$post_id)->where('key', 'tag')->get();
+        $tags = [];
+        if (count($tag_metas) > 0) {
+            foreach ($tag_metas as $tag_meta) {
                 if ($select != '') {
-                    $get = Tags::where('id', $tag_id)->first()->$select;   
+                    $get = Tags::where('id', $tag_meta->value)->first()->$select;   
                 } else {
-                    $get = Tags::where('id', $tag_id)->first();   
+                    $get = Tags::where('id', $tag_meta->value)->first();   
                 }
-                $tag[] = $get;
+                $tags[] = $get;
             }
         }
 
-        return $tag;
+        return $tags;
+    }
+
+    /**
+     * Check post tags input.
+     * @param  $tag_input
+     * @return value
+     */
+    public static function check_tags_input($tag_input){
+        if (isset($tag_input)) {
+            $tags = array();
+            foreach ($tag_input as $key) {
+                $tag_slug = PostHelper::make_slug($key);
+                $check = Tags::where('slug', $tag_slug)->first();
+                if (!isset($check)) {
+                    // save tag to table tag
+                    $save_tag = new Tags;
+                    $save_tag->name = $key;
+                    $save_tag->slug = $tag_slug;
+                    $save_tag->save();
+                    $key = $save_tag->id;
+
+                } else {
+                  $key = $check->id;
+                }
+                $tags[] = $key;
+            }
+        } else {
+            $tags = null;
+        }
+
+        return $tags;
+    }
+
+    /**
+     * Save post meta tags helper
+     * @param  $post_id, $new_tags
+     * @return Response
+     */
+    public static function save_post_meta_tag($post_id, $new_tags){
+        $tag_metas = PostMeta::where('post_id',$post_id)->where('key', 'tags')->get();
+        $old_tags = [];
+        foreach ($tag_metas as $tag_meta) {
+            $old_tags[] = $tag_meta->value;
+        }
+
+        $update_tags = array_diff($new_tags, $old_tags);
+        $delete_tags = array_diff($old_tags, $new_tags);
+
+        foreach ($delete_tags as $tag_id) {
+            $tag = PostMeta::where('post_id',$post_id)->where('key', 'tag')->where('value', $tag_id)->first();
+            $tag->delete();
+        }
+
+        foreach ($update_tags as $tag_id) {
+            PostMeta::insert(['post_id'=>$post_id,'key' => 'tag', 'value'=>$tag_id]);
+        }
+    }
+
+    /**
+     * Save post meta categories helper
+     * @param  $post_id, $new_tags
+     * @return Response
+     */
+    public static function save_post_meta_category($post_id, $new_categories){
+        $cat_metas = PostMeta::where('post_id',$post_id)->where('key', 'category')->get();
+        $old_categories = [];
+        foreach ($cat_metas as $cat_meta) {
+            $old_categories[] = $cat_meta->value;
+        }
+
+        $update_categories = array_diff($new_categories, $old_categories);
+        $delete_categories = array_diff($old_categories, $new_categories);
+
+        foreach ($delete_categories as $cat_id) {
+            $cat = PostMeta::where('post_id',$post_id)->where('key', 'category')->where('value', $cat_id)->first();
+            $cat->delete();
+        }
+
+        foreach ($update_categories as $cat_id) {
+            PostMeta::insert(['post_id'=>$post_id,'key' => 'category', 'value'=>$cat_id]);
+        }
     }
 
     /**
