@@ -90,7 +90,13 @@ class SSOHelper
     }
 
 
+    public static function meUpdate($data=[])
+    {
+        $path = '/me';
+        $method = 'post';
 
+        return self::curl($path,$data,$method);
+    }
 
 
 
