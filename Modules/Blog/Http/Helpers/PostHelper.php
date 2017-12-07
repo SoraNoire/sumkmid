@@ -99,21 +99,20 @@ class PostHelper
      * @return Response
      */
     public static function get_post_category($post_id, $select = ''){
-        $selected_cat = [];
-        $PostCategory = PostMeta::where('post_id', $post_id)->where('key','categories')->first();
-        $selected_cat_id = json_decode($PostCategory->value,true);
-        if (count($selected_cat_id) > 0) {
-            foreach ($selected_cat_id as $key) {
+        $categories_metas = PostMeta::where('post_id',$post_id)->where('key', 'category')->get();
+        $categories = [];
+        if (count($categories_metas) > 0) {
+            foreach ($categories_metas as $meta) {
                 if ($select != '') {
-                    $category = Categories::where('id', $key)->first()->$select;
+                    $get = Categories::where('id', $meta->value)->first()->$select;   
                 } else {
-                    $category = Categories::where('id', $key)->first();
+                    $get = Categories::where('id', $meta->value)->first();   
                 }
-                $selected_cat[] = $category;
-            }   
+                $categories[] = $get;
+            }
         }
 
-        return $selected_cat;
+        return $categories;
     }
 
     /**
@@ -122,21 +121,105 @@ class PostHelper
      * @return Response
      */
     public static function get_post_tag($post_id, $select = '' ){
-        $PostTag = PostMeta::where('post_id', $post_id)->where('key','tags')->first();
-        $selected_tag_id = json_decode($PostTag->value, true);
-        $tag = array();
-        if (count($selected_tag_id) > 0) {
-            foreach ($selected_tag_id as $tag_id) {
+        $tag_metas = PostMeta::where('post_id',$post_id)->where('key', 'tag')->get();
+        $tags = [];
+        if (count($tag_metas) > 0) {
+            foreach ($tag_metas as $tag_meta) {
                 if ($select != '') {
-                    $get = Tags::where('id', $tag_id)->first()->$select;   
+                    $get = Tags::where('id', $tag_meta->value)->first()->$select;   
                 } else {
-                    $get = Tags::where('id', $tag_id)->first();   
+                    $get = Tags::where('id', $tag_meta->value)->first();   
                 }
-                $tag[] = $get;
+                $tags[] = $get;
             }
         }
 
-        return $tag;
+        return $tags;
+    }
+
+    /**
+     * Check post tags input.
+     * @param  $tag_input
+     * @return value
+     */
+    public static function check_tags_input($tag_input){
+        if (isset($tag_input)) {
+            $tags = array();
+            foreach ($tag_input as $key) {
+                $tag_slug = PostHelper::make_slug($key);
+                $check = Tags::where('slug', $tag_slug)->first();
+                if (!isset($check)) {
+                    // save tag to table tag
+                    $save_tag = new Tags;
+                    $save_tag->name = $key;
+                    $save_tag->slug = $tag_slug;
+                    $save_tag->save();
+                    $key = $save_tag->id;
+
+                } else {
+                  $key = $check->id;
+                }
+                $tags[] = $key;
+            }
+        } else {
+            $tags = null;
+        }
+
+        return $tags;
+    }
+
+    /**
+     * Save post meta tags helper
+     * @param  $post_id, $new_tags
+     * @return Response
+     */
+    public static function save_post_meta_tag($post_id, $new_tags){
+        $tag_metas = PostMeta::where('post_id',$post_id)->where('key', 'tag')->get();
+        $old_tags = [];
+        foreach ($tag_metas as $tag_meta) {
+            $old_tags[] = $tag_meta->value;
+        }
+
+        $update_tags = array_diff($new_tags, $old_tags);
+        $delete_tags = array_diff($old_tags, $new_tags);
+
+        foreach ($delete_tags as $tag_id) {
+            $tag = PostMeta::where('post_id',$post_id)->where('key', 'tag')->where('value', $tag_id)->first();
+            if (isset($tag)) {
+                $tag->delete();
+            }
+        }
+
+        foreach ($update_tags as $tag_id) {
+            PostMeta::insert(['post_id'=>$post_id,'key' => 'tag', 'value'=>$tag_id]);
+        }
+    }
+
+    /**
+     * Save post meta categories helper
+     * @param  $post_id, $new_tags
+     * @return Response
+     */
+    public static function save_post_meta_category($post_id, $new_categories){
+        $cat_metas = PostMeta::where('post_id',$post_id)->where('key', 'category')->get();
+        $old_categories = [];
+        foreach ($cat_metas as $cat_meta) {
+            $old_categories[] = $cat_meta->value;
+        }
+
+        $update_categories = array_diff($new_categories, $old_categories);
+        $delete_categories = array_diff($old_categories, $new_categories);
+
+        foreach ($delete_categories as $cat_id) {
+            $cat = PostMeta::where('post_id',$post_id)->where('key', 'category')->where('value', $cat_id)->first();
+            if (isset($cat)) {
+                $cat->delete();
+            }
+        }
+
+        foreach ($update_categories as $cat_id) {
+            PostMeta::insert(['post_id'=>$post_id,'key' => 'category', 'value'=>$cat_id]);
+        }
     }
 
     /**
@@ -148,7 +231,7 @@ class PostHelper
         $region = config('filesystems.disks')['s3']['region'];
         $bucket = config('filesystems.disks')['s3']['bucket'];
        
-        return 'https://s3-'.$region.'.amazonaws.com/'.$bucket.'/shbtmdev/'.$path.'/'.$url;
+        return 'https://s3-'.$region.'.amazonaws.com/'.$bucket.'/shbtm/'.$path.'/'.$url;
     }
 
     /**
@@ -158,7 +241,7 @@ class PostHelper
      */
     public static function putFile($file, $path, $fileName){
         $s3 = \Storage::disk('s3');
-        $s3->putFileAs('/shbtmdev/'.$path, new File($file), $fileName, 'public');
+        $s3->putFileAs('/shbtm/'.$path, new File($file), $fileName, 'public');
     }
 
     /**
@@ -168,7 +251,7 @@ class PostHelper
      */
     public static function deleteFile($file, $path){
         $s3 = \Storage::disk('s3');
-        $filePath = '/shbtmdev/'.$path.'/' . $file;
+        $filePath = '/shbtm/'.$path.'/' . $file;
         $s3->delete($filePath);
     }
 
@@ -180,19 +263,19 @@ class PostHelper
     public static function getLinkImage($url, $path, $size = ''){
         $region = config('filesystems.disks')['s3']['region'];
         $bucket = config('filesystems.disks')['s3']['bucket'];
-        // if ($size != '') {
-        //     if ($size == 'thumbnail') {
-        //         $size = 300;
-        //     } else if ($size == 'medium') {
-        //         $size = 800;
-        //     } else if ($size == 'large') {
-        //         $size = 1200;
-        //     }
-        //     $name = explode('.', $url);
-        //     $imageUrl = $name[0].'-'.$size.'.'.$name[1];
-        // } else {
+        if ($size != '') {
+            if ($size == 'thumbnail') {
+                $size = 300;
+            } else if ($size == 'medium') {
+                $size = 800;
+            } else if ($size == 'large') {
+                $size = 1200;
+            }
+            $name = explode('.', $url);
+            $imageUrl = $name[0].'-'.$size.'.'.$name[1];
+        } else {
             $imageUrl = $url;
-        // }
+        }
 
         return 'https://s3-'.$region.'.amazonaws.com/'.$bucket.'/shbtm/'.$path.'/'.$imageUrl;
     }
@@ -212,36 +295,36 @@ class PostHelper
         $img = $imgObject;
         $img = $img->stream($file->getClientOriginalExtension(), 90);
 
-        // $imgLarge = $imgObject;
-        // $imgLarge->resize($large, null, function ($constraint) {
-        //     $constraint->aspectRatio();
-        // });
-        // $imgLarge = $imgLarge->stream($file->getClientOriginalExtension(), 90);
+        $imgLarge = $imgObject;
+        $imgLarge->resize($large, null, function ($constraint) {
+            $constraint->aspectRatio();
+        });
+        $imgLarge = $imgLarge->stream($file->getClientOriginalExtension(), 90);
 
-        // $imgMedium = $imgObject;
-        // $imgMedium->resize($medium, null, function ($constraint) {
-        //     $constraint->aspectRatio();
-        // });
-        // $imgMedium = $imgMedium->stream($file->getClientOriginalExtension(), 90);
+        $imgMedium = $imgObject;
+        $imgMedium->resize($medium, null, function ($constraint) {
+            $constraint->aspectRatio();
+        });
+        $imgMedium = $imgMedium->stream($file->getClientOriginalExtension(), 90);
 
-        // $imgThumb = $imgObject;
-        // $imgThumb->resize($thumb, null, function ($constraint) {
-        //     $constraint->aspectRatio();
-        // });
-        // $imgThumb = $imgThumb->stream($file->getClientOriginalExtension(), 90);
+        $imgThumb = $imgObject;
+        $imgThumb->resize($thumb, null, function ($constraint) {
+            $constraint->aspectRatio();
+        });
+        $imgThumb = $imgThumb->stream($file->getClientOriginalExtension(), 90);
 
         $s3 = \Storage::disk('s3');
         $filePath = '/shbtm/'.$path.'/' . $fileName.'.'.$ext;
         $s3->put($filePath, $img->__toString(), 'public');
 
-        // $filePath = '/'.$path.'/' . $fileName. '-'. $large.'.'.$ext;
-        // $s3->put($filePath, $imgLarge->__toString(), 'public');
+        $filePath = '/'.$path.'/' . $fileName. '-'. $large.'.'.$ext;
+        $s3->put($filePath, $imgLarge->__toString(), 'public');
 
-        // $filePath = '/'.$path.'/' . $fileName. '-'. $medium.'.'.$ext;
-        // $s3->put($filePath, $imgMedium->__toString(), 'public');
+        $filePath = '/'.$path.'/' . $fileName. '-'. $medium.'.'.$ext;
+        $s3->put($filePath, $imgMedium->__toString(), 'public');
 
-        // $filePath = '/'.$path.'/' . $fileName. '-'. $thumb.'.'.$ext;
-        // $s3->put($filePath, $imgThumb->__toString(), 'public');
+        $filePath = '/'.$path.'/' . $fileName. '-'. $thumb.'.'.$ext;
+        $s3->put($filePath, $imgThumb->__toString(), 'public');
     }
     
     /**
@@ -259,14 +342,14 @@ class PostHelper
         $filePath = '/shbtm/'.$path.'/' . $file;
         $s3->delete($filePath);
 
-        // $filePath = '/'.$path.'/' . $ex[0].'-'.$thumb.'.'.$ex[1];
-        // $s3->delete($filePath);
+        $filePath = '/'.$path.'/' . $ex[0].'-'.$thumb.'.'.$ex[1];
+        $s3->delete($filePath);
 
-        // $filePath = '/'.$path.'/' . $ex[0].'-'.$medium.'.'.$ex[1];
-        // $s3->delete($filePath);
+        $filePath = '/'.$path.'/' . $ex[0].'-'.$medium.'.'.$ex[1];
+        $s3->delete($filePath);
 
-        // $filePath = '/'.$path.'/' . $ex[0].'-'.$large.'.'.$ex[1];
-        // $s3->delete($filePath);
+        $filePath = '/'.$path.'/' . $ex[0].'-'.$large.'.'.$ex[1];
+        $s3->delete($filePath);
     }
 
     /**

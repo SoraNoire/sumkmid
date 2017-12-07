@@ -25,7 +25,7 @@
     <script src="https://use.fontawesome.com/0c0c4bc012.js"></script>
     
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
-    <script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
+    <script src="https://cloud.tinymce.com/stable/tinymce.min.js?apiKey={{ $tinymceApiKey ?? '' }}"></script>
   </head>
 
   <body id="{{ $body_id ?? ''}}">
