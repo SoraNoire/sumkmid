@@ -79,9 +79,35 @@
                             </div>
                             <div class="form-group event-type-offline" style="display: none;">
                                 <label class="control-label">HTM</label>
-                                <div class="input-group">
-                                    <span class="input-group-addon">Rp</span>
-                                    <input value="{{ $htm }}" class="form-control" type="text" name="htm">
+                                <div class="form-group">
+                                    <small>Free</small> 
+                                    <label class="switch">
+                                      <input type="checkbox" name="htm_free" value="1" {{-- $hta_check --}}>
+                                      <span class="slider round"></span>
+                                    </label>
+                                </div>
+                                <div id="htm-parent">
+                                    <div class="row" id="htm-1" data-id="1">
+                                        <div class="form-group col-sm-6">
+                                            <label>Nominal</label>
+                                            <div class="input-group">
+                                                <span class="input-group-addon">Rp</span>
+                                                <input value="{{ $htm }}" class="form-control" type="text" name="htm[]">
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-sm-6">
+                                            <label>Label</label>
+                                            <div class="input-group">
+                                                <input type="text" name="htm_label[]" class="form-control">
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-info" class="add-htm" onclick="add_htm()" type="button">+</button>
+                                                </span>
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-warning" class="remove-htm" onclick="remove_htm('htm-1')" type="button">-</button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group event-type-online">
@@ -96,27 +122,35 @@
                                    @endforeach
                                 </select>
                             </div>
-                            <div class="form-group row">
-                                <div class="col-md-6">
-                                    <label class="control-label">Open at</label>
-                                    <div class="input-group input-append date datetimepicker">
-                                        <input class="form-control" size="16" type="text" value="{{ $open_at }}" name="open_at" readonly>
+                            <div class="form-group">
+                                <label class="control-label">Open at</label>
+                                <div class="form-inline">
+                                    <div class="input-group input-append date event-datetimepicker">
+                                        <input class="form-control" size="16" type="text" value="{{ $open_date }}" name="open_date" readonly required>
                                         <span class="input-group-addon"><i class="fa fa-calendar" aria-hidden="true"></i></span>
                                     </div>
-                                    @if ($errors->has('open_at'))
-                                    <div class="has-error">
-                                        <span class="help-block">
-                                            <strong>This field is required</strong>
-                                        </span>
-                                    </div>
-                                    @endif
+                                    <input type="number" name="hour_open" id="hour_open" min="0" max="23" maxlength="2" value="{{ $hour_open }}" placeholder="HH" class="form-control event_time" required="required">&nbsp;:
+                                    <input type="number" name="minute_open" id="minute_open" min="0" max="59" maxlength="2" value="{{ $minute_open }}" placeholder="mm" class="form-control event_time" required="required">
+                                    <label>WIB</label>
                                 </div>
-                                <div class="col-md-6">
-                                    <label class="control-label">Closed at</label>
-                                    <div class="input-group input-append date datetimepicker">
-                                        <input class="form-control" size="16" type="text" value="{{ $closed_at }}" name="closed_at" readonly>
+                                @if ($errors->has('open_date'))
+                                <div class="has-error">
+                                    <span class="help-block">
+                                        <strong>This field is required</strong>
+                                    </span>
+                                </div>
+                                @endif
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Closed at</label>
+                                <div class="form-inline">
+                                    <div class="input-group input-append date event-datetimepicker">
+                                        <input class="form-control" size="16" type="text" value="{{ $closed_date }}" name="closed_date" readonly required>
                                         <span class="input-group-addon"><i class="fa fa-calendar" aria-hidden="true"></i></span>
                                     </div>
+                                    <input type="number" name="hour_close" id="hour_open" min="0" max="23" maxlength="2" value="{{ $hour_close }}" placeholder="HH" class="form-control event_time">&nbsp;:
+                                    <input type="number" name="minute_close" id="minute_open" min="0" max="59" maxlength="2" value="{{ $minute_close }}" placeholder="mm" class="form-control event_time">
+                                    <label>WIB</label>
                                 </div>
                             </div>
 

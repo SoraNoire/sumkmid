@@ -725,14 +725,26 @@ function cancelDelete(){
     $('.table-overlay').hide();
 };
 
-// date time picker for date published
+// date time picker
 if ($(".datetimepicker").length > 0) {
     $(function () {
         $('.datetimepicker').datetimepicker({
             format: "yyyy-mm-dd hh:ii",
             autoclose: true,
             todayBtn: true,
-            pickerPosition: "bottom-left"
+            pickerPosition: "top-left"
+        });
+    });
+}
+
+if ($(".event-datetimepicker").length > 0) {
+    $(function () {
+        $('.event-datetimepicker').datetimepicker({
+            format: "yyyy-mm-dd",
+            autoclose: true,
+            todayBtn: true,
+            pickerPosition: "top-left",
+            minView: 2
         });
     });
 }

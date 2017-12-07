@@ -133,7 +133,7 @@ class EventController extends Controller
         $this->validate($request, [
             'title' => 'required',
             'description' => 'required',
-            'open_at' => 'required'
+            'open_date' => 'required'
         ]);
 
         $title = $request->input('title');
@@ -151,9 +151,17 @@ class EventController extends Controller
         $meta_title = $request->input('meta_title') ?? '';
         $meta_desc = $request->input('meta_desc') ?? '';
         $meta_keyword = $request->input('meta_keyword') ?? '';
-        $open_at = $request->input('open_at');
-        $closed_at = $request->input('closed_at');
         $published_date = $request->input('published_date');
+
+        $open_date = $request->input('open_date');
+        $hour_open = $request->input('hour_open');
+        $minute_open = $request->input('minute_open');
+        $open_at = Carbon::parse($open_date.' '.$hour_open.':'.$minute_open);
+
+        $closed_date = $request->input('closed_date');
+        $hour_close = $request->input('hour_close');
+        $minute_close = $request->input('minute_close');
+        $closed_at = Carbon::parse($closed_date.' '.$hour_close.':'.$minute_close);
         
         $mentor = json_encode($mentor);
 
@@ -245,6 +253,28 @@ class EventController extends Controller
             $mentor_id      = json_decode($post_metas->mentor ?? '') ?? [];
             $gmaps_url      = $post_metas->gmaps_url ?? '';
 
+            $open_at = Carbon::parse($open_at);
+            $open_date = $open_at->toDateString();
+            $hour_open = $open_at->hour;
+            if ($hour_open < 10) {
+                $hour_open = '0'.$hour_open;
+            }
+            $minute_open = $open_at->minute;
+            if ($minute_open < 10) {
+                $minute_open = '0'.$minute_open;
+            }
+
+            $closed_at = Carbon::parse($closed_at);
+            $closed_date = $closed_at->toDateString();
+            $hour_close = $closed_at->hour;
+            if ($hour_close < 10) {
+                $hour_close = '0'.$hour_close;
+            }
+            $minute_close = $closed_at->minute;
+            if ($minute_close < 10) {
+                $minute_close = '0'.$minute_close;
+            }
+
             $mentors = $this->user->mentors()->users;
 
             return view('event::admin.edit_event')->with(
@@ -270,8 +300,12 @@ class EventController extends Controller
                                 'selected_mentors' => $mentor_id,
                                 'location' => $location,
                                 'htm' => $htm,
-                                'open_at' => $open_at,
-                                'closed_at' => $closed_at,
+                                'open_date' => $open_date,
+                                'hour_open' => $hour_open,
+                                'minute_open' => $minute_open,
+                                'closed_date' => $closed_date,
+                                'hour_close' => $hour_close,
+                                'minute_close' => $minute_close,
                                 'event_url' => $event_url,
                             ]
                     );
@@ -299,7 +333,7 @@ class EventController extends Controller
         $this->validate($request, [
             'title' => 'required',
             'description' => 'required',
-            'open_at' => 'required'
+            'open_date' => 'required'
         ]);
         
         $title = $request->input('title');
@@ -320,6 +354,16 @@ class EventController extends Controller
         // $open_at = $request->input('open_at');
         // $closed_at = $request->input('closed_at');
         $published_date = $request->input('published_date');
+
+        $open_date = $request->input('open_date');
+        $hour_open = $request->input('hour_open');
+        $minute_open = $request->input('minute_open');
+        $open_at = Carbon::parse($open_date.' '.$hour_open.':'.$minute_open);
+
+        $closed_date = $request->input('closed_date');
+        $hour_close = $request->input('hour_close');
+        $minute_close = $request->input('minute_close');
+        $closed_at = Carbon::parse($closed_date.' '.$hour_close.':'.$minute_close);
 
         DB::beginTransaction();
         try {
