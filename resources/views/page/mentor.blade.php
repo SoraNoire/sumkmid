@@ -16,10 +16,10 @@
 			<div class="item">
 				<div class="item-image" style="background-image: url('{{$mentor->foto_profil}}');"></div>
 				<div class="item-title">
-					<a href="#" title="Dito Arifin">
+					<a href="{{ route('public_mentor_single',$mentor->id) }}" title="Dito Arifin">
 						{!! str_limit(html_entity_decode(strip_tags($mentor->name)), 40) !!}
 					</a>
-					<a href="#" class="sub" title="CEO Anak Mas">{{ $mentor->jabatan }}</a>
+					<a href="{{ route('public_mentor_single',$mentor->id) }}" class="sub" title="CEO Anak Mas">{{ $mentor->jabatan }}</a>
 				</div>		
 			</div>
 			</div>
