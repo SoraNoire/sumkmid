@@ -13,7 +13,7 @@
 		        		Appropriately communicate pandemic initiatives through intuitive testing procedures. Appropriately distinctive paradigms after enabled cloud services. Globally productize sustainable sources with corporate functionalities. Interactively facilitate virtual quality vectors before adaptive e-commerce.
 		        	</p>
 	        	</div>
-	        	<a href="#" class="button">Daftar</a>
+	        	<a href="http://authdev.mdirect.id/register" class="button">Daftar</a>
 	        </div>
 	        <div class="col-7 right-content">
 	        	<div class="video-wraper" style="background-image: url('/img/top-video-bg.png');">
