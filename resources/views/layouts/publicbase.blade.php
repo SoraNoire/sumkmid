@@ -12,7 +12,7 @@
 
     <link rel="icon" type="image/x-icon" href="{{ asset('img/logo-ico.png') }}">
     <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/index.css') }}?v=1.0.0">
+    <link rel="stylesheet" href="{{ asset('css/index.css') }}?v=1.1.0">
 </head>
 <body>
 	<!-- header -->
@@ -135,7 +135,61 @@
         crossorigin="anonymous"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script src="{{asset('js/jscroll.js')}}"></script>
-    <script src="{{ asset('js/home.js') }}?v=1.0.0"></script>
+    @if($var['page'] == 'Event')
+    <script>
+        //event
+        $(function() {
+        $('.infinite-scroll').jscroll({
+            autoTrigger: true,
+            loadingHtml: '<div class="scroller-status loading"> <div class="event the-row"> <div class="col-3"></div> <div class="event-timeline"> <div class="event-indicator"></div> </div> <div class="col-9 infinity-scroll-message"> <div class="loadingItems"> <span class="infinite-scroll-request"><img src="/img/infinity-load.svg"> Memuat Event</span> </div> </div> </div> </div>',
+            padding: 0,
+            nextSelector: '.pagination li.active + li a',
+            contentSelector: 'div.infinite-scroll',
+            callback: function() {
+                $('ul.pagination').remove();
+                $('.scroller-status').addClass('end-of-page');
+            }
+            });
+            });
+    </script>
+    @endif
+    @if($var['page'] == 'Video')
+    <script>
+        //video
+        $(function(){
+        $('.infinite-scroll').jscroll({
+            autoTrigger: true,
+            loadingHtml: '<div class="loadingVideo atEnd"> <span class="infinite-scroll-request"><img src="/img/infinity-load.svg"></span> <span class="infinite-scroll-last">Loading Video...</span></div>',
+            padding: 0,
+            nextSelector: '.pagination li.active + li a',
+            contentSelector: 'div.infinite-scroll',
+            callback: function() {
+                $('ul.pagination').remove();
+                $('.atEnd').show();
+            }
+        });
+        });
+    </script>
+    @endif
+    @if($var['page'] == 'Mentor')
+    <script>
+        //Mentor
+        $(function(){
+        $('.infinite-scroll').jscroll({
+            autoTrigger: true,
+            loadingHtml: '<div class="loadingVideo"> <span class="infinite-scroll-request"><img src="/img/infinity-load.svg"></span> <span class="infinite-scroll-last">Memuat Mentor...</span> </div>',
+            padding: 0,
+            nextSelector: '.pagination li.active + li a',
+            contentSelector: 'div.infinite-scroll',
+            callback: function() {
+                $('ul.pagination').remove();
+                $('.atEnd').show();
+            }
+        });
+        });
+    </script>
+    @endif
+    <script src="{{ asset('js/home.js') }}?v=1.1.0"></script>
 
 </body>
 </html>

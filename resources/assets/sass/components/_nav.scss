@@ -57,6 +57,9 @@
                     width: max-content;
                     float: right;
                 }
+                &:hover{
+                    text-decoration: none;
+                }
             }
         }
     }

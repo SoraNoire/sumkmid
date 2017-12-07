@@ -120,16 +120,5 @@ $('.closeAlert').click(function(){
 // });
 
 $('ul.pagination').hide();
-$(function() {
-	$('.infinite-scroll').jscroll({
-		autoTrigger: true,
-		loadingHtml: '<div class="scroller-status loading"> <div class="event the-row"> <div class="col-3"></div> <div class="event-timeline"> <div class="event-indicator"></div> </div> <div class="col-9 infinity-scroll-message"> <div class="loadingItems"> <span class="infinite-scroll-request"><img src="/img/infinity-load.svg"> Memuat Event</span> </div> </div> </div> </div>',
-		padding: 0,
-		nextSelector: '.pagination li.active + li a',
-		contentSelector: 'div.infinite-scroll',
-		callback: function() {
-			$('ul.pagination').remove();
-			$('.scroller-status').addClass('end-of-page');
-		}
-	});
-});
+
+

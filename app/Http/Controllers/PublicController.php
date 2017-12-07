@@ -74,7 +74,7 @@ class PublicController extends Controller
      */
 	public function home(){
         $var['page'] = "Home";
-		$var['videos'] = DB::table('posts')->where('post_type','video')->where('deleted',0)->orderBy('published_date','desc')->paginate(4);
+		$var['videos'] = DB::table('posts')->where('post_type','video')->where('deleted',0)->where('published_date','<=',Carbon::now())->orderBy('published_date','desc')->paginate(4);
 		return view('page.home')->with(['var' => $var]);
 	}
 
@@ -148,27 +148,6 @@ class PublicController extends Controller
 					// ->get();
 					->paginate(3);
 
-        $newdata = array();
-        foreach ($var['events'] as $data) {
-            $post_metas = PostMeta::where('post_id',$data->id)->get();
-            $post_metas = $this->readMetas($post_metas);
-
-            $data->event_type	= $post_metas->event_type ?? '';
-            $data->event_url    = $post_metas->event_url ?? '';
-            $data->gmaps_url	= $post_metas->gmaps_url ?? '';
-            $data->location     = $post_metas->location ?? '';
-            $data->htm          = $post_metas->htm ?? '';
-            $data->open_at      = $post_metas->open_at ?? '';
-            $data->closed_at    = $post_metas->closed_at ?? '';
-            $data->meta_desc    = $post_metas->meta_desc ?? '';
-            $data->meta_title   = $post_metas->meta_title ?? '';
-            $data->meta_keyword = $post_metas->meta_keyword ?? '';
-            $data->mentors      = json_decode($post_metas->event_mentor ?? '') ?? [];
-
-            $newdata[] = $data;
-        }
-        $var['events'] = $newdata;
-
 		return view('page.event')->with(['var' => $var]);
 	}
 
@@ -193,7 +172,7 @@ class PublicController extends Controller
      */
 	public function video(){
 		$var['page'] = "Video";
-		$var['videos'] = DB::table('posts')->where('post_type','video')->where('deleted',0)->orderBy('published_date','desc')->paginate(6);
+		$var['videos'] = DB::table('posts')->where('post_type','video')->where('deleted',0)->where('published_date','<=',Carbon::now())->orderBy('published_date','desc')->paginate(3);
 		return view('page.video')->with(['var' => $var]);
 	}
 	public function searchVideo(request $request){

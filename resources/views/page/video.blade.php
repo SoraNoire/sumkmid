@@ -31,9 +31,8 @@
 	@endforeach
 	{{ $var['videos']->links() }}
 	</div>
-	<div class="loadingVideo">
-		<span class="infinite-scroll-request"><img src="/img/infinity-load.svg"></span>
-		<span class="infinite-scroll-last">Tidak Ada Event Lagi</span>
+	<div class="atEnd">
+		<span class="end-text">Tidak Ada Video Lagi</span>
 	</div>
 	</div>
 </div>

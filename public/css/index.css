@@ -1231,6 +1231,10 @@ template,
   }
 }
 
+.navWrapper ul .loginButton a:hover {
+  text-decoration: none;
+}
+
 .toggleMenu {
   display: none;
   background-color: #4C617D;
@@ -1964,9 +1968,40 @@ footer .copyright {
   text-decoration: none;
 }
 
+#video-archive .atEnd {
+  margin: 40px;
+  text-align: center;
+  font-weight: 700;
+  display: none;
+}
+
+#video-archive .loadingVideo {
+  margin: 20px auto;
+  text-align: center;
+}
+
+#video-archive .loadingVideo .infinite-scroll-request img {
+  vertical-align: middle;
+  display: inline-block;
+  margin-right: 10px;
+  -webkit-animation: spin 1.5s linear infinite;
+  animation: spin 1.5s linear infinite;
+}
+
+#video-archive .loadingVideo .infinite-scroll-request span {
+  margin-left: 10px;
+  display: inline-block;
+}
+
 #mentor-archive {
   margin-top: 59px;
   margin-bottom: 49px;
+}
+
+#mentor-archive .atEnd {
+  margin: 30px 0px 40px 0px;
+  text-align: center;
+  font-weight: 700;
 }
 
 @media screen and (max-width: 768px) {
