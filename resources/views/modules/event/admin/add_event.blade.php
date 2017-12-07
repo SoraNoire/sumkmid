@@ -72,6 +72,13 @@
                             </div>
                             <div class="form-group event-type-offline" style="display: none;">
                                 <label class="control-label">HTM</label>
+                                <div class="form-group">
+                                    <small>Free</small> 
+                                    <label class="switch">
+                                      <input type="checkbox" name="htm_free" value="1" {{-- $hta_check --}}>
+                                      <span class="slider round"></span>
+                                    </label>
+                                </div>
                                 <div class="input-group">
                                     <span class="input-group-addon">Rp</span>
                                     <input value="{{ old('htm') }}" class="form-control" type="text" name="htm">

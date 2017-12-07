@@ -79,9 +79,35 @@
                             </div>
                             <div class="form-group event-type-offline" style="display: none;">
                                 <label class="control-label">HTM</label>
-                                <div class="input-group">
-                                    <span class="input-group-addon">Rp</span>
-                                    <input value="{{ $htm }}" class="form-control" type="text" name="htm">
+                                <div class="form-group">
+                                    <small>Free</small> 
+                                    <label class="switch">
+                                      <input type="checkbox" name="htm_free" value="1" {{-- $hta_check --}}>
+                                      <span class="slider round"></span>
+                                    </label>
+                                </div>
+                                <div id="htm-parent">
+                                    <div class="row" id="htm-1" data-id="1">
+                                        <div class="form-group col-sm-6">
+                                            <label>Nominal</label>
+                                            <div class="input-group">
+                                                <span class="input-group-addon">Rp</span>
+                                                <input value="{{ $htm }}" class="form-control" type="text" name="htm[]">
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-sm-6">
+                                            <label>Label</label>
+                                            <div class="input-group">
+                                                <input type="text" name="htm_label[]" class="form-control">
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-info" class="add-htm" onclick="add_htm()" type="button">+</button>
+                                                </span>
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-warning" class="remove-htm" onclick="remove_htm('htm-1')" type="button">-</button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group event-type-online">
