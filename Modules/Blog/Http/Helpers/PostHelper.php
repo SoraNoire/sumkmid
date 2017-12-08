@@ -517,5 +517,22 @@ class PostHelper
         $data['mentors'] = $mentors;
         return $data;
     }
+
+    public static function validation_messages(){
+        $messages = [   
+            'required' => 'This field is required',
+            'image'     => 'The :attribute must be an image (jpeg, png, or gif)',
+            'max'       => 'The :attribute maximum size is :max',
+            'min'       => 'The :attribute minimum size is :min',
+            'mimes'     => 'The :attribute mimes not supported',
+            'same'      => 'The :attribute and :other must match.',
+            'size'      => 'The :attribute must be exactly :size.',
+            'between'   => 'The :attribute must be between :min - :max.',
+            'in'        => 'The :attribute must be one of the following types: :values',
+            'numeric'   => 'The :attribute must be numeric',
+        ];
+
+        return $messages;
+    }
 }
 ?>

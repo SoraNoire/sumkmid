@@ -145,7 +145,7 @@ class BlogController extends Controller
         $this->validate($request, [
             'title' => 'required',
             'content' => 'required'
-        ]);
+        ], PostHelper::validation_messages());
 
         $categories = $request->input('categories') ?? [] ;
         $meta_title = $request->input('meta_title');
@@ -262,7 +262,7 @@ class BlogController extends Controller
         $this->validate($request, [
             'title' => 'required',
             'content' => 'required'
-        ]);
+        ], PostHelper::validation_messages());
 
         $file_label = $request->get('file_label');
         $file_name = $request->get('file_name');
@@ -447,9 +447,7 @@ class BlogController extends Controller
     public function store_file(Request $req){
         $this->validate($req, [
             'fileUpload.*' => 'mimes:pdf,doc,dot,docx,xlsx,xml,ppt,ppa,pptx,ppsx,mdb,txt,zip,rar',
-        ], [
-            'mimes' => 'Cannot upload file with this extension',
-        ]);
+        ], PostHelper::validation_messages());
         
         if ($req->hasFile('fileUpload')) {
             try {
@@ -1115,11 +1113,7 @@ class BlogController extends Controller
     public function store_media(Request $req){
         $this->validate($req, [
             'media.*' => 'image|max:3000|mimes:jpg,jpeg,png,gif',
-        ], [
-            'mimes' => 'Cannot upload media with this extension',
-            'image' => 'Cannot upload media with this extension',
-            'max' => 'Max upload size 3MB',
-        ]);
+        ], PostHelper::validation_messages());
         if ($req->hasFile('media')) {
             try {
                 $file = $req->file('media');
@@ -1274,7 +1268,7 @@ class BlogController extends Controller
         $this->validate($request, [
             'title' => 'required',
             'content' => 'required'
-        ]);
+        ], PostHelper::validation_messages());
 
         $title = $request->input('title');
         $slug = PostHelper::make_slug($title);
@@ -1383,7 +1377,7 @@ class BlogController extends Controller
         $this->validate($request, [
             'title' => 'required',
             'content' => 'required'
-        ]);
+        ], PostHelper::validation_messages());
 
         $update = Posts::where('id', $id)->first();
         $update->title = $request->input('title');

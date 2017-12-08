@@ -133,7 +133,7 @@ class VideoController extends Controller
         $this->validate($request, [
             'title' => 'required',
             'content' => 'required'
-        ]);
+        ], PostHelper::validation_messages());
 
         $meta_title =  $request->input('meta_title');
         $meta_desc =  $request->input('meta_desc');
@@ -252,7 +252,7 @@ class VideoController extends Controller
         $this->validate($request, [
             'title' => 'required',
             'content' => 'required'
-        ]);
+        ], PostHelper::validation_messages());
 
         $categories = $request->input('categories') ?? [] ;
         $published_date = $request->input('published_date');
