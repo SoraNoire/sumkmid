@@ -116,15 +116,7 @@ class PublicController extends Controller
 
 	}
 
-	/**
-     * Show User Setting page.
-     * @return Response
-     */
-	public function userSetting(){
-        $var['page'] = "userSetting";
-		return view('page.userSetting')->with(['var' => $var]);
-	}
-
+	
 
 	private function _validate($data=[],$validator=[])
 	{
@@ -141,38 +133,9 @@ class PublicController extends Controller
 		}
 		return false;
 	}
-	public function saveUserSetting(request $req){
+	
 
-		$data = [
-			'name' => $req->input('name'),
-			'email' => $req->input('email'),
-			'phone_number' => $req->input('nomorTelepon')
-		];
-
-		$v = [
-			'name' => 'required|min:6',
-			'email' => 'required|email',
-			'phone_number' => 'required|min:8',
-		];
-		$validator = self::_validate($data,$v);
-		
-		if( $validator){
-			return back()->with(['warnings' => $validator ]);
-		}
-		
-		$name = $req->input('name');
-		$email = $req->input('email');
-		$notelp = $req->input('nomorTelepon');
-
-		$data = [
-			'name'=>'naan',
-			'email' => 'aaa',
-			'password' => 'aaa',
-			'password_confirmation' => 'aaa',
-		];
-		SSO::meUpdate($data);
-	}
-
+	
 
 	public function singleVideo($slug){
 		$var['page'] = "singleVideo";

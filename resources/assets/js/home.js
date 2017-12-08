@@ -87,6 +87,35 @@ function show_event_sharer(id) {
 	}
 }
 
+$(document).ready(function(){
+	$('#upldimageuser').on('submit',(function(e) {
+        e.preventDefault();
+        var formData = new FormData(this);
+        $.ajax({
+			headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type:'POST',
+            url: $(this).attr('action'),
+            data:formData,
+            cache:false,
+            contentType: false,
+            processData: false,
+            success:function(data){
+                console.log("success");
+                console.log(data);
+            },
+            error: function(data){
+                console.log("error");
+                console.log(data);
+            }
+        });
+    }));
+    $("#inputUserImage").on('change',function(e){
+		$( "#upldimageuser" ).submit();
+		alert('masuk');
+    });
+});
 
 // $(document).bind('DOMSubtreeModified', function() {
 // 	if(window.outerWidth > 830){
@@ -99,11 +128,18 @@ window.onresize = function(){
     
     if (window.innerWidth > 830)
     {
-        $('.navWrapper ul').show();
+		$('.navWrapper ul').show();
+		$('.userNavSetting ul').hide();
     }else{
+		$('.userNavSetting ul').show();
 		$('.navWrapper ul').hide();
+		
 	}
 } 
+
+$('#profileTrigger').click(function(){
+	$('.userNavSetting ul').slideToggle();
+});
 
 $('.whiteOverlay').click(function(){
 	$('.whiteOverlay').fadeOut();

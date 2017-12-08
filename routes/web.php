@@ -43,8 +43,9 @@ Route::get('/kontak', 'PublicController@kontak')->name('public_kontak');
 Route::get('/event', 'PublicController@event')->name('public_event');
 Route::get('/video', 'PublicController@video')->name('public_video');
 
-Route::get('/user-setting', 'PublicController@userSetting')->name('user_setting');
-Route::post('/user-setting/save','PublicController@saveUserSetting')->name('user_setting_save');
+Route::get('/user-setting', 'memberController@userSetting')->name('user_setting');
+Route::post('/user-setting/save','memberController@saveUserSetting')->name('user_setting_save');
+Route::post('/user-setting/UpdateProfilePict','memberController@updateProfilePict')->name('user_update_profile_pict');
 
 Route::get('/video/search', 'PublicController@searchVideo')->name('search_video');
 Route::get('/video/{slug}', 'PublicController@singleVideo')->name('single_video');
@@ -67,7 +68,7 @@ Route::get('appupd','SampleController@appUpd');
 Route::get('/logout', function(){
 	\App\Helpers\SSOHelper::logout();
 	return Redirect::to('/');
-});
+})->name('logout');
 
 Route::get('ssotestusers',function(){
 	$user = new App\Helpers\SSOHelper;

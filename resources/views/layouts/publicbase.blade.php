@@ -4,7 +4,6 @@
 	<meta charset="UTF-8">
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport'>
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    {{ csrf_token() }}
     <!-- csrf key -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -56,8 +55,12 @@
                                 <li class="userNavSetting">
                                     <span>{{app()->SSO->Auth()->name}}</span>
                                     <div class="goToProfile">
-                                        <a href="{{route('user_setting')}}"><img src="{{ asset('img/invalid-name.svg') }}" alt=""></a>
+                                        <img id="profileTrigger" src="{{ asset('img/invalid-name.svg') }}" alt="">
                                     </div>
+                                    <ul>
+                                        <li><a href="{{route('user_setting')}}">Edit Profile</a></li>
+                                        <li><a href="{{route('logout')}}">Logout</a></li>
+                                    </ul>
                                 </li>
                                 @else
 	                            <li class="loginButton">
