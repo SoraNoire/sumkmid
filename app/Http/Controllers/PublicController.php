@@ -16,6 +16,7 @@ use Modules\Blog\Entities\PostMeta;
 use Modules\Video\Entities\Video;
 use Carbon\Carbon;
 use Mail;
+use View;
 use Illuminate\Support\Facades\Validator;
 
 class PublicController extends Controller
@@ -24,6 +25,8 @@ class PublicController extends Controller
 	function __construct(Request $request)
 	{
 		Carbon::setLocale('Indonesia');
+		$var['page'] = 'Sahabat UMKM Indonesia';
+        View::share('var', $var);
 	}
 
 	public function login(Request $request)

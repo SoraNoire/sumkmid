@@ -136,7 +136,7 @@ if ($('input[name=htm_free]').length > 0) {
 function add_htm(){
     var htm_id = parseInt($("#htm-parent .row:last-child").attr('data-id'));
     htm_id += 1;
-    $('#htm-parent').append('<div class="row" id="htm-'+htm_id+'" data-id="'+htm_id+'"><div class="form-group col-sm-6"><label>Nominal</label><div class="input-group"><span class="input-group-addon">Rp</span><input value="" class="form-control" type="text" name="htm[]"></div></div><div class="form-group col-sm-6"><label>Label</label><div class="input-group"><input type="text" name="htm_label[]" class="form-control"><span class="input-group-btn"><button class="btn btn-info" class="add-htm" onclick="add_htm()" type="button">+</button></span><span class="input-group-btn"><button class="btn btn-warning" class="remove-htm" onclick="remove_htm(\'htm-'+htm_id+'\')" type="button">-</button></span></div></div></div>');
+    $('#htm-parent').append('<div class="row" id="htm-'+htm_id+'" data-id="'+htm_id+'"><div class="form-group col-sm-6"><label>Nominal</label><div class="input-group"><span class="input-group-addon">Rp</span><input value="" class="form-control" type="text" name="htm_nominal[]"></div></div><div class="form-group col-sm-6"><label>Label</label><div class="input-group"><input type="text" name="htm_label[]" class="form-control"><span class="input-group-btn"><button class="btn btn-info" class="add-htm" onclick="add_htm()" type="button">+</button></span><span class="input-group-btn"><button class="btn btn-warning" class="remove-htm" onclick="remove_htm(\'htm-'+htm_id+'\')" type="button">-</button></span></div></div></div>');
 }
 
 function remove_htm(id){
