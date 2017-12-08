@@ -129,7 +129,7 @@ class GalleryController extends Controller
             'title' => 'required',
             'content' => 'required',
             'gallery_images' => 'required'
-        ]);
+        ], PostHelper::validation_messages());
 
         $meta_title =  $request->input('meta_title');
         $meta_desc =  $request->input('meta_desc');
@@ -252,7 +252,7 @@ class GalleryController extends Controller
             'title' => 'required',
             'content' => 'required',
             'gallery_images' => 'required'
-        ]);
+        ], PostHelper::validation_messages());
 
         $title = $request->input('title');
         $content = $request->input('content');

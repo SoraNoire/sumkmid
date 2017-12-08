@@ -26,7 +26,7 @@
                     @if ($errors->has('title'))
                     <div class="has-error">
                         <span class="help-block">
-                            <strong>This field is required</strong>
+                            <strong>{{ $errors->first('title') }}</strong>
                         </span>
                     </div>
                     @endif
@@ -40,7 +40,7 @@
                     @if ($errors->has('content'))
                     <div class="has-error">
                         <span class="help-block">
-                            <strong>This field is required</strong>
+                            <strong>{{ $errors->first('content') }}</strong>
                         </span>
                     </div>
                     @endif

@@ -134,24 +134,36 @@ class EventController extends Controller
             'title' => 'required',
             'description' => 'required',
             'open_date' => 'required'
-        ]);
+        ], PostHelper::validation_messages());
 
         $title = $request->input('title');
         $slug = PostHelper::make_slug($title);
         $description = $request->input('description');
-        $featured_image = $request->input('featured_image');
         $event_type = $request->get('event_type');
         $location = $request->input('location');
         $gmaps_url = $request->input('gmaps_url');
-        $htm = $request->input('htm');
         $event_url = $request->input('event_url'); 
         $author = app()->SSO->Auth()->id;
-        $mentor = $request->get('mentor');
+        $mentor_registered = $request->get('mentor_registered');
+        $mentor_not_registered = $request->get('mentor_not_registered');
         $status = $request->get('status');
         $meta_title = $request->input('meta_title') ?? '';
         $meta_desc = $request->input('meta_desc') ?? '';
         $meta_keyword = $request->input('meta_keyword') ?? '';
         $published_date = $request->input('published_date');
+
+        $htm_free = $request->get('htm_free');
+        if ($htm_free != 'free') {
+            $htm = [];
+            $htm_nominal = $request->input('htm_nominal');
+            $htm_label = $request->input('htm_label');
+            for ($i=0; $i < count($htm_nominal); $i++) { 
+                 $htm[] = ['nominal' => $htm_nominal[$i], 'label' => $htm_label[$i]];
+            } 
+            $htm = json_encode($htm);
+        } else {
+            $htm = $htm_free;
+        }
 
         $open_date = $request->input('open_date');
         $hour_open = $request->input('hour_open');
@@ -163,7 +175,8 @@ class EventController extends Controller
         $minute_close = $request->input('minute_close');
         $closed_at = Carbon::parse($closed_date.' '.$hour_close.':'.$minute_close);
         
-        $mentor = json_encode($mentor);
+        $mentor_registered = json_encode($mentor_registered);
+        $mentor_not_registered = json_encode($mentor_not_registered);
 
         if ($published_date == 'immediately') {
             $published_date = Carbon::now()->toDateTimeString();
@@ -179,7 +192,6 @@ class EventController extends Controller
             $store = new Posts;
             $store->title = $title;
             $store->slug = $slug;
-            $store->featured_image = $featured_image;
             $store->author = $author;
             $store->content = $description;
             $store->post_type = 'event';
@@ -193,7 +205,8 @@ class EventController extends Controller
             $metas[] = ['name' => 'htm', 'value' => $htm];
             $metas[] = ['name' => 'open_at', 'value' => $open_at];
             $metas[] = ['name' => 'closed_at', 'value' => $closed_at];
-            $metas[] = ['name' => 'mentor', 'value' => $mentor];
+            $metas[] = ['name' => 'mentor_registered', 'value' => $mentor_registered];
+            $metas[] = ['name' => 'mentor_not_registered', 'value' => $mentor_not_registered];
             $metas[] = ['name' => 'event_url', 'value' => $event_url];
             $metas[] = ['name' => 'meta_title', 'value' => $meta_title];
             $metas[] = ['name' => 'meta_desc', 'value' => $meta_desc];
@@ -234,7 +247,6 @@ class EventController extends Controller
 
             $title = $event->title;
             $description = $event->content; 
-            $featured_image = $event->featured_image;
             $media = Media::orderBy('created_at','desc')->get();
             $status = $event->status;
             $published_date = $event->published_date;
@@ -250,8 +262,13 @@ class EventController extends Controller
             $meta_desc      = $post_metas->meta_desc ?? '';
             $meta_title     = $post_metas->meta_title ?? '';
             $meta_keyword   = $post_metas->meta_keyword ?? '';
-            $mentor_id      = json_decode($post_metas->mentor ?? '') ?? [];
+            $mentor_registered      = json_decode($post_metas->mentor_registered ?? '') ?? [];
+            $mentor_not_registered      = json_decode($post_metas->mentor_not_registered ?? '') ?? [];
             $gmaps_url      = $post_metas->gmaps_url ?? '';
+
+            if (is_string($htm) && $htm != 'free') {
+                $htm = json_decode($htm);
+            }
 
             $open_at = Carbon::parse($open_at);
             $open_date = $open_at->toDateString();
@@ -289,7 +306,6 @@ class EventController extends Controller
                                 'title' => $title,
                                 'description' => $description,
                                 'media' => $media,
-                                'featured_image' => $featured_image,
                                 'meta_desc' => $meta_desc,
                                 'meta_title' => $meta_title,
                                 'meta_keyword' => $meta_keyword,
@@ -297,7 +313,8 @@ class EventController extends Controller
                                 'published_date' => $published_date,
                                 'event_type' => $event_type,
                                 'mentors' => $mentors,
-                                'selected_mentors' => $mentor_id,
+                                'mentor_registered' => $mentor_registered,
+                                'mentor_not_registered' => $mentor_not_registered,
                                 'location' => $location,
                                 'htm' => $htm,
                                 'open_date' => $open_date,
@@ -334,26 +351,20 @@ class EventController extends Controller
             'title' => 'required',
             'description' => 'required',
             'open_date' => 'required'
-        ]);
+        ], PostHelper::validation_messages());
         
         $title = $request->input('title');
         $description = $request->input('description');
-        $featured_image = $request->input('featured_image');
-        // $event_type = $request->get('event_type');
-        // $categories = json_encode($request->get('category'));
+        $event_type = $request->get('event_type');
         $location = $request->input('location');
         $gmaps_url = $request->input('gmaps_url');
-        // $htm = $request->input('htm');
-        // $forum_id = $request->input('forum_id');
-        $mentor = $request->input('mentor');
+        $mentor_registered = $request->get('mentor_registered');
         $status = $request->get('status');
-        // $event_type = $request->get('event_type');
-        // $event_meta_title = $request->input('meta_title');
-        // $event_meta_desc = $request->input('meta_desc');
-        // $event_meta_keyword = $request->input('meta_keyword');
-        // $open_at = $request->input('open_at');
-        // $closed_at = $request->input('closed_at');
+        $meta_title = $request->input('meta_title');
+        $meta_desc = $request->input('meta_desc');
+        $meta_keyword = $request->input('meta_keyword');
         $published_date = $request->input('published_date');
+        $event_url = $request->input('event_url'); 
 
         $open_date = $request->input('open_date');
         $hour_open = $request->input('hour_open');
@@ -365,13 +376,26 @@ class EventController extends Controller
         $minute_close = $request->input('minute_close');
         $closed_at = Carbon::parse($closed_date.' '.$hour_close.':'.$minute_close);
 
+        $htm_free = $request->get('htm_free');
+        if ($htm_free != 'free') {
+            $htm = [];
+            $htm_nominal = $request->input('htm_nominal');
+            $htm_label = $request->input('htm_label');
+            for ($i=0; $i < count($htm_nominal); $i++) { 
+                 $htm[] = ['nominal' => $htm_nominal[$i], 'label' => $htm_label[$i]];
+            } 
+            $htm = json_encode($htm);
+        } else {
+            $htm = $htm_free;
+        }
+
+
         DB::beginTransaction();
         try {
             $post_metas = PostMeta::where('post_id',$id)->get();
             $update = Posts::where('id', $id)->first();
             $update->title = $title;
             $update->content = $description;
-            $update->featured_image = $featured_image;
             $update->status = $status;
             $update->published_date = $published_date;
             
@@ -379,7 +403,7 @@ class EventController extends Controller
             {
                 $newMeta = false;
                 $post_metas = PostMeta::where('post_id',$id)->get();
-                $meta_fields = ['event_type', 'location', 'htm', 'open_at', 'closed_at', 'meta_title', 'meta_desc', 'meta_keyword', 'mentor', 'event_url', 'gmaps_url' ];
+                $meta_fields = ['event_type', 'location', 'open_at', 'closed_at', 'meta_title', 'meta_desc', 'meta_keyword', 'mentor_registered', 'mentor_not_registered', 'event_url', 'gmaps_url' ];
 
                 foreach ($meta_fields as $key => $meta) {
                     $updated = false;
@@ -407,6 +431,15 @@ class EventController extends Controller
                          PostMeta::insert(['post_id'=>$update->id,'key' => $meta, 'value'=>$value]);
                     }
                 }
+
+                $post_meta = PostMeta::where('post_id',$id)->where('key', 'htm')->first();
+                if (isset($post_meta)) {
+                    $post_meta->value = $htm;
+                    $post_meta->save();
+                } else {
+                    PostMeta::insert(['post_id'=>$update->id,'key' => 'htm', 'value'=>$htm]);
+                }
+
             }
 
             // $meta_fields = [ 'event_type', 'event_location', 'event_htm', 'event_meta_title', 'event_meta_desc', 'event_meta_keyword', 'event_open_at', 'event_closed_at', 'event_categories' ];
