@@ -10,36 +10,41 @@
 
 <section id="userSetting">
 	<div class="container">
-		<div class="formAlert alertSuccess">
+		<!-- <div class="formAlert alertSuccess">
 			<span>Profil berhasil disimpan</span>
 			<div class="closeAlert">x</div>
-		</div>
-		<h3>Hallo, Syarief Navi</h3>
+		</div> -->
+		<h3>Hallo, {{app()->SSO->Auth()->name}}</h3>
 		<div class="leftForm">
 			<div class="photoUser">
-				<div class="photoPreview">
-					<img src="{{ asset('img/userImage.png') }}" alt="user-image">
+				<div class="photoPreview" style="background-image:url('{{ app()->SSO->Auth()->foto_profil }}');">
 				</div>
 				<div class="inputTrigger" onclick="document.getElementById('inputUserImage').click(); return false;"></div>
 				<input type="file" name="photo" id="inputUserImage">
 			</div>
 		</div>
 		<div class="rightForm">
+			@if(isset($warnings))
+				{{$warning}}
+			@endif
+			<form action="{{ route('user_setting_save') }}" method="post">
+				<input type="hidden" name="_token" value="{{ csrf_token() }}">
 			<div class="formGroup">
 				<div class="inputTitle">
 					Nama Lengkap
 				</div>
 				<div class="inputText">
-					<input type="text" name="name" id="">
+					<input type="text" name="name" id="" value="{{app()->SSO->Auth()->name}}">
 				</div>
 			</div>
-			<div class="formGroup withError">
+			<!-- //withError -->
+			<div class="formGroup">
 				<div class="inputTitle">
 					Alamat Email
 				</div>
-				<span class="tootTip">alamat email tidak valid</span>
+				<!--//with error <span class="tootTip">alamat email tidak valid</span> -->
 				<div class="inputText">
-					<input type="text" name="name" id="">
+					<input type="email" name="email" id="" value="{{app()->SSO->Auth()->email}}">
 				</div>
 			</div>
 			<div class="formGroup">
@@ -47,7 +52,7 @@
 					Nomor Telepon
 				</div>
 				<div class="inputText">
-					<input type="text" name="name" id="">
+					<input type="text" name="nomorTelepon" id="" value="{{app()->SSO->Auth()->phone_number}}">
 				</div>
 			</div>
 			<h5 class="formSprt">Rubah Sandi</h5>
@@ -56,7 +61,7 @@
 					Sandi Lama
 				</div>
 				<div class="inputText">
-					<input type="password" name="name" id="">
+					<input type="password" name="password" id="">
 				</div>
 			</div>
 			<div class="formGroup">
@@ -64,7 +69,7 @@
 					Sandi Baru
 				</div>
 				<div class="inputText">
-					<input type="password" name="name" id="">
+					<input type="password" name="password_confirmation" id="">
 				</div>
 			</div>
 			<div class="formGroup">
@@ -76,6 +81,7 @@
 				</div>
 			</div>
 			<button type="sumbit" class="submitUserSet button blue">Kirim</button>
+			</form>
 		</div>
 	</div>
 </section>

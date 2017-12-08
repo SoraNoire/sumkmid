@@ -38,10 +38,14 @@ Route::get('ssologin',['as'=>'ssologin','uses'=>'PublicController@ssoLogin']);
 
 Route::get('/', 'PublicController@home')->name('public_home');
 Route::get('/mentor', 'PublicController@mentor')->name('public_mentor');
+Route::get('/mentor/{mentorId}', 'PublicController@mentorSingle')->name('public_mentor_single');
 Route::get('/kontak', 'PublicController@kontak')->name('public_kontak');
 Route::get('/event', 'PublicController@event')->name('public_event');
 Route::get('/video', 'PublicController@video')->name('public_video');
+
 Route::get('/user-setting', 'PublicController@userSetting')->name('user_setting');
+Route::post('/user-setting/save','PublicController@saveUserSetting')->name('user_setting_save');
+
 Route::get('/video/search', 'PublicController@searchVideo')->name('search_video');
 Route::get('/video/{slug}', 'PublicController@singleVideo')->name('single_video');
 Route::post('/send-email', 'PublicController@messages_store_act')->name('sendemailcontact');
