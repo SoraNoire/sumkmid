@@ -8,6 +8,7 @@ use Modules\Blog\Entities\PostCategory;
 use Modules\Blog\Entities\Tags;
 use Modules\Blog\Entities\PostTag;
 use Illuminate\Http\File;
+use App\Helpers\SSOHelper;
 use Image;
 use DB;
 
@@ -486,23 +487,34 @@ class PostHelper
             $metas->{$value->key} = $value->value;
         }
 
-        // var_dump($metas);
-        // die();
-
         $data = [];
 
         $data['event_type']   = $metas->event_type ?? '';
         $data['event_url']    = $metas->event_url ?? '';
         $data['gmaps_url']    = $metas->gmaps_url ?? '';
         $data['location']     = $metas->location ?? '';
-        $data['htm']          = $metas->htm ?? '';
+        $htm = $metas->htm ?? '';
+        if (is_string($htm) && $htm != 'free') {
+            $htm = json_decode($htm);
+        }
+        $data['htm'] = $htm;
         $data['open_at']      = $metas->open_at ?? '';
         $data['closed_at']    = $metas->closed_at ?? '';
         $data['meta_desc']    = $metas->meta_desc ?? '';
         $data['meta_title']   = $metas->meta_title ?? '';
         $data['meta_keyword'] = $metas->meta_keyword ?? '';
-        $data['mentors']      = json_decode($metas->event_mentor ?? '') ?? [];
+        $mentor_reg      = json_decode($metas->mentor_registered ?? '') ?? [];
+        $mentor_not_reg      = json_decode($metas->mentor_not_registered ?? '') ?? [];
 
+        $mentors = array();
+        foreach ($mentor_reg as $mentor_r) {
+            $mentors[] = SSOHelper::mentors($mentor_r)->users[0];
+        }
+        foreach ($mentor_not_reg as $mentor_nr) {
+            $tmp = json_encode(['name' => $mentor_nr]);
+            $mentors[] = json_decode($tmp);
+        }
+        $data['mentors'] = $mentors;
         return $data;
     }
 }
