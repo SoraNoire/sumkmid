@@ -134,7 +134,7 @@ class EventController extends Controller
             'title' => 'required',
             'description' => 'required',
             'open_date' => 'required'
-        ]);
+        ], PostHelper::validation_messages());
 
         $title = $request->input('title');
         $slug = PostHelper::make_slug($title);
@@ -351,7 +351,7 @@ class EventController extends Controller
             'title' => 'required',
             'description' => 'required',
             'open_date' => 'required'
-        ]);
+        ], PostHelper::validation_messages());
         
         $title = $request->input('title');
         $description = $request->input('description');
