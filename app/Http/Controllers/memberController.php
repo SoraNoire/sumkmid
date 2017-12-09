@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Helpers\SSOHelper as SSO;
+use Image;
 
 class memberController extends Controller
 {
@@ -25,10 +27,11 @@ class memberController extends Controller
 		$email = $req->input('email');
 		if ($req->file('photo')->isValid()) {
 			$photo = $req->file('photo');
+			$img = Image::make($photo);
 			$photoname = time();
 			$phototmp = $photo->getPathName();
 			$photoext = $photo->getClientOriginalExtension();
-			$photo = curl_file_create($phototmp.'.'.$photoext);
+			$photo = curl_file_create($img);
 
 		}else{
 			return 'photo tidak valid';
@@ -39,7 +42,7 @@ class memberController extends Controller
 			'email' => $email,
 			'avatar'=> $photo
 		];
-		var_dump($data);
+		var_dump($img);
 		die();
 		if(SSO::meUpdate($data)){
 			return 'success';
