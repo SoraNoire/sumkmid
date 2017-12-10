@@ -28,10 +28,13 @@ class memberController extends Controller
 		if ($req->file('photo')->isValid()) {
 			$photo = $req->file('photo');
 			$img = Image::make($photo);
-			$photoname = time();
-			$phototmp = $photo->getPathName();
-			$photoext = $photo->getClientOriginalExtension();
-			$photo = curl_file_create($img);
+			if (!is_dir(public_path("/assets/users"))) {
+			    mkdir(public_path("/assets/users"), 0774, true);
+			}
+			$path = public_path("/assets/users/$email.png");
+			$img->save($path);
+			// $photo = file_get_contents($path);
+			// unlink($path);
 
 		}else{
 			return 'photo tidak valid';
@@ -40,10 +43,8 @@ class memberController extends Controller
 		$data = [   
 			'name'=> $name,
 			'email' => $email,
-			'avatar'=> $photo
+			'avatar'=> $path
 		];
-		var_dump($img);
-		die();
 		if(SSO::meUpdate($data)){
 			return 'success';
 		}else{

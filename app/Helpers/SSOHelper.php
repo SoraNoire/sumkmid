@@ -95,7 +95,7 @@ class SSOHelper
         $path = '/me';
         $method = 'post';
 
-        return self::curl($path,$data,$method);
+        return self::curlRaw($path,$data,$method);
     }
 
 
@@ -166,6 +166,73 @@ class SSOHelper
         return (object) $return;
 
     }
+
+
+    /**
+     * undocumented function
+     *
+     * @return void
+     * @author 
+     **/
+    public static function curlRaw($path='/',$data=[])
+    {
+
+        $mdconfig = config('auth.md_sso');
+        self::$appId = $mdconfig['APP_ID'];
+        self::$appSecret = $mdconfig['APP_SECRET'];
+        self::$appServer = $mdconfig['APP_SERVER'];
+
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, self::$appServer . $path);
+        
+
+        $headers = [
+                        "appid: ".self::$appId,
+                        "appsecret: ".self::$appSecret
+                    ];
+        
+
+        if ( null != Cookie::get( config('auth.ssocookie') ) )
+        {
+            $headers[] = "usertoken: ".Cookie::get( config('auth.ssocookie') );
+        }
+
+
+        curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1);
+        $ulink = false;
+        if (isset($data['avatar'])){
+
+            $ulink = $data['avatar'];
+            $data['avatar'] = new \CURLFile($data['avatar']);
+
+        }
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl,CURLOPT_POSTFIELDS,$data);
+
+        // output the response
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        $return = curl_exec($curl);
+        curl_close($curl);
+        
+        if ($ulink)
+        {
+            try{
+                unlink($ulink);
+            }
+            catch(\Exception $e)
+            {}
+        }
+        
+        if( json_decode($return) )
+        {
+            return json_decode($return);
+        }
+        
+        return (object) $return;
+
+    }
+
 
     /**
      * [Auth description]

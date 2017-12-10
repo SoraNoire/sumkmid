@@ -64,7 +64,7 @@
                                 </li>
                                 @else
 	                            <li class="loginButton">
-	                                <a href="{{ route('login') }}" class="button">
+	                                <a href="{{ route('ssologin') }}" class="button">
 	                                    Masuk
 	                                </a>
                                 </li>
