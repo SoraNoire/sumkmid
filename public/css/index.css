@@ -2218,6 +2218,10 @@ footer .copyright {
   padding-bottom: 50px;
 }
 
+#event-archive .event .event-datetime {
+  margin-top: -5px;
+}
+
 @media screen and (max-width: 433px) {
   #event-archive .event .event-datetime {
     display: none;
@@ -2228,6 +2232,10 @@ footer .copyright {
   #event-archive .event .event-timeline {
     margin-left: 10px;
   }
+}
+
+#event-archive .event .event-content {
+  margin-top: -5px;
 }
 
 @media screen and (max-width: 433px) {
@@ -2246,10 +2254,6 @@ footer .copyright {
   #event-archive .event .event-datetime-mobile {
     display: block;
   }
-}
-
-#event-archive .event:nth-child(n+2) {
-  margin-top: -8px;
 }
 
 #event-archive .event.active .event-datetime {
