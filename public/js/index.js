@@ -912,7 +912,7 @@ if ($(".datetimepicker").length > 0) {
             format: "yyyy-mm-dd hh:ii",
             autoclose: true,
             todayBtn: true,
-            pickerPosition: "top-left"
+            pickerPosition: "bottom-left"
         });
     });
 }
