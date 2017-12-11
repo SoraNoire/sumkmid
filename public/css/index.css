@@ -1147,7 +1147,7 @@ template,
  * Add the correct display in IE 10-.
  */
 
-@media screen and (max-width: 830px) {
+@media screen and (max-width: 850px) {
   .topNav {
     text-align: right;
   }
@@ -1166,7 +1166,7 @@ template,
   margin-top: 10px;
 }
 
-@media screen and (max-width: 830px) {
+@media screen and (max-width: 850px) {
   .navWrapper .burgerBtn {
     display: inline-block;
   }
@@ -1179,7 +1179,7 @@ template,
   display: block;
 }
 
-@media screen and (max-width: 830px) {
+@media screen and (max-width: 850px) {
   .navWrapper ul {
     display: none;
     position: absolute;
@@ -1195,7 +1195,7 @@ template,
   padding: 12px 12px;
 }
 
-@media screen and (max-width: 830px) {
+@media screen and (max-width: 850px) {
   .navWrapper ul li {
     display: block;
   }
@@ -1205,10 +1205,69 @@ template,
   font-size: 18px;
   color: #fff;
   text-decoration: none;
+  vertical-align: middle;
 }
 
 .navWrapper ul li a:hover {
   text-decoration: underline;
+}
+
+.navWrapper ul .userNavSetting {
+  border-left: 1.5px solid #ffffff;
+  padding: 0px 12px;
+}
+
+@media screen and (max-width: 850px) {
+  .navWrapper ul .userNavSetting {
+    border-top: 1.5px solid #ffffff;
+    border-left: unset;
+    padding-top: 15px;
+    padding-right: 0px;
+  }
+}
+
+.navWrapper ul .userNavSetting span {
+  color: #fff;
+  font-size: 18px;
+  vertical-align: middle;
+}
+
+.navWrapper ul .userNavSetting .goToProfile {
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 10px;
+}
+
+.navWrapper ul .userNavSetting .goToProfile img {
+  margin-top: 9px;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 850px) {
+  .navWrapper ul .userNavSetting .goToProfile img {
+    display: none;
+  }
+}
+
+.navWrapper ul .userNavSetting ul {
+  padding: 10px 15px 20px 15px;
+  position: absolute;
+  background-color: #1D3D6F;
+  text-align: right;
+  display: none;
+}
+
+@media screen and (max-width: 850px) {
+  .navWrapper ul .userNavSetting ul {
+    padding-top: 0px;
+    padding-right: 10px;
+  }
+}
+
+.navWrapper ul .userNavSetting ul li {
+  padding-top: 10px;
+  padding-bottom: 0px;
+  display: inline-block;
 }
 
 .navWrapper ul .loginButton {
@@ -1221,7 +1280,7 @@ template,
   line-height: 1;
 }
 
-@media screen and (max-width: 830px) {
+@media screen and (max-width: 850px) {
   .navWrapper ul .loginButton a {
     display: block;
     width: -webkit-max-content;
@@ -1439,6 +1498,41 @@ footer .copyright {
   -webkit-mask: url("/img/search icon.svg") center/contain no-repeat;
 }
 
+.i-fb {
+  width: 34.8px;
+  height: 34.8px;
+  background: #404040;
+  -webkit-mask: url("/img/005-facebook-logo-button.svg") center/contain no-repeat;
+}
+
+.i-ig {
+  width: 34.8px;
+  height: 34.8px;
+  background: #404040;
+  -webkit-mask: url("/img/004-instagram-logo.svg") center/contain no-repeat;
+}
+
+.i-linkedin {
+  width: 34.8px;
+  height: 34.8px;
+  background: #404040;
+  -webkit-mask: url("/img/001-linkedin-symbol.svg") center/contain no-repeat;
+}
+
+.i-tw {
+  width: 34.8px;
+  height: 34.8px;
+  background: #404040;
+  -webkit-mask: url("/img/002-twitter-logo-button.svg") center/contain no-repeat;
+}
+
+.i-gp {
+  width: 34.8px;
+  height: 34.8px;
+  background: #404040;
+  -webkit-mask: url("/img/004-instagram-logo copy.svg") center/contain no-repeat;
+}
+
 #what-we-do {
   padding-top: 59px;
   padding-bottom: 103px;
@@ -1552,6 +1646,8 @@ footer .copyright {
   background-image: url("/img/triangle.png");
   background-repeat: no-repeat;
   background-position-y: -50px;
+  -webkit-transition: .5s;
+  transition: .5s;
 }
 
 #event .row {
@@ -2204,7 +2300,8 @@ footer .copyright {
 }
 
 #event-archive .event .event-content .event-desc {
-  height: 63px;
+  -webkit-transition: max-height 0.8s;
+  transition: max-height 0.8s;
   overflow: hidden;
   display: -webkit-box;
   line-height: 18px;
@@ -2227,8 +2324,12 @@ footer .copyright {
   left: 0;
 }
 
+#event-archive .event .event-content .event-desc.hidden {
+  max-height: 63px;
+}
+
 #event-archive .event .event-content .event-desc.show {
-  height: auto;
+  max-height: auto;
   display: block;
 }
 
@@ -2597,6 +2698,42 @@ footer .copyright {
   float: right;
 }
 
+#singleMentor h3 {
+  margin-bottom: 18px !important;
+}
+
+#singleMentor small {
+  font-size: 14px;
+  font-style: italic;
+  text-align: left;
+  color: #878787;
+  display: block;
+  margin-top: 3px;
+}
+
+#singleMentor p {
+  margin-bottom: 26px;
+}
+
+#singleMentor ul {
+  padding-left: 0px;
+}
+
+#singleMentor ul li {
+  margin-right: 20.2px;
+  display: inline-block;
+}
+
+@media screen and (max-width: 485px) {
+  #singleMentor ul li {
+    margin-right: 10.2px;
+  }
+}
+
+#singleMentor ul li a span:hover {
+  background: #CF6819;
+}
+
 #userSetting {
   margin-top: 52px;
 }
@@ -2627,6 +2764,8 @@ footer .copyright {
   width: 160px;
   height: 160px;
   overflow: hidden;
+  background-position: center;
+  background-size: cover;
 }
 
 #userSetting .leftForm .photoUser .inputTrigger {

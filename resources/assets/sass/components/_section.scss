@@ -80,7 +80,8 @@
 	padding-bottom: 50px;
 	background-image: url('/img/triangle.png');
     background-repeat: no-repeat;
-    background-position-y: -50px;
+	background-position-y: -50px;
+	transition: .5s;
 	
 	.row {
 		margin-left: 65px;
@@ -634,9 +635,10 @@
 		}
 		.event-content {
 			margin-bottom: 48px;
-
 			.event-desc {
-				height: 63px;
+				-webkit-transition: max-height 0.8s;
+				-moz-transition: max-height 0.8s;
+				transition: max-height 0.8s;
 				overflow: hidden;
 				display: -webkit-box;
 				line-height: 18px;
@@ -658,14 +660,15 @@
 					position: absolute;
 					bottom: 0;
 					left: 0;
-
+				}
+				&.hidden {
+					max-height: 63px;
 				}
     			&.show {
-    				height: auto;
+					max-height: auto;
 					display: block;
 					&:after{
 						content: unset;
-	
 					}
     			}
 			}
@@ -986,7 +989,40 @@
 		}
 	}
 }
-
+#singleMentor{
+	h3{
+		margin-bottom: 18px !important;
+	}
+	small{
+		font-size: 14px;
+		font-style: italic;
+		text-align: left;
+		color: #878787;
+		display: block;
+		margin-top: 3px;
+	}
+	p{
+		margin-bottom: 26px;
+	}
+	ul{
+		padding-left: 0px;
+		li{
+			margin-right: 20.2px;
+			display: inline-block;
+			@media screen and (max-width: 485px) {
+				margin-right: 10.2px;
+			}
+			a{
+				span{
+					&:hover{
+						background: #CF6819;
+					}
+				
+				}
+			}
+		}
+	}
+}
 #userSetting{
 	margin-top: 52px;
 	h3{
@@ -1007,9 +1043,8 @@
 				width: 160px;
 				height: 160px;
 				overflow: hidden;
-				img{
-
-				}
+				background-position: center;
+				background-size: cover;
 			}
 			.inputTrigger{
 				position: absolute;

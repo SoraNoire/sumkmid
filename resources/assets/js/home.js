@@ -65,6 +65,7 @@ function show_event_detail(id) {
 	$('#'+id).find('.htm').show();
 	$('#'+id).find('.event-buttons').css('display', 'inline-block');
 	$('#'+id).find('.event-desc').addClass('show');
+	$('#'+id).find('.event-desc').removeClass('hidden');
 }
 
 function show_less_event_detail(id) {
@@ -74,6 +75,7 @@ function show_less_event_detail(id) {
 	$('#'+id).find('.htm').hide();
 	$('#'+id).find('.event-buttons').hide();
 	$('#'+id).find('.event-desc').removeClass('show');
+	$('#'+id).find('.event-desc').addClass('hidden');
 }
 
 function show_event_sharer(id) {
@@ -85,6 +87,34 @@ function show_event_sharer(id) {
 	}
 }
 
+$(document).ready(function(){
+	$('#upldimageuser').on('submit',(function(e) {
+        e.preventDefault();
+        var formData = new FormData(this);
+        $.ajax({
+			headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type:'POST',
+            url: $(this).attr('action'),
+            data:formData,
+            cache:false,
+            contentType: false,
+            processData: false,
+            success:function(data){
+				// console.log(data);
+				$('.photoPreview').css('background-image', "url("+data+"?random="+new Date().getTime()+")");
+            },
+            error: function(data){
+                console.log("error");
+                console.log(data);
+            }
+        });
+    }));
+    $("#inputUserImage").on('change',function(e){
+		$( "#upldimageuser" ).submit();
+    });
+});
 
 // $(document).bind('DOMSubtreeModified', function() {
 // 	if(window.outerWidth > 830){
@@ -97,11 +127,18 @@ window.onresize = function(){
     
     if (window.innerWidth > 830)
     {
-        $('.navWrapper ul').show();
+		$('.navWrapper ul').show();
+		$('.userNavSetting ul').hide();
     }else{
+		$('.userNavSetting ul').show();
 		$('.navWrapper ul').hide();
+		
 	}
 } 
+
+$('#profileTrigger').click(function(){
+	$('.userNavSetting ul').slideToggle();
+});
 
 $('.whiteOverlay').click(function(){
 	$('.whiteOverlay').fadeOut();

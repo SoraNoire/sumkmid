@@ -16,6 +16,8 @@ use Modules\Blog\Entities\PostMeta;
 use Modules\Video\Entities\Video;
 use Carbon\Carbon;
 use Mail;
+use View;
+use Illuminate\Support\Facades\Validator;
 
 class PublicController extends Controller
 {
@@ -23,6 +25,8 @@ class PublicController extends Controller
 	function __construct(Request $request)
 	{
 		Carbon::setLocale('Indonesia');
+		$var['page'] = 'Sahabat UMKM Indonesia';
+        View::share('var', $var);
 	}
 
 	public function login(Request $request)
@@ -88,7 +92,7 @@ class PublicController extends Controller
 	}
 
 	/**
-     * Show mentor page.
+     * Show mentors page.
      * @return Response
      */
 	public function mentor(){
@@ -98,15 +102,43 @@ class PublicController extends Controller
 		
 		return view('page.mentor')->with(['var' => $var]);
 	}
-
 	/**
-     * Show User Setting page.
+     * Show single mentor page.
      * @return Response
      */
-	public function userSetting(){
-        $var['page'] = "userSetting";
-		return view('page.userSetting')->with(['var' => $var]);
+	public function mentorSingle($mentorId){
+		$var['page'] = "mentorSingle";
+		$user = new \App\Helpers\SSOHelper;
+		$var['mentors'] =  $user->mentors("$mentorId")->users;
+		if(isset($var['mentors'][0])){
+			$var['mentors'] = $var['mentors'][0];
+			return view('page.mentorSingle')->with(['var' => $var]);
+		}
+
+		return redirect(route('public_mentor'));
+
 	}
+
+	
+
+	private function _validate($data=[],$validator=[])
+	{
+		$message = [
+			'required' => ':attribute dibutuhkan',
+			'min' => ':attr minimal :min'
+		];
+		$validate = Validator::make($data,$validator,$message);
+		if ($validate->fails()){
+			foreach($validate->errors()->getMessages() as $k => $v)
+			{
+				return $v[0];
+			}
+		}
+		return false;
+	}
+	
+
+	
 
 	public function singleVideo($slug){
 		$var['page'] = "singleVideo";

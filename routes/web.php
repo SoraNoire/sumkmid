@@ -38,10 +38,15 @@ Route::get('ssologin',['as'=>'ssologin','uses'=>'PublicController@ssoLogin']);
 
 Route::get('/', 'PublicController@home')->name('public_home');
 Route::get('/mentor', 'PublicController@mentor')->name('public_mentor');
+Route::get('/mentor/{mentorId}', 'PublicController@mentorSingle')->name('public_mentor_single');
 Route::get('/kontak', 'PublicController@kontak')->name('public_kontak');
 Route::get('/event', 'PublicController@event')->name('public_event');
 Route::get('/video', 'PublicController@video')->name('public_video');
-Route::get('/user-setting', 'PublicController@userSetting')->name('user_setting');
+
+Route::get('/user-setting', 'memberController@userSetting')->name('user_setting');
+Route::post('/user-setting/save','memberController@saveUserSetting')->name('user_setting_save');
+Route::post('/user-setting/UpdateProfilePict','memberController@updateProfilePict')->name('user_update_profile_pict');
+
 Route::get('/video/search', 'PublicController@searchVideo')->name('search_video');
 Route::get('/video/{slug}', 'PublicController@singleVideo')->name('single_video');
 Route::post('/send-email', 'PublicController@messages_store_act')->name('sendemailcontact');
@@ -63,7 +68,7 @@ Route::get('appupd','SampleController@appUpd');
 Route::get('/logout', function(){
 	\App\Helpers\SSOHelper::logout();
 	return Redirect::to('/');
-});
+})->name('logout');
 
 Route::get('ssotestusers',function(){
 	$user = new App\Helpers\SSOHelper;

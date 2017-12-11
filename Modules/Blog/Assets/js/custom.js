@@ -1,5 +1,5 @@
 mediaPath = 'https://s3-ap-southeast-1.amazonaws.com/mdirect/shbtm/media';
-filePath = 'https://s3-ap-southeast-1.amazonaws.com/mdirect/shbtmdev/files';
+filePath = 'https://s3-ap-southeast-1.amazonaws.com/mdirect/shbtm/files';
 var timeOutId;
 //
 // Pipelining function for DataTables. To be used to the `ajax` option of DataTables
@@ -175,7 +175,8 @@ $('#uploadmedia').on('change', function add_media(e){
             },
             error: function(err){
                     $(".mediatable").DataTable().ajax.reload(null, false);
-                    console.log(err);
+                    var obj = err.responseJSON;
+                    alert(Object.values(obj)[0].toString());
                 }
         });
         $('.dataTables_processing').hide();
@@ -204,7 +205,8 @@ $('#uploadfimg').on('change', function add_media(e){
             },
             error: function(err){
                     $(".mediatable").DataTable().ajax.reload(null, false);
-                    console.log(err);
+                    var obj = err.responseJSON;
+                    alert(Object.values(obj)[0].toString());
                 }
         });
         $('.dataTables_processing').hide();
@@ -235,7 +237,8 @@ $('#fileUpload').on('change', function add_file(e){
             },
             error: function(err){
                 $(".filestable").DataTable().ajax.reload(null, false);
-                alert('Invalid File Extension');
+                var obj = err.responseJSON;
+                alert(Object.values(obj)[0].toString());
             },
             always: function(a){
                 $(".filestable").DataTable().ajax.reload(null, false);
@@ -265,7 +268,7 @@ function delete_media(e){
             },
             error: function(err){
                 $(".mediatable").DataTable().ajax.reload(null, false);
-                console.log(err);
+                alert('delete error');
             }
         });
         $('#canceldelete').hide();
@@ -439,7 +442,7 @@ $(document).ready(function() {
                     "targets": 0,
                     "data": 'title',
                     "render": function ( data, type, row ) {
-                  return '<img style="width: 100px; max-height: 100px;" src="'+mediaPath+'/'+data+'">';
+                  return '<img style="width: 100px; max-height: 100px;" src="'+mediaPath+'/'+data.split('.').join('-300.')+'">';
                     }
                 }
             ],
@@ -452,7 +455,6 @@ $(document).ready(function() {
 
     // media post image modal
     if ($("#MediaPost").length > 0) {
-        var path = mediaPath;
         $("#MediaPost").DataTable({
             "ajax":  {
                 url: '/admin/blog/get-media'
@@ -470,14 +472,14 @@ $(document).ready(function() {
                     "targets": -1,
                     "data": 'id',
                     "render": function ( data, type, row ) {
-                        return '<div onclick="delete_media(\''+data+'\')" id="delete_media_post" class="btn btn-round btn-fill btn-danger">Delete</div> <div onclick="select_media(\'#'+data+'\')" id="select_media" class="btn btn-round btn-fill btn-success">Copy Media</div> <p style="display:none;" id="'+data+'">'+mediaPath+'/'+row.name+'</p>';
+                        return '<div onclick="delete_media(\''+data+'\')" id="delete_media_post" class="btn btn-round btn-fill btn-danger">Delete</div> <div onclick="select_media(\'#'+data+'\')" id="select_media" class="btn btn-round btn-fill btn-success">Copy Media</div> <p style="display:none;" id="'+data+'">'+mediaPath+'/'+row.name.split('.').join('-800.')+'</p>';
                     }
                 },
                     {
                     "targets": 0,
                     "data": 'title',
                     "render": function ( data, type, row ) {
-                  return '<img style="width: 100px; max-height: 100px;" src="'+mediaPath+'/'+data+'">';
+                  return '<img style="width: 100px; max-height: 100px;" src="'+mediaPath+'/'+data.split('.').join('-300.')+'">';
                     }
                 }
             ],
@@ -490,7 +492,6 @@ $(document).ready(function() {
 
     // feauterd image modal
     if ($("#FeaturedImg").length > 0) {
-        var path = 'public/media';
         $("#FeaturedImg").DataTable({
             "ajax":  {
                 url: '/admin/blog/get-media'
@@ -508,14 +509,14 @@ $(document).ready(function() {
                     "targets": -1,
                     "data": 'id',
                     "render": function ( data, type, row ) {
-                        return '<div onclick="delete_media(\''+data+'\')" id="delete_media_post" class="btn btn-round btn-fill btn-danger">Delete</div> <div onclick="select_fimg(\'#'+data+'\')" id="select_media" class="btn btn-round btn-fill btn-success">Select</div> <p style="display:none;" id="'+data+'">'+mediaPath+'/'+row.name+'</p>';
+                        return '<div onclick="delete_media(\''+data+'\')" id="delete_media_post" class="btn btn-round btn-fill btn-danger">Delete</div> <div onclick="select_fimg(\'#'+data+'\')" id="select_media" class="btn btn-round btn-fill btn-success">Select</div> <p style="display:none;" id="'+data+'">'+mediaPath+'/'+row.name.split('.').join('-800.')+'</p>';
                     }
                 },
                     {
                     "targets": 0,
                     "data": 'title',
                     "render": function ( data, type, row ) {
-                  return '<img style="width: 100px; max-height: 100px;" src="'+mediaPath+'/'+data+'">';
+                  return '<img style="width: 100px; max-height: 100px;" src="'+mediaPath+'/'+data.split('.').join('-300.')+'">';
                     }
                 }
             ],
@@ -724,14 +725,26 @@ function cancelDelete(){
     $('.table-overlay').hide();
 };
 
-// date time picker for date published
+// date time picker
 if ($(".datetimepicker").length > 0) {
     $(function () {
         $('.datetimepicker').datetimepicker({
             format: "yyyy-mm-dd hh:ii",
             autoclose: true,
             todayBtn: true,
-            pickerPosition: "bottom-left"
+            pickerPosition: "top-left"
+        });
+    });
+}
+
+if ($(".event-datetimepicker").length > 0) {
+    $(function () {
+        $('.event-datetimepicker').datetimepicker({
+            format: "yyyy-mm-dd",
+            autoclose: true,
+            todayBtn: true,
+            pickerPosition: "top-left",
+            minView: 2
         });
     });
 }

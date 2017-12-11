@@ -39,6 +39,7 @@ class BlogController extends Controller
         $this->prefix = 'admin/blog/';
         View::share('prefix', $this->prefix);
         View::share('body_id', 'blog');
+        View::share('tinymceApiKey', config('app.tinymce_api_key'));
     }
     
     /**
@@ -144,9 +145,9 @@ class BlogController extends Controller
         $this->validate($request, [
             'title' => 'required',
             'content' => 'required'
-        ]);
+        ], PostHelper::validation_messages());
 
-        $categories = json_encode($request->input('categories') ?? [] );
+        $categories = $request->input('categories') ?? [] ;
         $meta_title = $request->input('meta_title');
         $meta_desc = $request->input('meta_desc');
         $meta_keyword = $request->input('meta_keyword');
@@ -172,28 +173,7 @@ class BlogController extends Controller
         DB::beginTransaction();
         try {
             $tag_input = $request->input('tags') ?? [];
-            if (isset($tag_input)) {
-                $tags = array();
-                foreach ($tag_input as $key) {
-                    $tag_slug = PostHelper::make_slug($key);
-                    $check = Tags::where('slug', $tag_slug)->first();
-                    if (!isset($check)) {
-                        // save tag to table tag
-                        $save_tag = new Tags;
-                        $save_tag->name = $key;
-                        $save_tag->slug = $tag_slug;
-                        $save_tag->save();
-                        $key = $save_tag->id;
-
-                    } else {
-                      $key = $check->id;
-                    }
-                    $tags[] = $key;
-                }
-            } else {
-                $tags = null;
-            }
-            $tags = json_encode($tags);
+            $tags = PostHelper::check_tags_input($tag_input);
 
             $store = new Posts;
             $store->title = $request->input('title');
@@ -211,8 +191,12 @@ class BlogController extends Controller
             $metas[] = ['name' => 'meta_desc', 'value' => $meta_desc];
             $metas[] = ['name' => 'meta_keyword', 'value' => $meta_keyword];
             $metas[] = ['name' => 'files', 'value' => $files];
-            $metas[] = ['name' => 'categories', 'value' => $categories];
-            $metas[] = ['name' => 'tags', 'value' => $tags];
+            foreach ($categories as $cat) {
+                $metas[] = ['name' => 'category', 'value' => $cat];
+            }
+            foreach ($tags as $tag) {
+                $metas[] = ['name' => 'tag', 'value' => $tag];
+            }
 
             foreach ($metas as $meta) {
                 if ($meta['value'] != '') {
@@ -223,7 +207,7 @@ class BlogController extends Controller
             PostMeta::insert($meta_contents);
             
             DB::commit();
-            return redirect(route('posts'))->with(['msg' => 'Saved', 'status' => 'success']);
+            return redirect(route('viewpost', $store->id))->with(['msg' => 'Saved', 'status' => 'success']);
         } catch (\Exception $e) {
             DB::rollback();
             return redirect(route('posts'))->with(['msg' => 'Save Error'.$e, 'status' => 'danger']);
@@ -249,9 +233,9 @@ class BlogController extends Controller
             $meta_desc      = $post_metas->meta_desc ?? '';
             $meta_title     = $post_metas->meta_title ?? '';
             $meta_keyword   = $post_metas->meta_keyword ?? '';
-            $categories     = json_decode($post_metas->categories ?? '') ?? [];
-            $tags     = json_decode($post_metas->tags ?? '') ?? [];
             $files = json_decode($post_metas->files);
+
+            $tags = PostHelper::get_post_tag($post->id, 'id');            
 
             $title = $post->title;
             $content = $post->content;
@@ -264,7 +248,7 @@ class BlogController extends Controller
 
             return view('blog::admin.post_edit')->with(['isEdit'=>true,'item_id' => $item_id, 'page_meta_title' => $page_meta_title, 'act' => $act, 'action' => $action, 'post' => $post , 'title' => $title, 'content' => $content, 'alltag' => $alltag, 'selected_tag' => $tags, 'featured_image' => $featured_image, 'meta_desc' => $meta_desc, 'meta_title' => $meta_title, 'meta_keyword' => $meta_keyword, 'status' => $status, 'published_date' => $published_date, 'files' => $files]);
         } else {
-            return redirect(route('posts'))->with(['msg' => 'Post Not Found', 'status' => 'danger']);
+            return redirect(route('viewpost', $id))->with(['msg' => 'Post Not Found', 'status' => 'danger']);
         }
     }
 
@@ -278,10 +262,11 @@ class BlogController extends Controller
         $this->validate($request, [
             'title' => 'required',
             'content' => 'required'
-        ]);
+        ], PostHelper::validation_messages());
 
         $file_label = $request->get('file_label');
         $file_name = $request->get('file_name');
+        $categories = $request->input('categories') ?? [] ;
 
         $files = array();
         for ($i=0; $i < count($file_name); $i++) { 
@@ -300,27 +285,7 @@ class BlogController extends Controller
         DB::beginTransaction();
         try {
             $tag_input = $request->input('tags') ?? [];
-            if (isset($tag_input)) {
-                $tags = array();
-                foreach ($tag_input as $key) {
-                    $tag_slug = PostHelper::make_slug($key);
-                    $check = Tags::where('slug', $tag_slug)->first();
-                    if (!isset($check)) {
-                        // save tag to table tag
-                        $save_tag = new Tags;
-                        $save_tag->name = $key;
-                        $save_tag->slug = $tag_slug;
-                        $save_tag->save();
-                        $key = $save_tag->id;
-
-                    } else {
-                      $key = $check->id;
-                    }
-                    $tags[] = $key;
-                }
-            } else {
-                $tags = null;
-            }
+            $tags = PostHelper::check_tags_input($tag_input);
 
             $request->request->add(['files'=>json_encode($files)]);
             $request->request->add(['tags'=>$tags]);
@@ -336,7 +301,12 @@ class BlogController extends Controller
             
             $newMeta = false;
             $post_metas = PostMeta::where('post_id',$id)->get();
-            $meta_fields = ['meta_title', 'meta_desc', 'meta_keyword', 'categories', 'tags', 'files' ];
+            $meta_fields = ['meta_title', 'meta_desc', 'meta_keyword', 'files' ];
+
+            // save tags meta 
+            PostHelper::save_post_meta_tag($update->id, $tags);
+            // save categories meta 
+            PostHelper::save_post_meta_category($update->id, $categories);
 
             foreach ($meta_fields as $key => $meta) {
                 $updated = false;
@@ -366,10 +336,10 @@ class BlogController extends Controller
             }
 
             DB::commit();
-            return redirect(route('posts'))->with(['msg' => 'Saved', 'status' => 'success']);
+            return redirect(route('viewpost', $update->id))->with(['msg' => 'Saved', 'status' => 'success']);
         } catch (\Exception $e) {
             DB::rollback();
-            return redirect(route('posts'))->with(['msg' => 'Save error', 'status' => 'alert']);
+            return redirect(route('viewpost', $update->id))->with(['msg' => 'Save error'.$e, 'status' => 'danger']);
         }
     }
 
@@ -477,7 +447,7 @@ class BlogController extends Controller
     public function store_file(Request $req){
         $this->validate($req, [
             'fileUpload.*' => 'mimes:pdf,doc,dot,docx,xlsx,xml,ppt,ppa,pptx,ppsx,mdb,txt,zip,rar',
-        ]);
+        ], PostHelper::validation_messages());
         
         if ($req->hasFile('fileUpload')) {
             try {
@@ -1142,8 +1112,8 @@ class BlogController extends Controller
      */
     public function store_media(Request $req){
         $this->validate($req, [
-            'media.*' => 'image|max:3000',
-        ]);
+            'media.*' => 'image|max:3000|mimes:jpg,jpeg,png,gif',
+        ], PostHelper::validation_messages());
         if ($req->hasFile('media')) {
             try {
                 $file = $req->file('media');
@@ -1258,7 +1228,7 @@ class BlogController extends Controller
         $output['data'] = $query->get();
 
         $newdata = array();
-        foreach ($events as $data) {
+        foreach ($output['data'] as $data) {
             $u= $this->user->users($data->author);
             $name = $u->users[0]->username;
             if ($name != '') {
@@ -1298,7 +1268,7 @@ class BlogController extends Controller
         $this->validate($request, [
             'title' => 'required',
             'content' => 'required'
-        ]);
+        ], PostHelper::validation_messages());
 
         $title = $request->input('title');
         $slug = PostHelper::make_slug($title);
@@ -1407,7 +1377,7 @@ class BlogController extends Controller
         $this->validate($request, [
             'title' => 'required',
             'content' => 'required'
-        ]);
+        ], PostHelper::validation_messages());
 
         $update = Posts::where('id', $id)->first();
         $update->title = $request->input('title');

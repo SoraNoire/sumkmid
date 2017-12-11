@@ -26,27 +26,27 @@
                         <div class="navWrapper">
 	                        <div class="burgerBtn"></div>
 	                        <ul>
-	                            <li class="{{ ($var['page'] ?? '' == 'Event' ? 'active' : '') }}">
+                                <li>
 	                                <a href="{{ route('public_event') }}">
 	                                    Event
 	                                </a>
 	                            </li>
-	                            <li class="{{ ($var['page'] ?? '' == 'mentor' ? 'active' : '') }}">
+                                <li>
 	                                <a href="{{ route('public_mentor') }}">
 	                                    Mentor
 	                                </a>
 	                            </li>
-	                            <li class="{{ ($var['page'] ?? '' == 'video' ? 'active' : '') }}">
+                                <li>
 	                                <a href="{{ route('public_video') }}">
 	                                    Video
 	                                </a>
 	                            </li>
-	                            <li class="{{ ($var['page'] ?? '' == 'Ijin Usaha' ? 'active' : '') }}">
+                                <li>
 	                                <a href="#">
 	                                    Tanya Jawab
 	                                </a>
 	                            </li>
-	                            <li class="{{ ($var['page'] ?? '' == 'Kontak' ? 'active' : '') }}">
+                                <li>
 	                                <a href="{{ route('public_kontak') }}">
 	                                    Kontak
 	                                </a>
@@ -55,16 +55,12 @@
                                 <li class="userNavSetting">
                                     <span>{{app()->SSO->Auth()->name}}</span>
                                     <div class="goToProfile">
-                                        <img id="profileTrigger" src="{{ asset('img/invalid-name.svg') }}" alt="">
+                                        <a href="{{route('user_setting')}}"><img src="{{ asset('img/invalid-name.svg') }}" alt=""></a>
                                     </div>
-                                    <ul>
-                                        <li><a href="{{route('user_setting')}}">Edit Profile</a></li>
-                                        <li><a href="{{route('logout')}}">Logout</a></li>
-                                    </ul>
                                 </li>
                                 @else
 	                            <li class="loginButton">
-	                                <a href="{{ route('ssologin') }}" class="button">
+	                                <a href="{{ route('login') }}" class="button">
 	                                    Masuk
 	                                </a>
                                 </li>
@@ -108,27 +104,27 @@
  			</div>
  			<div class="footer-nav">
  				<ul>
-                    <li class="{{ ($var['page'] ?? '' == 'Event' ? 'active' : '') }}">
+                    <li>
                         <a href="{{ route('public_event') }}">
                             Event
                         </a>
                     </li>
-                    <li class="{{ ($var['page'] ?? '' == 'mentor' ? 'active' : '') }}">
+                    <li>
                         <a href="{{ route('public_mentor') }}">
                             Mentor
                         </a>
                     </li>
-                    <li class="{{ ($var['page'] ?? '' == 'video' ? 'active' : '') }}">
+                    <li>
                         <a href="{{ route('public_video') }}">
                             Video
                         </a>
                     </li>
-                    <li class="{{ ($var['page'] ?? '' == 'Ijin Usaha' ? 'active' : '') }}">
+                    <li>
                         <a href="#">
                             Tanya Jawab
                         </a>
                     </li>
-                    <li class="{{ ($var['page'] ?? '' == 'Kontak' ? 'active' : '') }}">
+                    <li>
                         <a href="{{ route('public_kontak') }}">
                             Kontak
                         </a>
@@ -138,70 +134,6 @@
             <span class="copyright">&copy;2017 SahabatUMKM.id, All Right Reserved Worldwide</span>
  		</div>
     </footer>
-    <div class="trnsOverlay"></div>
-    <div class="whiteOverlay"></div>
-    <!-- end of footer -->
-    <!-- <script
-        src="https://code.jquery.com/jquery-3.2.1.min.js"
-        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-        crossorigin="anonymous"></script> -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script src="{{asset('js/jscroll.js')}}"></script>
-    @if($var['page'] == 'Event')
-    <script>
-        //event
-        $(function() {
-        $('.infinite-scroll').jscroll({
-            autoTrigger: true,
-            loadingHtml: '<div class="scroller-status loading"> <div class="event the-row"> <div class="col-3"></div> <div class="event-timeline"> <div class="event-indicator"></div> </div> <div class="col-9 infinity-scroll-message"> <div class="loadingItems"> <span class="infinite-scroll-request"><img src="/img/infinity-load.svg"> Memuat Event</span> </div> </div> </div> </div>',
-            padding: 0,
-            nextSelector: '.pagination li.active + li a',
-            contentSelector: 'div.infinite-scroll',
-            callback: function() {
-                $('ul.pagination').remove();
-                $('.scroller-status').addClass('end-of-page');
-            }
-            });
-            });
-    </script>
-    @endif
-    @if($var['page'] == 'Video')
-    <script>
-        //video
-        $(function(){
-        $('.infinite-scroll').jscroll({
-            autoTrigger: true,
-            loadingHtml: '<div class="loadingVideo atEnd"> <span class="infinite-scroll-request"><img src="/img/infinity-load.svg"></span> <span class="infinite-scroll-last">Loading Video...</span></div>',
-            padding: 0,
-            nextSelector: '.pagination li.active + li a',
-            contentSelector: 'div.infinite-scroll',
-            callback: function() {
-                $('ul.pagination').remove();
-                $('.atEnd').show();
-            }
-        });
-        });
-    </script>
-    @endif
-    @if($var['page'] == 'Mentor')
-    <script>
-        //Mentor
-        $(function(){
-        $('.infinite-scroll').jscroll({
-            autoTrigger: true,
-            loadingHtml: '<div class="loadingVideo"> <span class="infinite-scroll-request"><img src="/img/infinity-load.svg"></span> <span class="infinite-scroll-last">Memuat Mentor...</span> </div>',
-            padding: 0,
-            nextSelector: '.pagination li.active + li a',
-            contentSelector: 'div.infinite-scroll',
-            callback: function() {
-                $('ul.pagination').remove();
-                $('.atEnd').show();
-            }
-        });
-        });
-    </script>
-    @endif
-    <script src="{{ asset('js/home.js') }}?v=1.1.0"></script>
 
 </body>
 </html>

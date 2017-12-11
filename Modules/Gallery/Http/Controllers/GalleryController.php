@@ -33,6 +33,7 @@ class GalleryController extends Controller
         $this->prefix = 'admin/blog/gallery/';
         View::share('prefix', $this->prefix);
         View::share('body_id', 'gallery');
+        View::share('tinymceApiKey', config('app.tinymce_api_key'));
     }
     /**
      * Display a listing of gallery.
@@ -128,12 +129,12 @@ class GalleryController extends Controller
             'title' => 'required',
             'content' => 'required',
             'gallery_images' => 'required'
-        ]);
+        ], PostHelper::validation_messages());
 
         $meta_title =  $request->input('meta_title');
         $meta_desc =  $request->input('meta_desc');
         $meta_keyword =  $request->input('meta_keyword');
-        $categories = json_encode($request->input('categories') ?? [] );
+        $categories = $request->input('categories') ?? [];
         $tag_input = $request->input('tags') ?? [];
         $gallery_images = json_encode($request->get('gallery_images') ?? [] );
 
@@ -149,28 +150,7 @@ class GalleryController extends Controller
 
         DB::beginTransaction();
         try {
-            if (isset($tag_input)) {
-                $tags = array();
-                foreach ($tag_input as $key) {
-                    $tag_slug = PostHelper::make_slug($key);
-                    $check = Tags::where('slug', $tag_slug)->first();
-                    if (!isset($check)) {
-                        // save tag to table tag
-                        $save_tag = new Tags;
-                        $save_tag->name = $key;
-                        $save_tag->slug = $tag_slug;
-                        $save_tag->save();
-                        $key = $save_tag->id;
-
-                    } else {
-                      $key = $check->id;
-                    }
-                    $tags[] = $key;
-                }
-            } else {
-                $tags = null;
-            }
-            $tags = json_encode($tags);
+            $tags = PostHelper::check_tags_input($tag_input);
 
             $store = new Posts;
             $store->title = $request->input('title');
@@ -187,9 +167,15 @@ class GalleryController extends Controller
             $metas[] = ['name' => 'meta_title', 'value' => $meta_title];
             $metas[] = ['name' => 'meta_desc', 'value' => $meta_desc];
             $metas[] = ['name' => 'meta_keyword', 'value' => $meta_keyword];
-            $metas[] = ['name' => 'categories', 'value' => $categories];
-            $metas[] = ['name' => 'tags', 'value' => $tags];
             $metas[] = ['name' => 'gallery_images', 'value' => $gallery_images];
+
+            foreach ($categories as $cat) {
+                $metas[] = ['name' => 'category', 'value' => $cat];
+            }
+            foreach ($tags as $tag) {
+                $metas[] = ['name' => 'tag', 'value' => $tag];
+            }
+
             foreach ($metas as $meta) {
                 if ($meta['value'] != '') {
                     $meta_contents[] = [ 'post_id'=>$store->id, 'key'=> $meta['name'], 'value'=> $meta['value'] ];
@@ -199,7 +185,7 @@ class GalleryController extends Controller
             PostMeta::insert($meta_contents);
 
             DB::commit();
-            return redirect(route('galleries'))->with(['msg' => 'Saved', 'status' => 'success']);
+            return redirect(route('viewgallery', $store->id))->with(['msg' => 'Saved', 'status' => 'success']);
         } catch (\Exception $e) {
             DB:rollback();
             return redirect(route('galleries'))->with(['msg' => 'Save Error', 'status' => 'danger']);
@@ -224,13 +210,14 @@ class GalleryController extends Controller
             $meta_title = $post_metas->meta_title ?? '';
             $meta_keyword = $post_metas->meta_keyword ?? '';
             $categories = json_decode($post_metas->categories ?? '') ?? [];
-            $tags = json_decode($post_metas->tags ?? '') ?? [];
             $gallery_images = json_decode($post_metas->gallery_images ?? '') ?? [];
 
             $images = Media::whereIn('id', $gallery_images)->get();
 
             $alltag = Tags::orderBy('created_at','desc')->get();
             $media = Media::orderBy('created_at','desc')->get();
+
+            $tags = PostHelper::get_post_tag($gallery->id, 'id'); 
 
             $title = $gallery->title;
             $content = $gallery->content;
@@ -265,7 +252,7 @@ class GalleryController extends Controller
             'title' => 'required',
             'content' => 'required',
             'gallery_images' => 'required'
-        ]);
+        ], PostHelper::validation_messages());
 
         $title = $request->input('title');
         $content = $request->input('content');
@@ -274,30 +261,11 @@ class GalleryController extends Controller
         $published_date = $request->input('published_date');
         $featured_img = $request->input('featured_image');
         $tag_input = $request->input('tags') ?? [];
+        $categories = $request->input('categories') ?? [] ;
 
         DB::beginTransaction();
         try {
-            if (isset($tag_input)) {
-                $tags = array();
-                foreach ($tag_input as $key) {
-                    $tag_slug = PostHelper::make_slug($key);
-                    $check = Tags::where('slug', $tag_slug)->first();
-                    if (!isset($check)) {
-                        // save tag to table tag
-                        $save_tag = new Tags;
-                        $save_tag->name = $key;
-                        $save_tag->slug = $tag_slug;
-                        $save_tag->save();
-                        $key = $save_tag->id;
-
-                    } else {
-                      $key = $check->id;
-                    }
-                    $tags[] = $key;
-                }
-            } else {
-                $tags = null;
-            }
+            $tags = PostHelper::check_tags_input($tag_input);
             
             $request->request->add(['tags'=>$tags]);
 
@@ -313,7 +281,12 @@ class GalleryController extends Controller
 
             $newMeta = false;
             $post_metas = PostMeta::where('post_id',$id)->get();
-            $meta_fields = ['categories', 'meta_title', 'meta_desc', 'meta_keyword', 'gallery_images', 'tags' ];
+            $meta_fields = ['meta_title', 'meta_desc', 'meta_keyword', 'gallery_images'];
+
+            // save tags meta 
+            PostHelper::save_post_meta_tag($update->id, $tags);
+            // save categories meta 
+            PostHelper::save_post_meta_category($update->id, $categories);
 
             foreach ($meta_fields as $key => $meta) {
                 $updated = false;
@@ -343,10 +316,10 @@ class GalleryController extends Controller
             }
 
             DB::commit();
-            return redirect(route('galleries'))->with(['msg' => 'Saved', 'status' => 'success']);
+            return redirect(route('viewgallery', $id))->with(['msg' => 'Saved', 'status' => 'success']);
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect(route('galleries'))->with(['msg' => 'Error. Something went wrong.', 'status' => 'danger']);
+            return redirect(route('viewgallery', $id))->with(['msg' => 'Error. Something went wrong.', 'status' => 'danger']);
         }     
     }
 

@@ -27,7 +27,7 @@
 							<span>{{ date('d M Y', strtotime($meta['open_at'])) }} |</span>
 							<span>{{ date('H:i', strtotime($meta['open_at'])) }} WIB - {{ $meta['closed_at'] != '' ? date('H:i', strtotime($meta['closed_at'])).' WIB' : 'till drop' }} </span>
 						</div>
-					<div class="event-desc">
+					<div class="event-desc hidden">
 						{!! $event->content !!}
 					</div>
 					<div class="event-meta">
@@ -37,7 +37,7 @@
 								<td>Speaker :</td>
 								<td>
 									@foreach ($meta['mentors'] as $mentor)
-										<p>- {{ $mentor }}</p>
+										<p>- {{ $mentor->name }}</p>
 									@endforeach
 								</td>
 							</tr>
@@ -47,7 +47,15 @@
 							@if ($meta['htm'] != '')
 							<tr class="htm">
 								<td>HTM :</td>
-								<td>Rp {{ number_format($meta['htm']) }}</td>
+								@if ($meta['htm'] == 'free')
+									<td>Free</td>
+								@elseif ( is_array($meta['htm']) && count($meta['htm']) > 0 )
+                                    <td>
+                                    @foreach ($meta['htm'] as $htm)
+                                    <p> Rp {{ number_format($htm->nominal) }} - {{ $htm->label }}</p>
+                                    @endforeach
+                                	</td>
+                                @endif
 							</tr>
 							@endif
 
