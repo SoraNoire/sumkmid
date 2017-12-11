@@ -204,7 +204,7 @@ class PublicController extends Controller
      */
 	public function video(){
 		$var['page'] = "Video";
-		$var['videos'] = DB::table('posts')->where('post_type','video')->where('deleted',0)->where('published_date','<=',Carbon::now())->orderBy('published_date','desc')->paginate(3);
+		$var['videos'] = DB::table('posts')->where('post_type','video')->where('deleted',0)->where('published_date','<=',Carbon::now())->orderBy('published_date','desc')->paginate(6);
 		return view('page.video')->with(['var' => $var]);
 	}
 	public function searchVideo(request $request){
