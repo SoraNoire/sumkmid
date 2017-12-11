@@ -16,7 +16,7 @@
 			<div class="post event the-row {{ $meta['open_at'] > Carbon::now() ? 'active' : '' }}" id="event-{{ $event->id }}">
 				<div class="event-datetime col-3">
 					<span>{{ date('d M Y', strtotime($meta['open_at'])) }}</span>
-					<span>{{ date('H:i', strtotime($meta['open_at'])) }} WIB - {{ $meta['closed_at'] != '' ? date('H:i', strtotime($meta['closed_at'])).' WIB' : 'till drop' }} </span>
+					<span>{{ date('H:i', strtotime($meta['open_at'])) }} WIB - {{ date('d M Y', strtotime($meta['closed_at'])) > date('d M Y', strtotime($meta['open_at'])) ? date('d M Y H:i', strtotime($meta['closed_at'])).' WIB' : date('H:i', strtotime($meta['closed_at'])).' WIB' }} </span>
 				</div>
 				<div class="event-timeline">
 					<div class="event-indicator"></div>
@@ -25,7 +25,7 @@
 					<div class="event-title">{{ $event->title }}</div>
 					<div class="event-datetime-mobile">
 							<span>{{ date('d M Y', strtotime($meta['open_at'])) }} |</span>
-							<span>{{ date('H:i', strtotime($meta['open_at'])) }} WIB - {{ $meta['closed_at'] != '' ? date('H:i', strtotime($meta['closed_at'])).' WIB' : 'till drop' }} </span>
+							<span>{{ date('H:i', strtotime($meta['open_at'])) }} WIB - {{ date('d M Y', strtotime($meta['closed_at'])) > date('d M Y', strtotime($meta['open_at'])) ? date('d M Y H:i', strtotime($meta['closed_at'])).' WIB' : date('H:i', strtotime($meta['closed_at'])).' WIB' }} </span>
 						</div>
 					<div class="event-desc hidden">
 						{!! $event->content !!}

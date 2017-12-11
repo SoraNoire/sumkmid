@@ -1842,6 +1842,16 @@ footer .copyright {
   }
 }
 
+#video .col-3 a {
+  color: #ffffff;
+  text-decoration: none;
+  text-transform: capitalize;
+}
+
+#video .col-3 a:hover {
+  text-decoration: underline;
+}
+
 @media screen and (max-width: 768px) {
   #video .col-3 {
     width: calc(50% - 30px);
@@ -2062,6 +2072,7 @@ footer .copyright {
   line-height: 1.25;
   color: #ffffff;
   text-decoration: none;
+  text-transform: capitalize;
 }
 
 #video-archive .atEnd {
@@ -2188,6 +2199,7 @@ footer .copyright {
   display: block;
   color: #404040;
   text-decoration: none;
+  text-transform: capitalize;
 }
 
 #mentor-archive .item .item-title a:first-child {
@@ -2342,6 +2354,7 @@ footer .copyright {
   margin-bottom: 10px;
   padding-bottom: 12px;
   position: relative;
+  text-transform: capitalize;
 }
 
 #event-archive .event .event-content .event-title i {
@@ -2386,6 +2399,7 @@ footer .copyright {
 
 #event-archive .event .event-content .event-meta .mentor p {
   margin: unset;
+  text-transform: capitalize;
 }
 
 #event-archive .event .event-content .event-meta .htm {

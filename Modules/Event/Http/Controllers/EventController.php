@@ -403,7 +403,7 @@ class EventController extends Controller
             {
                 $newMeta = false;
                 $post_metas = PostMeta::where('post_id',$id)->get();
-                $meta_fields = ['event_type', 'location', 'open_at', 'closed_at', 'meta_title', 'meta_desc', 'meta_keyword', 'mentor_registered', 'mentor_not_registered', 'event_url', 'gmaps_url' ];
+                $meta_fields = ['event_type', 'location', 'meta_title', 'meta_desc', 'meta_keyword', 'mentor_registered', 'mentor_not_registered', 'event_url', 'gmaps_url' ];
 
                 foreach ($meta_fields as $key => $meta) {
                     $updated = false;
@@ -432,14 +432,20 @@ class EventController extends Controller
                     }
                 }
 
-                $post_meta = PostMeta::where('post_id',$id)->where('key', 'htm')->first();
-                if (isset($post_meta)) {
-                    $post_meta->value = $htm;
-                    $post_meta->save();
-                } else {
-                    PostMeta::insert(['post_id'=>$update->id,'key' => 'htm', 'value'=>$htm]);
+                $other_meta = array();
+                $other_meta[] = ['name' => 'open_at', 'value' => $open_at];
+                $other_meta[] = ['name' => 'closed_at', 'value' => $closed_at];
+                $other_meta[] = ['name' => 'htm', 'value' => $htm];
+            
+                foreach ($other_meta as $other_meta) {
+                    $post_meta = PostMeta::where('post_id',$id)->where('key', $other_meta['name'])->first();
+                    if (isset($post_meta)) {
+                        $post_meta->value = $other_meta['value'];
+                        $post_meta->save();
+                    } else {
+                        PostMeta::insert(['post_id' => $update->id, 'key' => $other_meta['name'], 'value' => $other_meta['value']]);
+                    }
                 }
-
             }
 
             // $meta_fields = [ 'event_type', 'event_location', 'event_htm', 'event_meta_title', 'event_meta_desc', 'event_meta_keyword', 'event_open_at', 'event_closed_at', 'event_categories' ];
