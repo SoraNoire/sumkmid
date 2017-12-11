@@ -46,7 +46,7 @@ class memberController extends Controller
 			'avatar'=> $path
 		];
 		if(SSO::meUpdate($data)){
-			return 'success';
+			return app()->SSO->Auth()->foto_profil;
 		}else{
 			return 'fail';
 		}

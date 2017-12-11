@@ -102,8 +102,8 @@ $(document).ready(function(){
             contentType: false,
             processData: false,
             success:function(data){
-                console.log("success");
-                console.log(data);
+				// console.log(data);
+				$('.photoPreview').css('background-image', "url("+data+"?random="+new Date().getTime()+")");
             },
             error: function(data){
                 console.log("error");
@@ -113,7 +113,6 @@ $(document).ready(function(){
     }));
     $("#inputUserImage").on('change',function(e){
 		$( "#upldimageuser" ).submit();
-		alert('masuk');
     });
 });
 
