@@ -318,13 +318,13 @@ class PostHelper
         $filePath = '/shbtm/'.$path.'/' . $fileName.'.'.$ext;
         $s3->put($filePath, $img->__toString(), 'public');
 
-        $filePath = '/'.$path.'/' . $fileName. '-'. $large.'.'.$ext;
+        $filePath = '/shbtm/'.$path.'/' . $fileName. '-'. $large.'.'.$ext;
         $s3->put($filePath, $imgLarge->__toString(), 'public');
 
-        $filePath = '/'.$path.'/' . $fileName. '-'. $medium.'.'.$ext;
+        $filePath = '/shbtm/'.$path.'/' . $fileName. '-'. $medium.'.'.$ext;
         $s3->put($filePath, $imgMedium->__toString(), 'public');
 
-        $filePath = '/'.$path.'/' . $fileName. '-'. $thumb.'.'.$ext;
+        $filePath = '/shbtm/'.$path.'/' . $fileName. '-'. $thumb.'.'.$ext;
         $s3->put($filePath, $imgThumb->__toString(), 'public');
     }
     
@@ -343,13 +343,13 @@ class PostHelper
         $filePath = '/shbtm/'.$path.'/' . $file;
         $s3->delete($filePath);
 
-        $filePath = '/'.$path.'/' . $ex[0].'-'.$thumb.'.'.$ex[1];
+        $filePath = '/shbtm/'.$path.'/' . $ex[0].'-'.$thumb.'.'.$ex[1];
         $s3->delete($filePath);
 
-        $filePath = '/'.$path.'/' . $ex[0].'-'.$medium.'.'.$ex[1];
+        $filePath = '/shbtm/'.$path.'/' . $ex[0].'-'.$medium.'.'.$ex[1];
         $s3->delete($filePath);
 
-        $filePath = '/'.$path.'/' . $ex[0].'-'.$large.'.'.$ex[1];
+        $filePath = '/shbtm/'.$path.'/' . $ex[0].'-'.$large.'.'.$ex[1];
         $s3->delete($filePath);
     }
 
