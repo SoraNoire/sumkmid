@@ -129,6 +129,7 @@ window.onresize = function(){
     {
 		$('.navWrapper ul').show();
 		$('.userNavSetting ul').hide();
+		$('.trnsOverlay').hide();
     }else{
 		$('.userNavSetting ul').show();
 		$('.navWrapper ul').hide();
