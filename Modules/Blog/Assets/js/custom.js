@@ -732,7 +732,7 @@ if ($(".datetimepicker").length > 0) {
             format: "yyyy-mm-dd hh:ii",
             autoclose: true,
             todayBtn: true,
-            pickerPosition: "bottom-left"
+            pickerPosition: "top-left"
         });
     });
 }

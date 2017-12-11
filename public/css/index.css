@@ -1842,6 +1842,15 @@ footer .copyright {
   }
 }
 
+#video .col-3 a {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+#video .col-3 a:hover {
+  text-decoration: underline;
+}
+
 @media screen and (max-width: 768px) {
   #video .col-3 {
     width: calc(50% - 30px);

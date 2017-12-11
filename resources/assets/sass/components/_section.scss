@@ -232,6 +232,15 @@
 		}
 	}
 	.col-3{
+		a {
+			color: #ffffff;
+	    	text-decoration: none;
+
+	    	&:hover {
+		    	text-decoration: underline;
+	    	}
+		}
+
 		@media screen and (max-width: 768px) {
 			width: calc(50% - 30px);
 			margin-bottom: 20px;

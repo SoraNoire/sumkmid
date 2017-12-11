@@ -9091,7 +9091,6 @@ img {
 
 .switch {
   position: relative;
-  display: inline-block;
   width: 35px;
   height: 20px;
   vertical-align: middle;
