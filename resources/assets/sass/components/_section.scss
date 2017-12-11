@@ -566,6 +566,7 @@
 
 	.event {
 		.event-datetime{
+		    margin-top: -5px;
 			@media screen and (max-width: 433px) {
 				display: none;
 			}
@@ -576,6 +577,7 @@
 			}
 		}
 		.event-content{
+		    margin-top: -5px;
 			@media screen and (max-width: 433px) {
 				width: calc(100% - 50px);
 			}
@@ -587,9 +589,6 @@
 			@media screen and (max-width: 433px) {
 				display: block;
 			}
-		}
-		&:nth-child(n+2) {
-			margin-top: -8px;
 		}
 		&.active {
 			.event-datetime {
