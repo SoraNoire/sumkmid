@@ -2,164 +2,54 @@ mediaPath = 'https://s3-ap-southeast-1.amazonaws.com/mdirect/shbtm/media';
 filePath = 'https://s3-ap-southeast-1.amazonaws.com/mdirect/shbtm/files';
 var timeOutId;
 
-$("#browse_media_post").click(function() {
-    $("html, body").animate({
-        scrollTop: 0
-    }, 500);
-    $(".overlay").fadeIn(), $(".media-modal").fadeIn();
-});
+var jPlugin = $.blogPlugin();
 
-$("#close_media_post, .overlay").click(function() {
-    $(".overlay").fadeOut(), $(".media-modal").fadeOut()
+$("#browse_media_post").click(function() {
+    jPlugin.openModal('.media-modal');
 });
 
 $("#browse_fimg_post").click(function() {
-    $("html, body").animate({
-        scrollTop: 0
-    }, 500);
-    $(".overlay").fadeIn(), $(".fimg-modal").fadeIn();
-});
-
-$("#close_fimg_post, .overlay").click(function() {
-    $(".overlay").fadeOut(), $(".fimg-modal").fadeOut()
+    jPlugin.openModal('.fimg-modal');
 });
 
 $("#browse_file_post").click(function() {
-    $("html, body").animate({
-        scrollTop: 0
-    }, 500);
-    $(".overlay").fadeIn(), $(".file-modal").fadeIn();
+    jPlugin.openModal('.file-modal');
 });
 
-$("#close_file_post, .overlay").click(function() {
-    $(".overlay").fadeOut(), $(".file-modal").fadeOut()
+$(".close-modal, .overlay").click(function() {
+    jPlugin.closeModal();
 });
 
 // fungsi upload image
-$('#uploadmedia').on('change', function add_media(e){
+$('#uploadmedia').on('change', function(e){
     e.preventDefault();
-    timeOutId = setTimeout(ajaxFn, 1000, e);
-
-    $('.dataTables_processing').show();
-
-    function ajaxFn(e){
-        var fd = new FormData($("#actuploadmedia")[0]);
-        $.ajax({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            type: "POST",
-            url: "/admin/blog/store-media",
-            processData: false,
-            contentType: false,
-            data: fd,
-            success: function(msg){
-                        $(".mediatable").DataTable().ajax.reload(null, false);
-                        console.log('add');
-            },
-            error: function(err){
-                    $(".mediatable").DataTable().ajax.reload(null, false);
-                    var obj = err.responseJSON;
-                    alert(Object.values(obj)[0].toString());
-                }
-        });
-        $('.dataTables_processing').hide();
-    };
+    var fd = new FormData($("#actuploadmedia")[0]);
+    timeOutId = setTimeout(jPlugin.uploadFile(fd, 'media'), 1000);
 });
 
+// fungsi upload fimg
 $('#uploadfimg').on('change', function add_media(e){
     e.preventDefault();
-    timeOutId = setTimeout(ajaxFn, 1000, e);
-    $('.dataTables_processing').show();
-
-    function ajaxFn(e){
-        var fd = new FormData($("#actuploadfimg")[0]);
-        $.ajax({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            type: "POST",
-            url: "/admin/blog/store-media",
-            processData: false,
-            contentType: false,
-            data: fd,
-            success: function(msg){
-                        $(".mediatable").DataTable().ajax.reload(null, false);
-                        console.log(msg);
-            },
-            error: function(err){
-                    $(".mediatable").DataTable().ajax.reload(null, false);
-                    var obj = err.responseJSON;
-                    alert(Object.values(obj)[0].toString());
-                }
-        });
-        $('.dataTables_processing').hide();
-    };
+    var fd = new FormData($("#actuploadfimg")[0]);
+    timeOutId = setTimeout(jPlugin.uploadFile(fd, 'media'), 1000);
 });
 
 // fungsi upload file
 $('#fileUpload').on('change', function add_file(e){
     e.preventDefault();
-    timeOutId = setTimeout(ajaxFn, 1000, e);
-    $('.dataTables_processing').show();
-
-    function ajaxFn(e){
-        var fd = new FormData($("#fileupload-form")[0]);
-        $.ajax({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            type: "POST",
-            url: "/admin/blog/store-file",
-            processData: false,
-            contentType: false,
-            data: fd,
-            success: function(msg){
-                $(".filestable").DataTable().ajax.reload(null, false);
-                // var obj = JSON.parse(msg);
-                console.log(msg);
-            },
-            error: function(err){
-                $(".filestable").DataTable().ajax.reload(null, false);
-                var obj = err.responseJSON;
-                alert(Object.values(obj)[0].toString());
-            },
-            always: function(a){
-                $(".filestable").DataTable().ajax.reload(null, false);
-                // console.log(a);
-            }
-        });
-        $('.dataTables_processing').hide();
-    }
+    var fd = new FormData($("#fileupload-form")[0]);
+    timeOutId = setTimeout(jPlugin.uploadFile(fd, 'file'), 1000);
 });
 
-function delete_media(e){
-    timeOutId = setTimeout(ajaxFn, 2000, e);
-
-    $('#canceldelete').show();
-    $('.dataTables_processing').show();
-    function ajaxFn(e){
-        $.ajax({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            type: "GET",
-            url: "/admin/blog/delete-media/"+e,
-            processData: false,
-            contentType: false,
-            success: function(msg){
-                $(".mediatable").DataTable().ajax.reload(null, false);
-            },
-            error: function(err){
-                $(".mediatable").DataTable().ajax.reload(null, false);
-                alert('delete error');
-            }
-        });
-        $('#canceldelete').hide();
-        $('.dataTables_processing').hide();
-    };
+// fungsi delete media
+function delete_media(id){
+    timeOutId = setTimeout(jPlugin.deleteFile(id, 'media'), 2000);
 };
 
+// fungsi delete file
+function delete_file(id){
+    timeOutId = setTimeout(jPlugin.deleteFile(id, 'file'), 2000);
+};
 
 function select_media(e){
     var a = $("<input>");
@@ -168,8 +58,7 @@ function select_media(e){
     a.val(b).select();
     document.execCommand("copy");
     a.remove();
-    $(".overlay").fadeOut();
-    $(".media-modal").fadeOut();
+    jPlugin.closeModal();
 }
 
 function select_fimg(e){
@@ -179,8 +68,7 @@ function select_fimg(e){
     var c = $(e).text();
     a.css('background-image', 'url('+c+')');
     b.val(c);
-    $(".overlay").fadeOut();
-    $(".fimg-modal").fadeOut();
+    jPlugin.closeModal();
 }
 
 function remove_fimg(){
@@ -191,46 +79,35 @@ function remove_fimg(){
     b.val('');
 }
 
+// multiselect for bulk delete
+$('.mydatatable tbody').on( 'click', 'tr', function () {
+    $(this).toggleClass('selected');
+    var count = $(".mydatatable").DataTable().rows('.selected').data().length;
+    if (count > 0) {
+        $('.bulk-delete-item').show();   
+        $('.bulk-delete-count').html( $(".mydatatable").DataTable().rows('.selected').data().length ); 
+    } else {
+        $('.bulk-delete-item').hide(); 
+    }
+    var ids = $.map($(".mydatatable").DataTable().rows('.selected').data(), function (item) {
+        return item.id
+    });
+    $('.bulk-delete-id').val(JSON.stringify(ids));
+});
+// end multiselect for bulk delete
+
 function cancelDelete(){
     clearTimeout(timeOutId);
     $('#canceldelete').hide();
     $('.table-overlay').hide();
 };
 
-function load_post_category(){
-    var id = $('meta[name="item-id"]').attr('content');
-    $.ajax({
-        type: "GET",
-        url: "/admin/blog/get-category-post/"+id,
-        success: function(msg){
-            $('.category-wrap ul').html(msg);
-        },
-        error: function(err){
-            console.log(err);
-        }
-    });
-}
-
-function load_post_category_parent(){
-    var id = $('meta[name="category-id"]').attr('content');
-    $.ajax({
-        type: "GET",
-        url: "/admin/blog/get-category-parent/"+id,
-        success: function(msg){
-            $('.category-parent').html(msg);
-        },
-        error: function(err){
-            console.log(err);
-        }
-    });
-}
-
 if ($('.category-wrap').length > 0) {
-    $('.category-wrap').ready(load_post_category());
+    $('.category-wrap').ready(jPlugin.loadListCategory());
 }
 
 if ($('.category-parent').length > 0) {
-    $('.category-parent').ready(load_post_category_parent());
+    $('.category-parent').ready(jPlugin.loadListParentCategory());
 }
 
 // add category on post ajax function
@@ -243,15 +120,17 @@ $('.add_category_button').on('click', function add_category(){
             url: "/admin/blog/add-category-post/"+n+"/"+p,
             success: function(msg){
                 console.log(msg);
+                jPlugin.addCategoryLoad();
             },
             error: function(err){
                 console.log(err);
+                jPlugin.addCategoryLoad();
+            },
+            always: function(a){
+                jPlugin.addCategoryLoad();
             }
         });
 
-        load_post_category();
-        console.log('ss');
-        load_post_category_parent();
         $('input[name=category_name]').val('');
         $('select[name=category_parent]').removeAttr('selected');
     } else {    
@@ -293,30 +172,3 @@ if ($('.file-list').length > 0) {
         $(this).parents('.file-item').remove();
     });
 }
-
-function delete_file(e){
-    timeOutId = setTimeout(ajaxFn, 2000, e);
-
-    $('.dataTables_processing').show();
-    $('#canceldelete').show();
-    function ajaxFn(e){
-        $.ajax({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            type: "GET",
-            url: "/admin/blog/delete-file/"+e,
-            processData: false,
-            contentType: false,
-            success: function(msg){
-                $(".filestable").DataTable().ajax.reload(null, false);
-            },
-            error: function(err){
-                $(".filestable").DataTable().ajax.reload(null, false);
-                console.log(err);
-            }
-        });
-        $('#canceldelete').hide();
-        $('.dataTables_processing').hide();
-    };
-};

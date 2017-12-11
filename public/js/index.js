@@ -178,168 +178,1153 @@ if("undefined"==typeof jQuery)throw new Error("Bootstrap's JavaScript requires j
 d.trigger("activate.bs.scrollspy")},b.prototype.clear=function(){a(this.selector).parentsUntil(this.options.target,".active").removeClass("active")};var d=a.fn.scrollspy;a.fn.scrollspy=c,a.fn.scrollspy.Constructor=b,a.fn.scrollspy.noConflict=function(){return a.fn.scrollspy=d,this},a(window).on("load.bs.scrollspy.data-api",function(){a('[data-spy="scroll"]').each(function(){var b=a(this);c.call(b,b.data())})})}(jQuery),+function(a){"use strict";function b(b){return this.each(function(){var d=a(this),e=d.data("bs.tab");e||d.data("bs.tab",e=new c(this)),"string"==typeof b&&e[b]()})}var c=function(b){this.element=a(b)};c.VERSION="3.3.5",c.TRANSITION_DURATION=150,c.prototype.show=function(){var b=this.element,c=b.closest("ul:not(.dropdown-menu)"),d=b.data("target");if(d||(d=b.attr("href"),d=d&&d.replace(/.*(?=#[^\s]*$)/,"")),!b.parent("li").hasClass("active")){var e=c.find(".active:last a"),f=a.Event("hide.bs.tab",{relatedTarget:b[0]}),g=a.Event("show.bs.tab",{relatedTarget:e[0]});if(e.trigger(f),b.trigger(g),!g.isDefaultPrevented()&&!f.isDefaultPrevented()){var h=a(d);this.activate(b.closest("li"),c),this.activate(h,h.parent(),function(){e.trigger({type:"hidden.bs.tab",relatedTarget:b[0]}),b.trigger({type:"shown.bs.tab",relatedTarget:e[0]})})}}},c.prototype.activate=function(b,d,e){function f(){g.removeClass("active").find("> .dropdown-menu > .active").removeClass("active").end().find('[data-toggle="tab"]').attr("aria-expanded",!1),b.addClass("active").find('[data-toggle="tab"]').attr("aria-expanded",!0),h?(b[0].offsetWidth,b.addClass("in")):b.removeClass("fade"),b.parent(".dropdown-menu").length&&b.closest("li.dropdown").addClass("active").end().find('[data-toggle="tab"]').attr("aria-expanded",!0),e&&e()}var g=d.find("> .active"),h=e&&a.support.transition&&(g.length&&g.hasClass("fade")||!!d.find("> .fade").length);g.length&&h?g.one("bsTransitionEnd",f).emulateTransitionEnd(c.TRANSITION_DURATION):f(),g.removeClass("in")};var d=a.fn.tab;a.fn.tab=b,a.fn.tab.Constructor=c,a.fn.tab.noConflict=function(){return a.fn.tab=d,this};var e=function(c){c.preventDefault(),b.call(a(this),"show")};a(document).on("click.bs.tab.data-api",'[data-toggle="tab"]',e).on("click.bs.tab.data-api",'[data-toggle="pill"]',e)}(jQuery),+function(a){"use strict";function b(b){return this.each(function(){var d=a(this),e=d.data("bs.affix"),f="object"==typeof b&&b;e||d.data("bs.affix",e=new c(this,f)),"string"==typeof b&&e[b]()})}var c=function(b,d){this.options=a.extend({},c.DEFAULTS,d),this.$target=a(this.options.target).on("scroll.bs.affix.data-api",a.proxy(this.checkPosition,this)).on("click.bs.affix.data-api",a.proxy(this.checkPositionWithEventLoop,this)),this.$element=a(b),this.affixed=null,this.unpin=null,this.pinnedOffset=null,this.checkPosition()};c.VERSION="3.3.5",c.RESET="affix affix-top affix-bottom",c.DEFAULTS={offset:0,target:window},c.prototype.getState=function(a,b,c,d){var e=this.$target.scrollTop(),f=this.$element.offset(),g=this.$target.height();if(null!=c&&"top"==this.affixed)return c>e?"top":!1;if("bottom"==this.affixed)return null!=c?e+this.unpin<=f.top?!1:"bottom":a-d>=e+g?!1:"bottom";var h=null==this.affixed,i=h?e:f.top,j=h?g:b;return null!=c&&c>=e?"top":null!=d&&i+j>=a-d?"bottom":!1},c.prototype.getPinnedOffset=function(){if(this.pinnedOffset)return this.pinnedOffset;this.$element.removeClass(c.RESET).addClass("affix");var a=this.$target.scrollTop(),b=this.$element.offset();return this.pinnedOffset=b.top-a},c.prototype.checkPositionWithEventLoop=function(){setTimeout(a.proxy(this.checkPosition,this),1)},c.prototype.checkPosition=function(){if(this.$element.is(":visible")){var b=this.$element.height(),d=this.options.offset,e=d.top,f=d.bottom,g=Math.max(a(document).height(),a(document.body).height());"object"!=typeof d&&(f=e=d),"function"==typeof e&&(e=d.top(this.$element)),"function"==typeof f&&(f=d.bottom(this.$element));var h=this.getState(g,b,e,f);if(this.affixed!=h){null!=this.unpin&&this.$element.css("top","");var i="affix"+(h?"-"+h:""),j=a.Event(i+".bs.affix");if(this.$element.trigger(j),j.isDefaultPrevented())return;this.affixed=h,this.unpin="bottom"==h?this.getPinnedOffset():null,this.$element.removeClass(c.RESET).addClass(i).trigger(i.replace("affix","affixed")+".bs.affix")}"bottom"==h&&this.$element.offset({top:g-b-f})}};var d=a.fn.affix;a.fn.affix=b,a.fn.affix.Constructor=c,a.fn.affix.noConflict=function(){return a.fn.affix=d,this},a(window).on("load",function(){a('[data-spy="affix"]').each(function(){var c=a(this),d=c.data();d.offset=d.offset||{},null!=d.offsetBottom&&(d.offset.bottom=d.offsetBottom),null!=d.offsetTop&&(d.offset.top=d.offsetTop),b.call(c,d)})})}(jQuery);
 !function(){"use strict";if(navigator.userAgent.match(/IEMobile\/10\.0/)){var e=document.createElement("style");e.appendChild(document.createTextNode("@-ms-viewport{width:auto!important}")),document.querySelector("head").appendChild(e)}}();
 (function(a){if(typeof define==="function"&&define.amd){define(["jquery"],a)}else{if(typeof exports==="object"){a(require("jquery"))}else{a(jQuery)}}}(function(d,f){if(!("indexOf" in Array.prototype)){Array.prototype.indexOf=function(k,j){if(j===f){j=0}if(j<0){j+=this.length}if(j<0){j=0}for(var l=this.length;j<l;j++){if(j in this&&this[j]===k){return j}}return -1}}function a(){var q,k,p,l,j,n,m,o;k=(new Date()).toString();p=((m=k.split("(")[1])!=null?m.slice(0,-1):0)||k.split(" ");if(p instanceof Array){n=[];for(var l=0,j=p.length;l<j;l++){o=p[l];if((q=(m=o.match(/\b[A-Z]+\b/))!==null)?m[0]:0){n.push(q)}}p=n.pop()}return p}function h(){return new Date(Date.UTC.apply(Date,arguments))}var g=function(k,j){var m=this;this.element=d(k);this.container=j.container||"body";this.language=j.language||this.element.data("date-language")||"en";this.language=this.language in e?this.language:this.language.split("-")[0];this.language=this.language in e?this.language:"en";this.isRTL=e[this.language].rtl||false;this.formatType=j.formatType||this.element.data("format-type")||"standard";this.format=c.parseFormat(j.format||this.element.data("date-format")||e[this.language].format||c.getDefaultFormat(this.formatType,"input"),this.formatType);this.isInline=false;this.isVisible=false;this.isInput=this.element.is("input");this.fontAwesome=j.fontAwesome||this.element.data("font-awesome")||false;this.bootcssVer=j.bootcssVer||(this.isInput?(this.element.is(".form-control")?3:2):(this.bootcssVer=this.element.is(".input-group")?3:2));this.component=this.element.is(".date")?(this.bootcssVer===3?this.element.find(".input-group-addon .glyphicon-th, .input-group-addon .glyphicon-time, .input-group-addon .glyphicon-remove, .input-group-addon .glyphicon-calendar, .input-group-addon .fa-calendar, .input-group-addon .fa-clock-o").parent():this.element.find(".add-on .icon-th, .add-on .icon-time, .add-on .icon-calendar, .add-on .fa-calendar, .add-on .fa-clock-o").parent()):false;this.componentReset=this.element.is(".date")?(this.bootcssVer===3?this.element.find(".input-group-addon .glyphicon-remove, .input-group-addon .fa-times").parent():this.element.find(".add-on .icon-remove, .add-on .fa-times").parent()):false;this.hasInput=this.component&&this.element.find("input").length;if(this.component&&this.component.length===0){this.component=false}this.linkField=j.linkField||this.element.data("link-field")||false;this.linkFormat=c.parseFormat(j.linkFormat||this.element.data("link-format")||c.getDefaultFormat(this.formatType,"link"),this.formatType);this.minuteStep=j.minuteStep||this.element.data("minute-step")||5;this.pickerPosition=j.pickerPosition||this.element.data("picker-position")||"bottom-right";this.showMeridian=j.showMeridian||this.element.data("show-meridian")||false;this.initialDate=j.initialDate||new Date();this.zIndex=j.zIndex||this.element.data("z-index")||f;this.title=typeof j.title==="undefined"?false:j.title;this.timezone=j.timezone||a();this.icons={leftArrow:this.fontAwesome?"fa-arrow-left":(this.bootcssVer===3?"glyphicon-arrow-left":"icon-arrow-left"),rightArrow:this.fontAwesome?"fa-arrow-right":(this.bootcssVer===3?"glyphicon-arrow-right":"icon-arrow-right")};this.icontype=this.fontAwesome?"fa":"glyphicon";this._attachEvents();this.clickedOutside=function(n){if(d(n.target).closest(".datetimepicker").length===0){m.hide()}};this.formatViewType="datetime";if("formatViewType" in j){this.formatViewType=j.formatViewType}else{if("formatViewType" in this.element.data()){this.formatViewType=this.element.data("formatViewType")}}this.minView=0;if("minView" in j){this.minView=j.minView}else{if("minView" in this.element.data()){this.minView=this.element.data("min-view")}}this.minView=c.convertViewMode(this.minView);this.maxView=c.modes.length-1;if("maxView" in j){this.maxView=j.maxView}else{if("maxView" in this.element.data()){this.maxView=this.element.data("max-view")}}this.maxView=c.convertViewMode(this.maxView);this.wheelViewModeNavigation=false;if("wheelViewModeNavigation" in j){this.wheelViewModeNavigation=j.wheelViewModeNavigation}else{if("wheelViewModeNavigation" in this.element.data()){this.wheelViewModeNavigation=this.element.data("view-mode-wheel-navigation")}}this.wheelViewModeNavigationInverseDirection=false;if("wheelViewModeNavigationInverseDirection" in j){this.wheelViewModeNavigationInverseDirection=j.wheelViewModeNavigationInverseDirection}else{if("wheelViewModeNavigationInverseDirection" in this.element.data()){this.wheelViewModeNavigationInverseDirection=this.element.data("view-mode-wheel-navigation-inverse-dir")}}this.wheelViewModeNavigationDelay=100;if("wheelViewModeNavigationDelay" in j){this.wheelViewModeNavigationDelay=j.wheelViewModeNavigationDelay}else{if("wheelViewModeNavigationDelay" in this.element.data()){this.wheelViewModeNavigationDelay=this.element.data("view-mode-wheel-navigation-delay")}}this.startViewMode=2;if("startView" in j){this.startViewMode=j.startView}else{if("startView" in this.element.data()){this.startViewMode=this.element.data("start-view")}}this.startViewMode=c.convertViewMode(this.startViewMode);this.viewMode=this.startViewMode;this.viewSelect=this.minView;if("viewSelect" in j){this.viewSelect=j.viewSelect}else{if("viewSelect" in this.element.data()){this.viewSelect=this.element.data("view-select")}}this.viewSelect=c.convertViewMode(this.viewSelect);this.forceParse=true;if("forceParse" in j){this.forceParse=j.forceParse}else{if("dateForceParse" in this.element.data()){this.forceParse=this.element.data("date-force-parse")}}var l=this.bootcssVer===3?c.templateV3:c.template;while(l.indexOf("{iconType}")!==-1){l=l.replace("{iconType}",this.icontype)}while(l.indexOf("{leftArrow}")!==-1){l=l.replace("{leftArrow}",this.icons.leftArrow)}while(l.indexOf("{rightArrow}")!==-1){l=l.replace("{rightArrow}",this.icons.rightArrow)}this.picker=d(l).appendTo(this.isInline?this.element:this.container).on({click:d.proxy(this.click,this),mousedown:d.proxy(this.mousedown,this)});if(this.wheelViewModeNavigation){if(d.fn.mousewheel){this.picker.on({mousewheel:d.proxy(this.mousewheel,this)})}else{console.log("Mouse Wheel event is not supported. Please include the jQuery Mouse Wheel plugin before enabling this option")}}if(this.isInline){this.picker.addClass("datetimepicker-inline")}else{this.picker.addClass("datetimepicker-dropdown-"+this.pickerPosition+" dropdown-menu")}if(this.isRTL){this.picker.addClass("datetimepicker-rtl");var i=this.bootcssVer===3?".prev span, .next span":".prev i, .next i";this.picker.find(i).toggleClass(this.icons.leftArrow+" "+this.icons.rightArrow)}d(document).on("mousedown touchend",this.clickedOutside);this.autoclose=false;if("autoclose" in j){this.autoclose=j.autoclose}else{if("dateAutoclose" in this.element.data()){this.autoclose=this.element.data("date-autoclose")}}this.keyboardNavigation=true;if("keyboardNavigation" in j){this.keyboardNavigation=j.keyboardNavigation}else{if("dateKeyboardNavigation" in this.element.data()){this.keyboardNavigation=this.element.data("date-keyboard-navigation")}}this.todayBtn=(j.todayBtn||this.element.data("date-today-btn")||false);this.clearBtn=(j.clearBtn||this.element.data("date-clear-btn")||false);this.todayHighlight=(j.todayHighlight||this.element.data("date-today-highlight")||false);this.weekStart=0;if(typeof j.weekStart!=="undefined"){this.weekStart=j.weekStart}else{if(typeof this.element.data("date-weekstart")!=="undefined"){this.weekStart=this.element.data("date-weekstart")}else{if(typeof e[this.language].weekStart!=="undefined"){this.weekStart=e[this.language].weekStart}}}this.weekStart=this.weekStart%7;this.weekEnd=((this.weekStart+6)%7);this.onRenderDay=function(n){var p=(j.onRenderDay||function(){return[]})(n);if(typeof p==="string"){p=[p]}var o=["day"];return o.concat((p?p:[]))};this.onRenderHour=function(n){var p=(j.onRenderHour||function(){return[]})(n);var o=["hour"];if(typeof p==="string"){p=[p]}return o.concat((p?p:[]))};this.onRenderMinute=function(n){var p=(j.onRenderMinute||function(){return[]})(n);var o=["minute"];if(typeof p==="string"){p=[p]}if(n<this.startDate||n>this.endDate){o.push("disabled")}else{if(Math.floor(this.date.getUTCMinutes()/this.minuteStep)===Math.floor(n.getUTCMinutes()/this.minuteStep)){o.push("active")}}return o.concat((p?p:[]))};this.onRenderYear=function(o){var q=(j.onRenderYear||function(){return[]})(o);var p=["year"];if(typeof q==="string"){q=[q]}if(this.date.getUTCFullYear()===o.getUTCFullYear()){p.push("active")}var n=o.getUTCFullYear();var r=this.endDate.getUTCFullYear();if(o<this.startDate||n>r){p.push("disabled")}return p.concat((q?q:[]))};this.onRenderMonth=function(n){var p=(j.onRenderMonth||function(){return[]})(n);var o=["month"];if(typeof p==="string"){p=[p]}return o.concat((p?p:[]))};this.startDate=new Date(-8639968443048000);this.endDate=new Date(8639968443048000);this.datesDisabled=[];this.daysOfWeekDisabled=[];this.setStartDate(j.startDate||this.element.data("date-startdate"));this.setEndDate(j.endDate||this.element.data("date-enddate"));this.setDatesDisabled(j.datesDisabled||this.element.data("date-dates-disabled"));this.setDaysOfWeekDisabled(j.daysOfWeekDisabled||this.element.data("date-days-of-week-disabled"));this.setMinutesDisabled(j.minutesDisabled||this.element.data("date-minute-disabled"));this.setHoursDisabled(j.hoursDisabled||this.element.data("date-hour-disabled"));this.fillDow();this.fillMonths();this.update();this.showMode();if(this.isInline){this.show()}};g.prototype={constructor:g,_events:[],_attachEvents:function(){this._detachEvents();if(this.isInput){this._events=[[this.element,{focus:d.proxy(this.show,this),keyup:d.proxy(this.update,this),keydown:d.proxy(this.keydown,this)}]]}else{if(this.component&&this.hasInput){this._events=[[this.element.find("input"),{focus:d.proxy(this.show,this),keyup:d.proxy(this.update,this),keydown:d.proxy(this.keydown,this)}],[this.component,{click:d.proxy(this.show,this)}]];if(this.componentReset){this._events.push([this.componentReset,{click:d.proxy(this.reset,this)}])}}else{if(this.element.is("div")){this.isInline=true}else{this._events=[[this.element,{click:d.proxy(this.show,this)}]]}}}for(var j=0,k,l;j<this._events.length;j++){k=this._events[j][0];l=this._events[j][1];k.on(l)}},_detachEvents:function(){for(var j=0,k,l;j<this._events.length;j++){k=this._events[j][0];l=this._events[j][1];k.off(l)}this._events=[]},show:function(i){this.picker.show();this.height=this.component?this.component.outerHeight():this.element.outerHeight();if(this.forceParse){this.update()}this.place();d(window).on("resize",d.proxy(this.place,this));if(i){i.stopPropagation();i.preventDefault()}this.isVisible=true;this.element.trigger({type:"show",date:this.date})},hide:function(){if(!this.isVisible){return}if(this.isInline){return}this.picker.hide();d(window).off("resize",this.place);this.viewMode=this.startViewMode;this.showMode();if(!this.isInput){d(document).off("mousedown",this.hide)}if(this.forceParse&&(this.isInput&&this.element.val()||this.hasInput&&this.element.find("input").val())){this.setValue()}this.isVisible=false;this.element.trigger({type:"hide",date:this.date})},remove:function(){this._detachEvents();d(document).off("mousedown",this.clickedOutside);this.picker.remove();delete this.picker;delete this.element.data().datetimepicker},getDate:function(){var i=this.getUTCDate();if(i===null){return null}return new Date(i.getTime()+(i.getTimezoneOffset()*60000))},getUTCDate:function(){return this.date},getInitialDate:function(){return this.initialDate},setInitialDate:function(i){this.initialDate=i},setDate:function(i){this.setUTCDate(new Date(i.getTime()-(i.getTimezoneOffset()*60000)))},setUTCDate:function(i){if(i>=this.startDate&&i<=this.endDate){this.date=i;this.setValue();this.viewDate=this.date;this.fill()}else{this.element.trigger({type:"outOfRange",date:i,startDate:this.startDate,endDate:this.endDate})}},setFormat:function(j){this.format=c.parseFormat(j,this.formatType);var i;if(this.isInput){i=this.element}else{if(this.component){i=this.element.find("input")}}if(i&&i.val()){this.setValue()}},setValue:function(){var i=this.getFormattedDate();if(!this.isInput){if(this.component){this.element.find("input").val(i)}this.element.data("date",i)}else{this.element.val(i)}if(this.linkField){d("#"+this.linkField).val(this.getFormattedDate(this.linkFormat))}},getFormattedDate:function(i){i=i||this.format;return c.formatDate(this.date,i,this.language,this.formatType,this.timezone)},setStartDate:function(i){this.startDate=i||this.startDate;if(this.startDate.valueOf()!==8639968443048000){this.startDate=c.parseDate(this.startDate,this.format,this.language,this.formatType,this.timezone)}this.update();this.updateNavArrows()},setEndDate:function(i){this.endDate=i||this.endDate;if(this.endDate.valueOf()!==8639968443048000){this.endDate=c.parseDate(this.endDate,this.format,this.language,this.formatType,this.timezone)}this.update();this.updateNavArrows()},setDatesDisabled:function(j){this.datesDisabled=j||[];if(!d.isArray(this.datesDisabled)){this.datesDisabled=this.datesDisabled.split(/,\s*/)}var i=this;this.datesDisabled=d.map(this.datesDisabled,function(k){return c.parseDate(k,i.format,i.language,i.formatType,i.timezone).toDateString()});this.update();this.updateNavArrows()},setTitle:function(i,j){return this.picker.find(i).find("th:eq(1)").text(this.title===false?j:this.title)},setDaysOfWeekDisabled:function(i){this.daysOfWeekDisabled=i||[];if(!d.isArray(this.daysOfWeekDisabled)){this.daysOfWeekDisabled=this.daysOfWeekDisabled.split(/,\s*/)}this.daysOfWeekDisabled=d.map(this.daysOfWeekDisabled,function(j){return parseInt(j,10)});this.update();this.updateNavArrows()},setMinutesDisabled:function(i){this.minutesDisabled=i||[];if(!d.isArray(this.minutesDisabled)){this.minutesDisabled=this.minutesDisabled.split(/,\s*/)}this.minutesDisabled=d.map(this.minutesDisabled,function(j){return parseInt(j,10)});this.update();this.updateNavArrows()},setHoursDisabled:function(i){this.hoursDisabled=i||[];if(!d.isArray(this.hoursDisabled)){this.hoursDisabled=this.hoursDisabled.split(/,\s*/)}this.hoursDisabled=d.map(this.hoursDisabled,function(j){return parseInt(j,10)});this.update();this.updateNavArrows()},place:function(){if(this.isInline){return}if(!this.zIndex){var j=0;d("div").each(function(){var o=parseInt(d(this).css("zIndex"),10);if(o>j){j=o}});this.zIndex=j+10}var n,m,l,k;if(this.container instanceof d){k=this.container.offset()}else{k=d(this.container).offset()}if(this.component){n=this.component.offset();l=n.left;if(this.pickerPosition==="bottom-left"||this.pickerPosition==="top-left"){l+=this.component.outerWidth()-this.picker.outerWidth()}}else{n=this.element.offset();l=n.left;if(this.pickerPosition==="bottom-left"||this.pickerPosition==="top-left"){l+=this.element.outerWidth()-this.picker.outerWidth()}}var i=document.body.clientWidth||window.innerWidth;if(l+220>i){l=i-220}if(this.pickerPosition==="top-left"||this.pickerPosition==="top-right"){m=n.top-this.picker.outerHeight()}else{m=n.top+this.height}m=m-k.top;l=l-k.left;this.picker.css({top:m,left:l,zIndex:this.zIndex})},hour_minute:"^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]",update:function(){var i,j=false;if(arguments&&arguments.length&&(typeof arguments[0]==="string"||arguments[0] instanceof Date)){i=arguments[0];j=true}else{i=(this.isInput?this.element.val():this.element.find("input").val())||this.element.data("date")||this.initialDate;if(typeof i==="string"){i=i.replace(/^\s+|\s+$/g,"")}}if(!i){i=new Date();j=false}if(typeof i==="string"){if(new RegExp(this.hour_minute).test(i)||new RegExp(this.hour_minute+":[0-5][0-9]").test(i)){i=this.getDate()}}this.date=c.parseDate(i,this.format,this.language,this.formatType,this.timezone);if(j){this.setValue()}if(this.date<this.startDate){this.viewDate=new Date(this.startDate)}else{if(this.date>this.endDate){this.viewDate=new Date(this.endDate)}else{this.viewDate=new Date(this.date)}}this.fill()},fillDow:function(){var i=this.weekStart,j="<tr>";while(i<this.weekStart+7){j+='<th class="dow">'+e[this.language].daysMin[(i++)%7]+"</th>"}j+="</tr>";this.picker.find(".datetimepicker-days thead").append(j)},fillMonths:function(){var l="";var m=new Date(this.viewDate);for(var k=0;k<12;k++){m.setUTCMonth(k);var j=this.onRenderMonth(m);l+='<span class="'+j.join(" ")+'">'+e[this.language].monthsShort[k]+"</span>"}this.picker.find(".datetimepicker-months td").html(l)},fill:function(){if(!this.date||!this.viewDate){return}var E=new Date(this.viewDate),t=E.getUTCFullYear(),G=E.getUTCMonth(),n=E.getUTCDate(),A=E.getUTCHours(),w=this.startDate.getUTCFullYear(),B=this.startDate.getUTCMonth(),p=this.endDate.getUTCFullYear(),x=this.endDate.getUTCMonth()+1,q=(new h(this.date.getUTCFullYear(),this.date.getUTCMonth(),this.date.getUTCDate())).valueOf(),D=new Date();this.setTitle(".datetimepicker-days",e[this.language].months[G]+" "+t);if(this.formatViewType==="time"){var k=this.getFormattedDate();this.setTitle(".datetimepicker-hours",k);this.setTitle(".datetimepicker-minutes",k)}else{this.setTitle(".datetimepicker-hours",n+" "+e[this.language].months[G]+" "+t);this.setTitle(".datetimepicker-minutes",n+" "+e[this.language].months[G]+" "+t)}this.picker.find("tfoot th.today").text(e[this.language].today||e.en.today).toggle(this.todayBtn!==false);this.picker.find("tfoot th.clear").text(e[this.language].clear||e.en.clear).toggle(this.clearBtn!==false);this.updateNavArrows();this.fillMonths();var I=h(t,G-1,28,0,0,0,0),z=c.getDaysInMonth(I.getUTCFullYear(),I.getUTCMonth());I.setUTCDate(z);I.setUTCDate(z-(I.getUTCDay()-this.weekStart+7)%7);var j=new Date(I);j.setUTCDate(j.getUTCDate()+42);j=j.valueOf();var r=[];var F;while(I.valueOf()<j){if(I.getUTCDay()===this.weekStart){r.push("<tr>")}F=this.onRenderDay(I);if(I.getUTCFullYear()<t||(I.getUTCFullYear()===t&&I.getUTCMonth()<G)){F.push("old")}else{if(I.getUTCFullYear()>t||(I.getUTCFullYear()===t&&I.getUTCMonth()>G)){F.push("new")}}if(this.todayHighlight&&I.getUTCFullYear()===D.getFullYear()&&I.getUTCMonth()===D.getMonth()&&I.getUTCDate()===D.getDate()){F.push("today")}if(I.valueOf()===q){F.push("active")}if((I.valueOf()+86400000)<=this.startDate||I.valueOf()>this.endDate||d.inArray(I.getUTCDay(),this.daysOfWeekDisabled)!==-1||d.inArray(I.toDateString(),this.datesDisabled)!==-1){F.push("disabled")}r.push('<td class="'+F.join(" ")+'">'+I.getUTCDate()+"</td>");if(I.getUTCDay()===this.weekEnd){r.push("</tr>")}I.setUTCDate(I.getUTCDate()+1)}this.picker.find(".datetimepicker-days tbody").empty().append(r.join(""));r=[];var u="",C="",s="";var l=this.hoursDisabled||[];E=new Date(this.viewDate);for(var y=0;y<24;y++){E.setUTCHours(y);F=this.onRenderHour(E);if(l.indexOf(y)!==-1){F.push("disabled")}var v=h(t,G,n,y);if((v.valueOf()+3600000)<=this.startDate||v.valueOf()>this.endDate){F.push("disabled")}else{if(A===y){F.push("active")}}if(this.showMeridian&&e[this.language].meridiem.length===2){C=(y<12?e[this.language].meridiem[0]:e[this.language].meridiem[1]);if(C!==s){if(s!==""){r.push("</fieldset>")}r.push('<fieldset class="hour"><legend>'+C.toUpperCase()+"</legend>")}s=C;u=(y%12?y%12:12);if(y<12){F.push("hour_am")}else{F.push("hour_pm")}r.push('<span class="'+F.join(" ")+'">'+u+"</span>");if(y===23){r.push("</fieldset>")}}else{u=y+":00";r.push('<span class="'+F.join(" ")+'">'+u+"</span>")}}this.picker.find(".datetimepicker-hours td").html(r.join(""));r=[];u="";C="";s="";var m=this.minutesDisabled||[];E=new Date(this.viewDate);for(var y=0;y<60;y+=this.minuteStep){if(m.indexOf(y)!==-1){continue}E.setUTCMinutes(y);E.setUTCSeconds(0);F=this.onRenderMinute(E);if(this.showMeridian&&e[this.language].meridiem.length===2){C=(A<12?e[this.language].meridiem[0]:e[this.language].meridiem[1]);if(C!==s){if(s!==""){r.push("</fieldset>")}r.push('<fieldset class="minute"><legend>'+C.toUpperCase()+"</legend>")}s=C;u=(A%12?A%12:12);r.push('<span class="'+F.join(" ")+'">'+u+":"+(y<10?"0"+y:y)+"</span>");if(y===59){r.push("</fieldset>")}}else{u=y+":00";r.push('<span class="'+F.join(" ")+'">'+A+":"+(y<10?"0"+y:y)+"</span>")}}this.picker.find(".datetimepicker-minutes td").html(r.join(""));var J=this.date.getUTCFullYear();var o=this.setTitle(".datetimepicker-months",t).end().find(".month").removeClass("active");if(J===t){o.eq(this.date.getUTCMonth()).addClass("active")}if(t<w||t>p){o.addClass("disabled")}if(t===w){o.slice(0,B).addClass("disabled")}if(t===p){o.slice(x).addClass("disabled")}r="";t=parseInt(t/10,10)*10;var H=this.setTitle(".datetimepicker-years",t+"-"+(t+9)).end().find("td");t-=1;E=new Date(this.viewDate);for(var y=-1;y<11;y++){E.setUTCFullYear(t);F=this.onRenderYear(E);if(y===-1||y===10){F.push(b)}r+='<span class="'+F.join(" ")+'">'+t+"</span>";t+=1}H.html(r);this.place()},updateNavArrows:function(){var m=new Date(this.viewDate),k=m.getUTCFullYear(),l=m.getUTCMonth(),j=m.getUTCDate(),i=m.getUTCHours();switch(this.viewMode){case 0:if(k<=this.startDate.getUTCFullYear()&&l<=this.startDate.getUTCMonth()&&j<=this.startDate.getUTCDate()&&i<=this.startDate.getUTCHours()){this.picker.find(".prev").css({visibility:"hidden"})}else{this.picker.find(".prev").css({visibility:"visible"})}if(k>=this.endDate.getUTCFullYear()&&l>=this.endDate.getUTCMonth()&&j>=this.endDate.getUTCDate()&&i>=this.endDate.getUTCHours()){this.picker.find(".next").css({visibility:"hidden"})}else{this.picker.find(".next").css({visibility:"visible"})}break;case 1:if(k<=this.startDate.getUTCFullYear()&&l<=this.startDate.getUTCMonth()&&j<=this.startDate.getUTCDate()){this.picker.find(".prev").css({visibility:"hidden"})}else{this.picker.find(".prev").css({visibility:"visible"})}if(k>=this.endDate.getUTCFullYear()&&l>=this.endDate.getUTCMonth()&&j>=this.endDate.getUTCDate()){this.picker.find(".next").css({visibility:"hidden"})}else{this.picker.find(".next").css({visibility:"visible"})}break;case 2:if(k<=this.startDate.getUTCFullYear()&&l<=this.startDate.getUTCMonth()){this.picker.find(".prev").css({visibility:"hidden"})}else{this.picker.find(".prev").css({visibility:"visible"})}if(k>=this.endDate.getUTCFullYear()&&l>=this.endDate.getUTCMonth()){this.picker.find(".next").css({visibility:"hidden"})}else{this.picker.find(".next").css({visibility:"visible"})}break;case 3:case 4:if(k<=this.startDate.getUTCFullYear()){this.picker.find(".prev").css({visibility:"hidden"})}else{this.picker.find(".prev").css({visibility:"visible"})}if(k>=this.endDate.getUTCFullYear()){this.picker.find(".next").css({visibility:"hidden"})}else{this.picker.find(".next").css({visibility:"visible"})}break}},mousewheel:function(j){j.preventDefault();j.stopPropagation();if(this.wheelPause){return}this.wheelPause=true;var i=j.originalEvent;var l=i.wheelDelta;var k=l>0?1:(l===0)?0:-1;if(this.wheelViewModeNavigationInverseDirection){k=-k}this.showMode(k);setTimeout(d.proxy(function(){this.wheelPause=false},this),this.wheelViewModeNavigationDelay)},click:function(m){m.stopPropagation();m.preventDefault();var n=d(m.target).closest("span, td, th, legend");if(n.is("."+this.icontype)){n=d(n).parent().closest("span, td, th, legend")}if(n.length===1){if(n.is(".disabled")){this.element.trigger({type:"outOfRange",date:this.viewDate,startDate:this.startDate,endDate:this.endDate});return}switch(n[0].nodeName.toLowerCase()){case"th":switch(n[0].className){case"switch":this.showMode(1);break;case"prev":case"next":var i=c.modes[this.viewMode].navStep*(n[0].className==="prev"?-1:1);switch(this.viewMode){case 0:this.viewDate=this.moveHour(this.viewDate,i);break;case 1:this.viewDate=this.moveDate(this.viewDate,i);break;case 2:this.viewDate=this.moveMonth(this.viewDate,i);break;case 3:case 4:this.viewDate=this.moveYear(this.viewDate,i);break}this.fill();this.element.trigger({type:n[0].className+":"+this.convertViewModeText(this.viewMode),date:this.viewDate,startDate:this.startDate,endDate:this.endDate});break;case"clear":this.reset();if(this.autoclose){this.hide()}break;case"today":var j=new Date();j=h(j.getFullYear(),j.getMonth(),j.getDate(),j.getHours(),j.getMinutes(),j.getSeconds(),0);if(j<this.startDate){j=this.startDate}else{if(j>this.endDate){j=this.endDate}}this.viewMode=this.startViewMode;this.showMode(0);this._setDate(j);this.fill();if(this.autoclose){this.hide()}break}break;case"span":if(!n.is(".disabled")){var p=this.viewDate.getUTCFullYear(),o=this.viewDate.getUTCMonth(),q=this.viewDate.getUTCDate(),r=this.viewDate.getUTCHours(),k=this.viewDate.getUTCMinutes(),s=this.viewDate.getUTCSeconds();if(n.is(".month")){this.viewDate.setUTCDate(1);o=n.parent().find("span").index(n);q=this.viewDate.getUTCDate();this.viewDate.setUTCMonth(o);this.element.trigger({type:"changeMonth",date:this.viewDate});if(this.viewSelect>=3){this._setDate(h(p,o,q,r,k,s,0))}}else{if(n.is(".year")){this.viewDate.setUTCDate(1);p=parseInt(n.text(),10)||0;this.viewDate.setUTCFullYear(p);this.element.trigger({type:"changeYear",date:this.viewDate});if(this.viewSelect>=4){this._setDate(h(p,o,q,r,k,s,0))}}else{if(n.is(".hour")){r=parseInt(n.text(),10)||0;if(n.hasClass("hour_am")||n.hasClass("hour_pm")){if(r===12&&n.hasClass("hour_am")){r=0}else{if(r!==12&&n.hasClass("hour_pm")){r+=12}}}this.viewDate.setUTCHours(r);this.element.trigger({type:"changeHour",date:this.viewDate});if(this.viewSelect>=1){this._setDate(h(p,o,q,r,k,s,0))}}else{if(n.is(".minute")){k=parseInt(n.text().substr(n.text().indexOf(":")+1),10)||0;this.viewDate.setUTCMinutes(k);this.element.trigger({type:"changeMinute",date:this.viewDate});if(this.viewSelect>=0){this._setDate(h(p,o,q,r,k,s,0))}}}}}if(this.viewMode!==0){var l=this.viewMode;this.showMode(-1);this.fill();if(l===this.viewMode&&this.autoclose){this.hide()}}else{this.fill();if(this.autoclose){this.hide()}}}break;case"td":if(n.is(".day")&&!n.is(".disabled")){var q=parseInt(n.text(),10)||1;var p=this.viewDate.getUTCFullYear(),o=this.viewDate.getUTCMonth(),r=this.viewDate.getUTCHours(),k=this.viewDate.getUTCMinutes(),s=this.viewDate.getUTCSeconds();if(n.is(".old")){if(o===0){o=11;p-=1}else{o-=1}}else{if(n.is(".new")){if(o===11){o=0;p+=1}else{o+=1}}}this.viewDate.setUTCFullYear(p);this.viewDate.setUTCMonth(o,q);this.element.trigger({type:"changeDay",date:this.viewDate});if(this.viewSelect>=2){this._setDate(h(p,o,q,r,k,s,0))}}var l=this.viewMode;this.showMode(-1);this.fill();if(l===this.viewMode&&this.autoclose){this.hide()}break}}},_setDate:function(i,k){if(!k||k==="date"){this.date=i}if(!k||k==="view"){this.viewDate=i}this.fill();this.setValue();var j;if(this.isInput){j=this.element}else{if(this.component){j=this.element.find("input")}}if(j){j.change()}this.element.trigger({type:"changeDate",date:this.getDate()});if(i===null){this.date=this.viewDate}},moveMinute:function(j,i){if(!i){return j}var k=new Date(j.valueOf());k.setUTCMinutes(k.getUTCMinutes()+(i*this.minuteStep));return k},moveHour:function(j,i){if(!i){return j}var k=new Date(j.valueOf());k.setUTCHours(k.getUTCHours()+i);return k},moveDate:function(j,i){if(!i){return j}var k=new Date(j.valueOf());k.setUTCDate(k.getUTCDate()+i);return k},moveMonth:function(j,k){if(!k){return j}var n=new Date(j.valueOf()),r=n.getUTCDate(),o=n.getUTCMonth(),m=Math.abs(k),q,p;k=k>0?1:-1;if(m===1){p=k===-1?function(){return n.getUTCMonth()===o}:function(){return n.getUTCMonth()!==q};q=o+k;n.setUTCMonth(q);if(q<0||q>11){q=(q+12)%12}}else{for(var l=0;l<m;l++){n=this.moveMonth(n,k)}q=n.getUTCMonth();n.setUTCDate(r);p=function(){return q!==n.getUTCMonth()}}while(p()){n.setUTCDate(--r);n.setUTCMonth(q)}return n},moveYear:function(j,i){return this.moveMonth(j,i*12)},dateWithinRange:function(i){return i>=this.startDate&&i<=this.endDate},keydown:function(o){if(this.picker.is(":not(:visible)")){if(o.keyCode===27){this.show()}return}var k=false,j,i,n;switch(o.keyCode){case 27:this.hide();o.preventDefault();break;case 37:case 39:if(!this.keyboardNavigation){break}j=o.keyCode===37?-1:1;var m=this.viewMode;if(o.ctrlKey){m+=2}else{if(o.shiftKey){m+=1}}if(m===4){i=this.moveYear(this.date,j);n=this.moveYear(this.viewDate,j)}else{if(m===3){i=this.moveMonth(this.date,j);n=this.moveMonth(this.viewDate,j)}else{if(m===2){i=this.moveDate(this.date,j);n=this.moveDate(this.viewDate,j)}else{if(m===1){i=this.moveHour(this.date,j);n=this.moveHour(this.viewDate,j)}else{if(m===0){i=this.moveMinute(this.date,j);n=this.moveMinute(this.viewDate,j)}}}}}if(this.dateWithinRange(i)){this.date=i;this.viewDate=n;this.setValue();this.update();o.preventDefault();k=true}break;case 38:case 40:if(!this.keyboardNavigation){break}j=o.keyCode===38?-1:1;m=this.viewMode;if(o.ctrlKey){m+=2}else{if(o.shiftKey){m+=1}}if(m===4){i=this.moveYear(this.date,j);n=this.moveYear(this.viewDate,j)}else{if(m===3){i=this.moveMonth(this.date,j);n=this.moveMonth(this.viewDate,j)}else{if(m===2){i=this.moveDate(this.date,j*7);n=this.moveDate(this.viewDate,j*7)}else{if(m===1){if(this.showMeridian){i=this.moveHour(this.date,j*6);n=this.moveHour(this.viewDate,j*6)}else{i=this.moveHour(this.date,j*4);n=this.moveHour(this.viewDate,j*4)}}else{if(m===0){i=this.moveMinute(this.date,j*4);n=this.moveMinute(this.viewDate,j*4)}}}}}if(this.dateWithinRange(i)){this.date=i;this.viewDate=n;this.setValue();this.update();o.preventDefault();k=true}break;case 13:if(this.viewMode!==0){var p=this.viewMode;this.showMode(-1);this.fill();if(p===this.viewMode&&this.autoclose){this.hide()}}else{this.fill();if(this.autoclose){this.hide()}}o.preventDefault();break;case 9:this.hide();break}if(k){var l;if(this.isInput){l=this.element}else{if(this.component){l=this.element.find("input")}}if(l){l.change()}this.element.trigger({type:"changeDate",date:this.getDate()})}},showMode:function(i){if(i){var j=Math.max(0,Math.min(c.modes.length-1,this.viewMode+i));if(j>=this.minView&&j<=this.maxView){this.element.trigger({type:"changeMode",date:this.viewDate,oldViewMode:this.viewMode,newViewMode:j});this.viewMode=j}}this.picker.find(">div").hide().filter(".datetimepicker-"+c.modes[this.viewMode].clsName).css("display","block");this.updateNavArrows()},reset:function(){this._setDate(null,"date")},convertViewModeText:function(i){switch(i){case 4:return"decade";case 3:return"year";case 2:return"month";case 1:return"day";case 0:return"hour"}}};var b=d.fn.datetimepicker;d.fn.datetimepicker=function(k){var i=Array.apply(null,arguments);i.shift();var j;this.each(function(){var n=d(this),m=n.data("datetimepicker"),l=typeof k==="object"&&k;if(!m){n.data("datetimepicker",(m=new g(this,d.extend({},d.fn.datetimepicker.defaults,l))))}if(typeof k==="string"&&typeof m[k]==="function"){j=m[k].apply(m,i);if(j!==f){return false}}});if(j!==f){return j}else{return this}};d.fn.datetimepicker.defaults={};d.fn.datetimepicker.Constructor=g;var e=d.fn.datetimepicker.dates={en:{days:["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],daysShort:["Sun","Mon","Tue","Wed","Thu","Fri","Sat","Sun"],daysMin:["Su","Mo","Tu","We","Th","Fr","Sa","Su"],months:["January","February","March","April","May","June","July","August","September","October","November","December"],monthsShort:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],meridiem:["am","pm"],suffix:["st","nd","rd","th"],today:"Today",clear:"Clear"}};var c={modes:[{clsName:"minutes",navFnc:"Hours",navStep:1},{clsName:"hours",navFnc:"Date",navStep:1},{clsName:"days",navFnc:"Month",navStep:1},{clsName:"months",navFnc:"FullYear",navStep:1},{clsName:"years",navFnc:"FullYear",navStep:10}],isLeapYear:function(i){return(((i%4===0)&&(i%100!==0))||(i%400===0))},getDaysInMonth:function(i,j){return[31,(c.isLeapYear(i)?29:28),31,30,31,30,31,31,30,31,30,31][j]},getDefaultFormat:function(i,j){if(i==="standard"){if(j==="input"){return"yyyy-mm-dd hh:ii"}else{return"yyyy-mm-dd hh:ii:ss"}}else{if(i==="php"){if(j==="input"){return"Y-m-d H:i"}else{return"Y-m-d H:i:s"}}else{throw new Error("Invalid format type.")}}},validParts:function(i){if(i==="standard"){return/t|hh?|HH?|p|P|z|Z|ii?|ss?|dd?|DD?|mm?|MM?|yy(?:yy)?/g}else{if(i==="php"){return/[dDjlNwzFmMnStyYaABgGhHis]/g}else{throw new Error("Invalid format type.")}}},nonpunctuation:/[^ -\/:-@\[-`{-~\t\n\rTZ]+/g,parseFormat:function(l,j){var i=l.replace(this.validParts(j),"\0").split("\0"),k=l.match(this.validParts(j));if(!i||!i.length||!k||k.length===0){throw new Error("Invalid date format.")}return{separators:i,parts:k}},parseDate:function(A,y,v,j,r){if(A instanceof Date){var u=new Date(A.valueOf()-A.getTimezoneOffset()*60000);u.setMilliseconds(0);return u}if(/^\d{4}\-\d{1,2}\-\d{1,2}$/.test(A)){y=this.parseFormat("yyyy-mm-dd",j)}if(/^\d{4}\-\d{1,2}\-\d{1,2}[T ]\d{1,2}\:\d{1,2}$/.test(A)){y=this.parseFormat("yyyy-mm-dd hh:ii",j)}if(/^\d{4}\-\d{1,2}\-\d{1,2}[T ]\d{1,2}\:\d{1,2}\:\d{1,2}[Z]{0,1}$/.test(A)){y=this.parseFormat("yyyy-mm-dd hh:ii:ss",j)}if(/^[-+]\d+[dmwy]([\s,]+[-+]\d+[dmwy])*$/.test(A)){var l=/([-+]\d+)([dmwy])/,q=A.match(/([-+]\d+)([dmwy])/g),t,p;A=new Date();for(var x=0;x<q.length;x++){t=l.exec(q[x]);p=parseInt(t[1]);switch(t[2]){case"d":A.setUTCDate(A.getUTCDate()+p);break;case"m":A=g.prototype.moveMonth.call(g.prototype,A,p);break;case"w":A.setUTCDate(A.getUTCDate()+p*7);break;case"y":A=g.prototype.moveYear.call(g.prototype,A,p);break}}return h(A.getUTCFullYear(),A.getUTCMonth(),A.getUTCDate(),A.getUTCHours(),A.getUTCMinutes(),A.getUTCSeconds(),0)}var q=A&&A.toString().match(this.nonpunctuation)||[],A=new Date(0,0,0,0,0,0,0),m={},z=["hh","h","ii","i","ss","s","yyyy","yy","M","MM","m","mm","D","DD","d","dd","H","HH","p","P","z","Z"],o={hh:function(s,i){return s.setUTCHours(i)},h:function(s,i){return s.setUTCHours(i)},HH:function(s,i){return s.setUTCHours(i===12?0:i)},H:function(s,i){return s.setUTCHours(i===12?0:i)},ii:function(s,i){return s.setUTCMinutes(i)},i:function(s,i){return s.setUTCMinutes(i)},ss:function(s,i){return s.setUTCSeconds(i)},s:function(s,i){return s.setUTCSeconds(i)},yyyy:function(s,i){return s.setUTCFullYear(i)},yy:function(s,i){return s.setUTCFullYear(2000+i)},m:function(s,i){i-=1;while(i<0){i+=12}i%=12;s.setUTCMonth(i);while(s.getUTCMonth()!==i){if(isNaN(s.getUTCMonth())){return s}else{s.setUTCDate(s.getUTCDate()-1)}}return s},d:function(s,i){return s.setUTCDate(i)},p:function(s,i){return s.setUTCHours(i===1?s.getUTCHours()+12:s.getUTCHours())},z:function(){return r}},B,k,t;o.M=o.MM=o.mm=o.m;o.dd=o.d;o.P=o.p;o.Z=o.z;A=h(A.getFullYear(),A.getMonth(),A.getDate(),A.getHours(),A.getMinutes(),A.getSeconds());if(q.length===y.parts.length){for(var x=0,w=y.parts.length;x<w;x++){B=parseInt(q[x],10);t=y.parts[x];if(isNaN(B)){switch(t){case"MM":k=d(e[v].months).filter(function(){var i=this.slice(0,q[x].length),s=q[x].slice(0,i.length);return i===s});B=d.inArray(k[0],e[v].months)+1;break;case"M":k=d(e[v].monthsShort).filter(function(){var i=this.slice(0,q[x].length),s=q[x].slice(0,i.length);return i.toLowerCase()===s.toLowerCase()});B=d.inArray(k[0],e[v].monthsShort)+1;break;case"p":case"P":B=d.inArray(q[x].toLowerCase(),e[v].meridiem);break;case"z":case"Z":r;break}}m[t]=B}for(var x=0,n;x<z.length;x++){n=z[x];if(n in m&&!isNaN(m[n])){o[n](A,m[n])}}}return A},formatDate:function(l,q,m,p,o){if(l===null){return""}var k;if(p==="standard"){k={t:l.getTime(),yy:l.getUTCFullYear().toString().substring(2),yyyy:l.getUTCFullYear(),m:l.getUTCMonth()+1,M:e[m].monthsShort[l.getUTCMonth()],MM:e[m].months[l.getUTCMonth()],d:l.getUTCDate(),D:e[m].daysShort[l.getUTCDay()],DD:e[m].days[l.getUTCDay()],p:(e[m].meridiem.length===2?e[m].meridiem[l.getUTCHours()<12?0:1]:""),h:l.getUTCHours(),i:l.getUTCMinutes(),s:l.getUTCSeconds(),z:o};if(e[m].meridiem.length===2){k.H=(k.h%12===0?12:k.h%12)}else{k.H=k.h}k.HH=(k.H<10?"0":"")+k.H;k.P=k.p.toUpperCase();k.Z=k.z;k.hh=(k.h<10?"0":"")+k.h;k.ii=(k.i<10?"0":"")+k.i;k.ss=(k.s<10?"0":"")+k.s;k.dd=(k.d<10?"0":"")+k.d;k.mm=(k.m<10?"0":"")+k.m}else{if(p==="php"){k={y:l.getUTCFullYear().toString().substring(2),Y:l.getUTCFullYear(),F:e[m].months[l.getUTCMonth()],M:e[m].monthsShort[l.getUTCMonth()],n:l.getUTCMonth()+1,t:c.getDaysInMonth(l.getUTCFullYear(),l.getUTCMonth()),j:l.getUTCDate(),l:e[m].days[l.getUTCDay()],D:e[m].daysShort[l.getUTCDay()],w:l.getUTCDay(),N:(l.getUTCDay()===0?7:l.getUTCDay()),S:(l.getUTCDate()%10<=e[m].suffix.length?e[m].suffix[l.getUTCDate()%10-1]:""),a:(e[m].meridiem.length===2?e[m].meridiem[l.getUTCHours()<12?0:1]:""),g:(l.getUTCHours()%12===0?12:l.getUTCHours()%12),G:l.getUTCHours(),i:l.getUTCMinutes(),s:l.getUTCSeconds()};k.m=(k.n<10?"0":"")+k.n;k.d=(k.j<10?"0":"")+k.j;k.A=k.a.toString().toUpperCase();k.h=(k.g<10?"0":"")+k.g;k.H=(k.G<10?"0":"")+k.G;k.i=(k.i<10?"0":"")+k.i;k.s=(k.s<10?"0":"")+k.s}else{throw new Error("Invalid format type.")}}var l=[],r=d.extend([],q.separators);for(var n=0,j=q.parts.length;n<j;n++){if(r.length){l.push(r.shift())}l.push(k[q.parts[n]])}if(r.length){l.push(r.shift())}return l.join("")},convertViewMode:function(i){switch(i){case 4:case"decade":i=4;break;case 3:case"year":i=3;break;case 2:case"month":i=2;break;case 1:case"day":i=1;break;case 0:case"hour":i=0;break}return i},headTemplate:'<thead><tr><th class="prev"><i class="{iconType} {leftArrow}"/></th><th colspan="5" class="switch"></th><th class="next"><i class="{iconType} {rightArrow}"/></th></tr></thead>',headTemplateV3:'<thead><tr><th class="prev"><span class="{iconType} {leftArrow}"></span> </th><th colspan="5" class="switch"></th><th class="next"><span class="{iconType} {rightArrow}"></span> </th></tr></thead>',contTemplate:'<tbody><tr><td colspan="7"></td></tr></tbody>',footTemplate:'<tfoot><tr><th colspan="7" class="today"></th></tr><tr><th colspan="7" class="clear"></th></tr></tfoot>'};c.template='<div class="datetimepicker"><div class="datetimepicker-minutes"><table class=" table-condensed">'+c.headTemplate+c.contTemplate+c.footTemplate+'</table></div><div class="datetimepicker-hours"><table class=" table-condensed">'+c.headTemplate+c.contTemplate+c.footTemplate+'</table></div><div class="datetimepicker-days"><table class=" table-condensed">'+c.headTemplate+"<tbody></tbody>"+c.footTemplate+'</table></div><div class="datetimepicker-months"><table class="table-condensed">'+c.headTemplate+c.contTemplate+c.footTemplate+'</table></div><div class="datetimepicker-years"><table class="table-condensed">'+c.headTemplate+c.contTemplate+c.footTemplate+"</table></div></div>";c.templateV3='<div class="datetimepicker"><div class="datetimepicker-minutes"><table class=" table-condensed">'+c.headTemplateV3+c.contTemplate+c.footTemplate+'</table></div><div class="datetimepicker-hours"><table class=" table-condensed">'+c.headTemplateV3+c.contTemplate+c.footTemplate+'</table></div><div class="datetimepicker-days"><table class=" table-condensed">'+c.headTemplateV3+"<tbody></tbody>"+c.footTemplate+'</table></div><div class="datetimepicker-months"><table class="table-condensed">'+c.headTemplateV3+c.contTemplate+c.footTemplate+'</table></div><div class="datetimepicker-years"><table class="table-condensed">'+c.headTemplateV3+c.contTemplate+c.footTemplate+"</table></div></div>";d.fn.datetimepicker.DPGlobal=c;d.fn.datetimepicker.noConflict=function(){d.fn.datetimepicker=b;return this};d(document).on("focus.datetimepicker.data-api click.datetimepicker.data-api",'[data-provide="datetimepicker"]',function(j){var i=d(this);if(i.data("datetimepicker")){return}j.preventDefault();i.datetimepicker("show")});d(function(){d('[data-provide="datetimepicker-inline"]').datetimepicker()})}));
+(function($) {
+    $.blogPlugin = function(options) {
+        if ( typeof(options) == "undefined" || options == null ) { options = {}; };
+
+        var jp = {
+            options: $.extend({
+                adminUrl: '/admin/blog/'
+            }, options),
+            openModal: function( modalId ) {
+                $("html, body").animate({
+                    scrollTop: 0
+                }, 500);
+                $(".overlay").fadeIn(), $(modalId).fadeIn();
+            },
+            closeModal: function( ) {
+                $(".overlay").fadeOut(), $(".custom-modal").fadeOut()
+            },
+            uploadFile: function(formdata, type) {
+                $('.dataTables_processing').show();
+                
+                var act_url = '/';
+                if (type == 'file') {
+                    var act_url = '/admin/blog/store-file';
+                } else if (type == 'media') {
+                    var act_url = '/admin/blog/store-media';
+                }
+
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    type: "POST",
+                    url: act_url,
+                    processData: false,
+                    contentType: false,
+                    data: formdata,
+                    success: function(msg){
+                        $(".mediatable").DataTable().ajax.reload(null, false);
+                        console.log(msg);
+                    },
+                    error: function(err){
+                        $(".mediatable").DataTable().ajax.reload(null, false);
+                        var obj = err.responseJSON;
+                        alert(Object.values(obj)[0].toString());
+                    },
+                    always: function(a){
+                        $(".filestable").DataTable().ajax.reload(null, false);
+                    }
+                });
+
+                $('.dataTables_processing').hide();
+            },
+            deleteFile: function(id, type) {
+                $('#canceldelete').show();
+                $('.dataTables_processing').show();
+
+                var act_url = '/';
+                if (type == 'file') {
+                    act_url = '/admin/blog/delete-file/';
+                } else if (type == 'media') {
+                    act_url = '/admin/blog/delete-media/';
+                } 
+
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    type: "GET",
+                    url: act_url+id,
+                    processData: false,
+                    contentType: false,
+                    success: function(msg){
+                        $(".mediatable").DataTable().ajax.reload(null, false);
+                    },
+                    error: function(err){
+                        $(".mediatable").DataTable().ajax.reload(null, false);
+                        alert('delete error');
+                    }
+                });
+
+                $('#canceldelete').hide();
+                $('.dataTables_processing').hide();
+
+            },
+            loadListCategory: function() {
+                var id = $('meta[name="item-id"]').attr('content');
+                $.ajax({
+                    type: "GET",
+                    url: "/admin/blog/get-category-post/"+id,
+                    success: function(msg){
+                        $('.category-wrap ul').html(msg);
+                    },
+                    error: function(err){
+                        console.log(err);
+                    }
+                });
+            },
+            loadListParentCategory: function() {
+                var id = $('meta[name="category-id"]').attr('content');
+                $.ajax({
+                    type: "GET",
+                    url: "/admin/blog/get-category-parent/"+id,
+                    success: function(msg){
+                        $('.category-parent').html(msg);
+                    },
+                    error: function(err){
+                        console.log(err);
+                    }
+                });
+            },
+            addCategoryLoad: function() {
+                jp.loadListParentCategory();
+                jp.loadListCategory();
+            }
+        };
+
+        return {
+            openModal: jp.openModal,
+            closeModal: jp.closeModal,
+            uploadFile: jp.uploadFile,
+            deleteFile: jp.deleteFile,
+            loadListCategory: jp.loadListCategory,
+            loadListParentCategory: jp.loadListParentCategory,
+            addCategoryLoad: jp.addCategoryLoad
+        };
+    };
+})(jQuery);
+//
+// Pipelining function for DataTables. To be used to the `ajax` option of DataTables
+//
+$.fn.dataTable.pipeline = function ( opts ) {
+    // Configuration options
+    var conf = $.extend( {
+        pages: 5,     // number of pages to cache
+        url: '',      // script url
+        data: null,   // function or object with parameters to send to the server
+                      // matching how `ajax.data` works in DataTables
+        method: 'GET' // Ajax HTTP method
+    }, opts );
+ 
+    // Private variables for storing the cache
+    var cacheLower = -1;
+    var cacheUpper = null;
+    var cacheLastRequest = null;
+    var cacheLastJson = null;
+ 
+    return function ( request, drawCallback, settings ) {
+        var ajax          = false;
+        var requestStart  = request.start;
+        var drawStart     = request.start;
+        var requestLength = request.length;
+        var requestEnd    = requestStart + requestLength;
+         
+        if ( settings.clearCache ) {
+            // API requested that the cache be cleared
+            ajax = true;
+            settings.clearCache = false;
+        }
+        else if ( cacheLower < 0 || requestStart < cacheLower || requestEnd > cacheUpper ) {
+            // outside cached data - need to make a request
+            ajax = true;
+        }
+        else if ( JSON.stringify( request.order )   !== JSON.stringify( cacheLastRequest.order ) ||
+                  JSON.stringify( request.columns ) !== JSON.stringify( cacheLastRequest.columns ) ||
+                  JSON.stringify( request.search )  !== JSON.stringify( cacheLastRequest.search )
+        ) {
+            // properties changed (ordering, columns, searching)
+            ajax = true;
+        }
+         
+        // Store the request for checking next time around
+        cacheLastRequest = $.extend( true, {}, request );
+ 
+        if ( ajax ) {
+            // Need data from the server
+            if ( requestStart < cacheLower ) {
+                requestStart = requestStart - (requestLength*(conf.pages-1));
+ 
+                if ( requestStart < 0 ) {
+                    requestStart = 0;
+                }
+            }
+             
+            cacheLower = requestStart;
+            cacheUpper = requestStart + (requestLength * conf.pages);
+ 
+            request.start = requestStart;
+            request.length = requestLength*conf.pages;
+ 
+            // Provide the same `data` options as DataTables.
+            if ( $.isFunction ( conf.data ) ) {
+                // As a function it is executed with the data object as an arg
+                // for manipulation. If an object is returned, it is used as the
+                // data object to submit
+                var d = conf.data( request );
+                if ( d ) {
+                    $.extend( request, d );
+                }
+            }
+            else if ( $.isPlainObject( conf.data ) ) {
+                // As an object, the data given extends the default
+                $.extend( request, conf.data );
+            }
+ 
+            settings.jqXHR = $.ajax( {
+                "type":     conf.method,
+                "url":      conf.url,
+                "data":     request,
+                "dataType": "json",
+                "cache":    false,
+                "success":  function ( json ) {
+                    cacheLastJson = $.extend(true, {}, json);
+ 
+                    if ( cacheLower != drawStart ) {
+                        json.data.splice( 0, drawStart-cacheLower );
+                    }
+                    if ( requestLength >= -1 ) {
+                        json.data.splice( requestLength, json.data.length );
+                    }
+                     
+                    drawCallback( json );
+                }
+            } );
+        }
+        else {
+            json = $.extend( true, {}, cacheLastJson );
+            json.draw = request.draw; // Update the echo for each response
+            json.data.splice( 0, requestStart-cacheLower );
+            json.data.splice( requestLength, json.data.length );
+ 
+            drawCallback(json);
+        }
+    }
+};
+ 
+// Register an API method that will empty the pipelined data, forcing an Ajax
+// fetch on the next draw (i.e. `table.clearPipeline().draw()`)
+$.fn.dataTable.Api.register( 'clearPipeline()', function () {
+    return this.iterator( 'table', function ( settings ) {
+        settings.clearCache = true;
+    } );
+} );
+
+
+// SELECT2
+// basic select2
+if ($(".myselect2").length > 0) {
+    $(".myselect2").select2();
+}
+
+// tag select 
+if ($(".mytag").length > 0) {
+    $(".mytag").select2({
+        tags: true
+    });
+}
+// END SELECT2
+
+// TINYMCE
+if ($('textarea.mytextarea').length > 0) {
+    tinymce.init({ 
+        selector:'textarea.mytextarea',
+        image_caption: true,
+        height: 500,
+        relative_urls:false,
+        theme: 'modern',
+        plugins: [
+        'advlist autolink lists link image charmap print preview hr anchor pagebreak',
+        'searchreplace wordcount visualblocks visualchars code fullscreen',
+        'insertdatetime media nonbreaking save table contextmenu directionality',
+        'emoticons template paste textcolor colorpicker textpattern imagetools codesample toc help',
+        ],
+        toolbar1: 'undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+        toolbar2: 'print preview media | forecolor backcolor emoticons | codesample help',
+        image_advtab: true,
+        templates: [
+        { title: 'Test template 1', content: 'Test 1' },
+        { title: 'Test template 2', content: 'Test 2' }
+        ],
+        content_css: [
+        '//fonts.googleapis.com/css?family=Lato:300,300i,400,400i',
+        '//www.tinymce.com/css/codepen.min.css',
+        '{{ asset("css/textarea.css") }}'
+        ],
+        setup: function(editor) {
+          editor.addButton('mybutton', {
+            type: 'menubutton',
+            text: 'Shortcode',
+            icon: false,
+            menu: [{
+              text: 'Bold',
+              onclick: function() {
+                editor.insertContent('[b="bold"]Text here[/b]');
+              }
+            }, {
+              text: 'Italic',
+              onclick: function() {
+                editor.insertContent('[i="italic"]Text here[/i]');
+              }
+            }]
+          });
+        }
+    });
+}
+// END TINYMCE
+
+// date time picker
+if ($(".datetimepicker").length > 0) {
+    $(function () {
+        $('.datetimepicker').datetimepicker({
+            format: "yyyy-mm-dd hh:ii",
+            autoclose: true,
+            todayBtn: true,
+            pickerPosition: "top-left"
+        });
+    });
+}
+
+if ($(".event-datetimepicker").length > 0) {
+    $(function () {
+        $('.event-datetimepicker').datetimepicker({
+            format: "yyyy-mm-dd",
+            autoclose: true,
+            todayBtn: true,
+            pickerPosition: "top-left",
+            minView: 2
+        });
+    });
+}
+// DATATABLES CONFIG
+
+// categories
+if ($("#table-categories").length > 0) {
+    console.log('category');
+    $("#table-categories").DataTable({
+        "ajax": $.fn.dataTable.pipeline( {
+            url: '/admin/blog/ajaxcategories',
+            pages: 5 // number of pages to cache
+        } ),
+        "processing": true,
+        "serverSide": true,
+        "stateSave":true,
+        "columns": [
+            { "data": "name" },
+            { "data": "created_at" },
+            { "data": "id" },
+        ],
+        "columnDefs": [ {
+                "targets": -1,
+                "data": 'id',
+                "render": function ( data, type, row ) {
+                    return '<a href="/admin/blog/category/'+row.id+'/view">Edit</a> | <a onclick="return confirm(\'Delete Category?\');" href="/admin/blog/category/'+row.id+'/remove" style="color: #d9534f;">Delete</a>';
+                }
+            },
+                {
+                "targets": 0,
+                "data": 'name',
+                "render": function ( data, type, row ) {
+                    return '<a href="/admin/blog/category/'+row.id+'/view">'+data+'</a>';
+                }
+            }
+        ],
+        order: [
+            [1, "desc"]
+        ]
+    });
+}
+
+// category table 
+if ($("#CategoryTable").length > 0) {
+    console.log('category');
+    $("#CategoryTable").DataTable({
+        "ajax": $.fn.dataTable.pipeline( {
+            url: '/admin/blog/get-category',
+            pages: 5 // number of pages to cache
+        } ),
+        "processing": true,
+        "serverSide": true,
+        "stateSave":true,
+        "columns": [
+            { "data": "name" },
+            { "data": "created_at" },
+            { "data": "id" },
+        ],
+        "columnDefs": [ {
+                "targets": -1,
+                "data": 'id',
+                "render": function ( data, type, row ) {
+                    return '<a href="/admin/blog/edit-category/'+row.id+'">Edit</a> | <a onclick="return confirm(\'Delete Category?\');" href="/admin/blog/delete-category/'+row.id+'" style="color: #d9534f;">Delete</a>';
+                }
+            },
+                {
+                "targets": 0,
+                "data": 'name',
+                "render": function ( data, type, row ) {
+                    return '<a href="/admin/blog/edit-category/'+row.id+'">'+data+'</a>';
+                }
+            }
+        ],
+        order: [
+            [0, "desc"],
+            [1, "desc"]
+        ]
+    });
+} 
+
+// news table
+if ($("#posts-table").length > 0) {
+    $("#posts-table").DataTable({
+        "ajax": $.fn.dataTable.pipeline( {
+            url: '/admin/blog/ajaxposts',
+            pages: 5 // number of pages to cache
+        } ),
+        "processing": true,
+        "serverSide": true,
+        "stateSave":true,
+        "columns": [
+            { "data": "title" },
+            { "data": "author_name" },
+            { "data": "published_date" },
+            { "data": "id" },
+        ],
+        "columnDefs": [ {
+                "targets": -1,
+                "data": 'id',
+                "render": function ( data, type, row ) {
+                    return '<a href="/admin/blog/post/'+row.id+'/view">Edit</a> | <a onclick="return confirm(\'Delete Post?\');" href="/admin/blog/post/'+row.id+'/remove" style="color: #d9534f;">Hapus</a>';
+                }
+            },
+                {
+                "targets": 0,
+                "data": 'title',
+                "render": function ( data, type, row ) {
+                    return '<a href="/admin/blog/post/'+row.id+'/view">'+data+'</a>';
+                }
+            }
+        ],
+        order: [
+            [2, "desc"]
+        ]
+    });
+}
+
+// media table
+if ($("#MediaTable").length > 0) {
+    $("#MediaTable").DataTable({
+        "ajax": {
+            url: '/admin/blog/get-media'
+        },
+        "processing": true,
+        "serverSide": true,
+        "stateSave":true,
+        "columns": [
+            { "data": "name" },
+            { "data": "name" },
+            { "data": "created_at" }
+        ],
+        "columnDefs": [ 
+                {
+                "targets": 0,
+                "data": 'title',
+                "render": function ( data, type, row ) {
+              return '<img style="width: 100px; max-height: 100px;" src="'+mediaPath+'/'+data.split('.').join('-300.')+'">';
+                }
+            }
+        ],
+        order: [
+            [0, "desc"],
+            [2, "desc"]
+        ]
+    });
+}
+
+// media post image modal
+if ($("#MediaPost").length > 0) {
+    $("#MediaPost").DataTable({
+        "ajax":  {
+            url: '/admin/blog/get-media'
+        } ,
+        "processing": true,
+        "serverSide": true,
+        "stateSave":true,
+        "columns": [
+            { "data": "name" },
+            { "data": "name" },
+            { "data": "created_at" },
+            { "data": "id" },
+        ],
+        "columnDefs": [ {
+                "targets": -1,
+                "data": 'id',
+                "render": function ( data, type, row ) {
+                    return '<div onclick="delete_media(\''+data+'\')" id="delete_media_post" class="btn btn-round btn-fill btn-danger">Delete</div> <div onclick="select_media(\'#'+data+'\')" id="select_media" class="btn btn-round btn-fill btn-success">Copy Media</div> <p style="display:none;" id="'+data+'">'+mediaPath+'/'+row.name.split('.').join('-800.')+'</p>';
+                }
+            },
+                {
+                "targets": 0,
+                "data": 'title',
+                "render": function ( data, type, row ) {
+              return '<img style="width: 100px; max-height: 100px;" src="'+mediaPath+'/'+data.split('.').join('-300.')+'">';
+                }
+            }
+        ],
+        order: [
+            [0, "desc"],
+            [2, "desc"]
+        ]
+    });
+}
+
+// feauterd image modal
+if ($("#FeaturedImg").length > 0) {
+    $("#FeaturedImg").DataTable({
+        "ajax":  {
+            url: '/admin/blog/get-media'
+        } ,
+        "processing": true,
+        "serverSide": true,
+        "stateSave":true,
+        "columns": [
+            { "data": "name" },
+            { "data": "name" },
+            { "data": "created_at" },
+            { "data": "id" },
+        ],
+        "columnDefs": [ {
+                "targets": -1,
+                "data": 'id',
+                "render": function ( data, type, row ) {
+                    return '<div onclick="delete_media(\''+data+'\')" id="delete_media_post" class="btn btn-round btn-fill btn-danger">Delete</div> <div onclick="select_fimg(\'#'+data+'\')" id="select_media" class="btn btn-round btn-fill btn-success">Select</div> <p style="display:none;" id="'+data+'">'+mediaPath+'/'+row.name.split('.').join('-800.')+'</p>';
+                }
+            },
+                {
+                "targets": 0,
+                "data": 'title',
+                "render": function ( data, type, row ) {
+              return '<img style="width: 100px; max-height: 100px;" src="'+mediaPath+'/'+data.split('.').join('-300.')+'">';
+                }
+            }
+        ],
+        order: [
+            [0, "desc"],
+            [2, "desc"]
+        ]
+    });
+}
+
+// pages table
+if ($("#pages-table").length > 0) {
+    $("#pages-table").DataTable({
+        "ajax": $.fn.dataTable.pipeline( {
+            url: '/admin/blog/ajaxpages',
+            pages: 5 // number of pages to cache
+        } ),
+        "processing": true,
+        "serverSide": true,
+        "stateSave":true,
+        "columns": [
+            { "data": "title" },
+            { "data": "author_name" },
+            { "data": "published_date" },
+            { "data": "id" },
+        ],
+        "columnDefs": [ {
+                "targets": -1,
+                "data": 'id',
+                "render": function ( data, type, row ) {
+                    return '<a href="/admin/blog/page/'+row.id+'/view">Edit</a> | <a onclick="return confirm(\'Delete Page?\');" href="/admin/blog/page/'+row.id+'/remove">Hapus</a>';
+                }
+            },
+                {
+                "targets": 0,
+                "data": 'title',
+                "render": function ( data, type, row ) {
+                    return '<a href="/admin/blog/page/'+row.id+'/view">'+data+'</a>';
+                }
+            }
+        ],
+        order: [
+            [2, "desc"]
+        ]
+    });
+}
+
+// tag table
+if ($("#TagTable").length > 0) {
+    $("#TagTable").DataTable({
+        "ajax": $.fn.dataTable.pipeline( {
+            url: '/admin/blog/get-tag',
+            pages: 5 // number of pages to cache
+        } ),
+        "processing": true,
+        "serverSide": true,
+        "stateSave":true,
+        "columns": [
+            { "data": "name" },
+            { "data": "created_at" },
+            { "data": "id" },
+        ],
+        "columnDefs": [ {
+                "targets": -1,
+                "data": 'id',
+                "render": function ( data, type, row ) {
+                    return '<a href="/admin/blog/edit-tag/'+row.id+'">Edit</a> | <a onclick="return confirm(\'Delete Tag?\');" href="/admin/blog/delete-tag/'+row.id+'">Hapus</a>';
+                }
+            },
+                {
+                "targets": 0,
+                "data": 'title',
+                "render": function ( data, type, row ) {
+                    return '<a href="/admin/blog/edit-tag/'+row.id+'">'+data+'</a>';
+                }
+            }
+        ],
+        order: [
+            [0, "desc"],
+            [1, "desc"]
+        ]
+    });
+}
+
+// table-tags
+
+if ($("#table-tags").length > 0) {
+    $("#table-tags").DataTable({
+        "ajax": $.fn.dataTable.pipeline( {
+            url: '/admin/blog/ajaxtags',
+            pages: 5 // number of pages to cache
+        } ),
+        "processing": true,
+        "serverSide": true,
+        "stateSave":true,
+        "columns": [
+            { "data": "name" },
+            { "data": "created_at" },
+            { "data": "id" },
+        ],
+        "columnDefs": [ {
+                "targets": -1,
+                "data": 'id',
+                "render": function ( data, type, row ) {
+                    return '<a href="/admin/blog/tag/'+row.id+'/view">Edit</a> | <a onclick="return confirm(\'Delete Tag?\');" href="/admin/blog/tag/'+row.id+'/remove">Hapus</a>';
+                }
+            },
+                {
+                "targets": 0,
+                "data": 'title',
+                "render": function ( data, type, row ) {
+                    return '<a href="/admin/blog/tag/'+row.id+'/view">'+data+'</a>';
+                }
+            }
+        ],
+        order: [
+            [1, "desc"]
+        ]
+    });
+}
+
+// files table
+if ($("#filesTable").length > 0) {
+    $("#filesTable").DataTable({
+        "ajax":  {
+            url: '/admin/blog/get-files'
+        },
+        "processing": true,
+        "serverSide": true,
+        "stateSave":true,
+        "columns": [
+            { "data": "name" },
+            { "data": "label" },
+            { "data": "id" },
+            { "data": "created_at" },
+        ],
+        "columnDefs": [
+            {
+                "targets": 2,
+                "data": 'id',
+                "render": function ( data, type, row ) {
+                    return '<a href="/admin/blog/edit-file/'+data+'" id="edit_file_label" style="cursor: pointer;">Edit</a>';
+                }
+            }
+        ],
+        order: [
+            [3, "desc"]
+        ]
+    });
+}
+
+// post file modal table
+if ($("#postFile").length > 0) {
+    $("#postFile").DataTable({
+        "ajax":  {
+            url: '/admin/blog/get-files'
+        },
+        "processing": true,
+        "serverSide": true,
+        "stateSave":true,
+        "columns": [
+            { "data": "name" },
+            { "data": "label" },
+            { "data": "id" },
+            { "data": "created_at" },
+        ],
+        "columnDefs": [
+            {
+                "targets": 2,
+                "data": 'id',
+                "render": function ( data, type, row ) {
+                    return '<div onclick="delete_file(\''+data+'\')" id="delete_file_post" class="btn btn-round btn-fill btn-danger">Delete</div>';
+                }
+            }
+        ],
+        order: [
+            [3, "desc"]
+        ]
+    });
+}
+
+// post trash
+if ($("#posts-trash").length > 0) {
+    $("#posts-trash").DataTable({
+        "ajax": $.fn.dataTable.pipeline( {
+            url: '/admin/blog/ajaxtrashposts',
+            pages: 5 // number of pages to cache
+        } ),
+        "processing": true,
+        "serverSide": true,
+        "stateSave":true,
+        "columns": [
+            { "data": "title" },
+            { "data": "author_name" },
+            { "data": "post_type" },
+            { "data": "published_date" },
+            { "data": "id" },
+        ],
+        "columnDefs": [
+            {
+                "targets": 4,
+                "data": 'id',
+                "render": function ( data, type, row ) {
+                    return '<a href="/admin/blog/trash/'+data+'/restore">Restore</a> | <a onclick="return confirm(\'Delete Post?\');" href="/admin/blog/trash/'+data+'/delete" style="color: #d9534f;">Delete Permanently</a>';
+                }
+            }
+        ],
+        order: [
+            [3, "desc"]
+        ]
+    });
+}
+
+// event category table 
+if ($("#EventCategoryTable").length > 0) {
+    $("#EventCategoryTable").DataTable({
+        "ajax": $.fn.dataTable.pipeline( {
+            url: '/admin/blog/ajaxcategories',
+            pages: 5 // number of pages to cache
+        } ),
+        "processing": true,
+        "serverSide": true,
+        "stateSave":true,
+        "columns": [
+            { "data": "name" },
+            { "data": "created_at" },
+            { "data": "id" },
+        ],
+        "columnDefs": [ {
+                "targets": -1,
+                "data": 'id',
+                "render": function ( data, type, row ) {
+                    return '<a href="/admin/blog/category/'+row.id+'/view">Edit</a> | <a onclick="return confirm(\'Delete Category?\');" href="/admin/blog/category/'+row.id+'/delete">Delete</a>';
+                }
+            },
+                {
+                "targets": 0,
+                "data": 'name',
+                "render": function ( data, type, row ) {
+                    return '<a href="/admin/blog/category/'+row.id+'/view">'+data+'</a>';
+                }
+            }
+        ],
+        order: [
+            [0, "desc"],
+            [1, "desc"]
+        ]
+    });
+} 
+
+// event table
+if ($("#event-table").length > 0) {
+    $("#event-table").DataTable({
+        "ajax": $.fn.dataTable.pipeline( {
+            url: '/admin/blog/event/ajaxevents',
+            pages: 5 // number of pages to cache
+        } ),
+        "processing": true,
+        "serverSide": true,
+        "stateSave":true,
+        bSortable: true,
+        "columns": [
+            { "data": "title" },
+            { "data": "author_name" },
+            { "data": "published_date" },
+            { "data": "id" },
+        ],
+        "columnDefs": [ {
+                "targets": -1,
+                "data": 'id',
+                "render": function ( data, type, row ) {
+                    return '<a href="/admin/blog/event/'+row.id+'/view">Edit</a> | <a onclick="return confirm(\'Delete Event?\');" href="/admin/blog/event/'+row.id+'/remove">Hapus</a>';
+                }
+            },
+                {
+                "targets": 0,
+                "data": 'title',
+                "render": function ( data, type, row ) {
+                    return '<a href="/admin/blog/event/'+row.id+'/view">'+data+'</a>';
+                }
+            }
+        ],
+        order: [
+            [2, "desc"]
+        ]
+    });
+}
+
+// gallery category table 
+if ($("#gallery #GalleryCategoryTable").length > 0) {
+    $("#gallery #GalleryCategoryTable").DataTable({
+        "ajax": $.fn.dataTable.pipeline( {
+            url: '/admin/blog/ajaxcategories',
+            pages: 5 // number of pages to cache
+        } ),
+        "processing": true,
+        "serverSide": true,
+        "stateSave":true,
+        "columns": [
+            { "data": "name" },
+            { "data": "created_at" },
+            { "data": "id" },
+        ],
+        "columnDefs": [ {
+                "targets": -1,
+                "data": 'id',
+                "render": function ( data, type, row ) {
+                    return '<a href="/admin/blog/'+row.id+'/view">Edit</a> | <a onclick="return confirm(\'Delete Category?\');" href="/admin/blog/'+row.id+'/remove">Delete</a>';
+                }
+            },
+                {
+                "targets": 0,
+                "data": 'name',
+                "render": function ( data, type, row ) {
+                    return '<a href="/admin/blog/'+row.id+'/view">'+data+'</a>';
+                }
+            }
+        ],
+        order: [
+            [0, "desc"],
+            [1, "desc"]
+        ]
+    });
+} 
+
+// gallery table
+if ($("#table-gallery").length > 0) {
+    $("#table-gallery").DataTable({
+        "ajax": $.fn.dataTable.pipeline( {
+            url: '/admin/blog/gallery/ajaxgalleries',
+            pages: 5 // number of pages to cache
+        } ),
+        "processing": true,
+        "serverSide": true,
+        "stateSave":true,
+        "columns": [
+            { "data": "title" },
+            { "data": "author_name" },
+            { "data": "published_date" },
+            { "data": "id" },
+        ],
+        "columnDefs": [ {
+                "targets": -1,
+                "data": 'id',
+                "render": function ( data, type, row ) {
+                    return '<a href="/admin/blog/gallery/'+row.id+'/view">Edit</a> | <a onclick="return confirm(\'Delete gallery?\');" href="/admin/blog/gallery/'+row.id+'/remove">Hapus</a>';
+                }
+            },
+                {
+                "targets": 0,
+                "data": 'title',
+                "render": function ( data, type, row ) {
+                    return '<a href="/admin/blog/gallery/'+row.id+'/view">'+data+'</a>';
+                }
+            }
+        ],
+        order: [
+            [2, "desc"]
+        ]
+    });
+}
+
+// gallery tag table
+if ($("#GalleryTagTable").length > 0) {
+    $("#GalleryTagTable").DataTable({
+        "ajax": $.fn.dataTable.pipeline( {
+            url: '/admin/blog/tags/ajaxtags',
+            pages: 5 // number of pages to cache
+        } ),
+        "processing": true,
+        "serverSide": true,
+        "stateSave":true,
+        "columns": [
+            { "data": "name" },
+            { "data": "created_at" },
+            { "data": "id" },
+        ],
+        "columnDefs": [ {
+                "targets": -1,
+                "data": 'id',
+                "render": function ( data, type, row ) {
+                    return '<a href="/admin/blog/tag/'+row.id+'/view">Edit</a> | <a onclick="return confirm(\'Delete Tag?\');" href="/admin/blog/tag/'+row.id+'/remove">Hapus</a>';
+                }
+            },
+                {
+                "targets": 0,
+                "data": 'title',
+                "render": function ( data, type, row ) {
+                    return '<a href="/admin/blog/tag/'+row.id+'/view">'+data+'</a>';
+                }
+            }
+        ],
+        order: [
+            [0, "desc"],
+            [1, "desc"]
+        ]
+    });
+}
+
+// gallery form
+// gallery table
+if ($("#MediaGallery").length > 0) {
+    $("#MediaGallery").DataTable({
+        "ajax":  {
+            url: '/admin/blog/get-media'
+        },
+        "processing": true,
+        "serverSide": true,
+        "stateSave":true,
+        "columns": [
+            { "data": "id" },
+            { "data": "name" },
+            { "data": "name" },
+            { "data": "name" },
+            { "data": "created_at" },
+        ],
+        "columnDefs": [
+            {
+                "targets":  2 ,
+                "data": 'name',
+                "render": function ( data, type, full, meta ) {
+                    return '<img style="width: 100px; max-height: 100px;" src="'+mediaPath+'/'+data.split('.').join('-300.')+'">';
+                }
+            },
+            {
+                "targets": 0,
+                "visible": false,
+                "searchable": false
+            },
+            {
+                "targets": 1,
+                "visible": false,
+                "searchable": false,
+                "data": 'name',
+                "render": function ( data, type, full, meta ) {
+                    return mediaPath+'/'+data.split('.').join('-800.');
+                }
+            },
+        ],
+        order: [
+            [3, "desc"],
+            [4, "desc"]
+        ]
+    });
+}
+
+// video category table 
+if ($("#video #VideoCategoryTable").length > 0) {
+    $("#video #VideoCategoryTable").DataTable({
+        "ajax": $.fn.dataTable.pipeline( {
+            url: '/admin/blog/ajaxcategories',
+            pages: 5 // number of pages to cache
+        } ),
+        "processing": true,
+        "serverSide": true,
+        "stateSave":true,
+        "columns": [
+            { "data": "name" },
+            { "data": "created_at" },
+            { "data": "id" },
+        ],
+        "columnDefs": [ {
+                "targets": -1,
+                "data": 'id',
+                "render": function ( data, type, row ) {
+                    return '<a href="/admin/blog/category/'+row.id+'/edit">Edit</a> | <a onclick="return confirm(\'Delete Category?\');" href="/admin/blog/category/'+row.id+'/remove">Delete</a>';
+                }
+            },
+                {
+                "targets": 0,
+                "data": 'name',
+                "render": function ( data, type, row ) {
+                        return '<a href="/admin/blog/category/'+row.id+'/edit">'+data+'</a>';
+                }
+            }
+        ],
+        order: [
+            [0, "desc"],
+            [1, "desc"]
+        ]
+    });
+} 
+
+// videos table
+if ($("#video #table-videos").length > 0) {
+    $("#video #table-videos").DataTable({
+        "ajax": $.fn.dataTable.pipeline( {
+            url: '/admin/blog/video/ajaxvideos',
+            pages: 5 // number of pages to cache
+        } ),
+        "processing": true,
+        "serverSide": true,
+        "stateSave":true,
+        bSortable: true,
+        "columns": [
+            { "data": "title" },
+            { "data": "author_name" },
+            { "data": "published_date" },
+            { "data": "id" },
+        ],
+        "columnDefs": [ {
+                "targets": -1,
+                "data": 'id',
+                "render": function ( data, type, row ) {
+                    return '<a href="/admin/blog/video/'+row.id+'/edit">Edit</a> | <a onclick="return confirm(\'Delete Video?\');" href="/admin/blog/video/'+row.id+'/remove">Hapus</a>';
+                }
+            },
+                {
+                "targets": 0,
+                "data": 'title',
+                "render": function ( data, type, row ) {
+                    return '<a href="/admin/blog/video/'+row.id+'/edit">'+data+'</a>';
+                }
+            }
+        ],
+        order: [
+            [2, "desc"]
+        ]
+    });
+}
+
+// video tag table
+if ($("#video #VideoTagTable").length > 0) {
+    $("#video #VideoTagTable").DataTable({
+        "ajax": $.fn.dataTable.pipeline( {
+            url: '/admin/blog/ajaxtags',
+            pages: 5 // number of pages to cache
+        } ),
+        "processing": true,
+        "serverSide": true,
+        "stateSave":true,
+        "columns": [
+            { "data": "name" },
+            { "data": "created_date" },
+            { "data": "id" },
+        ],
+        "columnDefs": [ {
+                "targets": -1,
+                "data": 'id',
+                "render": function ( data, type, row ) {
+                    return '<a href="/admin/blog/tag/'+row.id+'/edit">Edit</a> | <a onclick="return confirm(\'Delete Tag?\');" href="/admin/blog/tags/'+row.id+'/delete">Hapus</a>';
+                }
+            },
+                {
+                "targets": 0,
+                "data": 'title',
+                "render": function ( data, type, row ) {
+                    return '<a href="/admin/blog/tag/'+row.id+'/edit">'+data+'</a>';
+                }
+            }
+        ],
+        order: [
+            [0, "desc"],
+            [1, "desc"]
+        ]
+    });
+}
+
 mediaPath = 'https://s3-ap-southeast-1.amazonaws.com/mdirect/shbtm/media';
 filePath = 'https://s3-ap-southeast-1.amazonaws.com/mdirect/shbtm/files';
 var timeOutId;
 
-$("#browse_media_post").click(function() {
-    $("html, body").animate({
-        scrollTop: 0
-    }, 500);
-    $(".overlay").fadeIn(), $(".media-modal").fadeIn();
-});
+var jPlugin = $.blogPlugin();
 
-$("#close_media_post, .overlay").click(function() {
-    $(".overlay").fadeOut(), $(".media-modal").fadeOut()
+$("#browse_media_post").click(function() {
+    jPlugin.openModal('.media-modal');
 });
 
 $("#browse_fimg_post").click(function() {
-    $("html, body").animate({
-        scrollTop: 0
-    }, 500);
-    $(".overlay").fadeIn(), $(".fimg-modal").fadeIn();
-});
-
-$("#close_fimg_post, .overlay").click(function() {
-    $(".overlay").fadeOut(), $(".fimg-modal").fadeOut()
+    jPlugin.openModal('.fimg-modal');
 });
 
 $("#browse_file_post").click(function() {
-    $("html, body").animate({
-        scrollTop: 0
-    }, 500);
-    $(".overlay").fadeIn(), $(".file-modal").fadeIn();
+    jPlugin.openModal('.file-modal');
 });
 
-$("#close_file_post, .overlay").click(function() {
-    $(".overlay").fadeOut(), $(".file-modal").fadeOut()
+$(".close-modal, .overlay").click(function() {
+    jPlugin.closeModal();
 });
 
 // fungsi upload image
-$('#uploadmedia').on('change', function add_media(e){
+$('#uploadmedia').on('change', function(e){
     e.preventDefault();
-    timeOutId = setTimeout(ajaxFn, 1000, e);
-
-    $('.dataTables_processing').show();
-
-    function ajaxFn(e){
-        var fd = new FormData($("#actuploadmedia")[0]);
-        $.ajax({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            type: "POST",
-            url: "/admin/blog/store-media",
-            processData: false,
-            contentType: false,
-            data: fd,
-            success: function(msg){
-                        $(".mediatable").DataTable().ajax.reload(null, false);
-                        console.log('add');
-            },
-            error: function(err){
-                    $(".mediatable").DataTable().ajax.reload(null, false);
-                    var obj = err.responseJSON;
-                    alert(Object.values(obj)[0].toString());
-                }
-        });
-        $('.dataTables_processing').hide();
-    };
+    var fd = new FormData($("#actuploadmedia")[0]);
+    timeOutId = setTimeout(jPlugin.uploadFile(fd, 'media'), 1000);
 });
 
+// fungsi upload fimg
 $('#uploadfimg').on('change', function add_media(e){
     e.preventDefault();
-    timeOutId = setTimeout(ajaxFn, 1000, e);
-    $('.dataTables_processing').show();
-
-    function ajaxFn(e){
-        var fd = new FormData($("#actuploadfimg")[0]);
-        $.ajax({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            type: "POST",
-            url: "/admin/blog/store-media",
-            processData: false,
-            contentType: false,
-            data: fd,
-            success: function(msg){
-                        $(".mediatable").DataTable().ajax.reload(null, false);
-                        console.log(msg);
-            },
-            error: function(err){
-                    $(".mediatable").DataTable().ajax.reload(null, false);
-                    var obj = err.responseJSON;
-                    alert(Object.values(obj)[0].toString());
-                }
-        });
-        $('.dataTables_processing').hide();
-    };
+    var fd = new FormData($("#actuploadfimg")[0]);
+    timeOutId = setTimeout(jPlugin.uploadFile(fd, 'media'), 1000);
 });
 
 // fungsi upload file
 $('#fileUpload').on('change', function add_file(e){
     e.preventDefault();
-    timeOutId = setTimeout(ajaxFn, 1000, e);
-    $('.dataTables_processing').show();
-
-    function ajaxFn(e){
-        var fd = new FormData($("#fileupload-form")[0]);
-        $.ajax({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            type: "POST",
-            url: "/admin/blog/store-file",
-            processData: false,
-            contentType: false,
-            data: fd,
-            success: function(msg){
-                $(".filestable").DataTable().ajax.reload(null, false);
-                // var obj = JSON.parse(msg);
-                console.log(msg);
-            },
-            error: function(err){
-                $(".filestable").DataTable().ajax.reload(null, false);
-                var obj = err.responseJSON;
-                alert(Object.values(obj)[0].toString());
-            },
-            always: function(a){
-                $(".filestable").DataTable().ajax.reload(null, false);
-                // console.log(a);
-            }
-        });
-        $('.dataTables_processing').hide();
-    }
+    var fd = new FormData($("#fileupload-form")[0]);
+    timeOutId = setTimeout(jPlugin.uploadFile(fd, 'file'), 1000);
 });
 
-function delete_media(e){
-    timeOutId = setTimeout(ajaxFn, 2000, e);
-
-    $('#canceldelete').show();
-    $('.dataTables_processing').show();
-    function ajaxFn(e){
-        $.ajax({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            type: "GET",
-            url: "/admin/blog/delete-media/"+e,
-            processData: false,
-            contentType: false,
-            success: function(msg){
-                $(".mediatable").DataTable().ajax.reload(null, false);
-            },
-            error: function(err){
-                $(".mediatable").DataTable().ajax.reload(null, false);
-                alert('delete error');
-            }
-        });
-        $('#canceldelete').hide();
-        $('.dataTables_processing').hide();
-    };
+// fungsi delete media
+function delete_media(id){
+    timeOutId = setTimeout(jPlugin.deleteFile(id, 'media'), 2000);
 };
 
+// fungsi delete file
+function delete_file(id){
+    timeOutId = setTimeout(jPlugin.deleteFile(id, 'file'), 2000);
+};
 
 function select_media(e){
     var a = $("<input>");
@@ -348,8 +1333,7 @@ function select_media(e){
     a.val(b).select();
     document.execCommand("copy");
     a.remove();
-    $(".overlay").fadeOut();
-    $(".media-modal").fadeOut();
+    jPlugin.closeModal();
 }
 
 function select_fimg(e){
@@ -359,8 +1343,7 @@ function select_fimg(e){
     var c = $(e).text();
     a.css('background-image', 'url('+c+')');
     b.val(c);
-    $(".overlay").fadeOut();
-    $(".fimg-modal").fadeOut();
+    jPlugin.closeModal();
 }
 
 function remove_fimg(){
@@ -371,46 +1354,35 @@ function remove_fimg(){
     b.val('');
 }
 
+// multiselect for bulk delete
+$('.mydatatable tbody').on( 'click', 'tr', function () {
+    $(this).toggleClass('selected');
+    var count = $(".mydatatable").DataTable().rows('.selected').data().length;
+    if (count > 0) {
+        $('.bulk-delete-item').show();   
+        $('.bulk-delete-count').html( $(".mydatatable").DataTable().rows('.selected').data().length ); 
+    } else {
+        $('.bulk-delete-item').hide(); 
+    }
+    var ids = $.map($(".mydatatable").DataTable().rows('.selected').data(), function (item) {
+        return item.id
+    });
+    $('.bulk-delete-id').val(JSON.stringify(ids));
+});
+// end multiselect for bulk delete
+
 function cancelDelete(){
     clearTimeout(timeOutId);
     $('#canceldelete').hide();
     $('.table-overlay').hide();
 };
 
-function load_post_category(){
-    var id = $('meta[name="item-id"]').attr('content');
-    $.ajax({
-        type: "GET",
-        url: "/admin/blog/get-category-post/"+id,
-        success: function(msg){
-            $('.category-wrap ul').html(msg);
-        },
-        error: function(err){
-            console.log(err);
-        }
-    });
-}
-
-function load_post_category_parent(){
-    var id = $('meta[name="category-id"]').attr('content');
-    $.ajax({
-        type: "GET",
-        url: "/admin/blog/get-category-parent/"+id,
-        success: function(msg){
-            $('.category-parent').html(msg);
-        },
-        error: function(err){
-            console.log(err);
-        }
-    });
-}
-
 if ($('.category-wrap').length > 0) {
-    $('.category-wrap').ready(load_post_category());
+    $('.category-wrap').ready(jPlugin.loadListCategory());
 }
 
 if ($('.category-parent').length > 0) {
-    $('.category-parent').ready(load_post_category_parent());
+    $('.category-parent').ready(jPlugin.loadListParentCategory());
 }
 
 // add category on post ajax function
@@ -423,15 +1395,17 @@ $('.add_category_button').on('click', function add_category(){
             url: "/admin/blog/add-category-post/"+n+"/"+p,
             success: function(msg){
                 console.log(msg);
+                jPlugin.addCategoryLoad();
             },
             error: function(err){
                 console.log(err);
+                jPlugin.addCategoryLoad();
+            },
+            always: function(a){
+                jPlugin.addCategoryLoad();
             }
         });
 
-        load_post_category();
-        console.log('ss');
-        load_post_category_parent();
         $('input[name=category_name]').val('');
         $('select[name=category_parent]').removeAttr('selected');
     } else {    
@@ -474,60 +1448,6 @@ if ($('.file-list').length > 0) {
     });
 }
 
-function delete_file(e){
-    timeOutId = setTimeout(ajaxFn, 2000, e);
-
-    $('.dataTables_processing').show();
-    $('#canceldelete').show();
-    function ajaxFn(e){
-        $.ajax({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            type: "GET",
-            url: "/admin/blog/delete-file/"+e,
-            processData: false,
-            contentType: false,
-            success: function(msg){
-                $(".filestable").DataTable().ajax.reload(null, false);
-            },
-            error: function(err){
-                $(".filestable").DataTable().ajax.reload(null, false);
-                console.log(err);
-            }
-        });
-        $('#canceldelete').hide();
-        $('.dataTables_processing').hide();
-    };
-};
-
-
-// add category on post ajax function
-$('#event-category .add_category_button').on('click', function add_category(){
-    var n = $('input[name=category_name]').val();
-    var token = $('input[name=c_token]').val();
-    if (n != '') {
-        $.ajax({
-            type: "POST",
-            url: "/admin/blog/category/ajaxadd",
-            data:{
-              "_token": token,
-              name: n, // Second add quotes on the value.
-              catjax: true,
-            },
-            success: function(msg){
-                $('#event-category .category-wrap ul').append(msg);
-            },
-            error: function(err){
-                console.log(err);
-            }
-        });
-
-        $('input[name=category_name]').val('');
-    } else {    
-        // do nothing
-    }
-});
 
 function select_event_type(){
     var event_type = $('#event-type').val();

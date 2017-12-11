@@ -1,30 +1,3 @@
-// add category on post ajax function
-$('#event-category .add_category_button').on('click', function add_category(){
-    var n = $('input[name=category_name]').val();
-    var token = $('input[name=c_token]').val();
-    if (n != '') {
-        $.ajax({
-            type: "POST",
-            url: "/admin/blog/category/ajaxadd",
-            data:{
-              "_token": token,
-              name: n, // Second add quotes on the value.
-              catjax: true,
-            },
-            success: function(msg){
-                $('#event-category .category-wrap ul').append(msg);
-            },
-            error: function(err){
-                console.log(err);
-            }
-        });
-
-        $('input[name=category_name]').val('');
-    } else {    
-        // do nothing
-    }
-});
-
 function select_event_type(){
     var event_type = $('#event-type').val();
     if (event_type == 'offline') {
