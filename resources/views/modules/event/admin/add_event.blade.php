@@ -56,7 +56,7 @@
                         <div class="panel-body">
                             <div class="form-group">
                                 <label class="control-label">Select Event Type</label>
-                                <select id="event-type" name="event_type" class="form-control" onchange="select_event_type()">
+                                <select id="event-type" name="event_type" class="form-control" onchange="jEventForm.select_event_type()">
                                     <option value="offline" {{ old('event_type') == 'offline' ? 'selected' : '' }}>Offline</option>
                                     <option value="online" {{ old('event_type') == 'online' ? 'selected' : '' }}>Online</option>
                                 </select>
@@ -93,10 +93,10 @@
                                             <div class="input-group">
                                                 <input value="{{ old('htm_label') }}" type="text" name="htm_label[]" class="form-control">
                                                 <span class="input-group-btn">
-                                                    <button class="btn btn-info" class="add-htm" onclick="add_htm()" type="button">+</button>
+                                                    <button class="btn btn-info" class="add-htm" onclick="jEventForm.add_htm()" type="button">+</button>
                                                 </span>
                                                 <span class="input-group-btn">
-                                                    <button class="btn btn-warning" class="remove-htm" onclick="remove_htm('htm-1')" type="button">-</button>
+                                                    <button class="btn btn-warning" class="remove-htm" onclick="jEventForm.remove_htm('htm-1')" type="button">-</button>
                                                 </span>
                                             </div>
                                         </div>

@@ -65,7 +65,3 @@ function add_htm(){
 function remove_htm(id){
     $('#'+id).remove();
 }
-
-(function($) {
-
-}( jQuery ));

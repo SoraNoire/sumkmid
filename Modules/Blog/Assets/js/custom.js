@@ -191,57 +191,11 @@ function remove_fimg(){
     b.val('');
 }
 
-$(document).ready(function() {
-// DATATABLES CONFIG
-
-    // multiselect for bulk delete
-    $('.mydatatable tbody').on( 'click', 'tr', function () {
-        $(this).toggleClass('selected');
-        var count = $(".mydatatable").DataTable().rows('.selected').data().length;
-        if (count > 0) {
-            $('.bulk-delete-item').show();   
-            $('.bulk-delete-count').html( $(".mydatatable").DataTable().rows('.selected').data().length ); 
-        } else {
-            $('.bulk-delete-item').hide(); 
-        }
-        var ids = $.map($(".mydatatable").DataTable().rows('.selected').data(), function (item) {
-            return item.id
-        });
-        $('.bulk-delete-id').val(JSON.stringify(ids));
-    });
-    // end multiselect for bulk delete
-// END DATATABLES
-});
-
 function cancelDelete(){
     clearTimeout(timeOutId);
     $('#canceldelete').hide();
     $('.table-overlay').hide();
 };
-
-// date time picker
-if ($(".datetimepicker").length > 0) {
-    $(function () {
-        $('.datetimepicker').datetimepicker({
-            format: "yyyy-mm-dd hh:ii",
-            autoclose: true,
-            todayBtn: true,
-            pickerPosition: "top-left"
-        });
-    });
-}
-
-if ($(".event-datetimepicker").length > 0) {
-    $(function () {
-        $('.event-datetimepicker').datetimepicker({
-            format: "yyyy-mm-dd",
-            autoclose: true,
-            todayBtn: true,
-            pickerPosition: "top-left",
-            minView: 2
-        });
-    });
-}
 
 function load_post_category(){
     var id = $('meta[name="item-id"]').attr('content');

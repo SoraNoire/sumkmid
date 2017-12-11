@@ -763,3 +763,20 @@ if ($("#video #VideoTagTable").length > 0) {
         ]
     });
 }
+
+// multiselect for bulk delete
+$('.mydatatable tbody').on( 'click', 'tr', function () {
+    $(this).toggleClass('selected');
+    var count = $(".mydatatable").DataTable().rows('.selected').data().length;
+    if (count > 0) {
+        $('.bulk-delete-item').show();   
+        $('.bulk-delete-count').html( $(".mydatatable").DataTable().rows('.selected').data().length ); 
+    } else {
+        $('.bulk-delete-item').hide(); 
+    }
+    var ids = $.map($(".mydatatable").DataTable().rows('.selected').data(), function (item) {
+        return item.id
+    });
+    $('.bulk-delete-id').val(JSON.stringify(ids));
+});
+// end multiselect for bulk delete
