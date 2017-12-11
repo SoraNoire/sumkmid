@@ -235,6 +235,7 @@
 		a {
 			color: #ffffff;
 	    	text-decoration: none;
+	    	text-transform: capitalize;
 
 	    	&:hover {
 		    	text-decoration: underline;
@@ -433,6 +434,7 @@
 		  		line-height: 1.25;
 		  		color: #ffffff;
 		  		text-decoration: none;
+		  		text-transform: capitalize;
   			}
 	  	}
 	}
@@ -542,6 +544,7 @@
   				display: block;
 				color: $fontColor;
 		  		text-decoration: none;
+		  		text-transform: capitalize;
 
 		  		&:first-child {
   					font-size: 18px;
@@ -686,6 +689,7 @@
 				margin-bottom: 10px;
 				padding-bottom: 12px;
   				position: relative;
+  				text-transform: capitalize;
 
   				i {
   					font-size: 20px;
@@ -724,6 +728,7 @@
 					margin-bottom: 12px;
 					p {
 						margin: unset;
+		  				text-transform: capitalize;
 					}
 				}
 				.htm{
