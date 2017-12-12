@@ -13,6 +13,40 @@
     <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}">
     <link href="//cdn-images.mailchimp.com/embedcode/classic-10_7.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="{{ asset('css/index.css') }}?v=1.1.1">
+
+    @if($fb_pixel != '')
+      <!-- Facebook Pixel Code -->
+      <script>
+      !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+      n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+      document,'script','//connect.facebook.net/en_US/fbevents.js');
+      // Insert Your Facebook Pixel ID below. 
+      fbq('init', '{{ $fb_pixel }}');
+      fbq('track', 'PageView');
+      </script>
+      <!-- Insert Your Facebook Pixel ID below. --> 
+      <noscript><img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id={{ $fb_pixel }}&amp;ev=PageView&amp;noscript=1"
+      /></noscript>
+      <!-- End Facebook Pixel Code -->
+    @endif
+
+    @if($analytic != '')
+      <!-- Google Analytic Code -->
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', '{{ $analytic }}', 'auto');
+        ga('send', 'pageview');
+
+      </script>
+      <!-- End Google Analytic Code -->
+    @endif
 </head>
 <body>
 	<!-- header -->
@@ -101,10 +135,10 @@
  			</div>
  			<div class="footer-socmed">
  				<ul>
-                    <li><a target="_blank" href="#" style="background-image: url('/img/home-facebook-logo.svg');"></a></li>
-                    <li><a target="_blank" href="#" style="background-image: url('/img/home-twitter-logo.svg');"></a></li>
-                    <li><a target="_blank" href="#" style="background-image: url('/img/home-youtube-logo.svg');"></a></li>
-                    <li><a target="_blank" href="#" style="background-image: url('/img/home-instagram-logo.svg');"></a></li>
+                    <li><a target="_blank" href="{{ $link_fb }}" style="background-image: url('/img/home-facebook-logo.svg');"></a></li>
+                    <li><a target="_blank" href="{{ $link_tw }}" style="background-image: url('/img/home-twitter-logo.svg');"></a></li>
+                    <li><a target="_blank" href="{{ $link_yt }}" style="background-image: url('/img/home-youtube-logo.svg');"></a></li>
+                    <li><a target="_blank" href="{{ $link_ig }}" style="background-image: url('/img/home-instagram-logo.svg');"></a></li>
  				</ul>
  			</div>
  			<div class="footer-nav">

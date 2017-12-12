@@ -13,12 +13,12 @@ class CreateEvMentorRelationTable extends Migration
      */
     public function up()
     {
-        Schema::create('ev_mentor_relation', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('event_id');
-            $table->string('mentor_id')->nullable();
-            $table->timestamps();
-        });
+        // Schema::create('ev_mentor_relation', function (Blueprint $table) {
+        //     $table->increments('id');
+        //     $table->integer('event_id');
+        //     $table->string('mentor_id')->nullable();
+        //     $table->timestamps();
+        // });
     }
 
     /**

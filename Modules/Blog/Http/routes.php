@@ -105,6 +105,9 @@ Route::group(['middleware' => ['web','admin'], 'prefix' => 'admin/blog', 'namesp
     Route::get('/page/{id}/remove', ['as'=> 'removepage', 'uses' => 'BlogController@removePage']);
     Route::post('/page/massdelete', ['as'=> 'massdeletepage', 'uses' => 'BlogController@massdeletePage']);
 
+    Route::get('/site-setting', 'BlogController@site_setting_view')->name('site_setting');
+    Route::post('/save-setting', 'BlogController@site_setting_save')->name('save_setting');
+
     // Route::get('/pages', 'BlogController@pages');
     // Route::get('/page/{slug}', 'BlogController@show_page');
     // Route::get('/get-pages', 'BlogController@get_pages');
