@@ -11,6 +11,7 @@
 
     <link rel="icon" type="image/x-icon" href="{{ asset('img/logo-ico.png') }}">
     <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}">
+    <link href="//cdn-images.mailchimp.com/embedcode/classic-10_7.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="{{ asset('css/index.css') }}?v=1.1.1">
 </head>
 <body>
@@ -84,9 +85,9 @@
 	<section id="newsletter" class="blue-bg">
         <div class="container">
         	<span>Gabung bersama SahabatUMKM.id dan dapatkan ribuan benefit GRATIS!!!</span>
-        	<form class="newsletter-form">
-        		<input type="email" name="email_subscribe" placeholder="Subscribe our newsletter" required="required">
-            	<button id="submit_newsletter">daftar</button>
+        	<form class="newsletter-form" method="get" action="{{ route('public_newsletter') }}">
+        		<input type="email" name="email" placeholder="Subscribe our newsletter">
+            	<button type="submit">daftar</button>
         	</form>
         </div>
 	</section>
