@@ -137,7 +137,7 @@
                                 </div>
                             </div>
                             <div class="form-group event-type-online">
-                                <label>URL</label>
+                                <label>URL Event</label>
                                 <input class="form-control" type="url" name="event_url" value="{{ old('event_url') }}">
                             </div>
                             <div class="form-group">
