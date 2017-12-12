@@ -70,7 +70,7 @@
                             </div>
 
                             <div class="form-group event-type-offline" style="display: none;">
-                                <label class="control-label">Tempat</label>
+                                <label class="control-label">Location</label>
                                 <input value="{{ $location }}" class="form-control" type="text" name="location">
                             </div>
                             <div class="form-group event-type-offline" style="display: none;">
