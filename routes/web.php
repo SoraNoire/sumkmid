@@ -17,6 +17,9 @@ Route::group(['middleware' => ['admin']], function () {
 	    return json_encode(app()->SSO->Auth());
 	}]);
     
+    Route::get('/admin', ['as'=>'admin_page', 'uses'=>function () {
+	    return redirect('/admin/blog');
+	}]);
 });
 
 
