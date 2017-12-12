@@ -19,7 +19,7 @@
 				<p style="margin: 0">Jakarta Pusat, Indonesia</p>
 				<p style="margin-bottom: 14px">Kode Pos 10240</p>
 				<p style="margin-bottom: 8px"><img src="/img/contact-telephone-icon.svg">&nbsp; (021) 3917399</p>
-				<p><img src="/img/contact-mail-icon.svg">&nbsp; info@mdirect.id</p>
+				<p><img src="/img/contact-mail-icon.svg">&nbsp; info@sahabatumkm.id</p>
 			</div>
 			<div class="col-6 contact-form">
 				<h3>Leave a message</h3>

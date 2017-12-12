@@ -250,4 +250,14 @@ class PublicController extends Controller
         return redirect('kontak')->with("msg","Terimakasih sudah menghubungi kami. Pesan yang anda kirimkan akan di baca langsung oleh departement yang bersangkutan. Kami akan hubungi anda melalui Email atau Telpon. Terimakasih ");
 
     }
+
+    /**
+     * Show newsletter form.
+     * @return Response
+     */
+	public function newsletter(Request $request){
+        $var['page'] = "Newsletter";
+        $email = $request->get('email') ?? '';
+		return view('page.newsletter')->with(['var' => $var, 'email' => $email]);
+	}
 }
