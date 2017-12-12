@@ -13,17 +13,17 @@ class CreateGalleryTable extends Migration
      */
     public function up()
     {
-        Schema::create('gallery', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('title');
-            $table->string('slug')->unique();
-            $table->text('images')->nullable();
-            $table->integer('author');
-            $table->integer('status')->default(0);
-            $table->text('option')->nullable();
-            $table->datetime('published_at')->nullable();
-            $table->timestamps();
-        });
+        // Schema::create('gallery', function (Blueprint $table) {
+        //     $table->increments('id');
+        //     $table->string('title');
+        //     $table->string('slug')->unique();
+        //     $table->text('images')->nullable();
+        //     $table->integer('author');
+        //     $table->integer('status')->default(0);
+        //     $table->text('option')->nullable();
+        //     $table->datetime('published_at')->nullable();
+        //     $table->timestamps();
+        // });
     }
 
     /**

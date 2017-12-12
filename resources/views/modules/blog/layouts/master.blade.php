@@ -74,6 +74,9 @@
             <li class="mobile-admin-nav {{ ($page_meta_title ?? '') == 'Files' ? 'active' : ''}}">
               <a href="{{ route('files') }}">Files</a>
             </li>
+            <li class="mobile-admin-nav {{ ($page_meta_title ?? '') == 'Site Setting' ? 'active' : ''}}">
+              <a href="{{ route('site_setting') }}">Site Setting</a>
+            </li>
             <li class="mobile-admin-nav {{ ($page_meta_title ?? '') == 'Trash' ? 'active' : ''}}">
               <a href="{{ route('trash') }}">Trash</a>
             </li>
@@ -119,6 +122,9 @@
             </li>
             <li class="{{ ($page_meta_title ?? '') == 'Files' ? 'active' : ''}}">
               <a href="{{ route('files') }}">Files</a>
+            </li>
+            <li class="{{ ($page_meta_title ?? '') == 'Site Setting' ? 'active' : ''}}">
+              <a href="{{ route('site_setting') }}">Site Setting</a>
             </li>
             <li class="{{ ($page_meta_title ?? '') == 'Trash' ? 'active' : ''}}">
               <a href="{{ route('trash') }}">Trash</a>
