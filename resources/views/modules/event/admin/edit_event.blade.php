@@ -70,7 +70,7 @@
                             </div>
 
                             <div class="form-group event-type-offline" style="display: none;">
-                                <label class="control-label">Tempat</label>
+                                <label class="control-label">Location</label>
                                 <input value="{{ $location }}" class="form-control" type="text" name="location">
                             </div>
                             <div class="form-group event-type-offline" style="display: none;">
@@ -137,7 +137,7 @@
                                 </div>
                             </div>
                             <div class="form-group event-type-online">
-                                <label>URL</label>
+                                <label>URL Event</label>
                                 <input class="form-control" type="url" name="event_url" value="{{ old('event_url') }}">
                             </div>
                             <div class="form-group">
@@ -163,8 +163,8 @@
                                         <input class="form-control" size="16" type="text" value="{{ $open_date }}" name="open_date" readonly required>
                                         <span class="input-group-addon"><i class="fa fa-calendar" aria-hidden="true"></i></span>
                                     </div>
-                                    <input type="number" name="hour_open" id="hour_open" min="0" max="23" maxlength="2" value="{{ $hour_open }}" placeholder="HH" class="form-control event_time" required="required">&nbsp;:
-                                    <input type="number" name="minute_open" id="minute_open" min="0" max="59" maxlength="2" value="{{ $minute_open }}" placeholder="mm" class="form-control event_time" required="required">
+                                    <input type="number" name="hour_open" min="0" max="23" maxlength="2" value="{{ $hour_open }}" placeholder="HH" class="form-control event_time" required="required">&nbsp;:
+                                    <input type="number" name="minute_open" min="0" max="59" maxlength="2" value="{{ $minute_open }}" placeholder="mm" class="form-control event_time" required="required">
                                     <label>WIB</label>
                                 </div>
                                 @if ($errors->has('open_date'))
@@ -182,8 +182,8 @@
                                         <input class="form-control" size="16" type="text" value="{{ $closed_date }}" name="closed_date" readonly required>
                                         <span class="input-group-addon"><i class="fa fa-calendar" aria-hidden="true"></i></span>
                                     </div>
-                                    <input type="number" name="hour_close" id="hour_open" min="0" max="23" maxlength="2" value="{{ $hour_close }}" placeholder="HH" class="form-control event_time" required>&nbsp;:
-                                    <input type="number" name="minute_close" id="minute_open" min="0" max="59" maxlength="2" value="{{ $minute_close }}" placeholder="mm" class="form-control event_time" required>
+                                    <input type="number" name="hour_close" min="0" max="23" maxlength="2" value="{{ $hour_close }}" placeholder="HH" class="form-control event_time" required>&nbsp;:
+                                    <input type="number" name="minute_close" min="0" max="59" maxlength="2" value="{{ $minute_close }}" placeholder="mm" class="form-control event_time" required>
                                     <label>WIB</label>
                                 </div>
                                 @if ($errors->has('closed_date'))

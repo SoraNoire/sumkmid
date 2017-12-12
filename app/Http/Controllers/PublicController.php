@@ -119,15 +119,7 @@ class PublicController extends Controller
 
 	}
 
-	/**
-     * Show User Setting page.
-     * @return Response
-     */
-	public function userSetting(){
-        $var['page'] = "userSetting";
-		return view('page.userSetting')->with(['var' => $var]);
-	}
-
+	
 
 	private function _validate($data=[],$validator=[])
 	{
@@ -144,38 +136,9 @@ class PublicController extends Controller
 		}
 		return false;
 	}
-	public function saveUserSetting(request $req){
+	
 
-		$data = [
-			'name' => $req->input('name'),
-			'email' => $req->input('email'),
-			'phone_number' => $req->input('nomorTelepon')
-		];
-
-		$v = [
-			'name' => 'required|min:6',
-			'email' => 'required|email',
-			'phone_number' => 'required|min:8',
-		];
-		$validator = self::_validate($data,$v);
-		
-		if( $validator){
-			return back()->with(['warnings' => $validator ]);
-		}
-		
-		$name = $req->input('name');
-		$email = $req->input('email');
-		$notelp = $req->input('nomorTelepon');
-
-		$data = [
-			'name'=>'naan',
-			'email' => 'aaa',
-			'password' => 'aaa',
-			'password_confirmation' => 'aaa',
-		];
-		SSO::meUpdate($data);
-	}
-
+	
 
 	public function singleVideo($slug){
 		$var['page'] = "singleVideo";
@@ -241,7 +204,7 @@ class PublicController extends Controller
      */
 	public function video(){
 		$var['page'] = "Video";
-		$var['videos'] = DB::table('posts')->where('post_type','video')->where('deleted',0)->where('published_date','<=',Carbon::now())->orderBy('published_date','desc')->paginate(3);
+		$var['videos'] = DB::table('posts')->where('post_type','video')->where('deleted',0)->where('published_date','<=',Carbon::now())->orderBy('published_date','desc')->paginate(6);
 		return view('page.video')->with(['var' => $var]);
 	}
 	public function searchVideo(request $request){
@@ -287,4 +250,14 @@ class PublicController extends Controller
         return redirect('kontak')->with("msg","Terimakasih sudah menghubungi kami. Pesan yang anda kirimkan akan di baca langsung oleh departement yang bersangkutan. Kami akan hubungi anda melalui Email atau Telpon. Terimakasih ");
 
     }
+
+    /**
+     * Show newsletter form.
+     * @return Response
+     */
+	public function newsletter(Request $request){
+        $var['page'] = "Newsletter";
+        $email = $request->get('email') ?? '';
+		return view('page.newsletter')->with(['var' => $var, 'email' => $email]);
+	}
 }

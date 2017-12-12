@@ -232,6 +232,16 @@
 		}
 	}
 	.col-3{
+		a {
+			color: #ffffff;
+	    	text-decoration: none;
+	    	text-transform: capitalize;
+
+	    	&:hover {
+		    	text-decoration: underline;
+	    	}
+		}
+
 		@media screen and (max-width: 768px) {
 			width: calc(50% - 30px);
 			margin-bottom: 20px;
@@ -424,6 +434,7 @@
 		  		line-height: 1.25;
 		  		color: #ffffff;
 		  		text-decoration: none;
+		  		text-transform: capitalize;
   			}
 	  	}
 	}
@@ -533,6 +544,7 @@
   				display: block;
 				color: $fontColor;
 		  		text-decoration: none;
+		  		text-transform: capitalize;
 
 		  		&:first-child {
   					font-size: 18px;
@@ -554,6 +566,7 @@
 
 	.event {
 		.event-datetime{
+		    margin-top: -5px;
 			@media screen and (max-width: 433px) {
 				display: none;
 			}
@@ -564,6 +577,7 @@
 			}
 		}
 		.event-content{
+		    margin-top: -5px;
 			@media screen and (max-width: 433px) {
 				width: calc(100% - 50px);
 			}
@@ -575,9 +589,6 @@
 			@media screen and (max-width: 433px) {
 				display: block;
 			}
-		}
-		&:nth-child(n+2) {
-			margin-top: -8px;
 		}
 		&.active {
 			.event-datetime {
@@ -677,6 +688,7 @@
 				margin-bottom: 10px;
 				padding-bottom: 12px;
   				position: relative;
+  				text-transform: capitalize;
 
   				i {
   					font-size: 20px;
@@ -715,6 +727,7 @@
 					margin-bottom: 12px;
 					p {
 						margin: unset;
+		  				text-transform: capitalize;
 					}
 				}
 				.htm{

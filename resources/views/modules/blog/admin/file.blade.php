@@ -18,7 +18,7 @@
 <div class="card">
     <div class="card-content table-responsive">
     <div class="table-overlay">Processing...</div>
-        <table class="table mydatatable filestable" id="filesTable">
+        <table class="table mydatatable mediatable" id="filesTable">
             <thead>
                 <th>Name</th>
                 <th>Lable</th>

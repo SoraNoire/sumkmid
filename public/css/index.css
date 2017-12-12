@@ -1147,7 +1147,7 @@ template,
  * Add the correct display in IE 10-.
  */
 
-@media screen and (max-width: 830px) {
+@media screen and (max-width: 850px) {
   .topNav {
     text-align: right;
   }
@@ -1166,7 +1166,7 @@ template,
   margin-top: 10px;
 }
 
-@media screen and (max-width: 830px) {
+@media screen and (max-width: 850px) {
   .navWrapper .burgerBtn {
     display: inline-block;
   }
@@ -1179,7 +1179,7 @@ template,
   display: block;
 }
 
-@media screen and (max-width: 830px) {
+@media screen and (max-width: 850px) {
   .navWrapper ul {
     display: none;
     position: absolute;
@@ -1195,7 +1195,7 @@ template,
   padding: 12px 12px;
 }
 
-@media screen and (max-width: 830px) {
+@media screen and (max-width: 850px) {
   .navWrapper ul li {
     display: block;
   }
@@ -1217,6 +1217,15 @@ template,
   padding: 0px 12px;
 }
 
+@media screen and (max-width: 850px) {
+  .navWrapper ul .userNavSetting {
+    border-top: 1.5px solid #ffffff;
+    border-left: unset;
+    padding-top: 15px;
+    padding-right: 0px;
+  }
+}
+
 .navWrapper ul .userNavSetting span {
   color: #fff;
   font-size: 18px;
@@ -1231,6 +1240,34 @@ template,
 
 .navWrapper ul .userNavSetting .goToProfile img {
   margin-top: 9px;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 850px) {
+  .navWrapper ul .userNavSetting .goToProfile img {
+    display: none;
+  }
+}
+
+.navWrapper ul .userNavSetting ul {
+  padding: 10px 15px 20px 15px;
+  position: absolute;
+  background-color: #1D3D6F;
+  text-align: right;
+  display: none;
+}
+
+@media screen and (max-width: 850px) {
+  .navWrapper ul .userNavSetting ul {
+    padding-top: 0px;
+    padding-right: 10px;
+  }
+}
+
+.navWrapper ul .userNavSetting ul li {
+  padding-top: 10px;
+  padding-bottom: 0px;
+  display: inline-block;
 }
 
 .navWrapper ul .loginButton {
@@ -1243,7 +1280,7 @@ template,
   line-height: 1;
 }
 
-@media screen and (max-width: 830px) {
+@media screen and (max-width: 850px) {
   .navWrapper ul .loginButton a {
     display: block;
     width: -webkit-max-content;
@@ -1805,6 +1842,16 @@ footer .copyright {
   }
 }
 
+#video .col-3 a {
+  color: #ffffff;
+  text-decoration: none;
+  text-transform: capitalize;
+}
+
+#video .col-3 a:hover {
+  text-decoration: underline;
+}
+
 @media screen and (max-width: 768px) {
   #video .col-3 {
     width: calc(50% - 30px);
@@ -2025,6 +2072,7 @@ footer .copyright {
   line-height: 1.25;
   color: #ffffff;
   text-decoration: none;
+  text-transform: capitalize;
 }
 
 #video-archive .atEnd {
@@ -2151,6 +2199,7 @@ footer .copyright {
   display: block;
   color: #404040;
   text-decoration: none;
+  text-transform: capitalize;
 }
 
 #mentor-archive .item .item-title a:first-child {
@@ -2169,6 +2218,10 @@ footer .copyright {
   padding-bottom: 50px;
 }
 
+#event-archive .event .event-datetime {
+  margin-top: -5px;
+}
+
 @media screen and (max-width: 433px) {
   #event-archive .event .event-datetime {
     display: none;
@@ -2179,6 +2232,10 @@ footer .copyright {
   #event-archive .event .event-timeline {
     margin-left: 10px;
   }
+}
+
+#event-archive .event .event-content {
+  margin-top: -5px;
 }
 
 @media screen and (max-width: 433px) {
@@ -2197,10 +2254,6 @@ footer .copyright {
   #event-archive .event .event-datetime-mobile {
     display: block;
   }
-}
-
-#event-archive .event:nth-child(n+2) {
-  margin-top: -8px;
 }
 
 #event-archive .event.active .event-datetime {
@@ -2305,6 +2358,7 @@ footer .copyright {
   margin-bottom: 10px;
   padding-bottom: 12px;
   position: relative;
+  text-transform: capitalize;
 }
 
 #event-archive .event .event-content .event-title i {
@@ -2349,6 +2403,7 @@ footer .copyright {
 
 #event-archive .event .event-content .event-meta .mentor p {
   margin: unset;
+  text-transform: capitalize;
 }
 
 #event-archive .event .event-content .event-meta .htm {
