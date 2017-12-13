@@ -13,13 +13,13 @@ class CreateGalleryCategoryTable extends Migration
      */
     public function up()
     {
-        Schema::create('gallery_category', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('name');
-            $table->string('slug');
-            $table->integer('parent')->nullable();
-            $table->timestamps();
-        });
+        // Schema::create('gallery_category', function (Blueprint $table) {
+        //     $table->increments('id');
+        //     $table->string('name');
+        //     $table->string('slug');
+        //     $table->integer('parent')->nullable();
+        //     $table->timestamps();
+        // });
     }
 
     /**

@@ -17,6 +17,9 @@ Route::group(['middleware' => ['admin']], function () {
 	    return json_encode(app()->SSO->Auth());
 	}]);
     
+    Route::get('/admin', ['as'=>'admin_page', 'uses'=>function () {
+	    return redirect('/admin/blog');
+	}]);
 });
 
 
@@ -42,6 +45,8 @@ Route::get('/mentor/{mentorId}', 'PublicController@mentorSingle')->name('public_
 Route::get('/kontak', 'PublicController@kontak')->name('public_kontak');
 Route::get('/event', 'PublicController@event')->name('public_event');
 Route::get('/video', 'PublicController@video')->name('public_video');
+Route::get('/newsletter', 'PublicController@newsletter')->name('public_newsletter');
+Route::get('/save-newsletter', 'PublicController@save_newsletter')->name('save_newsletter');
 
 Route::get('/user-setting', 'memberController@userSetting')->name('user_setting');
 Route::post('/user-setting/save','memberController@saveUserSetting')->name('user_setting_save');

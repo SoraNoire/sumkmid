@@ -13,13 +13,13 @@ class CreateVideoCategoryTable extends Migration
      */
     public function up()
     {
-        Schema::create('video_category', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('name');
-            $table->string('slug');
-            $table->integer('parent')->nullable();
-            $table->timestamps();
-        });
+        // Schema::create('video_category', function (Blueprint $table) {
+        //     $table->increments('id');
+        //     $table->string('name');
+        //     $table->string('slug');
+        //     $table->integer('parent')->nullable();
+        //     $table->timestamps();
+        // });
     }
 
     /**

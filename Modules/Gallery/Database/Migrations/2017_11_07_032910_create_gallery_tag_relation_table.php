@@ -13,12 +13,12 @@ class CreateGalleryTagRelationTable extends Migration
      */
     public function up()
     {
-        Schema::create('gallery_tag_relation', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('gallery_id');
-            $table->string('tag_id')->nullable();
-            $table->timestamps();
-        });
+        // Schema::create('gallery_tag_relation', function (Blueprint $table) {
+        //     $table->increments('id');
+        //     $table->string('gallery_id');
+        //     $table->string('tag_id')->nullable();
+        //     $table->timestamps();
+        // });
     }
 
     /**

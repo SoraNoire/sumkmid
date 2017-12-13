@@ -14,6 +14,7 @@ use Modules\Blog\Entities\Posts;
 use Modules\Blog\Http\Helpers\PostHelper;
 use Modules\Blog\Entities\PostMeta;
 use Modules\Video\Entities\Video;
+use Modules\Blog\Entities\Option;
 use Carbon\Carbon;
 use Mail;
 use View;
@@ -26,7 +27,21 @@ class PublicController extends Controller
 	{
 		Carbon::setLocale('Indonesia');
 		$var['page'] = 'Sahabat UMKM Indonesia';
+
+		$analytic = Option::where('key', 'analytic')->first()->value ?? '';
+        $fb_pixel = Option::where('key', 'fb_pixel')->first()->value ?? '';
+        $link_fb = Option::where('key', 'link_fb')->first()->value ?? '';
+        $link_tw = Option::where('key', 'link_tw')->first()->value ?? '';
+        $link_ig = Option::where('key', 'link_ig')->first()->value ?? '';
+        $link_yt = Option::where('key', 'link_yt')->first()->value ?? '';
+
         View::share('var', $var);
+        View::share('analytic', $analytic);
+        View::share('fb_pixel', $fb_pixel);
+        View::share('link_fb', $link_fb);
+        View::share('link_ig', $link_ig);
+        View::share('link_tw', $link_tw);
+        View::share('link_yt', $link_yt);
 	}
 
 	public function login(Request $request)
@@ -250,4 +265,14 @@ class PublicController extends Controller
         return redirect('kontak')->with("msg","Terimakasih sudah menghubungi kami. Pesan yang anda kirimkan akan di baca langsung oleh departement yang bersangkutan. Kami akan hubungi anda melalui Email atau Telpon. Terimakasih ");
 
     }
+
+    /**
+     * Show newsletter form.
+     * @return Response
+     */
+	public function newsletter(Request $request){
+        $var['page'] = "Newsletter";
+        $email = $request->get('email') ?? '';
+		return view('page.newsletter')->with(['var' => $var, 'email' => $email]);
+	}
 }

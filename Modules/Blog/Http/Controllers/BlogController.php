@@ -18,6 +18,7 @@ use Modules\Blog\Entities\PostCategory;
 use Modules\Blog\Entities\PostTag;
 use Modules\Blog\Entities\Media;
 use Modules\Blog\Entities\Files;
+use Modules\Blog\Entities\Option;
 use Modules\Blog\Http\Helpers\PostHelper;
 use Carbon\Carbon;
 use Auth;
@@ -1637,5 +1638,57 @@ class BlogController extends Controller
      */
     public static function get_all_category($post_id = ''){
         return PostHelper::get_all_category($post_id);
+    }
+    
+    /**
+     * Show site setting form.
+     * @return Response
+     */
+    public function site_setting_view(){
+        $page_meta_title = 'Site Setting';
+
+        $analytic = Option::where('key', 'analytic')->first()->value ?? '';
+        $fb_pixel = Option::where('key', 'fb_pixel')->first()->value ?? '';
+        $link_fb = Option::where('key', 'link_fb')->first()->value ?? '';
+        $link_tw = Option::where('key', 'link_tw')->first()->value ?? '';
+        $link_in = Option::where('key', 'link_in')->first()->value ?? '';
+        $link_ig = Option::where('key', 'link_ig')->first()->value ?? '';
+        $link_yt = Option::where('key', 'link_yt')->first()->value ?? '';
+
+        return view('blog::admin.setting')->with(['page_meta_title' => $page_meta_title, 'analytic' => $analytic, 'fb_pixel' => $fb_pixel, 'link_fb' => $link_fb, 'link_in' => $link_in, 'link_tw' => $link_tw, 'link_yt' => $link_yt, 'link_ig' => $link_ig]);
+    }
+
+    /**
+     * Save site setting.
+     * @param  $post_id
+     * @return Response
+     */
+    public function site_setting_save(Request $request){
+        $name[] = 'analytic';
+        $name[] = 'fb_pixel';
+        $name[] = 'link_fb';
+        $name[] = 'link_tw';
+        $name[] = 'link_ig';
+        $name[] = 'link_yt';
+
+        try {
+            for ($i=0; $i < count($name) ; $i++) { 
+                $setting = $request->input($name[$i]);
+                $save = Option::where('key', $name[$i])->first();
+                if (isset($save)) {
+                    $save -> value = $setting;
+                } else {
+                    $save = new Option;
+                    $save -> key = $name[$i];
+                    $save -> value = $setting;
+                }
+                $save->save();
+            }
+            // SSOHelper::newsLog("Updating setting");
+            return redirect(route('site_setting'))->with(['msg' => 'Saved', 'status' => 'success']);
+        } catch (\Exception $e) {
+            // SSOHelper::newsLog("Someting when wrong when saving setting: ".$e);
+            return redirect(route('site_setting'))->with(['msg' => 'Save Error', 'status' => 'danger']);    
+        }
     }
 }

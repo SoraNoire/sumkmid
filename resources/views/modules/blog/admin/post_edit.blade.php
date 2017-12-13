@@ -240,7 +240,7 @@
             </form>
         </div>
         <div class="card-content table-responsive">
-            <table style="width: 100%;" class="table filestable" id="postFile">
+            <table style="width: 100%;" class="table mediatable" id="postFile">
                 <thead >
                     <th>Name</th>
                     <th>Label</th>
