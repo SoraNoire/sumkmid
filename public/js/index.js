@@ -200,9 +200,9 @@ d.trigger("activate.bs.scrollspy")},b.prototype.clear=function(){a(this.selector
                 
                 var act_url = '/';
                 if (type == 'file') {
-                    var act_url = '/admin/blog/store-file';
+                    var act_url = jp.option.adminUrl+'store-file';
                 } else if (type == 'media') {
-                    var act_url = '/admin/blog/store-media';
+                    var act_url = jp.option.adminUrl+'store-media';
                 }
 
                 $.ajax({
@@ -236,9 +236,9 @@ d.trigger("activate.bs.scrollspy")},b.prototype.clear=function(){a(this.selector
 
                 var act_url = '/';
                 if (type == 'file') {
-                    act_url = '/admin/blog/delete-file/';
+                    act_url = jp.option.adminUrl+'delete-file/';
                 } else if (type == 'media') {
-                    act_url = '/admin/blog/delete-media/';
+                    act_url = jp.option.adminUrl+'delete-media/';
                 } 
 
                 $.ajax({
@@ -266,7 +266,7 @@ d.trigger("activate.bs.scrollspy")},b.prototype.clear=function(){a(this.selector
                 var id = $('meta[name="item-id"]').attr('content');
                 $.ajax({
                     type: "GET",
-                    url: "/admin/blog/get-category-post/"+id,
+                    url: jp.option.adminUrl+"get-category-post/"+id,
                     success: function(msg){
                         $('.category-wrap ul').html(msg);
                     },
@@ -279,7 +279,7 @@ d.trigger("activate.bs.scrollspy")},b.prototype.clear=function(){a(this.selector
                 var id = $('meta[name="category-id"]').attr('content');
                 $.ajax({
                     type: "GET",
-                    url: "/admin/blog/get-category-parent/"+id,
+                    url: jp.option.adminUrl+"get-category-parent/"+id,
                     success: function(msg){
                         $('.category-parent').html(msg);
                     },
