@@ -93,7 +93,7 @@ class PublicController extends Controller
      */
 	public function home(){
         $var['page'] = "Home";
-		$var['videos'] = DB::table('posts')->where('post_type','video')->where('deleted',0)->where('published_date','<=',Carbon::now())->orderBy('published_date','desc')->paginate(4);
+		$var['videos'] = DB::table('post_view')->where('post_type','video')->orderBy('published_date','desc')->paginate(4);
 		return view('page.home')->with(['var' => $var]);
 	}
 
@@ -152,22 +152,25 @@ class PublicController extends Controller
 		return false;
 	}
 	
-
-	
-
+	/**
+     * Show single video page.
+     * @return Response
+     */
 	public function singleVideo($slug){
 		$var['page'] = "singleVideo";
-		$var['video'] = DB::table('posts')->where('slug',$slug)->first();
+		$var['video'] = DB::table('post_view')->where('slug',$slug)->first();
 		$postMetas = DB::table('post_meta')->where('post_id',$var['video']->id)->get();
 		$postMetas = $this->readMetas($postMetas);
 		$var['tags'] = PostHelper::get_post_tag($var['video']->id);
 		$var['categories'] = PostHelper::get_post_category($var['video']->id);
 		$var['videoEmbed'] = $postMetas->video_url ?? [];
 
-		$nextVideo = DB::table('posts')->where('post_type','video')->orderBy('published_date','desc')->where('published_date','>',$var['video']->published_date)->limit(1)->get();
-		$prevVideo = DB::table('posts')->where('post_type','video')->orderBy('published_date','desc')->where('published_date','<',$var['video']->published_date)->limit(1)->get();
+		$nextVideo = DB::table('post_view')->where('post_type','video')->orderBy('published_date','desc')->where('published_date','>',$var['video']->published_date)->limit(1)->get();
+		$prevVideo = DB::table('post_view')->where('post_type','video')->orderBy('published_date','desc')->where('published_date','<',$var['video']->published_date)->limit(1)->get();
 		$var['nextVid'] = $nextVideo[0]->slug ?? '';
 		$var['prevVid'] = $prevVideo[0]->slug ?? '';
+        $var['allcategories'] = PostHelper::get_all_categories('video');
+
 		return view('page.singleVideo')->with(['var' => $var]);
 	}
 
@@ -183,11 +186,9 @@ class PublicController extends Controller
 
         $var['events'] = DB::table('post_meta')
         			->where('key', '=', 'open_at')
-        			->join('posts', function ($join) {
-            			$join->on('post_meta.post_id', '=', 'posts.id')
-            				 ->where('posts.post_type','event')
-		    				 ->where('posts.deleted', 0)
-		    				 ->where('posts.status', 1);
+        			->join('post_view', function ($join) {
+            			$join->on('post_meta.post_id', '=', 'post_view.id')
+            				 ->where('post_view.post_type','event');
         			})
     				->orderby('value', 'desc')
     				// ->offset($offset)
@@ -208,7 +209,7 @@ class PublicController extends Controller
         $offset = ($page * $limit) - $limit;
         $next = $page + 1;
 
-        $events = Posts::where('post_type','event')->orderby('published_date', 'desc')->offset($offset)->limit($limit)->get();
+        $events = DB::table('post_view')->where('post_type','event')->orderby('published_date', 'desc')->offset($offset)->limit($limit)->get();
         
 		return view('page.event')->with(['var' => $var, 'events' => $events, 'next' => $next]);
 	}
@@ -219,15 +220,25 @@ class PublicController extends Controller
      */
 	public function video(){
 		$var['page'] = "Video";
-		$var['videos'] = DB::table('posts')->where('post_type','video')->where('deleted',0)->where('published_date','<=',Carbon::now())->orderBy('published_date','desc')->paginate(6);
+		$var['videos'] = DB::table('post_view')->where('post_type','video')->orderBy('published_date','desc')->paginate(6);
 		return view('page.video')->with(['var' => $var]);
 	}
-	public function searchVideo(request $request){
-		$query = $request->input('q');
-		$var['page'] = "searchVideo";
+
+	/**
+     * Show video search result.
+     * @return Response
+     */
+	public function searchVideo(Request $request){
+		$query = $request->get('q');
+		// dd($query);
+		$var['page'] = "Video";
 		$var['query'] = $query;
-		$var['videos'] = DB::table('posts')->where('post_type','video')->where('title','like','%'.$query.'%')->orderBy('published_date','desc')->get();
-		return view('page.video')->with(['var' => $var]);
+		$var['videos'] = DB::table('post_view')
+						 ->where('post_type','video')
+						 ->where('title','like','%'.$query.'%')
+						 ->orderBy('published_date','desc')
+						 ->paginate(6);
+		return view('page.searchVideo')->with(['var' => $var]);
 	}
 
 	function readMetas($arr=[]){

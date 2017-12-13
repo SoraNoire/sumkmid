@@ -13,18 +13,23 @@
 		<div class="container">
 			<h3>{{$var['video']->title}}</h3>
 			<div class="postMeta">
+
+				@if(count($var['categories']) > 0)
 				<div class="postCategory">
 					<span class="icon i-paper"></span>
-					@foreach($var['categories'] as $category)
-						<span>{{ $category->name }}</span>
-					@endforeach
+					<span>
+						@foreach($var['categories'] as $category)
+							<a href="#">{{ $category->name }}</a>
+						@endforeach
+					</span>
 				</div>
-				@if($var['tags'] != [])
+				@endif
+				@if(count($var['tags']) > 0)
 				<div class="postTag">
 					<span class="icon i-tag"></span>
 					<span>
 						@foreach($var['tags'] as $tag)
-							<span>{{ $tag->name }}</span>
+							<a href="#">{{ $tag->name }}</a>
 						@endforeach
 					</span>
 				</div>
@@ -78,15 +83,16 @@
 				</div>
 				<div class="col-3">
 					<div class="sidebarVideo">
+						@if (count($var['allcategories']) > 0)
 						<div class="sidebar kategoriWidget">
 							<h4 class="sidebarDefaultHeading">Kategori</h4>
 							<ul>
-								<li><a href="#">Branding</a></li>
-								<li><a href="#">Marketing</a></li>
-								<li><a href="#">Promosi</a></li>
-								<li><a href="#">Ide Usaha</a></li>
+								@foreach($var['allcategories'] as $cat)
+									<li><a href="#">{{ $cat->name }}</a></li>
+								@endforeach
 							</ul>
 						</div>
+						@endif
 						<div class="sidebar searchVideo">
 							<h4 class="sidebarDefaultHeading">Cari Video</h4>
 							<div class="searchBox">

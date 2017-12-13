@@ -2969,16 +2969,49 @@ footer .copyright {
   margin-right: 9px;
 }
 
-.singleVideo .videoHeading .container .postMeta .postTag span span {
+.singleVideo .videoHeading .container .postMeta .postTag span a {
   margin-right: 0px;
+  text-decoration: none;
 }
 
-.singleVideo .videoHeading .container .postMeta .postTag span span:after {
+.singleVideo .videoHeading .container .postMeta .postTag span a:after {
   content: ',';
   color: #000000;
 }
 
-.singleVideo .videoHeading .container .postMeta .postTag span span:last-child:after {
+.singleVideo .videoHeading .container .postMeta .postTag span a:hover {
+  text-decoration: underline;
+}
+
+.singleVideo .videoHeading .container .postMeta .postTag span a:last-child:after {
+  content: "";
+}
+
+.singleVideo .videoHeading .container .postMeta .postCategory {
+  display: inline-block;
+}
+
+.singleVideo .videoHeading .container .postMeta .postCategory span {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 9px;
+}
+
+.singleVideo .videoHeading .container .postMeta .postCategory span a {
+  margin-right: 0px;
+  text-decoration: none;
+}
+
+.singleVideo .videoHeading .container .postMeta .postCategory span a:after {
+  content: ',';
+  color: #000000;
+}
+
+.singleVideo .videoHeading .container .postMeta .postCategory span a:hover {
+  text-decoration: underline;
+}
+
+.singleVideo .videoHeading .container .postMeta .postCategory span a:last-child:after {
   content: "";
 }
 
@@ -3256,17 +3289,17 @@ footer .copyright {
   border-left: 6px solid #464646;
 }
 
-.sidebarVideo .searchVideo .searchBox {
+.searchVideo .searchBox {
   background-color: #EEEEEE;
 }
 
-.sidebarVideo .searchVideo .searchBox .inputWrap {
+.searchVideo .searchBox .inputWrap {
   padding: 5px 10px;
   border: 1px solid #C0C0C0;
   position: relative;
 }
 
-.sidebarVideo .searchVideo .searchBox .inputWrap input {
+.searchVideo .searchBox .inputWrap input {
   width: calc(100% - 35px);
   border: none;
   background-color: transparent;
@@ -3274,7 +3307,7 @@ footer .copyright {
   outline: none;
 }
 
-.sidebarVideo .searchVideo .searchBox .inputWrap button {
+.searchVideo .searchBox .inputWrap button {
   outline: none;
   cursor: pointer;
   position: absolute;

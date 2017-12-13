@@ -1172,11 +1172,39 @@
 						display: inline-block;
 						vertical-align: middle;
 						margin-right: 9px;
-						span{
+						a{
 							margin-right: 0px;
+							text-decoration: none;
 							&:after{
 								content: ',';
 								color: #000000;
+							}
+							&:hover{
+								text-decoration: underline;
+							}
+							&:last-child{
+								&:after{
+									content: "";
+								}
+							}
+						}
+					}
+				}
+				.postCategory{
+					display: inline-block;
+					span{
+						display: inline-block;
+						vertical-align: middle;
+						margin-right: 9px;
+						a{	
+							margin-right: 0px;
+							text-decoration: none;
+							&:after{
+								content: ',';
+								color: #000000;
+							}
+							&:hover{
+								text-decoration: underline;
 							}
 							&:last-child{
 								&:after{
