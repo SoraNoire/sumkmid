@@ -1533,6 +1533,12 @@ footer .copyright {
   -webkit-mask: url("/img/004-instagram-logo copy.svg") center/contain no-repeat;
 }
 
+#mc_embed_signup {
+  background: #fff;
+  clear: left;
+  font: 14px Helvetica,Arial,sans-serif;
+}
+
 #what-we-do {
   padding-top: 59px;
   padding-bottom: 103px;
