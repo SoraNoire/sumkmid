@@ -14,6 +14,7 @@
     <link href="//cdn-images.mailchimp.com/embedcode/classic-10_7.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="{{ asset('css/index.css') }}?v=1.1.1">
 
+    @if(isset($fb_pixel))
     @if($fb_pixel != '')
       <!-- Facebook Pixel Code -->
       <script>
@@ -32,7 +33,9 @@
       /></noscript>
       <!-- End Facebook Pixel Code -->
     @endif
+    @endif
 
+    @if(isset($analytic))
     @if($analytic != '')
       <!-- Google Analytic Code -->
       <script>
@@ -46,6 +49,7 @@
 
       </script>
       <!-- End Google Analytic Code -->
+    @endif
     @endif
 </head>
 <body>
@@ -135,10 +139,10 @@
  			</div>
  			<div class="footer-socmed">
  				<ul>
-                    <li><a target="_blank" href="{{ $link_fb }}" style="background-image: url('/img/home-facebook-logo.svg');"></a></li>
-                    <li><a target="_blank" href="{{ $link_tw }}" style="background-image: url('/img/home-twitter-logo.svg');"></a></li>
-                    <li><a target="_blank" href="{{ $link_yt }}" style="background-image: url('/img/home-youtube-logo.svg');"></a></li>
-                    <li><a target="_blank" href="{{ $link_ig }}" style="background-image: url('/img/home-instagram-logo.svg');"></a></li>
+                    <li><a target="_blank" href="{{ $link_fb ?? '#' }}" style="background-image: url('/img/home-facebook-logo.svg');"></a></li>
+                    <li><a target="_blank" href="{{ $link_tw ?? '#' }}" style="background-image: url('/img/home-twitter-logo.svg');"></a></li>
+                    <li><a target="_blank" href="{{ $link_yt ?? '#' }}" style="background-image: url('/img/home-youtube-logo.svg');"></a></li>
+                    <li><a target="_blank" href="{{ $link_ig ?? '#' }}" style="background-image: url('/img/home-instagram-logo.svg');"></a></li>
  				</ul>
  			</div>
  			<div class="footer-nav">
