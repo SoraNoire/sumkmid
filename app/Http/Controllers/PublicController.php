@@ -225,7 +225,7 @@ class PublicController extends Controller
 	public function searchVideo(Request $request){
 		$query = $request->get('q');
 		// dd($query);
-		$var['page'] = "Search Video";
+		$var['page'] = "Video";
 		$var['query'] = $query;
 		$var['videos'] = DB::table('posts')
 						 ->where('post_type','video')

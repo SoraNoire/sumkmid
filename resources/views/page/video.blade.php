@@ -11,13 +11,6 @@
 <div id="video-archive">
 	<div class="container">
 	<div class="row">
-	@if( $var['page'] == 'searchVideo' )
-		@if(count($var['videos']) < 1 )
-		<p class="resultSearchHeading">Hasil pencarian dari "{{$var['query']}}" tidak ditemukan</p>
-		@else
-		<p class="resultSearchHeading">Hasil pencarian dari "{{$var['query']}}"</p>
-		@endif
-	@endif
 	<div class="infinite-scroll">
 	@foreach($var['videos'] as $video)
 		<div class="cst-3-col">

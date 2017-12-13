@@ -4,14 +4,17 @@
 
 <div class="breadcrumb">
 	<div class="container">
-		<h2>Cari Video "{{$var['query']}}"</h2>
+		<h2>Video</h2>
 	</div>
 </div>
 
 <div id="video-archive">
 	<div class="container">
 		<div class="row">
-			<div class="searchVideo" style="margin-bottom: 15px;">
+			<div class="col-6">
+				<h3>Hasil Pencarian Video dari "{{ $var['query'] }}"</h3>
+			</div>
+			<div class="searchVideo col-4" style="margin-bottom: 40px;float: right;">
 				<div class="searchBox">
 					<div class="inputWrap">
 						<form action="{{ route('search_video','') }}" method="get">
@@ -21,6 +24,8 @@
 					</div>
 				</div>
 			</div>
+		</div>
+		<div class="row">
 			<div class="infinite-scroll">
 			@if(count($var['videos']) > 0 )
 				@foreach($var['videos'] as $video)
