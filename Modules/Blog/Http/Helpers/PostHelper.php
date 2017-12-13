@@ -534,5 +534,21 @@ class PostHelper
 
         return $messages;
     }
+
+    public static function get_all_categories($post_type) {
+        $post_ids = Posts::where('post_type', $post_type)->select('id')->get();
+        $data = [];
+
+        foreach ($post_ids as $id) {
+            $post_metas = PostMeta::where('post_id',$id)->get();
+
+            $metas = new \stdClass;;
+            foreach ($post_metas as $key => $value) {
+                $metas->{$value->key} = $value->value;
+            }
+
+            $data['categories'][]   = $metas->event_type ?? '';
+        }
+    }
 }
 ?>

@@ -13,13 +13,16 @@
 		<div class="container">
 			<h3>{{$var['video']->title}}</h3>
 			<div class="postMeta">
+
+				@if(count($var['categories']) > 0)
 				<div class="postCategory">
 					<span class="icon i-paper"></span>
 					@foreach($var['categories'] as $category)
 						<span>{{ $category->name }}</span>
 					@endforeach
 				</div>
-				@if($var['tags'] != [])
+				@endif
+				@if(count($var['tags']) > 0)
 				<div class="postTag">
 					<span class="icon i-tag"></span>
 					<span>
