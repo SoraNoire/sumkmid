@@ -75,7 +75,7 @@
 					<div class="lihat-sedikit button orange-shadow" onclick="show_less_event_detail('event-{{ $event->id }}')">Sembunyikan Detail</div>
 					@if ($meta['event_type'] == 'online')
 					<div class="event-buttons">
-						<a href="#" class="join-event button orange-shadow">Join</a>
+						<a href="{{ $meta['event_url'] }}" class="join-event button orange-shadow">Join</a>
 						<!-- <div class="share-event button blue blue-shadow" onclick="show_event_sharer('event-{{ $event->id }}')">Bagikan ke Teman</div>
 						<div class="share-socmed">
 							<ul>

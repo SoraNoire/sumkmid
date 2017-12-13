@@ -2,6 +2,9 @@
 
 return [
 
+    // tinymce api key
+    'tinymce_api_key' => env('TINYMCE_API_KEY'),
+    
     /*
     |--------------------------------------------------------------------------
     | Application Name
