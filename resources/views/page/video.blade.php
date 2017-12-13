@@ -11,6 +11,9 @@
 <div id="video-archive">
 	<div class="container">
 	<div class="row">
+	@if (isset( $var['archive'] ))
+		<h3 style="text-transform: capitalize;">{{ $var['archive'] }}</h3>
+	@endif
 	<div class="infinite-scroll">
 	@foreach($var['videos'] as $video)
 		<div class="cst-3-col">

@@ -52,13 +52,16 @@ Route::get('/user-setting', 'memberController@userSetting')->name('user_setting'
 Route::post('/user-setting/save','memberController@saveUserSetting')->name('user_setting_save');
 Route::post('/user-setting/UpdateProfilePict','memberController@updateProfilePict')->name('user_update_profile_pict');
 
-Route::get('/search-video/', 'PublicController@searchVideo')->name('search_video');
-Route::get('/video/{slug}', 'PublicController@singleVideo')->name('single_video');
 Route::post('/send-email', 'PublicController@messages_store_act')->name('sendemailcontact');
 
 Route::get('/mentor/page/{page}', 'PublicController@mentor_archive');
 Route::get('/event/page/{page}', 'PublicController@event_archive');
+
 Route::get('/video/page/{page}', 'PublicController@video_archive');
+Route::get('/search-video/', 'PublicController@searchVideo')->name('search_video');
+Route::get('/video/{slug}', 'PublicController@singleVideo')->name('single_video');
+Route::get('/video-category/{slug}', 'PublicController@videoCatArchive')->name('video_cat_archive');
+Route::get('/video-tag/{slug}', 'PublicController@videoTagArchive')->name('video_tag_archive');
 
 
 // Auth::routes();
