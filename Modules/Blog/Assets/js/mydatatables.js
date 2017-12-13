@@ -116,7 +116,11 @@ if ($("#posts-table").length > 0) {
 if ($("#MediaTable").length > 0) {
     $("#MediaTable").DataTable({
         "ajax": {
-            url: '/admin/blog/get-media'
+            url: '/admin/blog/get-media',
+            type:   "POST",
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
         },
         "processing": true,
         "serverSide": true,
@@ -146,7 +150,11 @@ if ($("#MediaTable").length > 0) {
 if ($("#MediaPost").length > 0) {
     $("#MediaPost").DataTable({
         "ajax":  {
-            url: '/admin/blog/get-media'
+            url: '/admin/blog/get-media',
+            type:   "POST",
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
         } ,
         "processing": true,
         "serverSide": true,
@@ -183,7 +191,11 @@ if ($("#MediaPost").length > 0) {
 if ($("#FeaturedImg").length > 0) {
     $("#FeaturedImg").DataTable({
         "ajax":  {
-            url: '/admin/blog/get-media'
+            url: '/admin/blog/get-media',
+            type:   "POST",
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
         } ,
         "processing": true,
         "serverSide": true,
@@ -610,7 +622,11 @@ if ($("#GalleryTagTable").length > 0) {
 if ($("#MediaGallery").length > 0) {
     $("#MediaGallery").DataTable({
         "ajax":  {
-            url: '/admin/blog/get-media'
+            url: '/admin/blog/get-media',
+            type:   "POST",
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
         },
         "processing": true,
         "serverSide": true,

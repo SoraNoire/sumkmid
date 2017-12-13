@@ -90,6 +90,7 @@ Route::group(['middleware' => ['web','admin'], 'prefix' => 'admin/blog', 'namesp
 
     Route::get('/media', 'BlogController@media');
     Route::get('/get-media', 'BlogController@get_media');
+    Route::post('/get-media', 'BlogController@get_media');
     Route::get('/delete-media/{id}', 'BlogController@destroy_media');
     Route::post('/store-media', 'BlogController@store_media')->name('store_media');
     Route::post('/bulk-delete-media/', 'BlogController@bulk_delete_media');
