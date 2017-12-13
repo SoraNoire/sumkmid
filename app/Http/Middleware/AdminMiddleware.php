@@ -16,7 +16,7 @@ class AdminMiddleware
             return redirect(route('ssologin')."?appid=$appid&next=$next")->send();
         }
 
-        if (! in_array(app()->SSO->Auth()->role, ['admin','superadmin']) )
+        if (! in_array(app()->SSO->Auth()->role, ['admin']) )
         {
             return redirect("/")->send();
         }
