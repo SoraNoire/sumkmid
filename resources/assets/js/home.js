@@ -116,13 +116,6 @@ $(document).ready(function(){
     });
 });
 
-// $(document).bind('DOMSubtreeModified', function() {
-// 	if(window.outerWidth > 830){
-// 		// alert('aa');
-// 		// $('.navWrapper ul').show();
-// 	}
-// });
-
 window.onresize = function(){
     
     if (window.innerWidth > 830)
@@ -159,4 +152,16 @@ $('.closeAlert').click(function(){
 
 $('ul.pagination').hide();
 
-
+$(function(){
+    $('.infinite-scroll').jscroll({
+        autoTrigger: true,
+        loadingHtml: '<div class="loadingVideo"> <span class="infinite-scroll-request"><img src="/img/infinity-load.svg"></span> <span class="infinite-scroll-last">Memuat...</span> </div>',
+        padding: 0,
+        nextSelector: '.pagination li.active + li a',
+        contentSelector: 'div.infinite-scroll',
+        callback: function() {
+            $('ul.pagination').remove();
+            $('.atEnd').show();
+        }
+    });
+});

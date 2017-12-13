@@ -19,7 +19,7 @@
 					<span class="icon i-paper"></span>
 					<span>
 						@foreach($var['categories'] as $category)
-							<a href="#">{{ $category->name }}</a>
+							<a href="{{ route('video_cat_archive', $category->slug) }}">{{ $category->name }}</a>
 						@endforeach
 					</span>
 				</div>
@@ -29,7 +29,7 @@
 					<span class="icon i-tag"></span>
 					<span>
 						@foreach($var['tags'] as $tag)
-							<a href="#">{{ $tag->name }}</a>
+							<a href="{{ route('video_tag_archive', $tag->slug) }}">{{ $tag->name }}</a>
 						@endforeach
 					</span>
 				</div>
@@ -88,7 +88,7 @@
 							<h4 class="sidebarDefaultHeading">Kategori</h4>
 							<ul>
 								@foreach($var['allcategories'] as $cat)
-									<li><a href="#">{{ $cat->name }}</a></li>
+									<li><a href="{{ route('video_cat_archive', $cat->slug) }}">{{ $cat->name }}</a></li>
 								@endforeach
 							</ul>
 						</div>

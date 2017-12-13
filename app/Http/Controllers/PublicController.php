@@ -15,6 +15,8 @@ use Modules\Blog\Http\Helpers\PostHelper;
 use Modules\Blog\Entities\PostMeta;
 use Modules\Video\Entities\Video;
 use Modules\Blog\Entities\Option;
+use Modules\Blog\Entities\Categories;
+use Modules\Blog\Entities\Tags;
 use Carbon\Carbon;
 use Mail;
 use View;
@@ -153,28 +155,6 @@ class PublicController extends Controller
 	}
 	
 	/**
-     * Show single video page.
-     * @return Response
-     */
-	public function singleVideo($slug){
-		$var['page'] = "singleVideo";
-		$var['video'] = DB::table('post_view')->where('slug',$slug)->first();
-		$postMetas = DB::table('post_meta')->where('post_id',$var['video']->id)->get();
-		$postMetas = $this->readMetas($postMetas);
-		$var['tags'] = PostHelper::get_post_tag($var['video']->id);
-		$var['categories'] = PostHelper::get_post_category($var['video']->id);
-		$var['videoEmbed'] = $postMetas->video_url ?? [];
-
-		$nextVideo = DB::table('post_view')->where('post_type','video')->orderBy('published_date','desc')->where('published_date','>',$var['video']->published_date)->limit(1)->get();
-		$prevVideo = DB::table('post_view')->where('post_type','video')->orderBy('published_date','desc')->where('published_date','<',$var['video']->published_date)->limit(1)->get();
-		$var['nextVid'] = $nextVideo[0]->slug ?? '';
-		$var['prevVid'] = $prevVideo[0]->slug ?? '';
-        $var['allcategories'] = PostHelper::get_all_categories('video');
-
-		return view('page.singleVideo')->with(['var' => $var]);
-	}
-
-	/**
      * Show event page.
      * @return Response
      */
@@ -225,13 +205,35 @@ class PublicController extends Controller
 	}
 
 	/**
+     * Show single video page.
+     * @return Response
+     */
+	public function singleVideo($slug){
+		$var['page'] = "singleVideo";
+		$var['video'] = DB::table('post_view')->where('slug',$slug)->first();
+		$postMetas = DB::table('post_meta')->where('post_id',$var['video']->id)->get();
+		$postMetas = $this->readMetas($postMetas);
+		$var['tags'] = PostHelper::get_post_tag($var['video']->id);
+		$var['categories'] = PostHelper::get_post_category($var['video']->id);
+		$var['videoEmbed'] = $postMetas->video_url ?? [];
+
+		$nextVideo = DB::table('post_view')->where('post_type','video')->orderBy('published_date','desc')->where('published_date','>',$var['video']->published_date)->limit(1)->get();
+		$prevVideo = DB::table('post_view')->where('post_type','video')->orderBy('published_date','desc')->where('published_date','<',$var['video']->published_date)->limit(1)->get();
+		$var['nextVid'] = $nextVideo[0]->slug ?? '';
+		$var['prevVid'] = $prevVideo[0]->slug ?? '';
+        $var['allcategories'] = PostHelper::get_all_categories('video');
+
+		return view('page.singleVideo')->with(['var' => $var]);
+	}
+
+	/**
      * Show video search result.
      * @return Response
      */
 	public function searchVideo(Request $request){
 		$query = $request->get('q');
 		// dd($query);
-		$var['page'] = "Video";
+		$var['page'] = "Search Video";
 		$var['query'] = $query;
 		$var['videos'] = DB::table('post_view')
 						 ->where('post_type','video')
@@ -239,6 +241,40 @@ class PublicController extends Controller
 						 ->orderBy('published_date','desc')
 						 ->paginate(6);
 		return view('page.searchVideo')->with(['var' => $var]);
+	}
+
+	/**
+     * Show video category archive.
+     * @return Response
+     */
+	public function videoCatArchive($slug){
+		$cat = Categories::where('slug', $slug)->first();
+		if (!isset($cat)) {
+        	return view('errors.404');
+        }
+
+		$var['page'] = "Category Video ".$cat->name;
+		$var['archive'] = "Category : ".$cat->name;
+		$post_ids = PostHelper::get_post_archive_id('category', $cat->id);
+		$var['videos'] = DB::table('post_view')->where('post_type','video')->whereIn('id', $post_ids)->orderBy('published_date','desc')->paginate(6);
+		return view('page.video')->with(['var' => $var]);
+	}
+
+	/**
+     * Show video tag archive.
+     * @return Response
+     */
+	public function videoTagArchive($slug){
+        $tag = Tags::where('slug', $slug)->first();
+        if (!isset($tag)) {
+        	return view('errors.404');
+        }
+
+		$var['page'] = "Tag Video ".$tag->name;
+		$var['archive'] = "Tag : ".$tag->name;
+		$post_ids = PostHelper::get_post_archive_id('tag', $tag->id);
+		$var['videos'] = DB::table('post_view')->where('post_type','video')->whereIn('id', $post_ids)->orderBy('published_date','desc')->paginate(6);
+		return view('page.video')->with(['var' => $var]);
 	}
 
 	function readMetas($arr=[]){

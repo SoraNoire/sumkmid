@@ -38,6 +38,7 @@
   'Modules/Gallery/Assets/js/gallery.js',
   ],'public/js/index.js')
   .combine([
+    'resources/assets/js/jscroll.js',
     'resources/assets/js/home.js'
   ], 'public/js/home.js')
  .sass('Modules/Blog/Assets/scss/style.scss', 'public/css')

@@ -554,5 +554,20 @@ class PostHelper
         $data = array_unique($data);
         return $data;
     }
+
+    /**
+     * Get all post list based on category or tag slug.
+     * @param  $id
+     * @return Response
+     */
+    public static function get_post_archive_id($meta_key, $id) {
+        $post_metas = PostMeta::where('key', $meta_key)->where('value', $id)->get();
+        $posts_ids = [];
+        foreach ($post_metas as $meta) {
+            $posts_ids[] = $meta->post_id;
+        }
+
+        return $posts_ids;
+    }
 }
 ?>
