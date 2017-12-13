@@ -38,30 +38,30 @@
             }
         }
     }
-    .searchVideo{
-        .searchBox{
-            background-color: #EEEEEE;
-            .inputWrap{
-                padding: 5px 10px;
-                border: 1px solid #C0C0C0;
-                position: relative;
-                input{
-                    width: calc(100% - 35px);
-                    border: none;
-                    background-color: transparent;
-                    font-size: 14px;
-                    outline: none;
-                }
-                button{
-                    outline: none;
-                    cursor: pointer;
-                    position: absolute;
-                    right: 2px;
-                    top: 7px;
-                    background-color: transparent;
-                    border: none;
-                    width: 27px;
-                }
+}
+.searchVideo{
+    .searchBox{
+        background-color: #EEEEEE;
+        .inputWrap{
+            padding: 5px 10px;
+            border: 1px solid #C0C0C0;
+            position: relative;
+            input{
+                width: calc(100% - 35px);
+                border: none;
+                background-color: transparent;
+                font-size: 14px;
+                outline: none;
+            }
+            button{
+                outline: none;
+                cursor: pointer;
+                position: absolute;
+                right: 2px;
+                top: 7px;
+                background-color: transparent;
+                border: none;
+                width: 27px;
             }
         }
     }

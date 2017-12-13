@@ -1533,6 +1533,12 @@ footer .copyright {
   -webkit-mask: url("/img/004-instagram-logo copy.svg") center/contain no-repeat;
 }
 
+#mc_embed_signup {
+  background: #fff;
+  clear: left;
+  font: 14px Helvetica,Arial,sans-serif;
+}
+
 #what-we-do {
   padding-top: 59px;
   padding-bottom: 103px;
@@ -3200,17 +3206,17 @@ footer .copyright {
   border-left: 6px solid #464646;
 }
 
-.sidebarVideo .searchVideo .searchBox {
+.searchVideo .searchBox {
   background-color: #EEEEEE;
 }
 
-.sidebarVideo .searchVideo .searchBox .inputWrap {
+.searchVideo .searchBox .inputWrap {
   padding: 5px 10px;
   border: 1px solid #C0C0C0;
   position: relative;
 }
 
-.sidebarVideo .searchVideo .searchBox .inputWrap input {
+.searchVideo .searchBox .inputWrap input {
   width: calc(100% - 35px);
   border: none;
   background-color: transparent;
@@ -3218,7 +3224,7 @@ footer .copyright {
   outline: none;
 }
 
-.sidebarVideo .searchVideo .searchBox .inputWrap button {
+.searchVideo .searchBox .inputWrap button {
   outline: none;
   cursor: pointer;
   position: absolute;

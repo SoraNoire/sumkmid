@@ -222,12 +222,19 @@ class PublicController extends Controller
 		$var['videos'] = DB::table('posts')->where('post_type','video')->where('deleted',0)->where('published_date','<=',Carbon::now())->orderBy('published_date','desc')->paginate(6);
 		return view('page.video')->with(['var' => $var]);
 	}
-	public function searchVideo(request $request){
-		$query = $request->input('q');
-		$var['page'] = "searchVideo";
+	public function searchVideo(Request $request){
+		$query = $request->get('q');
+		// dd($query);
+		$var['page'] = "Search Video";
 		$var['query'] = $query;
-		$var['videos'] = DB::table('posts')->where('post_type','video')->where('title','like','%'.$query.'%')->orderBy('published_date','desc')->get();
-		return view('page.video')->with(['var' => $var]);
+		$var['videos'] = DB::table('posts')
+						 ->where('post_type','video')
+						 ->where('title','like','%'.$query.'%')
+						 ->where('deleted',0)
+						 ->where('published_date','<=',Carbon::now())
+						 ->orderBy('published_date','desc')
+						 ->paginate(6);
+		return view('page.searchVideo')->with(['var' => $var]);
 	}
 
 	function readMetas($arr=[]){
