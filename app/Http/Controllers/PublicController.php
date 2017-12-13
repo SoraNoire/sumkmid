@@ -169,20 +169,7 @@ class PublicController extends Controller
 		$prevVideo = DB::table('post_view')->where('post_type','video')->orderBy('published_date','desc')->where('published_date','<',$var['video']->published_date)->limit(1)->get();
 		$var['nextVid'] = $nextVideo[0]->slug ?? '';
 		$var['prevVid'] = $prevVideo[0]->slug ?? '';
-
-		$post_ids = DB::table('post_view')->where('post_type', 'video')->select('id')->get();
-		// dd($post_ids[0]->id);
-        $data = [];
-
-        foreach ($post_ids as $post) {
-            $post_metas = PostMeta::where('post_id',$post->id)->get();
-
-            $metas = new \stdClass;;
-            foreach ($post_metas as $key => $value) {
-                $metas->{$value->key} = $value->value;
-            }
-            dd($post->id);
-        }
+        $var['allcategories'] = PostHelper::get_all_categories('video');
 
 		return view('page.singleVideo')->with(['var' => $var]);
 	}

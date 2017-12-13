@@ -535,20 +535,24 @@ class PostHelper
         return $messages;
     }
 
+    /**
+     * Get all category list based on post type.
+     * @param  $id
+     * @return Response
+     */
     public static function get_all_categories($post_type) {
-        $post_ids = Posts::where('post_type', $post_type)->select('id')->get();
+        $post_ids = DB::table('post_view')->where('post_type', $post_type)->select('id')->get();
         $data = [];
-
-        foreach ($post_ids as $id) {
-            $post_metas = PostMeta::where('post_id',$id)->get();
-
-            $metas = new \stdClass;;
-            foreach ($post_metas as $key => $value) {
-                $metas->{$value->key} = $value->value;
+        foreach ($post_ids as $post) {
+            $categories = PostHelper::get_post_category($post->id);
+            if (count($categories) > 0) {
+                foreach ($categories as $category) {
+                    $data[] = $category;
+                }
             }
-
-            $data['categories'][]   = $metas->event_type ?? '';
         }
+        $data = array_unique($data);
+        return $data;
     }
 }
 ?>

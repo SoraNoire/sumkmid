@@ -2919,16 +2919,49 @@ footer .copyright {
   margin-right: 9px;
 }
 
-.singleVideo .videoHeading .container .postMeta .postTag span span {
+.singleVideo .videoHeading .container .postMeta .postTag span a {
   margin-right: 0px;
+  text-decoration: none;
 }
 
-.singleVideo .videoHeading .container .postMeta .postTag span span:after {
+.singleVideo .videoHeading .container .postMeta .postTag span a:after {
   content: ',';
   color: #000000;
 }
 
-.singleVideo .videoHeading .container .postMeta .postTag span span:last-child:after {
+.singleVideo .videoHeading .container .postMeta .postTag span a:hover {
+  text-decoration: underline;
+}
+
+.singleVideo .videoHeading .container .postMeta .postTag span a:last-child:after {
+  content: "";
+}
+
+.singleVideo .videoHeading .container .postMeta .postCategory {
+  display: inline-block;
+}
+
+.singleVideo .videoHeading .container .postMeta .postCategory span {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 9px;
+}
+
+.singleVideo .videoHeading .container .postMeta .postCategory span a {
+  margin-right: 0px;
+  text-decoration: none;
+}
+
+.singleVideo .videoHeading .container .postMeta .postCategory span a:after {
+  content: ',';
+  color: #000000;
+}
+
+.singleVideo .videoHeading .container .postMeta .postCategory span a:hover {
+  text-decoration: underline;
+}
+
+.singleVideo .videoHeading .container .postMeta .postCategory span a:last-child:after {
   content: "";
 }
 
