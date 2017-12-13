@@ -74,19 +74,55 @@
                 }
             }
             ul{
-                @media screen and (max-width: 850px) {
-                    padding-top: 0px;
-                    padding-right: 10px;
-                }
-                padding: 10px 15px 20px 15px;
+                padding: 10px 0px;
                 position: absolute;
-                background-color: #1D3D6F;
+                top: 50px;
+                right: 20px;
+                background-color: #ffffff;
                 text-align: right;
+                box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
                 display: none;
+                @media screen and (max-width: 850px) {
+                    padding-top: 5px;
+                    padding-right: 10px;
+                    position: relative;
+                    top: unset;
+                    right: unset;
+                    float: unset;
+                    background-color: unset;
+                    box-shadow : unset;
+                }
                 li{
-                    padding-top: 10px;
-                    padding-bottom: 0px;
-                    display: inline-block;
+                    display: block;
+                    padding:0px;
+                    &:nth-child(2){
+                        border-top: 1px solid #E2E2E2;
+                        @media screen and (max-width: 850px) {
+                            border-top : none;
+                        }
+                    }
+                    @media screen and (max-width: 850px) {
+                        padding : unset;
+                        border-top : none;
+                    }
+                    a{
+                        text-decoration: none;
+                        padding: 10px 15px;
+                        font-size: 14px;
+                        width: 125px;
+                        display: block;
+                        font-weight: 500;
+                        color: #3C4786;
+                        @media screen and (max-width: 850px) {
+                            border : unset;
+                            padding-right : 3px;
+                            color: #ffffff;
+                            font-size: 17px;
+                        }
+                        &:hover{
+                            background-color : #F1F1F1;
+                        }
+                    }
                 }
             }
         }
