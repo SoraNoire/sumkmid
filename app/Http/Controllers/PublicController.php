@@ -56,6 +56,8 @@ class PublicController extends Controller
 		{
 			// give cookie for 7 days
 	        Cookie::queue(config('auth.ssocookie'), $tokenRequest->data->token, 10080);
+	        // setcookie(config('auth.ssocookie'), $tokenRequest->data->token, 10080);
+	        // return (Cookie::get( config('auth.ssocookie')) ? 'masuk' : 'tidak masuk');
 	        return redirect($next);	
 	    }
 	    if (Cookie::get( config('auth.ssocookie') ))
@@ -198,32 +200,38 @@ class PublicController extends Controller
      * Show video page.
      * @return Response
      */
-	public function video(){
-		$var['page'] = "Video";
+	public function galeri(){
+		$var['page'] = "Galeri";
 		$var['videos'] = DB::table('post_view')->where('post_type','video')->orderBy('published_date','desc')->paginate(6);
-		return view('page.video')->with(['var' => $var]);
+		return view('page.galeri')->with(['var' => $var]);
 	}
 
 	/**
      * Show single video page.
      * @return Response
      */
-	public function singleVideo($slug){
-		$var['page'] = "singleVideo";
-		$var['video'] = DB::table('post_view')->where('slug',$slug)->first();
-		$postMetas = DB::table('post_meta')->where('post_id',$var['video']->id)->get();
+	public function singleGaleri($slug){
+		$var['page'] = "singleGaleri";
+		$var['content'] = DB::table('post_view')->where('slug',$slug)->first();
+		$postMetas = DB::table('post_meta')->where('post_id',$var['content']->id)->get();
 		$postMetas = $this->readMetas($postMetas);
-		$var['tags'] = PostHelper::get_post_tag($var['video']->id);
-		$var['categories'] = PostHelper::get_post_category($var['video']->id);
-		$var['videoEmbed'] = $postMetas->video_url ?? [];
+		$var['tags'] = PostHelper::get_post_tag($var['content']->id);
+		$var['categories'] = PostHelper::get_post_category($var['content']->id);
 
-		$nextVideo = DB::table('post_view')->where('post_type','video')->orderBy('published_date','desc')->where('published_date','>',$var['video']->published_date)->limit(1)->get();
-		$prevVideo = DB::table('post_view')->where('post_type','video')->orderBy('published_date','desc')->where('published_date','<',$var['video']->published_date)->limit(1)->get();
-		$var['nextVid'] = $nextVideo[0]->slug ?? '';
-		$var['prevVid'] = $prevVideo[0]->slug ?? '';
+		if($var['content']->post_type == 'video'){
+			$var['videoEmbed'] = $postMetas->video_url ?? [];
+		}else{
+			$var['photos'] = '';
+		}
+
+
+		$nextItem = DB::table('post_view')->where('post_type','video')->orWhere('post_type','gallery')->orderBy('published_date','desc')->where('published_date','>',$var['content']->published_date)->limit(1)->get();
+		$prevItem = DB::table('post_view')->where('post_type','video')->orWhere('post_type','gallery')->orderBy('published_date','desc')->where('published_date','<',$var['content']->published_date)->limit(1)->get();
+		$var['nextItem'] = $nextItem[0]->slug ?? '';
+		$var['prevItem'] = $prevItem[0]->slug ?? '';
         $var['allcategories'] = PostHelper::get_all_categories('video');
 
-		return view('page.singleVideo')->with(['var' => $var]);
+		return view('page.singleGaleri')->with(['var' => $var]);
 	}
 
 	/**
