@@ -15,6 +15,9 @@
         <a href="{{ route('addgallery') }}" class="btn btn-round btn-fill btn-info">
             New Gallery +<div class="ripple-container"></div>
         </a>
+        <a href="{{ url('/admin/blog/video/add') }}" class="btn btn-round btn-fill btn-info">
+            New Video +<div class="ripple-container"></div>
+        </a>
 
         <button type="submit" class="btn btn-success pull-right">Save Gallery</button>
         <input type="hidden" name="_token" value="{{ csrf_token() }}">

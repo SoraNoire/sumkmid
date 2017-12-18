@@ -45,7 +45,7 @@ class VideoController extends Controller
      */
     public function index()
     {
-        $page_meta_title = 'Videos';
+        $page_meta_title = 'Gallery';
         return view('video::admin.index')->with(['page_meta_title' => $page_meta_title]);
     }
 
@@ -117,7 +117,7 @@ class VideoController extends Controller
      */
     public function addVideo()
     {
-        $page_meta_title = 'Videos';
+        $page_meta_title = 'Gallery';
         $alltag = Tags::orderBy('created_at','desc')->get();
 
         return view('video::admin.video_add')->with(['page_meta_title' => $page_meta_title, 'alltag' => $alltag]);
@@ -203,7 +203,7 @@ class VideoController extends Controller
      */
     public function viewVideo($id)
     {
-        $page_meta_title = 'Videos';
+        $page_meta_title = 'Gallery';
         $act = 'Edit';
         $action = $this->prefix.'update-video/'.$id;
         $video = Posts::where('id', $id)->first();
@@ -220,7 +220,7 @@ class VideoController extends Controller
             $alltag = Tags::orderBy('created_at','desc')->get();
             $title = $video->title;
             $content = $video->content;
-            $video_url = $post_metas->video_url;
+            $video_url = $post_metas->video_url ?? '';
 
             $featured_img = $video->featured_image;
             $status = $video->status;

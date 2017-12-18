@@ -12,8 +12,11 @@
     <h4 class="title">Edit Videos</h4>
 
     <form id="post-form" method="post" action="{{ route('updatevideo',$video->id) }}" accept-charset="UTF-8">
+        <a href="{{ url('/admin/blog/gallery/add') }}" class="btn btn-round btn-fill btn-info">
+            + Image Gallery<div class="ripple-container"></div>
+        </a>
         <a href="{{ route('addvideo') }}" class="btn btn-round btn-fill btn-info">
-            New Video +<div class="ripple-container"></div>
+            + Video Gallery<div class="ripple-container"></div>
         </a>
         <a target="_blank" href="{{ route('single_video',$video->slug) }}" class="btn btn-round btn-fill btn-info">
             View Video<div class="ripple-container"></div>
