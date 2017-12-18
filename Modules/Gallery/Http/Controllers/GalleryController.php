@@ -77,10 +77,10 @@ class GalleryController extends Controller
     public function ajaxGalleries(Request $request)
     {
         $order = $request->order[0];
-        $col = $request->columns["{$order['column']}"]['data'] ?? 'published_at'; 
+        $col = $request->columns["{$order['column']}"]['data'] ?? 'published_date'; 
         $direction = $order['dir'] ?? 'desc';
         
-        $query = Posts::where('post_type','gallery')->where('deleted',0)->orderBy($col,$direction);
+        $query = Posts::whereIn('post_type', ['gallery', 'video'])->where('deleted',0)->orderBy($col,$direction);
         $search = $request->search['value'];
         if (isset($search)) {
             $query = $query->where('title', 'like', '%'.$search.'%');   
@@ -94,6 +94,11 @@ class GalleryController extends Controller
             if ($name != '') {
                 $data->author_name = $name;
             }
+            if ($data->post_type == 'gallery') {
+                $data->gallery_type = 'images';
+            } elseif ($data->post_type == 'video') {
+                $data->gallery_type = 'video';
+            } 
             $newdata[] = $data;
         }
         $output['data'] = $newdata;

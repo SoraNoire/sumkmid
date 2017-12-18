@@ -12,8 +12,11 @@
     <h4 class="title">New Videos</h4>
 
     <form id="post-form" method="post" action="{{ route('storevideo') }}" accept-charset="UTF-8">
+        <a href="{{ url('/admin/blog/gallery/add') }}" class="btn btn-round btn-fill btn-info">
+            + Image Gallery<div class="ripple-container"></div>
+        </a>
         <a href="{{ route('addvideo') }}" class="btn btn-round btn-fill btn-info">
-            New Video +<div class="ripple-container"></div>
+            + Video Gallery<div class="ripple-container"></div>
         </a>
         
         <button type="submit" class="btn btn-success pull-right">Save Video</button>

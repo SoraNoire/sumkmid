@@ -19,9 +19,10 @@ Route::group(['middleware' => 'web', 'prefix' => 'admin/blog/gallery', 'namespac
 
     Route::get('/', ['as'=> 'galleries', 'uses' => 'GalleryController@index']);
     Route::get('/ajaxgalleries', ['as'=> 'ajaxgalleries', 'uses' => 'GalleryController@ajaxGalleries']);
+    Route::post('/ajaxgalleries', ['as'=> 'ajaxgalleries', 'uses' => 'GalleryController@ajaxGalleries']);
     Route::get('/add', ['as'=> 'addgallery', 'uses' => 'GalleryController@addGallery']);
     Route::post('/add', ['as'=> 'storegallery', 'uses' => 'GalleryController@addGalleryPost']);
-    Route::get('/{id}/view', ['as'=> 'viewgallery', 'uses' => 'GalleryController@viewGallery']);
+    Route::get('/{id}/edit', ['as'=> 'viewgallery', 'uses' => 'GalleryController@viewGallery']);
     Route::post('/{id}/update', ['as'=> 'updategallery', 'uses' => 'GalleryController@updateGallery']);
     Route::get('/{id}/remove', ['as'=> 'removegallery', 'uses' => 'GalleryController@removeGallery']);
     Route::post('/massdelete', ['as'=> 'massdeletegallery', 'uses' => 'GalleryController@massdeleteGallery']);
