@@ -15,6 +15,9 @@
         <a href="{{ route('addgallery') }}" class="btn btn-round btn-fill btn-info">
             New Gallery +<div class="ripple-container"></div>
         </a>
+        <a href="{{ url('/admin/blog/video/add') }}" class="btn btn-round btn-fill btn-info">
+            New Video +<div class="ripple-container"></div>
+        </a>
         <!-- <a target="_blank" href="{{ URL::to($prefix.'show/'.$gallery->slug) }}" class="btn btn-round btn-fill btn-info">
             View Gallery<div class="ripple-container"></div>
         </a> -->

@@ -1065,6 +1065,7 @@ if ($("#table-gallery").length > 0) {
         "columns": [
             { "data": "title" },
             { "data": "author_name" },
+            { "data": "id" },
             { "data": "published_date" },
             { "data": "id" },
         ],
@@ -1072,19 +1073,26 @@ if ($("#table-gallery").length > 0) {
                 "targets": -1,
                 "data": 'id',
                 "render": function ( data, type, row ) {
-                    return '<a href="/admin/blog/gallery/'+row.id+'/view">Edit</a> | <a onclick="return confirm(\'Delete gallery?\');" href="/admin/blog/gallery/'+row.id+'/remove">Hapus</a>';
+                    return '<a href="/admin/blog/'+row.post_type+'/'+row.id+'/edit">Edit</a> | <a onclick="return confirm(\'Delete '+row.post_type+'?\');" href="/admin/blog/'+row.post_type+'/'+row.id+'/remove">Hapus</a>';
                 }
             },
                 {
                 "targets": 0,
                 "data": 'title',
                 "render": function ( data, type, row ) {
-                    return '<a href="/admin/blog/gallery/'+row.id+'/view">'+data+'</a>';
+                    return '<a href="/admin/blog/'+row.post_type+'/'+row.id+'/edit">'+data+'</a>';
+                }
+            },
+                {
+                "targets": 2,
+                "data": 'title',
+                "render": function ( data, type, row ) {
+                    return row.gallery_type;
                 }
             }
         ],
         order: [
-            [2, "desc"]
+            [3, "desc"]
         ]
     });
 }
