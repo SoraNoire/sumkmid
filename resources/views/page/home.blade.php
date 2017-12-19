@@ -1,6 +1,31 @@
 @extends('layouts.publicbase')
 
 @section('content')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.7/css/swiper.min.css">
+<section id="mainSlider">
+<!-- Slider main container -->
+<div class="swiper-container">
+    <div class="swiper-wrapper">
+        <div class="swiper-slide bigSlideContent" style="background-image: url({{ asset('images/e2f87ecce1c734ee1b2e8cb8d0c04274.jpg') }});">
+        	<div class="contentWrap onLeft">
+        		<div class="content">
+        			<div class="heading">Mentoring Online Pelaku UMKM</div>
+        			<div class="caption">Bergabung bersama ratusan pelaku UMKM dan dapatkan manfaat dari bimbingan bisnis langsung dari gadget anda.</div>
+        		</div>
+        	</div>
+        </div>
+        <div class="swiper-slide bigSlideContent" style="background-image: url({{ asset('images/e2f87ecce1c734ee1b2e8cb8d0c04274.jpg') }});">
+        	<div class="contentWrap onRight">
+        		<div class="content">
+        			<div class="heading">Mentoring Online Pelaku UMKM</div>
+        			<div class="caption">Bergabung bersama ratusan pelaku UMKM dan dapatkan manfaat dari bimbingan bisnis langsung dari gadget anda.</div>
+        		</div>
+        	</div>
+        </div>
+    </div>
+    <div class="swiper-pagination"></div>
+</div>
+</section>
 
 <section id="what-we-do">
 	<div class="bg-overlay"></div>
@@ -53,6 +78,72 @@
 	        </div>
 	    </div>
     </div>
+</section>
+
+<section id="programs">
+	<div class="programWrap">
+		<div class="programSplit">
+			<div class="logo">
+				<img src="{{ asset('images/niexjjzstcseuzdzkvoq.png') }}">
+			</div>
+			<div class="heading">
+				<span>Mentoring</span>
+			</div>
+			<div class="caption">
+				<p>Mempertemukan Pelaku UMKM dengan Pelaku Profesional yang	dapat membantu untuk meningkatkan dan mengembangkan potensi usaha pelakunya</p>
+			</div>
+		</div>
+		<div class="programSplit">
+			<div class="logo">
+				<img src="{{ asset('images/niexjjzstcseuzdzkvoq.png') }}">
+			</div>
+			<div class="heading">
+				<span>Forum</span>
+			</div>
+			<div class="caption">
+				<p>Sarana bagi para	pelaku UMKM	Indonesia untuk saling memberikan kontribusi, bertukar informasi,	menyampaikan ide, ilmu, dan pengalaman dalam mengembangkan usahanya</p>
+			</div>
+		</div>
+		<div class="programSplit">
+			<div class="logo">
+				<img src="{{ asset('images/niexjjzstcseuzdzkvoq.png') }}">
+			</div>
+			<div class="heading">
+				<span>Legal</span>
+			</div>
+			<div class="caption">
+				<p>Mempertemukan Pelaku UMKM dengan Pelaku Profesional yang	dapat membantu untuk meningkatkan dan mengembangkan potensi usaha pelakunya</p>
+			</div>
+		</div>
+		<div class="programSplit">
+			<div class="logo">
+				<img src="{{ asset('images/niexjjzstcseuzdzkvoq.png') }}">
+			</div>
+			<div class="heading">
+				<span>Event</span>
+			</div>
+			<div class="caption">
+				<p>Bergabung dan bertemu dengan sesama pelaku UMKM melalui kegiatan-kegiatan off-air Sahabat UMKM</p>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section id="ourMentors">
+	<div class="container">
+		<h3 class="section-title"><span>Our</span> <span>Mentor</span></h3>
+		<div class="the-row">
+			<div class="col-4 the-mentor">
+				<div class="mentorWrapper">
+					<span class="head">MENTOR</span>
+					<span>KRIYA</span>
+					<p class="desc">Molestiae facilisis rem! Parturient. Torquent netus tempora pellentesque tenetur sapiente! Optio beatae est iaculis, veniam leo. Bibendum torquent ducimus, eu.</p>
+					<button>view now</button>
+				</div>
+				
+			</div>
+		</div>
+	</div>
 </section>
 
 <section id="video" class="blue-bg">
@@ -144,4 +235,17 @@
 		</div>
 	</div>
 </section>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.7/js/swiper.min.js"></script>
+<script>
+	var mySwiper = new Swiper ('.swiper-container', {
+	// Optional parameters
+	direction: 'horizontal',
+	loop: true,
+
+	// If we need pagination
+	pagination: {
+	  el: '.swiper-pagination',
+	},
+	})
+</script>
 @endsection

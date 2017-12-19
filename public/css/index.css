@@ -1589,6 +1589,53 @@ footer .copyright {
   font: 14px Helvetica,Arial,sans-serif;
 }
 
+#mainSlider .bigSlideContent {
+  padding-top: 40%;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+#mainSlider .bigSlideContent .contentWrap {
+  position: absolute;
+  background-color: rgba(207, 104, 25, 0.8);
+  padding: 13% 20px 10px 20px;
+  top: 0;
+  height: 100%;
+  width: 40%;
+}
+
+#mainSlider .bigSlideContent .contentWrap.onRight {
+  right: 0;
+}
+
+#mainSlider .bigSlideContent .contentWrap.onLeft {
+  left: 0;
+}
+
+#mainSlider .bigSlideContent .contentWrap.onLeft .content {
+  float: right;
+  text-align: right;
+}
+
+#mainSlider .bigSlideContent .contentWrap .content {
+  margin: auto 0;
+  display: block;
+  width: 60%;
+}
+
+#mainSlider .bigSlideContent .contentWrap .content .heading {
+  color: #1d3d6f;
+  font-weight: 700;
+  font-size: 25px;
+}
+
+#mainSlider .bigSlideContent .contentWrap .content .caption {
+  font-weight: 700;
+  font-size: 15px;
+  color: #ffffff;
+}
+
 #what-we-do {
   padding-top: 59px;
   padding-bottom: 103px;
@@ -1694,6 +1741,127 @@ footer .copyright {
 
 #what-we-do .right-content .video-wraper .play-button {
   padding: 22px 25px;
+}
+
+#programs {
+  background-image: url("/images/blue-bg.png");
+  display: block;
+}
+
+#programs .programWrap {
+  margin: auto;
+  display: block;
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+}
+
+#programs .programWrap .programSplit {
+  -webkit-transition: .5s;
+  transition: .5s;
+  width: 200px;
+  height: 500px;
+  display: inline-block;
+  vertical-align: top;
+  background-image: url("/images/happy-business-woman-calling-on-phone-in-hall_1262-3016.jpg");
+  background-size: cover;
+  background-color: #0A4773;
+  background-position: center;
+  padding-top: 100px;
+  text-align: center;
+}
+
+#programs .programWrap .programSplit .logo {
+  -webkit-transition: .5s;
+  transition: .5s;
+  width: 60%;
+  display: block;
+  margin: 0 auto;
+  padding-bottom: 20px;
+  opacity: 0;
+}
+
+#programs .programWrap .programSplit .logo img {
+  max-width: 100%;
+}
+
+#programs .programWrap .programSplit:hover {
+  -webkit-transition: .5s;
+  transition: .5s;
+  background-color: #0A4773;
+  background-image: unset;
+}
+
+#programs .programWrap .programSplit:hover .caption {
+  opacity: .5;
+}
+
+#programs .programWrap .programSplit:hover .logo {
+  opacity: 1;
+}
+
+#programs .programWrap .heading {
+  color: #ffffff;
+  padding: 0px 15px;
+  font-size: 30px;
+  font-weight: 700;
+}
+
+#programs .programWrap .caption {
+  -webkit-transition: .5s;
+  transition: .5s;
+  margin-top: 10px;
+  opacity: 0;
+  padding: 0px 15px;
+  color: #ffffff;
+}
+
+#ourMentors {
+  background-color: #3E81EB;
+  height: 400px;
+}
+
+#ourMentors .section-title {
+  color: #fff;
+  text-align: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+#ourMentors .the-mentor .mentorWrapper {
+  background-color: #F8F8F8;
+  background-image: url("/images/241_d_suit_standing_1600.png");
+  background-position: 20px 50px;
+  background-size: 100px auto;
+  background-repeat: no-repeat;
+  height: 300px;
+  text-align: right;
+  padding-top: 50px;
+  padding-right: 20px;
+}
+
+#ourMentors .the-mentor .mentorWrapper span {
+  color: #444444;
+  line-height: 30px;
+  display: block;
+  font-size: 30px;
+  font-weight: 700;
+}
+
+#ourMentors .the-mentor .mentorWrapper .head {
+  font-weight: 300;
+  font-size: 30px;
+}
+
+#ourMentors .the-mentor .mentorWrapper .desc {
+  padding-top: 10px;
+  float: right;
+  width: 50%;
+  font-size: 12px;
+}
+
+#ourMentors .the-mentor .mentorWrapper button {
+  float: right;
 }
 
 #event {
@@ -2940,6 +3108,42 @@ footer .copyright {
   border: solid 1px #d13d1e;
 }
 
+.singleVideo .swiper-container {
+  width: 100%;
+  height: 500px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #000;
+}
+
+.singleVideo .swiper-slide {
+  background-size: cover;
+  background-position: center;
+}
+
+.singleVideo .gallery-top {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.singleVideo .gallery-thumbs {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 10px 0;
+  height: 100px;
+}
+
+.singleVideo .gallery-thumbs .swiper-slide {
+  width: 10%;
+  margin-top: 10px;
+  height: 80%;
+  opacity: 0.4;
+}
+
+.singleVideo .gallery-thumbs .swiper-slide-active {
+  opacity: 1;
+}
+
 .singleVideo .videoHeading {
   margin-top: 41px;
   margin-bottom: 27px;
@@ -3222,42 +3426,6 @@ footer .copyright {
 .singleVideo .videoNavigation .nextVideo a span {
   display: inline-block;
   vertical-align: middle;
-}
-
-.swiper-container {
-  width: 100%;
-  height: 500px;
-  margin-left: auto;
-  margin-right: auto;
-  background-color: #000;
-}
-
-.swiper-slide {
-  background-size: cover;
-  background-position: center;
-}
-
-.gallery-top {
-  width: 100%;
-  margin-bottom: 10px;
-}
-
-.gallery-thumbs {
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-  padding: 10px 0;
-  height: 100px;
-}
-
-.gallery-thumbs .swiper-slide {
-  width: 10%;
-  margin-top: 10px;
-  height: 80%;
-  opacity: 0.4;
-}
-
-.gallery-thumbs .swiper-slide-active {
-  opacity: 1;
 }
 
 @-webkit-keyframes spin {
