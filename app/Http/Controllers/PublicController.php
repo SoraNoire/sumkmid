@@ -235,20 +235,21 @@ class PublicController extends Controller
 	}
 
 	/**
-     * Show video search result.
+     * Show galeri search result.
      * @return Response
      */
-	public function searchVideo(Request $request){
+	public function searchGaleri(Request $request){
 		$query = $request->get('q');
 		// dd($query);
-		$var['page'] = "Search Video";
+		$var['page'] = "Search Galeri";
 		$var['query'] = $query;
 		$var['videos'] = DB::table('post_view')
 						 ->where('post_type','video')
+						 ->orWhere('post_type','gallery')
 						 ->where('title','like','%'.$query.'%')
 						 ->orderBy('published_date','desc')
 						 ->paginate(6);
-		return view('page.searchVideo')->with(['var' => $var]);
+		return view('page.searchGaleri')->with(['var' => $var]);
 	}
 
 	/**

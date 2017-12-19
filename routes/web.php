@@ -58,7 +58,7 @@ Route::get('/mentor/page/{page}', 'PublicController@mentor_archive');
 Route::get('/event/page/{page}', 'PublicController@event_archive');
 
 Route::get('/video/page/{page}', 'PublicController@video_archive');
-Route::get('/search-video/', 'PublicController@searchVideo')->name('search_video');
+Route::get('/search-galeri/', 'PublicController@searchGaleri')->name('search_galeri');
 Route::get('/galeri/{slug}', 'PublicController@singleGaleri')->name('single_galeri');
 Route::get('/video-category/{slug}', 'PublicController@videoCatArchive')->name('video_cat_archive');
 Route::get('/video-tag/{slug}', 'PublicController@videoTagArchive')->name('video_tag_archive');

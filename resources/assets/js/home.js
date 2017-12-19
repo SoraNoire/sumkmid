@@ -162,6 +162,7 @@ $(function(){
         callback: function() {
             $('ul.pagination').remove();
             $('.atEnd').show();
+            $('.scroller-status').show();
         }
     });
 });

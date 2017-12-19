@@ -121,10 +121,10 @@
 						</div>
 						@endif
 						<div class="sidebar searchVideo">
-							<h4 class="sidebarDefaultHeading">Cari Video</h4>
+							<h4 class="sidebarDefaultHeading">Cari di Galeri</h4>
 							<div class="searchBox">
 								<div class="inputWrap">
-									<form action="{{ route('search_video','') }}" method="get">
+									<form action="{{ route('search_galeri','') }}" method="get">
 										<input placeholder="Kata Kunci" type="text" name="q" id="">
 										<button><span class="icon i-search"></span></button>
 									</form>
