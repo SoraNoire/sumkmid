@@ -14,19 +14,20 @@
 			@foreach ($var['events'] as $event)
 			<?php  $meta = PostHelper::get_post_meta($event->id); ?>
 			<div class="post event the-row {{ $meta['open_at'] > Carbon::now() ? 'active' : '' }}" id="event-{{ $event->id }}">
-				<div class="event-datetime col-3">
-					<span>{{ date('d M Y', strtotime($meta['open_at'])) }}</span>
-					<span>{{ date('H:i', strtotime($meta['open_at'])) }} WIB - {{ date('d M Y', strtotime($meta['closed_at'])) > date('d M Y', strtotime($meta['open_at'])) ? date('d M Y H:i', strtotime($meta['closed_at'])).' WIB' : date('H:i', strtotime($meta['closed_at'])).' WIB' }} </span>
+				<div class="col-3">
+					<div class="eventPoster">
+						<img src="{{ asset('images/poster.jpg') }}">
+					</div>
 				</div>
 				<div class="event-timeline">
 					<div class="event-indicator"></div>
 				</div>
 				<div class="event-content col-9">
 					<div class="event-title">{{ $event->title }}</div>
-					<div class="event-datetime-mobile">
-							<span>{{ date('d M Y', strtotime($meta['open_at'])) }} |</span>
+					<div class="event-datetime">
+							<span>{{ date('d M Y', strtotime($meta['open_at'])) }}</span>
 							<span>{{ date('H:i', strtotime($meta['open_at'])) }} WIB - {{ date('d M Y', strtotime($meta['closed_at'])) > date('d M Y', strtotime($meta['open_at'])) ? date('d M Y H:i', strtotime($meta['closed_at'])).' WIB' : date('H:i', strtotime($meta['closed_at'])).' WIB' }} </span>
-						</div>
+					</div>
 					<div class="event-desc hidden">
 						{!! $event->content !!}
 					</div>
@@ -98,9 +99,10 @@
 			{{ $var['events']->links() }}
 			</div>
 		</div>
+        <div class="scroller-status loading"> <div class="event the-row"> <div class="col-3"></div> <div class="event-timeline"> <div class="event-indicator"></div> </div> <div class="col-9 infinity-scroll-message"> <div class="loadingItems"> <span class="infinite-scroll-request"><img src="/img/infinity-load.svg"> Memuat Event</span> </div> </div> </div> </div>
 
 		<!-- status elements -->
-		<div class="scroller-status ">
+		<div class="scroller-status endOfEvent">
 		  	<div class="event the-row">
 				<div class="col-3"></div>
 				<div class="event-timeline">

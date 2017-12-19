@@ -565,6 +565,17 @@
 				padding-bottom: 50px;
 
 				.event {
+					.eventPoster{
+						width: 70%;
+						margin: 0 auto;
+						-webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.25);
+						-moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.25);
+						box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.25);
+						max-height: 200px;
+						img{
+							max-width: 100%;
+						}
+					}
 					.event-datetime{
 						margin-top: -5px;
 						@media screen and (max-width: 433px) {
@@ -612,9 +623,9 @@
 						}
 					}
 					.event-datetime {
-						text-align: right;
+						text-align: left;
 						color: #aeaeae;
-
+						margin-bottom: 10px;
 						span {
 							display: block;
 
@@ -827,11 +838,17 @@
 						}
 					}
 				}
-
+				.jscroll-loading{
+					display: none;
+				}
 				.scroller-status {
 					margin-top: -8px;
+					&.loading{
 					display: none;
-
+					}
+					&.endOfEvent{
+					display: none;
+					}
 					.event {
 						@media screen and (max-width: 433px) {
 							.col-3{
@@ -863,9 +880,7 @@
 						}
 					}
 				}
-				.loading{
-					display: block;
-				}
+				
 				.end-of-page{
 					display: block;
 					.event-timeline{
