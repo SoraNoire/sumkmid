@@ -35,8 +35,8 @@ Route::get('/cg', ['uses'=>function () {
 	    dd(Cookie::get());
 	}]);
 
-Route::get('login','PublicController@login')->name('login');
-Route::get('ssologin',['as'=>'ssologin','uses'=>'PublicController@ssoLogin']);
+// Route::get('login','PublicController@login')->name('login');
+// Route::get('ssologin',['as'=>'ssologin','uses'=>'PublicController@ssoLogin']);
 
 
 Route::get('/', 'PublicController@home')->name('public_home');
@@ -67,7 +67,7 @@ Route::get('/video-tag/{slug}', 'PublicController@videoTagArchive')->name('video
 // Auth::routes();
 
 Route::get('sample','SampleController@sample');
-Route::get('loginadmin','SampleController@admin');
+// Route::get('loginadmin','SampleController@admin');
 Route::get('am','SampleController@addmentor');
 
 Route::get('appreg','SampleController@appReg');

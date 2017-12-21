@@ -191,6 +191,7 @@ return [
         Webwizo\Shortcodes\ShortcodesServiceProvider::class,
         Modules\Blog\Providers\ShortcodesServiceProvider::class,
         App\Providers\SSOServiceProvider::class,
+        Rabbit\OAuthClient\OAuthClientServiceProvider::class,
 
     ],
 

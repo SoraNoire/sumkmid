@@ -1,0 +1,14 @@
+{
+    "name": "rabbit/role-permissions",
+    "description": "Role Permission for Mdirect SSO OAuth system",
+    "type": "library",
+    "license": "private",
+    "authors": [
+        {
+            "name": "Rian",
+            "email": "damanik183@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}

@@ -1,8 +1,9 @@
 <?php
 
-Route::group(['middleware' => ['web','admin'], 'prefix' => 'admin/blog', 'namespace' => 'Modules\Blog\Http\Controllers'], function()
+Route::group(['middleware' => ['web','backend'], 'prefix' => 'admin/blog', 'namespace' => 'Modules\Blog\Http\Controllers'], function()
 {
-    Route::get('/', 'BlogController@dashboard');
+    Route::get('/', 'BlogController@dashboard')
+            ->name('panel.dashboard');
     Route::get('/index', 'BlogController@dashboard');
     Route::get('/posts', 'BlogController@index');
     Route::get('/show/{slug}', 'BlogController@show_post');
