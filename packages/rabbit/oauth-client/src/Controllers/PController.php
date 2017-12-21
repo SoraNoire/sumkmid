@@ -21,12 +21,6 @@ class PController extends Controller
         {
         	// dd(session('logid'));
         	// dd(app()->OAuth->Auth());
-
-            if(true===env('APP_DEBUG'))
-            {
-                Users::select(['id'])->first();
-            }
-
             if ( session('logid') )
             {
             	// dd(session('logid'));
@@ -121,7 +115,7 @@ class PController extends Controller
         		}
         	}
 
-            if ($tokenRequest && isset($tokenRequest->success) && true==$tokenRequest->success )
+            if ($tokenRequest && $tokenRequest->success )
             {
                 // give cookie for 7 days
 
@@ -145,7 +139,7 @@ class PController extends Controller
 	                	$locUser->sessid = session()->getId();
 	                	$locUser->options = '';
 	                	$locUser->cookieid = '';
-	                	$locUser->description = $user->description;
+	                	$locUser->description = $user->description??'';
 	                	$locUser->last_sync = date('Y-m-d H:i:s');
 	                	$locUser->save();
                 	}
@@ -161,7 +155,7 @@ class PController extends Controller
 	                	$locUser->cookieid = '';
 	                	$locUser->token = $tokenRequest->data->token;
 	                	$locUser->sessid = session()->getId();
-	                	$locUser->description = $user->description;
+	                	$locUser->description = $user->description??'';
 	                	$locUser->last_sync = date('Y-m-d H:i:s');
 	                	$locUser->save();
 	                }

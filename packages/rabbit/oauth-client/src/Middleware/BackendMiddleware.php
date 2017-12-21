@@ -58,12 +58,11 @@ class BackendMiddleware
                 $method = 'read';
             }
         }
-        
         $moduleName = $moduleName[0];
     
-        if (!$method) {    
-            if( $moduleName != 'panel.dashboard'
-                && $moduleName != 'OA.dashboard'
+        if (!$method) {
+            if( $moduleName != 'panel.dashboard' 
+                && $moduleName != 'OA.dashboard' 
                 && $moduleName != 'OA.permissions'
                 && $moduleName != 'OA.permissions.save.ajax'
                 && $moduleName != 'OA.modules'
@@ -72,13 +71,17 @@ class BackendMiddleware
             {
                 return redirect('/');
             }
+            if(!isset(app()->OAuth->Auth()->role) || 'admin' != app()->OAuth->Auth()->role)
+            {
+                return redirect(route('panel.news__index'));   
+            }
         }
 
         if (!$moduleName)
         {
             return redirect('/');
         }
-
+// dd(app()->OAuth->Auth());
         if ( !app()->OAuth->Auth() )
         {
             return redirect('/');
@@ -94,9 +97,9 @@ class BackendMiddleware
                             ->with('module')
                             ->first();
 
-            if(!$grants)
-            {
-                if( $moduleName != 'panel.dashboard'
+            if(!$grants || !isset($grants->write))
+            {   
+                if( $moduleName != 'panel.dashboard' 
                     && $moduleName != 'OA.dashboard' 
                     && $moduleName != 'OA.permissions'
                     && $moduleName != 'OA.permissions.save.ajax'
@@ -106,20 +109,32 @@ class BackendMiddleware
                 {
                     return redirect('/');
                 }
+                if(!isset(app()->OAuth->Auth()->role) || 'admin' != app()->OAuth->Auth()->role)
+                {
+                    return redirect(route('panel.news__index'));   
+                }
             }
 
             // collect permissions
-            if(1==$grants->write)
+            if($grants && 1==$grants->write){
                 $perms[] = 'write';
+                app()->OAuth::$can[] = 'write';
+            }
 
-            if(1==$grants->read)
+            if( $grants && 1==$grants->read){
                 $perms[] = 'read';
+                app()->OAuth::$can[] = 'read';
+            }
 
-            if(1==$grants->edit)
+            if( $grants && 1==$grants->edit){
                 $perms[] = 'edit';
+                app()->OAuth::$can[] = 'edit';
+            }
 
-            if(1==$grants->delete)
+            if( $grants && 1==$grants->delete){
                 $perms[] = 'delete';
+                app()->OAuth::$can[] = 'delete';
+            }
 
         }
         
@@ -130,7 +145,7 @@ class BackendMiddleware
         if( ! in_array($method, $perms) )
         {
 
-            if( $moduleName != 'panel.dashboard'
+            if( $moduleName != 'panel.dashboard' 
                 && $moduleName != 'OA.dashboard' 
                 && $moduleName != 'OA.permissions' 
                 && $moduleName != 'OA.permissions.save.ajax'
@@ -140,7 +155,10 @@ class BackendMiddleware
             {
                 return redirect('/');
             }
-
+            if(!isset(app()->OAuth->Auth()->role) || 'admin' != app()->OAuth->Auth()->role)
+            {
+                return redirect(route('panel.news__index'));   
+            }
         }
 
         return $next($request);
