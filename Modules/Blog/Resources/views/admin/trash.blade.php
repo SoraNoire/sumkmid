@@ -11,7 +11,7 @@
     <input type="hidden" name="id" class="bulk-delete-id">
     <button type="sumbit" style="display: none;" class="btn btn-round btn-fill btn-danger bulk-delete-item">Delete Permanent <span class="bulk-delete-count"></span> Post</button>
 </form>
-<form method="post" action="{{ route('panel.post.trash__update__restore') }}" accept-charset="UTF-8" style="display: inline-block;">
+<form method="post" action="{{ route('panel.post.trash__update__restore__mass') }}" accept-charset="UTF-8" style="display: inline-block;">
     <input type="hidden" name="_token" value="{{ csrf_token() }}">
     <input type="hidden" name="id" class="bulk-delete-id">
     <button type="sumbit" style="display: none;" class="btn btn-round btn-fill btn-success bulk-delete-item">Restore <span class="bulk-delete-count"></span> Post</button>
