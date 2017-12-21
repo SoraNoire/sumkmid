@@ -13,7 +13,7 @@
     </script>
     <link rel="icon" type="image/x-icon" href="{{ asset('images/logo-ico.png') }}">
     <title>{{ config('app.name', 'Laravel') }} - Administrator</title>
-    <link href="{{ asset('css/admin.css') }}?v=1.0.1" rel="stylesheet">
+    <link href="{{ asset('css/app.css') }}?v=1.0.1" rel="stylesheet">
     
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   </head>
@@ -27,7 +27,8 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="{{ route('panel.dashboard') }}">MDIRECT</a>
+          <a class="navbar-brand" href="{{ route('panel.dashboard') }}" style="margin-top: -5px;">
+            <img src="{{URL::to('/img/logo.png')}}" style="max-width:70%;"></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">

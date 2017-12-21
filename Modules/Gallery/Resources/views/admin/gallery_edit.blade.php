@@ -5,14 +5,14 @@
 <div class="col-md-12">
     <h4 class="title">Edit Gallery</h4>
 
-    <form id="post-form" method="post" action="{{ route('updategallery',$gallery->id) }}" accept-charset="UTF-8">
-        <a href="{{ route('addgallery') }}" class="btn btn-round btn-fill btn-info">
+    <form id="post-form" method="post" action="{{ route('panel.gallery__update',$gallery->id) }}" accept-charset="UTF-8">
+        <a href="{{ route('panel.gallery__add') }}" class="btn btn-round btn-fill btn-info">
             New Gallery +<div class="ripple-container"></div>
         </a>
         <a target="_blank" href="{{ URL::to($prefix.'show/'.$gallery->slug) }}" class="btn btn-round btn-fill btn-info">
             View Gallery<div class="ripple-container"></div>
         </a>
-        <a onclick="return confirm('Delete gallery?');" href="{{ route('removegallery', $gallery->id)}}" class="btn btn-round btn-fill btn-danger">
+        <a onclick="return confirm('Delete gallery?');" href="{{ route('panel.gallery__delete', $gallery->id)}}" class="btn btn-round btn-fill btn-danger">
             Delete Gallery<div class="ripple-container"></div>
         </a>
         <button type="submit" class="btn btn-success pull-right">Save Gallery</button>

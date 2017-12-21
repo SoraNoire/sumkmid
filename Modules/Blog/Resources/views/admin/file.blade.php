@@ -9,7 +9,7 @@
         <input type="file" id="fileUpload" name="fileUpload[]" style="cursor: pointer;display: none;" multiple>
     </form>
 </div>
-<form class="pull-right" method="post" action="{{ route('massdeletefiles') }}" accept-charset="UTF-8">
+<form class="pull-right" method="post" action="{{ route('panel.file__delete__mass') }}" accept-charset="UTF-8">
     <input type="hidden" name="_token" value="{{ csrf_token() }}">
     <input type="hidden" name="id" class="bulk-delete-id">
     <button type="sumbit" style="display: none;margin-bottom: 10px;" class="btn btn-round btn-fill btn-danger bulk-delete-item">Delete <span class="bulk-delete-count"></span> Files</button>

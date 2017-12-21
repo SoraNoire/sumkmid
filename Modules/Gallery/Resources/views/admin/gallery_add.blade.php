@@ -5,8 +5,8 @@
 <div class="col-md-12">
     <h4 class="title">New Gallery</h4>
 
-    <form id="post-form" method="post" action="{{ route('storegallery') }}" accept-charset="UTF-8">
-        <a href="{{ route('addgallery') }}" class="btn btn-round btn-fill btn-info">
+    <form id="post-form" method="post" action="{{ route('panel.gallery__save') }}" accept-charset="UTF-8">
+        <a href="{{ route('panel.gallery__add') }}" class="btn btn-round btn-fill btn-info">
             New Gallery +<div class="ripple-container"></div>
         </a>
 

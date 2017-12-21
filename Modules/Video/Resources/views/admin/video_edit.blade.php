@@ -5,14 +5,14 @@
 <div class="col-md-12">
     <h4 class="title">Edit Videos</h4>
 
-    <form id="post-form" method="post" action="{{ route('updatevideo',$video->id) }}" accept-charset="UTF-8">
-        <a href="{{ route('addvideo') }}" class="btn btn-round btn-fill btn-info">
+    <form id="post-form" method="post" action="{{ route('panel.video__update',$video->id) }}" accept-charset="UTF-8">
+        <a href="{{ route('panel.video__add') }}" class="btn btn-round btn-fill btn-info">
             New Video +<div class="ripple-container"></div>
         </a>
-        <a target="_blank" href="{{ route('showvideo',$video->slug) }}" class="btn btn-round btn-fill btn-info">
+        <a target="_blank" href="{{ route('panel.video__view',$video->slug) }}" class="btn btn-round btn-fill btn-info">
             View Video<div class="ripple-container"></div>
         </a>
-        <a onclick="return confirm('Delete video?');" href="{{route('removevideo',$video->id)}}" class="btn btn-round btn-fill btn-danger">
+        <a onclick="return confirm('Delete video?');" href="{{route('panel.video__delete',$video->id)}}" class="btn btn-round btn-fill btn-danger">
             Delete Video<div class="ripple-container"></div>
         </a>
 

@@ -2,8 +2,8 @@
 
 @section('content')
 <div class="col-md-12">
-<form method="post" action="{{ route('massdeletetag') }}" accept-charset="UTF-8">
-    <a href="{{ route('addtag') }}" class="btn btn-round btn-fill btn-info">New Tag +<div class="ripple-container"></div></a>
+<form method="post" action="{{ route('panel.tag__delete__mass') }}" accept-charset="UTF-8">
+    <a href="{{ route('panel.tag__add') }}" class="btn btn-round btn-fill btn-info">New Tag +<div class="ripple-container"></div></a>
     <input type="hidden" name="_token" value="{{ csrf_token() }}">
     <input type="hidden" name="id" class="bulk-delete-id">
     <button type="sumbit" style="display: none;" class="btn btn-round btn-fill btn-danger bulk-delete-item">Delete <span class="bulk-delete-count"></span> Tag</button>

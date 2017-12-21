@@ -5,14 +5,14 @@
 <div class="col-md-12">
     <h4 class="title">Edit Posts</h4>
 
-    <form id="post-form" method="post" action="{{ route('updatepost',$post->id) }}" accept-charset="UTF-8">
-        <a href="{{ route('addpost') }}" class="btn btn-round btn-fill btn-info">
+    <form id="post-form" method="post" action="{{ route('panel.post__update',$post->id) }}" accept-charset="UTF-8">
+        <a href="{{ route('panel.post__add') }}" class="btn btn-round btn-fill btn-info">
             New Post +<div class="ripple-container"></div>
         </a>
         <a target="_blank" href="{{ URL::to($prefix.'show/'.$post->slug) }}" class="btn btn-round btn-fill btn-info">
             View Post<div class="ripple-container"></div>
         </a>
-        <a onclick="return confirm('Delete Post?');" href="{{ route('removepost', $post->id) }}" class="btn btn-round btn-fill btn-danger">
+        <a onclick="return confirm('Delete Post?');" href="{{ route('panel.post__delete', $post->id) }}" class="btn btn-round btn-fill btn-danger">
             Delete Post<div class="ripple-container"></div>
         </a>
 

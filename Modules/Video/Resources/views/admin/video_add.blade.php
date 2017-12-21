@@ -5,8 +5,8 @@
 <div class="col-md-12">
     <h4 class="title">New Videos</h4>
 
-    <form id="post-form" method="post" action="{{ route('storevideo') }}" accept-charset="UTF-8">
-        <a href="{{ route('addvideo') }}" class="btn btn-round btn-fill btn-info">
+    <form id="post-form" method="post" action="{{ route('panel.video__save') }}" accept-charset="UTF-8">
+        <a href="{{ route('panel.gallery__add') }}" class="btn btn-round btn-fill btn-info">
             New Video +<div class="ripple-container"></div>
         </a>
         

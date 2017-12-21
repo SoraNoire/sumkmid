@@ -63,19 +63,19 @@
               <a href="{{ url('admin/blog/gallery/') }}">Gallery</a>
             </li>
             <li class="mobile-admin-nav {{ ($page_meta_title ?? '') == 'Categories' ? 'active' : ''}}">
-              <a href="{{ route('categories') }}">Categories</a>
+              <a href="{{ route('panel.category__index') }}">Categories</a>
             </li>
             <li class="mobile-admin-nav {{ ($page_meta_title ?? '') == 'Tags' ? 'active' : ''}}">
-              <a href="{{ route('tags') }}">Tags</a>
+              <a href="{{ route('panel.tag__index') }}">Tags</a>
             </li>
             <li class="mobile-admin-nav {{ ($page_meta_title ?? '') == 'Media' ? 'active' : ''}}">
               <a href="{{ url('admin/blog/media') }}">Media</a>
             </li>
             <li class="mobile-admin-nav {{ ($page_meta_title ?? '') == 'Files' ? 'active' : ''}}">
-              <a href="{{ route('files') }}">Files</a>
+              <a href="{{ route('panel.file__index') }}">Files</a>
             </li>
             <li class="mobile-admin-nav {{ ($page_meta_title ?? '') == 'Trash' ? 'active' : ''}}">
-              <a href="{{ route('trash') }}">Trash</a>
+              <a href="{{ route('panel.post.trash__index') }}">Trash</a>
             </li>
 
             <li>
@@ -109,19 +109,19 @@
               <a href="{{ url('admin/blog/gallery/') }}">Gallery</a>
             </li>
             <li class="{{ ($page_meta_title ?? '') == 'Categories' ? 'active' : ''}}">
-              <a href="{{ route('categories') }}">Categories</a>
+              <a href="{{ route('panel.category__index') }}">Categories</a>
             </li>
             <li class="{{ ($page_meta_title ?? '') == 'Tags' ? 'active' : ''}}">
-              <a href="{{ route('tags') }}">Tags</a>
+              <a href="{{ route('panel.tag__index') }}">Tags</a>
             </li>
             <li class="{{ ($page_meta_title ?? '') == 'Media' ? 'active' : ''}}">
               <a href="{{ url('admin/blog/media') }}">Media</a>
             </li>
             <li class="{{ ($page_meta_title ?? '') == 'Files' ? 'active' : ''}}">
-              <a href="{{ route('files') }}">Files</a>
+              <a href="{{ route('panel.file__index') }}">Files</a>
             </li>
             <li class="{{ ($page_meta_title ?? '') == 'Trash' ? 'active' : ''}}">
-              <a href="{{ route('trash') }}">Trash</a>
+              <a href="{{ route('panel.post.trash__index') }}">Trash</a>
             </li>
           </ul>
         </div>

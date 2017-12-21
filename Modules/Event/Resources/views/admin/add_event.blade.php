@@ -6,8 +6,8 @@
     
     <h4 class="title">New events</h4>
 
-    <form id="event-form" method="post" action="{{ route('storeevent') }}" accept-charset="UTF-8">
-        <a href="{{ route('addevent') }}" class="btn btn-round btn-fill btn-info">
+    <form id="event-form" method="post" action="{{ route('panel.event__save') }}" accept-charset="UTF-8">
+        <a href="{{ route('panel.event__add') }}" class="btn btn-round btn-fill btn-info">
             New Event +<div class="ripple-container"></div>
         </a>
         <button type="submit" class="btn btn-success pull-right">Save Event</button>

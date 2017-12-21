@@ -7,7 +7,7 @@
         <h4 class="title">Edit File</h4>
     </div>
 
-    <form method="post" action="{{ route('updatefile',$id) }}" accept-charset="UTF-8">
+    <form method="post" action="{{ route('panel.file__update',$id) }}" accept-charset="UTF-8">
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
         <div class="form-group">
             <label class="control-label">Label</label>
