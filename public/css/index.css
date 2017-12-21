@@ -1386,63 +1386,178 @@ template,
 }
 
 footer {
-  background-color: #404040;
-  padding-top: 60px;
-  padding-bottom: 67px;
-  text-align: center;
+  background-color: #135383;
+  padding-top: 80px;
+  padding-bottom: 70px;
+  position: relative;
+  overflow: hidden;
+  color: white;
 }
 
-footer .footer-socmed {
-  margin-top: 15px;
-  margin-bottom: 11px;
+footer .container .col-4 {
+  margin: 0 20px;
+  padding: 0px;
 }
 
-footer .footer-socmed ul {
-  margin: unset;
-  padding: unset;
+footer .container .footerItems {
+  position: relative;
+  height: 217px;
 }
 
-footer .footer-socmed ul li {
+footer .container .footerItems .desc {
+  margin-top: 20px;
+}
+
+footer .container .footerItems .footerLogo {
+  margin-top: 20px;
+  text-align: left;
+}
+
+footer .container .footerItems .footerLogo span {
+  font-size: 1em;
+  font-weight: 300;
+}
+
+footer .container .footerItems .footerNav {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+
+footer .container .footerItems .footerNav .copyText {
+  display: none;
+}
+
+footer .container .footerItems .footerNav ul {
+  margin-bottom: 0px;
+  padding-left: 0px;
+}
+
+footer .container .footerItems .footerNav ul li {
   display: inline-block;
-  margin-right: 15px;
+  width: 25%;
+  text-align: center;
+  float: left;
+  font-weight: 700;
+}
+
+footer .container .footerItems .footerNav ul li a {
+  font-size: .76em;
+  color: #fff;
+  text-decoration: none;
+}
+
+footer .container .footerItems .footerNav ul li a:hover {
+  color: #1d3d6f;
+}
+
+footer .container .contactItems {
+  font-weight: 300;
+}
+
+footer .container .contactItems h5 {
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+footer .container .contactItems ul {
+  margin-bottom: 0px;
+  padding-left: 0px;
+}
+
+footer .container .contactItems ul li {
+  list-style: none;
+  padding: 39.7px 0px;
+}
+
+footer .container .contactItems ul li:first-child {
+  padding-top: 15px;
+}
+
+footer .container .contactItems ul li:last-child {
+  padding-bottom: 0px;
+}
+
+footer .container .contactItems ul li i {
+  display: inline-block;
+  float: left;
+  margin-top: 4px;
+  width: 40px;
+}
+
+footer .container .contactItems ul li p {
+  display: inline-block;
+  float: left;
+  width: calc(100% - 40px);
+}
+
+footer .container .stayInTouch h5 {
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+footer .container .stayInTouch .footerSubForm {
+  margin: 30px 0px 25px 0px;
+}
+
+footer .container .stayInTouch .footerSubForm form {
+  position: relative;
+}
+
+footer .container .stayInTouch .footerSubForm form input {
+  background-color: transparent;
+  border: 1px solid #A3ABBA;
+  padding: 7px 2px;
+  outline: none;
+  text-align: center;
+  color: #fff;
   vertical-align: middle;
 }
 
-footer .footer-socmed ul li:last-child {
-  margin-right: 0;
+footer .container .stayInTouch .footerSubForm form input::-webkit-input-placeholder {
+  color: #A3ABBA;
 }
 
-footer .footer-socmed ul li a {
-  display: block;
-  margin: unset;
-  background-repeat: no-repeat;
-  background-position: center;
-  width: 35px;
-  height: 35px;
-  padding: 0;
+footer .container .stayInTouch .footerSubForm form button {
+  margin-left: 5px;
+  vertical-align: middle;
+  padding: 8px 20px;
+  background-color: #A3ABBA;
+  border: none;
 }
 
-footer .footer-nav {
-  margin-bottom: 40px;
+footer .container .stayInTouch .footerSubForm form button i {
+  font-size: 20px;
 }
 
-footer .footer-nav ul {
-  padding: 0;
-  margin: 0;
+footer .container .stayInTouch ul {
+  margin-bottom: 60px;
+  padding-left: 0px;
 }
 
-footer .footer-nav ul li {
+footer .container .stayInTouch ul li {
+  list-style: none;
   display: inline-block;
-  padding: 0 10px;
+  padding: 13px;
+  margin-right: 5px;
+  border-radius: 50%;
+  border: 1.1px solid #fff;
+  text-align: center;
+  position: relative;
 }
 
-footer .footer-nav ul li a {
-  text-decoration: none;
+footer .container .stayInTouch ul li a {
+  position: absolute;
   color: #fff;
+  left: -1px;
+  right: 0;
+  bottom: 3px;
 }
 
-footer .copyright {
-  color: #969696;
+footer .container .stayInTouch .copyText {
+  font-size: 1em;
+  font-weight: 500;
 }
 
 .loadVideo:after {
@@ -1583,6 +1698,20 @@ footer .copyright {
   -webkit-mask: url("/img/004-instagram-logo copy.svg") center/contain no-repeat;
 }
 
+.i-phone {
+  width: 14px;
+  height: 15px;
+  background: #ffffff;
+  -webkit-mask: url("/img/contact-telephone-icon.svg") center/contain no-repeat;
+}
+
+.i-mail {
+  width: 15px;
+  height: 11px;
+  background: #ffffff;
+  -webkit-mask: url("/img/contact-mail-icon.svg") center/contain no-repeat;
+}
+
 #mc_embed_signup {
   background: #fff;
   clear: left;
@@ -1598,7 +1727,7 @@ footer .copyright {
 
 #mainSlider .bigSlideContent .contentWrap {
   position: absolute;
-  background-color: rgba(207, 104, 25, 0.8);
+  background-color: rgba(255, 255, 255, 0.8);
   padding: 13% 20px 10px 20px;
   top: 0;
   height: 100%;
@@ -1631,9 +1760,9 @@ footer .copyright {
 }
 
 #mainSlider .bigSlideContent .contentWrap .content .caption {
-  font-weight: 700;
-  font-size: 15px;
-  color: #ffffff;
+  font-weight: 300;
+  font-size: 14px;
+  color: #000;
 }
 
 #what-we-do {
@@ -1744,7 +1873,7 @@ footer .copyright {
 }
 
 #programs {
-  background-image: url("/images/blue-bg.png");
+  background-color: #F8F8F8;
   display: block;
 }
 
@@ -1763,7 +1892,6 @@ footer .copyright {
   height: 500px;
   display: inline-block;
   vertical-align: top;
-  background-image: url("/images/happy-business-woman-calling-on-phone-in-hall_1262-3016.jpg");
   background-size: cover;
   background-color: #0A4773;
   background-position: center;
@@ -1789,7 +1917,7 @@ footer .copyright {
   -webkit-transition: .5s;
   transition: .5s;
   background-color: #0A4773;
-  background-image: unset;
+  background-image: unset !important;
 }
 
 #programs .programWrap .programSplit:hover .caption {
@@ -1817,15 +1945,24 @@ footer .copyright {
 }
 
 #ourMentors {
-  background-color: #3E81EB;
+  background-color: #ffffff;
   height: 400px;
 }
 
 #ourMentors .section-title {
-  color: #fff;
+  color: #575153;
   text-align: center;
   padding-top: 20px;
   padding-bottom: 20px;
+}
+
+#ourMentors .section-title span {
+  border-color: #575153;
+}
+
+#ourMentors .section-title span:last-child {
+  background-image: -webkit-gradient(linear, left top, right top, color-stop(55%, #575153), color-stop(0%, transparent));
+  background-image: linear-gradient(to right, #575153 55%, transparent 0%);
 }
 
 #ourMentors .the-mentor .mentorWrapper {
@@ -1834,14 +1971,14 @@ footer .copyright {
   background-position: 20px 50px;
   background-size: 100px auto;
   background-repeat: no-repeat;
-  height: 300px;
+  height: 233px;
   text-align: right;
   padding-top: 50px;
   padding-right: 20px;
 }
 
 #ourMentors .the-mentor .mentorWrapper span {
-  color: #444444;
+  color: #575153;
   line-height: 30px;
   display: block;
   font-size: 30px;
@@ -1856,12 +1993,26 @@ footer .copyright {
 #ourMentors .the-mentor .mentorWrapper .desc {
   padding-top: 10px;
   float: right;
-  width: 50%;
-  font-size: 12px;
+  padding-left: 50%;
+  font-size: 10px;
+  color: #575153;
 }
 
 #ourMentors .the-mentor .mentorWrapper button {
   float: right;
+  background-color: transparent;
+  border: 2px solid #575153;
+  font-weight: 300;
+  font-size: 14px;
+  outline: none;
+  padding: 6px 20px;
+  cursor: pointer;
+}
+
+#ourMentors .the-mentor .mentorWrapper button:hover {
+  background-color: #00C8C8;
+  border-color: #00C8C8;
+  color: #ffffff;
 }
 
 #event {
@@ -2917,7 +3068,8 @@ footer .copyright {
 
 #contact {
   padding-bottom: 50px;
-  color: #404040;
+  color: #ffffff;
+  background-color: #223138;
 }
 
 @media screen and (max-width: 512px) {
@@ -2929,35 +3081,58 @@ footer .copyright {
   }
 }
 
+#contact .container .row .contact-address p img {
+  background: #ffffff;
+}
+
 @media screen and (max-width: 512px) {
   #contact .container .row .contact-address {
     margin-bottom: 20px;
   }
 }
 
+#contact .contact-form table {
+  -webkit-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+  background-color: #FFFFFF;
+}
+
+#contact .contact-form table td {
+  padding-left: 10px;
+  border: 1px solid #E2E2E2;
+}
+
+#contact .contact-form label {
+  color: #8b8b8b;
+  font-size: 11px;
+}
+
 #contact .contact-form input {
   display: block;
-  width: 97%;
-  border-radius: 5px;
-  border: solid 1px #404040;
-  padding: 6px;
-  margin-bottom: 15px;
+  width: 90%;
+  border: none;
+  outline: none;
+  font-size: 16px;
 }
 
 #contact .contact-form textarea {
   display: block;
   height: 139px;
   width: 97%;
-  border-radius: 5px;
-  border: solid 1px #404040;
-  padding: 6px;
+  border: none;
+  outline: none;
   margin-bottom: 27px;
 }
 
 #contact .contact-form button {
+  cursor: pointer;
   border: unset;
-  padding: 8px 23px;
+  padding: 10px 30px;
   float: right;
+  letter-spacing: 2px;
+  background-color: #1D3D6F;
+  color: #fff;
+  font-weight: 700;
 }
 
 #singleMentor h3 {
@@ -3123,7 +3298,6 @@ footer .copyright {
 
 .singleVideo .gallery-top {
   width: 100%;
-  margin-bottom: 10px;
 }
 
 .singleVideo .gallery-thumbs {
@@ -3426,6 +3600,15 @@ footer .copyright {
 .singleVideo .videoNavigation .nextVideo a span {
   display: inline-block;
   vertical-align: middle;
+}
+
+#tentang .tentangContent {
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
+#tentang .tentangContent p {
+  margin-bottom: 30px;
 }
 
 @-webkit-keyframes spin {

@@ -82,7 +82,7 @@
 
 <section id="programs">
 	<div class="programWrap">
-		<div class="programSplit">
+		<div class="programSplit" style="background-image: url({{asset('images/program/1.jpg')}})">
 			<div class="logo">
 				<img src="{{ asset('images/niexjjzstcseuzdzkvoq.png') }}">
 			</div>
@@ -93,7 +93,7 @@
 				<p>Mempertemukan Pelaku UMKM dengan Pelaku Profesional yang	dapat membantu untuk meningkatkan dan mengembangkan potensi usaha pelakunya</p>
 			</div>
 		</div>
-		<div class="programSplit">
+		<div class="programSplit" style="background-image: url({{asset('images/program/2.jpg')}})">
 			<div class="logo">
 				<img src="{{ asset('images/niexjjzstcseuzdzkvoq.png') }}">
 			</div>
@@ -104,7 +104,7 @@
 				<p>Sarana bagi para	pelaku UMKM	Indonesia untuk saling memberikan kontribusi, bertukar informasi,	menyampaikan ide, ilmu, dan pengalaman dalam mengembangkan usahanya</p>
 			</div>
 		</div>
-		<div class="programSplit">
+		<div class="programSplit" style="background-image: url({{asset('images/program/3.jpg')}})">
 			<div class="logo">
 				<img src="{{ asset('images/niexjjzstcseuzdzkvoq.png') }}">
 			</div>
@@ -115,7 +115,7 @@
 				<p>Mempertemukan Pelaku UMKM dengan Pelaku Profesional yang	dapat membantu untuk meningkatkan dan mengembangkan potensi usaha pelakunya</p>
 			</div>
 		</div>
-		<div class="programSplit">
+		<div class="programSplit" style="background-image: url({{asset('images/program/4.jpg')}})">
 			<div class="logo">
 				<img src="{{ asset('images/niexjjzstcseuzdzkvoq.png') }}">
 			</div>
@@ -138,9 +138,24 @@
 					<span class="head">MENTOR</span>
 					<span>KRIYA</span>
 					<p class="desc">Molestiae facilisis rem! Parturient. Torquent netus tempora pellentesque tenetur sapiente! Optio beatae est iaculis, veniam leo. Bibendum torquent ducimus, eu.</p>
-					<button>view now</button>
+					<a href="#"><button>VIEW NOW</button></a>
 				</div>
-				
+			</div>
+			<div class="col-4 the-mentor">
+				<div class="mentorWrapper">
+					<span class="head">MENTOR</span>
+					<span>UMKM</span>
+					<p class="desc">Molestiae facilisis rem! Parturient. Torquent netus tempora pellentesque tenetur sapiente! Optio beatae est iaculis, veniam leo. Bibendum torquent ducimus, eu.</p>
+					<a href="#"><button>VIEW NOW</button></a>
+				</div>
+			</div>
+			<div class="col-4 the-mentor">
+				<div class="mentorWrapper">
+					<span class="head">MENTOR</span>
+					<span>UMKM</span>
+					<p class="desc">Molestiae facilisis rem! Parturient. Torquent netus tempora pellentesque tenetur sapiente! Optio beatae est iaculis, veniam leo. Bibendum torquent ducimus, eu.</p>
+					<a href="#"><button>VIEW NOW</button></a>
+				</div>
 			</div>
 		</div>
 	</div>
