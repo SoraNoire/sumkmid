@@ -1,6 +1,6 @@
 <?php
 
-Route::group(['middleware' => 'web', 'prefix' => 'admin/blog/gallery', 'namespace' => 'Modules\Gallery\Http\Controllers'], function()
+Route::group(['middleware' => ['web','backend'], 'prefix' => 'admin/blog/gallery', 'namespace' => 'Modules\Gallery\Http\Controllers'], function()
 {
     // Route::get('/', 'GalleryController@index');
     Route::get('/index', 'GalleryController@index')
