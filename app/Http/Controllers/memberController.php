@@ -10,7 +10,6 @@ class memberController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('user');
     }
     /**
      * Show User Setting page.

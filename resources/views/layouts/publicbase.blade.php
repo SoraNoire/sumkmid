@@ -91,9 +91,9 @@
 	                                    Kontak
 	                                </a>
                                 </li>
-                                @if(app()->SSO->Auth())
+                                @if(app()->OAuth->Auth())
                                 <li class="userNavSetting">
-                                    <span>{{app()->SSO->Auth()->name}}</span>
+                                    <span>{{app()->OAuth->Auth()->name}}</span>
                                     <div class="goToProfile">
                                         <img id="profileTrigger" src="{{ asset('img/invalid-name.svg') }}" alt="">
                                     </div>
@@ -104,7 +104,7 @@
                                 </li>
                                 @else
 	                            <li class="loginButton">
-	                                <a href="{{ route('ssologin') }}" class="button">
+	                                <a href="{{ route('OA.login') }}" class="button">
 	                                    Masuk
 	                                </a>
                                 </li>

@@ -20,7 +20,8 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
-        \App\Http\Middleware\SSOMiddleware::class,
+        // \App\Http\Middleware\SSOMiddleware::class,
+        \Rabbit\OAuthClient\Middleware\OAuthMiddleware::class,
     ];
 
     /**
@@ -59,11 +60,11 @@ class Kernel extends HttpKernel
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-        'isAdmin' => \Modules\UserManager\Http\Middleware\AdminMiddleware::class,
-        'clearance' => \Modules\UserManager\Http\Middleware\ClearanceMiddleware::class,
+        // 'isAdmin' => \Modules\UserManager\Http\Middleware\AdminMiddleware::class,
+        // 'clearance' => \Modules\UserManager\Http\Middleware\ClearanceMiddleware::class,
 
-        'admin' => \App\Http\Middleware\AdminMiddleware::class,
-        'user' => \App\Http\Middleware\UserMiddleware::class,
-        'mentor' => \App\Http\Middleware\MentorMiddleware::class,
+        // 'admin' => \App\Http\Middleware\AdminMiddleware::class,
+        // 'user' => \App\Http\Middleware\UserMiddleware::class,
+        // 'mentor' => \App\Http\Middleware\MentorMiddleware::class,
     ];
 }
