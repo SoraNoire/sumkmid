@@ -37,8 +37,8 @@
 	                                </a>
 	                            </li>
                                 <li>
-	                                <a href="{{ route('public_video') }}">
-	                                    Video
+	                                <a href="{{ route('public_galeri') }}">
+	                                    Galeri
 	                                </a>
 	                            </li>
                                 <li>
@@ -115,8 +115,8 @@
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('public_video') }}">
-                            Video
+                        <a href="{{ route('public_galeri') }}">
+                            Galeri
                         </a>
                     </li>
                     <li>

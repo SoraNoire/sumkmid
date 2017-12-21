@@ -155,13 +155,18 @@ $('ul.pagination').hide();
 $(function(){
     $('.infinite-scroll').jscroll({
         autoTrigger: true,
-        loadingHtml: '<div class="loadingVideo"> <span class="infinite-scroll-request"><img src="/img/infinity-load.svg"></span> <span class="infinite-scroll-last">Memuat...</span> </div>',
+        loadingHtml: function() {
+                	$('.loading').show();
+                }
+        ,
         padding: 0,
         nextSelector: '.pagination li.active + li a',
         contentSelector: 'div.infinite-scroll',
         callback: function() {
             $('ul.pagination').remove();
             $('.atEnd').show();
+            $('.loading').hide();
+            $('.endOfEvent').show();
         }
     });
 });
