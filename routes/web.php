@@ -11,12 +11,11 @@
 |
 */
 
-Route::group(['middleware' => ['admin']], function () {
 
-	Route::get('/', ['as'=>'home', 'uses'=>function () {
-	    return json_encode(app()->SSO->Auth());
+Route::group(['middleware' => ['admin']], function () {
+	Route::get('/test', ['as'=>'home', 'uses'=>function () {
+	    return json_encode(app()->OAuthx->Auth());
 	}]);
-    
     Route::get('/admin', ['as'=>'admin_page', 'uses'=>function () {
 	    return redirect('/admin/blog');
 	}]);

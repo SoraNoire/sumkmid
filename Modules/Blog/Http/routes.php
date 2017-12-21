@@ -1,6 +1,6 @@
 <?php
 
-Route::group(['middleware' => ['web','backend'], 'prefix' => 'admin/blog', 'namespace' => 'Modules\Blog\Http\Controllers'], function()
+Route::group(['middleware' => ['web'], 'prefix' => 'admin/blog', 'namespace' => 'Modules\Blog\Http\Controllers'], function()
 {
     Route::get('/', 'BlogController@dashboard')
             ->name('panel.dashboard');
