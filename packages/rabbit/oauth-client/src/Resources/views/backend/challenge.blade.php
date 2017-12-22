@@ -3,11 +3,11 @@
 <head>
 	<title>Enter Code</title>
 </head>
-    <link href="{{ asset('css/admin.css') }}?v=1.0.1" rel="stylesheet">
+    <link href="{{ asset('css/app.css') }}?v=1.0.0" rel="stylesheet">
 <body>
 
   	<div style="margin: 0 auto;text-align: center;margin-bottom: 55px;">
-    	<img src="{{ asset('img/mainLogo.png') }}">
+    	<img src="{{ asset('/img/icon1color.png') }}">
   	</div>
 
 	@if (isset($error))
