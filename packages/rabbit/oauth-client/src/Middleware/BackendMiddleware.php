@@ -71,7 +71,11 @@ class BackendMiddleware
             {
                 return redirect('/');
             }
-            if(!isset(app()->OAuth->Auth()->role) || 'admin' != app()->OAuth->Auth()->role)
+            if(!isset(app()->OAuth->Auth()->role))
+            {
+                return redirect('/');
+            }
+            if ('admin' != app()->OAuth->Auth()->role)
             {
                 return redirect(route('panel.dashboard'));   
             }
@@ -109,7 +113,11 @@ class BackendMiddleware
                 {
                     return redirect('/');
                 }
-                if(!isset(app()->OAuth->Auth()->role) || 'admin' != app()->OAuth->Auth()->role)
+                if(!isset(app()->OAuth->Auth()->role))
+                {
+                    return redirect('/');
+                }
+                if ('admin' != app()->OAuth->Auth()->role)
                 {
                     return redirect(route('panel.dashboard'));   
                 }
@@ -155,7 +163,11 @@ class BackendMiddleware
             {
                 return redirect('/');
             }
-            if(!isset(app()->OAuth->Auth()->role) || 'admin' != app()->OAuth->Auth()->role)
+            if(!isset(app()->OAuth->Auth()->role))
+            {
+                return redirect('/');
+            }
+            if ('admin' != app()->OAuth->Auth()->role)
             {
                 return redirect(route('panel.dashboard'));   
             }
