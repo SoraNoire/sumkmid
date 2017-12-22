@@ -92,7 +92,6 @@ class EventController extends Controller
         $newdata = array();
         foreach ($output['data'] as $data) {
             $u= app()->OAuth->user($data->author);
-            var_dump($data->author);
             $name = $u->username ?? 'admin';
             if ($name != '') {
                 $data->author_name = $name;
