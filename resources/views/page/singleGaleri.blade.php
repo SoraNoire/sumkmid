@@ -49,10 +49,10 @@
 			<!-- Swiper -->
 			<div class="swiper-container gallery-top">
 				<div class="swiper-wrapper">
+					<div class="swiper-slide" style="background-image:url({{ asset('images/e2f87ecce1c734ee1b2e8cb8d0css04274.jpg') }})"></div>
 					<div class="swiper-slide" style="background-image:url({{ asset('images/broccoli.jpg') }})"></div>
-					<div class="swiper-slide" style="background-image:url({{ asset('images/broccoli.jpg') }})"></div>
-					<div class="swiper-slide" style="background-image:url({{ asset('images/broccoli.jpg') }})"></div>
-					<div class="swiper-slide" style="background-image:url({{ asset('images/broccoli.jpg') }})"></div>
+					<div class="swiper-slide" style="background-image:url({{ asset('images/tradingbusinessplan.jpg') }})"></div>
+					<div class="swiper-slide" style="background-image:url({{ asset('images/e2f87ecce1c734ee1b2e8cb8d0c04274.jpg') }})"></div>
 				</div>
 				<!-- Add Arrows -->
 				<div class="swiper-button-next swiper-button-white"></div>
@@ -60,10 +60,10 @@
 			</div>
 			<div class="swiper-container gallery-thumbs">
 				<div class="swiper-wrapper">
+					<div class="swiper-slide" style="background-image:url({{ asset('images/e2f87ecce1c734ee1b2e8cb8d0css04274.jpg') }})"></div>
 					<div class="swiper-slide" style="background-image:url({{ asset('images/broccoli.jpg') }})"></div>
-					<div class="swiper-slide" style="background-image:url({{ asset('images/broccoli.jpg') }})"></div>
-					<div class="swiper-slide" style="background-image:url({{ asset('images/broccoli.jpg') }})"></div>
-					<div class="swiper-slide" style="background-image:url({{ asset('images/broccoli.jpg') }})"></div>
+					<div class="swiper-slide" style="background-image:url({{ asset('images/tradingbusinessplan.jpg') }})"></div>
+					<div class="swiper-slide" style="background-image:url({{ asset('images/e2f87ecce1c734ee1b2e8cb8d0c04274.jpg') }})"></div>
 				</div>
 			</div>
 			@endif
