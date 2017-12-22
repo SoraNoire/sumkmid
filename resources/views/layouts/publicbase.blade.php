@@ -12,7 +12,7 @@
     <link rel="icon" type="image/x-icon" href="{{ asset('img/logo-ico.png') }}">
     <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}">
     <link href="//cdn-images.mailchimp.com/embedcode/classic-10_7.css" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="{{ asset('css/index.css') }}?v=1.1.3">
+    <link rel="stylesheet" href="{{ asset('css/index.css') }}?v=1.1.4">
 
     @if(isset($fb_pixel))
     @if($fb_pixel != '')
@@ -59,12 +59,13 @@
             <div class="container">
                 <div class="the-row">
                     <div class="col-3 mainLogo">
-                        <a href="{{ route('public_home') }}"><img src="{{ asset('img/logo.png') }}" alt="sahabat-umkm-logo"></a>
+                        <a href="{{ route('public_home') }}"><img src="{{ asset('img/icon1color.png') }}" alt="sahabat-umkm-logo"></a>
                     </div>
                     <nav class="col-9 topNav">
                         <div class="navWrapper">
 	                        <div class="burgerBtn"></div>
 	                        <ul>
+                                <li><a href="{{ route('public_tentang') }}">Tentang</a></li>
 	                            <li class="{{ ($var['page'] ?? '' == 'Event' ? 'active' : '') }}">
 	                                <a href="{{ route('public_event') }}">
 	                                    Event
@@ -82,7 +83,7 @@
 	                            </li>
 	                            <li class="{{ ($var['page'] ?? '' == 'Ijin Usaha' ? 'active' : '') }}">
 	                                <a href="#">
-	                                    Tanya Jawab
+	                                    Forum
 	                                </a>
 	                            </li>
 	                            <li class="{{ ($var['page'] ?? '' == 'Kontak' ? 'active' : '') }}">
@@ -131,51 +132,61 @@
 	</section>
 
  	<footer>
- 		<div class="container">
- 			<div class="footer-logo">
- 				<a href="#">
- 					<img src="{{ asset('img/footer-logo.png') }}" alt="footer-logo-sahabat-umkm">
- 				</a>
- 			</div>
- 			<div class="footer-socmed">
- 				<ul>
-                    <li><a target="_blank" href="{{ $link_fb ?? '#' }}" style="background-image: url('/img/home-facebook-logo.svg');"></a></li>
-                    <li><a target="_blank" href="{{ $link_tw ?? '#' }}" style="background-image: url('/img/home-twitter-logo.svg');"></a></li>
-                    <li><a target="_blank" href="{{ $link_yt ?? '#' }}" style="background-image: url('/img/home-youtube-logo.svg');"></a></li>
-                    <li><a target="_blank" href="{{ $link_ig ?? '#' }}" style="background-image: url('/img/home-instagram-logo.svg');"></a></li>
- 				</ul>
- 			</div>
- 			<div class="footer-nav">
- 				<ul>
-                    <li class="{{ ($var['page'] ?? '' == 'Event' ? 'active' : '') }}">
-                        <a href="{{ route('public_event') }}">
-                            Event
-                        </a>
-                    </li>
-                    <li class="{{ ($var['page'] ?? '' == 'mentor' ? 'active' : '') }}">
-                        <a href="{{ route('public_mentor') }}">
-                            Mentor
-                        </a>
-                    </li>
-                    <li class="{{ ($var['page'] ?? '' == 'galeri' ? 'active' : '') }}">
-                        <a href="{{ route('public_galeri') }}">
-                            Video
-                        </a>
-                    </li>
-                    <li class="{{ ($var['page'] ?? '' == 'Ijin Usaha' ? 'active' : '') }}">
-                        <a href="#">
-                            Tanya Jawab
-                        </a>
-                    </li>
-                    <li class="{{ ($var['page'] ?? '' == 'Kontak' ? 'active' : '') }}">
-                        <a href="{{ route('public_kontak') }}">
-                            Kontak
-                        </a>
-                    </li>
-                </ul>
- 			</div>
-            <span class="copyright">&copy;2017 SahabatUMKM.id, All Right Reserved Worldwide</span>
- 		</div>
+        <div class="container">
+            <div class="the-row">
+                <div class="col-4 footerItems">
+                    <div class="footerLogo">
+                        <img src="{{ asset('img/footer-logo.png') }}" alt="logo-sahabat-UMKM">
+                    </div>
+                    <p class="desc">
+                        Perferendis faucibus dignissim nostra, libero ridiculus odio eu mus elit. Quia class. Non hendrerit, aptent impedit volutpat aliquid? Porro urna, rutrum, earum reiciendis quisquam, voluptatum.
+                    </p>
+                </div>
+                <div class="col-4 contactItems">
+                    <h5>OUR OFFICE</h5>
+                    <ul>
+                        <li>
+                            <i class="fa fa-map-marker" aria-hidden="true"></i>
+                            <p>
+                                Jalan Kebon Kacang Raya no. 25<br>
+                                Tanah Abang, Jakarta Pusat
+                            </p>
+                        </li>
+                        <li>
+                            <i class="fa fa-phone" aria-hidden="true"></i>
+                            <p>
+                                (+62) 21 3917399
+                            </p>
+                        </li>
+                        <li>
+                            <i class="fa fa-envelope" aria-hidden="true"></i>
+                            <p>
+                                info@mdirect.id
+                            </p>
+                        </li>
+
+                    </ul>
+                </div>
+                <div class="col-4 stayInTouch">
+                    <h5>STAY IN TOUCH</h5>
+                    <div class="footerSubForm">
+                        <form action="" method="">
+                            <input type="email" name="email_subscribe" placeholder="Subscribe our newsletter" required="required">
+                            <button id="submit_newsletter"><i class="fa fa-location-arrow" aria-hidden="true"></i></button>
+                        </form>
+                    </div>
+                    <ul>
+                        <li><a target="_blank" href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                        <li><a target="_blank" href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                        <li><a target="_blank" href="#"><i class="fa fa-dribbble" aria-hidden="true"></i></a></li>
+                        <li><a target="_blank" href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+                        <li><a target="_blank" href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
+                        <li><a target="_blank" href="#"><i class="fa fa-youtube-play" aria-hidden="true"></i></a></li>
+                    </ul>
+                    <span class="copyText">Copyright &copy; 2017 - Sahabat UMKM</span>
+                </div>
+            </div>
+        </div>
     </footer>
     <div class="trnsOverlay"></div>
     <div class="whiteOverlay"></div>

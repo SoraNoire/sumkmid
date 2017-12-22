@@ -156,8 +156,8 @@ $(function(){
     $('.infinite-scroll').jscroll({
         autoTrigger: true,
         loadingHtml: function() {
-                	$('.loading').show();
-                }
+        	$('.loading').show();
+        }
         ,
         padding: 0,
         nextSelector: '.pagination li.active + li a',
@@ -170,3 +170,4 @@ $(function(){
         }
     });
 });
+

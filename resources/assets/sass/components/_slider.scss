@@ -1,0 +1,65 @@
+#mainSlider{
+	max-width: 1600px;
+	display: block;
+	margin: 0 auto;
+	.bigSlideContent{
+		padding-top: 40%;
+		background-size: cover;
+		background-position: center;
+		position: relative;
+		@media screen and (max-width: 560px) {
+			padding-top: unset;
+			height: 300px;
+		}
+		.contentWrap{
+			position: absolute;
+			background-color: rgba(255, 255, 255,.8);
+			padding: 13% 20px 10px 20px;
+			top: 0;
+			height: 100%;
+			width: 40%;
+			@media screen and (max-width: 830px) {
+				padding-top: 5%;
+				width: 50%;
+			}
+			&.onRight{
+				right: 0;
+			}
+			&.onLeft{
+				left: 0;
+				.content{
+					float: right;
+					text-align: right;
+				}
+			}
+			.content{
+				margin: auto 0;
+				display: block;
+				width: 60%;
+				@media screen and (max-width: 830px) {
+					width: 80%;
+				}
+				@media screen and (max-width: 560px) {
+					width: 90%;
+				}
+				.heading{
+					color: rgb(29, 61, 111);
+					font-weight: $bold;
+					font-size: 25px;
+					@media screen and (max-width: 560px) {
+						font-size: 19px;
+					}
+
+				}
+				.caption{
+					font-weight: $light;
+					font-size: 14px;
+					color: #000;
+					@media screen and (max-width: 560px) {
+						font-size: 13px;
+					}
+				}
+			}
+		}
+	}
+}
