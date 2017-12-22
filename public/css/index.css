@@ -1192,7 +1192,7 @@ template,
 
 .navWrapper ul li {
   display: inline-block;
-  padding: 12px 12px;
+  padding: 16px 12px;
 }
 
 @media screen and (max-width: 850px) {
@@ -1203,9 +1203,15 @@ template,
 
 .navWrapper ul li a {
   font-size: 18px;
-  color: #fff;
+  color: #1d3d6f;
   text-decoration: none;
   vertical-align: middle;
+}
+
+@media screen and (max-width: 850px) {
+  .navWrapper ul li a {
+    color: #fff;
+  }
 }
 
 .navWrapper ul li a:hover {
@@ -1325,6 +1331,7 @@ template,
 }
 
 .navWrapper ul .loginButton a {
+  color: #fff;
   font-size: 16px !important;
   font-weight: 500;
   line-height: 1;
@@ -1355,7 +1362,7 @@ template,
 }
 
 .headerTop {
-  background-color: #1d3d6f;
+  background-color: #ffffff;
   padding: 12px 0px;
   z-index: 3;
   position: relative;
@@ -1406,11 +1413,16 @@ footer .container .footerItems {
 
 footer .container .footerItems .desc {
   margin-top: 20px;
+  padding-right: 10px;
 }
 
 footer .container .footerItems .footerLogo {
   margin-top: 20px;
   text-align: left;
+}
+
+footer .container .footerItems .footerLogo img {
+  max-width: 100%;
 }
 
 footer .container .footerItems .footerLogo span {
@@ -1511,6 +1523,7 @@ footer .container .stayInTouch .footerSubForm form input {
   padding: 7px 2px;
   outline: none;
   text-align: center;
+  width: calc(100% - 100px);
   color: #fff;
   vertical-align: middle;
 }
@@ -1558,6 +1571,106 @@ footer .container .stayInTouch ul li a {
 footer .container .stayInTouch .copyText {
   font-size: 1em;
   font-weight: 500;
+}
+
+@media only screen and (max-width: 1145px) {
+  footer .container .col-4 {
+    margin: 0px 40px;
+  }
+}
+
+@media only screen and (max-width: 955px) {
+  footer .container .col-4 {
+    margin: 0px 20px;
+  }
+}
+
+@media only screen and (max-width: 850px) {
+  footer .container .col-4 {
+    display: inline-block;
+  }
+
+  footer .container .footerItems .footerNav .copyText {
+    display: block;
+  }
+
+  footer .container .footerItems .footerNav ul {
+    display: none;
+  }
+
+  footer .container .contactItems {
+    width: -webkit-max-content;
+    width: -moz-max-content;
+    width: max-content;
+  }
+
+  footer .container .stayInTouch {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  footer .container .col-4 {
+    width: 50%;
+  }
+}
+
+@media only screen and (max-width: 568px) {
+  footer {
+    padding: 15px 15px;
+    font-size: 11px;
+  }
+
+  footer .container .contactItems ul li {
+    padding: 21.7px 0px;
+  }
+
+  footer .container .footerItems {
+    height: 145px;
+  }
+
+  footer .container .footerItems .footerLogo {
+    margin-top: 0px;
+    width: 80%;
+  }
+}
+
+@media only screen and (max-width: 520px) {
+  footer {
+    font-size: 9.17px;
+  }
+
+  footer .container .footerItems .footerNav .copyText {
+    font-size: 7.08px;
+  }
+
+  footer .container .col-4 {
+    margin: 0px;
+  }
+
+  footer .container .footerItems {
+    height: 106px;
+  }
+
+  footer .container .footerItems .footerLogo {
+    width: 60%;
+  }
+
+  footer .container .footerItems .footerLogo span {
+    font-size: 0.65em;
+  }
+
+  footer .container .contactItems ul li {
+    padding: 16.7px 0px;
+  }
+
+  footer .container .contactItems ul li:first-child {
+    padding-top: 0px;
+  }
+}
+
+.clearfix {
+  clear: both;
 }
 
 .loadVideo:after {
@@ -1718,11 +1831,24 @@ footer .container .stayInTouch .copyText {
   font: 14px Helvetica,Arial,sans-serif;
 }
 
+#mainSlider {
+  max-width: 1600px;
+  display: block;
+  margin: 0 auto;
+}
+
 #mainSlider .bigSlideContent {
   padding-top: 40%;
   background-size: cover;
   background-position: center;
   position: relative;
+}
+
+@media screen and (max-width: 560px) {
+  #mainSlider .bigSlideContent {
+    padding-top: unset;
+    height: 300px;
+  }
 }
 
 #mainSlider .bigSlideContent .contentWrap {
@@ -1732,6 +1858,13 @@ footer .container .stayInTouch .copyText {
   top: 0;
   height: 100%;
   width: 40%;
+}
+
+@media screen and (max-width: 830px) {
+  #mainSlider .bigSlideContent .contentWrap {
+    padding-top: 5%;
+    width: 50%;
+  }
 }
 
 #mainSlider .bigSlideContent .contentWrap.onRight {
@@ -1753,16 +1886,40 @@ footer .container .stayInTouch .copyText {
   width: 60%;
 }
 
+@media screen and (max-width: 830px) {
+  #mainSlider .bigSlideContent .contentWrap .content {
+    width: 80%;
+  }
+}
+
+@media screen and (max-width: 560px) {
+  #mainSlider .bigSlideContent .contentWrap .content {
+    width: 90%;
+  }
+}
+
 #mainSlider .bigSlideContent .contentWrap .content .heading {
   color: #1d3d6f;
   font-weight: 700;
   font-size: 25px;
 }
 
+@media screen and (max-width: 560px) {
+  #mainSlider .bigSlideContent .contentWrap .content .heading {
+    font-size: 19px;
+  }
+}
+
 #mainSlider .bigSlideContent .contentWrap .content .caption {
   font-weight: 300;
   font-size: 14px;
   color: #000;
+}
+
+@media screen and (max-width: 560px) {
+  #mainSlider .bigSlideContent .contentWrap .content .caption {
+    font-size: 13px;
+  }
 }
 
 #what-we-do {
@@ -1885,9 +2042,16 @@ footer .container .stayInTouch .copyText {
   width: max-content;
 }
 
+@media screen and (max-width: 830px) {
+  #programs .programWrap {
+    width: 100%;
+  }
+}
+
 #programs .programWrap .programSplit {
-  -webkit-transition: .5s;
-  transition: .5s;
+  cursor: default;
+  -webkit-transition: background-image 0.5s ease-in-out;
+  transition: background-image 0.5s ease-in-out;
   width: 200px;
   height: 500px;
   display: inline-block;
@@ -1897,6 +2061,15 @@ footer .container .stayInTouch .copyText {
   background-position: center;
   padding-top: 100px;
   text-align: center;
+}
+
+@media screen and (max-width: 830px) {
+  #programs .programWrap .programSplit {
+    width: 100%;
+    height: auto;
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
 }
 
 #programs .programWrap .programSplit .logo {
@@ -1909,6 +2082,13 @@ footer .container .stayInTouch .copyText {
   opacity: 0;
 }
 
+@media screen and (max-width: 830px) {
+  #programs .programWrap .programSplit .logo {
+    width: 40px;
+    padding-bottom: 5px;
+  }
+}
+
 #programs .programWrap .programSplit .logo img {
   max-width: 100%;
 }
@@ -1918,6 +2098,9 @@ footer .container .stayInTouch .copyText {
   transition: .5s;
   background-color: #0A4773;
   background-image: unset !important;
+  -webkit-transition: background-image 0.5s ease-in-out;
+  transition: background-image 0.5s ease-in-out;
+  -webkit-transition: all .4s ease;
 }
 
 #programs .programWrap .programSplit:hover .caption {
@@ -1945,8 +2128,10 @@ footer .container .stayInTouch .copyText {
 }
 
 #ourMentors {
+  cursor: default;
   background-color: #ffffff;
   height: 400px;
+  margin-top: 30px;
 }
 
 #ourMentors .section-title {
@@ -1965,11 +2150,32 @@ footer .container .stayInTouch .copyText {
   background-image: linear-gradient(to right, #575153 55%, transparent 0%);
 }
 
+@media screen and (max-width: 830px) {
+  #ourMentors .the-row {
+    display: block;
+    clear: both;
+  }
+}
+
+@media screen and (max-width: 830px) {
+  #ourMentors .the-mentor {
+    width: 400px;
+    display: block;
+    margin: 10px auto;
+    float: unset;
+  }
+}
+
+@media screen and (max-width: 428px) {
+  #ourMentors .the-mentor {
+    width: 90%;
+  }
+}
+
 #ourMentors .the-mentor .mentorWrapper {
   background-color: #F8F8F8;
-  background-image: url("/images/241_d_suit_standing_1600.png");
-  background-position: 20px 50px;
-  background-size: 100px auto;
+  background-position: -15px 50px;
+  background-size: 155px auto;
   background-repeat: no-repeat;
   height: 233px;
   text-align: right;
@@ -2248,6 +2454,12 @@ footer .container .stayInTouch .copyText {
   color: rgba(64, 64, 64, 0.87);
 }
 
+@media screen and (max-width: 830px) {
+  #mentor {
+    margin-top: 20px;
+  }
+}
+
 #newsletter {
   text-align: center;
   padding-top: 60px;
@@ -2276,9 +2488,9 @@ footer .container .stayInTouch .copyText {
   padding: 10px 5%;
   margin-left: -5px;
   border-radius: 0 6px 6px 0;
-  background-color: #1d3d6f;
+  background-color: #ffffff;
   color: #fff;
-  border: 1px solid #1d3d6f;
+  border: 1px solid #ffffff;
 }
 
 .blue-bg {

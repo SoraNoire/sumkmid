@@ -33,15 +33,18 @@
         }
         li{
             display: inline-block;
-            padding: 12px 12px;
+            padding: 16px 12px;
             @media screen and (max-width: 850px) {
                 display: block;
             }
             a {
                 font-size: 18px;
-                color: #fff;
+                color: $primaryColor;
                 text-decoration: none;
                 vertical-align: middle;
+                @media screen and (max-width: 850px) {
+                    color: #fff;
+                }
                 &:hover{
                     text-decoration: underline;
                 }
@@ -129,6 +132,7 @@
         .loginButton {
             padding: unset;
             a{
+                color: #fff;
                 font-size: 16px !important;
                 font-weight: 500;
                 line-height: 1;

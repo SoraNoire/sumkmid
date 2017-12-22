@@ -15,10 +15,14 @@ footer{
             height: 217px;
             .desc{
             	margin-top: 20px;
+                padding-right: 10px;
             }
             .footerLogo{
                 margin-top: 20px;
                 text-align: left;
+                img{
+                        max-width: 100%;
+                }
                 span{
                     font-size: 1em;
                     font-weight: $light;
@@ -100,6 +104,7 @@ footer{
                         padding: 7px 2px;
                         outline: none;
                         text-align: center;
+                        width: calc(100% - 100px);
                         color: #fff;
                         &::-webkit-input-placeholder{
                             color: #A3ABBA;
@@ -134,14 +139,151 @@ footer{
                         position: absolute;
                         color: #fff;
                         left: -1px;
-					    right: 0;
-					    bottom: 3px;
+                        right: 0;
+                        bottom: 3px;
                     }
                 }
             }
             .copyText{
                 font-size: 1em;
                 font-weight: $semibold;
+            }
+        }
+    }
+}
+
+
+
+@media only screen and (max-width: 1145px) {
+    footer{
+        .container{
+            .col-4{
+                margin: 0px 40px;
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 955px) {
+    footer{
+        .container{
+            .col-4{
+                margin: 0px 20px;
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 850px) {
+    footer {
+        .container{
+            .col-4{
+                display: inline-block;
+            }
+            .footerItems{
+                .footerLogo{
+
+                }
+                .footerNav{
+                    .copyText{
+                        display: block;
+                    }
+                    ul{
+                        display: none;
+                    }
+                }
+
+            }
+            .contactItems{
+                width: max-content;
+            }
+            .stayInTouch{
+                display: none;
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    footer {
+        .container{
+            .col-4{
+                width: 50%;
+            }
+            .footerItems{
+                .footerLogo{
+                    span{
+                    }
+                }
+                .footerNav{
+                    ul{
+                    }
+                }
+
+            }
+            .contactItems{
+            }
+            .stayInTouch{
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 568px) {
+    footer {
+        padding: 15px 15px;
+        font-size: 11px;
+        .container{
+            .contactItems{
+                ul{
+                    li{
+                        padding: 21.7px 0px;
+                    }
+                }
+            }
+            .footerItems{
+                height: 145px;
+                .footerLogo{
+                    margin-top: 0px;
+                    width: 80%;
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 520px) {
+    footer{
+        font-size: 9.17px;
+        .container{
+            .footerItems{
+                .footerNav{
+                    .copyText{
+                        font-size: 7.08px;
+                    }
+                }
+            }
+            .col-4{
+                margin: 0px;
+            }
+            .footerItems{
+                height: 106px;
+                .footerLogo{
+                    width: 60%;
+                    span{
+                        font-size: 0.65em;
+                    }
+                }
+            }
+            .contactItems{
+                ul{
+                    li{
+                        padding: 16.7px 0px;
+                        &:first-child{
+                            padding-top: 0px;
+                        }
+                    }
+                }
             }
         }
     }

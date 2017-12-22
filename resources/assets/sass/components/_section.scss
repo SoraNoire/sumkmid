@@ -1,44 +1,4 @@
-#mainSlider{
-	.bigSlideContent{
-		padding-top: 40%;
-		background-size: cover;
-		background-position: center;
-		position: relative;
-		.contentWrap{
-			position: absolute;
-			background-color: rgba(255, 255, 255,.8);
-			padding: 13% 20px 10px 20px;
-			top: 0;
-			height: 100%;
-			width: 40%;
-			&.onRight{
-				right: 0;
-			}
-			&.onLeft{
-				left: 0;
-				.content{
-					float: right;
-					text-align: right;
-				}
-			}
-			.content{
-				margin: auto 0;
-				display: block;
-				width: 60%;
-				.heading{
-					color: rgb(29, 61, 111);
-					font-weight: $bold;
-					font-size: 25px;
-				}
-				.caption{
-					font-weight: $light;
-					font-size: 14px;
-					color: #000;
-				}
-			}
-		}
-	}
-}
+
 
 
 #what-we-do {
@@ -125,8 +85,13 @@
 			margin: auto;
 			display: block;
 			width: max-content;
+			@media screen and (max-width: 830px) {
+				width: 100%;
+			}
 		.programSplit{
-			transition: .5s;
+			cursor: default;
+			-webkit-transition: background-image 0.5s ease-in-out;
+			transition: background-image 0.5s ease-in-out;
 			width: 200px;
 			height: 500px;
 			display: inline-block;
@@ -136,7 +101,12 @@
 			background-position: center;
 			padding-top:100px;
 			text-align: center;
-			
+			@media screen and (max-width: 830px) {
+				width: 100%;
+				height: auto;
+				padding-top: 20px;
+				padding-bottom: 20px;
+			}
 			.logo{
 				transition: .5s;
 				width: 60%;
@@ -144,6 +114,10 @@
 				margin: 0 auto;
 				padding-bottom: 20px;
 				opacity: 0;
+				@media screen and (max-width: 830px) {
+					width: 40px;
+					padding-bottom: 5px;
+				}
 				img{
 					max-width: 100%;
 				}
@@ -152,7 +126,9 @@
 				transition: .5s;
 				background-color: #0A4773;
 				background-image: unset !important;
-				
+				-webkit-transition: background-image 0.5s ease-in-out;
+				transition: background-image 0.5s ease-in-out;
+				-webkit-transition: all .4s ease;
 				.caption{
 					opacity: .5;
 				}
@@ -177,8 +153,10 @@
 	}
 }
 #ourMentors{
+	cursor: default;
 	background-color: #ffffff;
 	height: 400px;
+	margin-top: 30px;
 	.section-title{
 		color: #575153;
 		text-align: center;
@@ -191,15 +169,27 @@
 				background-image: linear-gradient(to right, #575153 55%, rgba(0, 0, 0, 0) 0%);
 			}
 		}
-
-		
+	}
+	.the-row{
+		@media screen and (max-width: 830px) {
+			display: block;
+			clear: both;
+		}
 	}
 	.the-mentor{
+		@media screen and (max-width: 830px) {
+			width: 400px;
+			display: block;
+			margin: 10px auto;
+			float: unset;
+		}
+		@media screen and (max-width: 428px) {
+			width: 90%;
+		}
 		.mentorWrapper{
 			background-color: #F8F8F8;
-			background-image: url('/images/241_d_suit_standing_1600.png');
-			background-position: 20px 50px;
-			background-size: 100px auto;
+			background-position: -15px 50px;
+    		background-size: 155px auto;
 			background-repeat: no-repeat;
 			height: 233px;
 			text-align: right;
@@ -424,6 +414,9 @@
 }
 
 #mentor {
+	@media screen and (max-width: 830px) {
+		margin-top: 20px;
+	}
 	text-align: center;
 	padding-top: 61px;
 	padding-bottom: 50px;

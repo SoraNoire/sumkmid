@@ -1,3 +1,7 @@
+.clearfix{
+    clear: both;
+}
+
 .loadVideo{
     &:after{
         content: "Memuat Mentor";

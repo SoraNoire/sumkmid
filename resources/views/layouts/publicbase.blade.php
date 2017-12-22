@@ -59,7 +59,7 @@
             <div class="container">
                 <div class="the-row">
                     <div class="col-3 mainLogo">
-                        <a href="{{ route('public_home') }}"><img src="{{ asset('img/logo.png') }}" alt="sahabat-umkm-logo"></a>
+                        <a href="{{ route('public_home') }}"><img src="{{ asset('img/icon1color.png') }}" alt="sahabat-umkm-logo"></a>
                     </div>
                     <nav class="col-9 topNav">
                         <div class="navWrapper">

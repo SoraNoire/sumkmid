@@ -129,38 +129,6 @@
 	</div>
 </section>
 
-<section id="ourMentors">
-	<div class="container">
-		<h3 class="section-title"><span>Our</span> <span>Mentor</span></h3>
-		<div class="the-row">
-			<div class="col-4 the-mentor">
-				<div class="mentorWrapper">
-					<span class="head">MENTOR</span>
-					<span>KRIYA</span>
-					<p class="desc">Molestiae facilisis rem! Parturient. Torquent netus tempora pellentesque tenetur sapiente! Optio beatae est iaculis, veniam leo. Bibendum torquent ducimus, eu.</p>
-					<a href="#"><button>VIEW NOW</button></a>
-				</div>
-			</div>
-			<div class="col-4 the-mentor">
-				<div class="mentorWrapper">
-					<span class="head">MENTOR</span>
-					<span>UMKM</span>
-					<p class="desc">Molestiae facilisis rem! Parturient. Torquent netus tempora pellentesque tenetur sapiente! Optio beatae est iaculis, veniam leo. Bibendum torquent ducimus, eu.</p>
-					<a href="#"><button>VIEW NOW</button></a>
-				</div>
-			</div>
-			<div class="col-4 the-mentor">
-				<div class="mentorWrapper">
-					<span class="head">MENTOR</span>
-					<span>UMKM</span>
-					<p class="desc">Molestiae facilisis rem! Parturient. Torquent netus tempora pellentesque tenetur sapiente! Optio beatae est iaculis, veniam leo. Bibendum torquent ducimus, eu.</p>
-					<a href="#"><button>VIEW NOW</button></a>
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
-
 <section id="video" class="blue-bg">
 	<div class="container">
 		<h3 class="section-title"><span>Kisah Sukses Pelaku</span> <span>UMKM</span></h3>
@@ -176,7 +144,38 @@
 		</div>
 	</div>
 </section>
-
+<section id="ourMentors">
+	<div class="container">
+		<h3 class="section-title"><span>Our</span> <span>Mentor</span></h3>
+		<div class="the-row">
+			<div class="col-4 the-mentor">
+				<div class="mentorWrapper" style="background-image: url('/images/241_d_suit_standing_1600.png');">
+					<span class="head">MENTOR</span>
+					<span>KRIYA</span>
+					<p class="desc">Molestiae facilisis rem! Parturient. Torquent netus tempora pellentesque tenetur sapiente! Optio beatae est iaculis, veniam leo. Bibendum torquent ducimus, eu.</p>
+					<a href="#"><button>VIEW NOW</button></a>
+				</div>
+			</div>
+			<div class="col-4 the-mentor">
+				<div class="mentorWrapper" style="background-image: url('/images/business-girl.png');">
+					<span class="head">MENTOR</span>
+					<span>UMKM</span>
+					<p class="desc">Molestiae facilisis rem! Parturient. Torquent netus tempora pellentesque tenetur sapiente! Optio beatae est iaculis, veniam leo. Bibendum torquent ducimus, eu.</p>
+					<a href="#"><button>VIEW NOW</button></a>
+				</div>
+			</div>
+			<div class="col-4 the-mentor">
+				<div class="mentorWrapper" style="background-image: url('/images/girls_PNG6481.png');">
+					<span class="head">MENTOR</span>
+					<span>UMKM</span>
+					<p class="desc">Molestiae facilisis rem! Parturient. Torquent netus tempora pellentesque tenetur sapiente! Optio beatae est iaculis, veniam leo. Bibendum torquent ducimus, eu.</p>
+					<a href="#"><button>VIEW NOW</button></a>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<div class="clearfix"></div>
 <section id="mentor">
 	<div class="container">
 		<h3 class="section-title gray"><span>Punya Masalah</span> <span>Bisnis?</span></h3>
