@@ -8,7 +8,7 @@
     </div>
     @endif
     <h3>{{ $video->title }}</h3>
-    <small style="float: left;width: 100%;margin-bottom: 10px;"><a href="{{ url($prefix.'edit-video/'.$video->id) }}">Edit video</a></small>
+    <small style="float: left;width: 100%;margin-bottom: 10px;"><a href="{{ url('panel.video__view'.$video->id) }}">Edit video</a></small>
     <table>
         <tr>
             <th></th>

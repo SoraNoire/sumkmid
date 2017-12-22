@@ -28,7 +28,6 @@ class GalleryController extends Controller
     private $prefix;
 
     public function __construct(){
-        $this->user = new \App\Helpers\SSOHelper;
         $this->GalleryHelper = new GalleryHelper;
         $this->prefix = 'admin/blog/gallery/';
         View::share('prefix', $this->prefix);
@@ -89,8 +88,8 @@ class GalleryController extends Controller
 
         $newdata = array();
         foreach ($output['data'] as $data) {
-            $u= $this->user->users($data->author);
-            $name = $u->users[0]->username;
+            $u= app()->OAuth->user($data->author);
+            $name = $u->username ?? 'admin';
             if ($name != '') {
                 $data->author_name = $name;
             }
@@ -163,7 +162,7 @@ class GalleryController extends Controller
             $store->post_type = 'gallery';
             $store->content = $request->input('content');
             $store->featured_image = $request->input('featured_image');
-            $store->author = app()->SSO->Auth()->id;
+            $store->author = app()->OAuth->Auth()->id;
             $store->status = $request->get('status');
             $store->published_date = $published_date;
             $store->save();
@@ -279,7 +278,7 @@ class GalleryController extends Controller
             $update->post_type = 'gallery';
             $update->content = $content;
             $update->featured_image = $featured_img;
-            $update->author = app()->SSO->Auth()->id;
+            $update->author = app()->OAuth->Auth()->id;
             $update->status = $request->get('status');
             $update->published_date = $published_date;
             $update->save();

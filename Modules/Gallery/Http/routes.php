@@ -7,7 +7,7 @@ Route::group(['middleware' => ['web','backend'], 'prefix' => 'admin/blog/gallery
             ->name('panel.gallery__index');
 
     Route::get('/{slug}/show', 'GalleryController@show_gallery')
-            ->name('panel.gallery__view');
+            ->name('panel.gallery__view__single');
     // Route::get('/get-gallery', 'GalleryController@get_gallery');
     // Route::get('/create-gallery', 'GalleryController@create_gallery');
     // Route::get('/edit-gallery/{id}', 'GalleryController@edit_gallery');
