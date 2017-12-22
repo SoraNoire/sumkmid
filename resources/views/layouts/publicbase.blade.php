@@ -95,7 +95,7 @@
                                 <li class="userNavSetting">
                                     <span>{{app()->OAuth->Auth()->name}}</span>
                                     <div class="goToProfile">
-                                        <img id="profileTrigger" src="{{ asset('img/invalid-name.svg') }}" alt="">
+                                        <span id="profileTrigger" class="icon i-cog"></span>
                                     </div>
                                     <ul>
                                         <li><a href="{{route('user_setting')}}">Edit Profile</a></li>
