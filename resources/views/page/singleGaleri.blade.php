@@ -42,7 +42,7 @@
 	</div>
 	<div class="videoContainer">
 		<div class="container">
-			@if($var['content']->post_type == 'photo')
+			@if($var['content']->post_type == 'video')
 			<iframe src="{{$var['videoEmbed']}}" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen></iframe>
 			@else
 			<!-- Slider main container -->
