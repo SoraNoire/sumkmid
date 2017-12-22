@@ -35,7 +35,6 @@ class BlogController extends Controller
     private $prefix;
 
     public function __construct(){
-        $this->user = new \App\Helpers\SSOHelper;
         $this->PostHelper = new PostHelper;
         $this->prefix = 'admin/blog/';
         View::share('prefix', $this->prefix);
@@ -107,8 +106,8 @@ class BlogController extends Controller
 
         $newdata = array();
         foreach ($output['data'] as $data) {
-            $u= $this->user->users($data->author);
-            $name = $u->users[0]->username;
+            $u= app()->OAuth->users($data->author);
+            $name = $u->username ?? 'admin';
             if ($name != '') {
                 $data->author_name = $name;
             }
@@ -182,7 +181,7 @@ class BlogController extends Controller
             $store->post_type = 'post';
             $store->content = $request->input('content');
             $store->featured_image = $request->input('featured_image');
-            $store->author = app()->SSO->Auth()->id;
+            $store->author = app()->OAuth->Auth()->id;
             $store->status = $request->get('status');
             $store->published_date = $published_date;
             $store->save();
@@ -1230,8 +1229,8 @@ class BlogController extends Controller
 
         $newdata = array();
         foreach ($output['data'] as $data) {
-            $u= $this->user->users($data->author);
-            $name = $u->users[0]->username;
+            $u= app()->OAuth->user($data->author);
+            $name = $u->username ?? 'admin';
             if ($name != '') {
                 $data->author_name = $name;
             }
@@ -1511,8 +1510,8 @@ class BlogController extends Controller
 
         $newdata = array();
         foreach ($output['data'] as $data) {
-            $u= $this->user->users($data->author);
-            $name = $u->users[0]->username;
+            $u= app()->OAuth->user($data->author);
+            $name = $u->username??'admin';
             if ($name != '') {
                 $data->author_name = $name;
             }

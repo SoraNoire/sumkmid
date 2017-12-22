@@ -8,7 +8,7 @@
         <p class="category">{{ $act }} Category</p>
     </div>
 
-    <form method="post" action="{{  ($isEdit) ? route('updatecategory',$category_id) : route('storecategory') }}" accept-charset="UTF-8">
+    <form method="post" action="{{  ($isEdit) ? route('panel.category__update',$category_id) : route('panel.category__save') }}" accept-charset="UTF-8">
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
         <div class="form-group">
             <label class="control-label">Name</label>
