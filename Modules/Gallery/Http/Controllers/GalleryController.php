@@ -189,10 +189,10 @@ class GalleryController extends Controller
             PostMeta::insert($meta_contents);
 
             DB::commit();
-            return redirect(route('viewgallery', $store->id))->with(['msg' => 'Saved', 'status' => 'success']);
+            return redirect(route('panel.gallery__view'), $store->id))->with(['msg' => 'Saved', 'status' => 'success']);
         } catch (\Exception $e) {
             DB::rollback();
-            return redirect(route('galleries'))->with(['msg' => 'Save Error', 'status' => 'danger']);
+            return redirect(route('panel.gallery__index'))->with(['msg' => 'Save Error', 'status' => 'danger']);
         }
     }
 
@@ -232,7 +232,7 @@ class GalleryController extends Controller
 
             return view('gallery::admin.gallery_edit')->with(['item_id' => $item_id, 'page_meta_title' => $page_meta_title, 'gallery' => $gallery, 'title' => $title, 'images' => $images, 'alltag' => $alltag, 'selected_tag' => $tags, 'media' => $media, 'meta_desc' => $meta_desc, 'meta_title' => $meta_title, 'meta_keyword' => $meta_keyword, 'status' => $status, 'published_date' => $published_date, 'featured_image' => $featured_image, 'content' => $content]);
         } else {
-            return redirect(route('galleries'))->with(['msg' => 'gallery Not Found', 'status' => 'danger']);
+            return redirect(route('panel.gallery__index'))->with(['msg' => 'gallery Not Found', 'status' => 'danger']);
         }
     }
 
@@ -320,10 +320,10 @@ class GalleryController extends Controller
             }
 
             DB::commit();
-            return redirect(route('viewgallery', $id))->with(['msg' => 'Saved', 'status' => 'success']);
+            return redirect(route('panel.gallery__view'), $id))->with(['msg' => 'Saved', 'status' => 'success']);
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect(route('viewgallery', $id))->with(['msg' => 'Error. Something went wrong.', 'status' => 'danger']);
+            return redirect(route('panel.gallery__view'), $id))->with(['msg' => 'Error. Something went wrong.', 'status' => 'danger']);
         }     
     }
 
@@ -338,9 +338,9 @@ class GalleryController extends Controller
         if ($delete){
             $delete->deleted = 1;
             $delete->save();
-            return redirect(route('galleries'))->with(['msg' => 'Deleted', 'status' => 'success']);
+            return redirect(route('panel.gallery__index'))->with(['msg' => 'Deleted', 'status' => 'success']);
         }
-        return redirect(route('galleries'))->with(['msg' => 'Delete error', 'status' => 'danger']);
+        return redirect(route('panel.gallery__index'))->with(['msg' => 'Delete error', 'status' => 'danger']);
     }
 
     /**
@@ -356,13 +356,13 @@ class GalleryController extends Controller
             if ($delete) {
                 $delete->deleted = 1;
                 if (!$delete->save()) {
-                    return redirect(route('galleries'))->with(['msg' => 'Delete Error', 'status' => 'danger']);
+                    return redirect(route('panel.gallery__index'))->with(['msg' => 'Delete Error', 'status' => 'danger']);
                 }
             } else {
-                return redirect(route('galleries'))->with(['msg' => 'Delete Error. Page Not Found', 'status' => 'videos']);
+                return redirect(route('panel.gallery__index'))->with(['msg' => 'Delete Error. Page Not Found', 'status' => 'videos']);
             }
         }
-        return redirect(route('galleries'))->with(['msg' => 'Delete Success', 'status' => 'success']);
+        return redirect(route('panel.gallery__index'))->with(['msg' => 'Delete Success', 'status' => 'success']);
     }
 
     /**
