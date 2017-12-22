@@ -21,19 +21,6 @@ Route::group(['middleware' => ['admin']], function () {
 	}]);
 });
 
-
-Route::get('/cs', ['uses'=>function () {
-	    // Cookie::queue("encu", "asujsanjsjbsaasu", 10080);
-	}]);
-Route::get('/cr', ['uses'=>function () {
-	    Cookie::queue("encu", "", -10080);
-	}]);
-
-Route::get('/cg', ['uses'=>function () {
-		dd(\App\Helpers\SSOHelper::$Auth);
-	    dd(Cookie::get());
-	}]);
-
 // Route::get('login','PublicController@login')->name('login');
 // Route::get('ssologin',['as'=>'ssologin','uses'=>'PublicController@ssoLogin']);
 
@@ -72,20 +59,3 @@ Route::get('am','SampleController@addmentor');
 
 Route::get('appreg','SampleController@appReg');
 Route::get('appupd','SampleController@appUpd');
-
-Route::get('/logout', function(){
-	\App\Helpers\SSOHelper::logout();
-	return Redirect::to('/');
-})->name('logout');
-
-Route::get('ssotestusers',function(){
-	$user = new App\Helpers\SSOHelper;
-	$u = $user->users('2');
-	return response(json_encode($u));
-});
-
-Route::get('ssotestmentors',function(){
-	$user = new App\Helpers\SSOHelper;
-	$u = $user->mentors();
-	return response(json_encode($u));
-});

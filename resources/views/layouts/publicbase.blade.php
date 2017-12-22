@@ -99,7 +99,7 @@
                                     </div>
                                     <ul>
                                         <li><a href="{{route('user_setting')}}">Edit Profile</a></li>
-                                        <li><a href="{{route('logout')}}">Logout</a></li>
+                                        <li><a href="{{route('OA.logout')}}">Logout</a></li>
                                     </ul>
                                 </li>
                                 @else
