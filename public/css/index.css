@@ -2574,6 +2574,10 @@ footer .container .stayInTouch .copyText {
   margin-left: 13px;
 }
 
+#video-archive .container .row .thumbnailGallery .item .play-button i {
+  left: 15px;
+}
+
 #video-archive .container .row .cst-3-col {
   float: unset;
   display: inline-block;
