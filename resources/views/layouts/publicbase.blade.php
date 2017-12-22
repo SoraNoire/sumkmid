@@ -98,6 +98,9 @@
                                         <span id="profileTrigger" class="icon i-cog"></span>
                                     </div>
                                     <ul>
+                                        @if('admin' != app()->OAuth->Auth()->role)
+                                        <li><a href="{{route('panel.dashboard')}}">Dashboard</a></li>
+                                        @endif
                                         <li><a href="{{route('user_setting')}}">Edit Profile</a></li>
                                         <li><a href="{{route('OA.logout')}}">Logout</a></li>
                                     </ul>
