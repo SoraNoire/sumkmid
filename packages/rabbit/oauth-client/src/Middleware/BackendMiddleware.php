@@ -73,7 +73,7 @@ class BackendMiddleware
             }
             if(!isset(app()->OAuth->Auth()->role) || 'admin' != app()->OAuth->Auth()->role)
             {
-                return redirect(route('panel.news__index'));   
+                return redirect(route('panel.dashboard'));   
             }
         }
 
@@ -111,7 +111,7 @@ class BackendMiddleware
                 }
                 if(!isset(app()->OAuth->Auth()->role) || 'admin' != app()->OAuth->Auth()->role)
                 {
-                    return redirect(route('panel.news__index'));   
+                    return redirect(route('panel.dashboard'));   
                 }
             }
 
@@ -157,7 +157,7 @@ class BackendMiddleware
             }
             if(!isset(app()->OAuth->Auth()->role) || 'admin' != app()->OAuth->Auth()->role)
             {
-                return redirect(route('panel.news__index'));   
+                return redirect(route('panel.dashboard'));   
             }
         }
 

@@ -13,7 +13,7 @@
     </script>
     <link rel="icon" type="image/x-icon" href="{{ asset('images/logo-ico.png') }}">
     <title>{{ config('app.name', 'Laravel') }} - Administrator</title>
-    <link href="{{ asset('css/app.css') }}?v=1.0.1" rel="stylesheet">
+    <link href="{{ asset('css/app.css') }}?v=1.0.0" rel="stylesheet">
     
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   </head>
@@ -28,7 +28,7 @@
             <span class="icon-bar"></span>
           </button>
           <a class="navbar-brand" href="{{ route('panel.dashboard') }}" style="margin-top: -5px;">
-            <img src="{{URL::to('/img/logo.png')}}" style="max-width:70%;"></a>
+            <img src="{{URL::to('/img/icon1color.png')}}" style="max-width:70%;"></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
@@ -93,7 +93,7 @@
     </div>
     @yield('modal')
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="{{ asset('js/index.js') }}?v=1.0.5" type="text/javascript"></script>
+    <script src="{{ asset('js/index.js') }}?v=1.0.1" type="text/javascript"></script>
     @if (session('msg'))
     <script type="text/javascript">$(document).ready(function(){notif.showNotification("top","right",'{{session("msg")}}','{{session("status")}}')});</script>
     @endif
