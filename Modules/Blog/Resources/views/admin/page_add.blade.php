@@ -3,14 +3,20 @@
 @section('content')
 
 <div class="col-md-12">
+    @if ($errors->any())
+    <div class="alert alert-danger alert-dismissable ">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        There is some error. Please check again
+    </div>
+    @endif
     <h4 class="title">News Page</h4>
 
-    <form id="post-form" method="post" action="{{ route('panel.page__save') }}" accept-charset="UTF-8">
-        <a href="{{ route('panel.page__add') }}" class="btn btn-round btn-fill btn-info">
+    <form id="post-form" method="post" action="{{ route('storepage') }}" accept-charset="UTF-8">
+        <a href="{{ route('addpage') }}" class="btn btn-round btn-fill btn-info">
             New Page +<div class="ripple-container"></div>
         </a>
         
-        <button type="submit" class="btn btn-success pull-right">Save Post</button>
+        <button type="submit" class="btn btn-success pull-right">Save Page</button>
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
         <div class="row" style="margin-top: 15px;">
@@ -30,7 +36,7 @@
                 <a id="browse_media_post" data-toggle="modal" data-target="#myMedia" class="btn btn-round btn-fill btn-default" style="margin-bottom: 10px;">Add Media</a>
                 
                 <div class="form-group">
-                    <label class="control-label">Post Content</label>
+                    <label class="control-label">Page Content</label>
                     @if ($errors->has('content'))
                     <div class="has-error">
                         <span class="help-block">

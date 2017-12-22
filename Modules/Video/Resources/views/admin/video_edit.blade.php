@@ -3,16 +3,22 @@
 @section('content')
 <script> videoId = {{$video->id ?? 0}}</script>
 <div class="col-md-12">
+    @if ($errors->any())
+    <div class="alert alert-danger alert-dismissable ">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        There is some error. Please check again
+    </div>
+    @endif
     <h4 class="title">Edit Videos</h4>
 
-    <form id="post-form" method="post" action="{{ route('panel.video__update',$video->id) }}" accept-charset="UTF-8">
-        <a href="{{ route('panel.video__add') }}" class="btn btn-round btn-fill btn-info">
+    <form id="post-form" method="post" action="{{ route('updatevideo',$video->id) }}" accept-charset="UTF-8">
+        <a href="{{ route('addvideo') }}" class="btn btn-round btn-fill btn-info">
             New Video +<div class="ripple-container"></div>
         </a>
-        <a target="_blank" href="{{ route('panel.video__view',$video->slug) }}" class="btn btn-round btn-fill btn-info">
+        <a target="_blank" href="{{ route('single_video',$video->slug) }}" class="btn btn-round btn-fill btn-info">
             View Video<div class="ripple-container"></div>
         </a>
-        <a onclick="return confirm('Delete video?');" href="{{route('panel.video__delete',$video->id)}}" class="btn btn-round btn-fill btn-danger">
+        <a onclick="return confirm('Delete video?');" href="{{route('removevideo',$video->id)}}" class="btn btn-round btn-fill btn-danger">
             Delete Video<div class="ripple-container"></div>
         </a>
 
@@ -33,7 +39,7 @@
                     @if ($errors->has('content'))
                     <div class="has-error">
                         <span class="help-block">
-                            <strong>{{ $errors->first('content') }}</strong>
+                            <strong>This field is required</strong>
                         </span>
                     </div>
                     @endif
@@ -42,7 +48,8 @@
 
                 <div class="form-group">
                     <label class="control-label">Url Video</label>
-                    <input class="form-control" type="url" name="video_url" value="{{ $video_url }}" placeholder="Enter url video here">
+                    <input class="form-control" type="url" name="video_url" value="{{ $video_url }}" placeholder="Enter url video here" required>
+                    <small><b>Contoh</b> : https://www.youtube.com/<b>watch?v=</b>wlsdMpnDBn8 <b>ATAU</b> https://www.youtube.com/<b>embed/</b>wlsdMpnDBn8</small>
                 </div>
 
                 <div class="panel panel-default">
@@ -138,7 +145,7 @@
                         <div class="panel-body form-group">
                             <select id="mytag" name="tags[]" class="mytag form-control" multiple>
                                 @foreach ($alltag as $tag)
-                                    <option {{ is_array(old('selected_tag')) && in_array($tag->id, old('$selected_tag')) ? 'selected' : ''}} value="{{$tag->name}}" >{{$tag->name}}</option>
+                                    <option {{ is_array($selected_tag) && in_array($tag->id, $selected_tag) ? 'selected' : ''}} value="{{$tag->name}}" >{{$tag->name}}</option>
                                 @endforeach
                             </select>
                         </div>

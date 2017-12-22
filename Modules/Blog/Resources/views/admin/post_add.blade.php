@@ -3,10 +3,16 @@
 @section('content')
 <script> postId = {{$post->id ?? 0}}</script>
 <div class="col-md-12">
+    @if ($errors->any())
+    <div class="alert alert-danger alert-dismissable ">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        There is some error. Please check again
+    </div>
+    @endif
     <h4 class="title">New Post</h4>
 
-    <form id="post-form" method="post" action="{{ route('panel.post__save') }}" accept-charset="UTF-8">
-        <a href="{{ route('panel.post__add') }}" class="btn btn-round btn-fill btn-info">
+    <form id="post-form" method="post" action="{{ route('storepost') }}" accept-charset="UTF-8">
+        <a href="{{ route('addpost') }}" class="btn btn-round btn-fill btn-info">
             New Post +<div class="ripple-container"></div>
         </a>
 
@@ -27,7 +33,7 @@
                     @if ($errors->has('content'))
                     <div class="has-error">
                         <span class="help-block">
-                            <strong>{{ $errors->first('content') }}</strong>
+                            <strong>This field is required</strong>
                         </span>
                     </div>
                     @endif
@@ -238,7 +244,7 @@
             </form>
         </div>
         <div class="card-content table-responsive">
-            <table style="width: 100%;" class="table filestable" id="postFile">
+            <table style="width: 100%;" class="table mediatable" id="postFile">
                 <thead >
                     <th>Name</th>
                     <th>Label</th>
