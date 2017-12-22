@@ -39,6 +39,7 @@ Route::get('/cg', ['uses'=>function () {
 
 
 Route::get('/', 'PublicController@home')->name('public_home');
+Route::get('/tentang', 'PublicController@tentang')->name('public_tentang');
 Route::get('/mentor', 'PublicController@mentor')->name('public_mentor');
 Route::get('/mentor/{mentorId}', 'PublicController@mentorSingle')->name('public_mentor_single');
 Route::get('/kontak', 'PublicController@kontak')->name('public_kontak');

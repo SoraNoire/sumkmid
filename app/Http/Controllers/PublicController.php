@@ -102,6 +102,15 @@ class PublicController extends Controller
 	}
 
 	/**
+     * Show Tentang page.
+     * @return Response
+     */
+	public function tentang(){
+        $var['page'] = "Tentang Kami";
+		return view('page.tentang')->with(['var' => $var]);
+	}
+
+	/**
      * Show kontak page.
      * @return Response
      */
