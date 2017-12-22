@@ -12,7 +12,7 @@
     <link rel="icon" type="image/x-icon" href="{{ asset('img/logo-ico.png') }}">
     <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}">
     <link href="//cdn-images.mailchimp.com/embedcode/classic-10_7.css" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="{{ asset('css/index.css') }}?v=1.1.4">
+    <link rel="stylesheet" href="{{ asset('css/index.css') }}?v=1.1.5">
 
     @if(isset($fb_pixel))
     @if($fb_pixel != '')
@@ -203,7 +203,7 @@
     <!-- end of footer -->
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script src="{{ asset('js/home.js') }}?v=1.1.1"></script>
+    <script src="{{ asset('js/home.js') }}?v=1.1.2"></script>
 
 </body>
 </html>
