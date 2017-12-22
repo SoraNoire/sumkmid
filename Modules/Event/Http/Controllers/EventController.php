@@ -221,10 +221,10 @@ class EventController extends Controller
             PostMeta::insert($meta_contents);
 
             DB::commit();
-            return redirect(route('viewevent', $store->id))->with(['msg' => 'Saved', 'status' => 'success']);
+            return redirect(route('panel.event__view', $store->id))->with(['msg' => 'Saved', 'status' => 'success']);
         } catch (\Exception $e) {
             DB::rollback();
-            return redirect(route('events'))->with(['msg' => 'Error Saving '.substr($e, 0, 50), 'status' => 'danger']);
+            return redirect(route('panel.event__index'))->with(['msg' => 'Error Saving '.substr($e, 0, 50), 'status' => 'danger']);
         }
 
         
@@ -327,7 +327,7 @@ class EventController extends Controller
                             ]
                     );
         } else {
-            return redirect(route('events'))->with(['msg' => 'Event Not Found', 'status' => 'danger']);
+            return redirect(route('panel.event__index'))->with(['msg' => 'Event Not Found', 'status' => 'danger']);
         }
     }
 
@@ -464,10 +464,10 @@ class EventController extends Controller
             // }
 
             DB::commit();
-            return redirect(route('viewevent', $id))->with(['msg' => 'Saved', 'status' => 'success']);
+            return redirect(route('panel.event__view', $id))->with(['msg' => 'Saved', 'status' => 'success']);
         } catch (\Exception $e) {
             DB::rollback();
-            return redirect(route('viewevent', $id))->with(['msg' => 'Error updating', 'status' => 'danger']);
+            return redirect(route('panel.event__view', $id))->with(['msg' => 'Error updating', 'status' => 'danger']);
         }
 
     }
@@ -495,13 +495,13 @@ class EventController extends Controller
             if ($delete) {
                 $delete->deleted = 1;
                 if (!$delete->save()) {
-                    return redirect(route('events'))->with(['msg' => 'Delete Error', 'status' => 'danger']);
+                    return redirect(route('panel.event__index'))->with(['msg' => 'Delete Error', 'status' => 'danger']);
                 }
             } else {
-                return redirect(route('events'))->with(['msg' => 'Delete Error. Event does not exists', 'status' => 'danger']);
+                return redirect(route('panel.event__index'))->with(['msg' => 'Delete Error. Event does not exists', 'status' => 'danger']);
             }
         }
-        return redirect(route('events'))->with(['msg' => 'Delete Success', 'status' => 'success']);
+        return redirect(route('panel.event__index'))->with(['msg' => 'Delete Success', 'status' => 'success']);
     }
 
     /**

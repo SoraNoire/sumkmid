@@ -3,15 +3,21 @@
 @section('content')
 <script> postId = {{$post->id ?? 0}}</script>
 <div class="col-md-12">
+    @if ($errors->any())
+    <div class="alert alert-danger alert-dismissable ">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        There is some error. Please check again
+    </div>
+    @endif
     <h4 class="title">Edit Posts</h4>
 
     <form id="post-form" method="post" action="{{ route('updatepost',$post->id) }}" accept-charset="UTF-8">
         <a href="{{ route('addpost') }}" class="btn btn-round btn-fill btn-info">
             New Post +<div class="ripple-container"></div>
         </a>
-        <a target="_blank" href="{{ URL::to($prefix.'show/'.$post->slug) }}" class="btn btn-round btn-fill btn-info">
+        <!-- <a target="_blank" href="{{ URL::to($prefix.'show/'.$post->slug) }}" class="btn btn-round btn-fill btn-info">
             View Post<div class="ripple-container"></div>
-        </a>
+        </a> -->
         <a onclick="return confirm('Delete Post?');" href="{{ route('removepost', $post->id) }}" class="btn btn-round btn-fill btn-danger">
             Delete Post<div class="ripple-container"></div>
         </a>
@@ -33,7 +39,7 @@
                     @if ($errors->has('content'))
                     <div class="has-error">
                         <span class="help-block">
-                            <strong>{{ $errors->first('content') }}</strong>
+                            <strong>This field is required</strong>
                         </span>
                     </div>
                     @endif
@@ -234,7 +240,7 @@
             </form>
         </div>
         <div class="card-content table-responsive">
-            <table style="width: 100%;" class="table filestable" id="postFile">
+            <table style="width: 100%;" class="table mediatable" id="postFile">
                 <thead >
                     <th>Name</th>
                     <th>Label</th>

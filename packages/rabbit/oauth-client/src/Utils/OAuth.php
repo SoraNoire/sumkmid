@@ -20,6 +20,7 @@ class OAuth
     static $Auth = false;
     static $roles;
     static $permissions = ['read','write','edit','delete'];
+    static $can = [];
 	
 	function __construct(){
 
@@ -28,28 +29,15 @@ class OAuth
         self::$appSecret = $mdconfig['APP_SECRET'];
         self::$appServer = $mdconfig['APP_SERVER'];
 
-        if ( !self::$appId || '' == self::$appId )
-        {
-            throw new \Exception("APP ID Tidak ada", 1);
-            
-        }
-        if ( !self::$appSecret || '' == self::$appSecret )
-        {
-            throw new \Exception("APP KEY Tidak ada", 1);
-            
-        }
-        if ( !self::$appServer || '' == self::$appServer )
-        {
-            throw new \Exception("APP ENDPOINT Tidak ada", 1);
-            
-        }
-
         $data = [];
         $path = '/me';
 
         if( session('logid') )
         {
             $user = Users::where('id',session('logid'))->first();
+            if (!$user || !isset($user->id)) {
+                return redirect(route('OA.logout'));
+            }
             $now = new \DateTime();
             $sy = \DateTime::createFromFormat('Y-m-d H:i:s', $user->last_sync);
             
@@ -65,8 +53,8 @@ class OAuth
                     $local->last_sync = date('Y-m-d H:i:s');
                     $local->name = $u->name;
                     $local->username = $u->username;
-                    $local->avatar = $u->foto_profil;
-                    $local->description = $u->description;
+                    $local->avatar = $u->foto_profil??'';
+                    $local->description = $u->description??'';
                     $local->role = $u->role;
                     $local->save();    
                 }
@@ -91,7 +79,7 @@ class OAuth
         }
 
         
-        if( isset($user->success) && true == $user->success )
+        if( $user->success )
         {
             $this::$Auth = $user->data;
         }

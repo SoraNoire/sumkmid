@@ -16,16 +16,16 @@
 			<div class="closeAlert">x</div>
 		</div>
 	@endif
-		<h3>Hallo, {{app()->SSO->Auth()->name}}</h3>
+		<h3>Hallo, {{app()->OAuth->Auth()->name}}</h3>
 		<div class="leftForm">
 			<div class="photoUser">
-				<div class="photoPreview" style="background-image:url('{{ app()->SSO->Auth()->foto_profil }}');">
+				<div class="photoPreview" style="background-image:url('{{ app()->OAuth->Auth()->foto_profil }}');">
 				</div>
 				<div class="inputTrigger" onclick="document.getElementById('inputUserImage').click(); return false;"></div>
 				<form id="upldimageuser" action="{{ route('user_update_profile_pict') }}" accept="image/*" enctype="multipart/form-data" method="post">
 					<input type="hidden" name="_token" value="{{ csrf_token() }}">
-					<input type="hidden" name="email" id="" value="{{app()->SSO->Auth()->email}}">
-					<input type="hidden" name="nama"  value="{{app()->SSO->Auth()->name}}">
+					<input type="hidden" name="email" id="" value="{{app()->OAuth->Auth()->email}}">
+					<input type="hidden" name="nama"  value="{{app()->OAuth->Auth()->name}}">
 					<input type="file" name="photo" id="inputUserImage">
 					<input type="submit" style="display:none;">
 				</form>
@@ -42,7 +42,7 @@
 					<span class="tootTip">{{session('warnMsg')}}</span>
 				@endif
 				<div class="inputText">
-					<input type="text" name="nama"  value="{{app()->SSO->Auth()->name}}">
+					<input type="text" name="nama"  value="{{app()->OAuth->Auth()->name}}">
 				</div>
 			</div>
 			<!-- //withError -->
@@ -55,7 +55,7 @@
 				@endif
 				<!--//with error <span class="tootTip">alamat email tidak valid</span> -->
 				<div class="inputText">
-					<input type="email" name="email" id="" value="{{app()->SSO->Auth()->email}}">
+					<input type="email" name="email" id="" value="{{app()->OAuth->Auth()->email}}">
 				</div>
 			</div>
 			<div class="formGroup {{ (session('warnName') == 'nomorTelepon') ? 'withError' : '' }}">
@@ -66,7 +66,7 @@
 					<span class="tootTip">{{session('warnMsg')}}</span>
 				@endif
 				<div class="inputText">
-					<input type="text" name="nomorTelepon" id="" value="{{app()->SSO->Auth()->phone_number}}">
+					<input type="text" name="nomorTelepon" id="" value="{{app()->OAuth->Auth()->phone_number}}">
 				</div>
 			</div>
 			<h5 class="formSprt">Rubah Sandi</h5>

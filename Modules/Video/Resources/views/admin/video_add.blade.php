@@ -3,6 +3,12 @@
 @section('content')
 <script> videoId = 0</script>
 <div class="col-md-12">
+    @if ($errors->any())
+    <div class="alert alert-danger alert-dismissable ">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        There is some error. Please check again
+    </div>
+    @endif
     <h4 class="title">New Videos</h4>
 
     <form id="post-form" method="post" action="{{ route('storevideo') }}" accept-charset="UTF-8">
@@ -27,7 +33,7 @@
                     @if ($errors->has('content'))
                     <div class="has-error">
                         <span class="help-block">
-                            <strong>{{ $errors->first('content') }}</strong>
+                            <strong>This field is required</strong>
                         </span>
                     </div>
                     @endif
@@ -37,6 +43,7 @@
                 <div class="form-group">
                     <label class="control-label">Url Video</label>
                     <input class="form-control" type="url" name="video_url" value="{{ old('video_url') }}" placeholder="Enter url video here" required="required">
+                    <small><b>Contoh</b> : https://www.youtube.com/<b>watch?v=</b>wlsdMpnDBn8 <b>ATAU</b> https://www.youtube.com/<b>embed/</b>wlsdMpnDBn8</small>
                 </div>
 
                 <div class="panel panel-default">
