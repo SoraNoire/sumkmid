@@ -191,7 +191,7 @@ class GalleryController extends Controller
             DB::commit();
             return redirect(route('viewgallery', $store->id))->with(['msg' => 'Saved', 'status' => 'success']);
         } catch (\Exception $e) {
-            DB:rollback();
+            DB::rollback();
             return redirect(route('galleries'))->with(['msg' => 'Save Error', 'status' => 'danger']);
         }
     }
