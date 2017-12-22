@@ -11,8 +11,8 @@
     @endif
     <h4 class="title">News Page</h4>
 
-    <form id="post-form" method="post" action="{{ route('storepage') }}" accept-charset="UTF-8">
-        <a href="{{ route('addpage') }}" class="btn btn-round btn-fill btn-info">
+    <form id="post-form" method="post" action="{{ route('panel.page__save') }}" accept-charset="UTF-8">
+        <a href="{{ route('panel.page__add') }}" class="btn btn-round btn-fill btn-info">
             New Page +<div class="ripple-container"></div>
         </a>
         

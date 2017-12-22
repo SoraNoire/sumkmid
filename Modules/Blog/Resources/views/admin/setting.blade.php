@@ -7,7 +7,7 @@
 	        <h3 class="title">Site Setting</h3>
 	    </div>
 	    <div class="card-content">
-	        <form method="post" action="{{ route('save_setting') }}" accept-charset="UTF-8">
+	        <form method="post" action="{{ route('panel.setting.site__update') }}" accept-charset="UTF-8">
 	        <input type="hidden" name="_token" value="{{ csrf_token() }}">
 	            <div class="row">
 	                <div class="col-md-12">

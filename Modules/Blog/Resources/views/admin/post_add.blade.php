@@ -11,8 +11,8 @@
     @endif
     <h4 class="title">New Post</h4>
 
-    <form id="post-form" method="post" action="{{ route('storepost') }}" accept-charset="UTF-8">
-        <a href="{{ route('addpost') }}" class="btn btn-round btn-fill btn-info">
+    <form id="post-form" method="post" action="{{ route('panel.post__save') }}" accept-charset="UTF-8">
+        <a href="{{ route('panel.post__add') }}" class="btn btn-round btn-fill btn-info">
             New Post +<div class="ripple-container"></div>
         </a>
 

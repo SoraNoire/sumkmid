@@ -91,10 +91,9 @@ class EventController extends Controller
         $output['data'] = $query->get();
 
         $newdata = array();
-        $user = new \App\Helpers\SSOHelper;
         foreach ($output['data'] as $data) {
-            $u= $user->users($data->author);
-            $name = $u->users[0]->username;
+            $u= app()->OAuth->user($data->author);
+            $name = $u->users->username ?? 'admin';
             if ($name != '') {
                 $data->author_name = $name;
             }
