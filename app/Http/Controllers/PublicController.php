@@ -211,7 +211,7 @@ class PublicController extends Controller
      */
 	public function galeri(){
 		$var['page'] = "Galeri";
-		$var['videos'] = DB::table('post_view')->where('post_type','video')->orderBy('published_date','desc')->paginate(6);
+		$var['items'] = DB::table('post_view')->whereIn('post_type',['video', 'gallery'])->orderBy('published_date','desc')->paginate(6);
 		return view('page.galeri')->with(['var' => $var]);
 	}
 
