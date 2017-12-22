@@ -51,7 +51,7 @@
             }
         }
         .userNavSetting{
-            border-left: 1.5px solid #ffffff;
+            border-left: 1.5px solid #1D3D6F;
             padding: 0px 12px;
             @media screen and (max-width: 850px) {
                 border-top: 1.5px solid #ffffff;
@@ -60,19 +60,21 @@
                 padding-right: 0px;
             }
             span{
-                color: #fff;
+                color: #1D3D6F;
                 font-size: 18px;
                 vertical-align: middle;
+                @media screen and (max-width: 850px) {
+                    color: #fff;
+                }
             }
             .goToProfile{
                 display: inline-block;
                 vertical-align: middle;
                 margin-left: 10px;
-                img{
+                span{
                     @media screen and (max-width: 850px) {
                         display: none;
                     }
-                    margin-top: 9px;
                     cursor: pointer;
                 }
             }
