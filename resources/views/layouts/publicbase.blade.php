@@ -91,7 +91,7 @@
 	                                    Kontak
 	                                </a>
                                 </li>
-                                <!-- @if(app()->OAuth->Auth())
+                                @if(app()->OAuth->Auth())
                                 <li class="userNavSetting">
                                     <span>{{app()->OAuth->Auth()->name}}</span>
                                     <div class="goToProfile">
@@ -108,17 +108,7 @@
 	                                    Masuk
 	                                </a>
                                 </li>
-                                @endif -->
-                                <li class="userNavSetting">
-                                    <span>Navi</span>
-                                    <div class="goToProfile">
-                                        <span id="profileTrigger" class="icon i-cog"></span>
-                                    </div>
-                                    <ul>
-                                        <li><a href="{{route('user_setting')}}">Edit Profile</a></li>
-                                        <li><a href="{{route('OA.logout')}}">Logout</a></li>
-                                    </ul>
-                                </li>
+                                @endif
 	                        </ul>
                         </div>
                     </nav>
