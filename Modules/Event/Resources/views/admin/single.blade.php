@@ -3,7 +3,7 @@
 @section('content')
 <div class="col-md-12">
     <h3>{{ $event->title }}</h3>
-    <small style="float: left;width: 100%;margin-bottom: 10px;"><a href="{{ url($prefix.'edit-event/'.$event->id) }}">Edit Event</a></small>
+    <small style="float: left;width: 100%;margin-bottom: 10px;"><a href="{{ route('panel.event__view'.$event->id) }}">Edit Event</a></small>
     <table>
         <tr>
             <th>featured img</th>
