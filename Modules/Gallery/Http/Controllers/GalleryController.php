@@ -189,7 +189,7 @@ class GalleryController extends Controller
             PostMeta::insert($meta_contents);
 
             DB::commit();
-            return redirect(route('panel.gallery__view'), $store->id))->with(['msg' => 'Saved', 'status' => 'success']);
+            return redirect(route('panel.gallery__view', $store->id))->with(['msg' => 'Saved', 'status' => 'success']);
         } catch (\Exception $e) {
             DB::rollback();
             return redirect(route('panel.gallery__index'))->with(['msg' => 'Save Error', 'status' => 'danger']);
@@ -320,10 +320,10 @@ class GalleryController extends Controller
             }
 
             DB::commit();
-            return redirect(route('panel.gallery__view'), $id))->with(['msg' => 'Saved', 'status' => 'success']);
+            return redirect(route('panel.gallery__view', $id))->with(['msg' => 'Saved', 'status' => 'success']);
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect(route('panel.gallery__view'), $id))->with(['msg' => 'Error. Something went wrong.', 'status' => 'danger']);
+            return redirect(route('panel.gallery__view', $id))->with(['msg' => 'Error. Something went wrong.', 'status' => 'danger']);
         }     
     }
 
