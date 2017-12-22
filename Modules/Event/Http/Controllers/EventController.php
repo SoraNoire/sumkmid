@@ -26,7 +26,6 @@ use Modules\Blog\Entities\PostMeta;
 class EventController extends Controller
 {
     public function __construct(){
-        $this->user = new \App\Helpers\SSOHelper;
         $this->EventHelper = new EventHelper;
         $this->prefix = 'admin/blog/event/';
         View::share('prefix', $this->prefix);
@@ -91,10 +90,10 @@ class EventController extends Controller
         $output['data'] = $query->get();
 
         $newdata = array();
-        $user = new \App\Helpers\SSOHelper;
         foreach ($output['data'] as $data) {
-            $u= $user->users($data->author);
-            $name = $u->users[0]->username;
+            $u= app()->OAuth->user($data->author);
+            var_dump($data->author);
+            $name = $u->username ?? 'admin';
             if ($name != '') {
                 $data->author_name = $name;
             }
@@ -117,7 +116,7 @@ class EventController extends Controller
     public function addEvent()
     {
         $page_meta_title = 'Events';
-        $u = $this->user->mentors();
+        $u = app()->OAuth->mentors();
         $mentors = $u->users;
 
         return view('event::admin.add_event')->with(['page_meta_title' => $page_meta_title, 'mentors' => $mentors]);
@@ -143,7 +142,7 @@ class EventController extends Controller
         $location = $request->input('location');
         $gmaps_url = $request->input('gmaps_url');
         $event_url = $request->input('event_url'); 
-        $author = app()->SSO->Auth()->id;
+        $author = app()->OAuth->Auth()->id;
         $mentor_registered = $request->get('mentor_registered');
         $mentor_not_registered = $request->get('mentor_not_registered');
         $status = $request->get('status');
@@ -292,7 +291,7 @@ class EventController extends Controller
                 $minute_close = '0'.$minute_close;
             }
 
-            $mentors = $this->user->mentors()->users;
+            $mentors = app()->OAuth->mentors()->users;
 
             return view('event::admin.edit_event')->with(
                             [
