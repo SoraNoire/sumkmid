@@ -20,6 +20,7 @@
             <thead>
                 <th>Title</th>
                 <th>Author</th>
+                <th>Gallery Type</th>
                 <th>Published At</th>
                 <th>Action</th>
             </thead>
