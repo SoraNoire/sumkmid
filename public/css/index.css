@@ -1851,6 +1851,42 @@ footer .container .stayInTouch .copyText {
   font: 14px Helvetica,Arial,sans-serif;
 }
 
+#mentors .photoMentor {
+  position: relative;
+  list-style-type: none;
+  width: 27.85714285714286%;
+  /* = (100-2.5) / 3.5 */
+  float: left;
+  overflow: hidden;
+  visibility: hidden;
+  -webkit-transform: rotate(-60deg) skewY(30deg);
+  transform: rotate(-60deg) skewY(30deg);
+}
+
+#mentors .photoMentor * {
+  position: absolute;
+  visibility: visible;
+}
+
+#mentors .photoMentor > div {
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  color: #fff;
+  overflow: hidden;
+  -webkit-transform: skewY(-30deg) rotate(60deg);
+  transform: skewY(-30deg) rotate(60deg);
+  -webkit-backface-visibility: hidden;
+}
+
+#mentors .photoMentor img {
+  left: -100%;
+  right: -100%;
+  width: auto;
+  height: 100%;
+  margin: 0 auto;
+}
+
 #mainSlider {
   max-width: 1600px;
   display: block;
@@ -2155,97 +2191,78 @@ footer .container .stayInTouch .copyText {
 }
 
 #ourMentors {
-  cursor: default;
-  background-color: #ffffff;
-  height: 400px;
-  margin-top: 30px;
+  background-image: url(/img/blue-bg.png);
+  background-size: cover;
+  padding-bottom: 60px;
 }
 
-#ourMentors .section-title {
-  color: #575153;
-  text-align: center;
-  padding-top: 20px;
-  padding-bottom: 20px;
-}
-
-#ourMentors .section-title span {
-  border-color: #575153;
-}
-
-#ourMentors .section-title span:last-child {
-  background-image: -webkit-gradient(linear, left top, right top, color-stop(55%, #575153), color-stop(0%, transparent));
-  background-image: linear-gradient(to right, #575153 55%, transparent 0%);
-}
-
-@media screen and (max-width: 830px) {
-  #ourMentors .the-row {
-    display: block;
-    clear: both;
-  }
-}
-
-@media screen and (max-width: 830px) {
-  #ourMentors .the-mentor {
-    width: 400px;
-    display: block;
-    margin: 10px auto;
-    float: unset;
-  }
-}
-
-@media screen and (max-width: 428px) {
-  #ourMentors .the-mentor {
-    width: 90%;
-  }
-}
-
-#ourMentors .the-mentor .mentorWrapper {
-  background-color: #F8F8F8;
-  background-position: -15px 50px;
-  background-size: 155px auto;
-  background-repeat: no-repeat;
-  height: 233px;
-  text-align: right;
+#ourMentors .container .section-title {
   padding-top: 50px;
-  padding-right: 20px;
+  padding-bottom: 30px;
+  text-align: center;
+  color: #fff;
 }
 
-#ourMentors .the-mentor .mentorWrapper span {
-  color: #575153;
-  line-height: 30px;
-  display: block;
-  font-size: 30px;
-  font-weight: 700;
+#ourMentors .container .mentorWrap {
+  text-align: center;
+  position: relative;
 }
 
-#ourMentors .the-mentor .mentorWrapper .head {
+#ourMentors .container .mentorWrap .showMentors {
+  position: absolute;
+  top: 40px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+}
+
+@media screen and (max-width: 900px) {
+  #ourMentors .container .mentorWrap .showMentors {
+    position: relative;
+    top: unset;
+    right: unset;
+    display: block;
+    margin: 40px auto 0px auto;
+  }
+}
+
+#ourMentors .container .mentorWrap .showMentors a img {
+  max-width: 100%;
+}
+
+#ourMentors .container .mentorWrap #mentors {
+  display: inline-block;
+  width: 180px;
+  margin-top: 10px;
+}
+
+#ourMentors .container .mentorWrap #mentors .photoMentor {
+  width: 66%;
+  height: 139px;
+  padding-bottom: unset;
+  text-align: center;
+  left: 30px;
+  float: unset;
+  -webkit-box-shadow: inset 0px 0px 0px 2px white;
+  box-shadow: inset 0px 0px 0px 2px white;
+}
+
+#ourMentors .container .mentorWrap #mentors .mentor-name {
+  margin-top: 15px;
+  color: #fff;
+  font-size: 18px;
+  margin-bottom: 0px;
+}
+
+#ourMentors .container .mentorWrap #mentors .mentor-name a {
+  color: inherit;
+  text-decoration: inherit;
+}
+
+#ourMentors .container .mentorWrap #mentors .mentor-desc {
+  color: #fff;
   font-weight: 300;
-  font-size: 30px;
-}
-
-#ourMentors .the-mentor .mentorWrapper .desc {
-  padding-top: 10px;
-  float: right;
-  padding-left: 50%;
-  font-size: 10px;
-  color: #575153;
-}
-
-#ourMentors .the-mentor .mentorWrapper button {
-  float: right;
-  background-color: transparent;
-  border: 2px solid #575153;
-  font-weight: 300;
-  font-size: 14px;
-  outline: none;
-  padding: 6px 20px;
-  cursor: pointer;
-}
-
-#ourMentors .the-mentor .mentorWrapper button:hover {
-  background-color: #00C8C8;
-  border-color: #00C8C8;
-  color: #ffffff;
+  font-size: 14spx;
 }
 
 #event {
@@ -2862,6 +2879,7 @@ footer .container .stayInTouch .copyText {
   -webkit-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.25);
   box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.25);
   max-height: 200px;
+  margin-bottom: 10px;
 }
 
 #event-archive .event .eventPosterMobile img {
@@ -2878,6 +2896,8 @@ footer .container .stayInTouch .copyText {
 
 #event-archive .event .eventPoster {
   width: 70%;
+  max-width: 150px;
+  max-height: 200px;
   margin: 0 auto;
   -webkit-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.25);
   box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.25);
