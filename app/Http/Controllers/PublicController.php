@@ -99,6 +99,8 @@ class PublicController extends Controller
 	public function home(){
         $var['page'] = "Home";
 		$var['videos'] = DB::table('post_view')->where('post_type','video')->orderBy('published_date','desc')->paginate(4);
+		$user = new \App\Helpers\SSOHelper;
+		$var['mentors'] = $user->mentors()->users;
 		return view('page.home')->with(['var' => $var]);
 	}
 

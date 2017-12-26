@@ -96,6 +96,22 @@
     </div>
 </section>
 
+<section id="video" class="blue-bg">
+	<div class="container">
+		<h3 class="section-title"><span>Kisah Sukses Pelaku</span> <span>UMKM</span></h3>
+		<div class="the-row">
+			@foreach ($var['videos'] as $video)
+			<div class="col-3">
+				<div class="video-wraper" style="background-image: url('{{ $video->featured_image }}');">
+	        		<a href="{{route('public_galeri').'/'.$video->slug}}"><span class="play-button"><i class="fa fa-play fa-lg" aria-hidden="true"></i></span></a>
+	        	</div>
+				<a href="{{route('public_galeri').'/'.$video->slug}}" class="tilte">{{ $video->title }}</a>
+			</div>
+			@endforeach
+		</div>
+	</div>
+</section>
+
 <section id="programs">
 	<div class="programWrap">
 		<div class="programSplit" style="background-image: url({{asset('images/program/1.jpg')}})">
@@ -145,48 +161,29 @@
 	</div>
 </section>
 
-<section id="video" class="blue-bg">
-	<div class="container">
-		<h3 class="section-title"><span>Kisah Sukses Pelaku</span> <span>UMKM</span></h3>
-		<div class="the-row">
-			@foreach ($var['videos'] as $video)
-			<div class="col-3">
-				<div class="video-wraper" style="background-image: url('{{ $video->featured_image }}');">
-	        		<a href="{{route('public_galeri').'/'.$video->slug}}"><span class="play-button"><i class="fa fa-play fa-lg" aria-hidden="true"></i></span></a>
-	        	</div>
-				<a href="{{route('public_galeri').'/'.$video->slug}}" class="tilte">{{ $video->title }}</a>
-			</div>
-			@endforeach
-		</div>
-	</div>
-</section>
 <section id="ourMentors">
 	<div class="container">
-		<h3 class="section-title"><span>Our</span> <span>Mentor</span></h3>
-		<div class="the-row">
-			<div class="col-4 the-mentor">
-				<div class="mentorWrapper" style="background-image: url('/images/241_d_suit_standing_1600.png');">
-					<span class="head">MENTOR</span>
-					<span>KRIYA</span>
-					<p class="desc">Molestiae facilisis rem! Parturient. Torquent netus tempora pellentesque tenetur sapiente! Optio beatae est iaculis, veniam leo. Bibendum torquent ducimus, eu.</p>
-					<a href="#"><button>VIEW NOW</button></a>
+		<h3 class="section-title"><span>Meet Our</span> <span>Mentor</span></h3>
+		<div class="mentorWrap">
+			@for($i = 0;$i < 4; $i++)
+			<div id="mentors">
+				<div class="photoMentor">
+				    <div>
+				        <img src="{{ $var['mentors'][$i]->foto_profil ?? 'tidak ada' }}" alt=""/>
+				    </div>
 				</div>
+				<h5 class="mentor-name">
+					<a href="{{ route('public_mentor_single',$var['mentors'][$i]->id) }}">
+						{{ $var['mentors'][$i]->name }}
+					</a>
+				</h5>
+				<span class="mentor-desc">{{ $var['mentors'][$i]->jabatan }}</span>
 			</div>
-			<div class="col-4 the-mentor">
-				<div class="mentorWrapper" style="background-image: url('/images/business-girl.png');">
-					<span class="head">MENTOR</span>
-					<span>UMKM</span>
-					<p class="desc">Molestiae facilisis rem! Parturient. Torquent netus tempora pellentesque tenetur sapiente! Optio beatae est iaculis, veniam leo. Bibendum torquent ducimus, eu.</p>
-					<a href="#"><button>VIEW NOW</button></a>
-				</div>
-			</div>
-			<div class="col-4 the-mentor">
-				<div class="mentorWrapper" style="background-image: url('/images/girls_PNG6481.png');">
-					<span class="head">MENTOR</span>
-					<span>UMKM</span>
-					<p class="desc">Molestiae facilisis rem! Parturient. Torquent netus tempora pellentesque tenetur sapiente! Optio beatae est iaculis, veniam leo. Bibendum torquent ducimus, eu.</p>
-					<a href="#"><button>VIEW NOW</button></a>
-				</div>
+			@endfor
+			<div class="showMentors">
+				<a href="{{ route('public_mentor') }}">
+					<img src="{{ asset('images/show-mentros.png') }}">
+				</a>
 			</div>
 		</div>
 	</div>
