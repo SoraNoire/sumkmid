@@ -23,10 +23,17 @@
 					<div class="event-indicator"></div>
 				</div>
 				<div class="event-content col-9">
-					<div class="event-title">{{ $event->title }}</div>
-					<div class="event-datetime">
-							<span>{{ date('d M Y', strtotime($meta['open_at'])) }}</span>
-							<span>{{ date('H:i', strtotime($meta['open_at'])) }} WIB - {{ date('d M Y', strtotime($meta['closed_at'])) > date('d M Y', strtotime($meta['open_at'])) ? date('d M Y H:i', strtotime($meta['closed_at'])).' WIB' : date('H:i', strtotime($meta['closed_at'])).' WIB' }} </span>
+					<div class="eventPosterMobile">
+						<img src="{{ asset('images/poster.jpg') }}">
+					</div>
+					<div class="eventTitleWrap">
+						<div class="event-title">
+							{{ $event->title }}
+						</div>
+						<div class="event-datetime">
+								<span>{{ date('d M Y', strtotime($meta['open_at'])) }}</span>
+								<span>{{ date('H:i', strtotime($meta['open_at'])) }} WIB - {{ date('d M Y', strtotime($meta['closed_at'])) > date('d M Y', strtotime($meta['open_at'])) ? date('d M Y H:i', strtotime($meta['closed_at'])).' WIB' : date('H:i', strtotime($meta['closed_at'])).' WIB' }} </span>
+						</div>
 					</div>
 					<div class="event-desc hidden">
 						{!! $event->content !!}

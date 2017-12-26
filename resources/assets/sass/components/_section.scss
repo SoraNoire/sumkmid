@@ -733,6 +733,37 @@
 	padding-top: 51px;
 	padding-bottom: 50px;
 	.event {
+		.col-3{
+			@media screen and (max-width: 433px) {
+				display: none;
+			}
+		}
+		.eventTitleWrap{
+			display: block;
+			@media screen and (max-width: 433px) {
+				display: inline-block;
+				vertical-align: top;
+				width: calc(100% - 110px);
+				margin-left: 5px;
+			}
+		}
+		.eventPosterMobile{
+			display: none;
+			width: 100px;
+			margin: 0 auto;
+			-webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.25);
+			-moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.25);
+			box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.25);
+			max-height: 200px;
+			img{
+				display: block;
+				max-width: 100%;
+			}
+			@media screen and (max-width: 433px) {
+				display: inline-block;
+				vertical-align: top;
+			}
+		}
 		.eventPoster{
 			width: 70%;
 			margin: 0 auto;
@@ -740,15 +771,14 @@
 			-moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.25);
 			box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.25);
 			max-height: 200px;
+			
 			img{
+				display: block;
 				max-width: 100%;
 			}
 		}
 		.event-datetime{
 			margin-top: -5px;
-			@media screen and (max-width: 433px) {
-				display: none;
-			}
 		}
 		.event-timeline{
 			@media screen and (max-width: 433px) {
@@ -759,14 +789,6 @@
 			margin-top: -5px;
 			@media screen and (max-width: 433px) {
 				width: calc(100% - 50px);
-			}
-		}
-		.event-datetime-mobile{
-			font-size: 13px;
-			color: #AEAEAE;
-			display: none;
-			@media screen and (max-width: 433px) {
-				display: block;
 			}
 		}
 		&.active {

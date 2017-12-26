@@ -2822,6 +2822,46 @@ footer .container .stayInTouch .copyText {
   padding-bottom: 50px;
 }
 
+@media screen and (max-width: 433px) {
+  #event-archive .event .col-3 {
+    display: none;
+  }
+}
+
+#event-archive .event .eventTitleWrap {
+  display: block;
+}
+
+@media screen and (max-width: 433px) {
+  #event-archive .event .eventTitleWrap {
+    display: inline-block;
+    vertical-align: top;
+    width: calc(100% - 110px);
+    margin-left: 5px;
+  }
+}
+
+#event-archive .event .eventPosterMobile {
+  display: none;
+  width: 100px;
+  margin: 0 auto;
+  -webkit-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.25);
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.25);
+  max-height: 200px;
+}
+
+#event-archive .event .eventPosterMobile img {
+  display: block;
+  max-width: 100%;
+}
+
+@media screen and (max-width: 433px) {
+  #event-archive .event .eventPosterMobile {
+    display: inline-block;
+    vertical-align: top;
+  }
+}
+
 #event-archive .event .eventPoster {
   width: 70%;
   margin: 0 auto;
@@ -2831,17 +2871,12 @@ footer .container .stayInTouch .copyText {
 }
 
 #event-archive .event .eventPoster img {
+  display: block;
   max-width: 100%;
 }
 
 #event-archive .event .event-datetime {
   margin-top: -5px;
-}
-
-@media screen and (max-width: 433px) {
-  #event-archive .event .event-datetime {
-    display: none;
-  }
 }
 
 @media screen and (max-width: 433px) {
@@ -2857,18 +2892,6 @@ footer .container .stayInTouch .copyText {
 @media screen and (max-width: 433px) {
   #event-archive .event .event-content {
     width: calc(100% - 50px);
-  }
-}
-
-#event-archive .event .event-datetime-mobile {
-  font-size: 13px;
-  color: #AEAEAE;
-  display: none;
-}
-
-@media screen and (max-width: 433px) {
-  #event-archive .event .event-datetime-mobile {
-    display: block;
   }
 }
 
