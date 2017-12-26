@@ -22,13 +22,26 @@
 
 .breadcrumb {
 	box-shadow: 0 2px 18px 0 rgba(0, 0, 0, 0.3);
+	background-color: #135383;
   	.container {
-  		height: 115px;
-  		background-image: url('/img/triangle-a.png');
+  		height: 60px;
   		background-repeat: no-repeat;
     	background-position-y: 10px;    
+
     	flex-direction: column-reverse;
 	    display: flex;
     	justify-content: space-evenly;
+    	h2{
+    		font-size: 16px;
+    		margin-bottom: 9px;
+    		color: #fff;
+    		a{
+    			color: inherit;
+    			text-decoration: inherit;
+    		}
+    		i{
+    			margin: 0px 15px;
+    		}
+    	}
   	}
 }

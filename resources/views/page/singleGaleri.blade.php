@@ -49,10 +49,9 @@
 			<!-- Swiper -->
 			<div class="swiper-container gallery-top">
 				<div class="swiper-wrapper">
-					<div class="swiper-slide" style="background-image:url({{ asset('images/e2f87ecce1c734ee1b2e8cb8d0css04274.jpg') }})"></div>
-					<div class="swiper-slide" style="background-image:url({{ asset('images/broccoli.jpg') }})"></div>
-					<div class="swiper-slide" style="background-image:url({{ asset('images/tradingbusinessplan.jpg') }})"></div>
-					<div class="swiper-slide" style="background-image:url({{ asset('images/e2f87ecce1c734ee1b2e8cb8d0c04274.jpg') }})"></div>
+					@foreach($var['photos'] as $photo)
+					<div class="swiper-slide" style="background-image:url({{ asset(PostHelper::getLinkimage($photo->name, 'media', 'thumbnail')) }})"></div>
+					@endforeach
 				</div>
 				<!-- Add Arrows -->
 				<div class="swiper-button-next swiper-button-white"></div>
@@ -60,10 +59,9 @@
 			</div>
 			<div class="swiper-container gallery-thumbs">
 				<div class="swiper-wrapper">
-					<div class="swiper-slide" style="background-image:url({{ asset('images/e2f87ecce1c734ee1b2e8cb8d0css04274.jpg') }})"></div>
-					<div class="swiper-slide" style="background-image:url({{ asset('images/broccoli.jpg') }})"></div>
-					<div class="swiper-slide" style="background-image:url({{ asset('images/tradingbusinessplan.jpg') }})"></div>
-					<div class="swiper-slide" style="background-image:url({{ asset('images/e2f87ecce1c734ee1b2e8cb8d0c04274.jpg') }})"></div>
+					@foreach($var['photos'] as $photo)
+					<div class="swiper-slide" style="background-image:url({{ asset(PostHelper::getLinkimage($photo->name, 'media', 'thumbnail')) }})"></div>
+					@endforeach
 				</div>
 			</div>
 			@endif
@@ -110,11 +108,11 @@
 				</div>
 				<div class="col-3">
 					<div class="sidebarVideo">
-						@if (count($var['allcategories']) > 0)
+						@if (count($var['categories']) > 0)
 						<div class="sidebar kategoriWidget">
 							<h4 class="sidebarDefaultHeading">Kategori</h4>
 							<ul>
-								@foreach($var['allcategories'] as $cat)
+								@foreach($var['categories'] as $cat)
 								<li><a href="{{ route('video_cat_archive', $cat->slug) }}">{{ $cat->name }}</a></li>
 								@endforeach
 							</ul>

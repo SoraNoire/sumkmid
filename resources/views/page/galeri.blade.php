@@ -4,7 +4,7 @@
 
 <div class="breadcrumb">
 	<div class="container">
-		<h2>Galeri</h2>
+		<h2><a href="{{ route('public_home') }}">Home</a> <i class="fa fa-angle-right" aria-hidden="true"></i> Galeri</h2>
 	</div>
 </div>
 
@@ -40,9 +40,6 @@
 
 	@endforeach
 	{{ $var['items']->links() }}
-	</div>
-	<div class="atEnd">
-		<span class="end-text">Tidak Ada Video Lagi</span>
 	</div>
 	</div>
 </div>

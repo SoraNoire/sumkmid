@@ -20,6 +20,7 @@ use Modules\Blog\Entities\Tags;
 use Carbon\Carbon;
 use Mail;
 use View;
+use Modules\Blog\Entities\Media;
 use Illuminate\Support\Facades\Validator;
 
 class PublicController extends Controller
@@ -230,7 +231,8 @@ class PublicController extends Controller
 		if($var['content']->post_type == 'video'){
 			$var['videoEmbed'] = $postMetas->video_url ?? [];
 		}else{
-			$var['photos'] = '';
+			$gallery_images = json_decode($postMetas->gallery_images ?? '') ?? []; 
+			$var['photos'] = Media::whereIn('id', $gallery_images)->get();
 		}
 
 

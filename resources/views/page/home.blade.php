@@ -9,7 +9,7 @@
         <div class="swiper-slide bigSlideContent" style="background-image: url({{ asset('images/e2f87ecce1c734ee1b2e8cb8d0c04274.jpg') }});">
         	<div class="contentWrap onLeft">
         		<div class="content">
-        			<div class="heading">Mentoring Online Pelaku UMKM</div>
+        			<div class="heading"><a href="{{ route('public_mentor') }}">Mentoring Online Pelaku UMKM</a></div>
         			<div class="caption">Bergabung bersama ratusan pelaku UMKM dan dapatkan manfaat dari bimbingan bisnis langsung dari gadget anda.</div>
         		</div>
         	</div>
@@ -17,8 +17,24 @@
         <div class="swiper-slide bigSlideContent" style="background-image: url({{ asset('images/e2f87ecce1c734ee1b2e8cb8d0c04274.jpg') }});">
         	<div class="contentWrap onRight">
         		<div class="content">
-        			<div class="heading">Mentoring Online Pelaku UMKM</div>
-        			<div class="caption">Bergabung bersama ratusan pelaku UMKM dan dapatkan manfaat dari bimbingan bisnis langsung dari gadget anda.</div>
+        			<div class="heading">
+        				<a href="{{ route('public_galeri') }}">
+        					Wadah Interaksi Bagi Para Pelaku UMKM Indonesia
+        				</a>
+        			</div>
+        			<div class="caption">Berkumpul bersama pelaku UMKM	di	Indonesia</div>
+        		</div>
+        	</div>
+        </div>
+        <div class="swiper-slide bigSlideContent" style="background-image: url({{ asset('images/e2f87ecce1c734ee1b2e8cb8d0c04274.jpg') }});">
+        	<div class="contentWrap onLeft">
+        		<div class="content">
+        			<div class="heading">
+        				<a href="{{ route('public_galeri') }}">
+        					Sahabat UMKM Indonesia
+        				</a>
+        			</div>
+        			<div class="caption">“Beranilah untuk bermimpi. Tetapi yang lebih penting lagi, beranilah bertindak untuk mewujudkan mimpimu menjadi nyata“</div>
         		</div>
         	</div>
         </div>

@@ -7,6 +7,7 @@
 		background-size: cover;
 		background-position: center;
 		position: relative;
+		display: table;
 		@media screen and (max-width: 560px) {
 			padding-top: unset;
 			height: 300px;
@@ -46,6 +47,11 @@
 					color: rgb(29, 61, 111);
 					font-weight: $bold;
 					font-size: 25px;
+					a{
+						font-style: inherit;
+						color: inherit;
+						text-decoration: inherit;
+					}
 					@media screen and (max-width: 560px) {
 						font-size: 19px;
 					}

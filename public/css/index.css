@@ -1378,11 +1378,11 @@ template,
 .breadcrumb {
   -webkit-box-shadow: 0 2px 18px 0 rgba(0, 0, 0, 0.3);
           box-shadow: 0 2px 18px 0 rgba(0, 0, 0, 0.3);
+  background-color: #135383;
 }
 
 .breadcrumb .container {
-  height: 115px;
-  background-image: url("/img/triangle-a.png");
+  height: 60px;
   background-repeat: no-repeat;
   background-position-y: 10px;
   -webkit-box-orient: vertical;
@@ -1397,10 +1397,25 @@ template,
           justify-content: space-evenly;
 }
 
+.breadcrumb .container h2 {
+  font-size: 16px;
+  margin-bottom: 9px;
+  color: #fff;
+}
+
+.breadcrumb .container h2 a {
+  color: inherit;
+  text-decoration: inherit;
+}
+
+.breadcrumb .container h2 i {
+  margin: 0px 15px;
+}
+
 footer {
   background-color: #135383;
-  padding-top: 80px;
-  padding-bottom: 70px;
+  padding-top: 30px;
+  padding-bottom: 30px;
   position: relative;
   overflow: hidden;
   color: white;
@@ -1422,7 +1437,7 @@ footer .container .footerItems .desc {
 }
 
 footer .container .footerItems .footerLogo {
-  margin-top: 20px;
+  margin-top: 0px;
   text-align: left;
 }
 
@@ -1485,7 +1500,10 @@ footer .container .contactItems ul {
 
 footer .container .contactItems ul li {
   list-style: none;
-  padding: 39.7px 0px;
+  padding: 0px 0px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
 }
 
 footer .container .contactItems ul li:first-child {
@@ -1507,6 +1525,7 @@ footer .container .contactItems ul li p {
   display: inline-block;
   float: left;
   width: calc(100% - 40px);
+  margin-bottom: 0px;
 }
 
 footer .container .stayInTouch h5 {
@@ -1550,7 +1569,7 @@ footer .container .stayInTouch .footerSubForm form button i {
 }
 
 footer .container .stayInTouch ul {
-  margin-bottom: 60px;
+  margin-bottom: 30px;
   padding-left: 0px;
 }
 
@@ -1626,12 +1645,8 @@ footer .container .stayInTouch .copyText {
     font-size: 11px;
   }
 
-  footer .container .contactItems ul li {
-    padding: 21.7px 0px;
-  }
-
   footer .container .footerItems {
-    height: 145px;
+    height: 135px;
   }
 
   footer .container .footerItems .footerLogo {
@@ -1653,20 +1668,12 @@ footer .container .stayInTouch .copyText {
     margin: 0px;
   }
 
-  footer .container .footerItems {
-    height: 106px;
-  }
-
   footer .container .footerItems .footerLogo {
     width: 60%;
   }
 
   footer .container .footerItems .footerLogo span {
     font-size: 0.65em;
-  }
-
-  footer .container .contactItems ul li {
-    padding: 16.7px 0px;
   }
 
   footer .container .contactItems ul li:first-child {
@@ -1855,6 +1862,7 @@ footer .container .stayInTouch .copyText {
   background-size: cover;
   background-position: center;
   position: relative;
+  display: table;
 }
 
 @media screen and (max-width: 560px) {
@@ -1915,6 +1923,12 @@ footer .container .stayInTouch .copyText {
   color: #1d3d6f;
   font-weight: 700;
   font-size: 25px;
+}
+
+#mainSlider .bigSlideContent .contentWrap .content .heading a {
+  font-style: inherit;
+  color: inherit;
+  text-decoration: inherit;
 }
 
 @media screen and (max-width: 560px) {

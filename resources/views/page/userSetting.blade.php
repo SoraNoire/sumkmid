@@ -3,7 +3,7 @@
 @section('content')
 <div class="breadcrumb">
 	<div class="container">
-		<h2>Profil</h2>
+		<h2><a href="{{ route('public_home') }}">Home</a> <i class="fa fa-angle-right" aria-hidden="true"></i>Profil</h2>
 	</div>
 </div>
 <?php

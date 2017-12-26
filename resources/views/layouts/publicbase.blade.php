@@ -81,11 +81,11 @@
 	                                    Galeri
 	                                </a>
 	                            </li>
-	                            <li class="{{ ($var['page'] ?? '' == 'Ijin Usaha' ? 'active' : '') }}">
+<!-- 	                        <li class="{{ ($var['page'] ?? '' == 'Ijin Usaha' ? 'active' : '') }}">
 	                                <a href="#">
 	                                    Forum
 	                                </a>
-	                            </li>
+	                            </li> -->
 	                            <li class="{{ ($var['page'] ?? '' == 'Kontak' ? 'active' : '') }}">
 	                                <a href="{{ route('public_kontak') }}">
 	                                    Kontak
@@ -108,7 +108,7 @@
                                 @else
 	                            <li class="loginButton">
 	                                <a href="{{ route('OA.login') }}" class="button">
-	                                    Masuk
+	                                    Daftar
 	                                </a>
                                 </li>
                                 @endif
@@ -181,7 +181,7 @@
                     <ul>
                         <li><a target="_blank" href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
                         <li><a target="_blank" href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                        <li><a target="_blank" href="#"><i class="fa fa-dribbble" aria-hidden="true"></i></a></li>
+                        <li><a target="_blank" href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
                         <li><a target="_blank" href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
                         <li><a target="_blank" href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
                         <li><a target="_blank" href="#"><i class="fa fa-youtube-play" aria-hidden="true"></i></a></li>

@@ -3,7 +3,7 @@
 @section('content')
 <div class="breadcrumb">
 	<div class="container">
-		<h2>Event</h2>
+		<h2><a href="{{ route('public_home') }}">Home</a> <i class="fa fa-angle-right" aria-hidden="true"></i>Event</h2>
 	</div>
 </div>
 
@@ -107,21 +107,5 @@
 			</div>
 		</div>
         <div class="scroller-status loading"> <div class="event the-row"> <div class="col-3"></div> <div class="event-timeline"> <div class="event-indicator"></div> </div> <div class="col-9 infinity-scroll-message"> <div class="loadingItems"> <span class="infinite-scroll-request"><img src="/img/infinity-load.svg"> Memuat Event</span> </div> </div> </div> </div>
-
-		<!-- status elements -->
-		<div class="scroller-status endOfEvent">
-		  	<div class="event the-row">
-				<div class="col-3"></div>
-				<div class="event-timeline">
-					<div class="event-indicator"></div>
-				</div>
-				<div class="col-9 infinity-scroll-message">
-					<div class="loadingItems">
-						<span class="infinite-scroll-last">Tidak Ada Event Lagi</span>
-					</div>
-				</div>
-		  	</div>
-		</div>
-	</div>
 </div>
 @endsection

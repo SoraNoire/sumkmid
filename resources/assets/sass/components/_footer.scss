@@ -1,7 +1,7 @@
 footer{
     background-color: #135383;
-    padding-top: 80px;
-    padding-bottom: 70px;
+    padding-top: 30px;
+    padding-bottom: 30px;
     position: relative;
     overflow: hidden;
     color:white;
@@ -18,7 +18,7 @@ footer{
                 padding-right: 10px;
             }
             .footerLogo{
-                margin-top: 20px;
+                margin-top: 0px;
                 text-align: left;
                 img{
                         max-width: 100%;
@@ -68,7 +68,8 @@ footer{
                 padding-left: 0px;
                 li{
                     list-style: none;
-                    padding: 39.7px 0px;
+                    padding: 0px 0px;
+                    display: flex;
                     &:first-child{
                         padding-top: 15px;
                     }
@@ -85,6 +86,7 @@ footer{
                         display: inline-block;
                         float: left;
                         width: calc(100% - 40px);
+                        margin-bottom: 0px;
                     }
                 }
             }
@@ -124,7 +126,7 @@ footer{
                 }
             }
             ul{
-                margin-bottom: 60px;
+                margin-bottom: 30px;
                 padding-left: 0px;
                 li{
                     list-style: none;
@@ -237,12 +239,12 @@ footer{
             .contactItems{
                 ul{
                     li{
-                        padding: 21.7px 0px;
+                       
                     }
                 }
             }
             .footerItems{
-                height: 145px;
+                height: 135px;
                 .footerLogo{
                     margin-top: 0px;
                     width: 80%;
@@ -267,7 +269,6 @@ footer{
                 margin: 0px;
             }
             .footerItems{
-                height: 106px;
                 .footerLogo{
                     width: 60%;
                     span{
@@ -278,7 +279,7 @@ footer{
             .contactItems{
                 ul{
                     li{
-                        padding: 16.7px 0px;
+                        
                         &:first-child{
                             padding-top: 0px;
                         }
