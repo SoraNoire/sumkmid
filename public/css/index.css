@@ -1428,7 +1428,6 @@ footer .container .col-4 {
 
 footer .container .footerItems {
   position: relative;
-  height: 217px;
 }
 
 footer .container .footerItems .desc {
@@ -1534,7 +1533,7 @@ footer .container .stayInTouch h5 {
 }
 
 footer .container .stayInTouch .footerSubForm {
-  margin: 30px 0px 25px 0px;
+  margin: 25px 0px 25px 0px;
 }
 
 footer .container .stayInTouch .footerSubForm form {
@@ -1569,7 +1568,7 @@ footer .container .stayInTouch .footerSubForm form button i {
 }
 
 footer .container .stayInTouch ul {
-  margin-bottom: 30px;
+  margin-bottom: 25px;
   padding-left: 0px;
 }
 
