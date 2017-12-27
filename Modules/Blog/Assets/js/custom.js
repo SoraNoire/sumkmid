@@ -5,6 +5,10 @@ var timeOutId;
 
 var jPlugin = $.blogPlugin();
 
+$('#program-structure').on('click', '.program-media', function(){
+    jPlugin.openModal('.custom-modal');
+});
+
 $("#browse_media_post").click(function() {
     jPlugin.openModal('.media-modal');
 });

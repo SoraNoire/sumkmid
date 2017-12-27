@@ -32,6 +32,7 @@
   'Modules/Blog/Assets/js/blogPlugin.js',
   'Modules/Blog/Assets/js/component.js',
   'Modules/Blog/Assets/js/mydatatables.js',
+  'Modules/Blog/Assets/js/jquery.nestable.js',
   'Modules/Blog/Assets/js/custom.js',
   'Modules/Video/Assets/js/video.js',
   'Modules/Event/Assets/js/event.js',
