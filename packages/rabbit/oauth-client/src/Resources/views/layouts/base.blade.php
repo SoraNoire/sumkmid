@@ -28,7 +28,7 @@
             <span class="icon-bar"></span>
           </button>
           <a class="navbar-brand" href="{{ route('panel.dashboard') }}" style="margin-top: -5px;">
-            <img src="{{URL::to('/img/icon1color.png')}}" style="max-width:70%;"></a>
+            <img src="{{URL::to('/img/logo.png')}}" style="max-width:70%;"></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
