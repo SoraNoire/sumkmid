@@ -6,7 +6,7 @@
 <!-- Slider main container -->
 <div class="swiper-container">
     <div class="swiper-wrapper">
-        <div class="swiper-slide bigSlideContent" style="background-image: url({{ asset('images/e2f87ecce1c734ee1b2e8cb8d0c04274.jpg') }});">
+        <div class="swiper-slide bigSlideContent" style="background-image: url({{ asset('images/slider/1.jpg') }});">
         	<div class="contentWrap onLeft">
         		<div class="content">
         			<div class="heading"><a href="{{ route('public_mentor') }}">Mentoring Online Pelaku UMKM</a></div>
@@ -14,7 +14,7 @@
         		</div>
         	</div>
         </div>
-        <div class="swiper-slide bigSlideContent" style="background-image: url({{ asset('images/e2f87ecce1c734ee1b2e8cb8d0c04274.jpg') }});">
+        <div class="swiper-slide bigSlideContent" style="background-image: url({{ asset('images/slider/2.jpg') }});">
         	<div class="contentWrap onRight">
         		<div class="content">
         			<div class="heading">
@@ -26,7 +26,7 @@
         		</div>
         	</div>
         </div>
-        <div class="swiper-slide bigSlideContent" style="background-image: url({{ asset('images/e2f87ecce1c734ee1b2e8cb8d0c04274.jpg') }});">
+        <div class="swiper-slide bigSlideContent" style="background-image: url({{ asset('images/slider/3.png') }});">
         	<div class="contentWrap onLeft">
         		<div class="content">
         			<div class="heading">
