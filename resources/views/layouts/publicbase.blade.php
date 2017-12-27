@@ -9,7 +9,7 @@
 
     <title>Sahabat UMKM</title>
 
-    <link rel="icon" type="image/x-icon" href="{{ asset('img/logo-ico.png') }}">
+    <link rel="icon" type="image/x-icon" href="{{ asset('images/fav.png') }}">
     <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}">
     <link href="//cdn-images.mailchimp.com/embedcode/classic-10_7.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="{{ asset('css/index.css') }}?v=1.1.6">
