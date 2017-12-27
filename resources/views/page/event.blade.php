@@ -45,7 +45,14 @@
 								<td>Speaker :</td>
 								<td>
 									@foreach ($meta['mentors'] as $mentor)
-										<p>- {{ $mentor->name }}</p>
+										<div class="mentorWrap">
+											@if(isset($mentor->foto_profil))
+											<div class="miniPhotoMentor" style="background-image: url('{{ $mentor->foto_profil }}');"></div>
+											@else
+											<div class="miniPhotoMentor" style="background-image: url('{{ asset('images/admin.png') }}');"></div>
+											@endif
+											<a href="{{ (isset($mentor->id) ? route('public_mentor_single',$mentor->id) : route('public_mentor')) }}">{{ $mentor->name }}</a>
+										</div>
 									@endforeach
 								</td>
 							</tr>
