@@ -14,6 +14,9 @@ Route::middleware('OAuthMiddleware')->namespace('\Rabbit\OAuthClient\Controllers
 			->name('OA.login');
 	Route::get('/login', 'PController@OAuthCallback')
 			->name('OA.login.callback');
+
+	Route::get('/register_oauth', 'PController@OAuthRegister')
+			->name('OA.register');
 	Route::get('/logout', 'PController@OAuthLogout')
 			->name('OA.logout');
 	
