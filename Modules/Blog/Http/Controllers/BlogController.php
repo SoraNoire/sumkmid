@@ -1654,8 +1654,17 @@ class BlogController extends Controller
         $link_in = Option::where('key', 'link_in')->first()->value ?? '';
         $link_ig = Option::where('key', 'link_ig')->first()->value ?? '';
         $link_yt = Option::where('key', 'link_yt')->first()->value ?? '';
+        $program = Option::where('key', 'program')->first()->value ?? '';
 
-        return view('blog::admin.setting')->with(['page_meta_title' => $page_meta_title, 'analytic' => $analytic, 'fb_pixel' => $fb_pixel, 'link_fb' => $link_fb, 'link_in' => $link_in, 'link_tw' => $link_tw, 'link_yt' => $link_yt, 'link_ig' => $link_ig]);
+        $program_structure = '';
+        if ($program != '') {
+            $program = json_decode($program);
+            foreach ($program as $key) {
+                $program_structure .= '<li class="dd-item" data-id="'.$key->id.'" data-title="'.$key->title.'" data-description="'.$key->description.'" data-logo="'.$key->logo.'" data-background="'.$key->background.'"><div class="dd-handle dd3-handle">Drag</div><div class="program-item dd3-content panel panel-default" id="program'.$key->id.'"><div class="program-title"><span>'.$key->title.'</span><a data-toggle="collapse" data-parent="#program-structure" href="#program-collapse-'.$key->id.'"><i style="float: right;" class="fa fa-caret-down" aria-hidden="true"></i></a></div><div id="program-collapse-'.$key->id.'" class="collapse program-collapse panel panel-default"><div class="form-group"><label>Title</label><input class="form-control" type="text" name="title" value="'.$key->title.'"><label>Logo</label><div class="input-group"><input class="form-control" type="text" name="logo" value="'.$key->logo.'" readonly="readonly" id="program-logo'.$key->id.'"><span class="input-group-btn"><button class="btn btn-default program-media" type="button" data-tujuan="program-logo'.$key->id.'">Browse media</button></span></div><label>Background</label><div class="input-group"><input class="form-control" type="text" name="background" value="'.$key->background.'" readonly="readonly" id="program-bg'.$key->id.'"><span class="input-group-btn"><button class="btn btn-default program-media" type="button" data-tujuan="program-bg'.$key->id.'">Browse media</button></span></div><label>Description</label><textarea name="description" class="form-control">'.$key->description.'</textarea></div><a href="#" class="remove_item">Remove</a></div></div></li>';
+            }
+        }
+
+        return view('blog::admin.setting')->with(['page_meta_title' => $page_meta_title, 'analytic' => $analytic, 'fb_pixel' => $fb_pixel, 'link_fb' => $link_fb, 'link_in' => $link_in, 'link_tw' => $link_tw, 'link_yt' => $link_yt, 'link_ig' => $link_ig, 'list_program' => $program_structure]);
     }
 
     /**
@@ -1689,6 +1698,30 @@ class BlogController extends Controller
         } catch (\Exception $e) {
             // SSOHelper::newsLog("Someting when wrong when saving setting: ".$e);
             return redirect(route('panel.setting.site__index'))->with(['msg' => 'Save Error', 'status' => 'danger']);    
+        }
+    }
+
+    /**
+     * Store a program setting.
+     * @param  Request $request
+     * @return Response
+     */
+    public function save_program(Request $request)
+    {
+        $option = Option::where('key', 'program')->first();
+        $program = $request->program;
+        if (isset($option)) {
+            $option -> value = $program;
+        } else {
+            $option = new Option;
+            $option -> key = 'program';
+            $option -> value = $program;
+        }
+        
+        if ($option->save()) {
+            return 'berhasil simpan';
+        } else {
+            return 'gagal menyimpan';
         }
     }
 

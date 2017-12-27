@@ -30,6 +30,8 @@
 										<input type="text" name="fb_pixel" class="form-control" value="{{ $fb_pixel }}">
 									</div>
 
+	            					<button type="submit" class="btn btn-success pull-left">Save</button>
+
 		                        </div>
 		                    </div>
 		                </div>
@@ -63,6 +65,8 @@
 										<input type="url" name="link_yt" class="form-control" value="{{ $link_yt }}">
 									</div>
 
+	            					<button type="submit" class="btn btn-success pull-left">Save</button>
+
 		                        </div>
 		                    </div>
 		                </div>
@@ -76,46 +80,17 @@
 		                    <div id="setting-program" class="panel-collapse collapse in">
 		                        <div class="panel-body">
 
+	            					<button type="button" class="btn btn-info pull-left add-program">Add Program +</button>
+            						<div class="clearfix"></div>
+
 		                        	<div class="dd panel-group" id="program-structure">
 									    <ol class="dd-list">
-
-									    	<li class="dd-item" data-id="" data-title="" data-description="" data-logo="" data-background="">
-												<div class="dd-handle dd3-handle">Drag</div>
-												<div class="program-item dd3-content panel panel-default" id="program1">
-													<div class="program-title">
-														<span>Program 1</span>
-														<a data-toggle="collapse" data-parent="#program-structure" href="#program-collapse-1">
-															<i style="float: right;" class="fa fa-caret-down" aria-hidden="true"></i>
-														</a>
-													</div>
-													<div id="program-collapse-1" class="collapse program-collapse panel panel-default">
-														<div class="form-group">
-															<label>Title</label>
-															<input class="form-control" type="text" name="title" value="">
-															<label>Logo</label>
-															<div class="input-group">
-																<input class="form-control" type="text" name="logo" value="" readonly="readonly">
-																<span class="input-group-btn">
-			                                                        <button class="btn btn-default" class="program-media" type="button">Browse media</button>
-			                                                    </span>
-															</div>
-															<label>Background</label>
-															<div class="input-group">
-																<input class="form-control" type="text" name="background" value="" readonly="readonly">
-																<span class="input-group-btn">
-			                                                        <button class="btn btn-default" class="program-media" type="button">Browse media</button>
-			                                                    </span>
-															</div>
-															<label>Description</label>
-															<textarea class="simple-tinymce"></textarea>
-														</div>
-														<a href="#" class="remove_item">Remove</a>
-													</div>
-												</div>
-											</li>	
-
+									    	{!! $list_program !!}
 									    </ol>
 									</div>
+
+            						<div class="clearfix"></div>
+	            					<button type="button" class="btn btn-success pull-left save-program" style="margin-top: 10px;">Save</button>
 
 		                        </div>
 		                    </div>
@@ -123,7 +98,6 @@
 						
 	                </div>
 	            </div>
-	            <button type="submit" class="btn btn-success pull-left">Simpan</button>
 	            <div class="clearfix"></div>
 	        </form>
 	    </div>
@@ -133,3 +107,29 @@
 @endsection
 
 
+@section('modal')
+<div class="overlay"></div>
+
+<div class="custom-modal media-modal">
+<div class="close-modal" id="close_media_post" data-toggle="modal" data-target="#myModal">X</div>
+    
+    <div class="card">
+        <div class="btn btn-round btn-fill btn-info" style="margin-bottom: 10px;" onclick="document.getElementById('uploadmedia').click();">Upload media +
+            <form id="actuploadmedia" method="post" action="{{ URL::to('/administrator/act_new_media') }}" accept-charset="UTF-8" enctype="multipart/form-data">
+                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                <input type="file" id="uploadmedia" name="media[]" style="cursor: pointer;display: none;" multiple>
+            </form>
+        </div>
+    <div class="card-content table-responsive">
+        <table style="width: 100%;" class="table mediatable" id="programMedia">
+            <thead >
+                <th>Preview</th>
+                <th>Judul</th>
+                <th>Tanggal</th>
+                <th>Aksi</th>
+            </thead>
+        </table>
+    </div>
+    </div>
+</div>
+@endsection

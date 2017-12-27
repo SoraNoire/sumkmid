@@ -833,3 +833,40 @@ if ($("#sliderImg").length > 0) {
     ]
   });
 }
+
+// image table for program
+if ($("#programMedia").length > 0) {
+  $("#programMedia").DataTable({
+    "ajax":  {
+      url: '/admin/blog/get-media'
+    } ,
+    "processing": true,
+    "serverSide": true,
+    "stateSave":true,
+    "columns": [
+      { "data": "name" },
+      { "data": "name" },
+      { "data": "created_at" },
+      { "data": "id" },
+    ],
+    "columnDefs": [ {
+        "targets": -1,
+        "data": 'id',
+        "render": function ( data, type, row ) {
+          return '<div onclick="delete_media(\''+data+'\')" id="delete_media_post" class="btn btn-round btn-fill btn-danger">Delete</div> <div onclick="select_input_media(\'#media-'+data+'\')" id="select_media" class="btn btn-round btn-fill btn-success">Select</div> <p style="display:none;" id="media-'+data+'">'+mediaPath+'/'+row.name+'</p>';
+        }
+      },
+      {
+        "targets": 0,
+        "data": 'title',
+        "render": function ( data, type, row ) {
+          return '<img style="width: 100px; max-height: 100px;" src="'+mediaPath+'/'+data.split('.').join('-300.')+'">';
+        }
+      }
+    ],
+    order: [
+      [0, "desc"],
+      [2, "desc"]
+    ]
+  });
+}

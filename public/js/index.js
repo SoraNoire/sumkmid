@@ -1359,6 +1359,43 @@ if ($("#sliderImg").length > 0) {
   });
 }
 
+// image table for program
+if ($("#programMedia").length > 0) {
+  $("#programMedia").DataTable({
+    "ajax":  {
+      url: '/admin/blog/get-media'
+    } ,
+    "processing": true,
+    "serverSide": true,
+    "stateSave":true,
+    "columns": [
+      { "data": "name" },
+      { "data": "name" },
+      { "data": "created_at" },
+      { "data": "id" },
+    ],
+    "columnDefs": [ {
+        "targets": -1,
+        "data": 'id',
+        "render": function ( data, type, row ) {
+          return '<div onclick="delete_media(\''+data+'\')" id="delete_media_post" class="btn btn-round btn-fill btn-danger">Delete</div> <div onclick="select_input_media(\'#media-'+data+'\')" id="select_media" class="btn btn-round btn-fill btn-success">Select</div> <p style="display:none;" id="media-'+data+'">'+mediaPath+'/'+row.name+'</p>';
+        }
+      },
+      {
+        "targets": 0,
+        "data": 'title',
+        "render": function ( data, type, row ) {
+          return '<img style="width: 100px; max-height: 100px;" src="'+mediaPath+'/'+data.split('.').join('-300.')+'">';
+        }
+      }
+    ],
+    order: [
+      [0, "desc"],
+      [2, "desc"]
+    ]
+  });
+}
+
 /*!
  * Nestable jQuery Plugin - Copyright (c) 2012 David Bushell - http://dbushell.com/
  * Dual-licensed under the BSD or MIT licenses
@@ -1853,6 +1890,7 @@ var jPlugin = $.blogPlugin();
 
 $('#program-structure').on('click', '.program-media', function(){
     jPlugin.openModal('.custom-modal');
+    tujuan = $('#'+$(this).attr('data-tujuan'));
 });
 
 $("#browse_media_post").click(function() {
@@ -1918,7 +1956,16 @@ function select_fimg(e){
     var b = $('#featured_img');
     var c = $(e).text();
     a.css('background-image', 'url('+c+')');
+    tujuan.val(c);
     b.val(c);
+    jPlugin.closeModal();
+}
+
+function select_input_media(e){
+    var c = $(e).text();
+    tujuan.val(c);
+    var name = 'data-'+tujuan.attr('name');
+    tujuan.parents('li.dd-item').attr(name, c);
     jPlugin.closeModal();
 }
 
@@ -2024,6 +2071,72 @@ if ($('.file-list').length > 0) {
     });
 }
 
+if ($('#program-structure')) {
+    $('#program-structure').nestable({ group: 1, maxDepth: 1 });
+    check_program();
+}
+
+$('#program-structure').on('click', '.remove_item', function(e){
+    e.preventDefault();
+    $(this).parents('li').remove();
+    check_program();
+});
+
+$('#program-structure').on('keyup change', 'input', function(){
+    var name = 'data-'+$(this).attr('name');
+    var val = $(this).val();
+    $(this).parents('li.dd-item').attr(name, val);
+});
+
+$('#program-structure').on('keyup change', 'textarea', function(){
+    var name = 'data-'+$(this).attr('name');
+    var val = $(this).val();
+    $(this).parents('li.dd-item').attr(name, val);
+});
+
+$('#setting-program').on('click', '.save-program', function(){
+    var data = JSON.stringify($('#program-structure').nestable('serialize'));
+    $.ajax({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        data: {program :data},
+        type: 'POST',
+        url: '/admin/blog/save-program',
+        success: function(response){
+            notif.showNotification("top","right",'Berhasil Disimpan','2');
+        },
+        error: function(err){
+            notif.showNotification("top","right",'Gagal Disimpan','4');
+        }
+    });
+});
+
+$('#setting-program').on('click', '.add-program', function(){
+    var id = get_program_id();
+    id += 1;
+    $('#program-structure .dd-list:first-child').append('<li class="dd-item" data-id="'+id+'" data-title="" data-description="" data-logo="" data-background=""><div class="dd-handle dd3-handle">Drag</div><div class="program-item dd3-content panel panel-default" id="program'+id+'"><div class="program-title"><span>Program '+id+'</span><a data-toggle="collapse" data-parent="#program-structure" href="#program-collapse-'+id+'"><i style="float: right;" class="fa fa-caret-down" aria-hidden="true"></i></a></div><div id="program-collapse-'+id+'" class="collapse program-collapse panel panel-default"><div class="form-group"><label>Title</label><input class="form-control" type="text" name="title" value=""><label>Logo</label><div class="input-group"><input class="form-control" type="text" name="logo" value="" readonly="readonly" id="program-logo'+id+'"><span class="input-group-btn"><button class="btn btn-default program-media" type="button" data-tujuan="program-logo'+id+'">Browse media</button></span></div><label>Background</label><div class="input-group"><input class="form-control" type="text" name="background" value="" readonly="readonly" id="program-bg'+id+'"><span class="input-group-btn"><button class="btn btn-default program-media" type="button" data-tujuan="program-bg'+id+'">Browse media</button></span></div><label>Description</label><textarea name="description" class="form-control"></textarea></div><a href="#" class="remove_item">Remove</a></div></div></li>');
+    check_program();
+});
+
+function check_program(){
+    var a = $('#program-structure').find('li.dd-item').length;
+    if (a >= 5) {
+        $('#setting-program .add-program').remove();
+    } else if (a <= 5) {
+        if ($('#setting-program .add-program').length <= 0) {
+            $('#setting-program .panel-body').prepend('<button type="button" class="btn btn-info pull-left add-program">Add Program +</button>');
+        }
+    }
+}
+
+function get_program_id(){
+    var id = 0;
+    if ($("#program-structure li:last-child").length > 0) {
+        id = parseInt($("#program-structure li:last-child").attr('data-id'));
+    }   
+    return id;
+}
 
 function select_event_type(){
     var event_type = $('#event-type').val();

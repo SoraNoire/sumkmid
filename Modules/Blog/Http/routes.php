@@ -171,6 +171,8 @@ Route::group(['middleware' => ['web', 'backend'], 'prefix' => 'admin/blog', 'nam
             ->name('panel.setting.site__index');
     Route::post('/save-setting', 'BlogController@site_setting_save')
             ->name('panel.setting.site__update');
+    Route::post('/save-program', 'BlogController@save_program')
+            ->name('panel.setting.site__update__program');
 
     Route::get('/slider','BlogController@head_slider')
             ->name('panel.slider__index');
