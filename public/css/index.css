@@ -2138,10 +2138,12 @@ footer .container .stayInTouch .copyText {
   -webkit-transition: .5s;
   transition: .5s;
   width: 60%;
+  height: 130px;
   display: block;
   margin: 0 auto;
   padding-bottom: 20px;
   opacity: 0;
+  position: relative;
 }
 
 @media screen and (max-width: 830px) {
@@ -2153,6 +2155,9 @@ footer .container .stayInTouch .copyText {
 
 #programs .programWrap .programSplit .logo img {
   max-width: 100%;
+  position: absolute;
+  left: 0;
+  bottom: 20px;
 }
 
 #programs .programWrap .programSplit:hover {

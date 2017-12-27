@@ -116,7 +116,7 @@
 	<div class="programWrap">
 		<div class="programSplit" style="background-image: url({{asset('images/program/1.jpg')}})">
 			<div class="logo">
-				<img src="{{ asset('images/niexjjzstcseuzdzkvoq.png') }}">
+				<img src="{{ asset('images/program/icon/1.png') }}">
 			</div>
 			<div class="heading">
 				<span>Mentoring</span>
@@ -127,7 +127,7 @@
 		</div>
 		<div class="programSplit" style="background-image: url({{asset('images/program/2.jpg')}})">
 			<div class="logo">
-				<img src="{{ asset('images/niexjjzstcseuzdzkvoq.png') }}">
+				<img src="{{ asset('images/program/icon/2.png') }}">
 			</div>
 			<div class="heading">
 				<span>Forum</span>
@@ -138,7 +138,7 @@
 		</div>
 		<div class="programSplit" style="background-image: url({{asset('images/program/3.jpg')}})">
 			<div class="logo">
-				<img src="{{ asset('images/niexjjzstcseuzdzkvoq.png') }}">
+				<img src="{{ asset('images/program/icon/3.png') }}">
 			</div>
 			<div class="heading">
 				<span>Legal</span>
@@ -149,7 +149,7 @@
 		</div>
 		<div class="programSplit" style="background-image: url({{asset('images/program/4.jpg')}})">
 			<div class="logo">
-				<img src="{{ asset('images/niexjjzstcseuzdzkvoq.png') }}">
+				<img src="{{ asset('images/program/icon/4.png') }}">
 			</div>
 			<div class="heading">
 				<span>Event</span>
