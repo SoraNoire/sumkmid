@@ -19,6 +19,7 @@ use Modules\Blog\Entities\PostTag;
 use Modules\Blog\Entities\Media;
 use Modules\Blog\Entities\Files;
 use Modules\Blog\Entities\Option;
+use Modules\Blog\Entities\Slider;
 use Modules\Blog\Http\Helpers\PostHelper;
 use Carbon\Carbon;
 use Auth;
@@ -1653,8 +1654,17 @@ class BlogController extends Controller
         $link_in = Option::where('key', 'link_in')->first()->value ?? '';
         $link_ig = Option::where('key', 'link_ig')->first()->value ?? '';
         $link_yt = Option::where('key', 'link_yt')->first()->value ?? '';
+        $program = Option::where('key', 'program')->first()->value ?? '';
 
-        return view('blog::admin.setting')->with(['page_meta_title' => $page_meta_title, 'analytic' => $analytic, 'fb_pixel' => $fb_pixel, 'link_fb' => $link_fb, 'link_in' => $link_in, 'link_tw' => $link_tw, 'link_yt' => $link_yt, 'link_ig' => $link_ig]);
+        $program_structure = '';
+        if ($program != '') {
+            $program = json_decode($program);
+            foreach ($program as $key) {
+                $program_structure .= '<li class="dd-item" data-id="'.$key->id.'" data-title="'.$key->title.'" data-description="'.$key->description.'" data-logo="'.$key->logo.'" data-background="'.$key->background.'"><div class="dd-handle dd3-handle">Drag</div><div class="program-item dd3-content panel panel-default" id="program'.$key->id.'"><div class="program-title"><span>'.$key->title.'</span><a data-toggle="collapse" data-parent="#program-structure" href="#program-collapse-'.$key->id.'"><i style="float: right;" class="fa fa-caret-down" aria-hidden="true"></i></a></div><div id="program-collapse-'.$key->id.'" class="collapse program-collapse panel panel-default"><div class="form-group"><label>Title</label><input class="form-control" type="text" name="title" value="'.$key->title.'"><label>Logo</label><div class="input-group"><input class="form-control" type="text" name="logo" value="'.$key->logo.'" readonly="readonly" id="program-logo'.$key->id.'"><span class="input-group-btn"><button class="btn btn-default program-media" type="button" data-tujuan="program-logo'.$key->id.'">Browse media</button></span></div><label>Background</label><div class="input-group"><input class="form-control" type="text" name="background" value="'.$key->background.'" readonly="readonly" id="program-bg'.$key->id.'"><span class="input-group-btn"><button class="btn btn-default program-media" type="button" data-tujuan="program-bg'.$key->id.'">Browse media</button></span></div><label>Description</label><textarea name="description" class="form-control">'.$key->description.'</textarea></div><a href="#" class="remove_item">Remove</a></div></div></li>';
+            }
+        }
+
+        return view('blog::admin.setting')->with(['page_meta_title' => $page_meta_title, 'analytic' => $analytic, 'fb_pixel' => $fb_pixel, 'link_fb' => $link_fb, 'link_in' => $link_in, 'link_tw' => $link_tw, 'link_yt' => $link_yt, 'link_ig' => $link_ig, 'list_program' => $program_structure]);
     }
 
     /**
@@ -1684,10 +1694,137 @@ class BlogController extends Controller
                 $save->save();
             }
             // SSOHelper::newsLog("Updating setting");
-            return redirect(route('site_setting'))->with(['msg' => 'Saved', 'status' => 'success']);
+            return redirect(route('panel.setting.site__index'))->with(['msg' => 'Saved', 'status' => 'success']);
         } catch (\Exception $e) {
             // SSOHelper::newsLog("Someting when wrong when saving setting: ".$e);
-            return redirect(route('site_setting'))->with(['msg' => 'Save Error', 'status' => 'danger']);    
+            return redirect(route('panel.setting.site__index'))->with(['msg' => 'Save Error', 'status' => 'danger']);    
         }
     }
+
+    /**
+     * Store a program setting.
+     * @param  Request $request
+     * @return Response
+     */
+    public function save_program(Request $request)
+    {
+        $option = Option::where('key', 'program')->first();
+        $program = $request->program;
+        if (isset($option)) {
+            $option -> value = $program;
+        } else {
+            $option = new Option;
+            $option -> key = 'program';
+            $option -> value = $program;
+        }
+        
+        if ($option->save()) {
+            return 'berhasil simpan';
+        } else {
+            return 'gagal menyimpan';
+        }
+    }
+
+    // slider controller
+    /**
+     * Display a listing of slider.
+     * @return Response
+     */
+    public function head_slider(){
+        $page_meta_title = 'Slider';
+        $sliders = Slider::orderBy('created_at','desc')->get();
+        return view('blog::admin.slider') -> with(['page_meta_title' => $page_meta_title,'sliders' => $sliders]);
+    }
+
+    /**
+     * Show the form for creating slider.
+     * @return Response
+     */
+    public function new_slider_view(){
+        $page_meta_title = 'Slider';
+        
+        return view('blog::admin.slider-add') -> with(['page_meta_title' => $page_meta_title]);
+    }
+
+    /**
+     * Store newly created slider in storage.
+     * @param  Request $request
+     * @return Response
+     */
+    public function new_slider_act(Request $req){
+        $title = $req->input('title');
+        $description = $req->input('description');
+        $slider_img = $req->input('slider_img');
+        $btn_text = $req->input('btn_text');
+        $btn_link = $req->input('btn_link');
+
+        $slider = new Slider();
+        $slider->title = $title;
+        $slider->description = $description;
+        $slider->image = $slider_img;
+        $slider->btn_text = $btn_text;
+        $slider->link = $btn_link;
+        if ($slider -> save()) {
+            return redirect(route('panel.slider__view', $slider->id)) -> with("msg","Berhasil Ditambahkan")-> with("status","success");
+        }else{
+            return redirect(route('panel.slider__index')) -> with("msg","Gagal Ditambahkan")-> with("status","success");    
+        }
+    }
+
+    /**
+     * Show the form for editing the specified slider.
+     * @param  $id
+     * @return Response
+     */
+    public function edit_slider_view($id){
+        $page_meta_title = 'Slider';
+        $slider = Slider::where('id',$id)->first();
+
+        if (isset($slider)) {
+
+            return view('blog::admin.slider-edit') -> with(['page_meta_title' => $page_meta_title, 'slider' => $slider]);
+        }else {
+            return redirect(route('panel.slider__index'))->with(['msg' => 'Slider tidak ditemukan', 'status' => '4']);
+        }
+    }
+
+    /**
+     * Update specified slider in storage.
+     * @param  Request $request, $id
+     * @return Response
+     */
+    public function edit_slider_act(Request $req, $id){
+        $title = $req->input('title');
+        $description = $req->input('description');
+        $slider_img = $req->input('slider_img');
+        $btn_text = $req->input('btn_text');
+        $btn_link = $req->input('btn_link');
+
+        $slider = Slider::where('id',$id)->first();
+        $slider->title = $title;
+        $slider->description = $description;
+        $slider->image = $slider_img;
+        $slider->btn_text = $btn_text;
+        $slider->link = $btn_link;
+        if ($slider -> save()) {
+            return redirect(route('panel.slider__view', $slider->id)) -> with("msg","Berhasil Menyimpan")-> with("status","success");
+        }else{
+            return redirect(route('panel.slider__view', $slider->id)) -> with("msg","Gagal mengedit data photo")-> with("status","danger");
+        }
+    }
+
+    /**
+     * Remove specified slider in storage.
+     * @param  $id
+     * @return Response
+     */
+    public function hapus_slider($id){
+        $slider = Slider::where('id',$id)->first();
+        if ($slider -> delete()) {
+            return redirect(route('panel.slider__index')) -> with("msg","Slider berhasil dihapus")-> with("status","success");
+        }else{
+            return redirect(route('panel.slider__index')) -> with("msg","Gagal menghapus Foto")-> with("status","danger");
+        }
+    }
+    // end slider controller
 }

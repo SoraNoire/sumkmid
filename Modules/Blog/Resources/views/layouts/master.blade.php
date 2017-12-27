@@ -39,7 +39,9 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="{{ url('/') }}">Sahabat UMKM</a>
+          <a class="navbar-brand" href="{{ url('/') }}" style="margin-top: -5px;">
+            <img src="{{ asset('/img/logo.png') }}" style="max-width: 70%;">
+          </a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
@@ -76,6 +78,12 @@
             </li>
             <li class="mobile-admin-nav {{ ($page_meta_title ?? '') == 'Trash' ? 'active' : ''}}">
               <a href="{{ route('panel.post.trash__index') }}">Trash</a>
+            </li>
+            <li class="mobile-admin-nav {{ ($page_meta_title ?? '') == 'Site Setting' ? 'active' : ''}}">
+              <a href="{{ route('panel.setting.site__index') }}">Site Setting</a>
+            </li>
+            <li class="mobile-admin-nav {{ ($page_meta_title ?? '') == 'Slider' ? 'active' : ''}}">
+              <a href="{{ route('panel.slider__index') }}">Slider</a>
             </li>
 
             <li>
@@ -122,6 +130,12 @@
             </li>
             <li class="{{ ($page_meta_title ?? '') == 'Trash' ? 'active' : ''}}">
               <a href="{{ route('panel.post.trash__index') }}">Trash</a>
+            </li>
+            <li class="{{ ($page_meta_title ?? '') == 'Site Setting' ? 'active' : ''}}">
+              <a href="{{ route('panel.setting.site__index') }}">Site Setting</a>
+            </li>
+            <li class="{{ ($page_meta_title ?? '') == 'Slider' ? 'active' : ''}}">
+              <a href="{{ route('panel.slider__index') }}">Slider</a>
             </li>
           </ul>
         </div>

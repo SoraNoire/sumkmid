@@ -6,38 +6,25 @@
 <!-- Slider main container -->
 <div class="swiper-container">
     <div class="swiper-wrapper">
-        <div class="swiper-slide bigSlideContent" style="background-image: url({{ asset('images/slider/1.jpg') }});">
-        	<div class="contentWrap onLeft">
-        		<div class="content">
-        			<div class="heading"><a href="{{ route('public_mentor') }}">Mentoring Online Pelaku UMKM</a></div>
-        			<div class="caption">Bergabung bersama ratusan pelaku UMKM dan dapatkan manfaat dari bimbingan bisnis langsung dari gadget anda.</div>
-        		</div>
-        	</div>
-        </div>
-        <div class="swiper-slide bigSlideContent" style="background-image: url({{ asset('images/slider/2.jpg') }});">
-        	<div class="contentWrap onRight">
+
+    	@foreach( $var['sliders'] as $slider )
+        <div class="swiper-slide bigSlideContent" style="background-image: url({{ $slider->image }});">
+        	<div class="contentWrap {{ $slider->position == 'right' ? 'onRight' : 'onLeft' }}">
         		<div class="content">
         			<div class="heading">
-        				<a href="{{ route('public_galeri') }}">
-        					Wadah Interaksi Bagi Para Pelaku UMKM Indonesia
-        				</a>
+        				{!! $slider->title !!}
         			</div>
-        			<div class="caption">Berkumpul bersama pelaku UMKM	di	Indonesia</div>
+        			<div class="caption">
+        				{!! $slider->description !!}
+        			</div>
+        			@if ( $slider->btn_text != '' )
+	        		<a href="{{ $slider->link }}" class="button">{{ $slider->btn_text }}</a>
+	        		@endif
         		</div>
         	</div>
         </div>
-        <div class="swiper-slide bigSlideContent" style="background-image: url({{ asset('images/slider/3.png') }});">
-        	<div class="contentWrap onLeft">
-        		<div class="content">
-        			<div class="heading">
-        				<a href="{{ route('public_galeri') }}">
-        					Sahabat UMKM Indonesia
-        				</a>
-        			</div>
-        			<div class="caption">“Beranilah untuk bermimpi. Tetapi yang lebih penting lagi, beranilah bertindak untuk mewujudkan mimpimu menjadi nyata“</div>
-        		</div>
-        	</div>
-        </div>
+        @endforeach
+
     </div>
     <div class="swiper-pagination"></div>
 </div>
@@ -114,50 +101,20 @@
 
 <section id="programs">
 	<div class="programWrap">
-		<div class="programSplit" style="background-image: url({{asset('images/program/1.jpg')}})">
+		@foreach( $var['programs'] as $program )
+		<div class="programSplit" style="background-image: url({{ $program->background }})">
 			<div class="logo">
-				<img src="{{ asset('images/program/icon/1.png') }}">
+				<img src="{{ $program->logo }}">
 			</div>
 			<div class="heading">
-				<span>Mentoring</span>
+				<span>{{ $program->title }}</span>
 			</div>
 			<div class="caption">
-				<p>Mempertemukan Pelaku UMKM dengan Pelaku Profesional yang	dapat membantu untuk meningkatkan dan mengembangkan potensi usaha pelakunya</p>
+				<p>{{ $program->description }}</p>
 			</div>
 		</div>
-		<div class="programSplit" style="background-image: url({{asset('images/program/2.jpg')}})">
-			<div class="logo">
-				<img src="{{ asset('images/program/icon/2.png') }}">
-			</div>
-			<div class="heading">
-				<span>Forum</span>
-			</div>
-			<div class="caption">
-				<p>Sarana bagi para	pelaku UMKM	Indonesia untuk saling memberikan kontribusi, bertukar informasi,	menyampaikan ide, ilmu, dan pengalaman dalam mengembangkan usahanya</p>
-			</div>
-		</div>
-		<div class="programSplit" style="background-image: url({{asset('images/program/3.jpg')}})">
-			<div class="logo">
-				<img src="{{ asset('images/program/icon/3.png') }}">
-			</div>
-			<div class="heading">
-				<span>Legal</span>
-			</div>
-			<div class="caption">
-				<p>Mempertemukan Pelaku UMKM dengan Pelaku Profesional yang	dapat membantu untuk meningkatkan dan mengembangkan potensi usaha pelakunya</p>
-			</div>
-		</div>
-		<div class="programSplit" style="background-image: url({{asset('images/program/4.jpg')}})">
-			<div class="logo">
-				<img src="{{ asset('images/program/icon/4.png') }}">
-			</div>
-			<div class="heading">
-				<span>Event</span>
-			</div>
-			<div class="caption">
-				<p>Bergabung dan bertemu dengan sesama pelaku UMKM melalui kegiatan-kegiatan off-air Sahabat UMKM</p>
-			</div>
-		</div>
+		@endforeach
+
 	</div>
 </section>
 
