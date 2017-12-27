@@ -189,7 +189,7 @@
 	</div>
 </section>
 <div class="clearfix"></div>
-<section id="mentor">
+<section id="mentor" style="display: none;">
 	<div class="container">
 		<h3 class="section-title gray"><span>Punya Masalah</span> <span>Bisnis?</span></h3>
 		<div class="section-desc">
@@ -198,7 +198,7 @@
 	</div>
 </section>
 
-<section id="questions">
+<section id="questions" style="display: none;">
 	<div class="fullWrap">
 		<div class="question">
 			<div class="caption">
