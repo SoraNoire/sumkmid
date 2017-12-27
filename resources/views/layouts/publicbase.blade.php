@@ -107,7 +107,7 @@
                                 </li>
                                 @else
 	                            <li class="loginButton">
-	                                <a href="{{ route('OA.register') }}" class="button">
+	                                <a href="{{ route('OA.login') }}" class="button">
 	                                    Daftar
 	                                </a>
                                 </li>

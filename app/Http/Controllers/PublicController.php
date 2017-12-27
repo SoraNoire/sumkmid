@@ -17,6 +17,7 @@ use Modules\Video\Entities\Video;
 use Modules\Blog\Entities\Option;
 use Modules\Blog\Entities\Categories;
 use Modules\Blog\Entities\Tags;
+use Modules\Blog\Entities\Slider;
 use Carbon\Carbon;
 use Mail;
 use View;
@@ -98,9 +99,32 @@ class PublicController extends Controller
      */
 	public function home(){
         $var['page'] = "Home";
+		
 		$var['videos'] = DB::table('post_view')->where('post_type','video')->orderBy('published_date','desc')->paginate(4);
+
 		$user = new \App\Helpers\SSOHelper;
 		$var['mentors'] = $user->mentors()->users;
+		
+		$program = Option::where('key', 'program')->first()->value ?? '';
+
+        $var['programs'] = [];
+        if ($program != '') {
+            $var['programs'] = json_decode($program);
+        }
+
+        $sliders = Slider::get();
+        $n=1;
+        $var['sliders'] = [];
+        foreach ($sliders as $slider) {
+            if($n % 2 == 0){
+                $slider->position = 'left';
+            }else{
+                $slider->position = 'right';
+            }
+            $var['sliders'][] = $slider;
+            $n++;
+        }
+
 		return view('page.home')->with(['var' => $var]);
 	}
 
