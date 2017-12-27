@@ -79,6 +79,12 @@
             <li class="mobile-admin-nav {{ ($page_meta_title ?? '') == 'Trash' ? 'active' : ''}}">
               <a href="{{ route('panel.post.trash__index') }}">Trash</a>
             </li>
+            <li class="mobile-admin-nav {{ ($page_meta_title ?? '') == 'Site Setting' ? 'active' : ''}}">
+              <a href="{{ route('panel.setting.site__index') }}">Site Setting</a>
+            </li>
+            <li class="mobile-admin-nav {{ ($page_meta_title ?? '') == 'Slider' ? 'active' : ''}}">
+              <a href="{{ route('panel.slider__index') }}">Slider</a>
+            </li>
 
             <li>
                 <a href="{{URL::to('/logout')}}">
@@ -124,6 +130,12 @@
             </li>
             <li class="{{ ($page_meta_title ?? '') == 'Trash' ? 'active' : ''}}">
               <a href="{{ route('panel.post.trash__index') }}">Trash</a>
+            </li>
+            <li class="{{ ($page_meta_title ?? '') == 'Site Setting' ? 'active' : ''}}">
+              <a href="{{ route('panel.setting.site__index') }}">Site Setting</a>
+            </li>
+            <li class="{{ ($page_meta_title ?? '') == 'Slider' ? 'active' : ''}}">
+              <a href="{{ route('panel.slider__index') }}">Slider</a>
             </li>
           </ul>
         </div>

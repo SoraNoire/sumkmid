@@ -19,6 +19,7 @@ use Modules\Blog\Entities\PostTag;
 use Modules\Blog\Entities\Media;
 use Modules\Blog\Entities\Files;
 use Modules\Blog\Entities\Option;
+use Modules\Blog\Entities\Slider;
 use Modules\Blog\Http\Helpers\PostHelper;
 use Carbon\Carbon;
 use Auth;
@@ -1684,10 +1685,113 @@ class BlogController extends Controller
                 $save->save();
             }
             // SSOHelper::newsLog("Updating setting");
-            return redirect(route('site_setting'))->with(['msg' => 'Saved', 'status' => 'success']);
+            return redirect(route('panel.setting.site__index'))->with(['msg' => 'Saved', 'status' => 'success']);
         } catch (\Exception $e) {
             // SSOHelper::newsLog("Someting when wrong when saving setting: ".$e);
-            return redirect(route('site_setting'))->with(['msg' => 'Save Error', 'status' => 'danger']);    
+            return redirect(route('panel.setting.site__index'))->with(['msg' => 'Save Error', 'status' => 'danger']);    
         }
     }
+
+    // slider controller
+    /**
+     * Display a listing of slider.
+     * @return Response
+     */
+    public function head_slider(){
+        $page_meta_title = 'Slider';
+        $sliders = Slider::orderBy('created_at','desc')->get();
+        return view('blog::admin.slider') -> with(['page_meta_title' => $page_meta_title,'sliders' => $sliders]);
+    }
+
+    /**
+     * Show the form for creating slider.
+     * @return Response
+     */
+    public function new_slider_view(){
+        $page_meta_title = 'Slider';
+        
+        return view('blog::admin.slider-add') -> with(['page_meta_title' => $page_meta_title]);
+    }
+
+    /**
+     * Store newly created slider in storage.
+     * @param  Request $request
+     * @return Response
+     */
+    public function new_slider_act(Request $req){
+        $title = $req->input('title');
+        $description = $req->input('description');
+        $slider_img = $req->input('slider_img');
+        $btn_text = $req->input('btn_text');
+        $btn_link = $req->input('btn_link');
+
+        $slider = new Slider();
+        $slider->title = $title;
+        $slider->description = $description;
+        $slider->image = $slider_img;
+        $slider->btn_text = $btn_text;
+        $slider->link = $btn_link;
+        if ($slider -> save()) {
+            return redirect(route('panel.slider__view', $slider->id)) -> with("msg","Berhasil Ditambahkan")-> with("status","success");
+        }else{
+            return redirect(route('panel.slider__index')) -> with("msg","Gagal Ditambahkan")-> with("status","success");    
+        }
+    }
+
+    /**
+     * Show the form for editing the specified slider.
+     * @param  $id
+     * @return Response
+     */
+    public function edit_slider_view($id){
+        $page_meta_title = 'Slider';
+        $slider = Slider::where('id',$id)->first();
+
+        if (isset($slider)) {
+
+            return view('blog::admin.slider-edit') -> with(['page_meta_title' => $page_meta_title, 'slider' => $slider]);
+        }else {
+            return redirect(route('panel.slider__index'))->with(['msg' => 'Slider tidak ditemukan', 'status' => '4']);
+        }
+    }
+
+    /**
+     * Update specified slider in storage.
+     * @param  Request $request, $id
+     * @return Response
+     */
+    public function edit_slider_act(Request $req, $id){
+        $title = $req->input('title');
+        $description = $req->input('description');
+        $slider_img = $req->input('slider_img');
+        $btn_text = $req->input('btn_text');
+        $btn_link = $req->input('btn_link');
+
+        $slider = Slider::where('id',$id)->first();
+        $slider->title = $title;
+        $slider->description = $description;
+        $slider->image = $slider_img;
+        $slider->btn_text = $btn_text;
+        $slider->link = $btn_link;
+        if ($slider -> save()) {
+            return redirect(route('panel.slider__view', $slider->id)) -> with("msg","Berhasil Menyimpan")-> with("status","success");
+        }else{
+            return redirect(route('panel.slider__view', $slider->id)) -> with("msg","Gagal mengedit data photo")-> with("status","danger");
+        }
+    }
+
+    /**
+     * Remove specified slider in storage.
+     * @param  $id
+     * @return Response
+     */
+    public function hapus_slider($id){
+        $slider = Slider::where('id',$id)->first();
+        if ($slider -> delete()) {
+            return redirect(route('panel.slider__index')) -> with("msg","Slider berhasil dihapus")-> with("status","success");
+        }else{
+            return redirect(route('panel.slider__index')) -> with("msg","Gagal menghapus Foto")-> with("status","danger");
+        }
+    }
+    // end slider controller
 }

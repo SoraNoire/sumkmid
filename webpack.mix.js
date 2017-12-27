@@ -36,6 +36,7 @@
   'Modules/Video/Assets/js/video.js',
   'Modules/Event/Assets/js/event.js',
   'Modules/Gallery/Assets/js/gallery.js',
+  'Modules/Blog/Assets/js/bootstrap-notify.js'
   ],'public/js/index.js')
   .combine([
     'resources/assets/js/jscroll.js',
