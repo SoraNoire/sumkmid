@@ -39,7 +39,9 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="{{ url('/') }}">Sahabat UMKM</a>
+          <a class="navbar-brand" href="{{ url('/') }}" style="margin-top: -5px;">
+            <img src="{{ asset('/img/logo.png') }}" style="max-width: 70%;">
+          </a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
