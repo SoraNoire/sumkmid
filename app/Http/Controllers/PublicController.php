@@ -37,7 +37,10 @@ class PublicController extends Controller
         $link_fb = Option::where('key', 'link_fb')->first()->value ?? '';
         $link_tw = Option::where('key', 'link_tw')->first()->value ?? '';
         $link_ig = Option::where('key', 'link_ig')->first()->value ?? '';
-        $link_yt = Option::where('key', 'link_yt')->first()->value ?? '';
+        $link_yt = Option::where('key', 'link_yt')->first()->value ?? '';        
+        $link_in = Option::where('key', 'link_in')->first()->value ?? '';
+        $link_gplus = Option::where('key', 'link_gplus')->first()->value ?? '';
+        $footer_desc = Option::where('key', 'footer_desc')->first()->value ?? '';
 
         View::share('var', $var);
         View::share('analytic', $analytic);
@@ -46,6 +49,9 @@ class PublicController extends Controller
         View::share('link_ig', $link_ig);
         View::share('link_tw', $link_tw);
         View::share('link_yt', $link_yt);
+        View::share('link_gplus', $link_gplus);
+        View::share('link_in', $link_in);
+        View::share('footer_desc', $footer_desc);
 	}
 
 	public function login(Request $request)
@@ -123,6 +129,16 @@ class PublicController extends Controller
             }
             $var['sliders'][] = $slider;
             $n++;
+        }
+
+        $var['video'] = Option::where('key', 'video_section')->first()->value ?? '';
+        if ($var['video'] != '') {
+            $var['video'] = json_decode($var['video']);
+        }
+
+        $var['quote'] = Option::where('key', 'quotes_section')->first()->value ?? '';
+        if ($var['quote'] != '') {
+            $var['quote'] = json_decode($var['quote']);
         }
 
 		return view('page.home')->with(['var' => $var]);

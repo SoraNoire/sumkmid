@@ -31,7 +31,7 @@
 	                </div>
 	            	<div class="col-md-6">
 	            		<label style="display: block;">Image Slider</label>
-            		 	<a id="browse_fimg_post" data-toggle="modal" data-target="#myFimg" class="btn btn-round btn-fill btn-default" style="margin-bottom: 10px;">Browse Image</a>
+            		 	<a id="browse_fimg_post" data-tujuan="featured_img" data-toggle="modal" data-target="#myFimg" class="btn btn-round btn-fill btn-default" style="margin-bottom: 10px;">Browse Image</a>
                         <input type="hidden" name="slider_img" id="featured_img" value="{{ old('slider_img') }}">
                         <div id="slider" class="preview-fimg-wrap form-group" style="display: {{ old('slider_img') != '' ? 'block' : ''  }};">
                             <div class="preview-fimg" style="background-image: url({{ old('slider_img') }});"></div>

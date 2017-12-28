@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="col-md-12">
-	<div class="card">
+	<div class="card" id="site-setting">
 	    <div class="card-header" data-background-color="green">
 	        <h3 class="title">Site Setting</h3>
 	    </div>
@@ -11,6 +11,130 @@
 	        <input type="hidden" name="_token" value="{{ csrf_token() }}">
 	            <div class="row">
 	                <div class="col-md-12">
+
+	                	<div class="panel panel-default">
+		                    <div class="panel-heading">
+		                        <h4 class="panel-title">
+		                          Homepage <a data-toggle="collapse" href="#setting-analytics"><i style="float: right;" class="fa fa-caret-down" aria-hidden="true"></i></a>
+		                        </h4>
+		                    </div>
+		                    <div id="setting-analytics" class="panel-collapse collapse in">
+		                        <div class="panel-body">
+
+		                        	<div class="panel panel-default">
+					                    <div class="panel-heading">
+					                        <h4 class="panel-title">
+					                          Video Section <a data-toggle="collapse" href="#setting-video"><i style="float: right;" class="fa fa-caret-down" aria-hidden="true"></i></a>
+					                        </h4>
+					                    </div>
+					                    <div id="setting-video" class="panel-collapse collapse in">
+					                        <div class="panel-body">
+
+				            					<div class="form-group">
+					                        		<label>Title</label>
+					                        		<input type="text" class="form-control" name="video_title" value="{{ $video->title ?? '' }}">
+					                        		<label>Description</label>
+					                        		<textarea class="form-control" name="video_description"> {{ $video->description ?? '' }}</textarea>
+					                        		<label>Button Text</label>
+					                        		<input type="text" class="form-control" name="video_button"  value="{{ $video->button ?? '' }}"></input>
+					                        		<label>Button Link</label>
+					                        		<input type="text" class="form-control" name="video_button_link" value="{{ $video->button_link ?? '' }}"></input>
+					                        		<label>Video Link</label>
+					                        		<input type="text" class="form-control" name="video_link"  value="{{ $video->link ?? '' }}"></input>
+					                        		<label>Video Background</label>
+					                        		<div class="input-group">
+					                        			<input class="form-control" type="text" name="video_bg" value="{{ $video->background }}" readonly="readonly" id="video-bg">
+					                        			<span class="input-group-btn">
+					                        				<button class="btn btn-default program-media" type="button" data-tujuan="video-bg">Browse media</button>
+					                        			</span>
+					                        		</div>
+					                        	</div>
+
+					                        </div>
+					                    </div>
+					                </div>  
+
+		                        	<div class="panel panel-default">
+					                    <div class="panel-heading">
+					                        <h4 class="panel-title">
+					                          Quote Section <a data-toggle="collapse" href="#setting-quote"><i style="float: right;" class="fa fa-caret-down" aria-hidden="true"></i></a>
+					                        </h4>
+					                    </div>
+					                    <div id="setting-quote" class="panel-collapse collapse in">
+					                        <div class="panel-body">
+
+				            					<div class="form-group">
+					                        		<label>Title</label>
+					                        		<input type="text" class="form-control" name="quote_title" value="{{ $quote->title ?? '' }}">
+					                        		<label>Description</label>
+					                        		<textarea class="form-control" name="quote_description"> {{ $quote->description ?? '' }}</textarea>
+					                        		<label>Button Text</label>
+					                        		<input type="text" class="form-control" name="quote_button" value="{{ $quote->button ?? '' }}"></input>
+					                        		<label>Button Link</label>
+					                        		<input type="text" class="form-control" name="quote_button_link" value="{{ $quote->button_link ?? '' }}"></input>
+					                        	</div>	
+
+					                        	<div class="form-group">
+					                        		<label>Quote</label>
+					                        		<textarea class="form-control" name="quote_text">{{ $quote->text ?? '' }}</textarea>
+					                        		<label>Quote From</label>
+					                        		<input type="text" class="form-control" name="quote_from" value="{{ $quote->from ?? '' }}"></input>
+					                        	</div>	
+
+					                        </div>
+					                    </div>
+					                </div>       
+
+		                        	<div class="panel panel-default">
+					                    <div class="panel-heading">
+					                        <h4 class="panel-title">
+					                          Footer <a data-toggle="collapse" href="#setting-footer"><i style="float: right;" class="fa fa-caret-down" aria-hidden="true"></i></a>
+					                        </h4>
+					                    </div>
+					                    <div id="setting-footer" class="panel-collapse collapse in">
+					                        <div class="panel-body">
+
+				            					<div class="form-group">
+													<label>Footer Description</label>
+													<textarea class="form-control" name="footer_desc">{{ $footer_desc ?? '' }}</textarea>
+												</div>
+
+					                        </div>
+					                    </div>
+					                </div>                      
+
+	            					<button type="submit" class="btn btn-success pull-left">Save</button>
+
+		                        </div>
+		                    </div>
+		                </div>
+
+
+		                <div class="panel panel-default">
+		                    <div class="panel-heading">
+		                        <h4 class="panel-title">
+		                          Program <a data-toggle="collapse" href="#setting-program"><i style="float: right;" class="fa fa-caret-down" aria-hidden="true"></i></a>
+		                        </h4>
+		                    </div>
+		                    <div id="setting-program" class="panel-collapse collapse in">
+		                        <div class="panel-body">
+
+	            					<button type="button" class="btn btn-info pull-left add-program">Add Program +</button>
+            						<div class="clearfix"></div>
+
+		                        	<div class="dd panel-group" id="program-structure">
+									    <ol class="dd-list">
+									    	{!! $list_program !!}
+									    </ol>
+									</div>
+
+            						<div class="clearfix"></div>
+	            					<button type="button" class="btn btn-success pull-left save-program" style="margin-top: 10px;">Save</button>
+
+		                        </div>
+		                    </div>
+		                </div>
+
 	                	<div class="panel panel-default">
 		                    <div class="panel-heading">
 		                        <h4 class="panel-title">
@@ -56,8 +180,18 @@
 									</div>
 
 									<div class="form-group label-floating">
+										<label class="control-label">Link LinkedIn</label>
+										<input type="url" name="link_in" class="form-control" value="{{ $link_in }}">
+									</div>
+
+									<div class="form-group label-floating">
 										<label class="control-label">Link Instagram</label>
 										<input type="url" name="link_ig" class="form-control" value="{{ $link_ig }}">
+									</div>
+
+									<div class="form-group label-floating">
+										<label class="control-label">Link Google+</label>
+										<input type="url" name="link_gplus" class="form-control" value="{{ $link_gplus }}">
 									</div>
 
 									<div class="form-group label-floating">
@@ -66,31 +200,6 @@
 									</div>
 
 	            					<button type="submit" class="btn btn-success pull-left">Save</button>
-
-		                        </div>
-		                    </div>
-		                </div>
-
-		                <div class="panel panel-default">
-		                    <div class="panel-heading">
-		                        <h4 class="panel-title">
-		                          Program <a data-toggle="collapse" href="#setting-program"><i style="float: right;" class="fa fa-caret-down" aria-hidden="true"></i></a>
-		                        </h4>
-		                    </div>
-		                    <div id="setting-program" class="panel-collapse collapse in">
-		                        <div class="panel-body">
-
-	            					<button type="button" class="btn btn-info pull-left add-program">Add Program +</button>
-            						<div class="clearfix"></div>
-
-		                        	<div class="dd panel-group" id="program-structure">
-									    <ol class="dd-list">
-									    	{!! $list_program !!}
-									    </ol>
-									</div>
-
-            						<div class="clearfix"></div>
-	            					<button type="button" class="btn btn-success pull-left save-program" style="margin-top: 10px;">Save</button>
 
 		                        </div>
 		                    </div>

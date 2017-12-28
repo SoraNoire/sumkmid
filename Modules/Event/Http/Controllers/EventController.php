@@ -149,6 +149,7 @@ class EventController extends Controller
         $meta_desc = $request->input('meta_desc') ?? '';
         $meta_keyword = $request->input('meta_keyword') ?? '';
         $published_date = $request->input('published_date');
+        $featured_image = $request->input('featured_image');
 
         $htm_free = $request->get('htm_free');
         if ($htm_free != 'free') {
@@ -195,6 +196,7 @@ class EventController extends Controller
             $store->post_type = 'event';
             $store->status = $status;
             $store->published_date = $published_date;
+            $store->featured_image = $featured_image;
             $store->save();
 
             $meta_contents = array();
@@ -248,6 +250,7 @@ class EventController extends Controller
             $media = Media::orderBy('created_at','desc')->get();
             $status = $event->status;
             $published_date = $event->published_date;
+            $featured_image = $event->featured_image;
             
             $post_metas = $this->readMetas($post_metas);
 
@@ -322,6 +325,7 @@ class EventController extends Controller
                                 'hour_close' => $hour_close,
                                 'minute_close' => $minute_close,
                                 'event_url' => $event_url,
+                                'featured_image' => $featured_image,
                             ]
                     );
         } else {
@@ -363,6 +367,7 @@ class EventController extends Controller
         $meta_keyword = $request->input('meta_keyword');
         $published_date = $request->input('published_date');
         $event_url = $request->input('event_url'); 
+        $featured_image = $request->input('featured_image'); 
 
         $open_date = $request->input('open_date');
         $hour_open = $request->input('hour_open');
@@ -396,6 +401,7 @@ class EventController extends Controller
             $update->content = $description;
             $update->status = $status;
             $update->published_date = $published_date;
+            $update->featured_image = $featured_image;
             
             if($update->update())
             {

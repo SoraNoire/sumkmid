@@ -154,7 +154,7 @@
                     </div>
                     <div id="video-fimg" class="panel-collapse collapse in">
                         <div class="panel-body form-group">
-                            <a id="browse_fimg_post" data-toggle="modal" data-target="#myFimg" class="btn btn-round btn-fill btn-default" style="margin-bottom: 10px;">Set Featured Image</a>
+                            <a id="browse_fimg_post" data-tujuan="featured_img" data-toggle="modal" data-target="#myFimg" class="btn btn-round btn-fill btn-default" style="margin-bottom: 10px;">Set Featured Image</a>
                             <input type="hidden" name="featured_image" id="featured_img" value="{{ old('featured_image') }}">
                             <div class="preview-fimg-wrap" style="display: {{ old('featured_image') != '' ? 'block' : ''  }};">
                                 <div class="preview-fimg" style="background-image: url({{ old('featured_image') }});"></div>

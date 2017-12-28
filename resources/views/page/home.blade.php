@@ -38,17 +38,21 @@
 	        	<h3 class="section-title"><span>What</span> <span>We Do</span></h3>
 	        	<div class="section-desc">
 		        	<p>
-		        		Appropriately communicate pandemic initiatives through intuitive testing procedures. Appropriately distinctive paradigms after enabled cloud services. Globally productize sustainable sources with corporate functionalities. Interactively facilitate virtual quality vectors before adaptive e-commerce.
+		        		{{ $var['video']->description ?? '' }}
 		        	</p>
 	        	</div>
-	        	<a href="http://authdev.mdirect.id/register" class="button">Daftar</a>
+	        	@if ( isset($var['video']->button) )
+	        	<a href="{{ url($var['video']->button_link ?? '') }}" class="button">{{ $var['video']->button ?? '' }}</a>
+	        	@endif
 	        </div>
 	        <div class="col-7 right-content">
-	        	<div class="video-wraper" style="background-image: url('/img/top-video-bg.png');">
-	        		<a href="/video/what-we-do">
+	        	@if (isset( $var['video']->link ))
+	        	<div class="video-wraper" style="background-image: url({{ url( $var['video']->background ?? '' ) }});">
+	        		<a href="{{ url($var['video']->link ?? '') }}">
 	        			<img src="/img/play-button.png">
 	        		</a>
 	        	</div>
+	        	@endif
 	        </div>
 	    </div>
     </div>
@@ -61,20 +65,26 @@
 	        	<h3 class="section-title gray"><span>Event</span> <span>UMKM</span></h3>
 	        	<div class="section-desc">
 		        	<p>
-		        		Completely communicate granular processes whereas ethical ideas. Dynamically streamline high-payoff methodologies and resource-leveling process improvements. Collaboratively create wireless opportunities via high-quality convergence. 
+		        		{{ $var['quote']->description ?? '' }}
 		        	</p>
 	        	</div>
-	        	<a href="{{ route('public_event') }}" class="button blue-shadow">Lihat Event</a>
+	        	@if (isset( $var['quote']->button ))
+	        	<a href="{{ url($var['quote']->button_link ?? '') }}" class="button blue-shadow">{{ $var['quote']->button ?? '' }}</a>
+	        	@endif
 	        </div>
 	        <div class="col-7 right-content">
 	        	<div class="block-wraper">
 	        		<div class="block"></div>
 	        		<div class="block quote">
+	        			@if (isset( $var['quote']->text ))
 	        			<span class="quote-logo"><i class="material-icons">format_quote</i></span>
 	        			<div class="the-quote">
-		        			<p>Event-nya seru semua, ajang yang tepat buat cari partner dan peluang baru</p>
-		        			<span>- umar</span>
+		        			<p>{{ $var['quote']->text ?? '' }}</p>
+		        			@if (isset( $var['quote']->from ))
+		        			<span>- {{ $var['quote']->from ?? ''}}</span>
+		        			@endif
 	        			</div>
+	        			@endif
 	        		</div>
 	        		<div class="block"></div>
 	        	</div>

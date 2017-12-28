@@ -12,7 +12,7 @@
     <link rel="icon" type="image/x-icon" href="{{ asset('images/fav.png') }}">
     <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}">
     <link href="//cdn-images.mailchimp.com/embedcode/classic-10_7.css" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="{{ asset('css/index.css') }}?v=1.1.6">
+    <link rel="stylesheet" href="{{ asset('css/index.css') }}?v=1.1.61">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" />
 
     @if(isset($fb_pixel))
@@ -143,7 +143,7 @@
                         <img src="{{ asset('img/footer-logo.png') }}" alt="logo-sahabat-UMKM">
                     </div>
                     <p class="desc">
-                        Perferendis faucibus dignissim nostra, libero ridiculus odio eu mus elit. Quia class. Non hendrerit, aptent impedit volutpat aliquid? Porro urna, rutrum, earum reiciendis quisquam, voluptatum.
+                        {{ $footer_desc ?? '' }}
                     </p>
                 </div>
                 <div class="col-4 contactItems">
@@ -180,12 +180,12 @@
                         </form>
                     </div>
                     <ul>
-                        <li><a target="_blank" href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                        <li><a target="_blank" href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                        <li><a target="_blank" href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
-                        <li><a target="_blank" href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
-                        <li><a target="_blank" href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
-                        <li><a target="_blank" href="#"><i class="fa fa-youtube-play" aria-hidden="true"></i></a></li>
+                        <li><a target="_blank" href="{{ $link_fb ?? '#' }}"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                        <li><a target="_blank" href="{{ $link_tw ?? '#' }}"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                        <li><a target="_blank" href="{{ $link_in ?? '#' }}"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+                        <li><a target="_blank" href="{{ $link_ig ?? '#' }}"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+                        <li><a target="_blank" href="{{ $link_gplus ?? '#' }}"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
+                        <li><a target="_blank" href="{{ $link_yt ?? '#' }}"><i class="fa fa-youtube-play" aria-hidden="true"></i></a></li>
                     </ul>
                     <span class="copyText">Copyright &copy; 2017 - Sahabat UMKM</span>
                 </div>
@@ -198,7 +198,7 @@
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script src="{{ asset('js/home.js') }}?v=1.1.2"></script>
+    <script src="{{ asset('js/home.js') }}?v=1.1.21"></script>
 
 
     @if (session()->has('swal'))
