@@ -15,17 +15,22 @@
 			<?php  $meta = PostHelper::get_post_meta($event->id); ?>
 			<div class="post event the-row {{ $meta['open_at'] > Carbon::now() ? 'active' : '' }}" id="event-{{ $event->id }}">
 				<div class="col-3">
+
+					@if ( isset($event->featured_image) && $event->featured_image != '')
 					<div class="eventPoster">
-						<img src="{{ asset('images/poster.jpg') }}">
+						<img src="{{ $event->featured_image }}">
 					</div>
+					@endif
 				</div>
 				<div class="event-timeline">
 					<div class="event-indicator"></div>
 				</div>
 				<div class="event-content col-9">
+					@if ( isset($event->featured_image) &&  $event->featured_image != '')
 					<div class="eventPosterMobile">
-						<img src="{{ asset('images/poster.jpg') }}">
+						<img src="{{ $event->featured_image }}">
 					</div>
+					@endif
 					<div class="eventTitleWrap">
 						<div class="event-title">
 							{{ $event->title }}

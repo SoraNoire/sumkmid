@@ -102,14 +102,14 @@ class EventHelper
                 if ($is_bulk == 'bulk') {
                     // all good. do nothing
                 } else {
-                    return redirect(route('events'))->with(['msg' => 'Deleted', 'status' => 'success'])->send();    
+                    return redirect(route('panel.event__index'))->with(['msg' => 'Deleted', 'status' => 'success'])->send();    
                 }
             } catch (\Exception $e) {
                 DB::rollback();
-                return redirect(route('events'))->with(['msg' => 'Delete Error', 'status' => 'danger'])->send();
+                return redirect(route('panel.event__index'))->with(['msg' => 'Delete Error', 'status' => 'danger'])->send();
             }
         } else {
-            return redirect(route('events'))->with(['msg' => 'event Not Found', 'status' => 'danger'])->send();
+            return redirect(route('panel.event__index'))->with(['msg' => 'event Not Found', 'status' => 'danger'])->send();
         }
     }
 
