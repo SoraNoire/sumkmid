@@ -356,18 +356,28 @@ class PublicController extends Controller
     public function messages_store_act(Request $req){
         $name = $req->input('nama');
         $email = $req->input('email');
+        $nama_usaha = $req->input('nama_usaha');
+        $contact = $req->input('telp');
+        $subject = $req->input('subject');
         $pesan = $req->input('pesan');
+
+        $email_to = config('app.email_info') ?? 'info@mdirect.id';
+        dd($email_to);
 
         $data = array(
             'name' => $name,
             'email_from' => $email,
+            'nama_usaha' => $nama_usaha,
+            'contact' => $contact,
+            'subject' => $subject,
             'pesan' => $pesan,
+            'email_to' => $email_to
         );
 
         Mail::send('emails.contact', $data, function ($message) use ($data) {
 
             $message->from($data['email_from'], $data['name']);
-            $message->to('fahmial51@gmail.com', 'info@sahabatumkm.id')->subject('Pesan dari form kontak sahabatumkm.id');
+            $message->to($data['email_to'])->subject('Pesan dari form kontak sahabatumkm.id');
 
         });
 

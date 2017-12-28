@@ -165,7 +165,7 @@
                         <li>
                             <i class="fa fa-envelope" aria-hidden="true"></i>
                             <p>
-                                info@mdirect.id
+                                {{ config('app.email_info') }}
                             </p>
                         </li>
 

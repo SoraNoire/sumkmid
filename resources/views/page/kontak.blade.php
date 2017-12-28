@@ -19,7 +19,7 @@
 				<p style="margin: 0">Jakarta Pusat, Indonesia</p>
 				<p style="margin-bottom: 14px">Kode Pos 10240</p>
 				<p style="margin-bottom: 8px"><span class="icon i-phone"></span>&nbsp; (021) 3917399</p>
-				<p><span class="icon i-mail"></span>&nbsp; info@sahabatumkm.id</p>
+				<p><span class="icon i-mail"></span>&nbsp; {{ config('app.email_info') }}</p>
 			</div>
 			<div class="col-7 contact-form">
 				<h3>Hubungi Kami</h3>
@@ -27,37 +27,38 @@
 				<p>{{ session('msg') }}</p>
 				@else
 				<form action="{{ route('sendemailcontact') }}" method="post">
+    				<input type="hidden" name="_token" value="{{ csrf_token() }}">
 					<table>
 						<tr>
 							<td>
 								<label>Nama</label>
-								<input type="text" name="nama" placeholder="Masukan Nama Anda">
+								<input type="text" name="nama" placeholder="Masukan Nama Anda" required="required">
 							</td>
 							<td>
 								<label>E-mail</label>
-								<input type="text" name="nama" placeholder="Masukan Alamat E-mail">
+								<input type="text" name="email" placeholder="Masukan Alamat E-mail" required="required">
 							</td>
 						</tr>
 						<tr>
 							<td>
 								<label>Nama Usaha</label>
-								<input type="text" name="nama" placeholder="Masukan Nama Usaha">
+								<input type="text" name="nama_usaha" placeholder="Masukan Nama Usaha">
 							</td>
 							<td>
 								<label>Nomor Kontak</label>
-								<input type="text" name="nama" placeholder="Masukan Nomor Telepon">
+								<input type="text" name="telp" placeholder="Masukan Nomor Telepon" required="required">
 							</td>
 						</tr>
 						<tr>
 							<td colspan="2">
 								<label>Subyek</label>
-								<input type="text" name="nama" placeholder="Masukan Subyek">
+								<input type="text" name="subject" placeholder="Masukan Subyek" required="required">
 							</td>
 						</tr>
 						<tr>
 							<td colspan="2">
 								<label>Pesan Anda</label>
-								<textarea placeholder="Isi Pesan Anda..."></textarea>
+								<textarea name="pesan" placeholder="Isi Pesan Anda..." required="required"></textarea>
 							</td>
 						</tr>
 						<tr>

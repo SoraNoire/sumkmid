@@ -2,6 +2,7 @@
 
 return [
 
+    'email_info' => env('EMAIL_INFO'),
     // tinymce api key
     'tinymce_api_key' => env('TINYMCE_API_KEY'),
     
