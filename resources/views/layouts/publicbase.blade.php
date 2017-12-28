@@ -78,7 +78,7 @@
 	                                </a>
 	                            </li>
 	                            <li class="{{ ($var['page'] ?? '' == 'galeri' ? 'active' : '') }}">
-	                                <a href="{{ route('public_galeri') }}">
+	                                <a href="{{ route('public_gallery') }}">
 	                                    Galeri
 	                                </a>
 	                            </li>
@@ -165,7 +165,7 @@
                         <li>
                             <i class="fa fa-envelope" aria-hidden="true"></i>
                             <p>
-                                info@mdirect.id
+                                {{ config('app.email_info') }}
                             </p>
                         </li>
 

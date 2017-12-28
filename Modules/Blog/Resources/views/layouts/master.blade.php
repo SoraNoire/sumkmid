@@ -58,9 +58,6 @@
             <li class="mobile-admin-nav {{ ($page_meta_title ?? '') == 'Posts' ? 'active' : ''}}">
               <a href="{{ url('admin/blog/posts') }}">Post</a>
             </li>
-            <li class="mobile-admin-nav {{ ($page_meta_title ?? '') == 'Videos' ? 'active' : ''}}">
-              <a href="{{ url('admin/blog/video/') }}">Video</a>
-            </li>
             <li class="mobile-admin-nav {{ ($page_meta_title ?? '') == 'Gallery' ? 'active' : ''}}">
               <a href="{{ url('admin/blog/gallery/') }}">Gallery</a>
             </li>
@@ -109,9 +106,6 @@
             </li>
             <li class="{{ ($page_meta_title ?? '') == 'Posts' ? 'active' : ''}}">
               <a href="{{ url('admin/blog/posts') }}">Post</a>
-            </li>
-            <li class="{{ ($page_meta_title ?? '') == 'Videos' ? 'active' : ''}}">
-              <a href="{{ url('admin/blog/video/') }}">Video</a>
             </li>
             <li class="{{ ($page_meta_title ?? '') == 'Gallery' ? 'active' : ''}}">
               <a href="{{ url('admin/blog/gallery/') }}">Gallery</a>
