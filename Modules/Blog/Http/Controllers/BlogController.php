@@ -1652,9 +1652,20 @@ class BlogController extends Controller
         $link_fb = Option::where('key', 'link_fb')->first()->value ?? '';
         $link_tw = Option::where('key', 'link_tw')->first()->value ?? '';
         $link_in = Option::where('key', 'link_in')->first()->value ?? '';
+        $link_gplus = Option::where('key', 'link_gplus')->first()->value ?? '';
         $link_ig = Option::where('key', 'link_ig')->first()->value ?? '';
         $link_yt = Option::where('key', 'link_yt')->first()->value ?? '';
         $program = Option::where('key', 'program')->first()->value ?? '';
+        $footer_desc = Option::where('key', 'footer_desc')->first()->value ?? '';
+
+        $video = Option::where('key', 'video_section')->first()->value ?? '';
+        if ($video != '') {
+            $video = json_decode($video);
+        }
+        $quote = Option::where('key', 'quote_section')->first()->value ?? '';
+        if ($quote != '') {
+            $quote = json_decode($quote);
+        }
 
         $program_structure = '';
         if ($program != '') {
@@ -1664,7 +1675,7 @@ class BlogController extends Controller
             }
         }
 
-        return view('blog::admin.setting')->with(['page_meta_title' => $page_meta_title, 'analytic' => $analytic, 'fb_pixel' => $fb_pixel, 'link_fb' => $link_fb, 'link_in' => $link_in, 'link_tw' => $link_tw, 'link_yt' => $link_yt, 'link_ig' => $link_ig, 'list_program' => $program_structure]);
+        return view('blog::admin.setting')->with(['page_meta_title' => $page_meta_title, 'analytic' => $analytic, 'fb_pixel' => $fb_pixel, 'link_fb' => $link_fb, 'link_in' => $link_in, 'link_tw' => $link_tw, 'link_yt' => $link_yt, 'link_ig' => $link_ig, 'link_gplus' => $link_gplus, 'list_program' => $program_structure, 'footer_desc' => $footer_desc, 'video' => $video, 'quote' => $quote]);
     }
 
     /**
@@ -1673,23 +1684,42 @@ class BlogController extends Controller
      * @return Response
      */
     public function site_setting_save(Request $request){
-        $name[] = 'analytic';
-        $name[] = 'fb_pixel';
-        $name[] = 'link_fb';
-        $name[] = 'link_tw';
-        $name[] = 'link_ig';
-        $name[] = 'link_yt';
+
+        $quote['title'] = $request->input('quote_title');
+        $quote['description'] = $request->input('quote_description');
+        $quote['button'] = $request->input('quote_button');
+        $quote['button_link'] = $request->input('quote_button_link');
+        $quote['from'] = $request->input('quote_from');
+        $quote['text'] = $request->input('quote_text');
+
+        $video['title'] = $request->input('video_title');
+        $video['description'] = $request->input('video_description');
+        $video['button'] = $request->input('video_button');
+        $video['button_link'] = $request->input('video_button_link');
+        $video['link'] = $request->input('video_link');
+        $video['background'] = $request->input('video_bg');
+
+        $settings[] = ['name' => 'link_fb', 'value' => $request->input('link_fb')];
+        $settings[] = ['name' => 'link_tw', 'value' => $request->input('link_tw')];
+        $settings[] = ['name' => 'link_gplus', 'value' => $request->input('link_gplus')];
+        $settings[] = ['name' => 'link_ig', 'value' => $request->input('link_ig')];
+        $settings[] = ['name' => 'link_in', 'value' => $request->input('link_in')];
+        $settings[] = ['name' => 'link_yt', 'value' => $request->input('link_yt')];
+        $settings[] = ['name' => 'analytic_id', 'value' => $request->input('analytic_id')];
+        $settings[] = ['name' => 'fb_pixel', 'value' => $request->input('fb_pixel')];
+        $settings[] = ['name' => 'quotes_section', 'value' => json_encode($quote)];
+        $settings[] = ['name' => 'video_section', 'value' => json_encode($video)];
+        $settings[] = ['name' => 'footer_desc', 'value' => $request->input('footer_desc')];
 
         try {
-            for ($i=0; $i < count($name) ; $i++) { 
-                $setting = $request->input($name[$i]);
-                $save = Option::where('key', $name[$i])->first();
+            for ($i=0; $i < count($settings) ; $i++) { 
+                $save = Option::where('key', $settings[$i]['name'])->first();
                 if (isset($save)) {
-                    $save -> value = $setting;
+                    $save -> value = $settings[$i]['value'];
                 } else {
                     $save = new Option;
-                    $save -> key = $name[$i];
-                    $save -> value = $setting;
+                    $save -> key = $settings[$i]['name'];
+                    $save -> value = $settings[$i]['value'];
                 }
                 $save->save();
             }

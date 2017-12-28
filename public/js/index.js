@@ -1888,7 +1888,7 @@ var timeOutId;
 
 var jPlugin = $.blogPlugin();
 
-$('#program-structure').on('click', '.program-media', function(){
+$('#site-setting').on('click', '.program-media', function(){
     jPlugin.openModal('.custom-modal');
     tujuan = $('#'+$(this).attr('data-tujuan'));
 });
@@ -1899,6 +1899,7 @@ $("#browse_media_post").click(function() {
 
 $("#browse_fimg_post").click(function() {
     jPlugin.openModal('.fimg-modal');
+    tujuan = $('#'+$(this).attr('data-tujuan'));
 });
 
 $("#browse_file_post").click(function() {
@@ -1913,6 +1914,7 @@ $(".close-modal, .overlay").click(function() {
 $('#uploadmedia').on('change', function(e){
     e.preventDefault();
     var fd = new FormData($("#actuploadmedia")[0]);
+    $('.dataTables_processing').show();
     timeOutId = setTimeout(jPlugin.uploadFile(fd, 'media'), 1000);
 });
 
@@ -1920,6 +1922,7 @@ $('#uploadmedia').on('change', function(e){
 $('#uploadfimg').on('change', function add_media(e){
     e.preventDefault();
     var fd = new FormData($("#actuploadfimg")[0]);
+    $('.dataTables_processing').show();
     timeOutId = setTimeout(jPlugin.uploadFile(fd, 'media'), 1000);
 });
 
@@ -1927,6 +1930,7 @@ $('#uploadfimg').on('change', function add_media(e){
 $('#fileUpload').on('change', function add_file(e){
     e.preventDefault();
     var fd = new FormData($("#fileupload-form")[0]);
+    $('.dataTables_processing').show();
     timeOutId = setTimeout(jPlugin.uploadFile(fd, 'file'), 1000);
 });
 
@@ -1953,11 +1957,9 @@ function select_media(e){
 function select_fimg(e){
     $('.preview-fimg-wrap').show();
     var a = $('.preview-fimg');
-    var b = $('#featured_img');
     var c = $(e).text();
     a.css('background-image', 'url('+c+')');
     tujuan.val(c);
-    b.val(c);
     jPlugin.closeModal();
 }
 

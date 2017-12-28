@@ -49,7 +49,7 @@ Route::group(['middleware' => ['web', 'backend'], 'prefix' => 'admin/blog', 'nam
     Route::post('/post/{id}/update', 'BlogController@updatePost')
             ->name('panel.post__update');
     Route::get('/post/{id}/remove', 'BlogController@removePost')
-            ->name('panel.post__remove');
+            ->name('panel.post__delete');
     Route::post('/post/massdelete', 'BlogController@massdeletePost')
             ->name('panel.post__delete__mass');
 
