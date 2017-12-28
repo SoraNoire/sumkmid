@@ -41,6 +41,15 @@ class memberController extends Controller
      */
 	public function userSetting(){
         $var['page'] = "userSetting";
+        
+        $user = app()->OAuth->Auth(app()->OAuth->Auth()->token);
+        if($user && $user->success){
+            $user = $user->data;            
+        }else{
+            $user = app()->OAuth->auth();
+        }
+        $var['user'] = $user;
+
 		return view('page.userSetting')->with(['var' => $var]);
 	}
 
@@ -50,12 +59,15 @@ class memberController extends Controller
 		$email = $req->input('email');
 		if ($req->file('photo')->isValid()) {
 			$photo = $req->file('photo');
-			$img = Image::make($photo);
-			if (!is_dir(public_path("/assets/users"))) {
-			    mkdir(public_path("/assets/users"), 0774, true);
-			}
-			$path = public_path("/assets/users/$email.png");
-			$img->save($path);
+			
+            $filename = $email.'.png';
+            $path = public_path("/assets/users/".$filename);
+			$img = Image::make($photo->getRealPath())->save($path);
+			// if (!is_dir(public_path("/assets/users"))) {
+			//     mkdir(public_path("/assets/users"), 0774, true);
+			// }
+			// $path = public_path("/assets/users/$email.png");
+			// $img->save($path);
 			// $photo = file_get_contents($path);
 			// unlink($path);
 
@@ -68,8 +80,14 @@ class memberController extends Controller
 			'email' => $email,
 			'avatar'=> $path
 		];
-		if(SSO::meUpdate($data)){
-			return app()->SSO->Auth()->foto_profil;
+        $user = app()->OAuth->Auth(app()->OAuth->Auth()->token);
+        if($user && $user->success){
+            $user = $user->data;            
+        }else{
+            $user = app()->OAuth->auth();
+        }
+		if(app()->OAuth::meUpdate($data)){
+			return $user->foto_profil;
 		}else{
 			return 'fail';
 		}
@@ -134,7 +152,7 @@ class memberController extends Controller
 				'password_confirmation' => $confNewPass
 			];
 		}
-		$update = SSO::meUpdate($data);
+		$update = app()->OAuth::meUpdate($data);
 		if($update->success){
 			return back()->with(['success' => 'true']);
 		}
