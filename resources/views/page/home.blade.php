@@ -100,9 +100,9 @@
 			@foreach ($var['videos'] as $video)
 			<div class="col-3">
 				<div class="video-wraper" style="background-image: url('{{ $video->featured_image }}');">
-	        		<a href="{{route('public_galeri').'/'.$video->slug}}"><span class="play-button"><i class="fa fa-play fa-lg" aria-hidden="true"></i></span></a>
+	        		<a href="{{route('single_gallery', $video->slug)}}"><span class="play-button"><i class="fa fa-play fa-lg" aria-hidden="true"></i></span></a>
 	        	</div>
-				<a href="{{route('public_galeri').'/'.$video->slug}}" class="tilte">{{ $video->title }}</a>
+				<a href="{{route('single_gallery', $video->slug)}}" class="tilte">{{ $video->title }}</a>
 			</div>
 			@endforeach
 		</div>
