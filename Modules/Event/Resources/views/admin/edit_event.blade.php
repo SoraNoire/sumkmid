@@ -138,7 +138,7 @@
                             </div>
                             <div class="form-group event-type-online">
                                 <label>URL Event</label>
-                                <input class="form-control" type="url" name="event_url" value="{{ old('event_url') }}">
+                                <input class="form-control" type="url" name="event_url" value="{{ $event_url }}">
                             </div>
                             <div class="form-group">
                                <label class="control-label">Select mentor that registered on MDirect</label>

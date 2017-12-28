@@ -773,7 +773,7 @@ if ($("#pages-table").length > 0) {
                 "targets": -1,
                 "data": 'id',
                 "render": function ( data, type, row ) {
-                    return '<a href="/admin/blog/page/'+row.id+'/view">Edit</a> | <a onclick="return confirm(\'Delete Page?\');" href="/admin/blog/page/'+row.id+'/remove">Hapus</a>';
+                    return '<a href="/admin/blog/page/'+row.id+'/view">Edit</a> | <a onclick="return confirm(\'Delete Page?\');" href="/admin/blog/page/'+row.id+'/remove" style="color: #d9534f;">Hapus</a>';
                 }
             },
                 {
@@ -809,7 +809,7 @@ if ($("#TagTable").length > 0) {
                 "targets": -1,
                 "data": 'id',
                 "render": function ( data, type, row ) {
-                    return '<a href="/admin/blog/edit-tag/'+row.id+'">Edit</a> | <a onclick="return confirm(\'Delete Tag?\');" href="/admin/blog/delete-tag/'+row.id+'">Hapus</a>';
+                    return '<a href="/admin/blog/edit-tag/'+row.id+'">Edit</a> | <a onclick="return confirm(\'Delete Tag?\');" href="/admin/blog/delete-tag/'+row.id+'" style="color: #d9534f;">Hapus</a>';
                 }
             },
                 {
@@ -847,7 +847,7 @@ if ($("#table-tags").length > 0) {
                 "targets": -1,
                 "data": 'id',
                 "render": function ( data, type, row ) {
-                    return '<a href="/admin/blog/tag/'+row.id+'/view">Edit</a> | <a onclick="return confirm(\'Delete Tag?\');" href="/admin/blog/tag/'+row.id+'/remove">Hapus</a>';
+                    return '<a href="/admin/blog/tag/'+row.id+'/view">Edit</a> | <a onclick="return confirm(\'Delete Tag?\');" href="/admin/blog/tag/'+row.id+'/remove" style="color: #d9534f;">Hapus</a>';
                 }
             },
                 {
@@ -1014,7 +1014,7 @@ if ($("#event-table").length > 0) {
                 "targets": -1,
                 "data": 'id',
                 "render": function ( data, type, row ) {
-                    return '<a href="/admin/blog/event/'+row.id+'/view">Edit</a> | <a onclick="return confirm(\'Delete Event?\');" href="/admin/blog/event/'+row.id+'/remove">Hapus</a>';
+                    return '<a href="/admin/blog/event/'+row.id+'/view">Edit</a> | <a onclick="return confirm(\'Delete Event?\');" href="/admin/blog/event/'+row.id+'/remove" style="color: #d9534f;">Hapus</a>';
                 }
             },
                 {
@@ -1089,7 +1089,7 @@ if ($("#table-gallery").length > 0) {
                 "targets": -1,
                 "data": 'id',
                 "render": function ( data, type, row ) {
-                    return '<a href="/admin/blog/'+row.post_type+'/'+row.id+'/edit">Edit</a> | <a onclick="return confirm(\'Delete '+row.post_type+'?\');" href="/admin/blog/'+row.post_type+'/'+row.id+'/remove">Hapus</a>';
+                    return '<a href="/admin/blog/'+row.post_type+'/'+row.id+'/edit">Edit</a> | <a onclick="return confirm(\'Delete '+row.post_type+'?\');" href="/admin/blog/'+row.post_type+'/'+row.id+'/remove" style="color: #d9534f;">Hapus</a>';
                 }
             },
                 {
@@ -1132,7 +1132,7 @@ if ($("#GalleryTagTable").length > 0) {
                 "targets": -1,
                 "data": 'id',
                 "render": function ( data, type, row ) {
-                    return '<a href="/admin/blog/tag/'+row.id+'/view">Edit</a> | <a onclick="return confirm(\'Delete Tag?\');" href="/admin/blog/tag/'+row.id+'/remove">Hapus</a>';
+                    return '<a href="/admin/blog/tag/'+row.id+'/view">Edit</a> | <a onclick="return confirm(\'Delete Tag?\');" href="/admin/blog/tag/'+row.id+'/remove" style="color: #d9534f;">Hapus</a>';
                 }
             },
                 {
@@ -1259,7 +1259,7 @@ if ($("#video #table-videos").length > 0) {
                 "targets": -1,
                 "data": 'id',
                 "render": function ( data, type, row ) {
-                    return '<a href="/admin/blog/video/'+row.id+'/edit">Edit</a> | <a onclick="return confirm(\'Delete Video?\');" href="/admin/blog/video/'+row.id+'/remove">Hapus</a>';
+                    return '<a href="/admin/blog/video/'+row.id+'/edit">Edit</a> | <a onclick="return confirm(\'Delete Video?\');" href="/admin/blog/video/'+row.id+'/remove" style="color: #d9534f;">Hapus</a>';
                 }
             },
                 {
@@ -1295,7 +1295,7 @@ if ($("#video #VideoTagTable").length > 0) {
                 "targets": -1,
                 "data": 'id',
                 "render": function ( data, type, row ) {
-                    return '<a href="/admin/blog/tag/'+row.id+'/edit">Edit</a> | <a onclick="return confirm(\'Delete Tag?\');" href="/admin/blog/tags/'+row.id+'/delete">Hapus</a>';
+                    return '<a href="/admin/blog/tag/'+row.id+'/edit">Edit</a> | <a onclick="return confirm(\'Delete Tag?\');" href="/admin/blog/tags/'+row.id+'/delete" style="color: #d9534f;">Hapus</a>';
                 }
             },
                 {

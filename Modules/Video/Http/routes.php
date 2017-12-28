@@ -20,8 +20,8 @@ Route::group(['middleware' => ['web','backend'], 'prefix' => 'admin/blog/video',
 
     Route::get('/', 'VideoController@index')
             ->name('panel.video__index');
-    Route::get('/show/{slug}', 'VideoController@showVideo')
-            ->name('panel.video__view__single');
+    // Route::get('/show/{slug}', 'VideoController@showVideo')
+            // ->name('panel.video__view__single');
     Route::get('/ajaxvideos', 'VideoController@ajaxVideos')
             ->name('panel.video__index__ajax');
     Route::get('/add', 'VideoController@addVideo')
