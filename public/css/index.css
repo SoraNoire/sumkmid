@@ -1985,8 +1985,8 @@ footer .container .stayInTouch .copyText {
 }
 
 #what-we-do {
-  padding-top: 59px;
-  padding-bottom: 103px;
+  padding-top: 50px;
+  padding-bottom: 50px;
   background-image: url("/img/top-bg.png");
   background-size: cover;
   position: relative;
@@ -2197,7 +2197,7 @@ footer .container .stayInTouch .copyText {
 #ourMentors {
   background-image: url(/img/blue-bg.png);
   background-size: cover;
-  padding-bottom: 60px;
+  padding-bottom: 50px;
 }
 
 #ourMentors .container .section-title {
@@ -2270,7 +2270,7 @@ footer .container .stayInTouch .copyText {
 }
 
 #event {
-  padding-top: 70px;
+  padding-top: 50px;
   padding-bottom: 50px;
   background-image: url("/img/triangle.png");
   background-repeat: no-repeat;
@@ -2432,8 +2432,8 @@ footer .container .stayInTouch .copyText {
 
 #video {
   color: rgba(255, 255, 255, 0.87);
-  padding-top: 62px;
-  padding-bottom: 40px;
+  padding-top: 50px;
+  padding-bottom: 50px;
 }
 
 #video .section-title {
@@ -2510,8 +2510,8 @@ footer .container .stayInTouch .copyText {
 
 #newsletter {
   text-align: center;
-  padding-top: 60px;
-  padding-bottom: 71px;
+  padding-top: 50px;
+  padding-bottom: 50px;
 }
 
 #newsletter span {
