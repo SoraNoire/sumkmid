@@ -33,25 +33,25 @@ $('.wrapSubject').click(function(){
     $('#subject').change();   
 });
 
-$('#submit_newsletter').on('click', function(e){
-	e.preventDefault();
-	var a = $('input[name=email_subscribe]').val();
-	$.ajax({
-        type: 'GET',
-        url: '/subcribe/'+a,
-        success: function(response){
-			$('#myalert').show();
-			$('#myalert span').html(response);
-			$('#myalert').addClass('alert-success');
-        },
-        error: function(err){
-			$('#myalert').show();
-			$('#myalert span').html('Terjadi kesalahan. Silahkan coba beberapa menit lagi');
-			$('#myalert').addClass('alert-danger');
-        }
-    });
-    a = '';
-});
+// $('#submit_newsletter').on('click', function(e){
+// 	e.preventDefault();
+// 	var a = $('input[name=email_subscribe]').val();
+// 	$.ajax({
+//         type: 'GET',
+//         url: '/subcribe/'+a,
+//         success: function(response){
+// 			$('#myalert').show();
+// 			$('#myalert span').html(response);
+// 			$('#myalert').addClass('alert-success');
+//         },
+//         error: function(err){
+// 			$('#myalert').show();
+// 			$('#myalert span').html('Terjadi kesalahan. Silahkan coba beberapa menit lagi');
+// 			$('#myalert').addClass('alert-danger');
+//         }
+//     });
+//     a = '';
+// });
 
 $('#myalert').on('click', 'a', function(e){
 	e.preventDefault();
