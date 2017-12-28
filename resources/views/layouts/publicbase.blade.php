@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}">
     <link href="//cdn-images.mailchimp.com/embedcode/classic-10_7.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="{{ asset('css/index.css') }}?v=1.1.6">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" />
 
     @if(isset($fb_pixel))
     @if($fb_pixel != '')
@@ -173,8 +174,8 @@
                 <div class="col-4 stayInTouch">
                     <h5>STAY IN TOUCH</h5>
                     <div class="footerSubForm">
-                        <form action="" method="">
-                            <input type="email" name="email_subscribe" placeholder="Subscribe our newsletter" required="required">
+                        <form action="{{ route('public_newsletter') }}" method="get">
+                            <input type="email" name="email" placeholder="Subscribe our newsletter" required="required">
                             <button id="submit_newsletter"><i class="fa fa-location-arrow" aria-hidden="true"></i></button>
                         </form>
                     </div>
@@ -195,8 +196,24 @@
     <div class="whiteOverlay"></div>
     <!-- end of footer -->
     
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script src="{{ asset('js/home.js') }}?v=1.1.2"></script>
+
+
+    @if (session()->has('swal'))
+      <?php 
+      $msg = session('swal');
+      ?>
+      <script type="text/javascript">
+        swal({
+         title: '<?=$msg->status?>',
+         text: '<?=$msg->message?>',
+         type: '<?=$msg->status?>',
+         confirmButtonText: 'OK'
+       });
+     </script>
+    @endif
 
 </body>
 </html>

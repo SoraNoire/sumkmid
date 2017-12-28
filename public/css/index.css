@@ -1545,7 +1545,7 @@ footer .container .stayInTouch .footerSubForm form input {
   border: 1px solid #A3ABBA;
   padding: 7px 2px;
   outline: none;
-  text-align: center;
+  text-align: left;
   width: calc(100% - 100px);
   color: #fff;
   vertical-align: middle;

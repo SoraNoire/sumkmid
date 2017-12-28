@@ -183,7 +183,7 @@ return [
         Intervention\Image\ImageServiceProvider::class,
 
         // spatie 
-        Spatie\Permission\PermissionServiceProvider::class,
+        // Spatie\Permission\PermissionServiceProvider::class,
 
         // lara collective
         Collective\Html\HtmlServiceProvider::class,

@@ -9,7 +9,6 @@
     </div>
 
     <form method="post" action="{{ url($action) }}" accept-charset="UTF-8">
-        <input type="hidden" name="_token" value="{{ csrf_token() }}">
         <div class="form-group">
             <label class="control-label">Name</label>
             <input class="form-control" type="text" name="name" value="{{ $name }}">
