@@ -106,7 +106,7 @@ class PublicController extends Controller
 	public function home(){
         $var['page'] = "Home";
 		
-		$var['videos'] = DB::table('post_view')->where('post_type','video')->orderBy('published_date','desc')->paginate(4);
+		$var['videos'] = DB::table('post_view')->whereIn('post_type',['video', 'gallery'])->orderBy('published_date','desc')->paginate(4);
 
 		$user = new \App\Helpers\SSOHelper;
 		$var['mentors'] = $user->mentors()->users;
@@ -252,17 +252,17 @@ class PublicController extends Controller
      * Show video page.
      * @return Response
      */
-	public function galeri(){
+	public function gallery(){
 		$var['page'] = "Galeri";
-		$var['items'] = DB::table('post_view')->whereIn('post_type',['video', 'gallery'])->orderBy('published_date','desc')->paginate(6);
-		return view('page.galeri')->with(['var' => $var]);
+		$var['posts'] = DB::table('post_view')->whereIn('post_type',['video', 'gallery'])->orderBy('published_date','desc')->paginate(6);
+		return view('page.gallery')->with(['var' => $var]);
 	}
 
 	/**
-     * Show single video page.
+     * Show single gallery page.
      * @return Response
      */
-	public function singleGaleri($slug){
+	public function singleGallery($slug){
 		$var['page'] = "singleGaleri";
 		$var['content'] = DB::table('post_view')->where('slug',$slug)->first();
 		$postMetas = DB::table('post_meta')->where('post_id',$var['content']->id)->get();
@@ -271,45 +271,54 @@ class PublicController extends Controller
 		$var['categories'] = PostHelper::get_post_category($var['content']->id);
 
 		if($var['content']->post_type == 'video'){
-			$var['videoEmbed'] = $postMetas->video_url ?? [];
+			$var['videoEmbed'] = $postMetas->video_url ?? '';
 		}else{
 			$gallery_images = json_decode($postMetas->gallery_images ?? '') ?? []; 
 			$var['photos'] = Media::whereIn('id', $gallery_images)->get();
 		}
 
+		$nextItem = DB::table('post_view')
+						->whereIn('post_type',['video', 'gallery'])
+						->orderBy('published_date','desc')
+						->where('published_date','>',$var['content']->published_date)
+						->limit(1)
+						->get();
+		$prevItem = DB::table('post_view')
+						->whereIn('post_type',['video', 'gallery'])
+						->orderBy('published_date','desc')
+						->where('published_date','<',$var['content']->published_date)
+						->limit(1)
+						->get();
 
-		$nextItem = DB::table('post_view')->where('post_type','video')->orWhere('post_type','gallery')->orderBy('published_date','desc')->where('published_date','>',$var['content']->published_date)->limit(1)->get();
-		$prevItem = DB::table('post_view')->where('post_type','video')->orWhere('post_type','gallery')->orderBy('published_date','desc')->where('published_date','<',$var['content']->published_date)->limit(1)->get();
 		$var['nextItem'] = $nextItem[0]->slug ?? '';
 		$var['prevItem'] = $prevItem[0]->slug ?? '';
-        $var['allcategories'] = PostHelper::get_all_categories('video');
+        $var['allcategories'] = PostHelper::get_all_categories(['video', 'gallery']);
 
-		return view('page.singleGaleri')->with(['var' => $var]);
+		return view('page.singleGallery')->with(['var' => $var]);
 	}
 
 	/**
-     * Show galeri search result.
+     * Show gallery search result.
      * @return Response
      */
-	public function searchGaleri(Request $request){
+	public function searchGallery(Request $request){
 		$query = $request->get('q');
 		// dd($query);
 		$var['page'] = "Search Galeri";
 		$var['query'] = $query;
-		$var['videos'] = DB::table('post_view')
-						 ->where('post_type','video')
-						 ->orWhere('post_type','gallery')
+		$var['posts'] = DB::table('post_view')
+						 ->whereIn('post_type',['video', 'gallery'])
 						 ->where('title','like','%'.$query.'%')
 						 ->orderBy('published_date','desc')
 						 ->paginate(6);
-		return view('page.searchGaleri')->with(['var' => $var]);
+		return view('page.searchGallery')->with(['var' => $var]);
 	}
 
 	/**
-     * Show video category archive.
+     * Show gallery category archive.
      * @return Response
      */
-	public function videoCatArchive($slug){
+	public function galleryCatArchive($slug){
 		$cat = Categories::where('slug', $slug)->first();
 		if (!isset($cat)) {
         	return view('errors.404');
@@ -318,15 +327,19 @@ class PublicController extends Controller
 		$var['page'] = "Category Video ".$cat->name;
 		$var['archive'] = "Category : ".$cat->name;
 		$post_ids = PostHelper::get_post_archive_id('category', $cat->id);
-		$var['videos'] = DB::table('post_view')->where('post_type','video')->whereIn('id', $post_ids)->orderBy('published_date','desc')->paginate(6);
-		return view('page.video')->with(['var' => $var]);
+		$var['posts'] = DB::table('post_view')
+						->whereIn('post_type',['video', 'gallery'])
+						->whereIn('id', $post_ids)
+						->orderBy('published_date','desc')
+						->paginate(6);
+		return view('page.gallery')->with(['var' => $var]);
 	}
 
 	/**
-     * Show video tag archive.
+     * Show gallery tag archive.
      * @return Response
      */
-	public function videoTagArchive($slug){
+	public function galleryTagArchive($slug){
         $tag = Tags::where('slug', $slug)->first();
         if (!isset($tag)) {
         	return view('errors.404');
@@ -335,8 +348,12 @@ class PublicController extends Controller
 		$var['page'] = "Tag Video ".$tag->name;
 		$var['archive'] = "Tag : ".$tag->name;
 		$post_ids = PostHelper::get_post_archive_id('tag', $tag->id);
-		$var['videos'] = DB::table('post_view')->where('post_type','video')->whereIn('id', $post_ids)->orderBy('published_date','desc')->paginate(6);
-		return view('page.video')->with(['var' => $var]);
+		$var['posts'] = DB::table('post_view')
+						->whereIn('post_type',['video', 'gallery'])
+						->whereIn('id', $post_ids)
+						->orderBy('published_date','desc')
+						->paginate(6);
+		return view('page.gallery')->with(['var' => $var]);
 	}
 
 	function readMetas($arr=[]){

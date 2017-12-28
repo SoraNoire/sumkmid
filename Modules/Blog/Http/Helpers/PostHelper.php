@@ -541,7 +541,14 @@ class PostHelper
      * @return Response
      */
     public static function get_all_categories($post_type) {
-        $post_ids = DB::table('post_view')->where('post_type', $post_type)->select('id')->get();
+        $post_ids = DB::table('post_view');
+        if (is_array($post_type)) {
+            $post_ids = $post_ids->whereIn('post_type', $post_type);
+        }elseif (is_string($post_type)) {
+            $post_ids = $post_ids->where('post_type', $post_type);
+        }
+        $post_ids = $post_ids->select('id')->get();
+
         $data = [];
         foreach ($post_ids as $post) {
             $categories = PostHelper::get_post_category($post->id);

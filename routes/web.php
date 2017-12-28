@@ -31,7 +31,7 @@ Route::get('/mentor', 'PublicController@mentor')->name('public_mentor');
 Route::get('/mentor/{mentorId}', 'PublicController@mentorSingle')->name('public_mentor_single');
 Route::get('/kontak', 'PublicController@kontak')->name('public_kontak');
 Route::get('/event', 'PublicController@event')->name('public_event');
-Route::get('/galeri', 'PublicController@galeri')->name('public_galeri');
+Route::get('/galeri', 'PublicController@gallery')->name('public_gallery');
 Route::get('/newsletter', 'PublicController@newsletter')->name('public_newsletter');
 Route::get('/save-newsletter', 'PublicController@save_newsletter')->name('save_newsletter');
 
@@ -41,14 +41,14 @@ Route::post('/user-setting/UpdateProfilePict','memberController@updateProfilePic
 
 Route::post('/send-email', 'PublicController@messages_store_act')->name('sendemailcontact');
 
-Route::get('/mentor/page/{page}', 'PublicController@mentor_archive');
+// Route::get('/mentor/page/{page}', 'PublicController@mentor_archive');
 Route::get('/event/page/{page}', 'PublicController@event_archive');
 
-Route::get('/video/page/{page}', 'PublicController@video_archive');
-Route::get('/search-galeri/', 'PublicController@searchGaleri')->name('search_galeri');
-Route::get('/galeri/{slug}', 'PublicController@singleGaleri')->name('single_galeri');
-Route::get('/video-category/{slug}', 'PublicController@videoCatArchive')->name('video_cat_archive');
-Route::get('/video-tag/{slug}', 'PublicController@videoTagArchive')->name('video_tag_archive');
+// Route::get('/gallery/page/{page}', 'PublicController@gallery_archive');
+Route::get('/search-galeri/', 'PublicController@searchGallery')->name('search_gallery');
+Route::get('/galeri/{slug}', 'PublicController@singleGallery')->name('single_gallery');
+Route::get('/gallery-category/{slug}', 'PublicController@galleryCatArchive')->name('gallery_cat_archive');
+Route::get('/gallery-tag/{slug}', 'PublicController@galleryTagArchive')->name('gallery_tag_archive');
 
 
 // Auth::routes();

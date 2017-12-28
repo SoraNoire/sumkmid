@@ -22,7 +22,7 @@
 					<span class="icon i-paper"></span>
 					<span>
 						@foreach($var['categories'] as $category)
-						<a href="{{ route('video_cat_archive', $category->slug) }}">{{ $category->name }}</a>
+						<a href="{{ route('gallery_cat_archive', $category->slug) }}">{{ $category->name }}</a>
 						@endforeach
 					</span>
 				</div>
@@ -32,7 +32,7 @@
 					<span class="icon i-tag"></span>
 					<span>
 						@foreach($var['tags'] as $tag)
-						<a href="{{ route('video_tag_archive', $tag->slug) }}">{{ $tag->name }}</a>
+						<a href="{{ route('gallery_tag_archive', $tag->slug) }}">{{ $tag->name }}</a>
 						@endforeach
 					</span>
 				</div>
@@ -42,15 +42,15 @@
 	</div>
 	<div class="videoContainer">
 		<div class="container">
-			@if($var['content']->post_type == 'video')
+			@if($var['content']->post_type == 'video' && isset($var['videoEmbed']) && $var['videoEmbed'] != '')
 			<iframe src="{{$var['videoEmbed']}}" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen></iframe>
-			@else
+			@elseif( $var['content']->post_type == 'gallery' && isset($var['photos']) && $var['photos'] != '' )
 			<!-- Slider main container -->
 			<!-- Swiper -->
 			<div class="swiper-container gallery-top">
 				<div class="swiper-wrapper">
 					@foreach($var['photos'] as $photo)
-					<div class="swiper-slide" style="background-image:url({{ asset(PostHelper::getLinkimage($photo->name, 'media', 'thumbnail')) }})"></div>
+					<div class="swiper-slide" style="background-image:url({{ asset(PostHelper::getLinkimage($photo->name, 'media', 'large')) }})"></div>
 					@endforeach
 				</div>
 				<!-- Add Arrows -->
@@ -93,13 +93,13 @@
 					</div>
 					<div class="videoNavigation {{ ($var['prevItem'] == '' ? 'singleNavNext' : '') }} {{ ($var['nextItem'] == '' ? 'singleNavPrev' : '') }} ">
 						<div class="prevVideo">
-							<a href="{{route('public_galeri').'/'.$var['prevItem']}}">
+							<a href="{{route('public_gallery').'/'.$var['prevItem']}}">
 								<span class="icon i-prev"></span>
 								<span>Galeri sebelumnya</span>
 							</a>
 						</div>
 						<div class="nextVideo ">
-							<a href="{{route('public_galeri').'/'.$var['nextItem']}}">
+							<a href="{{route('public_gallery').'/'.$var['nextItem']}}">
 								<span>Galeri selanjutnya</span>
 								<span class="icon i-next"></span>
 							</a>
@@ -108,12 +108,12 @@
 				</div>
 				<div class="col-3">
 					<div class="sidebarVideo">
-						@if (count($var['categories']) > 0)
+						@if (count($var['allcategories']) > 0)
 						<div class="sidebar kategoriWidget">
 							<h4 class="sidebarDefaultHeading">Kategori</h4>
 							<ul>
-								@foreach($var['categories'] as $cat)
-								<li><a href="{{ route('video_cat_archive', $cat->slug) }}">{{ $cat->name }}</a></li>
+								@foreach($var['allcategories'] as $cat)
+								<li><a href="{{ route('gallery_cat_archive', $cat->slug) }}">{{ $cat->name }}</a></li>
 								@endforeach
 							</ul>
 						</div>
@@ -122,7 +122,7 @@
 							<h4 class="sidebarDefaultHeading">Cari di Galeri</h4>
 							<div class="searchBox">
 								<div class="inputWrap">
-									<form action="{{ route('search_galeri','') }}" method="get">
+									<form action="{{ route('search_gallery') }}" method="get">
 										<input placeholder="Kata Kunci" type="text" name="q" id="">
 										<button><span class="icon i-search"></span></button>
 									</form>

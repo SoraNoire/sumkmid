@@ -78,7 +78,7 @@
 	                                </a>
 	                            </li>
 	                            <li class="{{ ($var['page'] ?? '' == 'galeri' ? 'active' : '') }}">
-	                                <a href="{{ route('public_galeri') }}">
+	                                <a href="{{ route('public_gallery') }}">
 	                                    Galeri
 	                                </a>
 	                            </li>
