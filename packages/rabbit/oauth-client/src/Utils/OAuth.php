@@ -13,16 +13,16 @@ use Closure;
 
 class OAuth
 {
-	static $appId = '';
-	static $appSecret = '';
+    static $appId = '';
+    static $appSecret = '';
     static $appServer = '';
-	static $curl = '';
+    static $curl = '';
     static $Auth = false;
     static $roles;
     static $permissions = ['read','write','edit','delete'];
     static $can = [];
-	
-	function __construct(){
+    
+    function __construct(){
 
         $mdconfig = config('auth.md_sso');
         self::$appId = $mdconfig['APP_ID'];
@@ -85,7 +85,7 @@ class OAuth
         }
 
         self::$roles = explode(';', rtrim( env('OA_ROLES', 'admin;editor;writer') ,';') );
-	}
+    }
 
     public function handle($request, Closure $next)
     {
@@ -170,6 +170,7 @@ class OAuth
         if ($user && $user->users){
             if (isset($user->users[0])){
                 $user = $user->users[0];
+                $user->avatar = $user->foto_profil;
                 return $user;
             }
         }
@@ -301,7 +302,7 @@ class OAuth
      * @return void
      * @author 
      **/
-    public static function curlRaw($path='/',$data=[])
+    public static function curlRaw($path='/',$data=[],$method='post',$childToken=false)
     {
 
         $mdconfig = config('auth.md_sso');
@@ -318,16 +319,29 @@ class OAuth
                         "appsecret: ".self::$appSecret
                     ];
         
-
-        if ( null != Cookie::get( config('auth.ssocookie') ) )
+        if($childToken)
         {
-            $headers[] = "usertoken: ".Cookie::get( config('auth.ssocookie') );
+            $headers[] = "usertoken: $childToken";
         }
         else
         {
-            if( session('logid') )
+            if ( null != Cookie::get( config('auth.ssocookie') ) )
             {
-                $headers[] = "usertoken: " . session('logid');       
+
+                $headers[] = "usertoken: ".Cookie::get( config('auth.ssocookie') );
+            }
+            else
+            {
+                // dd(session('logid'));
+                if( session('logid') )
+                {
+                    $user = Users::where('id',session('logid'))->select('token')->first();
+                    // dd($user->token);
+                    if($user && $user->token)
+                    {
+                        $headers[] = "usertoken: ".$user->token;
+                    }
+                }
             }
         }
 
