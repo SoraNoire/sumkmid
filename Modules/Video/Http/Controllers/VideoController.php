@@ -188,10 +188,10 @@ class VideoController extends Controller
             PostMeta::insert($meta_contents);
 
             DB::commit();
-            return redirect(route('viewvideo', $store->id))->with(['msg' => 'Saved', 'status' => 'success'])->send();         
+            return redirect(route('panel.video__view', $store->id))->with(['msg' => 'Saved', 'status' => 'success'])->send();         
         } catch (\Exception $e) {
             DB::rollback();
-            return redirect(route('videos'))->with(['msg' => 'Error saving', 'status' => 'warning'])->send();
+            return redirect(route('panel.video__index'))->with(['msg' => 'Error saving', 'status' => 'warning'])->send();
         }
     }
 
@@ -227,7 +227,7 @@ class VideoController extends Controller
             $item_id = $video->id;
             return view('video::admin.video_edit')->with(['item_id' => $item_id, 'page_meta_title' => $page_meta_title, 'act' => $act, 'action' => $action, 'video' => $video , 'title' => $title, 'content' => $content,'alltag'=>$alltag, 'selected_tag' => $tags, 'featured_image' => $video->featured_image, 'meta_desc' => $meta_desc, 'meta_title' => $meta_title, 'meta_keyword' => $meta_keyword, 'status' => $status, 'published_date' => $published_date, 'video_url' => $video_url]);
         } else {
-            return redirect(route('videos'))->with(['msg' => 'video Not Found', 'status' => 'danger']);
+            return redirect(route('panel.video__index'))->with(['msg' => 'video Not Found', 'status' => 'danger']);
         }
     }
 
@@ -311,10 +311,10 @@ class VideoController extends Controller
             }
 
             DB::commit();
-            return redirect(route('viewvideo', $update->id))->with(['msg' => 'Saved', 'status' => 'success']);
+            return redirect(route('panel.video__view', $update->id))->with(['msg' => 'Saved', 'status' => 'success']);
         } catch (\Exception $e) {
             DB::rollback();
-            return redirect(route('viewvideo', $id))->with(['msg' => 'Save error', 'status' => 'alert']);
+            return redirect(route('panel.video__view', $id))->with(['msg' => 'Save error', 'status' => 'alert']);
         }
 
     }
@@ -331,9 +331,9 @@ class VideoController extends Controller
         $video->deleted = 1;
         if( $video->save() )
         {
-            return redirect(route('videos'))->with(['msg' => 'Deleted', 'status' => 'success']);
+            return redirect(route('panel.video__index'))->with(['msg' => 'Deleted', 'status' => 'success']);
         }
-        return redirect(route('videos'))->with(['msg' => 'Delete error', 'status' => 'warning']);
+        return redirect(route('panel.video__index'))->with(['msg' => 'Delete error', 'status' => 'warning']);
     }
 
     /**
@@ -349,13 +349,13 @@ class VideoController extends Controller
             if ($delete) {
                 $delete->deleted = 1;
                 if (!$delete->save()) {
-                    return redirect(route('videos'))->with(['msg' => 'Delete Error', 'status' => 'danger']);
+                    return redirect(route('panel.video__index'))->with(['msg' => 'Delete Error', 'status' => 'danger']);
                 }
             } else {
-                return redirect(route('videos'))->with(['msg' => 'Delete Error. Page Not Found', 'status' => 'videos']);
+                return redirect(route('panel.video__index'))->with(['msg' => 'Delete Error. Page Not Found', 'status' => 'videos']);
             }
         }
-        return redirect(route('videos'))->with(['msg' => 'Delete Success', 'status' => 'success']);
+        return redirect(route('panel.video__index'))->with(['msg' => 'Delete Success', 'status' => 'success']);
     }
 
     /**

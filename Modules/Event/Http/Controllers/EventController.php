@@ -67,7 +67,7 @@ class EventController extends Controller
 
             return view('event::admin.single')->with(['page_meta_title' => $page_meta_title, 'event' => $event, 'category' => $category, 'forum' => $forum, 'mentor' => $mentor, 'status' => $status, 'meta_desc' => $meta_desc, 'meta_keyword' => $meta_keyword, 'meta_title' => $meta_title]);
         } else {
-            return redirect($this->prefix.'events')->with('msg', 'event Not Found')->with('status', 'danger');
+            return redirect(route('panel.event__index'))->with('msg', 'event Not Found')->with('status', 'danger');
         }
     }
 

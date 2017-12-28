@@ -1662,7 +1662,7 @@ class BlogController extends Controller
         if ($video != '') {
             $video = json_decode($video);
         }
-        $quote = Option::where('key', 'quote_section')->first()->value ?? '';
+        $quote = Option::where('key', 'quotes_section')->first()->value ?? '';
         if ($quote != '') {
             $quote = json_decode($quote);
         }
