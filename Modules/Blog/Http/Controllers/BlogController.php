@@ -1705,7 +1705,7 @@ class BlogController extends Controller
         $settings[] = ['name' => 'link_ig', 'value' => $request->input('link_ig')];
         $settings[] = ['name' => 'link_in', 'value' => $request->input('link_in')];
         $settings[] = ['name' => 'link_yt', 'value' => $request->input('link_yt')];
-        $settings[] = ['name' => 'analytic_id', 'value' => $request->input('analytic_id')];
+        $settings[] = ['name' => 'analytic', 'value' => $request->input('analytic_id')];
         $settings[] = ['name' => 'fb_pixel', 'value' => $request->input('fb_pixel')];
         $settings[] = ['name' => 'quotes_section', 'value' => json_encode($quote)];
         $settings[] = ['name' => 'video_section', 'value' => json_encode($video)];
