@@ -64,7 +64,7 @@ class GalleryController extends Controller
 
             return view('gallery::admin.single')->with(['page_meta_title' => $page_meta_title, 'gallery' => $gallery, 'tag' => $tag, 'category' => $category, 'meta_keyword' => $meta_keyword, 'meta_title' => $meta_title, 'meta_desc' => $meta_desc, 'published_at' => $published_at]);
         } else {
-            return redirect($this->prefix)->with('msg', 'gallery Not Found')->with('status', 'danger');
+            return redirect(route('panel.gallery__index'))->with('msg', 'gallery Not Found')->with('status', 'danger');
         }
     }
 

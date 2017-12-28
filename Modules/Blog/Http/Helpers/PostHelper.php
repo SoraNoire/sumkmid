@@ -425,14 +425,14 @@ class PostHelper
                 if ($is_bulk == 'bulk') {
                     // do nothing
                 } else {
-                    return redirect(route('categories'))->with(['msg' => 'Deleted', 'status' => 'success'])->send();
+                    return redirect(route('panel.category__index'))->with(['msg' => 'Deleted', 'status' => 'success'])->send();
                 }
             } catch (\Exception $e) {
                 DB::rollback();
-                return redirect(route('categories'))->with(['msg' => 'Delete Error', 'status' => 'danger'])->send();
+                return redirect(route('panel.category__index'))->with(['msg' => 'Delete Error', 'status' => 'danger'])->send();
             }
         }else {
-            return redirect(route('categories'))->with(['msg' => 'Category Not Found', 'status' => 'danger'])->send();
+            return redirect(route('panel.category__index'))->with(['msg' => 'Category Not Found', 'status' => 'danger'])->send();
         }
     }
 
@@ -468,14 +468,14 @@ class PostHelper
                 if ($is_bulk == 'bulk') {
                     // do nothing
                 } else {
-                    return redirect(route('tags'))->with(['msg' => 'Deleted', 'status' => 'success'])->send();
+                    return redirect(route('panel.tag__index'))->with(['msg' => 'Deleted', 'status' => 'success'])->send();
                 }
             } catch (\Exception $e) {
                 DB::rollback();
-                return redirect(route('tags'))->with(['msg' => 'Delete Error', 'status' => 'danger'])->send();
+                return redirect(route('panel.tag__index'))->with(['msg' => 'Delete Error', 'status' => 'danger'])->send();
             }
         }else {
-            return redirect(route('tags'))->with(['msg' => 'Tag Not Found', 'status' => 'danger'])->send();
+            return redirect(route('panel.tag__index'))->with(['msg' => 'Tag Not Found', 'status' => 'danger'])->send();
         }
     }
 
