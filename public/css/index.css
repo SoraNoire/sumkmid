@@ -1985,8 +1985,8 @@ footer .container .stayInTouch .copyText {
 }
 
 #what-we-do {
-  padding-top: 50px;
-  padding-bottom: 50px;
+  padding-top: 15px;
+  padding-bottom: 15px;
   background-image: url("/img/top-bg.png");
   background-size: cover;
   position: relative;
@@ -2197,11 +2197,11 @@ footer .container .stayInTouch .copyText {
 #ourMentors {
   background-image: url(/img/blue-bg.png);
   background-size: cover;
-  padding-bottom: 50px;
+  padding-bottom: 15px;
 }
 
 #ourMentors .container .section-title {
-  padding-top: 50px;
+  padding-top: 15px;
   padding-bottom: 30px;
   text-align: center;
   color: #fff;
@@ -2270,8 +2270,8 @@ footer .container .stayInTouch .copyText {
 }
 
 #event {
-  padding-top: 50px;
-  padding-bottom: 50px;
+  padding-top: 15px;
+  padding-bottom: 15px;
   background-image: url("/img/triangle.png");
   background-repeat: no-repeat;
   background-position-y: -50px;
@@ -2432,8 +2432,8 @@ footer .container .stayInTouch .copyText {
 
 #video {
   color: rgba(255, 255, 255, 0.87);
-  padding-top: 50px;
-  padding-bottom: 50px;
+  padding-top: 15px;
+  padding-bottom: 15px;
 }
 
 #video .section-title {
@@ -2510,8 +2510,8 @@ footer .container .stayInTouch .copyText {
 
 #newsletter {
   text-align: center;
-  padding-top: 50px;
-  padding-bottom: 50px;
+  padding-top: 15px;
+  padding-bottom: 15px;
 }
 
 #newsletter span {
