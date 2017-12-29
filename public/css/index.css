@@ -1985,8 +1985,8 @@ footer .container .stayInTouch .copyText {
 }
 
 #what-we-do {
-  padding-top: 50px;
-  padding-bottom: 50px;
+  padding-top: 25px;
+  padding-bottom: 25px;
   background-image: url("/img/top-bg.png");
   background-size: cover;
   position: relative;
@@ -2197,12 +2197,12 @@ footer .container .stayInTouch .copyText {
 #ourMentors {
   background-image: url(/img/blue-bg.png);
   background-size: cover;
-  padding-bottom: 50px;
+  padding-bottom: 25px;
 }
 
 #ourMentors .container .section-title {
-  padding-top: 50px;
-  padding-bottom: 30px;
+  padding-top: 25px;
+  padding-bottom: 25px;
   text-align: center;
   color: #fff;
 }
@@ -2270,8 +2270,8 @@ footer .container .stayInTouch .copyText {
 }
 
 #event {
-  padding-top: 50px;
-  padding-bottom: 50px;
+  padding-top: 25px;
+  padding-bottom: 25px;
   background-image: url("/img/triangle.png");
   background-repeat: no-repeat;
   background-position-y: -50px;
@@ -2432,8 +2432,8 @@ footer .container .stayInTouch .copyText {
 
 #video {
   color: rgba(255, 255, 255, 0.87);
-  padding-top: 50px;
-  padding-bottom: 50px;
+  padding-top: 25px;
+  padding-bottom: 25px;
 }
 
 #video .section-title {
@@ -2497,8 +2497,8 @@ footer .container .stayInTouch .copyText {
 
 #mentor {
   text-align: center;
-  padding-top: 61px;
-  padding-bottom: 50px;
+  padding-top: 25px;
+  padding-bottom: 25px;
   color: rgba(64, 64, 64, 0.87);
 }
 
@@ -2510,8 +2510,8 @@ footer .container .stayInTouch .copyText {
 
 #newsletter {
   text-align: center;
-  padding-top: 50px;
-  padding-bottom: 50px;
+  padding-top: 25px;
+  padding-bottom: 25px;
 }
 
 #newsletter span {
@@ -2520,7 +2520,7 @@ footer .container .stayInTouch .copyText {
 }
 
 #newsletter .newsletter-form {
-  margin-top: 30px;
+  margin-top: 20px;
 }
 
 #newsletter .newsletter-form input {
@@ -2614,11 +2614,11 @@ footer .container .stayInTouch .copyText {
 }
 
 #video-archive {
-  margin-top: 59px;
+  margin-top: 25px;
 }
 
 #video-archive .container .row .resultSearchHeading {
-  margin-bottom: 30px;
+  margin-bottom: 25px;
   margin-left: 13px;
 }
 
@@ -2740,12 +2740,12 @@ footer .container .stayInTouch .copyText {
 }
 
 #mentor-archive {
-  margin-top: 59px;
-  margin-bottom: 49px;
+  margin-top: 25px;
+  margin-bottom: 25px;
 }
 
 #mentor-archive .atEnd {
-  margin: 30px 0px 40px 0px;
+  margin: 25px 0px 25px 0px;
   text-align: center;
   font-weight: 700;
 }
@@ -2853,8 +2853,7 @@ footer .container .stayInTouch .copyText {
 }
 
 #event-archive {
-  padding-top: 51px;
-  padding-bottom: 50px;
+  padding-top: 31px;
 }
 
 @media screen and (max-width: 433px) {
@@ -3366,7 +3365,7 @@ footer .container .stayInTouch .copyText {
 
 #map {
   height: 400px;
-  margin-bottom: 62px;
+  margin-bottom: 25px;
   background-image: url("/img/contact-map.png");
   background-repeat: no-repeat;
   background-position: center;
@@ -3374,7 +3373,7 @@ footer .container .stayInTouch .copyText {
 }
 
 #contact {
-  padding-bottom: 50px;
+  padding-bottom: 20px;
   color: #ffffff;
   background-color: #223138;
 }
@@ -3910,12 +3909,12 @@ footer .container .stayInTouch .copyText {
 }
 
 #tentang .tentangContent {
-  margin-top: 50px;
-  margin-bottom: 50px;
+  margin-top: 25px;
+  margin-bottom: 25px;
 }
 
 #tentang .tentangContent p {
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 
 @-webkit-keyframes spin {

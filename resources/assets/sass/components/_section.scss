@@ -2,13 +2,13 @@
 
 
 #what-we-do {
-	padding-top: 50px;
-	padding-bottom: 50px;
+	padding-top: 25px;
+	padding-bottom: 25px;
 	background-image: url('/img/top-bg.png');
 	background-size: cover;
 	position: relative;
 	z-index: 1;
-	// box-shadow: 2px 2px 30px 0px rgba(0, 0, 0, 0.5);
+	// box-shadow: 2px 2px 25px 0px rgba(0, 0, 0, 0.5);
 	&:after {
 		content: "";
 		width: 100%;
@@ -160,11 +160,11 @@
 #ourMentors{
 	background-image: url(/img/blue-bg.png);
 	background-size: cover;
-	padding-bottom: 50px;
+	padding-bottom: 25px;
 	.container{
 		.section-title{
-			padding-top: 50px;
-			padding-bottom: 30px;
+			padding-top: 25px;
+			padding-bottom: 25px;
 			text-align: center;
 			color: #fff;
 		}
@@ -228,8 +228,8 @@
 	}
 }
 #event {
-	padding-top: 50px;
-	padding-bottom: 50px;
+	padding-top: 25px;
+	padding-bottom: 25px;
 	background-image: url('/img/triangle.png');
 	background-repeat: no-repeat;
 	background-position-y: -50px;
@@ -356,8 +356,8 @@
 
 #video {
 	color: rgba(255, 255, 255, 0.87);
-	padding-top: 50px;
-	padding-bottom: 50px;
+	padding-top: 25px;
+	padding-bottom: 25px;
 	.section-title {
 		text-align: center;
 		margin-bottom: 63px;
@@ -413,22 +413,22 @@
 		margin-top: 20px;
 	}
 	text-align: center;
-	padding-top: 61px;
-	padding-bottom: 50px;
+	padding-top: 25px;
+	padding-bottom: 25px;
 	color: rgba(64, 64, 64, 0.87);
 	
 }
 
 #newsletter {
 	text-align: center;
-	padding-top: 50px;
-	padding-bottom: 50px;
+	padding-top: 25px;
+	padding-bottom: 25px;
 	span {
 		color: #fff;
 		font-size: 16px;
 	}
 	.newsletter-form {
-		margin-top: 30px;
+		margin-top: 20px;
 		input {
 			outline: none;
 			background: #fff;
@@ -513,11 +513,11 @@
 }
 
 #video-archive {
-	margin-top: 59px;
+	margin-top: 25px;
 	.container{
 		.row{
 			.resultSearchHeading{
-				margin-bottom: 30px;
+				margin-bottom: 25px;
 				margin-left: 13px;
 			}
 			.thumbnailGallery{
@@ -630,10 +630,10 @@
 
 
 #mentor-archive {
-	margin-top: 59px;
-	margin-bottom: 49px;
+	margin-top: 25px;
+	margin-bottom: 25px;
 	.atEnd{
-		margin: 30px 0px 40px 0px;
+		margin: 25px 0px 25px 0px;
 		text-align: center;
 		font-weight: $bold;
 		// display: none;
@@ -725,8 +725,7 @@
 }
 
 #event-archive {
-	padding-top: 51px;
-	padding-bottom: 50px;
+	padding-top: 31px;
 	.event {
 		.col-3{
 			@media screen and (max-width: 433px) {
@@ -1172,7 +1171,7 @@
 
 #map {
 	height: 400px;
-	margin-bottom: 62px;
+	margin-bottom: 25px;
 	background-image: url('/img/contact-map.png');
 	background-repeat: no-repeat;
 	background-position: center;
@@ -1180,7 +1179,7 @@
 }
 
 			#contact {
-				padding-bottom: 50px;
+				padding-bottom: 20px;
 				color: #ffffff;
 				background-color: #223138;
 				.container{
@@ -1655,10 +1654,10 @@
 			}
 #tentang{
 	.tentangContent{
-		margin-top: 50px;
-		margin-bottom: 50px;
+		margin-top: 25px;
+		margin-bottom: 25px;
 		p{
-			margin-bottom: 30px;
+			margin-bottom: 20px;
 		}
 	}
 }
