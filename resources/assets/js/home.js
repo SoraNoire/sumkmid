@@ -185,6 +185,6 @@ $(function(){
 //   	// niceText.push( closeSpan );
 // 	// niceText = niceText.join(' ');
 // 	// $(this).html(niceText);
-// 	console.log(niceText);
+// 	// console.log(niceText);
 
 // });

@@ -86,7 +86,7 @@
 
 <section id="video" class="blue-bg">
 	<div class="container">
-		<h3 class="section-title">{{ $var['gallery']->title }}</h3>
+		<h3 class="section-title">{!! $var['gallery_name'] !!}</h3>
 		<div class="the-row">
 			@foreach ($var['videos'] as $video)
 			<div class="col-3">
@@ -99,6 +99,30 @@
 		</div>
 	</div>
 </section>
+
+@if (isset($var['instagram']))
+<section id="instagram-feed">
+	<div class="container">
+		<h3 class="section-title gray"><span>Social</span> <span>Feeds</span></h3>
+		<div class="the-row">
+			@php $i = 0 @endphp
+
+			@foreach($var['instagram'] as $feed)
+			@php $i++ @endphp
+			@if($i == 5)
+				@php break @endphp
+			@endif
+			<div class="col-3">
+				<a href="{{ $feed->link }}">
+				<div class="post-wraper" style="background-image: url('{{ $feed->images->standard_resolution->url }}');">
+	        	</div>
+	        	</a>
+			</div>
+			@endforeach
+		</div>
+	</div>
+</section>
+@endif
 
 <section id="ourMentors">
 	<div class="container">
@@ -209,6 +233,9 @@
 	// Optional parameters
 	direction: 'horizontal',
 	loop: true,
+	autoplay: {
+	    delay: 5000,
+  	},
 
 	// If we need pagination
 	pagination: {

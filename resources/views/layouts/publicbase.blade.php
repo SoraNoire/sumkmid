@@ -12,7 +12,7 @@
     <link rel="icon" type="image/x-icon" href="{{ asset('images/fav.png') }}">
     <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}">
     <link href="//cdn-images.mailchimp.com/embedcode/classic-10_7.css" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="{{ asset('css/index.css') }}?v=1.1.63">
+    <link rel="stylesheet" href="{{ asset('css/index.css') }}?v=1.1.64">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" />
 
     @if(isset($fb_pixel))
@@ -188,7 +188,7 @@
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script src="{{ asset('js/home.js') }}?v=1.1.21"></script>
+    <script src="{{ asset('js/home.js') }}?v=1.1.22"></script>
 
 
     @if (session()->has('swal'))
