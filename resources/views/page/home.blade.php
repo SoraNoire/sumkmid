@@ -44,17 +44,23 @@
 <section id="quote" class="blue-bg">
     <div class="container">
         <div class="the-row">
-        	<div class="quotePhotoWraper">
-	            <div class="quotePhoto">
-	                <img src="{{ $var['quote']->image }}" alt="quoter-mdirect">
+        	<div class="col-3">
+	        	<div class="quotePhotoWraper">
+		            <div class="quotePhoto">
+		                <img src="{{ $var['quote']->image }}" alt="quoter-mdirect">
+		            </div>
 	            </div>
             </div>
-        	<p>{{ $var['quote']->from ?? '' }}</p>
-            <div class="quote">
-                <blockquote>
-                    "{{ $var['quote']->text ?? '' }}"
-                </blockquote>
-            </div>
+            <div class="col-9">
+	            <div class="quote">
+	                <blockquote>
+	                    "{{ $var['quote']->text ?? '' }}"
+	                </blockquote>
+	            </div>
+	            <div class="quoter">
+	        		<p>{{ $var['quote']->from ?? '' }}</p>
+	        	</div>
+           	</div>
         </div>
     </div>
 </section>
