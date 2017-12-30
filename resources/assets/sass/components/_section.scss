@@ -147,6 +147,10 @@
 			padding: 0px 15px;
 			font-size: 30px;
 			font-weight: $bold;
+			a{
+				color: inherit;
+				text-decoration: inherit;
+			}
 		}
 		.caption{
 			transition: .5s;
@@ -171,25 +175,6 @@
 		.mentorWrap{
 			text-align: center;
 			position: relative;
-			.showMentors{
-				position: absolute;
-				top: 40px;
-    			right: 20px;
-				width: 60px;
-				height: 60px;
-				@media screen and (max-width: 900px) {
-					position: relative;
-					top: unset;
-					right: unset;
-					display: block;
-    				margin: 40px auto 0px auto;
-				}
-				a{
-					img{
-						max-width: 100%;
-					}
-				}
-			}
 			#mentors{
 				display: inline-block;
 				width: 180px;
@@ -232,7 +217,7 @@
     padding-bottom: 15px;
 	background-image: url('/img/triangle.png');
 	background-repeat: no-repeat;
-	background-position-y: -50px;
+	background-position: 0px 24px;
 	transition: .5s;
 	
 	.row {

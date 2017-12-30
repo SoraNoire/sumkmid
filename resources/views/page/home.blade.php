@@ -117,7 +117,7 @@
 				<img src="{{ $program->logo }}">
 			</div>
 			<div class="heading">
-				<span>{{ $program->title }}</span>
+				<a href="#"><span>{{ $program->title }}</span></a>
 			</div>
 			<div class="caption">
 				<p>{{ $program->description }}</p>
@@ -127,34 +127,36 @@
 
 	</div>
 </section>
-
+@if($var['mentors'])
 <section id="ourMentors">
 	<div class="container">
 		<h3 class="section-title"><span>Meet Our</span> <span>Mentor</span></h3>
 		<div class="mentorWrap">
-			@for($i = 0;$i < 4; $i++)
+			@php $i = 1 @endphp
+
+			@foreach($var['mentors'] as $mentor)
+			@php $i++ @endphp
+			@if($i == 5)
+			@php break @endphp
+			@endif
 			<div id="mentors">
 				<div class="photoMentor">
 				    <div>
-				        <img src="{{ $var['mentors'][$i]->foto_profil ?? 'tidak ada' }}" alt=""/>
+				        <img src="{{ $mentor->foto_profil ?? 'tidak ada' }}" alt=""/>
 				    </div>
 				</div>
 				<h5 class="mentor-name">
-					<a href="{{ route('public_mentor_single',$var['mentors'][$i]->id) }}">
-						{{ $var['mentors'][$i]->name }}
+					<a href="{{ route('public_mentor_single',$mentor->id) }}">
+						{{ $mentor->name }}
 					</a>
 				</h5>
-				<span class="mentor-desc">{{ $var['mentors'][$i]->jabatan }}</span>
+				<span class="mentor-desc">{{ $mentor->jabatan }}</span>
 			</div>
-			@endfor
-			<div class="showMentors">
-				<a href="{{ route('public_mentor') }}">
-					<img src="{{ asset('images/show-mentros.png') }}">
-				</a>
-			</div>
+			@endforeach
 		</div>
 	</div>
 </section>
+@endif
 <div class="clearfix"></div>
 <section id="mentor" style="display: none;">
 	<div class="container">

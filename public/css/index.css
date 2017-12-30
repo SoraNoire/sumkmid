@@ -1527,6 +1527,11 @@ footer .container .contactItems ul li p {
   margin-bottom: 0px;
 }
 
+footer .container .contactItems ul li p a {
+  color: inherit;
+  text-decoration: inherit;
+}
+
 footer .container .stayInTouch h5 {
   font-weight: 700;
   letter-spacing: 1px;
@@ -1543,7 +1548,7 @@ footer .container .stayInTouch .footerSubForm form {
 footer .container .stayInTouch .footerSubForm form input {
   background-color: transparent;
   border: 1px solid #A3ABBA;
-  padding: 7px 2px;
+  padding: 7px 7px;
   outline: none;
   text-align: left;
   width: calc(100% - 100px);
@@ -1957,7 +1962,8 @@ footer .container .stayInTouch .copyText {
 #mainSlider .bigSlideContent .contentWrap .content .heading {
   color: #1d3d6f;
   font-weight: 700;
-  font-size: 25px;
+  font-size: 24px;
+  line-height: 24px;
 }
 
 #mainSlider .bigSlideContent .contentWrap .content .heading a {
@@ -1973,8 +1979,7 @@ footer .container .stayInTouch .copyText {
 }
 
 #mainSlider .bigSlideContent .contentWrap .content .caption {
-  font-weight: 300;
-  font-size: 14px;
+  font-size: 17px;
   color: #000;
 }
 
@@ -2185,6 +2190,11 @@ footer .container .stayInTouch .copyText {
   font-weight: 700;
 }
 
+#programs .programWrap .heading a {
+  color: inherit;
+  text-decoration: inherit;
+}
+
 #programs .programWrap .caption {
   -webkit-transition: .5s;
   transition: .5s;
@@ -2210,28 +2220,6 @@ footer .container .stayInTouch .copyText {
 #ourMentors .container .mentorWrap {
   text-align: center;
   position: relative;
-}
-
-#ourMentors .container .mentorWrap .showMentors {
-  position: absolute;
-  top: 40px;
-  right: 20px;
-  width: 60px;
-  height: 60px;
-}
-
-@media screen and (max-width: 900px) {
-  #ourMentors .container .mentorWrap .showMentors {
-    position: relative;
-    top: unset;
-    right: unset;
-    display: block;
-    margin: 40px auto 0px auto;
-  }
-}
-
-#ourMentors .container .mentorWrap .showMentors a img {
-  max-width: 100%;
 }
 
 #ourMentors .container .mentorWrap #mentors {
@@ -2274,7 +2262,7 @@ footer .container .stayInTouch .copyText {
   padding-bottom: 15px;
   background-image: url("/img/triangle.png");
   background-repeat: no-repeat;
-  background-position-y: -50px;
+  background-position: 0px 24px;
   -webkit-transition: .5s;
   transition: .5s;
 }

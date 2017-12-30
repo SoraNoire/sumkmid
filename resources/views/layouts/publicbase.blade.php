@@ -124,16 +124,6 @@
 
  	@yield('content')
 
- 	<!-- footer -->
-	<section id="newsletter" class="blue-bg">
-        <div class="container">
-        	<span>Gabung bersama SahabatUMKM.id dan dapatkan ribuan benefit GRATIS!!!</span>
-        	<form class="newsletter-form" method="get" action="{{ route('public_newsletter') }}">
-        		<input type="email" name="email" placeholder="Subscribe our newsletter">
-            	<button type="submit">daftar</button>
-        	</form>
-        </div>
-	</section>
 
  	<footer>
         <div class="container">
@@ -147,7 +137,7 @@
                     </p>
                 </div>
                 <div class="col-4 contactItems">
-                    <h5>OUR OFFICE</h5>
+                    <h5>Sekretariat Sahabat UMKM</h5>
                     <ul>
                         <li>
                             <i class="fa fa-map-marker" aria-hidden="true"></i>
@@ -165,7 +155,7 @@
                         <li>
                             <i class="fa fa-envelope" aria-hidden="true"></i>
                             <p>
-                                {{ config('app.email_info') }}
+                                <a href="mailto:sekretariat@sahabatumkm.id">sekretariat@sahabatumkm.id</a>
                             </p>
                         </li>
 

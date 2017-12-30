@@ -14,7 +14,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-5 contact-address">
-				<h3>Head Office</h3>
+				<h3>Sekretariat Sahabat UMKM</h3>
 				<p style="margin: 0">Jln. Kebon Kacang Raya No. 25 Tanah Abang</p>
 				<p style="margin: 0">Jakarta Pusat, Indonesia</p>
 				<p style="margin-bottom: 14px">Kode Pos 10240</p>
@@ -32,27 +32,27 @@
 						<tr>
 							<td>
 								<label>Nama</label>
-								<input type="text" name="nama" placeholder="Masukan Nama Anda" required="required">
+								<input type="text" name="nama" placeholder="Masukkan Nama Anda" required="required">
 							</td>
 							<td>
 								<label>E-mail</label>
-								<input type="text" name="email" placeholder="Masukan Alamat E-mail" required="required">
+								<input type="text" name="email" placeholder="Masukkan Alamat E-mail" required="required">
 							</td>
 						</tr>
 						<tr>
 							<td>
 								<label>Nama Usaha</label>
-								<input type="text" name="nama_usaha" placeholder="Masukan Nama Usaha">
+								<input type="text" name="nama_usaha" placeholder="Masukkan Nama Usaha">
 							</td>
 							<td>
 								<label>Nomor Kontak</label>
-								<input type="text" name="telp" placeholder="Masukan Nomor Telepon" required="required">
+								<input type="text" name="telp" placeholder="Masukkan Nomor Telepon" required="required">
 							</td>
 						</tr>
 						<tr>
 							<td colspan="2">
 								<label>Subyek</label>
-								<input type="text" name="subject" placeholder="Masukan Subyek" required="required">
+								<input type="text" name="subject" placeholder="Masukkan Subyek" required="required">
 							</td>
 						</tr>
 						<tr>

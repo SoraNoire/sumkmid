@@ -108,11 +108,10 @@ class PublicController extends Controller
 		
 		$var['videos'] = DB::table('post_view')->whereIn('post_type',['video', 'gallery'])->orderBy('published_date','desc')->paginate(4);
 
-		$user = new \App\Helpers\SSOHelper;
-		$var['mentors'] = $user->mentors()->users;
+		$var['mentors'] = app()->OAuth->mentors()->users;
+		
 		
 		$program = Option::where('key', 'program')->first()->value ?? '';
-
         $var['programs'] = [];
         if ($program != '') {
             $var['programs'] = json_decode($program);
