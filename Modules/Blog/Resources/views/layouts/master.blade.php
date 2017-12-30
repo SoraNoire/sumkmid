@@ -21,6 +21,7 @@
 
     <link href="{{ asset('css/app.css') }}?v=1.0.1" rel="stylesheet">
 
+    <link rel="stylesheet" href="{{ asset('css/font-awesome.css') }}?v=1.0.0">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">
     
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
