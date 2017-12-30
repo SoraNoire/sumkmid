@@ -175,8 +175,7 @@ class PublicController extends Controller
      */
 	public function mentor(){
 		$var['page'] = "Mentor";
-		$user = new \App\Helpers\SSOHelper;
-		$var['mentors'] =  $user->mentors()->users;
+		$var['mentors'] = app()->OAuth->mentors()->users;
 		
 		return view('page.mentor')->with(['var' => $var]);
 	}
@@ -186,8 +185,7 @@ class PublicController extends Controller
      */
 	public function mentorSingle($mentorId){
 		$var['page'] = "mentorSingle";
-		$user = new \App\Helpers\SSOHelper;
-		$var['mentors'] =  $user->mentors("$mentorId")->users;
+		$var['mentors'] =  app()->OAuth->mentors("$mentorId")->users;
 		if(isset($var['mentors'][0])){
 			$var['mentors'] = $var['mentors'][0];
 			return view('page.mentorSingle')->with(['var' => $var]);

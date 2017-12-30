@@ -182,7 +182,7 @@ class BlogController extends Controller
             $store->post_type = 'post';
             $store->content = $request->input('content');
             $store->featured_image = $request->input('featured_image');
-            $store->author = app()->OAuth->Auth()->id;
+            $store->author = app()->OAuth->Auth()->master_id;
             $store->status = $request->get('status');
             $store->published_date = $published_date;
             $store->save();

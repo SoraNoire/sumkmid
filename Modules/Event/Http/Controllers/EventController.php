@@ -116,7 +116,7 @@ class EventController extends Controller
     {
         $page_meta_title = 'Events';
         $u = app()->OAuth->mentors();
-        $mentors = $u->users;
+        $mentors = $u->users; 
 
         return view('event::admin.add_event')->with(['page_meta_title' => $page_meta_title, 'mentors' => $mentors]);
     }
@@ -141,7 +141,7 @@ class EventController extends Controller
         $location = $request->input('location');
         $gmaps_url = $request->input('gmaps_url');
         $event_url = $request->input('event_url'); 
-        $author = app()->OAuth->Auth()->id;
+        $author = app()->OAuth->Auth()->master_id;
         $mentor_registered = $request->get('mentor_registered');
         $mentor_not_registered = $request->get('mentor_not_registered');
         $status = $request->get('status');
@@ -361,6 +361,7 @@ class EventController extends Controller
         $location = $request->input('location');
         $gmaps_url = $request->input('gmaps_url');
         $mentor_registered = $request->get('mentor_registered');
+        $mentor_not_registered = $request->get('mentor_not_registered');
         $status = $request->get('status');
         $meta_title = $request->input('meta_title');
         $meta_desc = $request->input('meta_desc');
@@ -392,6 +393,8 @@ class EventController extends Controller
             $htm = $htm_free;
         }
 
+        $mentor_registered = json_encode($mentor_registered);
+        $mentor_not_registered = json_encode($mentor_not_registered);
 
         DB::beginTransaction();
         try {
@@ -407,7 +410,7 @@ class EventController extends Controller
             {
                 $newMeta = false;
                 $post_metas = PostMeta::where('post_id',$id)->get();
-                $meta_fields = ['event_type', 'location', 'meta_title', 'meta_desc', 'meta_keyword', 'mentor_registered', 'mentor_not_registered', 'event_url', 'gmaps_url' ];
+                $meta_fields = ['event_type', 'location', 'meta_title', 'meta_desc', 'meta_keyword', 'event_url', 'gmaps_url' ];
 
                 foreach ($meta_fields as $key => $meta) {
                     $updated = false;
@@ -440,6 +443,8 @@ class EventController extends Controller
                 $other_meta[] = ['name' => 'open_at', 'value' => $open_at];
                 $other_meta[] = ['name' => 'closed_at', 'value' => $closed_at];
                 $other_meta[] = ['name' => 'htm', 'value' => $htm];
+                $other_meta[] = ['name' => 'mentor_registered', 'value' => $mentor_registered];
+                $other_meta[] = ['name' => 'mentor_not_registered', 'value' => $mentor_not_registered];
             
                 foreach ($other_meta as $other_meta) {
                     $post_meta = PostMeta::where('post_id',$id)->where('key', $other_meta['name'])->first();
