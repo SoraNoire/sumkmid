@@ -8,14 +8,14 @@
     <div class="swiper-wrapper">
 
     	@foreach( $var['sliders'] as $slider )
-        <div class="swiper-slide bigSlideContent" style="background-image: url({{ $slider->image }});">
+        <div class="swiper-slide bigSlideContent" style="background-image: url({{ $slider->image ?? '' }});">
         	<div class="contentWrap {{ $slider->position == 'right' ? 'onRight' : 'onLeft' }}">
         		<div class="content">
         			<div class="heading">
-        				{!! $slider->title !!}
+        				{!! $slider->title ?? '' !!}
         			</div>
         			<div class="caption">
-        				{!! $slider->description !!}
+        				{!! $slider->description ?? '' !!}
         			</div>
         			@if ( $slider->btn_text != '' )
 	        		<a href="{{ $slider->link }}" class="button">{{ $slider->btn_text }}</a>
@@ -47,7 +47,7 @@
         	<div class="col-3">
 	        	<div class="quotePhotoWraper">
 		            <div class="quotePhoto">
-		                <img src="{{ $var['quote']->image }}" alt="quoter-mdirect">
+		                <img src="{{ $var['quote']->image ?? '' }}" alt="quoter-mdirect">
 		            </div>
 	            </div>
             </div>
@@ -90,10 +90,10 @@
 		<div class="the-row">
 			@foreach ($var['videos'] as $video)
 			<div class="col-3">
-				<div class="video-wraper" style="background-image: url('{{ $video->featured_image }}');">
-	        		<a href="{{route('single_gallery', $video->slug)}}"><span class="play-button"><i class="fa fa-play fa-lg" aria-hidden="true"></i></span></a>
+				<div class="video-wraper" style="background-image: url('{{ $video->featured_image ?? '' }}');">
+	        		<a href="{{route('single_gallery', $video->slug ?? '')}}"><span class="play-button"><i class="fa fa-play fa-lg" aria-hidden="true"></i></span></a>
 	        	</div>
-				<a href="{{route('single_gallery', $video->slug)}}" class="tilte">{{ $video->title }}</a>
+				<a href="{{route('single_gallery', $video->slug ?? '')}}" class="tilte">{{ $video->title ?? '' }}</a>
 			</div>
 			@endforeach
 		</div>
@@ -113,8 +113,8 @@
 				@php break @endphp
 			@endif
 			<div class="col-3">
-				<a href="{{ $feed->link }}">
-				<div class="post-wraper" style="background-image: url('{{ $feed->images->standard_resolution->url }}');">
+				<a href="{{ $feed->link ?? '' }}">
+				<div class="post-wraper" style="background-image: url('{{ $feed->images->standard_resolution->url ?? '' }}');">
 	        	</div>
 	        	</a>
 			</div>
@@ -142,11 +142,11 @@
 					    </div>
 					</div>
 					<h5 class="mentor-name">
-						<a href="{{ route('public_mentor_single',$mentor->id) }}">
-							{{ $mentor->name }}
+						<a href="{{ route('public_mentor_single',$mentor->id ?? 0) }}">
+							{{ $mentor->name ?? 'Anonim' }}
 						</a>
 					</h5>
-					<span class="mentor-desc">{{ $mentor->jabatan }}</span>
+					<span class="mentor-desc">{{ $mentor->jabatan ?? '' }}</span>
 				</div>
 				@endforeach
 			</div>
