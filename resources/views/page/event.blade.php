@@ -3,7 +3,7 @@
 @section('content')
 <div class="breadcrumb">
 	<div class="container">
-		<h2>Event</h2>
+		<h2><a href="{{ route('public_home') }}">Beranda</a> <i class="fa fa-angle-right" aria-hidden="true"></i>Event</h2>
 	</div>
 </div>
 
@@ -12,20 +12,25 @@
 		<div class="archive-list">
 			<div class="infinite-scroll">
 			@foreach ($var['events'] as $event)
-			<?php  $meta = PostHelper::get_post_meta($event->id); ?>
+			@php  $meta = PostHelper::get_post_meta($event->id); @endphp
 			<div class="post event the-row {{ $meta['open_at'] > Carbon::now() ? 'active' : '' }}" id="event-{{ $event->id }}">
 				<div class="col-3">
+
+					@if ( isset($event->featured_image) && $event->featured_image != '')
 					<div class="eventPoster">
-						<img src="{{ asset('images/poster.jpg') }}">
+						<img src="{{ $event->featured_image }}">
 					</div>
+					@endif
 				</div>
 				<div class="event-timeline">
 					<div class="event-indicator"></div>
 				</div>
 				<div class="event-content col-9">
+					@if ( isset($event->featured_image) &&  $event->featured_image != '')
 					<div class="eventPosterMobile">
-						<img src="{{ asset('images/poster.jpg') }}">
+						<img src="{{ $event->featured_image }}">
 					</div>
+					@endif
 					<div class="eventTitleWrap">
 						<div class="event-title">
 							{{ $event->title }}
@@ -45,7 +50,16 @@
 								<td>Speaker :</td>
 								<td>
 									@foreach ($meta['mentors'] as $mentor)
-										<p>- {{ $mentor->name }}</p>
+										@if (sizeof($mentor) > 0)
+										<div class="mentorWrap">
+											@if(isset($mentor->foto_profil))
+											<div class="miniPhotoMentor" style="background-image: url('{{ $mentor->foto_profil }}');"></div>
+											@else
+											<div class="miniPhotoMentor" style="background-image: url('{{ asset('images/admin.png') }}');"></div>
+											@endif
+											<a href="{{ (isset($mentor->id) ? route('public_mentor_single',$mentor->id) : route('public_mentor')) }}">{{ $mentor->name ?? '' }}</a>
+										</div>
+										@endif
 									@endforeach
 								</td>
 							</tr>
@@ -107,21 +121,5 @@
 			</div>
 		</div>
         <div class="scroller-status loading"> <div class="event the-row"> <div class="col-3"></div> <div class="event-timeline"> <div class="event-indicator"></div> </div> <div class="col-9 infinity-scroll-message"> <div class="loadingItems"> <span class="infinite-scroll-request"><img src="/img/infinity-load.svg"> Memuat Event</span> </div> </div> </div> </div>
-
-		<!-- status elements -->
-		<div class="scroller-status endOfEvent">
-		  	<div class="event the-row">
-				<div class="col-3"></div>
-				<div class="event-timeline">
-					<div class="event-indicator"></div>
-				</div>
-				<div class="col-9 infinity-scroll-message">
-					<div class="loadingItems">
-						<span class="infinite-scroll-last">Tidak Ada Event Lagi</span>
-					</div>
-				</div>
-		  	</div>
-		</div>
-	</div>
 </div>
 @endsection

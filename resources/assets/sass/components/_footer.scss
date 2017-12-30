@@ -1,7 +1,7 @@
 footer{
     background-color: #135383;
-    padding-top: 80px;
-    padding-bottom: 70px;
+    padding-top: 30px;
+    padding-bottom: 30px;
     position: relative;
     overflow: hidden;
     color:white;
@@ -12,13 +12,12 @@ footer{
         }
         .footerItems{
             position: relative;
-            height: 217px;
             .desc{
             	margin-top: 20px;
                 padding-right: 10px;
             }
             .footerLogo{
-                margin-top: 20px;
+                margin-top: 0px;
                 text-align: left;
                 img{
                         max-width: 100%;
@@ -68,7 +67,8 @@ footer{
                 padding-left: 0px;
                 li{
                     list-style: none;
-                    padding: 39.7px 0px;
+                    padding: 0px 0px;
+                    display: flex;
                     &:first-child{
                         padding-top: 15px;
                     }
@@ -85,6 +85,11 @@ footer{
                         display: inline-block;
                         float: left;
                         width: calc(100% - 40px);
+                        margin-bottom: 0px;
+                        a{
+                            color: inherit;
+                            text-decoration: inherit;
+                        }
                     }
                 }
             }
@@ -95,15 +100,15 @@ footer{
                 letter-spacing: 1px;
             }
             .footerSubForm{
-                margin: 30px 0px 25px 0px;
+                margin: 25px 0px 25px 0px;
                 form{
                     position: relative;
                     input{
                         background-color: transparent;
                         border: 1px solid #A3ABBA;
-                        padding: 7px 2px;
+                        padding: 7px 7px;
                         outline: none;
-                        text-align: center;
+                        text-align: left;
                         width: calc(100% - 100px);
                         color: #fff;
                         &::-webkit-input-placeholder{
@@ -124,7 +129,7 @@ footer{
                 }
             }
             ul{
-                margin-bottom: 60px;
+                margin-bottom: 25px;
                 padding-left: 0px;
                 li{
                     list-style: none;
@@ -237,12 +242,12 @@ footer{
             .contactItems{
                 ul{
                     li{
-                        padding: 21.7px 0px;
+                       
                     }
                 }
             }
             .footerItems{
-                height: 145px;
+                height: 135px;
                 .footerLogo{
                     margin-top: 0px;
                     width: 80%;
@@ -267,7 +272,6 @@ footer{
                 margin: 0px;
             }
             .footerItems{
-                height: 106px;
                 .footerLogo{
                     width: 60%;
                     span{
@@ -278,7 +282,7 @@ footer{
             .contactItems{
                 ul{
                     li{
-                        padding: 16.7px 0px;
+                        
                         &:first-child{
                             padding-top: 0px;
                         }

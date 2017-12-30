@@ -15,9 +15,10 @@
         <a href="{{ route('panel.gallery__add') }}" class="btn btn-round btn-fill btn-info">
             New Gallery +<div class="ripple-container"></div>
         </a>
-        <!-- <a target="_blank" href="{{ URL::to($prefix.'show/'.$gallery->slug) }}" class="btn btn-round btn-fill btn-info">
+        
+        <a target="_blank" href="{{ route('single_gallery',$gallery->slug) }}" class="btn btn-round btn-fill btn-info">
             View Gallery<div class="ripple-container"></div>
-        </a> -->
+        </a>
         <a onclick="return confirm('Delete gallery?');" href="{{ route('panel.gallery__delete', $gallery->id)}}" class="btn btn-round btn-fill btn-danger">
             Delete Gallery<div class="ripple-container"></div>
         </a>
@@ -183,7 +184,7 @@
                     </div>
                     <div id="post-fimg" class="panel-collapse collapse in">
                         <div class="panel-body form-group">
-                            <a id="browse_fimg_post" data-toggle="modal" data-target="#myFimg" class="btn btn-round btn-fill btn-default" style="margin-bottom: 10px;">Set Featured Image</a>
+                            <a id="browse_fimg_post" data-tujuan="featured_img" data-toggle="modal" data-target="#myFimg" class="btn btn-round btn-fill btn-default" style="margin-bottom: 10px;">Set Featured Image</a>
                             <input type="hidden" name="featured_image" id="featured_image" value="{{ $featured_image }}">
                             <div class="preview-fimg-wrap" style="display: {{ $featured_image != '' ? 'block' : ''  }};">
                                 <div class="preview-fimg" style="background-image: url({{ $featured_image }});"></div>

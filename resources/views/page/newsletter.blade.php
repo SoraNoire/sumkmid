@@ -4,7 +4,7 @@
 
 <div class="breadcrumb">
 	<div class="container">
-		<h2>Newsletter</h2>
+		<h2><a href="{{ route('public_home') }}">Beranda</a> <i class="fa fa-angle-right" aria-hidden="true"></i>Newsletter</h2>
 	</div>
 </div>
 
@@ -12,7 +12,7 @@
 	<div class="container">
 		<!-- Begin MailChimp Signup Form -->
 		<div id="mc_embed_signup">
-			<form action="https://sahabatumkm.us17.list-manage.com/subscribe/post?u=b4446f3e9bb846772656226e8&amp;id=ddb0a75035" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+			<form action="https://sahabatumkm.us17.list-manage.com/subscribe/post?u=b4446f3e9bb846772656226e8&amp;id=ddb0a75035" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" novalidate>
 			    <div id="mc_embed_signup_scroll">
 				<h2>Subscribe to our mailing list</h2>
 			<div class="indicates-required"><span class="asterisk">*</span> indicates required</div>

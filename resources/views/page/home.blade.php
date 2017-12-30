@@ -6,177 +6,155 @@
 <!-- Slider main container -->
 <div class="swiper-container">
     <div class="swiper-wrapper">
-        <div class="swiper-slide bigSlideContent" style="background-image: url({{ asset('images/e2f87ecce1c734ee1b2e8cb8d0c04274.jpg') }});">
-        	<div class="contentWrap onLeft">
+
+    	@foreach( $var['sliders'] as $slider )
+        <div class="swiper-slide bigSlideContent" style="background-image: url({{ $slider->image }});">
+        	<div class="contentWrap {{ $slider->position == 'right' ? 'onRight' : 'onLeft' }}">
         		<div class="content">
-        			<div class="heading">Mentoring Online Pelaku UMKM</div>
-        			<div class="caption">Bergabung bersama ratusan pelaku UMKM dan dapatkan manfaat dari bimbingan bisnis langsung dari gadget anda.</div>
+        			<div class="heading">
+        				{!! $slider->title !!}
+        			</div>
+        			<div class="caption">
+        				{!! $slider->description !!}
+        			</div>
+        			@if ( $slider->btn_text != '' )
+	        		<a href="{{ $slider->link }}" class="button">{{ $slider->btn_text }}</a>
+	        		@endif
         		</div>
         	</div>
         </div>
-        <div class="swiper-slide bigSlideContent" style="background-image: url({{ asset('images/e2f87ecce1c734ee1b2e8cb8d0c04274.jpg') }});">
-        	<div class="contentWrap onRight">
-        		<div class="content">
-        			<div class="heading">Mentoring Online Pelaku UMKM</div>
-        			<div class="caption">Bergabung bersama ratusan pelaku UMKM dan dapatkan manfaat dari bimbingan bisnis langsung dari gadget anda.</div>
-        		</div>
-        	</div>
-        </div>
+        @endforeach
+
     </div>
     <div class="swiper-pagination"></div>
 </div>
 </section>
 
-<section id="what-we-do">
-	<div class="bg-overlay"></div>
+<section id="about-us">
 	<div class="container">
-	    <div class="row">
-	        <div class="col-5 left-content">
-	        	<h3 class="section-title"><span>What</span> <span>We Do</span></h3>
-	        	<div class="section-desc">
-		        	<p>
-		        		Appropriately communicate pandemic initiatives through intuitive testing procedures. Appropriately distinctive paradigms after enabled cloud services. Globally productize sustainable sources with corporate functionalities. Interactively facilitate virtual quality vectors before adaptive e-commerce.
-		        	</p>
-	        	</div>
-	        	<a href="http://authdev.mdirect.id/register" class="button">Daftar</a>
-	        </div>
-	        <div class="col-7 right-content">
-	        	<div class="video-wraper" style="background-image: url('/img/top-video-bg.png');">
-	        		<a href="/video/what-we-do">
-	        			<img src="/img/play-button.png">
-	        		</a>
-	        	</div>
-	        </div>
-	    </div>
-    </div>
+		<h3 class="section-title gray"><span>Tentang</span> <span>Kami</span></h3>
+		<div class="section-desc">
+			<p>
+				{{ $var['about_us'] ?? '' }}
+			</p>
+		</div>
+	</div>
 </section>
 
-<section id="event">
-	<div class="container">
-	    <div class="row">
-	        <div class="col-5 left-content">
-	        	<h3 class="section-title gray"><span>Event</span> <span>UMKM</span></h3>
-	        	<div class="section-desc">
-		        	<p>
-		        		Completely communicate granular processes whereas ethical ideas. Dynamically streamline high-payoff methodologies and resource-leveling process improvements. Collaboratively create wireless opportunities via high-quality convergence. 
-		        	</p>
+<section id="quote" class="blue-bg">
+    <div class="container">
+        <div class="the-row">
+        	<div class="col-3">
+	        	<div class="quotePhotoWraper">
+		            <div class="quotePhoto">
+		                <img src="{{ $var['quote']->image }}" alt="quoter-mdirect">
+		            </div>
+	            </div>
+            </div>
+            <div class="col-9">
+	            <div class="quote">
+	                <blockquote>
+	                    "{{ $var['quote']->text ?? '' }}"
+	                </blockquote>
+	            </div>
+	            <div class="quoter">
+	        		<p>{{ $var['quote']->from ?? '' }}</p>
 	        	</div>
-	        	<a href="{{ route('public_event') }}" class="button blue-shadow">Lihat Event</a>
-	        </div>
-	        <div class="col-7 right-content">
-	        	<div class="block-wraper">
-	        		<div class="block"></div>
-	        		<div class="block quote">
-	        			<span class="quote-logo"><i class="material-icons">format_quote</i></span>
-	        			<div class="the-quote">
-		        			<p>Event-nya seru semua, ajang yang tepat buat cari partner dan peluang baru</p>
-		        			<span>- umar</span>
-	        			</div>
-	        		</div>
-	        		<div class="block"></div>
-	        	</div>
-	        </div>
-	    </div>
+           	</div>
+        </div>
     </div>
 </section>
 
 <section id="programs">
 	<div class="programWrap">
-		<div class="programSplit" style="background-image: url({{asset('images/program/1.jpg')}})">
+		@foreach( $var['programs'] as $program )
+		<div class="programSplit" style="background-image: url({{ $program->background }})">
 			<div class="logo">
-				<img src="{{ asset('images/niexjjzstcseuzdzkvoq.png') }}">
+				<img src="{{ $program->logo }}">
 			</div>
 			<div class="heading">
-				<span>Mentoring</span>
+				<a href="{{ $program->url ?? '#' }}"><span>{{ $program->title }}</span></a>
 			</div>
 			<div class="caption">
-				<p>Mempertemukan Pelaku UMKM dengan Pelaku Profesional yang	dapat membantu untuk meningkatkan dan mengembangkan potensi usaha pelakunya</p>
+				<p>{{ $program->description }}</p>
 			</div>
 		</div>
-		<div class="programSplit" style="background-image: url({{asset('images/program/2.jpg')}})">
-			<div class="logo">
-				<img src="{{ asset('images/niexjjzstcseuzdzkvoq.png') }}">
-			</div>
-			<div class="heading">
-				<span>Forum</span>
-			</div>
-			<div class="caption">
-				<p>Sarana bagi para	pelaku UMKM	Indonesia untuk saling memberikan kontribusi, bertukar informasi,	menyampaikan ide, ilmu, dan pengalaman dalam mengembangkan usahanya</p>
-			</div>
-		</div>
-		<div class="programSplit" style="background-image: url({{asset('images/program/3.jpg')}})">
-			<div class="logo">
-				<img src="{{ asset('images/niexjjzstcseuzdzkvoq.png') }}">
-			</div>
-			<div class="heading">
-				<span>Legal</span>
-			</div>
-			<div class="caption">
-				<p>Mempertemukan Pelaku UMKM dengan Pelaku Profesional yang	dapat membantu untuk meningkatkan dan mengembangkan potensi usaha pelakunya</p>
-			</div>
-		</div>
-		<div class="programSplit" style="background-image: url({{asset('images/program/4.jpg')}})">
-			<div class="logo">
-				<img src="{{ asset('images/niexjjzstcseuzdzkvoq.png') }}">
-			</div>
-			<div class="heading">
-				<span>Event</span>
-			</div>
-			<div class="caption">
-				<p>Bergabung dan bertemu dengan sesama pelaku UMKM melalui kegiatan-kegiatan off-air Sahabat UMKM</p>
-			</div>
-		</div>
+		@endforeach
+
 	</div>
 </section>
 
 <section id="video" class="blue-bg">
 	<div class="container">
-		<h3 class="section-title"><span>Kisah Sukses Pelaku</span> <span>UMKM</span></h3>
+		<h3 class="section-title">{!! $var['gallery_name'] !!}</h3>
 		<div class="the-row">
 			@foreach ($var['videos'] as $video)
 			<div class="col-3">
 				<div class="video-wraper" style="background-image: url('{{ $video->featured_image }}');">
-	        		<a href="{{route('public_galeri').'/'.$video->slug}}"><span class="play-button"><i class="fa fa-play fa-lg" aria-hidden="true"></i></span></a>
+	        		<a href="{{route('single_gallery', $video->slug)}}"><span class="play-button"><i class="fa fa-play fa-lg" aria-hidden="true"></i></span></a>
 	        	</div>
-				<a href="{{route('public_galeri').'/'.$video->slug}}" class="tilte">{{ $video->title }}</a>
+				<a href="{{route('single_gallery', $video->slug)}}" class="tilte">{{ $video->title }}</a>
 			</div>
 			@endforeach
 		</div>
 	</div>
 </section>
-<section id="ourMentors">
+
+@if (isset($var['instagram']))
+<section id="instagram-feed">
 	<div class="container">
-		<h3 class="section-title"><span>Our</span> <span>Mentor</span></h3>
+		<h3 class="section-title gray"><span>Social</span> <span>Feeds</span></h3>
 		<div class="the-row">
-			<div class="col-4 the-mentor">
-				<div class="mentorWrapper" style="background-image: url('/images/241_d_suit_standing_1600.png');">
-					<span class="head">MENTOR</span>
-					<span>KRIYA</span>
-					<p class="desc">Molestiae facilisis rem! Parturient. Torquent netus tempora pellentesque tenetur sapiente! Optio beatae est iaculis, veniam leo. Bibendum torquent ducimus, eu.</p>
-					<a href="#"><button>VIEW NOW</button></a>
-				</div>
+			@php $i = 0 @endphp
+
+			@foreach($var['instagram'] as $feed)
+			@php $i++ @endphp
+			@if($i == 5)
+				@php break @endphp
+			@endif
+			<div class="col-3">
+				<a href="{{ $feed->link }}">
+				<div class="post-wraper" style="background-image: url('{{ $feed->images->standard_resolution->url }}');">
+	        	</div>
+	        	</a>
 			</div>
-			<div class="col-4 the-mentor">
-				<div class="mentorWrapper" style="background-image: url('/images/business-girl.png');">
-					<span class="head">MENTOR</span>
-					<span>UMKM</span>
-					<p class="desc">Molestiae facilisis rem! Parturient. Torquent netus tempora pellentesque tenetur sapiente! Optio beatae est iaculis, veniam leo. Bibendum torquent ducimus, eu.</p>
-					<a href="#"><button>VIEW NOW</button></a>
-				</div>
-			</div>
-			<div class="col-4 the-mentor">
-				<div class="mentorWrapper" style="background-image: url('/images/girls_PNG6481.png');">
-					<span class="head">MENTOR</span>
-					<span>UMKM</span>
-					<p class="desc">Molestiae facilisis rem! Parturient. Torquent netus tempora pellentesque tenetur sapiente! Optio beatae est iaculis, veniam leo. Bibendum torquent ducimus, eu.</p>
-					<a href="#"><button>VIEW NOW</button></a>
-				</div>
-			</div>
+			@endforeach
 		</div>
 	</div>
 </section>
+@endif
+
+<section id="ourMentors">
+	<div class="container">
+		<h3 class="section-title"><span>Meet Our</span> <span>Mentor</span></h3>
+			<div class="mentorWrap">
+				@php $i = 0 @endphp
+
+				@foreach($var['mentors'] as $mentor)
+				@php $i++ @endphp
+				@if($i == 5)
+					@php break @endphp
+				@endif
+				<div id="mentors">
+					<div class="photoMentor">
+					    <div>
+					        <img src="{{ $mentor->foto_profil ?? 'tidak ada' }}" alt=""/>
+					    </div>
+					</div>
+					<h5 class="mentor-name">
+						<a href="{{ route('public_mentor_single',$mentor->id) }}">
+							{{ $mentor->name }}
+						</a>
+					</h5>
+					<span class="mentor-desc">{{ $mentor->jabatan }}</span>
+				</div>
+				@endforeach
+			</div>
+	</div>
+</section>
+
 <div class="clearfix"></div>
-<section id="mentor">
+<section id="mentor" style="display: none;">
 	<div class="container">
 		<h3 class="section-title gray"><span>Punya Masalah</span> <span>Bisnis?</span></h3>
 		<div class="section-desc">
@@ -185,7 +163,7 @@
 	</div>
 </section>
 
-<section id="questions">
+<section id="questions" style="display: none;">
 	<div class="fullWrap">
 		<div class="question">
 			<div class="caption">
@@ -255,6 +233,9 @@
 	// Optional parameters
 	direction: 'horizontal',
 	loop: true,
+	autoplay: {
+	    delay: 5000,
+  	},
 
 	// If we need pagination
 	pagination: {

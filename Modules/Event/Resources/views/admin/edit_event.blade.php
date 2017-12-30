@@ -138,7 +138,7 @@
                             </div>
                             <div class="form-group event-type-online">
                                 <label>URL Event</label>
-                                <input class="form-control" type="url" name="event_url" value="{{ old('event_url') }}">
+                                <input class="form-control" type="url" name="event_url" value="{{ $event_url }}">
                             </div>
                             <div class="form-group">
                                <label class="control-label">Select mentor that registered on MDirect</label>
@@ -252,6 +252,24 @@
                     </div>
                 </div>
 
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                          Featured Image <a data-toggle="collapse" href="#post-fimg"><i style="float: right;" class="fa fa-caret-down" aria-hidden="true"></i></a>
+                        </h4>
+                    </div>
+                    <div id="post-fimg" class="panel-collapse collapse in">
+                        <div class="panel-body form-group">
+                            <a id="browse_fimg_post" data-tujuan="featured_img" data-tujuan="featured_img" data-toggle="modal" data-target="#myFimg" class="btn btn-round btn-fill btn-default" style="margin-bottom: 10px;">Set Featured Image</a>
+                            <input type="hidden" name="featured_image" id="featured_img" value="{{ $featured_image }}">
+                            <div class="preview-fimg-wrap" style="display: {{ $featured_image != '' ? 'block' : ''  }};">
+                                <div class="preview-fimg" style="background-image: url({{ $featured_image }});"></div>
+                                <a href="#" onclick="remove_fimg()" class="remove-fimg"><i class="fa fa-times" aria-hidden="true"></i> Remove Featured Image</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
 
@@ -284,6 +302,28 @@
             </thead>
         </table>
     </div>
+    </div>
+</div>
+
+<div class="custom-modal fimg-modal">
+<div class="close-modal" id="close_fimg_post" data-toggle="modal" data-target="#myFimg">X</div>
+    <div class="card">
+        <div class="btn btn-round btn-fill btn-info" style="margin-bottom: 10px;" onclick="document.getElementById('uploadfimg').click();">Upload media +
+            <form id="actuploadfimg" method="post" action="{{ URL::to('/administrator/act_new_media') }}" accept-charset="UTF-8" enctype="multipart/form-data">
+                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                <input type="file" id="uploadfimg" name="media[]" style="cursor: pointer;display: none;" multiple>
+            </form>
+        </div>
+        <div class="card-content table-responsive">
+            <table style="width: 100%;" class="table mediatable" id="FeaturedImg">
+                <thead >
+                    <th>Preview</th>
+                    <th>Judul</th>
+                    <th>Tanggal</th>
+                    <th>Aksi</th>
+                </thead>
+            </table>
+        </div>
     </div>
 </div>
 @endsection

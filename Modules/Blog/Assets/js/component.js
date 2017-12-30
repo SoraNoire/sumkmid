@@ -175,6 +175,22 @@ if ($('textarea.mytextarea').length > 0) {
         }
     });
 }
+
+if ($('textarea.simple-tinymce').length > 0) {
+  tinymce.init({ 
+    selector:'textarea.simple-tinymce',
+    height: 80,
+    plugins: "textcolor colorpicker code link",
+    toolbar: "forecolor backcolor bold code link",
+    relative_urls:false,
+    theme: 'modern',
+    content_css: [
+      '//fonts.googleapis.com/css?family=Lato:300,300i,400,400i',
+      '//www.tinymce.com/css/codepen.min.css',
+      '{{ asset("css/textarea.css") }}'
+    ]
+   });
+}
 // END TINYMCE
 
 // date time picker

@@ -248,7 +248,7 @@ if ($("#pages-table").length > 0) {
                 "targets": -1,
                 "data": 'id',
                 "render": function ( data, type, row ) {
-                    return '<a href="/admin/blog/page/'+row.id+'/view">Edit</a> | <a onclick="return confirm(\'Delete Page?\');" href="/admin/blog/page/'+row.id+'/remove">Hapus</a>';
+                    return '<a href="/admin/blog/page/'+row.id+'/view">Edit</a> | <a onclick="return confirm(\'Delete Page?\');" href="/admin/blog/page/'+row.id+'/remove" style="color: #d9534f;">Hapus</a>';
                 }
             },
                 {
@@ -284,7 +284,7 @@ if ($("#TagTable").length > 0) {
                 "targets": -1,
                 "data": 'id',
                 "render": function ( data, type, row ) {
-                    return '<a href="/admin/blog/edit-tag/'+row.id+'">Edit</a> | <a onclick="return confirm(\'Delete Tag?\');" href="/admin/blog/delete-tag/'+row.id+'">Hapus</a>';
+                    return '<a href="/admin/blog/edit-tag/'+row.id+'">Edit</a> | <a onclick="return confirm(\'Delete Tag?\');" href="/admin/blog/delete-tag/'+row.id+'" style="color: #d9534f;">Hapus</a>';
                 }
             },
                 {
@@ -322,7 +322,7 @@ if ($("#table-tags").length > 0) {
                 "targets": -1,
                 "data": 'id',
                 "render": function ( data, type, row ) {
-                    return '<a href="/admin/blog/tag/'+row.id+'/view">Edit</a> | <a onclick="return confirm(\'Delete Tag?\');" href="/admin/blog/tag/'+row.id+'/remove">Hapus</a>';
+                    return '<a href="/admin/blog/tag/'+row.id+'/view">Edit</a> | <a onclick="return confirm(\'Delete Tag?\');" href="/admin/blog/tag/'+row.id+'/remove" style="color: #d9534f;">Hapus</a>';
                 }
             },
                 {
@@ -489,7 +489,7 @@ if ($("#event-table").length > 0) {
                 "targets": -1,
                 "data": 'id',
                 "render": function ( data, type, row ) {
-                    return '<a href="/admin/blog/event/'+row.id+'/view">Edit</a> | <a onclick="return confirm(\'Delete Event?\');" href="/admin/blog/event/'+row.id+'/remove">Hapus</a>';
+                    return '<a href="/admin/blog/event/'+row.id+'/view">Edit</a> | <a onclick="return confirm(\'Delete Event?\');" href="/admin/blog/event/'+row.id+'/remove" style="color: #d9534f;">Hapus</a>';
                 }
             },
                 {
@@ -564,7 +564,7 @@ if ($("#table-gallery").length > 0) {
                 "targets": -1,
                 "data": 'id',
                 "render": function ( data, type, row ) {
-                    return '<a href="/admin/blog/'+row.post_type+'/'+row.id+'/edit">Edit</a> | <a onclick="return confirm(\'Delete '+row.post_type+'?\');" href="/admin/blog/'+row.post_type+'/'+row.id+'/remove">Hapus</a>';
+                    return '<a href="/admin/blog/'+row.post_type+'/'+row.id+'/edit">Edit</a> | <a onclick="return confirm(\'Delete '+row.post_type+'?\');" href="/admin/blog/'+row.post_type+'/'+row.id+'/remove" style="color: #d9534f;">Hapus</a>';
                 }
             },
                 {
@@ -607,7 +607,7 @@ if ($("#GalleryTagTable").length > 0) {
                 "targets": -1,
                 "data": 'id',
                 "render": function ( data, type, row ) {
-                    return '<a href="/admin/blog/tag/'+row.id+'/view">Edit</a> | <a onclick="return confirm(\'Delete Tag?\');" href="/admin/blog/tag/'+row.id+'/remove">Hapus</a>';
+                    return '<a href="/admin/blog/tag/'+row.id+'/view">Edit</a> | <a onclick="return confirm(\'Delete Tag?\');" href="/admin/blog/tag/'+row.id+'/remove" style="color: #d9534f;">Hapus</a>';
                 }
             },
                 {
@@ -734,7 +734,7 @@ if ($("#video #table-videos").length > 0) {
                 "targets": -1,
                 "data": 'id',
                 "render": function ( data, type, row ) {
-                    return '<a href="/admin/blog/video/'+row.id+'/edit">Edit</a> | <a onclick="return confirm(\'Delete Video?\');" href="/admin/blog/video/'+row.id+'/remove">Hapus</a>';
+                    return '<a href="/admin/blog/video/'+row.id+'/edit">Edit</a> | <a onclick="return confirm(\'Delete Video?\');" href="/admin/blog/video/'+row.id+'/remove" style="color: #d9534f;">Hapus</a>';
                 }
             },
                 {
@@ -770,7 +770,7 @@ if ($("#video #VideoTagTable").length > 0) {
                 "targets": -1,
                 "data": 'id',
                 "render": function ( data, type, row ) {
-                    return '<a href="/admin/blog/tag/'+row.id+'/edit">Edit</a> | <a onclick="return confirm(\'Delete Tag?\');" href="/admin/blog/tags/'+row.id+'/delete">Hapus</a>';
+                    return '<a href="/admin/blog/tag/'+row.id+'/edit">Edit</a> | <a onclick="return confirm(\'Delete Tag?\');" href="/admin/blog/tags/'+row.id+'/delete" style="color: #d9534f;">Hapus</a>';
                 }
             },
                 {
@@ -786,4 +786,87 @@ if ($("#video #VideoTagTable").length > 0) {
             [1, "desc"]
         ]
     });
+}
+
+if ($("#myTableslider").length > 0) {
+  $("#myTableslider").DataTable({
+      order: [
+          [0, "asc"],
+          [2, "desc"]
+      ]
+  });
+}
+
+// slider image table
+if ($("#sliderImg").length > 0) {
+  $("#sliderImg").DataTable({
+    "ajax":  {
+      url: '/admin/blog/get-media'
+    } ,
+    "processing": true,
+    "serverSide": true,
+    "stateSave":true,
+    "columns": [
+      { "data": "name" },
+      { "data": "name" },
+      { "data": "created_at" },
+      { "data": "id" },
+    ],
+    "columnDefs": [ {
+        "targets": -1,
+        "data": 'id',
+        "render": function ( data, type, row ) {
+          return '<div onclick="delete_media(\''+data+'\')" id="delete_media_post" class="btn btn-round btn-fill btn-danger">Delete</div> <div onclick="select_fimg(\'#'+data+'\')" id="select_media" class="btn btn-round btn-fill btn-success">Select</div> <p style="display:none;" id="'+data+'">'+mediaPath+'/'+row.name+'</p>';
+        }
+      },
+      {
+        "targets": 0,
+        "data": 'title',
+        "render": function ( data, type, row ) {
+          return '<img style="width: 100px; max-height: 100px;" src="'+mediaPath+'/'+data.split('.').join('-300.')+'">';
+        }
+      }
+    ],
+    order: [
+      [0, "desc"],
+      [2, "desc"]
+    ]
+  });
+}
+
+// image table for program
+if ($("#programMedia").length > 0) {
+  $("#programMedia").DataTable({
+    "ajax":  {
+      url: '/admin/blog/get-media'
+    } ,
+    "processing": true,
+    "serverSide": true,
+    "stateSave":true,
+    "columns": [
+      { "data": "name" },
+      { "data": "name" },
+      { "data": "created_at" },
+      { "data": "id" },
+    ],
+    "columnDefs": [ {
+        "targets": -1,
+        "data": 'id',
+        "render": function ( data, type, row ) {
+          return '<div onclick="delete_media(\''+data+'\')" id="delete_media_post" class="btn btn-round btn-fill btn-danger">Delete</div> <div onclick="select_input_media(\'#media-'+data+'\')" id="select_media" class="btn btn-round btn-fill btn-success">Select</div> <p style="display:none;" id="media-'+data+'">'+mediaPath+'/'+row.name+'</p>';
+        }
+      },
+      {
+        "targets": 0,
+        "data": 'title',
+        "render": function ( data, type, row ) {
+          return '<img style="width: 100px; max-height: 100px;" src="'+mediaPath+'/'+data.split('.').join('-300.')+'">';
+        }
+      }
+    ],
+    order: [
+      [0, "desc"],
+      [2, "desc"]
+    ]
+  });
 }

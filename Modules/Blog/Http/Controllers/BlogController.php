@@ -19,6 +19,7 @@ use Modules\Blog\Entities\PostTag;
 use Modules\Blog\Entities\Media;
 use Modules\Blog\Entities\Files;
 use Modules\Blog\Entities\Option;
+use Modules\Blog\Entities\Slider;
 use Modules\Blog\Http\Helpers\PostHelper;
 use Carbon\Carbon;
 use Auth;
@@ -181,7 +182,7 @@ class BlogController extends Controller
             $store->post_type = 'post';
             $store->content = $request->input('content');
             $store->featured_image = $request->input('featured_image');
-            $store->author = app()->OAuth->Auth()->id;
+            $store->author = app()->OAuth->Auth()->master_id;
             $store->status = $request->get('status');
             $store->published_date = $published_date;
             $store->save();
@@ -207,10 +208,10 @@ class BlogController extends Controller
             PostMeta::insert($meta_contents);
             
             DB::commit();
-            return redirect(route('viewpost', $store->id))->with(['msg' => 'Saved', 'status' => 'success']);
+            return redirect(route('panel.post__view', $store->id))->with(['msg' => 'Saved', 'status' => 'success']);
         } catch (\Exception $e) {
             DB::rollback();
-            return redirect(route('posts'))->with(['msg' => 'Save Error'.$e, 'status' => 'danger']);
+            return redirect(route('panel.post__index'))->with(['msg' => 'Save Error'.$e, 'status' => 'danger']);
         }
     }
 
@@ -248,7 +249,7 @@ class BlogController extends Controller
 
             return view('blog::admin.post_edit')->with(['isEdit'=>true,'item_id' => $item_id, 'page_meta_title' => $page_meta_title, 'act' => $act, 'action' => $action, 'post' => $post , 'title' => $title, 'content' => $content, 'alltag' => $alltag, 'selected_tag' => $tags, 'featured_image' => $featured_image, 'meta_desc' => $meta_desc, 'meta_title' => $meta_title, 'meta_keyword' => $meta_keyword, 'status' => $status, 'published_date' => $published_date, 'files' => $files]);
         } else {
-            return redirect(route('viewpost', $id))->with(['msg' => 'Post Not Found', 'status' => 'danger']);
+            return redirect(route('panel.post__index'))->with(['msg' => 'Post Not Found', 'status' => 'danger']);
         }
     }
 
@@ -336,10 +337,10 @@ class BlogController extends Controller
             }
 
             DB::commit();
-            return redirect(route('viewpost', $update->id))->with(['msg' => 'Saved', 'status' => 'success']);
+            return redirect(route('panel.post__view', $update->id))->with(['msg' => 'Saved', 'status' => 'success']);
         } catch (\Exception $e) {
             DB::rollback();
-            return redirect(route('viewpost', $update->id))->with(['msg' => 'Save error'.$e, 'status' => 'danger']);
+            return redirect(route('panel.post__view', $update->id))->with(['msg' => 'Save error'.$e, 'status' => 'danger']);
         }
     }
 
@@ -354,9 +355,9 @@ class BlogController extends Controller
         if ($delete){
             $delete->deleted = 1;
             $delete->save();
-            return redirect(route('posts'))->with(['msg' => 'Deleted', 'status' => 'success']);
+            return redirect(route('panel.post__index'))->with(['msg' => 'Deleted', 'status' => 'success']);
         }
-        return redirect(route('posts'))->with(['msg' => 'Delete error', 'status' => 'danger']);
+        return redirect(route('panel.post__index'))->with(['msg' => 'Delete error', 'status' => 'danger']);
     }
 
     /**
@@ -372,13 +373,13 @@ class BlogController extends Controller
             if ($delete) {
                 $delete->deleted = 1;
                 if (!$delete->save()) {
-                    return redirect(route('posts'))->with(['msg' => 'Delete Error', 'status' => 'danger']);
+                    return redirect(route('panel.post__index'))->with(['msg' => 'Delete Error', 'status' => 'danger']);
                 }
             } else {
-                return redirect(route('posts'))->with(['msg' => 'Delete Error. Page Not Found', 'status' => 'danger']);
+                return redirect(route('panel.post__index'))->with(['msg' => 'Delete Error. Page Not Found', 'status' => 'danger']);
             }
         }
-        return redirect(route('posts'))->with(['msg' => 'Delete Success', 'status' => 'success']);
+        return redirect(route('panel.post__index'))->with(['msg' => 'Delete Success', 'status' => 'success']);
     }
 
     /**
@@ -488,7 +489,7 @@ class BlogController extends Controller
 
             return view('blog::admin.file_edit')->with(['label' => $label, 'id' => $id, 'page_meta_title' => $page_meta_title]);
         }
-        return redirect(route('files'))->with(['msg' => 'File Not Found', 'status' => 'danger']);
+        return redirect(route('panel.file__index'))->with(['msg' => 'File Not Found', 'status' => 'danger']);
     }
 
     /**
@@ -501,11 +502,11 @@ class BlogController extends Controller
         if (isset($file)) {
             $file->label = $request->input('label');
             if ($file->save()) {
-                return redirect(route('files'))->with(['msg' => 'Saved', 'status' => 'success']);
+                return redirect(route('panel.file__view', $id))->with(['msg' => 'Saved', 'status' => 'success']);
             }
-            return redirect(route('files'))->with(['msg' => 'Save Error', 'status' => 'danger']);
+            return redirect(route('panel.file__view', $id))->with(['msg' => 'Save Error', 'status' => 'danger']);
         }
-        return redirect(route('files'))->with(['msg' => 'Save Error. File Not Found', 'status' => 'danger']);
+        return redirect(route('panel.file__index'))->with(['msg' => 'Save Error. File Not Found', 'status' => 'danger']);
     }
 
     /**
@@ -546,13 +547,13 @@ class BlogController extends Controller
                 if ($file->delete()) {
                     // do nothing
                 } else {
-                    return redirect( route('files') )->with(['msg' => 'Delete Error', 'status' => 'danger']);
+                    return redirect( route('panel.file__index') )->with(['msg' => 'Delete Error', 'status' => 'danger']);
                 }
             } else {
-                return redirect( route('files') )->with(['msg' => 'Delete Error.Some File Not Found', 'status' => 'danger']);
+                return redirect( route('panel.file__index') )->with(['msg' => 'Delete Error.Some File Not Found', 'status' => 'danger']);
             }
         }
-        return redirect( route('files') )->with(['msg' => 'Delete Success', 'status' => 'success']);
+        return redirect( route('panel.file__index') )->with(['msg' => 'Delete Success', 'status' => 'success']);
     }
 
     /**
@@ -609,9 +610,9 @@ class BlogController extends Controller
         $store->name = $request->input('name');
         $store->slug = $slug;
         if ($store->save()){
-            return redirect(route('tags'))->with(['msg' => 'Saved', 'status' => 'success']);
+            return redirect(route('panel.tag__view', $store->id))->with(['msg' => 'Saved', 'status' => 'success']);
         } else {
-            return redirect(route('tags'))->with(['msg' => 'Save Error', 'status' => 'danger']);
+            return redirect(route('panel.tag__index'))->with(['msg' => 'Save Error', 'status' => 'danger']);
         }
     }
 
@@ -628,7 +629,7 @@ class BlogController extends Controller
             $name = $tag->name;
             return view('blog::admin.tagform')->with(['id'=>$id, 'page_meta_title' => $page_meta_title, 'act' => $act, 'tag' => $tag, 'name' => $name, 'isEdit'=>true]);
         } else {
-            return redirect($this->prefix.'tag')->with('msg', 'Tag Not Found')->with('status', 'danger');
+            return redirect(route('panel.tag__index'))->with('msg', 'Tag Not Found')->with('status', 'danger');
         }
     }
 
@@ -641,9 +642,9 @@ class BlogController extends Controller
         $update = Tags::where('id', $id)->first();
         $update->name = $request->input('name');
         if ($update->save()){
-            return redirect(route('tags'))->with(['msg' => 'Saved', 'status' => 'success']);
+            return redirect(route('panel.tag__view', $update->id))->with(['msg' => 'Saved', 'status' => 'success']);
         } else {
-            return redirect(route('tags'))->with(['msg' => 'Save Error', 'status' => 'danger']);
+            return redirect(route('panel.tag__view', $id))->with(['msg' => 'Save Error', 'status' => 'danger']);
         }
     }
 
@@ -669,7 +670,7 @@ class BlogController extends Controller
         foreach ($id as $id) {
             $this->PostHelper->delete_tag($id, 'bulk');
         }
-        return redirect(route('tags'))->with(['msg' => 'Delete Success', 'status' => 'success']);
+        return redirect(route('panel.tag__index'))->with(['msg' => 'Delete Success', 'status' => 'success']);
     }
 
 
@@ -729,10 +730,10 @@ class BlogController extends Controller
                 return response("<li><label><input checked selected name='categories[]' type='checkbox' value='$store->id'>$store->name</label></li>");
             }
 
-            return redirect(route('categories'))->with(['msg' => 'Saved', 'status' => 'success']);
+            return redirect(route('panel.category__view', $store->id))->with(['msg' => 'Saved', 'status' => 'success']);
 
         } else {
-            return redirect(route('categories'))->with(['msg' => 'Save Error', 'status' => 'danger']);
+            return redirect(route('panel.category__index'))->with(['msg' => 'Save Error', 'status' => 'danger']);
         }
     }
 
@@ -755,7 +756,7 @@ class BlogController extends Controller
             $category_id = $category->id;
             return view('blog::admin.catform')->with(['category_id' => $category_id, 'page_meta_title' => $page_meta_title, 'act' => $act, 'action' => $action,'desc'=>$desc, 'category' => $category, 'name' => $name, 'allparent' => $allparent,'isEdit'=>true]);
         }else {
-            return redirect($this->prefix.'category')->with(['msg' => 'Category Not Found', 'status' => 'danger']);
+            return redirect(route('panel.category__index'))->with(['msg' => 'Category Not Found', 'status' => 'danger']);
         }
     }
 
@@ -771,14 +772,14 @@ class BlogController extends Controller
         }
         $update = Categories::where('id', $id)->first();
         $update->name = $request->input('name');
-        $update->description = $request->input('description');
+        $update->description = $request->input('description') ?? '';
         $update->parent = $parent;
         if ($update->save()){
-            return redirect(route('categories'))->with(['msg' => 'Saved', 'status' => 'success']);
+            return redirect(route('panel.category__view', $update->id))->with(['msg' => 'Saved', 'status' => 'success']);
         } else {
-            return redirect(route('categories'))->with(['msg' => 'Save Error', 'status' => 'danger']);
+            return redirect(route('panel.category__view', $update->id))->with(['msg' => 'Save Error', 'status' => 'danger']);
         }
-        return redirect(route('categories'));
+        return redirect(route('panel.category__index'));
     }
 
     /**
@@ -803,7 +804,7 @@ class BlogController extends Controller
         foreach ($id as $id) {
             $this->PostHelper->delete_category($id, 'bulk');
         }
-        return redirect(route('categories'))->with(['msg' => 'Delete Success', 'status' => 'success']);
+        return redirect(route('panel.category__index'))->with(['msg' => 'Delete Success', 'status' => 'success']);
     }
 
     /**
@@ -859,9 +860,9 @@ class BlogController extends Controller
         $store->slug = $slug;
         $store->parent = $parent;
         if ($store->save()){
-            return redirect($this->prefix.'category')->with(['msg' => 'Saved', 'status' => 'success']);
+            return redirect(route('panel.category__view', $store->id))->with(['msg' => 'Saved', 'status' => 'success']);
         } else {
-            return redirect($this->prefix.'category')->with(['msg' => 'Save Error', 'status' => 'danger']);
+            return redirect(route('panel.category__index'))->with(['msg' => 'Save Error', 'status' => 'danger']);
         }
     }
 
@@ -905,7 +906,7 @@ class BlogController extends Controller
             $category_id = $category->id;
             return view('blog::admin.category_form')->with(['category_id' => $category_id, 'page_meta_title' => $page_meta_title, 'act' => $act, 'action' => $action, 'category' => $category, 'name' => $name, 'allparent' => $allparent]);
         }else {
-            return redirect($this->prefix.'category')->with(['msg' => 'Category Not Found', 'status' => 'danger']);
+            return redirect(route('panel.category__index'))->with(['msg' => 'Category Not Found', 'status' => 'danger']);
         }
     }
 
@@ -923,11 +924,11 @@ class BlogController extends Controller
         $update->name = $request->input('name');
         $update->parent = $parent;
         if ($update->save()){
-            return redirect($this->prefix.'category')->with(['msg' => 'Saved', 'status' => 'success']);
+            return redirect(route('panel.category__view', $update->id))->with(['msg' => 'Saved', 'status' => 'success']);
         } else {
-            return redirect($this->prefix.'category')->with(['msg' => 'Save Error', 'status' => 'danger']);
+            return redirect(route('panel.category__view', $update->id))->with(['msg' => 'Save Error', 'status' => 'danger']);
         }
-        return redirect($this->prefix.'category');
+        return redirect(route('panel.category__index'));
     }
 
     /**
@@ -950,7 +951,7 @@ class BlogController extends Controller
         foreach ($id as $id) {
             $this->PostHelper->delete_category($id, 'bulk');
         }
-        return redirect($this->prefix.'category')->with(['msg' => 'Delete Success', 'status' => 'success']);
+        return redirect(route('panel.category__index'))->with(['msg' => 'Delete Success', 'status' => 'success']);
     }
 
     /**
@@ -1009,9 +1010,9 @@ class BlogController extends Controller
         $store->name = $request->input('name');
         $store->slug = $slug;
         if ($store->save()){
-            return redirect($this->prefix.'tag')->with(['msg' => 'Saved', 'status' => 'success']);
+            return redirect(route('panel.tag__view', $store->id))->with(['msg' => 'Saved', 'status' => 'success']);
         } else {
-            return redirect($this->prefix.'tag')->with(['msg' => 'Save Error', 'status' => 'danger']);
+            return redirect(route('panel.tag__index'))->with(['msg' => 'Save Error', 'status' => 'danger']);
         }
     }
 
@@ -1029,7 +1030,7 @@ class BlogController extends Controller
             $name = $tag->name;
             return view('blog::admin.tag_form')->with(['page_meta_title' => $page_meta_title, 'act' => $act, 'action' => $action, 'tag' => $tag, 'name' => $name]);
         } else {
-            return redirect($this->prefix.'tag')->with('msg', 'Tag Not Found')->with('status', 'danger');
+            return redirect(route('panel.tag__index'))->with('msg', 'Tag Not Found')->with('status', 'danger');
         }
     }
 
@@ -1042,9 +1043,9 @@ class BlogController extends Controller
         $update = Tag::where('id', $id)->first();
         $update->name = $request->input('name');
         if ($update->save()){
-            return redirect($this->prefix.'tag')->with(['msg' => 'Saved', 'status' => 'success']);
+            return redirect(route('panel.tag__view', $update->id))->with(['msg' => 'Saved', 'status' => 'success']);
         } else {
-            return redirect($this->prefix.'tag')->with(['msg' => 'Save Error', 'status' => 'danger']);
+            return redirect(route('panel.tag__index'))->with(['msg' => 'Save Error', 'status' => 'danger']);
         }
     }
 
@@ -1068,7 +1069,7 @@ class BlogController extends Controller
         foreach ($id as $id) {
             $this->PostHelper->delete_tag($id, 'bulk');
         }
-        return redirect($this->prefix.'tag')->with(['msg' => 'Delete Success', 'status' => 'success']);
+        return redirect(route('panel.tag__index'))->with(['msg' => 'Delete Success', 'status' => 'success']);
     }
 
     /**
@@ -1205,7 +1206,7 @@ class BlogController extends Controller
         if (isset($page)) {
             return view('blog::admin.single_page')->with(['page_meta_title' => $page_meta_title, 'page' => $page]);
         } else {
-            return redirect($this->prefix.'pages')->with('msg', 'Page Not Found')->with('status', 'danger');
+            return redirect(route('panel.page__index'))->with('msg', 'Page Not Found')->with('status', 'danger');
         }
     }
 
@@ -1273,9 +1274,9 @@ class BlogController extends Controller
         $title = $request->input('title');
         $slug = PostHelper::make_slug($title);
         $body = $request->input('content');
-        $featured_img = $request->input('featured_img');
+        $featured_img = $request->input('featured_image');
         $status = $request->get('status');
-        $published_date = $request->input('published_date');
+        $published_at = $request->input('published_date');
         $meta_title = $request->input('meta_title');
         $meta_desc = $request->input('meta_desc');
         $meta_keyword = $request->input('meta_keyword');
@@ -1297,7 +1298,7 @@ class BlogController extends Controller
             $store->post_type = 'page';
             $store->content = $body;
             $store->featured_image = $featured_img;
-            $store->author = app()->SSO->Auth()->id;
+            $store->author = app()->OAuth->Auth()->master_id;
             $store->status = $status;
             $store->published_date = $published_at;
             $store->save();
@@ -1316,10 +1317,10 @@ class BlogController extends Controller
             PostMeta::insert($meta_contents);
 
             DB::commit();
-            return redirect(route('pages'))->with(['msg' => 'Saved', 'status' => 'success']);
+            return redirect(route('panel.page__view', $store->id))->with(['msg' => 'Saved', 'status' => 'success']);
         } catch (\Exception $e) {
             DB::rollback();
-            return redirect(route('pages'))->with(['msg' => 'Save Error', 'status' => 'danger']);
+            return redirect(route('panel.page__index'))->with(['msg' => 'Save Error ', 'status' => 'danger']);
         }
     }
 
@@ -1354,7 +1355,7 @@ class BlogController extends Controller
                         'isEdit'=> true,
                     ]);
         } else {
-            return redirect($this->prefix.'pages')->with(['msg' => 'Page Not Found', 'status' => 'danger']);
+            return redirect(route('panel.page__index'))->with(['msg' => 'Page Not Found', 'status' => 'danger']);
         }
     }
 
@@ -1418,9 +1419,9 @@ class BlogController extends Controller
                 }
             }
 
-            return redirect(route('pages'))->with(['msg' => 'Saved', 'status' => 'success']);
+            return redirect(route('panel.page__view', $update->id))->with(['msg' => 'Saved', 'status' => 'success']);
         } else {
-            return redirect(route('pages'))->with(['msg' => 'Save Error', 'status' => 'danger']);
+            return redirect(route('panel.page__index'))->with(['msg' => 'Save Error', 'status' => 'danger']);
         }
     }
 
@@ -1430,9 +1431,9 @@ class BlogController extends Controller
         if ($delete){
             $delete->deleted = 1;
             $delete->save();
-            return redirect(route('pages'))->with(['msg' => 'Deleted', 'status' => 'success']);
+            return redirect(route('panel.page__index'))->with(['msg' => 'Deleted', 'status' => 'success']);
         }
-        return redirect(route('pages'))->with(['msg' => 'Delete error', 'status' => 'danger']);
+        return redirect(route('panel.page__index'))->with(['msg' => 'Delete error', 'status' => 'danger']);
     }
 
     /**
@@ -1445,12 +1446,12 @@ class BlogController extends Controller
         $page = Posts::where('id', $id)->first();
         if (isset($page)) {
             if ($page->delete()) {
-                return redirect($this->prefix.'pages')->with(['msg' => 'Deleted', 'status' => 'success']);
+                return redirect(route('panel.page__index'))->with(['msg' => 'Deleted', 'status' => 'success']);
             } else {
-                return redirect($this->prefix.'pages')->with(['msg' => 'Delete Error', 'status' => 'danger']);
+                return redirect(route('panel.page__index'))->with(['msg' => 'Delete Error', 'status' => 'danger']);
             }
         } else {
-            return redirect($this->prefix.'pages')->with(['msg' => 'Page Not Found', 'status' => 'danger']);
+            return redirect(route('panel.page__index'))->with(['msg' => 'Page Not Found', 'status' => 'danger']);
         }
 
     }
@@ -1468,13 +1469,13 @@ class BlogController extends Controller
             if ($delete) {
                 $delete->deleted = 1;
                 if (!$delete->save()) {
-                    return redirect(route('pages'))->with(['msg' => 'Delete Error', 'status' => 'danger']);
+                    return redirect(route('panel.page__index'))->with(['msg' => 'Delete Error', 'status' => 'danger']);
                 }
             } else {
-                return redirect(route('pages'))->with(['msg' => 'Delete Error. Page Not Found', 'status' => 'danger']);
+                return redirect(route('panel.page__index'))->with(['msg' => 'Delete Error. Page Not Found', 'status' => 'danger']);
             }
         }
-        return redirect(route('pages'))->with(['msg' => 'Delete Success', 'status' => 'success']);
+        return redirect(route('panel.page__index'))->with(['msg' => 'Delete Success', 'status' => 'success']);
     }
     // end page controller
 
@@ -1537,9 +1538,9 @@ class BlogController extends Controller
         $delete = Posts::find($id);
         if ($delete){  
             $delete->delete();  
-            return redirect(route('trash'))->with(['msg' => 'Deleted', 'status' => 'success']);
+            return redirect(route('panel.post.trash__index'))->with(['msg' => 'Deleted', 'status' => 'success']);
         }
-        return redirect(route('trash'))->with(['msg' => 'Delete error', 'status' => 'danger']);
+        return redirect(route('panel.post.trash__index'))->with(['msg' => 'Delete error', 'status' => 'danger']);
     }
 
      /**
@@ -1553,9 +1554,9 @@ class BlogController extends Controller
         if ($post){  
             $post->deleted = 0;
             $post->save();  
-            return redirect(route('trash'))->with(['msg' => 'Restored', 'status' => 'success']);
+            return redirect(route('panel.post.trash__index'))->with(['msg' => 'Restored', 'status' => 'success']);
         }
-        return redirect(route('trash'))->with(['msg' => 'Restore Error', 'status' => 'danger']);
+        return redirect(route('panel.post.trash__index'))->with(['msg' => 'Restore Error', 'status' => 'danger']);
     }
 
      /**
@@ -1570,13 +1571,13 @@ class BlogController extends Controller
             $delete = Posts::find($id);
             if ($delete) {
                 if (!$delete->delete()) {
-                    return redirect(route('trash'))->with(['msg' => 'Delete Error', 'status' => 'danger']);
+                    return redirect(route('panel.post.trash__index'))->with(['msg' => 'Delete Error', 'status' => 'danger']);
                 }
             } else {
-                return redirect(route('trash'))->with(['msg' => 'Delete Error. Page Not Found', 'status' => 'danger']);
+                return redirect(route('panel.post.trash__index'))->with(['msg' => 'Delete Error. Page Not Found', 'status' => 'danger']);
             }
         }
-        return redirect(route('trash'))->with(['msg' => 'Delete Success', 'status' => 'success']);
+        return redirect(route('panel.post.trash__index'))->with(['msg' => 'Delete Success', 'status' => 'success']);
     }
 
      /**
@@ -1592,13 +1593,13 @@ class BlogController extends Controller
             if ($delete) {
                 $delete->deleted = 0;
                 if (!$delete->save()) {
-                    return redirect(route('trash'))->with(['msg' => 'Restore Error', 'status' => 'danger']);
+                    return redirect(route('panel.post.trash__index'))->with(['msg' => 'Restore Error', 'status' => 'danger']);
                 }
             } else {
-                return redirect(route('trash'))->with(['msg' => 'Restore Error. Page Not Found', 'status' => 'danger']);
+                return redirect(route('panel.post.trash__index'))->with(['msg' => 'Restore Error. Page Not Found', 'status' => 'danger']);
             }
         }
-        return redirect(route('trash'))->with(['msg' => 'Restore Success', 'status' => 'success']);
+        return redirect(route('panel.post.trash__index'))->with(['msg' => 'Restore Success', 'status' => 'success']);
     }
 
     /**
@@ -1611,13 +1612,13 @@ class BlogController extends Controller
         foreach ($posts as $post) {
             if ($post) {
                 if (!$post->delete()) {
-                    return redirect(route('trash'))->with(['msg' => 'Delete Error', 'status' => 'danger']);
+                    return redirect(route('panel.post.trash__index'))->with(['msg' => 'Delete Error', 'status' => 'danger']);
                 }
             } else {
-                return redirect(route('trash'))->with(['msg' => 'Delete Error. Page Not Found', 'status' => 'danger']);
+                return redirect(route('panel.post.trash__index'))->with(['msg' => 'Delete Error. Page Not Found', 'status' => 'danger']);
             }
         }
-        return redirect(route('trash'))->with(['msg' => 'ResDeletetore Success', 'status' => 'success']);
+        return redirect(route('panel.post.trash__index'))->with(['msg' => 'ResDeletetore Success', 'status' => 'success']);
     }
     // end trash controller
 
@@ -1651,10 +1652,154 @@ class BlogController extends Controller
         $link_fb = Option::where('key', 'link_fb')->first()->value ?? '';
         $link_tw = Option::where('key', 'link_tw')->first()->value ?? '';
         $link_in = Option::where('key', 'link_in')->first()->value ?? '';
+        $link_gplus = Option::where('key', 'link_gplus')->first()->value ?? '';
         $link_ig = Option::where('key', 'link_ig')->first()->value ?? '';
         $link_yt = Option::where('key', 'link_yt')->first()->value ?? '';
+        $program = Option::where('key', 'program')->first()->value ?? '';
+        $footer_desc = Option::where('key', 'footer_desc')->first()->value ?? '';
+        $about_us = Option::where('key', 'about_us')->first()->value ?? '';
+        $instagram_token = Option::where('key', 'instagram_token')->first()->value ?? '';
+        $email = Option::where('key', 'email')->first()->value ?? '';
 
-        return view('blog::admin.setting')->with(['page_meta_title' => $page_meta_title, 'analytic' => $analytic, 'fb_pixel' => $fb_pixel, 'link_fb' => $link_fb, 'link_in' => $link_in, 'link_tw' => $link_tw, 'link_yt' => $link_yt, 'link_ig' => $link_ig]);
+        $all_cat = Categories::orderBy('name', 'asc')->get();
+        
+        $gallery = Option::where('key', 'gallery_section')->first()->value ?? '';
+        if ($gallery != '') {
+            $gallery = json_decode($gallery);
+        } else {
+            $gallery['category'] = 0;
+            $gallery = json_encode($gallery);
+            $gallery = json_decode($gallery);
+        }
+
+        $quote = Option::where('key', 'quotes_section')->first()->value ?? '';
+        if ($quote != '') {
+            $quote = json_decode($quote);
+        }
+
+        $program_structure = '';
+        if ($program != '') {
+            $program = json_decode($program);
+            foreach ($program as $key) {
+                $program_structure .= '<li class="dd-item" data-id="';
+
+                if (isset($key->id)) {
+                    $program_structure .= $key->id;
+                }
+                
+                $program_structure .= '" data-title="';
+
+                if (isset($key->title)) {
+                    $program_structure .= $key->title;
+                }
+                
+                $program_structure .= '" data-description="';
+
+                if (isset($key->description)) {
+                    $program_structure .= $key->description;
+                }
+                
+                $program_structure .= '" data-logo="';
+
+                if (isset($key->logo)) {
+                    $program_structure .= $key->logo;
+                }
+                
+                $program_structure .= '" data-background="';
+
+                if (isset($key->background)) {
+                    $program_structure .= $key->background;
+                }
+                
+                $program_structure .= '" data-url="';
+
+                if (isset($key->url)) {
+                    $program_structure .= $key->url;
+                }
+
+                $program_structure .= '"><div class="dd-handle dd3-handle">Drag</div><div class="program-item dd3-content panel panel-default" id="program';
+
+                if (isset($key->id)) {
+                    $program_structure .= $key->id;
+                }
+                
+                $program_structure .= '"><div class="program-title"><span>';
+
+                if (isset($key->title)) {
+                    $program_structure .= $key->title;
+                }
+                
+                $program_structure .= '</span><a data-toggle="collapse" data-parent="#program-structure" href="#program-collapse-';
+
+                if (isset($key->id)) {
+                    $program_structure .= $key->id;
+                }
+                
+                $program_structure .= '"><i style="float: right;" class="fa fa-caret-down" aria-hidden="true"></i></a></div><div id="program-collapse-';
+
+                if (isset($key->id)) {
+                    $program_structure .= $key->id;
+                }
+                
+                $program_structure .= '" class="collapse program-collapse panel panel-default"><div class="form-group"><label>Title</label><input class="form-control" type="text" name="title" value="';
+
+                if (isset($key->title)) {
+                    $program_structure .= $key->title;
+                }
+                
+                $program_structure .= '"><label>URL</label><input class="form-control" type="text" name="url" value="';
+                
+                if (isset($key->url)) {
+                    $program_structure .= $key->url;
+                }
+
+                $program_structure .= '"><label>Logo</label><div class="input-group"><input class="form-control" type="text" name="logo" value="';
+
+                if (isset($key->logo)) {
+                    $program_structure .= $key->logo;
+                }
+                
+                $program_structure .= '" readonly="readonly" id="program-logo';
+
+                if (isset($key->id)) {
+                    $program_structure .= $key->id;
+                }
+                
+                $program_structure .= '"><span class="input-group-btn"><button class="btn btn-default program-media" type="button" data-tujuan="program-logo';
+
+                if (isset($key->id)) {
+                    $program_structure .= $key->id;
+                }
+                
+                $program_structure .= '">Browse media</button></span></div><label>Background</label><div class="input-group"><input class="form-control" type="text" name="background" value="';
+
+                if (isset($key->background)) {
+                    $program_structure .= $key->background;
+                }
+                
+                $program_structure .= '" readonly="readonly" id="program-bg';
+
+                if (isset($key->id)) {
+                    $program_structure .= $key->id;
+                }
+                
+                $program_structure .= '"><span class="input-group-btn"><button class="btn btn-default program-media" type="button" data-tujuan="program-bg';
+
+                if (isset($key->id)) {
+                    $program_structure .= $key->id;
+                }
+                
+                $program_structure .= '">Browse media</button></span></div><label>Description</label><textarea name="description" class="form-control">';
+
+                if (isset($key->description)) {
+                    $program_structure .= $key->description;
+                }
+                
+                $program_structure .= '</textarea></div><a href="#" class="remove_item">Remove</a></div></div></li>';
+            }
+        }
+
+        return view('blog::admin.setting')->with(['page_meta_title' => $page_meta_title, 'analytic' => $analytic, 'fb_pixel' => $fb_pixel, 'link_fb' => $link_fb, 'link_in' => $link_in, 'link_tw' => $link_tw, 'link_yt' => $link_yt, 'link_ig' => $link_ig, 'link_gplus' => $link_gplus, 'list_program' => $program_structure, 'footer_desc' => $footer_desc, 'quote' => $quote, 'gallery' => $gallery, 'all_cat' => $all_cat, 'email' => $email, 'about_us' => $about_us, 'instagram_token' => $instagram_token]);
     }
 
     /**
@@ -1663,31 +1808,173 @@ class BlogController extends Controller
      * @return Response
      */
     public function site_setting_save(Request $request){
-        $name[] = 'analytic';
-        $name[] = 'fb_pixel';
-        $name[] = 'link_fb';
-        $name[] = 'link_tw';
-        $name[] = 'link_ig';
-        $name[] = 'link_yt';
+
+        $quote['image'] = $request->input('quote_image');
+        $quote['from'] = $request->input('quote_from');
+        $quote['text'] = $request->input('quote_text');
+
+        $gallery['category'] = $request->input('gallery_category');
+        $gallery['title'] = $request->get('gallery_title');
+
+        $settings[] = ['name' => 'link_fb', 'value' => $request->input('link_fb')];
+        $settings[] = ['name' => 'link_tw', 'value' => $request->input('link_tw')];
+        $settings[] = ['name' => 'link_gplus', 'value' => $request->input('link_gplus')];
+        $settings[] = ['name' => 'link_ig', 'value' => $request->input('link_ig')];
+        $settings[] = ['name' => 'link_in', 'value' => $request->input('link_in')];
+        $settings[] = ['name' => 'link_yt', 'value' => $request->input('link_yt')];
+        $settings[] = ['name' => 'analytic', 'value' => $request->input('analytic_id')];
+        $settings[] = ['name' => 'fb_pixel', 'value' => $request->input('fb_pixel')];
+        $settings[] = ['name' => 'quotes_section', 'value' => json_encode($quote)];
+        $settings[] = ['name' => 'about_us', 'value' => $request->input('about_us')];
+        $settings[] = ['name' => 'instagram_token', 'value' => $request->input('instagram_token')];
+        $settings[] = ['name' => 'footer_desc', 'value' => $request->input('footer_desc')];
+        $settings[] = ['name' => 'gallery_section', 'value' => json_encode($gallery)];
+        $settings[] = ['name' => 'email', 'value' => $request->input('email')];
 
         try {
-            for ($i=0; $i < count($name) ; $i++) { 
-                $setting = $request->input($name[$i]);
-                $save = Option::where('key', $name[$i])->first();
+            for ($i=0; $i < count($settings) ; $i++) { 
+                $save = Option::where('key', $settings[$i]['name'])->first();
                 if (isset($save)) {
-                    $save -> value = $setting;
+                    $save -> value = $settings[$i]['value'];
                 } else {
                     $save = new Option;
-                    $save -> key = $name[$i];
-                    $save -> value = $setting;
+                    $save -> key = $settings[$i]['name'];
+                    $save -> value = $settings[$i]['value'];
                 }
                 $save->save();
             }
             // SSOHelper::newsLog("Updating setting");
-            return redirect(route('site_setting'))->with(['msg' => 'Saved', 'status' => 'success']);
+            return redirect(route('panel.setting.site__index'))->with(['msg' => 'Saved', 'status' => 'success']);
         } catch (\Exception $e) {
             // SSOHelper::newsLog("Someting when wrong when saving setting: ".$e);
-            return redirect(route('site_setting'))->with(['msg' => 'Save Error', 'status' => 'danger']);    
+            return redirect(route('panel.setting.site__index'))->with(['msg' => 'Save Error', 'status' => 'danger']);    
         }
     }
+
+    /**
+     * Store a program setting.
+     * @param  Request $request
+     * @return Response
+     */
+    public function save_program(Request $request)
+    {
+        $option = Option::where('key', 'program')->first();
+        $program = $request->program;
+        if (isset($option)) {
+            $option -> value = $program;
+        } else {
+            $option = new Option;
+            $option -> key = 'program';
+            $option -> value = $program;
+        }
+        
+        if ($option->save()) {
+            return 'berhasil simpan';
+        } else {
+            return 'gagal menyimpan';
+        }
+    }
+
+    // slider controller
+    /**
+     * Display a listing of slider.
+     * @return Response
+     */
+    public function head_slider(){
+        $page_meta_title = 'Slider';
+        $sliders = Slider::orderBy('created_at','desc')->get();
+        return view('blog::admin.slider') -> with(['page_meta_title' => $page_meta_title,'sliders' => $sliders]);
+    }
+
+    /**
+     * Show the form for creating slider.
+     * @return Response
+     */
+    public function new_slider_view(){
+        $page_meta_title = 'Slider';
+        
+        return view('blog::admin.slider-add') -> with(['page_meta_title' => $page_meta_title]);
+    }
+
+    /**
+     * Store newly created slider in storage.
+     * @param  Request $request
+     * @return Response
+     */
+    public function new_slider_act(Request $req){
+        $title = $req->input('title');
+        $description = $req->input('description');
+        $slider_img = $req->input('slider_img');
+        $btn_text = $req->input('btn_text');
+        $btn_link = $req->input('btn_link');
+
+        $slider = new Slider();
+        $slider->title = $title;
+        $slider->description = $description;
+        $slider->image = $slider_img;
+        $slider->btn_text = $btn_text;
+        $slider->link = $btn_link;
+        if ($slider -> save()) {
+            return redirect(route('panel.slider__view', $slider->id)) -> with("msg","Berhasil Ditambahkan")-> with("status","success");
+        }else{
+            return redirect(route('panel.slider__index')) -> with("msg","Gagal Ditambahkan")-> with("status","success");    
+        }
+    }
+
+    /**
+     * Show the form for editing the specified slider.
+     * @param  $id
+     * @return Response
+     */
+    public function edit_slider_view($id){
+        $page_meta_title = 'Slider';
+        $slider = Slider::where('id',$id)->first();
+
+        if (isset($slider)) {
+
+            return view('blog::admin.slider-edit') -> with(['page_meta_title' => $page_meta_title, 'slider' => $slider]);
+        }else {
+            return redirect(route('panel.slider__index'))->with(['msg' => 'Slider tidak ditemukan', 'status' => '4']);
+        }
+    }
+
+    /**
+     * Update specified slider in storage.
+     * @param  Request $request, $id
+     * @return Response
+     */
+    public function edit_slider_act(Request $req, $id){
+        $title = $req->input('title');
+        $description = $req->input('description');
+        $slider_img = $req->input('slider_img');
+        $btn_text = $req->input('btn_text');
+        $btn_link = $req->input('btn_link');
+
+        $slider = Slider::where('id',$id)->first();
+        $slider->title = $title;
+        $slider->description = $description;
+        $slider->image = $slider_img;
+        $slider->btn_text = $btn_text;
+        $slider->link = $btn_link;
+        if ($slider -> save()) {
+            return redirect(route('panel.slider__view', $slider->id)) -> with("msg","Berhasil Menyimpan")-> with("status","success");
+        }else{
+            return redirect(route('panel.slider__view', $slider->id)) -> with("msg","Gagal mengedit data photo")-> with("status","danger");
+        }
+    }
+
+    /**
+     * Remove specified slider in storage.
+     * @param  $id
+     * @return Response
+     */
+    public function hapus_slider($id){
+        $slider = Slider::where('id',$id)->first();
+        if ($slider -> delete()) {
+            return redirect(route('panel.slider__index')) -> with("msg","Slider berhasil dihapus")-> with("status","success");
+        }else{
+            return redirect(route('panel.slider__index')) -> with("msg","Gagal menghapus Foto")-> with("status","danger");
+        }
+    }
+    // end slider controller
 }

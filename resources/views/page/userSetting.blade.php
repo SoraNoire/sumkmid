@@ -3,7 +3,7 @@
 @section('content')
 <div class="breadcrumb">
 	<div class="container">
-		<h2>Profil</h2>
+		<h2><a href="{{ route('public_home') }}">Beranda</a> <i class="fa fa-angle-right" aria-hidden="true"></i>Profil</h2>
 	</div>
 </div>
 <?php
@@ -16,17 +16,17 @@
 			<div class="closeAlert">x</div>
 		</div>
 	@endif
-		<h3>Hallo, {{app()->OAuth->Auth()->name}}</h3>
+		<h3>Hallo, {{$var['user']->name}}</h3>
 		<div class="leftForm">
 			<div class="photoUser">
-				<div class="photoPreview" style="background-image:url('{{ app()->OAuth->Auth()->foto_profil }}');">
+				<div class="photoPreview" style="background-image:url('{{ $var['user']->foto_profil ?? asset('images/admin.png') }}');">
 				</div>
 				<div class="inputTrigger" onclick="document.getElementById('inputUserImage').click(); return false;"></div>
 				<form id="upldimageuser" action="{{ route('user_update_profile_pict') }}" accept="image/*" enctype="multipart/form-data" method="post">
 					<input type="hidden" name="_token" value="{{ csrf_token() }}">
-					<input type="hidden" name="email" id="" value="{{app()->OAuth->Auth()->email}}">
-					<input type="hidden" name="nama"  value="{{app()->OAuth->Auth()->name}}">
-					<input type="file" name="photo" id="inputUserImage">
+					<input type="hidden" name="email" id="" value="{{$var['user']->email}}">
+					<input type="hidden" name="nama"  value="{{$var['user']->name}}">
+					<input type="file" name="photo" id="inputUserImage" accept="image/x-png,image/gif,image/jpeg">
 					<input type="submit" style="display:none;">
 				</form>
 			</div>
@@ -42,7 +42,7 @@
 					<span class="tootTip">{{session('warnMsg')}}</span>
 				@endif
 				<div class="inputText">
-					<input type="text" name="nama"  value="{{app()->OAuth->Auth()->name}}">
+					<input type="text" name="nama"  value="{{$var['user']->name}}">
 				</div>
 			</div>
 			<!-- //withError -->
@@ -55,7 +55,7 @@
 				@endif
 				<!--//with error <span class="tootTip">alamat email tidak valid</span> -->
 				<div class="inputText">
-					<input type="email" name="email" id="" value="{{app()->OAuth->Auth()->email}}">
+					<input type="email" name="email" id="" value="{{$var['user']->email}}">
 				</div>
 			</div>
 			<div class="formGroup {{ (session('warnName') == 'nomorTelepon') ? 'withError' : '' }}">
@@ -66,7 +66,7 @@
 					<span class="tootTip">{{session('warnMsg')}}</span>
 				@endif
 				<div class="inputText">
-					<input type="text" name="nomorTelepon" id="" value="{{app()->OAuth->Auth()->phone_number}}">
+					<input type="text" name="nomorTelepon" id="" value="{{$var['user']->phone_number}}">
 				</div>
 			</div>
 			<h5 class="formSprt">Rubah Sandi</h5>

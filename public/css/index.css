@@ -1378,11 +1378,11 @@ template,
 .breadcrumb {
   -webkit-box-shadow: 0 2px 18px 0 rgba(0, 0, 0, 0.3);
           box-shadow: 0 2px 18px 0 rgba(0, 0, 0, 0.3);
+  background-color: #135383;
 }
 
 .breadcrumb .container {
-  height: 115px;
-  background-image: url("/img/triangle-a.png");
+  height: 60px;
   background-repeat: no-repeat;
   background-position-y: 10px;
   -webkit-box-orient: vertical;
@@ -1397,10 +1397,25 @@ template,
           justify-content: space-evenly;
 }
 
+.breadcrumb .container h2 {
+  font-size: 16px;
+  margin-bottom: 9px;
+  color: #fff;
+}
+
+.breadcrumb .container h2 a {
+  color: inherit;
+  text-decoration: inherit;
+}
+
+.breadcrumb .container h2 i {
+  margin: 0px 15px;
+}
+
 footer {
   background-color: #135383;
-  padding-top: 80px;
-  padding-bottom: 70px;
+  padding-top: 30px;
+  padding-bottom: 30px;
   position: relative;
   overflow: hidden;
   color: white;
@@ -1413,7 +1428,6 @@ footer .container .col-4 {
 
 footer .container .footerItems {
   position: relative;
-  height: 217px;
 }
 
 footer .container .footerItems .desc {
@@ -1422,7 +1436,7 @@ footer .container .footerItems .desc {
 }
 
 footer .container .footerItems .footerLogo {
-  margin-top: 20px;
+  margin-top: 0px;
   text-align: left;
 }
 
@@ -1485,7 +1499,10 @@ footer .container .contactItems ul {
 
 footer .container .contactItems ul li {
   list-style: none;
-  padding: 39.7px 0px;
+  padding: 0px 0px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
 }
 
 footer .container .contactItems ul li:first-child {
@@ -1507,6 +1524,12 @@ footer .container .contactItems ul li p {
   display: inline-block;
   float: left;
   width: calc(100% - 40px);
+  margin-bottom: 0px;
+}
+
+footer .container .contactItems ul li p a {
+  color: inherit;
+  text-decoration: inherit;
 }
 
 footer .container .stayInTouch h5 {
@@ -1515,7 +1538,7 @@ footer .container .stayInTouch h5 {
 }
 
 footer .container .stayInTouch .footerSubForm {
-  margin: 30px 0px 25px 0px;
+  margin: 25px 0px 25px 0px;
 }
 
 footer .container .stayInTouch .footerSubForm form {
@@ -1525,9 +1548,9 @@ footer .container .stayInTouch .footerSubForm form {
 footer .container .stayInTouch .footerSubForm form input {
   background-color: transparent;
   border: 1px solid #A3ABBA;
-  padding: 7px 2px;
+  padding: 7px 7px;
   outline: none;
-  text-align: center;
+  text-align: left;
   width: calc(100% - 100px);
   color: #fff;
   vertical-align: middle;
@@ -1550,7 +1573,7 @@ footer .container .stayInTouch .footerSubForm form button i {
 }
 
 footer .container .stayInTouch ul {
-  margin-bottom: 60px;
+  margin-bottom: 25px;
   padding-left: 0px;
 }
 
@@ -1626,12 +1649,8 @@ footer .container .stayInTouch .copyText {
     font-size: 11px;
   }
 
-  footer .container .contactItems ul li {
-    padding: 21.7px 0px;
-  }
-
   footer .container .footerItems {
-    height: 145px;
+    height: 135px;
   }
 
   footer .container .footerItems .footerLogo {
@@ -1653,20 +1672,12 @@ footer .container .stayInTouch .copyText {
     margin: 0px;
   }
 
-  footer .container .footerItems {
-    height: 106px;
-  }
-
   footer .container .footerItems .footerLogo {
     width: 60%;
   }
 
   footer .container .footerItems .footerLogo span {
     font-size: 0.65em;
-  }
-
-  footer .container .contactItems ul li {
-    padding: 16.7px 0px;
   }
 
   footer .container .contactItems ul li:first-child {
@@ -1844,6 +1855,42 @@ footer .container .stayInTouch .copyText {
   font: 14px Helvetica,Arial,sans-serif;
 }
 
+#mentors .photoMentor {
+  position: relative;
+  list-style-type: none;
+  width: 27.85714285714286%;
+  /* = (100-2.5) / 3.5 */
+  float: left;
+  overflow: hidden;
+  visibility: hidden;
+  -webkit-transform: rotate(-60deg) skewY(30deg);
+  transform: rotate(-60deg) skewY(30deg);
+}
+
+#mentors .photoMentor * {
+  position: absolute;
+  visibility: visible;
+}
+
+#mentors .photoMentor > div {
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  color: #fff;
+  overflow: hidden;
+  -webkit-transform: skewY(-30deg) rotate(60deg);
+  transform: skewY(-30deg) rotate(60deg);
+  -webkit-backface-visibility: hidden;
+}
+
+#mentors .photoMentor img {
+  left: -100%;
+  right: -100%;
+  width: auto;
+  height: 100%;
+  margin: 0 auto;
+}
+
 #mainSlider {
   max-width: 1600px;
   display: block;
@@ -1855,6 +1902,7 @@ footer .container .stayInTouch .copyText {
   background-size: cover;
   background-position: center;
   position: relative;
+  display: table;
 }
 
 @media screen and (max-width: 560px) {
@@ -1914,7 +1962,14 @@ footer .container .stayInTouch .copyText {
 #mainSlider .bigSlideContent .contentWrap .content .heading {
   color: #1d3d6f;
   font-weight: 700;
-  font-size: 25px;
+  font-size: 24px;
+  line-height: 24px;
+}
+
+#mainSlider .bigSlideContent .contentWrap .content .heading a {
+  font-style: inherit;
+  color: inherit;
+  text-decoration: inherit;
 }
 
 @media screen and (max-width: 560px) {
@@ -1924,8 +1979,7 @@ footer .container .stayInTouch .copyText {
 }
 
 #mainSlider .bigSlideContent .contentWrap .content .caption {
-  font-weight: 300;
-  font-size: 14px;
+  font-size: 17px;
   color: #000;
 }
 
@@ -1935,9 +1989,127 @@ footer .container .stayInTouch .copyText {
   }
 }
 
+#about-us {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  text-align: center;
+}
+
+#about-us .section-title {
+  margin-bottom: 34px;
+  margin-top: 10px;
+}
+
+#about-us .section-desc {
+  margin-bottom: 26px;
+}
+
+#quote {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  color: rgba(255, 255, 255, 0.87);
+  text-align: center;
+}
+
+@media screen and (max-width: 680px) {
+  #quote {
+    padding-top: 15px;
+    padding-bottom: 15px;
+  }
+}
+
+#quote .section-title {
+  text-align: center;
+  color: inherit;
+}
+
+@media screen and (max-width: 425px) {
+  #quote .section-title {
+    font-size: 19px;
+  }
+}
+
+#quote .the-row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+  margin: unset;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+@media screen and (max-width: 680px) {
+  #quote .the-row {
+    display: block;
+  }
+}
+
+@media screen and (max-width: 680px) {
+  #quote .the-row .col-3 {
+    display: block;
+    width: calc(100% - 15px);
+  }
+}
+
+@media screen and (max-width: 680px) {
+  #quote .the-row .col-9 {
+    display: block;
+    width: calc(100% - 15px);
+  }
+}
+
+#quote .the-row .quotePhotoWraper {
+  width: 100%;
+  display: block;
+  text-align: center;
+}
+
+#quote .the-row .quotePhotoWraper .quotePhoto {
+  display: inline-block;
+  width: 105px;
+  height: 105px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+#quote .the-row .quotePhotoWraper .quotePhoto img {
+  width: 105px;
+  height: 105px;
+  -webkit-filter: grayscale(100%);
+  /* Safari 6.0 - 9.0 */
+  filter: grayscale(100%);
+}
+
+#quote .the-row .quote {
+  width: 100%;
+  display: block;
+}
+
+#quote .the-row .quote blockquote {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: rgba(255, 255, 255, 0.87);
+  text-align: center;
+}
+
+@media screen and (max-width: 680px) {
+  #quote .the-row .quote blockquote {
+    margin-top: 10px;
+  }
+}
+
+#quote .the-row .quote span {
+  font-size: .9em;
+}
+
 #what-we-do {
-  padding-top: 59px;
-  padding-bottom: 103px;
+  padding-top: 15px;
+  padding-bottom: 15px;
   background-image: url("/img/top-bg.png");
   background-size: cover;
   position: relative;
@@ -2066,13 +2238,13 @@ footer .container .stayInTouch .copyText {
   -webkit-transition: background-image 0.5s ease-in-out;
   transition: background-image 0.5s ease-in-out;
   width: 200px;
-  height: 500px;
   display: inline-block;
   vertical-align: top;
   background-size: cover;
   background-color: #0A4773;
   background-position: center;
-  padding-top: 100px;
+  height: 380px;
+  padding-top: 30px;
   text-align: center;
 }
 
@@ -2089,10 +2261,12 @@ footer .container .stayInTouch .copyText {
   -webkit-transition: .5s;
   transition: .5s;
   width: 60%;
+  height: 130px;
   display: block;
   margin: 0 auto;
   padding-bottom: 20px;
   opacity: 0;
+  position: relative;
 }
 
 @media screen and (max-width: 830px) {
@@ -2104,6 +2278,9 @@ footer .container .stayInTouch .copyText {
 
 #programs .programWrap .programSplit .logo img {
   max-width: 100%;
+  position: absolute;
+  left: 0;
+  bottom: 20px;
 }
 
 #programs .programWrap .programSplit:hover {
@@ -2131,6 +2308,11 @@ footer .container .stayInTouch .copyText {
   font-weight: 700;
 }
 
+#programs .programWrap .heading a {
+  color: inherit;
+  text-decoration: inherit;
+}
+
 #programs .programWrap .caption {
   -webkit-transition: .5s;
   transition: .5s;
@@ -2141,105 +2323,71 @@ footer .container .stayInTouch .copyText {
 }
 
 #ourMentors {
-  cursor: default;
-  background-color: #ffffff;
-  height: 400px;
-  margin-top: 30px;
+  background-image: url(/img/blue-bg.png);
+  background-size: cover;
+  padding-bottom: 15px;
 }
 
-#ourMentors .section-title {
-  color: #575153;
+#ourMentors .container .section-title {
+  padding-top: 15px;
+  padding-bottom: 30px;
   text-align: center;
-  padding-top: 20px;
-  padding-bottom: 20px;
+  color: #fff;
 }
 
-#ourMentors .section-title span {
-  border-color: #575153;
+#ourMentors .container .mentorWrap {
+  text-align: center;
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 
-#ourMentors .section-title span:last-child {
-  background-image: -webkit-gradient(linear, left top, right top, color-stop(55%, #575153), color-stop(0%, transparent));
-  background-image: linear-gradient(to right, #575153 55%, transparent 0%);
+#ourMentors .container .mentorWrap #mentors {
+  display: inline-block;
+  width: 180px;
+  margin-top: 10px;
+  float: left;
 }
 
-@media screen and (max-width: 830px) {
-  #ourMentors .the-row {
-    display: block;
-    clear: both;
-  }
+#ourMentors .container .mentorWrap #mentors .photoMentor {
+  width: 66%;
+  height: 139px;
+  padding-bottom: unset;
+  text-align: center;
+  left: 30px;
+  float: unset;
+  -webkit-box-shadow: inset 0px 0px 0px 2px white;
+  box-shadow: inset 0px 0px 0px 2px white;
 }
 
-@media screen and (max-width: 830px) {
-  #ourMentors .the-mentor {
-    width: 400px;
-    display: block;
-    margin: 10px auto;
-    float: unset;
-  }
+#ourMentors .container .mentorWrap #mentors .mentor-name {
+  margin-top: 15px;
+  color: #fff;
+  font-size: 18px;
+  margin-bottom: 0px;
 }
 
-@media screen and (max-width: 428px) {
-  #ourMentors .the-mentor {
-    width: 90%;
-  }
+#ourMentors .container .mentorWrap #mentors .mentor-name a {
+  color: inherit;
+  text-decoration: inherit;
 }
 
-#ourMentors .the-mentor .mentorWrapper {
-  background-color: #F8F8F8;
-  background-position: -15px 50px;
-  background-size: 155px auto;
-  background-repeat: no-repeat;
-  height: 233px;
-  text-align: right;
-  padding-top: 50px;
-  padding-right: 20px;
-}
-
-#ourMentors .the-mentor .mentorWrapper span {
-  color: #575153;
-  line-height: 30px;
-  display: block;
-  font-size: 30px;
-  font-weight: 700;
-}
-
-#ourMentors .the-mentor .mentorWrapper .head {
+#ourMentors .container .mentorWrap #mentors .mentor-desc {
+  color: #fff;
   font-weight: 300;
-  font-size: 30px;
-}
-
-#ourMentors .the-mentor .mentorWrapper .desc {
-  padding-top: 10px;
-  float: right;
-  padding-left: 50%;
-  font-size: 10px;
-  color: #575153;
-}
-
-#ourMentors .the-mentor .mentorWrapper button {
-  float: right;
-  background-color: transparent;
-  border: 2px solid #575153;
-  font-weight: 300;
-  font-size: 14px;
-  outline: none;
-  padding: 6px 20px;
-  cursor: pointer;
-}
-
-#ourMentors .the-mentor .mentorWrapper button:hover {
-  background-color: #00C8C8;
-  border-color: #00C8C8;
-  color: #ffffff;
+  font-size: 14spx;
 }
 
 #event {
-  padding-top: 70px;
-  padding-bottom: 50px;
+  padding-top: 15px;
+  padding-bottom: 15px;
   background-image: url("/img/triangle.png");
   background-repeat: no-repeat;
-  background-position-y: -50px;
+  background-position: 0px 24px;
   -webkit-transition: .5s;
   transition: .5s;
 }
@@ -2397,13 +2545,13 @@ footer .container .stayInTouch .copyText {
 
 #video {
   color: rgba(255, 255, 255, 0.87);
-  padding-top: 62px;
-  padding-bottom: 40px;
+  padding-top: 15px;
+  padding-bottom: 15px;
 }
 
 #video .section-title {
   text-align: center;
-  margin-bottom: 63px;
+  margin-bottom: 45px;
   color: inherit;
 }
 
@@ -2460,10 +2608,72 @@ footer .container .stayInTouch .copyText {
   }
 }
 
+#instagram-feed {
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+#instagram-feed .section-title {
+  text-align: center;
+  margin-bottom: 45px;
+  color: inherit;
+}
+
+@media screen and (max-width: 425px) {
+  #instagram-feed .section-title {
+    font-size: 19px;
+  }
+}
+
+#instagram-feed .post-wraper {
+  width: 100%;
+  height: 124px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 15px;
+}
+
+@media screen and (max-width: 768px) {
+  #instagram-feed .post-wraper {
+    margin-bottom: 10px;
+    text-align: center;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  #instagram-feed .the-row {
+    display: block;
+  }
+}
+
+#instagram-feed .col-3 a {
+  color: #ffffff;
+  text-decoration: none;
+  text-transform: capitalize;
+}
+
+#instagram-feed .col-3 a:hover {
+  text-decoration: underline;
+}
+
+@media screen and (max-width: 768px) {
+  #instagram-feed .col-3 {
+    width: calc(50% - 30px);
+    margin-bottom: 20px;
+  }
+
+  #instagram-feed .col-3 .tilte {
+    text-align: center;
+    height: 40px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
 #mentor {
   text-align: center;
-  padding-top: 61px;
-  padding-bottom: 50px;
+  padding-top: 25px;
+  padding-bottom: 25px;
   color: rgba(64, 64, 64, 0.87);
 }
 
@@ -2475,8 +2685,8 @@ footer .container .stayInTouch .copyText {
 
 #newsletter {
   text-align: center;
-  padding-top: 60px;
-  padding-bottom: 71px;
+  padding-top: 15px;
+  padding-bottom: 15px;
 }
 
 #newsletter span {
@@ -2485,7 +2695,7 @@ footer .container .stayInTouch .copyText {
 }
 
 #newsletter .newsletter-form {
-  margin-top: 30px;
+  margin-top: 20px;
 }
 
 #newsletter .newsletter-form input {
@@ -2579,11 +2789,11 @@ footer .container .stayInTouch .copyText {
 }
 
 #video-archive {
-  margin-top: 59px;
+  margin-top: 25px;
 }
 
 #video-archive .container .row .resultSearchHeading {
-  margin-bottom: 30px;
+  margin-bottom: 25px;
   margin-left: 13px;
 }
 
@@ -2705,12 +2915,12 @@ footer .container .stayInTouch .copyText {
 }
 
 #mentor-archive {
-  margin-top: 59px;
-  margin-bottom: 49px;
+  margin-top: 25px;
+  margin-bottom: 25px;
 }
 
 #mentor-archive .atEnd {
-  margin: 30px 0px 40px 0px;
+  margin: 25px 0px 25px 0px;
   text-align: center;
   font-weight: 700;
 }
@@ -2818,8 +3028,7 @@ footer .container .stayInTouch .copyText {
 }
 
 #event-archive {
-  padding-top: 51px;
-  padding-bottom: 50px;
+  padding-top: 31px;
 }
 
 @media screen and (max-width: 433px) {
@@ -2848,6 +3057,7 @@ footer .container .stayInTouch .copyText {
   -webkit-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.25);
   box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.25);
   max-height: 200px;
+  margin-bottom: 10px;
 }
 
 #event-archive .event .eventPosterMobile img {
@@ -2864,6 +3074,8 @@ footer .container .stayInTouch .copyText {
 
 #event-archive .event .eventPoster {
   width: 70%;
+  max-width: 150px;
+  max-height: 200px;
   margin: 0 auto;
   -webkit-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.25);
   box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.25);
@@ -3041,9 +3253,26 @@ footer .container .stayInTouch .copyText {
   margin-bottom: 12px;
 }
 
-#event-archive .event .event-content .event-meta .mentor p {
+#event-archive .event .event-content .event-meta .mentor .mentorWrap {
   margin: unset;
   text-transform: capitalize;
+  margin-bottom: 10px;
+}
+
+#event-archive .event .event-content .event-meta .mentor .mentorWrap a {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+#event-archive .event .event-content .event-meta .mentor .mentorWrap .miniPhotoMentor {
+  margin-right: 20px;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: inline-block;
+  vertical-align: middle;
+  background-position: center;
+  background-size: cover;
 }
 
 #event-archive .event .event-content .event-meta .htm {
@@ -3311,7 +3540,7 @@ footer .container .stayInTouch .copyText {
 
 #map {
   height: 400px;
-  margin-bottom: 62px;
+  margin-bottom: 25px;
   background-image: url("/img/contact-map.png");
   background-repeat: no-repeat;
   background-position: center;
@@ -3319,7 +3548,7 @@ footer .container .stayInTouch .copyText {
 }
 
 #contact {
-  padding-bottom: 50px;
+  padding-bottom: 20px;
   color: #ffffff;
   background-color: #223138;
 }
@@ -3855,12 +4084,12 @@ footer .container .stayInTouch .copyText {
 }
 
 #tentang .tentangContent {
-  margin-top: 50px;
-  margin-bottom: 50px;
+  margin-top: 25px;
+  margin-bottom: 25px;
 }
 
 #tentang .tentangContent p {
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 
 @-webkit-keyframes spin {

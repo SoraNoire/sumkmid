@@ -9,10 +9,12 @@
 
     <title>Sahabat UMKM</title>
 
-    <link rel="icon" type="image/x-icon" href="{{ asset('img/logo-ico.png') }}">
+    <link rel="icon" type="image/x-icon" href="{{ asset('images/fav.png') }}">
     <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}">
     <link href="//cdn-images.mailchimp.com/embedcode/classic-10_7.css" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="{{ asset('css/index.css') }}?v=1.1.5">
+    <link rel="stylesheet" href="{{ asset('css/index.css') }}?v=1.1.64">
+    <link rel="stylesheet" href="{{ asset('css/font-awesome.css') }}?v=1.0.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" />
 
     @if(isset($fb_pixel))
     @if($fb_pixel != '')
@@ -77,15 +79,15 @@
 	                                </a>
 	                            </li>
 	                            <li class="{{ ($var['page'] ?? '' == 'galeri' ? 'active' : '') }}">
-	                                <a href="{{ route('public_galeri') }}">
+	                                <a href="{{ route('public_gallery') }}">
 	                                    Galeri
 	                                </a>
 	                            </li>
-	                            <li class="{{ ($var['page'] ?? '' == 'Ijin Usaha' ? 'active' : '') }}">
+<!-- 	                        <li class="{{ ($var['page'] ?? '' == 'Ijin Usaha' ? 'active' : '') }}">
 	                                <a href="#">
 	                                    Forum
 	                                </a>
-	                            </li>
+	                            </li> -->
 	                            <li class="{{ ($var['page'] ?? '' == 'Kontak' ? 'active' : '') }}">
 	                                <a href="{{ route('public_kontak') }}">
 	                                    Kontak
@@ -107,8 +109,8 @@
                                 </li>
                                 @else
 	                            <li class="loginButton">
-	                                <a href="{{ route('OA.login') }}" class="button">
-	                                    Masuk
+	                                <a href="{{ route('OA.register') }}" class="button">
+	                                    Daftar
 	                                </a>
                                 </li>
                                 @endif
@@ -123,16 +125,6 @@
 
  	@yield('content')
 
- 	<!-- footer -->
-	<section id="newsletter" class="blue-bg">
-        <div class="container">
-        	<span>Gabung bersama SahabatUMKM.id dan dapatkan ribuan benefit GRATIS!!!</span>
-        	<form class="newsletter-form" method="get" action="{{ route('public_newsletter') }}">
-        		<input type="email" name="email" placeholder="Subscribe our newsletter">
-            	<button type="submit">daftar</button>
-        	</form>
-        </div>
-	</section>
 
  	<footer>
         <div class="container">
@@ -142,11 +134,11 @@
                         <img src="{{ asset('img/footer-logo.png') }}" alt="logo-sahabat-UMKM">
                     </div>
                     <p class="desc">
-                        Perferendis faucibus dignissim nostra, libero ridiculus odio eu mus elit. Quia class. Non hendrerit, aptent impedit volutpat aliquid? Porro urna, rutrum, earum reiciendis quisquam, voluptatum.
+                        {{ $footer_desc ?? '' }}
                     </p>
                 </div>
                 <div class="col-4 contactItems">
-                    <h5>OUR OFFICE</h5>
+                    <h5>SEKRETARIAT SAHABAT UMKM</h5>
                     <ul>
                         <li>
                             <i class="fa fa-map-marker" aria-hidden="true"></i>
@@ -164,7 +156,7 @@
                         <li>
                             <i class="fa fa-envelope" aria-hidden="true"></i>
                             <p>
-                                info@mdirect.id
+                                <a href="{{ 'mailto:'.$email_info ?? '' }}">{{ $email_info ?? '' }}</a>
                             </p>
                         </li>
 
@@ -173,18 +165,18 @@
                 <div class="col-4 stayInTouch">
                     <h5>STAY IN TOUCH</h5>
                     <div class="footerSubForm">
-                        <form action="" method="">
-                            <input type="email" name="email_subscribe" placeholder="Subscribe our newsletter" required="required">
+                        <form action="{{ route('public_newsletter') }}" method="get">
+                            <input type="email" name="email" placeholder="Subscribe our newsletter" required="required">
                             <button id="submit_newsletter"><i class="fa fa-location-arrow" aria-hidden="true"></i></button>
                         </form>
                     </div>
                     <ul>
-                        <li><a target="_blank" href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                        <li><a target="_blank" href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                        <li><a target="_blank" href="#"><i class="fa fa-dribbble" aria-hidden="true"></i></a></li>
-                        <li><a target="_blank" href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
-                        <li><a target="_blank" href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
-                        <li><a target="_blank" href="#"><i class="fa fa-youtube-play" aria-hidden="true"></i></a></li>
+                        <li><a target="_blank" href="{{ $link_fb ?? '#' }}"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                        <li><a target="_blank" href="{{ $link_tw ?? '#' }}"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                        <li><a target="_blank" href="{{ $link_in ?? '#' }}"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+                        <li><a target="_blank" href="{{ $link_ig ?? '#' }}"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+                        <li><a target="_blank" href="{{ $link_gplus ?? '#' }}"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
+                        <li><a target="_blank" href="{{ $link_yt ?? '#' }}"><i class="fa fa-youtube-play" aria-hidden="true"></i></a></li>
                     </ul>
                     <span class="copyText">Copyright &copy; 2017 - Sahabat UMKM</span>
                 </div>
@@ -195,8 +187,24 @@
     <div class="whiteOverlay"></div>
     <!-- end of footer -->
     
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script src="{{ asset('js/home.js') }}?v=1.1.2"></script>
+    <script src="{{ asset('js/home.js') }}?v=1.1.22"></script>
+
+
+    @if (session()->has('swal'))
+      <?php 
+      $msg = session('swal');
+      ?>
+      <script type="text/javascript">
+        swal({
+         title: '<?=$msg->status?>',
+         text: '<?=$msg->message?>',
+         type: '<?=$msg->status?>',
+         confirmButtonText: 'OK'
+       });
+     </script>
+    @endif
 
 </body>
 </html>

@@ -34,9 +34,21 @@ class PController extends Controller
                 return redirect('/');
             }
             $next = urlencode(url()->previous()) ?? '/';
-            $appid = env('MD_APP_ID');
+            $appid = config('auth.md_sso.APP_ID');
             return redirect(config('auth.md_sso.APP_LOGIN') . "?appid=$appid&next=$next")->send();
         }    
+
+        /**
+         * redirect to OAuth server
+         *
+         * @return void
+         * @author 
+         **/
+        public function OAuthRegister()
+        {
+            $appid = config('auth.md_sso.APP_ID');
+            return redirect(config('auth.md_sso.APP_REGISTER') . "?appid=$appid")->send();
+        } 
 
 
         /**

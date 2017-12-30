@@ -15,7 +15,7 @@
         <a href="{{ route('panel.video__add') }}" class="btn btn-round btn-fill btn-info">
             New Video +<div class="ripple-container"></div>
         </a>
-        <a target="_blank" href="{{ route('panel.video__view__single',$video->slug) }}" class="btn btn-round btn-fill btn-info">
+        <a target="_blank" href="{{ route('single_gallery',$video->slug) }}" class="btn btn-round btn-fill btn-info">
             View Video<div class="ripple-container"></div>
         </a>
         <a onclick="return confirm('Delete video?');" href="{{route('panel.video__delete',$video->id)}}" class="btn btn-round btn-fill btn-danger">
@@ -160,7 +160,7 @@
                     </div>
                     <div id="video-fimg" class="panel-collapse collapse in">
                         <div class="panel-body form-group">
-                            <a id="browse_fimg_post" data-toggle="modal" data-target="#myFimg" class="btn btn-round btn-fill btn-default" style="margin-bottom: 10px;">Set Featured Image</a>
+                            <a id="browse_fimg_post" data-tujuan="featured_img" data-toggle="modal" data-target="#myFimg" class="btn btn-round btn-fill btn-default" style="margin-bottom: 10px;">Set Featured Image</a>
                             <input type="hidden" name="featured_image" id="featured_img" value="{{ $featured_image }}">
                             <div class="preview-fimg-wrap" style="display: {{ $featured_image != '' ? 'block' : ''  }};">
                                 <div class="preview-fimg" style="background-image: url({{ $featured_image }});"></div>

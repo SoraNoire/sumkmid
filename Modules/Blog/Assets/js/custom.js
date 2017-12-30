@@ -1,8 +1,14 @@
+type=["","info","success","warning","danger"],notif={showNotification:function(o,e,n,i){color=i,$.notify({message:n},{type:type[color],timer:1000,placement:{from:o,align:e}})}};
 mediaPath = 'https://s3-ap-southeast-1.amazonaws.com/mdirect/shbtm/media';
 filePath = 'https://s3-ap-southeast-1.amazonaws.com/mdirect/shbtm/files';
 var timeOutId;
 
 var jPlugin = $.blogPlugin();
+
+$('#site-setting').on('click', '.program-media', function(){
+    jPlugin.openModal('.custom-modal');
+    tujuan = $('#'+$(this).attr('data-tujuan'));
+});
 
 $("#browse_media_post").click(function() {
     jPlugin.openModal('.media-modal');
@@ -10,6 +16,7 @@ $("#browse_media_post").click(function() {
 
 $("#browse_fimg_post").click(function() {
     jPlugin.openModal('.fimg-modal');
+    tujuan = $('#'+$(this).attr('data-tujuan'));
 });
 
 $("#browse_file_post").click(function() {
@@ -24,6 +31,7 @@ $(".close-modal, .overlay").click(function() {
 $('#uploadmedia').on('change', function(e){
     e.preventDefault();
     var fd = new FormData($("#actuploadmedia")[0]);
+    $('.dataTables_processing').show();
     timeOutId = setTimeout(jPlugin.uploadFile(fd, 'media'), 1000);
 });
 
@@ -31,6 +39,7 @@ $('#uploadmedia').on('change', function(e){
 $('#uploadfimg').on('change', function add_media(e){
     e.preventDefault();
     var fd = new FormData($("#actuploadfimg")[0]);
+    $('.dataTables_processing').show();
     timeOutId = setTimeout(jPlugin.uploadFile(fd, 'media'), 1000);
 });
 
@@ -38,6 +47,7 @@ $('#uploadfimg').on('change', function add_media(e){
 $('#fileUpload').on('change', function add_file(e){
     e.preventDefault();
     var fd = new FormData($("#fileupload-form")[0]);
+    $('.dataTables_processing').show();
     timeOutId = setTimeout(jPlugin.uploadFile(fd, 'file'), 1000);
 });
 
@@ -64,10 +74,17 @@ function select_media(e){
 function select_fimg(e){
     $('.preview-fimg-wrap').show();
     var a = $('.preview-fimg');
-    var b = $('#featured_img');
     var c = $(e).text();
     a.css('background-image', 'url('+c+')');
-    b.val(c);
+    tujuan.val(c);
+    jPlugin.closeModal();
+}
+
+function select_input_media(e){
+    var c = $(e).text();
+    tujuan.val(c);
+    var name = 'data-'+tujuan.attr('name');
+    tujuan.parents('li.dd-item').attr(name, c);
     jPlugin.closeModal();
 }
 
@@ -171,4 +188,71 @@ if ($('.file-list').length > 0) {
     $('.file-list').on('click', '.file-delete', function(){
         $(this).parents('.file-item').remove();
     });
+}
+
+if ($('#program-structure')) {
+    $('#program-structure').nestable({ group: 1, maxDepth: 1 });
+    check_program();
+}
+
+$('#program-structure').on('click', '.remove_item', function(e){
+    e.preventDefault();
+    $(this).parents('li').remove();
+    check_program();
+});
+
+$('#program-structure').on('keyup change', 'input', function(){
+    var name = 'data-'+$(this).attr('name');
+    var val = $(this).val();
+    $(this).parents('li.dd-item').attr(name, val);
+});
+
+$('#program-structure').on('keyup change', 'textarea', function(){
+    var name = 'data-'+$(this).attr('name');
+    var val = $(this).val();
+    $(this).parents('li.dd-item').attr(name, val);
+});
+
+$('#setting-program').on('click', '.save-program', function(){
+    var data = JSON.stringify($('#program-structure').nestable('serialize'));
+    $.ajax({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        data: {program :data},
+        type: 'POST',
+        url: '/admin/blog/save-program',
+        success: function(response){
+            notif.showNotification("top","right",'Berhasil Disimpan','2');
+        },
+        error: function(err){
+            notif.showNotification("top","right",'Gagal Disimpan','4');
+        }
+    });
+});
+
+$('#setting-program').on('click', '.add-program', function(){
+    var id = get_program_id();
+    id += 1;
+    $('#program-structure .dd-list:first-child').append('<li class="dd-item" data-id="'+id+'" data-title="" data-description="" data-logo="" data-background=""><div class="dd-handle dd3-handle">Drag</div><div class="program-item dd3-content panel panel-default" id="program'+id+'"><div class="program-title"><span>Program '+id+'</span><a data-toggle="collapse" data-parent="#program-structure" href="#program-collapse-'+id+'"><i style="float: right;" class="fa fa-caret-down" aria-hidden="true"></i></a></div><div id="program-collapse-'+id+'" class="collapse program-collapse panel panel-default"><div class="form-group"><label>Title</label><input class="form-control" type="text" name="title" value=""><label>URl</label><input class="form-control" type="text" name="url" value=""><label>Logo</label><div class="input-group"><input class="form-control" type="text" name="logo" value="" readonly="readonly" id="program-logo'+id+'"><span class="input-group-btn"><button class="btn btn-default program-media" type="button" data-tujuan="program-logo'+id+'">Browse media</button></span></div><label>Background</label><div class="input-group"><input class="form-control" type="text" name="background" value="" readonly="readonly" id="program-bg'+id+'"><span class="input-group-btn"><button class="btn btn-default program-media" type="button" data-tujuan="program-bg'+id+'">Browse media</button></span></div><label>Description</label><textarea name="description" class="form-control"></textarea></div><a href="#" class="remove_item">Remove</a></div></div></li>');
+    check_program();
+});
+
+function check_program(){
+    var a = $('#program-structure').find('li.dd-item').length;
+    if (a >= 5) {
+        $('#setting-program .add-program').remove();
+    } else if (a <= 5) {
+        if ($('#setting-program .add-program').length <= 0) {
+            $('#setting-program .panel-body').prepend('<button type="button" class="btn btn-info pull-left add-program">Add Program +</button>');
+        }
+    }
+}
+
+function get_program_id(){
+    var id = 0;
+    if ($("#program-structure li:last-child").length > 0) {
+        id = parseInt($("#program-structure li:last-child").attr('data-id'));
+    }   
+    return id;
 }

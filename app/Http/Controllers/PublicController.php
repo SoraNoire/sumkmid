@@ -17,10 +17,13 @@ use Modules\Video\Entities\Video;
 use Modules\Blog\Entities\Option;
 use Modules\Blog\Entities\Categories;
 use Modules\Blog\Entities\Tags;
+use Modules\Blog\Entities\Slider;
 use Carbon\Carbon;
 use Mail;
 use View;
+use Modules\Blog\Entities\Media;
 use Illuminate\Support\Facades\Validator;
+use Vinkla\Instagram\Instagram;
 
 class PublicController extends Controller
 {
@@ -35,7 +38,11 @@ class PublicController extends Controller
         $link_fb = Option::where('key', 'link_fb')->first()->value ?? '';
         $link_tw = Option::where('key', 'link_tw')->first()->value ?? '';
         $link_ig = Option::where('key', 'link_ig')->first()->value ?? '';
-        $link_yt = Option::where('key', 'link_yt')->first()->value ?? '';
+        $link_yt = Option::where('key', 'link_yt')->first()->value ?? '';        
+        $link_in = Option::where('key', 'link_in')->first()->value ?? '';
+        $link_gplus = Option::where('key', 'link_gplus')->first()->value ?? '';
+        $footer_desc = Option::where('key', 'footer_desc')->first()->value ?? '';
+        $email_info = Option::where('key', 'email')->first()->value ?? config('app.email_info');
 
         View::share('var', $var);
         View::share('analytic', $analytic);
@@ -44,6 +51,10 @@ class PublicController extends Controller
         View::share('link_ig', $link_ig);
         View::share('link_tw', $link_tw);
         View::share('link_yt', $link_yt);
+        View::share('link_gplus', $link_gplus);
+        View::share('link_in', $link_in);
+        View::share('footer_desc', $footer_desc);
+        View::share('email_info', $email_info);
 	}
 
 	public function login(Request $request)
@@ -97,7 +108,78 @@ class PublicController extends Controller
      */
 	public function home(){
         $var['page'] = "Home";
-		$var['videos'] = DB::table('post_view')->where('post_type','video')->orderBy('published_date','desc')->paginate(4);
+
+        $var['gallery'] = Option::where('key', 'gallery_section')->first()->value ?? '';
+        if ($var['gallery'] != '') {
+            $var['gallery'] = json_decode($var['gallery']);
+        } else {
+        	$var['gallery']['title'] = 'Galeri Sahabat UMKM';
+        	$var['gallery']['category'] = '0';
+            $var['gallery'] = json_encode($var['gallery']);
+            $var['gallery'] = json_decode($var['gallery']);
+        }
+
+		$gallery_title = $var['gallery']->title;
+		$split = explode(' ', $gallery_title);
+		$split[count($split)-1] = "</span><span>".$split[count($split)-1]."</span>";
+		$split[0] = "<span>".$split[0];
+		$var['gallery_name'] = implode(" ", $split);
+
+		if ($var['gallery']->category > 1) {
+			$post_ids = PostHelper::get_post_archive_id('category', $var['gallery']->category);
+			$var['videos'] = DB::table('post_view')
+							->whereIn('post_type',['video', 'gallery'])
+							->whereIn('id', $post_ids)
+							->orderBy('published_date','desc')
+							->limit(6)
+							->get();
+		} else {
+			$var['videos'] = DB::table('post_view')->whereIn('post_type',['video', 'gallery'])->orderBy('published_date','desc')->limit(4)->get();
+		}
+
+		$var['mentors'] = app()->OAuth->mentors()->users;
+		
+		$program = Option::where('key', 'program')->first()->value ?? '';
+        $var['programs'] = [];
+        if ($program != '') {
+            $var['programs'] = json_decode($program);
+        }
+
+        $sliders = Slider::get();
+        $n=1;
+        $var['sliders'] = [];
+        foreach ($sliders as $slider) {
+            if($n % 2 == 0){
+                $slider->position = 'left';
+            }else{
+                $slider->position = 'right';
+            }
+            $var['sliders'][] = $slider;
+            $n++;
+        }
+
+        $var['video'] = Option::where('key', 'video_section')->first()->value ?? '';
+        if ($var['video'] != '') {
+            $var['video'] = json_decode($var['video']);
+        }
+
+        $var['quote'] = Option::where('key', 'quotes_section')->first()->value ?? '';
+        if ($var['quote'] != '') {
+            $var['quote'] = json_decode($var['quote']);
+        }
+
+        $var['about_us'] = Option::where('key', 'about_us')->first()->value ?? '';
+
+        $instagram_token = Option::where('key', 'instagram_token')->first()->value ?? '';
+        if ($instagram_token != '') {
+        	try {	
+				$instagram = new Instagram($instagram_token);
+				$var['instagram'] = $instagram->get();
+        	} catch (\Exception $e) {
+
+        	}
+        }
+
 		return view('page.home')->with(['var' => $var]);
 	}
 
@@ -107,6 +189,14 @@ class PublicController extends Controller
      */
 	public function tentang(){
         $var['page'] = "Tentang Kami";
+
+        $get = Posts::where('slug','tentang-kami')->where('post_type','page')->orWhere('slug','tentang')->first();
+
+        if($get){
+        	$var['data'] = $get;
+        	return view('page.tentangDinamis')->with(['var' => $var]);
+        }
+
 		return view('page.tentang')->with(['var' => $var]);
 	}
 
@@ -125,8 +215,7 @@ class PublicController extends Controller
      */
 	public function mentor(){
 		$var['page'] = "Mentor";
-		$user = new \App\Helpers\SSOHelper;
-		$var['mentors'] =  $user->mentors()->users;
+		$var['mentors'] = app()->OAuth->mentors()->users;
 		
 		return view('page.mentor')->with(['var' => $var]);
 	}
@@ -136,8 +225,7 @@ class PublicController extends Controller
      */
 	public function mentorSingle($mentorId){
 		$var['page'] = "mentorSingle";
-		$user = new \App\Helpers\SSOHelper;
-		$var['mentors'] =  $user->mentors("$mentorId")->users;
+		$var['mentors'] =  app()->OAuth->mentors("$mentorId")->users;
 		if(isset($var['mentors'][0])){
 			$var['mentors'] = $var['mentors'][0];
 			return view('page.mentorSingle')->with(['var' => $var]);
@@ -209,17 +297,17 @@ class PublicController extends Controller
      * Show video page.
      * @return Response
      */
-	public function galeri(){
+	public function gallery(){
 		$var['page'] = "Galeri";
-		$var['items'] = DB::table('post_view')->whereIn('post_type',['video', 'gallery'])->orderBy('published_date','desc')->paginate(6);
-		return view('page.galeri')->with(['var' => $var]);
+		$var['posts'] = DB::table('post_view')->whereIn('post_type',['video', 'gallery'])->orderBy('published_date','desc')->paginate(6);
+		return view('page.gallery')->with(['var' => $var]);
 	}
 
 	/**
-     * Show single video page.
+     * Show single gallery page.
      * @return Response
      */
-	public function singleGaleri($slug){
+	public function singleGallery($slug){
 		$var['page'] = "singleGaleri";
 		$var['content'] = DB::table('post_view')->where('slug',$slug)->first();
 		$postMetas = DB::table('post_meta')->where('post_id',$var['content']->id)->get();
@@ -228,44 +316,54 @@ class PublicController extends Controller
 		$var['categories'] = PostHelper::get_post_category($var['content']->id);
 
 		if($var['content']->post_type == 'video'){
-			$var['videoEmbed'] = $postMetas->video_url ?? [];
+			$var['videoEmbed'] = $postMetas->video_url ?? '';
 		}else{
-			$var['photos'] = '';
+			$gallery_images = json_decode($postMetas->gallery_images ?? '') ?? []; 
+			$var['photos'] = Media::whereIn('id', $gallery_images)->get();
 		}
 
+		$nextItem = DB::table('post_view')
+						->whereIn('post_type',['video', 'gallery'])
+						->orderBy('published_date','desc')
+						->where('published_date','>',$var['content']->published_date)
+						->limit(1)
+						->get();
+		$prevItem = DB::table('post_view')
+						->whereIn('post_type',['video', 'gallery'])
+						->orderBy('published_date','desc')
+						->where('published_date','<',$var['content']->published_date)
+						->limit(1)
+						->get();
 
-		$nextItem = DB::table('post_view')->where('post_type','video')->orWhere('post_type','gallery')->orderBy('published_date','desc')->where('published_date','>',$var['content']->published_date)->limit(1)->get();
-		$prevItem = DB::table('post_view')->where('post_type','video')->orWhere('post_type','gallery')->orderBy('published_date','desc')->where('published_date','<',$var['content']->published_date)->limit(1)->get();
 		$var['nextItem'] = $nextItem[0]->slug ?? '';
 		$var['prevItem'] = $prevItem[0]->slug ?? '';
-        $var['allcategories'] = PostHelper::get_all_categories('video');
+        $var['allcategories'] = PostHelper::get_all_categories(['video', 'gallery']);
 
-		return view('page.singleGaleri')->with(['var' => $var]);
+		return view('page.singleGallery')->with(['var' => $var]);
 	}
 
 	/**
-     * Show galeri search result.
+     * Show gallery search result.
      * @return Response
      */
-	public function searchGaleri(Request $request){
+	public function searchGallery(Request $request){
 		$query = $request->get('q');
 		// dd($query);
 		$var['page'] = "Search Galeri";
 		$var['query'] = $query;
-		$var['videos'] = DB::table('post_view')
-						 ->where('post_type','video')
-						 ->orWhere('post_type','gallery')
+		$var['posts'] = DB::table('post_view')
+						 ->whereIn('post_type',['video', 'gallery'])
 						 ->where('title','like','%'.$query.'%')
 						 ->orderBy('published_date','desc')
 						 ->paginate(6);
-		return view('page.searchGaleri')->with(['var' => $var]);
+		return view('page.searchGallery')->with(['var' => $var]);
 	}
 
 	/**
-     * Show video category archive.
+     * Show gallery category archive.
      * @return Response
      */
-	public function videoCatArchive($slug){
+	public function galleryCatArchive($slug){
 		$cat = Categories::where('slug', $slug)->first();
 		if (!isset($cat)) {
         	return view('errors.404');
@@ -274,15 +372,19 @@ class PublicController extends Controller
 		$var['page'] = "Category Video ".$cat->name;
 		$var['archive'] = "Category : ".$cat->name;
 		$post_ids = PostHelper::get_post_archive_id('category', $cat->id);
-		$var['videos'] = DB::table('post_view')->where('post_type','video')->whereIn('id', $post_ids)->orderBy('published_date','desc')->paginate(6);
-		return view('page.video')->with(['var' => $var]);
+		$var['posts'] = DB::table('post_view')
+						->whereIn('post_type',['video', 'gallery'])
+						->whereIn('id', $post_ids)
+						->orderBy('published_date','desc')
+						->paginate(6);
+		return view('page.gallery')->with(['var' => $var]);
 	}
 
 	/**
-     * Show video tag archive.
+     * Show gallery tag archive.
      * @return Response
      */
-	public function videoTagArchive($slug){
+	public function galleryTagArchive($slug){
         $tag = Tags::where('slug', $slug)->first();
         if (!isset($tag)) {
         	return view('errors.404');
@@ -291,8 +393,12 @@ class PublicController extends Controller
 		$var['page'] = "Tag Video ".$tag->name;
 		$var['archive'] = "Tag : ".$tag->name;
 		$post_ids = PostHelper::get_post_archive_id('tag', $tag->id);
-		$var['videos'] = DB::table('post_view')->where('post_type','video')->whereIn('id', $post_ids)->orderBy('published_date','desc')->paginate(6);
-		return view('page.video')->with(['var' => $var]);
+		$var['posts'] = DB::table('post_view')
+						->whereIn('post_type',['video', 'gallery'])
+						->whereIn('id', $post_ids)
+						->orderBy('published_date','desc')
+						->paginate(6);
+		return view('page.gallery')->with(['var' => $var]);
 	}
 
 	function readMetas($arr=[]){
@@ -312,18 +418,28 @@ class PublicController extends Controller
     public function messages_store_act(Request $req){
         $name = $req->input('nama');
         $email = $req->input('email');
+        $nama_usaha = $req->input('nama_usaha');
+        $contact = $req->input('telp');
+        $subject = $req->input('subject');
         $pesan = $req->input('pesan');
+
+        $email_to = config('app.email_info') ?? 'info@mdirect.id';
+        dd($email_to);
 
         $data = array(
             'name' => $name,
             'email_from' => $email,
+            'nama_usaha' => $nama_usaha,
+            'contact' => $contact,
+            'subject' => $subject,
             'pesan' => $pesan,
+            'email_to' => $email_to
         );
 
         Mail::send('emails.contact', $data, function ($message) use ($data) {
 
             $message->from($data['email_from'], $data['name']);
-            $message->to('fahmial51@gmail.com', 'info@sahabatumkm.id')->subject('Pesan dari form kontak sahabatumkm.id');
+            $message->to($data['email_to'])->subject('Pesan dari form kontak sahabatumkm.id');
 
         });
 

@@ -425,14 +425,14 @@ class PostHelper
                 if ($is_bulk == 'bulk') {
                     // do nothing
                 } else {
-                    return redirect(route('categories'))->with(['msg' => 'Deleted', 'status' => 'success'])->send();
+                    return redirect(route('panel.category__index'))->with(['msg' => 'Deleted', 'status' => 'success'])->send();
                 }
             } catch (\Exception $e) {
                 DB::rollback();
-                return redirect(route('categories'))->with(['msg' => 'Delete Error', 'status' => 'danger'])->send();
+                return redirect(route('panel.category__index'))->with(['msg' => 'Delete Error', 'status' => 'danger'])->send();
             }
         }else {
-            return redirect(route('categories'))->with(['msg' => 'Category Not Found', 'status' => 'danger'])->send();
+            return redirect(route('panel.category__index'))->with(['msg' => 'Category Not Found', 'status' => 'danger'])->send();
         }
     }
 
@@ -468,14 +468,14 @@ class PostHelper
                 if ($is_bulk == 'bulk') {
                     // do nothing
                 } else {
-                    return redirect(route('tags'))->with(['msg' => 'Deleted', 'status' => 'success'])->send();
+                    return redirect(route('panel.tag__index'))->with(['msg' => 'Deleted', 'status' => 'success'])->send();
                 }
             } catch (\Exception $e) {
                 DB::rollback();
-                return redirect(route('tags'))->with(['msg' => 'Delete Error', 'status' => 'danger'])->send();
+                return redirect(route('panel.tag__index'))->with(['msg' => 'Delete Error', 'status' => 'danger'])->send();
             }
         }else {
-            return redirect(route('tags'))->with(['msg' => 'Tag Not Found', 'status' => 'danger'])->send();
+            return redirect(route('panel.tag__index'))->with(['msg' => 'Tag Not Found', 'status' => 'danger'])->send();
         }
     }
 
@@ -508,7 +508,7 @@ class PostHelper
 
         $mentors = array();
         foreach ($mentor_reg as $mentor_r) {
-            $mentors[] = SSOHelper::mentors($mentor_r)->users[0];
+            $mentors[] = app()->OAuth->mentors($mentor_r)->users;
         }
         foreach ($mentor_not_reg as $mentor_nr) {
             $tmp = json_encode(['name' => $mentor_nr]);
@@ -541,7 +541,14 @@ class PostHelper
      * @return Response
      */
     public static function get_all_categories($post_type) {
-        $post_ids = DB::table('post_view')->where('post_type', $post_type)->select('id')->get();
+        $post_ids = DB::table('post_view');
+        if (is_array($post_type)) {
+            $post_ids = $post_ids->whereIn('post_type', $post_type);
+        }elseif (is_string($post_type)) {
+            $post_ids = $post_ids->where('post_type', $post_type);
+        }
+        $post_ids = $post_ids->select('id')->get();
+
         $data = [];
         foreach ($post_ids as $post) {
             $categories = PostHelper::get_post_category($post->id);

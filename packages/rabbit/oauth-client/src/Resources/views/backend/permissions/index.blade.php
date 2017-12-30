@@ -97,11 +97,13 @@
 </div>
 
 <script type="text/javascript">
+	
+
 	sels = document.getElementsByClassName('check-box');
     for(i=0; i<sels.length; i++) {
-        sels[i].addEventListener('change', function(i){
-        	var checked = i.path[0].checked;
-        	var value = i.path[0].value;
+        sels[i].addEventListener('change', function(x){
+        	var checked =  ( typeof x.path != 'undefined') ? x.path[0].checked : x.checked ;
+        	var value = ( typeof x.path != 'undefined') ? x.path[0].value : x.value;
         	checked = (true==checked)?1:0;
         	saveJax(value,checked);
         }, false);

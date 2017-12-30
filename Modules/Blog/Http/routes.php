@@ -49,7 +49,7 @@ Route::group(['middleware' => ['web', 'backend'], 'prefix' => 'admin/blog', 'nam
     Route::post('/post/{id}/update', 'BlogController@updatePost')
             ->name('panel.post__update');
     Route::get('/post/{id}/remove', 'BlogController@removePost')
-            ->name('panel.post__remove');
+            ->name('panel.post__delete');
     Route::post('/post/massdelete', 'BlogController@massdeletePost')
             ->name('panel.post__delete__mass');
 
@@ -157,7 +157,7 @@ Route::group(['middleware' => ['web', 'backend'], 'prefix' => 'admin/blog', 'nam
     Route::get('/page/add', 'BlogController@addPage')
             ->name('panel.page__add');
     Route::post('/page/add', 'BlogController@addPagePost')
-            ->name('panel.page__add');
+            ->name('panel.page__save');
     Route::get('/page/{id}/view', 'BlogController@viewPage')
             ->name('panel.page__view');
     Route::post('/page/{id}/update', 'BlogController@updatePage')
@@ -171,6 +171,21 @@ Route::group(['middleware' => ['web', 'backend'], 'prefix' => 'admin/blog', 'nam
             ->name('panel.setting.site__index');
     Route::post('/save-setting', 'BlogController@site_setting_save')
             ->name('panel.setting.site__update');
+    Route::post('/save-program', 'BlogController@save_program')
+            ->name('panel.setting.site__update__program');
+
+    Route::get('/slider','BlogController@head_slider')
+            ->name('panel.slider__index');
+    Route::get('/new-slider','BlogController@new_slider_view')
+            ->name('panel.slider__add');
+    Route::post('/act-new-slider','BlogController@new_slider_act')
+            ->name('panel.slider__save');
+    Route::get('/edit-slider/{id}','BlogController@edit_slider_view')
+            ->name('panel.slider__view');
+    Route::post('/edit-slider/{id}/act_edit_slider','BlogController@edit_slider_act')
+            ->name('panel.slider__update');
+    Route::get('/hapus-slider/{id}','BlogController@hapus_slider')
+            ->name('panel.slider__delete');
 
     // Route::get('/pages', 'BlogController@pages');
     // Route::get('/page/{slug}', 'BlogController@show_page');
