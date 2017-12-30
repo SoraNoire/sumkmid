@@ -41,6 +41,7 @@ class PublicController extends Controller
         $link_in = Option::where('key', 'link_in')->first()->value ?? '';
         $link_gplus = Option::where('key', 'link_gplus')->first()->value ?? '';
         $footer_desc = Option::where('key', 'footer_desc')->first()->value ?? '';
+        $email_info = Option::where('key', 'email')->first()->value ?? config('app.email_info');
 
         View::share('var', $var);
         View::share('analytic', $analytic);
@@ -52,6 +53,7 @@ class PublicController extends Controller
         View::share('link_gplus', $link_gplus);
         View::share('link_in', $link_in);
         View::share('footer_desc', $footer_desc);
+        View::share('email_info', $email_info);
 	}
 
 	public function login(Request $request)
@@ -105,8 +107,30 @@ class PublicController extends Controller
      */
 	public function home(){
         $var['page'] = "Home";
-		
-		$var['videos'] = DB::table('post_view')->whereIn('post_type',['video', 'gallery'])->orderBy('published_date','desc')->paginate(4);
+
+        $var['gallery'] = Option::where('key', 'gallery_section')->first()->value ?? '';
+        if ($var['gallery'] != '') {
+            $var['gallery'] = json_decode($var['gallery']);
+        } else {
+        	$var['gallery']['title'] = 'Galeri Sahabat UMKM';
+        	$var['gallery']['category'] = '0';
+            $var['gallery'] = json_encode($var['gallery']);
+            $var['gallery'] = json_decode($var['gallery']);
+        }
+
+		$var['gallery_name'] = $var['gallery']->title;
+
+		if ($var['gallery']->category > 1) {
+			$post_ids = PostHelper::get_post_archive_id('category', $var['gallery']->category);
+			$var['videos'] = DB::table('post_view')
+							->whereIn('post_type',['video', 'gallery'])
+							->whereIn('id', $post_ids)
+							->orderBy('published_date','desc')
+							->limit(6)
+							->get();
+		} else {
+			$var['videos'] = DB::table('post_view')->whereIn('post_type',['video', 'gallery'])->orderBy('published_date','desc')->limit(4)->get();
+		}
 
 		$var['mentors'] = app()->OAuth->mentors()->users;
 		
@@ -175,8 +199,7 @@ class PublicController extends Controller
      */
 	public function mentor(){
 		$var['page'] = "Mentor";
-		$user = new \App\Helpers\SSOHelper;
-		$var['mentors'] =  $user->mentors()->users;
+		$var['mentors'] = app()->OAuth->mentors()->users;
 		
 		return view('page.mentor')->with(['var' => $var]);
 	}
@@ -186,8 +209,7 @@ class PublicController extends Controller
      */
 	public function mentorSingle($mentorId){
 		$var['page'] = "mentorSingle";
-		$user = new \App\Helpers\SSOHelper;
-		$var['mentors'] =  $user->mentors("$mentorId")->users;
+		$var['mentors'] =  app()->OAuth->mentors("$mentorId")->users;
 		if(isset($var['mentors'][0])){
 			$var['mentors'] = $var['mentors'][0];
 			return view('page.mentorSingle')->with(['var' => $var]);

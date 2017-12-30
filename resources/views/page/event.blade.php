@@ -12,7 +12,7 @@
 		<div class="archive-list">
 			<div class="infinite-scroll">
 			@foreach ($var['events'] as $event)
-			<?php  $meta = PostHelper::get_post_meta($event->id); ?>
+			@php  $meta = PostHelper::get_post_meta($event->id); @endphp
 			<div class="post event the-row {{ $meta['open_at'] > Carbon::now() ? 'active' : '' }}" id="event-{{ $event->id }}">
 				<div class="col-3">
 
@@ -50,14 +50,16 @@
 								<td>Speaker :</td>
 								<td>
 									@foreach ($meta['mentors'] as $mentor)
+										@if (sizeof($mentor) > 0)
 										<div class="mentorWrap">
 											@if(isset($mentor->foto_profil))
 											<div class="miniPhotoMentor" style="background-image: url('{{ $mentor->foto_profil }}');"></div>
 											@else
 											<div class="miniPhotoMentor" style="background-image: url('{{ asset('images/admin.png') }}');"></div>
 											@endif
-											<a href="{{ (isset($mentor->id) ? route('public_mentor_single',$mentor->id) : route('public_mentor')) }}">{{ $mentor->name }}</a>
+											<a href="{{ (isset($mentor->id) ? route('public_mentor_single',$mentor->id) : route('public_mentor')) }}">{{ $mentor->name ?? '' }}</a>
 										</div>
+										@endif
 									@endforeach
 								</td>
 							</tr>

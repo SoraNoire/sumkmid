@@ -183,3 +183,20 @@ $(function(){
     });
 });
 
+// $('.section-title').each(function() {
+// 	var niceText = $(this).text(),
+//       	openSpan = '<span>', 
+//       	closeSpan = '</span>', 
+//       	middleSpan = '</span><span>';
+
+//   	niceText = niceText.split(' ');
+//   	// lastId = niceText.length - 1;
+//   	// lastText = niceText[lastId];
+//   	// lastText.unshift( middleSpan );
+//   	// niceText.unshift( openSpan );
+//   	// niceText.push( closeSpan );
+// 	// niceText = niceText.join(' ');
+// 	// $(this).html(niceText);
+// 	console.log(niceText);
+
+// });

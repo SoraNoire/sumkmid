@@ -508,7 +508,7 @@ class PostHelper
 
         $mentors = array();
         foreach ($mentor_reg as $mentor_r) {
-            $mentors[] = SSOHelper::mentors($mentor_r)->users[0];
+            $mentors[] = app()->OAuth->mentors($mentor_r)->users;
         }
         foreach ($mentor_not_reg as $mentor_nr) {
             $tmp = json_encode(['name' => $mentor_nr]);

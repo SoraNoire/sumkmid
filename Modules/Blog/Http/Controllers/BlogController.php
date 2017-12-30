@@ -182,7 +182,7 @@ class BlogController extends Controller
             $store->post_type = 'post';
             $store->content = $request->input('content');
             $store->featured_image = $request->input('featured_image');
-            $store->author = app()->OAuth->Auth()->id;
+            $store->author = app()->OAuth->Auth()->master_id;
             $store->status = $request->get('status');
             $store->published_date = $published_date;
             $store->save();
@@ -1657,11 +1657,24 @@ class BlogController extends Controller
         $link_yt = Option::where('key', 'link_yt')->first()->value ?? '';
         $program = Option::where('key', 'program')->first()->value ?? '';
         $footer_desc = Option::where('key', 'footer_desc')->first()->value ?? '';
+        $email = Option::where('key', 'email')->first()->value ?? '';
+
+        $all_cat = Categories::orderBy('name', 'asc')->get();
 
         $video = Option::where('key', 'video_section')->first()->value ?? '';
         if ($video != '') {
             $video = json_decode($video);
         }
+        
+        $gallery = Option::where('key', 'gallery_section')->first()->value ?? '';
+        if ($gallery != '') {
+            $gallery = json_decode($gallery);
+        } else {
+            $gallery['category'] = 0;
+            $gallery = json_encode($gallery);
+            $gallery = json_decode($gallery);
+        }
+
         $quote = Option::where('key', 'quotes_section')->first()->value ?? '';
         if ($quote != '') {
             $quote = json_decode($quote);
@@ -1671,11 +1684,125 @@ class BlogController extends Controller
         if ($program != '') {
             $program = json_decode($program);
             foreach ($program as $key) {
-                $program_structure .= '<li class="dd-item" data-id="'.$key->id.'" data-title="'.$key->title.'" data-description="'.$key->description.'" data-logo="'.$key->logo.'" data-background="'.$key->background.'"><div class="dd-handle dd3-handle">Drag</div><div class="program-item dd3-content panel panel-default" id="program'.$key->id.'"><div class="program-title"><span>'.$key->title.'</span><a data-toggle="collapse" data-parent="#program-structure" href="#program-collapse-'.$key->id.'"><i style="float: right;" class="fa fa-caret-down" aria-hidden="true"></i></a></div><div id="program-collapse-'.$key->id.'" class="collapse program-collapse panel panel-default"><div class="form-group"><label>Title</label><input class="form-control" type="text" name="title" value="'.$key->title.'"><label>Logo</label><div class="input-group"><input class="form-control" type="text" name="logo" value="'.$key->logo.'" readonly="readonly" id="program-logo'.$key->id.'"><span class="input-group-btn"><button class="btn btn-default program-media" type="button" data-tujuan="program-logo'.$key->id.'">Browse media</button></span></div><label>Background</label><div class="input-group"><input class="form-control" type="text" name="background" value="'.$key->background.'" readonly="readonly" id="program-bg'.$key->id.'"><span class="input-group-btn"><button class="btn btn-default program-media" type="button" data-tujuan="program-bg'.$key->id.'">Browse media</button></span></div><label>Description</label><textarea name="description" class="form-control">'.$key->description.'</textarea></div><a href="#" class="remove_item">Remove</a></div></div></li>';
+                $program_structure .= '<li class="dd-item" data-id="';
+
+                if (isset($key->id)) {
+                    $program_structure .= $key->id;
+                }
+                
+                $program_structure .= '" data-title="';
+
+                if (isset($key->title)) {
+                    $program_structure .= $key->title;
+                }
+                
+                $program_structure .= '" data-description="';
+
+                if (isset($key->description)) {
+                    $program_structure .= $key->description;
+                }
+                
+                $program_structure .= '" data-logo="';
+
+                if (isset($key->logo)) {
+                    $program_structure .= $key->logo;
+                }
+                
+                $program_structure .= '" data-background="';
+
+                if (isset($key->background)) {
+                    $program_structure .= $key->background;
+                }
+                
+                $program_structure .= '" data-url="';
+
+                if (isset($key->url)) {
+                    $program_structure .= $key->url;
+                }
+
+                $program_structure .= '"><div class="dd-handle dd3-handle">Drag</div><div class="program-item dd3-content panel panel-default" id="program';
+
+                if (isset($key->id)) {
+                    $program_structure .= $key->id;
+                }
+                
+                $program_structure .= '"><div class="program-title"><span>';
+
+                if (isset($key->title)) {
+                    $program_structure .= $key->title;
+                }
+                
+                $program_structure .= '</span><a data-toggle="collapse" data-parent="#program-structure" href="#program-collapse-';
+
+                if (isset($key->id)) {
+                    $program_structure .= $key->id;
+                }
+                
+                $program_structure .= '"><i style="float: right;" class="fa fa-caret-down" aria-hidden="true"></i></a></div><div id="program-collapse-';
+
+                if (isset($key->id)) {
+                    $program_structure .= $key->id;
+                }
+                
+                $program_structure .= '" class="collapse program-collapse panel panel-default"><div class="form-group"><label>Title</label><input class="form-control" type="text" name="title" value="';
+
+                if (isset($key->title)) {
+                    $program_structure .= $key->title;
+                }
+                
+                $program_structure .= '"><label>URL</label><input class="form-control" type="text" name="url" value="';
+                
+                if (isset($key->url)) {
+                    $program_structure .= $key->url;
+                }
+
+                $program_structure .= '"><label>Logo</label><div class="input-group"><input class="form-control" type="text" name="logo" value="';
+
+                if (isset($key->logo)) {
+                    $program_structure .= $key->logo;
+                }
+                
+                $program_structure .= '" readonly="readonly" id="program-logo';
+
+                if (isset($key->id)) {
+                    $program_structure .= $key->id;
+                }
+                
+                $program_structure .= '"><span class="input-group-btn"><button class="btn btn-default program-media" type="button" data-tujuan="program-logo';
+
+                if (isset($key->id)) {
+                    $program_structure .= $key->id;
+                }
+                
+                $program_structure .= '">Browse media</button></span></div><label>Background</label><div class="input-group"><input class="form-control" type="text" name="background" value="';
+
+                if (isset($key->background)) {
+                    $program_structure .= $key->background;
+                }
+                
+                $program_structure .= '" readonly="readonly" id="program-bg';
+
+                if (isset($key->id)) {
+                    $program_structure .= $key->id;
+                }
+                
+                $program_structure .= '"><span class="input-group-btn"><button class="btn btn-default program-media" type="button" data-tujuan="program-bg';
+
+                if (isset($key->id)) {
+                    $program_structure .= $key->id;
+                }
+                
+                $program_structure .= '">Browse media</button></span></div><label>Description</label><textarea name="description" class="form-control">';
+
+                if (isset($key->description)) {
+                    $program_structure .= $key->description;
+                }
+                
+                $program_structure .= '</textarea></div><a href="#" class="remove_item">Remove</a></div></div></li>';
             }
         }
 
-        return view('blog::admin.setting')->with(['page_meta_title' => $page_meta_title, 'analytic' => $analytic, 'fb_pixel' => $fb_pixel, 'link_fb' => $link_fb, 'link_in' => $link_in, 'link_tw' => $link_tw, 'link_yt' => $link_yt, 'link_ig' => $link_ig, 'link_gplus' => $link_gplus, 'list_program' => $program_structure, 'footer_desc' => $footer_desc, 'video' => $video, 'quote' => $quote]);
+        return view('blog::admin.setting')->with(['page_meta_title' => $page_meta_title, 'analytic' => $analytic, 'fb_pixel' => $fb_pixel, 'link_fb' => $link_fb, 'link_in' => $link_in, 'link_tw' => $link_tw, 'link_yt' => $link_yt, 'link_ig' => $link_ig, 'link_gplus' => $link_gplus, 'list_program' => $program_structure, 'footer_desc' => $footer_desc, 'video' => $video, 'quote' => $quote, 'gallery' => $gallery, 'all_cat' => $all_cat, 'email' => $email]);
     }
 
     /**
@@ -1699,6 +1826,9 @@ class BlogController extends Controller
         $video['link'] = $request->input('video_link');
         $video['background'] = $request->input('video_bg');
 
+        $gallery['category'] = $request->input('gallery_category');
+        $gallery['title'] = $request->get('gallery_title');
+
         $settings[] = ['name' => 'link_fb', 'value' => $request->input('link_fb')];
         $settings[] = ['name' => 'link_tw', 'value' => $request->input('link_tw')];
         $settings[] = ['name' => 'link_gplus', 'value' => $request->input('link_gplus')];
@@ -1710,6 +1840,8 @@ class BlogController extends Controller
         $settings[] = ['name' => 'quotes_section', 'value' => json_encode($quote)];
         $settings[] = ['name' => 'video_section', 'value' => json_encode($video)];
         $settings[] = ['name' => 'footer_desc', 'value' => $request->input('footer_desc')];
+        $settings[] = ['name' => 'gallery_section', 'value' => json_encode($gallery)];
+        $settings[] = ['name' => 'email', 'value' => $request->input('email')];
 
         try {
             for ($i=0; $i < count($settings) ; $i++) { 

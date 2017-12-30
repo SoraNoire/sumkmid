@@ -50,6 +50,8 @@
 					                        		</div>
 					                        	</div>
 
+	            								<button type="submit" class="btn btn-success pull-left">Save</button>
+
 					                        </div>
 					                    </div>
 					                </div>  
@@ -81,9 +83,62 @@
 					                        		<input type="text" class="form-control" name="quote_from" value="{{ $quote->from ?? '' }}"></input>
 					                        	</div>	
 
+	            								<button type="submit" class="btn btn-success pull-left">Save</button>
+
 					                        </div>
 					                    </div>
-					                </div>       
+					                </div>   
+
+					                <div class="panel panel-default">
+					                    <div class="panel-heading">
+					                        <h4 class="panel-title">
+					                          Home Gallery <a data-toggle="collapse" href="#setting-gallery-cat"><i style="float: right;" class="fa fa-caret-down" aria-hidden="true"></i></a>
+					                        </h4>
+					                    </div>
+					                    <div id="setting-gallery-cat" class="panel-collapse collapse in">
+					                        <div class="panel-body">
+
+				            					<div class="form-group">
+				            						<label>Section Title</label>
+				            						<input type="text" name="gallery_title" class="form-control" value="{{ $gallery->title ?? '' }}">
+													<label>Select Category Gallery</label>
+													<select class="form-control" name="gallery_category">
+														@foreach( $all_cat as $cat )
+														<option value="{{ $cat->id }}" {{ $cat->id == $gallery->category ? 'selected' : '' }}>{{ $cat->name }}</option>
+														@endforeach
+													</select>
+												</div>
+
+	            								<button type="submit" class="btn btn-success pull-left">Save</button>
+
+					                        </div>
+					                    </div>
+					                </div>   
+
+					                <div class="panel panel-default">
+					                    <div class="panel-heading">
+					                        <h4 class="panel-title">
+					                          Program <a data-toggle="collapse" href="#setting-program"><i style="float: right;" class="fa fa-caret-down" aria-hidden="true"></i></a>
+					                        </h4>
+					                    </div>
+					                    <div id="setting-program" class="panel-collapse collapse in">
+					                        <div class="panel-body">
+
+				            					<button type="button" class="btn btn-info pull-left add-program">Add Program +</button>
+			            						<div class="clearfix"></div>
+
+					                        	<div class="dd panel-group" id="program-structure">
+												    <ol class="dd-list">
+												    	{!! $list_program !!}
+												    </ol>
+												</div>
+
+			            						<div class="clearfix"></div>
+				            					<button type="button" class="btn btn-success pull-left save-program" style="margin-top: 10px;">Save</button>
+
+					                        </div>
+					                    </div>
+					                </div>
 
 		                        	<div class="panel panel-default">
 					                    <div class="panel-heading">
@@ -99,37 +154,30 @@
 													<textarea class="form-control" name="footer_desc">{{ $footer_desc ?? '' }}</textarea>
 												</div>
 
+	            								<button type="submit" class="btn btn-success pull-left">Save</button>
+
 					                        </div>
 					                    </div>
-					                </div>                      
+					                </div>    
 
-	            					<button type="submit" class="btn btn-success pull-left">Save</button>
+					                <div class="panel panel-default">
+					                    <div class="panel-heading">
+					                        <h4 class="panel-title">
+					                          Email <a data-toggle="collapse" href="#setting-email"><i style="float: right;" class="fa fa-caret-down" aria-hidden="true"></i></a>
+					                        </h4>
+					                    </div>
+					                    <div id="setting-email" class="panel-collapse collapse in">
+					                        <div class="panel-body">
 
-		                        </div>
-		                    </div>
-		                </div>
+				            					<div class="form-group">
+				            						<input type="Email" name="email" value="{{ $email }}" class="form-control">
+												</div>
 
+	            								<button type="submit" class="btn btn-success pull-left">Save</button>
 
-		                <div class="panel panel-default">
-		                    <div class="panel-heading">
-		                        <h4 class="panel-title">
-		                          Program <a data-toggle="collapse" href="#setting-program"><i style="float: right;" class="fa fa-caret-down" aria-hidden="true"></i></a>
-		                        </h4>
-		                    </div>
-		                    <div id="setting-program" class="panel-collapse collapse in">
-		                        <div class="panel-body">
-
-	            					<button type="button" class="btn btn-info pull-left add-program">Add Program +</button>
-            						<div class="clearfix"></div>
-
-		                        	<div class="dd panel-group" id="program-structure">
-									    <ol class="dd-list">
-									    	{!! $list_program !!}
-									    </ol>
-									</div>
-
-            						<div class="clearfix"></div>
-	            					<button type="button" class="btn btn-success pull-left save-program" style="margin-top: 10px;">Save</button>
+					                        </div>
+					                    </div>
+					                </div>                     
 
 		                        </div>
 		                    </div>
