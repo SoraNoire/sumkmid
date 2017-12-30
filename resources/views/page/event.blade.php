@@ -50,6 +50,7 @@
 								<td>Speaker :</td>
 								<td>
 									@foreach ($meta['mentors'] as $mentor)
+										@if (sizeof($mentor) > 0)
 										<div class="mentorWrap">
 											@if(isset($mentor->foto_profil))
 											<div class="miniPhotoMentor" style="background-image: url('{{ $mentor->foto_profil }}');"></div>
@@ -58,6 +59,7 @@
 											@endif
 											<a href="{{ (isset($mentor->id) ? route('public_mentor_single',$mentor->id) : route('public_mentor')) }}">{{ $mentor->name ?? '' }}</a>
 										</div>
+										@endif
 									@endforeach
 								</td>
 							</tr>

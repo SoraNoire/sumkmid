@@ -35,7 +35,7 @@
 	<div class="container">
 	    <div class="row">
 	        <div class="col-5 left-content">
-	        	<h3 class="section-title"><span>What</span> <span>We Do</span></h3>
+	        	<h3 class="section-title"><span>What We</span> <span>Do<span></h3>
 	        	<div class="section-desc">
 		        	<p>
 		        		{{ $var['video']->description ?? '' }}
@@ -117,7 +117,7 @@
 				<img src="{{ $program->logo }}">
 			</div>
 			<div class="heading">
-				<a href="#"><span>{{ $program->title }}</span></a>
+				<a href="{{ $program->url ?? '#' }}"><span>{{ $program->title }}</span></a>
 			</div>
 			<div class="caption">
 				<p>{{ $program->description }}</p>

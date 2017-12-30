@@ -137,7 +137,7 @@
                     </p>
                 </div>
                 <div class="col-4 contactItems">
-                    <h5>Sekretariat Sahabat UMKM</h5>
+                    <h5>SEKRETARIAT SAHABAT UMKM</h5>
                     <ul>
                         <li>
                             <i class="fa fa-map-marker" aria-hidden="true"></i>
@@ -155,7 +155,7 @@
                         <li>
                             <i class="fa fa-envelope" aria-hidden="true"></i>
                             <p>
-                                <a href="mailto:sekretariat@sahabatumkm.id">sekretariat@sahabatumkm.id</a>
+                                <a href="{{ 'mailto:'.$email_info ?? '' }}">{{ $email_info ?? '' }}</a>
                             </p>
                         </li>
 
