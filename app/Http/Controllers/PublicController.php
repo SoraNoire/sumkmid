@@ -23,6 +23,7 @@ use Mail;
 use View;
 use Modules\Blog\Entities\Media;
 use Illuminate\Support\Facades\Validator;
+use Vinkla\Instagram\Instagram;
 
 class PublicController extends Controller
 {
@@ -118,7 +119,11 @@ class PublicController extends Controller
             $var['gallery'] = json_decode($var['gallery']);
         }
 
-		$var['gallery_name'] = $var['gallery']->title;
+		$gallery_title = $var['gallery']->title;
+		$split = explode(' ', $gallery_title);
+		$split[count($split)-1] = "</span><span>".$split[count($split)-1]."</span>";
+		$split[0] = "<span>".$split[0];
+		$var['gallery_name'] = implode(" ", $split);
 
 		if ($var['gallery']->category > 1) {
 			$post_ids = PostHelper::get_post_archive_id('category', $var['gallery']->category);
@@ -164,6 +169,16 @@ class PublicController extends Controller
         }
 
         $var['about_us'] = Option::where('key', 'about_us')->first()->value ?? '';
+
+        $instagram_token = Option::where('key', 'instagram_token')->first()->value ?? '';
+        if ($instagram_token != '') {
+        	try {	
+				$instagram = new Instagram($instagram_token);
+				$var['instagram'] = $instagram->get();
+        	} catch (\Exception $e) {
+
+        	}
+        }
 
 		return view('page.home')->with(['var' => $var]);
 	}

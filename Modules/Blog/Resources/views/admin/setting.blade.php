@@ -131,7 +131,7 @@
 
 				            					<div class="form-group">
 													<label>Instagram Token</label>
-													<input type="text" name="instagram_token" value="{{ $instagram_token }}">
+													<input type="text" name="instagram_token" value="{{ $instagram_token }}" class="form-control">
 												</div>
 
 	            								<button type="submit" class="btn btn-success pull-left">Save</button>
