@@ -30,83 +30,33 @@
 </div>
 </section>
 
-<section id="what-we-do">
-	<div class="bg-overlay"></div>
+<section id="about-us">
 	<div class="container">
-	    <div class="row">
-	        <div class="col-5 left-content">
-	        	<h3 class="section-title"><span>What We</span> <span>Do<span></h3>
-	        	<div class="section-desc">
-		        	<p>
-		        		{{ $var['video']->description ?? '' }}
-		        	</p>
-	        	</div>
-	        	@if ( isset($var['video']->button) )
-	        	<a href="{{ url($var['video']->button_link ?? '') }}" class="button">{{ $var['video']->button ?? '' }}</a>
-	        	@endif
-	        </div>
-	        <div class="col-7 right-content">
-	        	@if (isset( $var['video']->link ))
-	        	<div class="video-wraper" style="background-image: url({{ url( $var['video']->background ?? '' ) }});">
-	        		<a href="{{ url($var['video']->link ?? '') }}">
-	        			<img src="/img/play-button.png">
-	        		</a>
-	        	</div>
-	        	@endif
-	        </div>
-	    </div>
-    </div>
-</section>
-
-<section id="event">
-	<div class="container">
-	    <div class="row">
-	        <div class="col-5 left-content">
-	        	<h3 class="section-title gray"><span>Event</span> <span>UMKM</span></h3>
-	        	<div class="section-desc">
-		        	<p>
-		        		{{ $var['quote']->description ?? '' }}
-		        	</p>
-	        	</div>
-	        	@if (isset( $var['quote']->button ))
-	        	<a href="{{ url($var['quote']->button_link ?? '') }}" class="button blue-shadow">{{ $var['quote']->button ?? '' }}</a>
-	        	@endif
-	        </div>
-	        <div class="col-7 right-content">
-	        	<div class="block-wraper">
-	        		<div class="block"></div>
-	        		<div class="block quote">
-	        			@if (isset( $var['quote']->text ))
-	        			<span class="quote-logo"><i class="material-icons">format_quote</i></span>
-	        			<div class="the-quote">
-		        			<p>{{ $var['quote']->text ?? '' }}</p>
-		        			@if (isset( $var['quote']->from ))
-		        			<span>- {{ $var['quote']->from ?? ''}}</span>
-		        			@endif
-	        			</div>
-	        			@endif
-	        		</div>
-	        		<div class="block"></div>
-	        	</div>
-	        </div>
-	    </div>
-    </div>
-</section>
-
-<section id="video" class="blue-bg">
-	<div class="container">
-		<h3 class="section-title">{{ $var['gallery']->title }}</h3>
-		<div class="the-row">
-			@foreach ($var['videos'] as $video)
-			<div class="col-3">
-				<div class="video-wraper" style="background-image: url('{{ $video->featured_image }}');">
-	        		<a href="{{route('single_gallery', $video->slug)}}"><span class="play-button"><i class="fa fa-play fa-lg" aria-hidden="true"></i></span></a>
-	        	</div>
-				<a href="{{route('single_gallery', $video->slug)}}" class="tilte">{{ $video->title }}</a>
-			</div>
-			@endforeach
+		<h3 class="section-title gray"><span>Tentang</span> <span>Kami</span></h3>
+		<div class="section-desc">
+			<p>
+				{{ $var['about_us'] ?? '' }}
+			</p>
 		</div>
 	</div>
+</section>
+
+<section id="quote" class="blue-bg">
+    <div class="container">
+        <div class="the-row">
+        	<div class="quotePhotoWraper">
+	            <div class="quotePhoto">
+	                <img src="{{ $var['quote']->image }}" alt="quoter-mdirect">
+	            </div>
+            </div>
+        	<p>{{ $var['quote']->from ?? '' }}</p>
+            <div class="quote">
+                <blockquote>
+                    "{{ $var['quote']->text ?? '' }}"
+                </blockquote>
+            </div>
+        </div>
+    </div>
 </section>
 
 <section id="programs">
@@ -127,36 +77,52 @@
 
 	</div>
 </section>
-@if($var['mentors'])
-<section id="ourMentors">
-	<div class="container">
-		<h3 class="section-title"><span>Meet Our</span> <span>Mentor</span></h3>
-		<div class="mentorWrap">
-			@php $i = 1 @endphp
 
-			@foreach($var['mentors'] as $mentor)
-			@php $i++ @endphp
-			@if($i == 5)
-			@php break @endphp
-			@endif
-			<div id="mentors">
-				<div class="photoMentor">
-				    <div>
-				        <img src="{{ $mentor->foto_profil ?? 'tidak ada' }}" alt=""/>
-				    </div>
-				</div>
-				<h5 class="mentor-name">
-					<a href="{{ route('public_mentor_single',$mentor->id) }}">
-						{{ $mentor->name }}
-					</a>
-				</h5>
-				<span class="mentor-desc">{{ $mentor->jabatan }}</span>
+<section id="video" class="blue-bg">
+	<div class="container">
+		<h3 class="section-title">{{ $var['gallery']->title }}</h3>
+		<div class="the-row">
+			@foreach ($var['videos'] as $video)
+			<div class="col-3">
+				<div class="video-wraper" style="background-image: url('{{ $video->featured_image }}');">
+	        		<a href="{{route('single_gallery', $video->slug)}}"><span class="play-button"><i class="fa fa-play fa-lg" aria-hidden="true"></i></span></a>
+	        	</div>
+				<a href="{{route('single_gallery', $video->slug)}}" class="tilte">{{ $video->title }}</a>
 			</div>
 			@endforeach
 		</div>
 	</div>
 </section>
-@endif
+
+<section id="ourMentors">
+	<div class="container">
+		<h3 class="section-title"><span>Meet Our</span> <span>Mentor</span></h3>
+			<div class="mentorWrap">
+				@php $i = 0 @endphp
+
+				@foreach($var['mentors'] as $mentor)
+				@php $i++ @endphp
+				@if($i == 5)
+					@php break @endphp
+				@endif
+				<div id="mentors">
+					<div class="photoMentor">
+					    <div>
+					        <img src="{{ $mentor->foto_profil ?? 'tidak ada' }}" alt=""/>
+					    </div>
+					</div>
+					<h5 class="mentor-name">
+						<a href="{{ route('public_mentor_single',$mentor->id) }}">
+							{{ $mentor->name }}
+						</a>
+					</h5>
+					<span class="mentor-desc">{{ $mentor->jabatan }}</span>
+				</div>
+				@endforeach
+			</div>
+	</div>
+</section>
+
 <div class="clearfix"></div>
 <section id="mentor" style="display: none;">
 	<div class="container">

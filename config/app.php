@@ -193,6 +193,7 @@ return [
         Modules\Blog\Providers\ShortcodesServiceProvider::class,
         App\Providers\SSOServiceProvider::class,
         Rabbit\OAuthClient\OAuthClientServiceProvider::class,
+        // Vinkla\Instagram\InstagramServiceProvider::class
 
     ],
 
@@ -247,6 +248,7 @@ return [
         'PostHelper' => Modules\Blog\Http\Helpers\PostHelper::class,
         'Shortcode' => Webwizo\Shortcodes\Facades\Shortcode::class,
         'Carbon' => \Carbon\Carbon::class,
+        // 'Instagram' => Vinkla\Instagram\Facades\Instagram::class,
 
         // lara collective
         'Form' => Collective\Html\FormFacade::class,
