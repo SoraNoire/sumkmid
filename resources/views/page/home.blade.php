@@ -44,13 +44,16 @@
 <section id="quote" class="blue-bg">
     <div class="container">
         <div class="the-row">
+        	@if ( isset($var['quote']->image) && $var['quote']->image != '' )
         	<div class="col-3">
 	        	<div class="quotePhotoWraper">
 		            <div class="quotePhoto">
 		                <img src="{{ $var['quote']->image ?? '' }}">
+		            	}
 		            </div>
 	            </div>
             </div>
+            @endif
             <div class="col-9">
 	            <div class="quote">
 	                <blockquote>
