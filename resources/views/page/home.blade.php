@@ -47,7 +47,7 @@
         	<div class="col-3">
 	        	<div class="quotePhotoWraper">
 		            <div class="quotePhoto">
-		                <img src="{{ $var['quote']->image ?? '' }}" alt="quoter-mdirect">
+		                <img src="{{ $var['quote']->image ?? '' }}">
 		            </div>
 	            </div>
             </div>
