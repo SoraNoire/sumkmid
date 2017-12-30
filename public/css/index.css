@@ -2011,6 +2011,13 @@ footer .container .stayInTouch .copyText {
   text-align: center;
 }
 
+@media screen and (max-width: 680px) {
+  #quote {
+    padding-top: 15px;
+    padding-bottom: 15px;
+  }
+}
+
 #quote .section-title {
   text-align: center;
   color: inherit;
@@ -2023,9 +2030,37 @@ footer .container .stayInTouch .copyText {
 }
 
 #quote .the-row {
-  display: block;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
   width: 100%;
   margin: unset;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+@media screen and (max-width: 680px) {
+  #quote .the-row {
+    display: block;
+  }
+}
+
+@media screen and (max-width: 680px) {
+  #quote .the-row .col-3 {
+    display: block;
+    width: calc(100% - 15px);
+  }
+}
+
+@media screen and (max-width: 680px) {
+  #quote .the-row .col-9 {
+    display: block;
+    width: calc(100% - 15px);
+  }
 }
 
 #quote .the-row .quotePhotoWraper {
@@ -2056,10 +2091,16 @@ footer .container .stayInTouch .copyText {
 }
 
 #quote .the-row .quote blockquote {
-  font-size: 14px;
-  margin-top: 10px;
+  font-size: 18px;
+  margin-bottom: 10px;
   color: rgba(255, 255, 255, 0.87);
   text-align: center;
+}
+
+@media screen and (max-width: 680px) {
+  #quote .the-row .quote blockquote {
+    margin-top: 10px;
+  }
 }
 
 #quote .the-row .quote span {
@@ -2197,13 +2238,13 @@ footer .container .stayInTouch .copyText {
   -webkit-transition: background-image 0.5s ease-in-out;
   transition: background-image 0.5s ease-in-out;
   width: 200px;
-  height: 500px;
   display: inline-block;
   vertical-align: top;
   background-size: cover;
   background-color: #0A4773;
   background-position: center;
-  padding-top: 100px;
+  height: 380px;
+  padding-top: 30px;
   text-align: center;
 }
 
