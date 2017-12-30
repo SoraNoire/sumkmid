@@ -1989,6 +1989,83 @@ footer .container .stayInTouch .copyText {
   }
 }
 
+#about-us {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  text-align: center;
+}
+
+#about-us .section-title {
+  margin-bottom: 34px;
+  margin-top: 10px;
+}
+
+#about-us .section-desc {
+  margin-bottom: 26px;
+}
+
+#quote {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  color: rgba(255, 255, 255, 0.87);
+  text-align: center;
+}
+
+#quote .section-title {
+  text-align: center;
+  color: inherit;
+}
+
+@media screen and (max-width: 425px) {
+  #quote .section-title {
+    font-size: 19px;
+  }
+}
+
+#quote .the-row {
+  display: block;
+  width: 100%;
+  margin: unset;
+}
+
+#quote .the-row .quotePhotoWraper {
+  width: 100%;
+  display: block;
+  text-align: center;
+}
+
+#quote .the-row .quotePhotoWraper .quotePhoto {
+  display: inline-block;
+  width: 105px;
+  height: 105px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+#quote .the-row .quotePhotoWraper .quotePhoto img {
+  width: 105px;
+  height: 105px;
+  -webkit-filter: grayscale(100%);
+  /* Safari 6.0 - 9.0 */
+  filter: grayscale(100%);
+}
+
+#quote .the-row .quote {
+  width: 100%;
+  display: block;
+}
+
+#quote .the-row .quote blockquote {
+  font-size: 14px;
+  margin-top: 10px;
+  color: rgba(255, 255, 255, 0.87);
+  text-align: center;
+}
+
+#quote .the-row .quote span {
+  font-size: .9em;
+}
+
 #what-we-do {
   padding-top: 15px;
   padding-bottom: 15px;
@@ -2220,12 +2297,19 @@ footer .container .stayInTouch .copyText {
 #ourMentors .container .mentorWrap {
   text-align: center;
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 
 #ourMentors .container .mentorWrap #mentors {
   display: inline-block;
   width: 180px;
   margin-top: 10px;
+  float: left;
 }
 
 #ourMentors .container .mentorWrap #mentors .photoMentor {

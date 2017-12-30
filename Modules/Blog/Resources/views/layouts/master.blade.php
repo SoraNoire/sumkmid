@@ -22,7 +22,6 @@
     <link href="{{ asset('css/app.css') }}?v=1.0.1" rel="stylesheet">
 
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">
-    <script src="https://use.fontawesome.com/0c0c4bc012.js"></script>
     
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
     <script src="https://cloud.tinymce.com/stable/tinymce.min.js?apiKey={{ $tinymceApiKey ?? '' }}"></script>
@@ -152,7 +151,6 @@
 
     @yield('modal')
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="{{ asset('js/index.js') }}?v=1.0.2" type="text/javascript"></script>
   </body>
 </html>

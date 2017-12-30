@@ -134,7 +134,6 @@ class PublicController extends Controller
 
 		$var['mentors'] = app()->OAuth->mentors()->users;
 		
-		
 		$program = Option::where('key', 'program')->first()->value ?? '';
         $var['programs'] = [];
         if ($program != '') {
@@ -163,6 +162,8 @@ class PublicController extends Controller
         if ($var['quote'] != '') {
             $var['quote'] = json_decode($var['quote']);
         }
+
+        $var['about_us'] = Option::where('key', 'about_us')->first()->value ?? '';
 
 		return view('page.home')->with(['var' => $var]);
 	}

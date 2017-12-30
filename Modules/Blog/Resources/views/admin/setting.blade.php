@@ -15,39 +15,23 @@
 	                	<div class="panel panel-default">
 		                    <div class="panel-heading">
 		                        <h4 class="panel-title">
-		                          Homepage <a data-toggle="collapse" href="#setting-analytics"><i style="float: right;" class="fa fa-caret-down" aria-hidden="true"></i></a>
+		                          Homepage <a data-toggle="collapse" href="#setting-homepage"><i style="float: right;" class="fa fa-caret-down" aria-hidden="true"></i></a>
 		                        </h4>
 		                    </div>
-		                    <div id="setting-analytics" class="panel-collapse collapse in">
+		                    <div id="setting-homepage" class="panel-collapse collapse in">
 		                        <div class="panel-body">
 
 		                        	<div class="panel panel-default">
 					                    <div class="panel-heading">
 					                        <h4 class="panel-title">
-					                          Video Section <a data-toggle="collapse" href="#setting-video"><i style="float: right;" class="fa fa-caret-down" aria-hidden="true"></i></a>
+					                          About Us <a data-toggle="collapse" href="#setting-about-us"><i style="float: right;" class="fa fa-caret-down" aria-hidden="true"></i></a>
 					                        </h4>
 					                    </div>
-					                    <div id="setting-video" class="panel-collapse collapse in">
+					                    <div id="setting-about-us" class="panel-collapse collapse in">
 					                        <div class="panel-body">
 
 				            					<div class="form-group">
-					                        		<label>Title</label>
-					                        		<input type="text" class="form-control" name="video_title" value="{{ $video->title ?? '' }}">
-					                        		<label>Description</label>
-					                        		<textarea class="form-control" name="video_description"> {{ $video->description ?? '' }}</textarea>
-					                        		<label>Button Text</label>
-					                        		<input type="text" class="form-control" name="video_button"  value="{{ $video->button ?? '' }}"></input>
-					                        		<label>Button Link</label>
-					                        		<input type="text" class="form-control" name="video_button_link" value="{{ $video->button_link ?? '' }}"></input>
-					                        		<label>Video Link</label>
-					                        		<input type="text" class="form-control" name="video_link"  value="{{ $video->link ?? '' }}"></input>
-					                        		<label>Video Background</label>
-					                        		<div class="input-group">
-					                        			<input class="form-control" type="text" name="video_bg" value="{{ $video->background }}" readonly="readonly" id="video-bg">
-					                        			<span class="input-group-btn">
-					                        				<button class="btn btn-default program-media" type="button" data-tujuan="video-bg">Browse media</button>
-					                        			</span>
-					                        		</div>
+					                        		<textarea class="form-control" name="about_us">{{ $about_us }}</textarea>
 					                        	</div>
 
 	            								<button type="submit" class="btn btn-success pull-left">Save</button>
@@ -59,28 +43,24 @@
 		                        	<div class="panel panel-default">
 					                    <div class="panel-heading">
 					                        <h4 class="panel-title">
-					                          Quote Section <a data-toggle="collapse" href="#setting-quote"><i style="float: right;" class="fa fa-caret-down" aria-hidden="true"></i></a>
+					                          Quote <a data-toggle="collapse" href="#setting-quote"><i style="float: right;" class="fa fa-caret-down" aria-hidden="true"></i></a>
 					                        </h4>
 					                    </div>
 					                    <div id="setting-quote" class="panel-collapse collapse in">
 					                        <div class="panel-body">
 
 				            					<div class="form-group">
-					                        		<label>Title</label>
-					                        		<input type="text" class="form-control" name="quote_title" value="{{ $quote->title ?? '' }}">
-					                        		<label>Description</label>
-					                        		<textarea class="form-control" name="quote_description"> {{ $quote->description ?? '' }}</textarea>
-					                        		<label>Button Text</label>
-					                        		<input type="text" class="form-control" name="quote_button" value="{{ $quote->button ?? '' }}"></input>
-					                        		<label>Button Link</label>
-					                        		<input type="text" class="form-control" name="quote_button_link" value="{{ $quote->button_link ?? '' }}"></input>
-					                        	</div>	
-
-					                        	<div class="form-group">
 					                        		<label>Quote</label>
-					                        		<textarea class="form-control" name="quote_text">{{ $quote->text ?? '' }}</textarea>
-					                        		<label>Quote From</label>
+					                        		<textarea class="form-control" name="quote_text"> {{ $quote->text ?? '' }}</textarea>
+					                        		<label>Quoter</label>
 					                        		<input type="text" class="form-control" name="quote_from" value="{{ $quote->from ?? '' }}"></input>
+					                        		<label>Quoter Image</label>
+					                        		<div class="input-group">
+					                        			<input class="form-control" type="text" name="quote_image" value="{{ $quote->image ?? '' }}" readonly="readonly" id="quote-image">
+					                        			<span class="input-group-btn">
+					                        				<button class="btn btn-default program-media" type="button" data-tujuan="quote-image">Browse media</button>
+					                        			</span>
+					                        		</div>
 					                        	</div>	
 
 	            								<button type="submit" class="btn btn-success pull-left">Save</button>
@@ -139,6 +119,26 @@
 					                        </div>
 					                    </div>
 					                </div>
+
+					                <div class="panel panel-default">
+					                    <div class="panel-heading">
+					                        <h4 class="panel-title">
+					                          Socmed Feed <a data-toggle="collapse" href="#setting-socmed-feed"><i style="float: right;" class="fa fa-caret-down" aria-hidden="true"></i></a>
+					                        </h4>
+					                    </div>
+					                    <div id="setting-socmed-feed" class="panel-collapse collapse in">
+					                        <div class="panel-body">
+
+				            					<div class="form-group">
+													<label>Instagram Token</label>
+													<input type="text" name="instagram_token" value="{{ $instagram_token }}">
+												</div>
+
+	            								<button type="submit" class="btn btn-success pull-left">Save</button>
+
+					                        </div>
+					                    </div>
+					                </div>    
 
 		                        	<div class="panel panel-default">
 					                    <div class="panel-heading">

@@ -1,5 +1,67 @@
+#about-us {
+	padding-top: 15px;
+	padding-bottom: 15px;	
+	text-align: center;
 
+	.section-title {
+		margin-bottom: 34px;    
+		margin-top: 10px;
+	}
+	.section-desc {
+		margin-bottom: 26px;
+	}
+}
 
+#quote {
+	padding-top: 20px;
+	padding-bottom: 20px;
+	color: rgba(255, 255, 255, 0.87);
+	text-align: center;
+
+	.section-title {
+		text-align: center;
+		color: inherit;
+		@media screen and (max-width: 425px) {
+			font-size: 19px;
+		}
+	}
+	.the-row{
+        display: block;
+        width: 100%;
+        margin: unset;
+        .quotePhotoWraper{
+            width: 100%;
+            display: block;
+            text-align: center;
+            .quotePhoto{
+                display: inline-block;
+                width: 105px;
+                height: 105px;
+                border-radius: 50%;
+                overflow: hidden;
+                img{
+                    width: 105px;
+                    height: 105px;
+                    -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+                    filter: grayscale(100%);
+                }
+            }
+        }
+        .quote{
+            width: 100%;
+            display: block;
+            blockquote{
+                font-size: 14px;
+                margin-top: 10px;
+				color: rgba(255, 255, 255, 0.87);
+				text-align: center;
+            }
+            span{
+                font-size: .9em;
+            }
+        }
+    }
+}
 
 #what-we-do {
 	padding-top: 15px;
@@ -175,10 +237,13 @@
 		.mentorWrap{
 			text-align: center;
 			position: relative;
+			display: flex;
+			justify-content: center;
 			#mentors{
 				display: inline-block;
 				width: 180px;
 				margin-top: 10px;
+				float: left;
 				
 				.photoMentor{
 					width: 66%;
