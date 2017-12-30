@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.7/css/swiper.min.css">
 <div class="breadcrumb">
 	<div class="container">
-		<h2>{{ $var['content']->post_type == 'video' ? 'Video' : 'Foto' }}</h2>
+		<h2><a href="{{ route('public_home') }}">Beranda</a> <i class="fa fa-angle-right" aria-hidden="true"></i><a href="{{ route('public_gallery') }}">Galeri</a> <i class="fa fa-angle-right" aria-hidden="true"></i> {{ $var['content']->title }} </h2>
 	</div>
 </div>
 
