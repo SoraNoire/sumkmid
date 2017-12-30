@@ -108,19 +108,29 @@ class PublicController extends Controller
 	public function home(){
         $var['page'] = "Home";
 
-		$gallery_cat_id = Option::where('key', 'gallery_category')->first()->value ?? ''; 
-		$cat = Categories::where('id', $gallery_cat_id)->first();
-		$var['gallery_cat'] = $cat->name;
+        $var['gallery'] = Option::where('key', 'gallery_section')->first()->value ?? '';
+        if ($var['gallery'] != '') {
+            $var['gallery'] = json_decode($var['gallery']);
+        } else {
+        	$var['gallery']['title'] = 'Galeri Sahabat UMKM';
+        	$var['gallery']['category'] = '0';
+            $var['gallery'] = json_encode($var['gallery']);
+            $var['gallery'] = json_decode($var['gallery']);
+        }
 
-		$post_ids = PostHelper::get_post_archive_id('category', $cat->id);
-		$var['videos'] = DB::table('post_view')
-						->whereIn('post_type',['video', 'gallery'])
-						->whereIn('id', $post_ids)
-						->orderBy('published_date','desc')
-						->limit(6)
-						->get();
+		$var['gallery_name'] = $var['gallery']->title;
 
-		// $var['videos'] = DB::table('post_view')->whereIn('post_type',['video', 'gallery'])->orderBy('published_date','desc')->limit(4)->get();
+		if ($var['gallery']->category > 1) {
+			$post_ids = PostHelper::get_post_archive_id('category', $var['gallery']->category);
+			$var['videos'] = DB::table('post_view')
+							->whereIn('post_type',['video', 'gallery'])
+							->whereIn('id', $post_ids)
+							->orderBy('published_date','desc')
+							->limit(6)
+							->get();
+		} else {
+			$var['videos'] = DB::table('post_view')->whereIn('post_type',['video', 'gallery'])->orderBy('published_date','desc')->limit(4)->get();
+		}
 
 		$var['mentors'] = app()->OAuth->mentors()->users;
 		

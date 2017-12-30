@@ -95,7 +95,7 @@
 
 <section id="video" class="blue-bg">
 	<div class="container">
-		<h3 class="section-title"><span>Kisah Sukses Pelaku</span> <span>UMKM</span></h3>
+		<h3 class="section-title">{{ $var['gallery']->title }}</h3>
 		<div class="the-row">
 			@foreach ($var['videos'] as $video)
 			<div class="col-3">

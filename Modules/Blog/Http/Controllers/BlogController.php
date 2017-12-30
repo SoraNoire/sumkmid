@@ -1657,7 +1657,6 @@ class BlogController extends Controller
         $link_yt = Option::where('key', 'link_yt')->first()->value ?? '';
         $program = Option::where('key', 'program')->first()->value ?? '';
         $footer_desc = Option::where('key', 'footer_desc')->first()->value ?? '';
-        $gallery_category = Option::where('key', 'gallery_category')->first()->value ?? '';
         $email = Option::where('key', 'email')->first()->value ?? '';
 
         $all_cat = Categories::orderBy('name', 'asc')->get();
@@ -1666,6 +1665,16 @@ class BlogController extends Controller
         if ($video != '') {
             $video = json_decode($video);
         }
+        
+        $gallery = Option::where('key', 'gallery_section')->first()->value ?? '';
+        if ($gallery != '') {
+            $gallery = json_decode($gallery);
+        } else {
+            $gallery['category'] = 0;
+            $gallery = json_encode($gallery);
+            $gallery = json_decode($gallery);
+        }
+
         $quote = Option::where('key', 'quotes_section')->first()->value ?? '';
         if ($quote != '') {
             $quote = json_decode($quote);
@@ -1793,7 +1802,7 @@ class BlogController extends Controller
             }
         }
 
-        return view('blog::admin.setting')->with(['page_meta_title' => $page_meta_title, 'analytic' => $analytic, 'fb_pixel' => $fb_pixel, 'link_fb' => $link_fb, 'link_in' => $link_in, 'link_tw' => $link_tw, 'link_yt' => $link_yt, 'link_ig' => $link_ig, 'link_gplus' => $link_gplus, 'list_program' => $program_structure, 'footer_desc' => $footer_desc, 'video' => $video, 'quote' => $quote, 'gallery_category' => $gallery_category, 'all_cat' => $all_cat, 'email' => $email]);
+        return view('blog::admin.setting')->with(['page_meta_title' => $page_meta_title, 'analytic' => $analytic, 'fb_pixel' => $fb_pixel, 'link_fb' => $link_fb, 'link_in' => $link_in, 'link_tw' => $link_tw, 'link_yt' => $link_yt, 'link_ig' => $link_ig, 'link_gplus' => $link_gplus, 'list_program' => $program_structure, 'footer_desc' => $footer_desc, 'video' => $video, 'quote' => $quote, 'gallery' => $gallery, 'all_cat' => $all_cat, 'email' => $email]);
     }
 
     /**
@@ -1817,6 +1826,9 @@ class BlogController extends Controller
         $video['link'] = $request->input('video_link');
         $video['background'] = $request->input('video_bg');
 
+        $gallery['category'] = $request->input('gallery_category');
+        $gallery['title'] = $request->get('gallery_title');
+
         $settings[] = ['name' => 'link_fb', 'value' => $request->input('link_fb')];
         $settings[] = ['name' => 'link_tw', 'value' => $request->input('link_tw')];
         $settings[] = ['name' => 'link_gplus', 'value' => $request->input('link_gplus')];
@@ -1828,7 +1840,7 @@ class BlogController extends Controller
         $settings[] = ['name' => 'quotes_section', 'value' => json_encode($quote)];
         $settings[] = ['name' => 'video_section', 'value' => json_encode($video)];
         $settings[] = ['name' => 'footer_desc', 'value' => $request->input('footer_desc')];
-        $settings[] = ['name' => 'gallery_category', 'value' => $request->get('gallery_category')];
+        $settings[] = ['name' => 'gallery_section', 'value' => json_encode($gallery)];
         $settings[] = ['name' => 'email', 'value' => $request->input('email')];
 
         try {
