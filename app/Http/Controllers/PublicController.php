@@ -181,6 +181,11 @@ class PublicController extends Controller
         	}
         }
 
+        $curl = new \anlutro\cURL\cURL;
+        $post_url = config('app.get_mnews_post');
+		$response = $curl->get($post_url);
+		$var['post'] = $response->body;
+
 		return view('page.home')->with(['var' => $var]);
 	}
 
