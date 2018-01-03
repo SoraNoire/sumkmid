@@ -55,9 +55,6 @@
             <li class="mobile-admin-nav {{ ($page_meta_title ?? '') == 'Page' ? 'active' : ''}}">
               <a href="{{ url('admin/blog/pages') }}">Pages</a>
             </li>
-            <li class="mobile-admin-nav {{ ($page_meta_title ?? '') == 'Posts' ? 'active' : ''}}">
-              <a href="{{ url('admin/blog/posts') }}">Post</a>
-            </li>
             <li class="mobile-admin-nav {{ ($page_meta_title ?? '') == 'Gallery' ? 'active' : ''}}">
               <a href="{{ url('admin/blog/gallery/') }}">Gallery</a>
             </li>
@@ -69,9 +66,6 @@
             </li>
             <li class="mobile-admin-nav {{ ($page_meta_title ?? '') == 'Media' ? 'active' : ''}}">
               <a href="{{ url('admin/blog/media') }}">Media</a>
-            </li>
-            <li class="mobile-admin-nav {{ ($page_meta_title ?? '') == 'Files' ? 'active' : ''}}">
-              <a href="{{ route('panel.file__index') }}">Files</a>
             </li>
             <li class="mobile-admin-nav {{ ($page_meta_title ?? '') == 'Trash' ? 'active' : ''}}">
               <a href="{{ route('panel.post.trash__index') }}">Trash</a>
@@ -104,9 +98,6 @@
             <li class="{{ ($page_meta_title ?? '') == 'Page' ? 'active' : ''}}">
               <a href="{{ url('admin/blog/pages') }}">Pages</a>
             </li>
-            <li class="{{ ($page_meta_title ?? '') == 'Posts' ? 'active' : ''}}">
-              <a href="{{ url('admin/blog/posts') }}">Post</a>
-            </li>
             <li class="{{ ($page_meta_title ?? '') == 'Gallery' ? 'active' : ''}}">
               <a href="{{ url('admin/blog/gallery/') }}">Gallery</a>
             </li>
@@ -118,9 +109,6 @@
             </li>
             <li class="{{ ($page_meta_title ?? '') == 'Media' ? 'active' : ''}}">
               <a href="{{ url('admin/blog/media') }}">Media</a>
-            </li>
-            <li class="{{ ($page_meta_title ?? '') == 'Files' ? 'active' : ''}}">
-              <a href="{{ route('panel.file__index') }}">Files</a>
             </li>
             <li class="{{ ($page_meta_title ?? '') == 'Trash' ? 'active' : ''}}">
               <a href="{{ route('panel.post.trash__index') }}">Trash</a>
