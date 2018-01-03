@@ -113,6 +113,7 @@ class PublicController extends Controller
         if ($var['gallery'] != '') {
             $var['gallery'] = json_decode($var['gallery']);
         } else {
+        	$var['gallery'] = [];
         	$var['gallery']['title'] = 'Galeri Sahabat UMKM';
         	$var['gallery']['category'] = '0';
             $var['gallery'] = json_encode($var['gallery']);
