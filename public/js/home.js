@@ -222,6 +222,30 @@ if($('#mainSlider').length > 0){
 	});
 }
 
+if($('#main-gallery').length > 0){
+
+	var spp = 4;
+
+	// if($('body').outerWidth() < 725) {
+ //      spp = 4;
+ //    }
+ //    if($('body').outerWidth() < 525) {
+ //    	spp = 3;
+ //    }
+ //    if($('body').outerWidth() < 425) {
+ //    	spp = 2;
+ //    }
+
+	var gallSlider = new Swiper('.gallery-slider', {
+	slidesPerView: spp,
+	spaceBetween: 0,
+	loop: false,
+	pagination: {
+	el: '.gallery-pagination',
+	},
+});
+}
+
 
 
 

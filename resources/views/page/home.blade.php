@@ -87,10 +87,33 @@
 	</div>
 </section>
 
-<section id="video" class="blue-bg">
+<section id="main-gallery" class="blue-bg">
 	<div class="container">
 		<h3 class="section-title">{!! $var['gallery_name'] !!}</h3>
-		<div class="the-row">
+		<div class="swiper-container gallery-slider">
+			<div class="swiper-wrapper">
+				@foreach ($var['videos'] as $video)
+				<div class="swiper-slide">
+					<div class="g-mini-frame">
+						<div class="thumbnail-wraper" style="background-image: url('{{ $video->featured_image ?? '' }}');">
+		        		<a href="{{route('single_gallery', $video->slug ?? '')}}"><span class="play-button"><i class="fa fa-play fa-lg" aria-hidden="true"></i></span></a>
+		        		</div>
+		        		<div class="meta">
+							<a title="{{ $video->title ?? '' }}" href="{{route('single_gallery', $video->slug ?? '')}}" class="title">{{ $video->title ?? '' }}</a>
+							<small class="category">Jajan, UMKM</small>
+							<span class="desc">Aspernatur libero totam ridiculus iusto senectus cubilia tristique porta asperiores, morbi dignissimos, placeat numquam viverra numquam eget cupidatat ullamcorper consectetuer numquam gravida, luctus nunc. Perferendis.</span>
+							<span class="date"><i class="fa fa-calendar" aria-hidden="true"></i>2 days ago</span>
+							<a title="{{ $video->title ?? '' }}" href="{{route('single_gallery', $video->slug ?? '')}}" class="readmore">READMORE</a>
+						</div>
+					</div>
+				</div>
+				@endforeach
+			</div>
+		<!-- Add Pagination -->
+			<div class="swiper-pagination gallery-pagination"></div>
+		</div>
+
+<!-- 		<div class="the-row">
 			@foreach ($var['videos'] as $video)
 			<div class="col-3">
 				<div class="video-wraper" style="background-image: url('{{ $video->featured_image ?? '' }}');">
@@ -99,7 +122,7 @@
 				<a href="{{route('single_gallery', $video->slug ?? '')}}" class="tilte">{{ $video->title ?? '' }}</a>
 			</div>
 			@endforeach
-		</div>
+		</div> -->
 	</div>
 </section>
 
