@@ -34,7 +34,8 @@
         "psr-4": {
             "App\\": "app/",
             "Modules\\": "Modules/",
-            "Rabbit\\OAuthClient\\": "packages/rabbit/oauth-client/src"
+            "Rabbit\\OAuthClient\\": "packages/rabbit/oauth-client/src",
+            "Rabbit\\SahabatUser\\": "packages/rabbit/sahabat-user/src"
         },
         "files": [
             "Modules/Blog/Http/Helpers/PostHelper.php"
