@@ -58,9 +58,17 @@
 					}
 
 				}
+				.button{
+					display: inline-flex;
+					@media screen and (max-width: 360px) {
+						font-size: 10px;
+					}
+				}
 				.caption{
 					font-size: 17px;
 					color: #000;
+					
+					
 					@media screen and (max-width: 560px) {
 						font-size: 13px;
 					}

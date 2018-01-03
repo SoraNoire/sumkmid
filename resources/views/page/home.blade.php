@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.7/css/swiper.min.css">
 <section id="mainSlider">
 <!-- Slider main container -->
-<div class="swiper-container">
+<div class="swiper-container main-slider">
     <div class="swiper-wrapper">
 
     	@foreach( $var['sliders'] as $slider )
@@ -107,7 +107,29 @@
 <section id="instagram-feed">
 	<div class="container">
 		<h3 class="section-title gray"><span>Social</span> <span>Feeds</span></h3>
-		<div class="the-row">
+
+		<div class="swiper-container insta-slider">
+			<div class="swiper-wrapper">
+				@php $i = 0 @endphp
+				@foreach($var['instagram'] as $feed)
+				@php $i++ @endphp
+				@if($i == 10)
+					@php break @endphp
+				@endif
+				<div class="swiper-slide">
+					<a href="{{ $feed->link ?? '' }}">
+					<div class="post-wraper" style="background-image: url('{{ $feed->images->standard_resolution->url ?? '' }}');">
+		        	</div>
+		        	</a>
+				</div>
+				@endforeach
+			</div>
+			<!-- Add Pagination -->
+			<div class="swiper-pagination insta-pagination"></div>
+		</div>
+
+<!-- 		<div class="the-row">
+		
 			@php $i = 0 @endphp
 
 			@foreach($var['instagram'] as $feed)
@@ -122,7 +144,7 @@
 	        	</a>
 			</div>
 			@endforeach
-		</div>
+		</div> -->
 	</div>
 </section>
 @endif
@@ -231,19 +253,5 @@
 	</div>
 </section>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.7/js/swiper.min.js"></script>
-<script>
-	var mySwiper = new Swiper ('.swiper-container', {
-	// Optional parameters
-	direction: 'horizontal',
-	loop: true,
-	autoplay: {
-	    delay: 5000,
-  	},
 
-	// If we need pagination
-	pagination: {
-	  el: '.swiper-pagination',
-	},
-	})
-</script>
 @endsection

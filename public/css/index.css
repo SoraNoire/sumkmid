@@ -1978,6 +1978,18 @@ footer .container .stayInTouch .copyText {
   }
 }
 
+#mainSlider .bigSlideContent .contentWrap .content .button {
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+}
+
+@media screen and (max-width: 360px) {
+  #mainSlider .bigSlideContent .contentWrap .content .button {
+    font-size: 10px;
+  }
+}
+
 #mainSlider .bigSlideContent .contentWrap .content .caption {
   font-size: 17px;
   color: #000;
@@ -2271,7 +2283,7 @@ footer .container .stayInTouch .copyText {
 
 @media screen and (max-width: 830px) {
   #programs .programWrap .programSplit .logo {
-    width: 40px;
+    width: 100px;
     padding-bottom: 5px;
   }
 }
@@ -2630,7 +2642,7 @@ footer .container .stayInTouch .copyText {
   height: 124px;
   background-repeat: no-repeat;
   background-size: cover;
-  border-radius: 15px;
+  background-position: center;
 }
 
 @media screen and (max-width: 768px) {
@@ -2638,6 +2650,15 @@ footer .container .stayInTouch .copyText {
     margin-bottom: 10px;
     text-align: center;
   }
+}
+
+#instagram-feed .insta-slider .insta-pagination {
+  position: relative;
+  bottom: -5px;
+}
+
+#instagram-feed .insta-slider .insta-pagination .swiper-pagination-bullet-active {
+  background: #798480;
 }
 
 @media screen and (max-width: 768px) {

@@ -183,20 +183,45 @@ $(function(){
     });
 });
 
-// $('.section-title').each(function() {
-// 	var niceText = $(this).text(),
-//       	openSpan = '<span>', 
-//       	closeSpan = '</span>', 
-//       	middleSpan = '</span><span>';
+if($('#instagram-feed').length > 0){
+	var spp = 6;
 
-//   	niceText = niceText.split(' ');
-//   	// lastId = niceText.length - 1;
-//   	// lastText = niceText[lastId];
-//   	// lastText.unshift( middleSpan );
-//   	// niceText.unshift( openSpan );
-//   	// niceText.push( closeSpan );
-// 	// niceText = niceText.join(' ');
-// 	// $(this).html(niceText);
-// 	// console.log(niceText);
+	if($('body').outerWidth() < 725) {
+      spp = 4;
+    }
+    if($('body').outerWidth() < 525) {
+    	spp = 3;
+    }
+    if($('body').outerWidth() < 425) {
+    	spp = 2;
+    }
 
-// });
+	var igSlider = new Swiper('.insta-slider', {
+	slidesPerView: spp,
+	spaceBetween: 10,
+	loop: false,
+	pagination: {
+	el: '.insta-pagination',
+	},
+});
+}
+
+if($('#mainSlider').length > 0){
+	var mySwiper = new Swiper ('.main-slider', {
+	// Optional parameters
+	direction: 'horizontal',
+	loop: true,
+	autoplay: {
+	    delay: 5000,
+		},
+
+	// If we need pagination
+	pagination: {
+	  el: '.swiper-pagination',
+	},
+	});
+}
+
+
+
+
