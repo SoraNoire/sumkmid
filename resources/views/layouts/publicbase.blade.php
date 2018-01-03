@@ -156,7 +156,7 @@
                         <li>
                             <i class="fa fa-envelope" aria-hidden="true"></i>
                             <p>
-                                <a href="{{ 'mailto:'.$email_info ?? '' }}">{{ $email_info ?? '' }}</a>
+                                <a href="{{ 'mailto:'.(isset($email_info) ? $email_info : 'sekretariat@sahabatumkm.id') }}">{{ isset($email_info) ? $email_info : 'sekretariat@sahabatumkm.id' }}</a>
                             </p>
                         </li>
 

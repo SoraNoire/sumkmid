@@ -23,6 +23,7 @@ class memberController extends Controller
         $link_in = Option::where('key', 'link_in')->first()->value ?? '';
         $link_gplus = Option::where('key', 'link_gplus')->first()->value ?? '';
         $footer_desc = Option::where('key', 'footer_desc')->first()->value ?? '';
+        $email_info = Option::where('key', 'email')->first()->value ?? config('app.email_info');
 
         View::share('var', $var);
         View::share('analytic', $analytic);
@@ -34,6 +35,7 @@ class memberController extends Controller
         View::share('link_gplus', $link_gplus);
         View::share('link_in', $link_in);
         View::share('footer_desc', $footer_desc);
+        View::share('email_info', $email_info);
     }
     /**
      * Show User Setting page.

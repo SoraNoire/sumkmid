@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'get_mnews_post' => env('GET_MNEWS_POST'),
 
     'email_info' => env('EMAIL_INFO'),
     // tinymce api key
@@ -193,6 +194,7 @@ return [
         Modules\Blog\Providers\ShortcodesServiceProvider::class,
         App\Providers\SSOServiceProvider::class,
         Rabbit\OAuthClient\OAuthClientServiceProvider::class,
+        Rabbit\SahabatUser\SahabatUserServiceProvider::class,
         // Vinkla\Instagram\InstagramServiceProvider::class
 
     ],
