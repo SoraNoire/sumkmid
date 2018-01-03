@@ -183,8 +183,11 @@ class PublicController extends Controller
 
         $curl = new \anlutro\cURL\cURL;
         $post_url = config('app.get_mnews_post');
-		$response = $curl->get($post_url);
-		$var['post'] = $response->body;
+		$curl_response = $curl->get($post_url);
+		$var['post'] = [];
+		if ($curl_response->info['content_type'] == 'application/json') {
+			$var['post'] = json_decode($curl_response->body);
+		}
 
 		return view('page.home')->with(['var' => $var]);
 	}
