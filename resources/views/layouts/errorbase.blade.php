@@ -143,7 +143,7 @@
                         <img src="{{ asset('img/footer-logo.png') }}" alt="logo-sahabat-UMKM">
                     </div>
                     <p class="desc">
-                        {{ $footer_desc ?? '' }}
+                        {{ app()->Meta->get('footer_desc') }}
                     </p>
                 </div>
                 <div class="col-4 contactItems">

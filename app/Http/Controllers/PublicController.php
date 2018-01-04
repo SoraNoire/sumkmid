@@ -36,6 +36,7 @@ class PublicController extends Controller
 		Carbon::setLocale('Indonesia');
 		$var['page'] = 'Sahabat UMKM Indonesia';
 
+
 		$analytic = Option::where('key', 'analytic')->first()->value ?? '';
         $fb_pixel = Option::where('key', 'fb_pixel')->first()->value ?? '';
         $link_fb = Option::where('key', 'link_fb')->first()->value ?? '';
