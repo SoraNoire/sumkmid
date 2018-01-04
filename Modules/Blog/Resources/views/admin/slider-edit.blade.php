@@ -3,8 +3,9 @@
 @section('content')
 <div class="col-md-12 admin-row-child">
 	<div class="card">
-
+		@if (in_array('write', app()->OAuth::can('panel.slider')))
 		<a href="{{ route('panel.slider__add') }}" class="btn btn-round btn-fill btn-info"> New Slider +</a>
+		@endif
 		
 	    <div class="card-header" data-background-color="green">
 	        <h4 class="title">Edit Slider</h4>
@@ -31,7 +32,7 @@
 	                </div>
 	            	<div class="col-md-6">
 	            		<label style="display: block;">Image Slider</label>
-            		 	<a id="browse_fimg_post" data-tujuan="featured_img" data-toggle="modal" data-target="#myFimg" class="btn btn-round btn-fill btn-default" style="margin-bottom: 10px;">Browse Image</a>
+            		 	<a id="browse_fimg_post" data-tujuan="featured_img" data-toggle="modal" data-target="#myFimg" class="btn btn-round btn-fill btn-default {{ in_array('read', app()->OAuth::can('panel.media')) ? '':'disabled' }}" style="margin-bottom: 10px;">Browse Image</a>
                         <input type="hidden" name="slider_img" id="featured_img" value="{{ $slider->image }}">
                         <div id="slider" class="preview-fimg-wrap form-group" style="display: {{ $slider->image != '' ? 'block' : ''  }};">
                             <div class="preview-fimg" style="background-image: url({{ $slider->image }});"></div>
@@ -39,7 +40,9 @@
 	            	</div>
 	            	<div class="col-md-12">
 			            <button type="submit" class="btn btn-success pull-left">Save</button>
+			            @if (in_array('delete', app()->OAuth::can('panel.slider')))
 			           	<a class="btn btn-danger" style="margin-left: 10px;" onclick="return confirm('Yakin menghapus foto ini?');" href="{{ route('panel.slider__delete', $slider->id) }}">Delete</a>
+			           	@endif
 	            	</div>
 	            </div>
 	            <div class="clearfix"></div>
@@ -49,35 +52,32 @@
 	</div>
 @endsection
 
+@if (in_array('read', app()->OAuth::can('panel.media')))
 @section('modal')
 <div class="overlay"></div>
-
 <div class="custom-modal fimg-modal">
-<div class="btn btn-round btn-fill btn-info" style="margin-bottom: 10px;">
-<div class="form-group" style="margin-top: 0px;margin-bottom: 0px;padding-bottom: 0px;cursor: default;">
-    <form id="actuploadmedia" method="post" action="{{ URL::to($prefix.'store-media') }}" accept-charset="UTF-8" enctype="multipart/form-data">
-        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-        <input type="file" id="uploadmedia" name="media[]" style="cursor: pointer;" multiple>
-    </form>
-	<span>Ukuran Slider : <strong>1600px X 640px</strong></span>
-</div>
-</div>
-<div style="float: right;" id="close_fimg_post" data-toggle="modal" data-target="#myFimg" class="btn btn-round btn-fill btn-default close-modal">Close</div>
+<div class="close-modal" id="close_media_post" data-toggle="modal" data-target="#myModal">X</div>
+    
     <div class="card">
-        <div class="card-header" data-background-color="blue">
-            <h4 class="title">Browse Media</h4>
-            <p class="category">Cari Media untuk ditambahkan</p>
+        @if (in_array('write', app()->OAuth::can('panel.media')))
+        <div class="btn btn-round btn-fill btn-info" style="margin-bottom: 10px;" onclick="document.getElementById('uploadmedia').click();">Upload media +
+            <form id="actuploadmedia" method="post" action="{{ URL::to('/administrator/act_new_media') }}" accept-charset="UTF-8" enctype="multipart/form-data">
+                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                <input type="file" id="uploadmedia" name="media[]" style="cursor: pointer;display: none;" multiple>
+            </form>
         </div>
-        <div class="card-content table-responsive">
-            <table style="width: 100%;" class="table mediatable" id="sliderImg">
-                <thead >
-                    <th>Preview</th>
-                    <th>Judul</th>
-                    <th>Tanggal</th>
-                    <th>Aksi</th>
-                </thead>
-            </table>
-        </div>
+        @endif
+    <div class="card-content table-responsive" {{ in_array('write', app()->OAuth::can('panel.media')) ? '':'style=margin-top:30px;' }}>
+        <table style="width: 100%;" class="table mediatable" id="sliderImg">
+            <thead >
+                <th>Preview</th>
+                <th>Judul</th>
+                <th>Tanggal</th>
+                <th>Aksi</th>
+            </thead>
+        </table>
+    </div>
     </div>
 </div>
 @endsection
+@endif

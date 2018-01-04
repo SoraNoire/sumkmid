@@ -7,10 +7,41 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="item-id" content="{{ $item_id ?? 0 }}">
     <meta name="category-id" content="{{ $category_id ?? 0 }}">
+    @php 
+        $can = [];
+        if (in_array('read', app()->OAuth::$can)) {
+            $can[] = "1";
+        }
+        if (in_array('write', app()->OAuth::$can)) {
+            $can[] = "2";
+        }
+        if (in_array('edit', app()->OAuth::$can)) {
+            $can[] = "3";
+        }
+        if (in_array('delete', app()->OAuth::$can)) {
+            $can[] = "4";
+        }
+
+        $mediaCan = [];
+        if ( in_array('read', app()->OAuth::can('panel.media')) ) {
+            $mediaCan[] = "1";
+        }
+        if ( in_array('write', app()->OAuth::can('panel.media')) ) {
+            $mediaCan[] = "2";
+        }
+        if ( in_array('edit', app()->OAuth::can('panel.media')) ) {
+            $mediaCan[] = "3";
+        }
+        if ( in_array('delete', app()->OAuth::can('panel.media')) ) {
+            $mediaCan[] = "4";
+        }
+    @endphp
     <script>
         window.Laravel = {!! json_encode([
             'csrfToken' => csrf_token(),
         ]) !!};
+        can = "{{ implode(',', $can) }}".split(',');
+        mediaCan = "{{ implode(',', $mediaCan) }}".split(',');
     </script>
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
@@ -48,34 +79,51 @@
             <li>
               <a href="{{ url('/admin/blog') }}">Dashboard</a>
             </li>
-
+            @if( in_array('read', app()->OAuth::can('panel.event')) )
             <li class="mobile-admin-nav {{ ($page_meta_title ?? '') == 'Events' ? 'active' : ''}}">
               <a href="{{ url('admin/blog/event') }}">Event</a>
             </li>
+            @endif
+            @if( in_array('read', app()->OAuth::can('panel.page')) )
             <li class="mobile-admin-nav {{ ($page_meta_title ?? '') == 'Page' ? 'active' : ''}}">
               <a href="{{ url('admin/blog/pages') }}">Pages</a>
             </li>
+            @endif
+            @if( in_array('read', app()->OAuth::can('panel.gallery')) )
             <li class="mobile-admin-nav {{ ($page_meta_title ?? '') == 'Gallery' ? 'active' : ''}}">
               <a href="{{ url('admin/blog/gallery/') }}">Gallery</a>
             </li>
+            @endif
+            @if( in_array('read', app()->OAuth::can('panel.category')) )
             <li class="mobile-admin-nav {{ ($page_meta_title ?? '') == 'Categories' ? 'active' : ''}}">
               <a href="{{ route('panel.category__index') }}">Categories</a>
             </li>
+            @endif
+            @if( in_array('read', app()->OAuth::can('panel.tag')) )
             <li class="mobile-admin-nav {{ ($page_meta_title ?? '') == 'Tags' ? 'active' : ''}}">
               <a href="{{ route('panel.tag__index') }}">Tags</a>
             </li>
+            @endif
+            @if( in_array('read', app()->OAuth::can('panel.media')) )
             <li class="mobile-admin-nav {{ ($page_meta_title ?? '') == 'Media' ? 'active' : ''}}">
               <a href="{{ url('admin/blog/media') }}">Media</a>
             </li>
+            @endif
+            @if( in_array('read', app()->OAuth::can('panel.trash')) )
             <li class="mobile-admin-nav {{ ($page_meta_title ?? '') == 'Trash' ? 'active' : ''}}">
               <a href="{{ route('panel.post.trash__index') }}">Trash</a>
             </li>
+            @endif
+            @if( in_array('read', app()->OAuth::can('panel.setting.site')) )
             <li class="mobile-admin-nav {{ ($page_meta_title ?? '') == 'Site Setting' ? 'active' : ''}}">
               <a href="{{ route('panel.setting.site__index') }}">Site Setting</a>
             </li>
+            @endif
+            @if( in_array('read', app()->OAuth::can('panel.slider')) )
             <li class="mobile-admin-nav {{ ($page_meta_title ?? '') == 'Slider' ? 'active' : ''}}">
               <a href="{{ route('panel.slider__index') }}">Slider</a>
             </li>
+            @endif
 
             <li>
                 <a href="{{URL::to('/logout')}}">
@@ -92,33 +140,51 @@
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
 
+            @if( in_array('read', app()->OAuth::can('panel.event')) )
             <li class="{{ ($page_meta_title ?? '') == 'Events' ? 'active' : ''}}">
               <a href="{{ url('admin/blog/event') }}">Event</a>
             </li>
+            @endif
+            @if( in_array('read', app()->OAuth::can('panel.page')) )
             <li class="{{ ($page_meta_title ?? '') == 'Page' ? 'active' : ''}}">
               <a href="{{ url('admin/blog/pages') }}">Pages</a>
             </li>
+            @endif
+            @if( in_array('read', app()->OAuth::can('panel.gallery')) )
             <li class="{{ ($page_meta_title ?? '') == 'Gallery' ? 'active' : ''}}">
               <a href="{{ url('admin/blog/gallery/') }}">Gallery</a>
             </li>
+            @endif
+            @if( in_array('read', app()->OAuth::can('panel.category')) )
             <li class="{{ ($page_meta_title ?? '') == 'Categories' ? 'active' : ''}}">
               <a href="{{ route('panel.category__index') }}">Categories</a>
             </li>
+            @endif
+            @if( in_array('read', app()->OAuth::can('panel.tag')) )
             <li class="{{ ($page_meta_title ?? '') == 'Tags' ? 'active' : ''}}">
               <a href="{{ route('panel.tag__index') }}">Tags</a>
             </li>
+            @endif
+            @if( in_array('read', app()->OAuth::can('panel.media')) )
             <li class="{{ ($page_meta_title ?? '') == 'Media' ? 'active' : ''}}">
               <a href="{{ url('admin/blog/media') }}">Media</a>
             </li>
+            @endif
+            @if( in_array('read', app()->OAuth::can('panel.trash')) )
             <li class="{{ ($page_meta_title ?? '') == 'Trash' ? 'active' : ''}}">
               <a href="{{ route('panel.post.trash__index') }}">Trash</a>
             </li>
+            @endif
+            @if( in_array('read', app()->OAuth::can('panel.setting.site')) )
             <li class="{{ ($page_meta_title ?? '') == 'Site Setting' ? 'active' : ''}}">
               <a href="{{ route('panel.setting.site__index') }}">Site Setting</a>
             </li>
+            @endif
+            @if( in_array('read', app()->OAuth::can('panel.slider')) )
             <li class="{{ ($page_meta_title ?? '') == 'Slider' ? 'active' : ''}}">
               <a href="{{ route('panel.slider__index') }}">Slider</a>
             </li>
+            @endif
           </ul>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
@@ -140,6 +206,6 @@
 
     @yield('modal')
 
-    <script src="{{ asset('js/index.js') }}?v=1.0.3" type="text/javascript"></script>
+    <script src="{{ asset('js/index.js') }}?v=1.0.31" type="text/javascript"></script>
   </body>
 </html>

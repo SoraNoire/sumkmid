@@ -12,9 +12,11 @@
     <h4 class="title">New Videos</h4>
 
     <form id="post-form" method="post" action="{{ route('panel.video__save') }}" accept-charset="UTF-8">
+        @if (in_array('write', app()->OAuth::can('panel.video')))
         <a href="{{ route('panel.video__add') }}" class="btn btn-round btn-fill btn-info">
             New Video +<div class="ripple-container"></div>
         </a>
+        @endif
         
         <button type="submit" class="btn btn-success pull-right">Save Video</button>
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -26,7 +28,9 @@
                     <input class="form-control" type="text" name="title" value="{{ old('title') }}" placeholder="Enter Title Here">
                 </div>
 
+                @if (in_array('read', app()->OAuth::can('panel.media')))
                 <a id="browse_media_post" data-toggle="modal" data-target="#myMedia" class="btn btn-round btn-fill btn-default" style="margin-bottom: 10px;">Add Media</a>
+                @endif
 
                 <div class="form-group">
                     <label class="control-label">Description Video</label>
@@ -146,6 +150,7 @@
                     </div>
                 </div>
 
+                @if (in_array('read', app()->OAuth::can('panel.media')))
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
@@ -163,6 +168,7 @@
                         </div>
                     </div>
                 </div>
+                @endif
 
             </div>
         </div>
@@ -173,7 +179,7 @@
 </div>
 @stop
 
-
+@if (in_array('read', app()->OAuth::can('panel.media')))
 @section('modal')
 <div class="overlay"></div>
 
@@ -181,13 +187,15 @@
 <div class="close-modal" id="close_media_post" data-toggle="modal" data-target="#myModal">X</div>
     
     <div class="card">
+        @if (in_array('write', app()->OAuth::can('panel.media')))
         <div class="btn btn-round btn-fill btn-info" style="margin-bottom: 10px;" onclick="document.getElementById('uploadmedia').click();">Upload media +
             <form id="actuploadmedia" method="post" action="{{ URL::to('/administrator/act_new_media') }}" accept-charset="UTF-8" enctype="multipart/form-data">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <input type="file" id="uploadmedia" name="media[]" style="cursor: pointer;display: none;" multiple>
             </form>
         </div>
-    <div class="card-content table-responsive">
+        @endif
+    <div class="card-content table-responsive" {{ in_array('write', app()->OAuth::can('panel.media')) ? '':'style=margin-top:30px;' }}>
         <table style="width: 100%;" class="table mediatable" id="MediaPost">
             <thead >
                 <th>Preview</th>
@@ -203,13 +211,15 @@
 <div class="custom-modal fimg-modal">
 <div class="close-modal" id="close_fimg_post" data-toggle="modal" data-target="#myFimg">X</div>
     <div class="card">
+        @if (in_array('write', app()->OAuth::can('panel.media')))
         <div class="btn btn-round btn-fill btn-info" style="margin-bottom: 10px;" onclick="document.getElementById('uploadfimg').click();">Upload media +
             <form id="actuploadfimg" method="post" action="{{ URL::to('/administrator/act_new_media') }}" accept-charset="UTF-8" enctype="multipart/form-data">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <input type="file" id="uploadfimg" name="media[]" style="cursor: pointer;display: none;" multiple>
             </form>
         </div>
-        <div class="card-content table-responsive">
+        @endif
+        <div class="card-content table-responsive" {{ in_array('write', app()->OAuth::can('panel.media')) ? '':'style=margin-top:30px;' }}>
             <table style="width: 100%;" class="table mediatable" id="FeaturedImg">
                 <thead >
                     <th>Preview</th>
@@ -222,3 +232,4 @@
     </div>
 </div>
 @endsection
+@endif
