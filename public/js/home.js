@@ -226,23 +226,27 @@ if($('#main-gallery').length > 0){
 
 	var spp = 4;
 
-	// if($('body').outerWidth() < 725) {
- //      spp = 4;
- //    }
- //    if($('body').outerWidth() < 525) {
- //    	spp = 3;
- //    }
- //    if($('body').outerWidth() < 425) {
- //    	spp = 2;
- //    }
+	if($('body').outerWidth() < 768) {
+      spp = 3;
+    }
+    if($('body').outerWidth() < 600) {
+    	spp = 2;
+    }
+    if($('body').outerWidth() < 375) {
+    	spp = 1;
+    }
 
 	var gallSlider = new Swiper('.gallery-slider', {
 	slidesPerView: spp,
 	spaceBetween: 0,
-	loop: false,
+	loop: true,
 	pagination: {
 	el: '.gallery-pagination',
 	},
+	navigation: {
+      nextEl: '.galleryGoRight',
+      prevEl: '.galleryGoLeft',
+    },
 });
 }
 

@@ -38,11 +38,12 @@ class PublicController extends Controller
 
 
 		$analytic = Option::where('key', 'analytic')->first()->value ?? '';
+		$tagmanager = Option::where('key', 'tag_manager')->value ?? '';
         $fb_pixel = Option::where('key', 'fb_pixel')->first()->value ?? '';
         $link_fb = Option::where('key', 'link_fb')->first()->value ?? '';
         $link_tw = Option::where('key', 'link_tw')->first()->value ?? '';
         $link_ig = Option::where('key', 'link_ig')->first()->value ?? '';
-        $link_yt = Option::where('key', 'link_yt')->first()->value ?? '';        
+        $link_yt = Option::where('key', 'link_yt')->first()->value ?? '';
         $link_in = Option::where('key', 'link_in')->first()->value ?? '';
         $link_gplus = Option::where('key', 'link_gplus')->first()->value ?? '';
         $footer_desc = Option::where('key', 'footer_desc')->first()->value ?? '';
@@ -50,6 +51,7 @@ class PublicController extends Controller
 
         View::share('var', $var);
         View::share('analytic', $analytic);
+        View::share('tagmanager', $tagmanager);
         View::share('fb_pixel', $fb_pixel);
         View::share('link_fb', $link_fb);
         View::share('link_ig', $link_ig);
@@ -192,6 +194,17 @@ class PublicController extends Controller
 		if ($curl_response->info['content_type'] == 'application/json') {
 			$var['post'] = json_decode($curl_response->body);
 		}
+
+		if (count($var['post']) > 0) {
+			foreach ($var['post'] as $key => $value) {
+				$prop = $value->properties;
+				$prop = json_decode($prop);
+				$value->meta_title = $prop->meta_title;
+				$value->meta_desc = $prop->meta_desc;
+				$value->meta_keyword = $prop->meta_keyword;
+			}
+		}
+		// dd($var['post']);
 
 		return view('page.home')->with(['var' => $var]);
 	}
@@ -383,7 +396,7 @@ class PublicController extends Controller
         }
 
 		$var['page'] = "Category Video ".$cat->name;
-		$var['archive'] = "Category : ".$cat->name;
+		$var['archive'] = "Kategori : ".$cat->name;
 		$post_ids = PostHelper::get_post_archive_id('category', $cat->id);
 		$var['posts'] = DB::table('post_view')
 						->whereIn('post_type',['video', 'gallery'])
@@ -468,5 +481,16 @@ class PublicController extends Controller
         $var['page'] = "Newsletter";
         $email = $request->get('email') ?? '';
 		return view('page.newsletter')->with(['var' => $var, 'email' => $email]);
+	}
+
+	/**
+     * Show post.
+     * @return Response
+     */
+	public function read_post($category, $slug){
+        $mnews_url = config('app.mnews_url') ?? 'http://news.mdirect.id';
+        $post_url = $mnews_url.'/read/'.$category.'/'.$slug;
+
+		return redirect($post_url);
 	}
 }
