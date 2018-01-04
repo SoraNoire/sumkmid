@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'get_mnews_post' => env('GET_MNEWS_POST'),
+    'mnews_url' => env('MNEWS_URL'),
 
     'email_info' => env('EMAIL_INFO'),
     // tinymce api key

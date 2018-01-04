@@ -185,8 +185,8 @@ class PublicController extends Controller
         }
 
         $curl = new \anlutro\cURL\cURL;
-        $post_url = config('app.get_mnews_post');
-		$curl_response = $curl->get($post_url);
+        $mnews_url = config('app.mnews_url') ?? 'http://news.mdirect.id';
+		$curl_response = $curl->get($mnews_url.'/get-sahabat-umkm-post');
 		$var['post'] = [];
 		if ($curl_response->info['content_type'] == 'application/json') {
 			$var['post'] = json_decode($curl_response->body);
