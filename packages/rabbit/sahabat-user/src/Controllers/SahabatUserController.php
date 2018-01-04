@@ -128,7 +128,14 @@ class SahabatUserController extends Controller
             
             self::$step = 2;
 
-            if( 'umkm' == $user->role)
+            if( 'perorangan' == $user->role)
+            {
+                if( isset($user->data->foto_ktp) )
+                {
+                    self::$step = 4;
+                }
+            }
+            else
             {
                 if( 
                     isset($user->data->foto_ktp) && isset($user->data->nama_usaha) && isset($user->data->jenis_usaha)
@@ -138,20 +145,14 @@ class SahabatUserController extends Controller
                     self::$step = 3;
 
                     if( 
-                        isset($user->data->usaha_tetap) && isset($user->data->izin_usaha) && isset($user->data->asset_milik) && isset($user->data->administrasi_keuangan) && isset($user->data->akses_perbankan)  
+                        isset($user->data->usaha_tetap) && isset($user->data->kelengkapan_dokumen) && isset($user->data->tempat_usaha) && isset($user->data->adm_keuangan) && isset($user->data->akses_perbankan)  
                     )
                     {
-                        self::$step = 3;
+                        self::$step = 4;
                     }
                 }   
             }
-            else
-            {
-                if( isset($user->data->foto_ktp) )
-                {
-                    self::$step = 3;
-                }
-            }
+
 
             if( 4 == self::$step && isset($user->data->kuisioner_mengapa) && isset($user->data->kuisioner_harapan ) && isset($user->data->tos_terima) && 1 == $user->data->tos_terima  )
             {
@@ -178,7 +179,6 @@ class SahabatUserController extends Controller
         self::meta_user();
         self::check_steps();
         $user = app()->OAuth::Auth();
-
         if($i != self::$step)
         {
             return redirect( route('SHB.complete_data',self::$step))->send();
@@ -200,7 +200,10 @@ class SahabatUserController extends Controller
                 break;
             case 3:
                 return view('shb::frontend.member.completion3', $data);
-                break;            
+                break;
+            case 4:
+                return view('shb::frontend.member.completion4', $data);
+                break;
             default:
                 return redirect('/');
                 break;
@@ -246,6 +249,9 @@ class SahabatUserController extends Controller
         {
             $typeUser = ( 'ya' == $request->input('type_user') ) ? 'umkm' : 'perorangan';
             self::add_or_update_meta('type_user',$typeUser);
+            // delete umkm data if any
+            UserMeta::whereIn('meta_key',['nama_usaha','jenis_usaha','lama_berdiri','omzet'])
+                      ->where('user_id',app()->OAuth::Auth()->id)->delete();
         }
 
         // save 'nama_usaha'
@@ -269,7 +275,10 @@ class SahabatUserController extends Controller
         // save 'omzet'
         if($request->input('omzet'))
         {
-            self::add_or_update_meta('omzet',$request->input('omzet'));
+            if( 'null' != $request->input('omzet') )
+            {
+              self::add_or_update_meta('omzet',$request->input('omzet'));
+            }
         }
 
         if($request->file('foto_ktp'))
@@ -278,6 +287,7 @@ class SahabatUserController extends Controller
             $filename = rand(3,977) . (md5(date('YMDHis'))) . '.jpg';
             if (!file_exists( storage_path($path) )) {
                 mkdir( storage_path($path) , 0750, true);
+                file_put_contents(storage_path($path.".gitignore"),"*");
             }
             $file = $request->file('foto_ktp');
             $file->move( storage_path( $path ),$filename );
@@ -291,8 +301,61 @@ class SahabatUserController extends Controller
         if($request->input('informasi_usaha'))
         {
 
-            self::add_or_update_meta('informasi_usaha',json_encode($request->input('info')));
+            if ( 1 == sizeof($request->input('info')) )
+            {
+              foreach ($request->input('info') as $key => $i) {
+                  if($i && '' != $i){
+                    self::add_or_update_meta('informasi_usaha',json_encode($request->input('info')));
+                  }
+              }
+
+            }
+            else
+            {
+              $info = [];
+              foreach ($request->input('info') as $key => $value) {
+                if( null != $value && 'null' != $key && '' != $value && '' != $key)
+                {
+                    $info[$key] = $value;
+                }
+              }
+              self::add_or_update_meta('informasi_usaha',json_encode($info));
+            }
         }
+
+
+        // save 'usaha_tetap'
+        if($request->input('usaha_tetap'))
+        {
+
+            self::add_or_update_meta('usaha_tetap',$request->input('usaha_tetap'));
+        }
+        // save 'kelengkapan_dokumen'
+        if($request->input('kelengkapan_dokumen'))
+        {
+
+            self::add_or_update_meta('kelengkapan_dokumen',$request->input('kelengkapan_dokumen'));
+        }
+        // save 'tempat_usaha'
+        if($request->input('tempat_usaha'))
+        {
+
+            self::add_or_update_meta('tempat_usaha',$request->input('tempat_usaha'));
+        }
+        // save 'adm_keuangan'
+        if($request->input('adm_keuangan'))
+        {
+
+            self::add_or_update_meta('adm_keuangan',$request->input('adm_keuangan'));
+        }
+        // save 'akses_perbankan'
+        if($request->input('akses_perbankan'))
+        {
+
+            self::add_or_update_meta('akses_perbankan',$request->input('akses_perbankan'));
+        }
+
+
 
         // save 'kuisioner_mengapa'
         if($request->input('kuisioner_mengapa'))
@@ -301,19 +364,22 @@ class SahabatUserController extends Controller
             self::add_or_update_meta('kuisioner_mengapa',$request->input('kuisioner_mengapa'));
         }
 
-        // save 'informasi_usaha'
+        // save 'kuisionar_harapan'
         if($request->input('kuisioner_harapan'))
         {
 
             self::add_or_update_meta('kuisioner_harapan',$request->input('kuisioner_harapan'));
         }
 
-        // save 'informasi_usaha'
+        // save 'tos_terima'
         if($request->input('tos_terima'))
         {
 
             $tos = ( 'on' == $request->input('tos_terima') ) ? 1 : 0;
-            self::add_or_update_meta('tos_terima',$tos);
+            if( $request->input('kuisioner_harapan') && $request->input('kuisioner_mengapa')  )
+            {
+              self::add_or_update_meta('tos_terima',$tos);
+            }
         }
 
 
