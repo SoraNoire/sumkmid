@@ -26,7 +26,7 @@ class BackendMiddleware
 
         // user outside context
 
-        if ( ! in_array( app()->OAuth::Auth()->role, app()->OAuth::$roles) )
+        if ( !isset(app()->OAuth::Auth()->role) || ! in_array( app()->OAuth::Auth()->role, app()->OAuth::$roles) )
         {
             return redirect('/');
         }
