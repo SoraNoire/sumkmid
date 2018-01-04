@@ -34,6 +34,7 @@ Route::get('/event', 'PublicController@event')->name('public_event');
 Route::get('/galeri', 'PublicController@gallery')->name('public_gallery');
 Route::get('/newsletter', 'PublicController@newsletter')->name('public_newsletter');
 Route::get('/save-newsletter', 'PublicController@save_newsletter')->name('save_newsletter');
+Route::get('/read/{category}/{slug}', 'PublicController@read_post')->name('read_post');
 
 Route::get('/user-setting', 'memberController@userSetting')->name('user_setting');
 Route::post('/user-setting/save','memberController@saveUserSetting')->name('user_setting_save');
