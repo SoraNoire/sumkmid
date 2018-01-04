@@ -92,26 +92,20 @@
 		<h3 class="section-title">{!! $var['gallery_name'] !!}</h3>
 		<div class="swiper-container gallery-slider">
 			<div class="swiper-wrapper">
-				@foreach ($var['videos'] as $video)
+				@foreach ($var['post'] as $post)
 				<div class="swiper-slide">
 					<div class="g-mini-frame">
-						<div class="thumbnail-wraper" style="background-image: url('{{ $video->featured_image ?? '' }}');">
-		        		<!-- <a href="{{route('single_gallery', $video->slug ?? '')}}"><span class="play-button"><i class="fa fa-play fa-lg" aria-hidden="true"></i></span></a> -->
+						<div class="thumbnail-wraper" style="background-image: url('{{ $post->featured_img ?? '' }}');">
 		        		</div>
 		        		<div class="meta">
-							<a title="{{ $video->title ?? '' }}" href="{{route('single_gallery', $video->slug ?? '')}}" class="title">{{ $video->title ?? '' }}</a>
-							<small class="category">
-							@foreach(PostHelper::get_post_category($video->id) as $category)
-								{{ $category->name }}, 
-							@endforeach
-							</small>
+							<a title="{{ $post->title ?? '' }}" href="{{ url('read/'.$post->kategori_slug.'/'.$post->slug_id) }}" class="title">{{ $post->title ?? '' }}</a>
 							<span class="desc">
-								@if(PostHelper::get_post_meta($video->id))
-									{{PostHelper::get_post_meta($video->id)['meta_desc']}}
+								@if( isset($post->meta_desc) )
+									{{ $post->meta_desc }}
 								@endif
 							</span>
-							<span class="date"><i class="fa fa-calendar" aria-hidden="true"></i>{{ \Carbon\Carbon::createFromTimeStamp(strtotime($video->published_date))->diffForHumans() }}</span>
-							<a title="{{ $video->title ?? '' }}" href="{{route('single_gallery', $video->slug ?? '')}}" class="readmore">READMORE</a>
+							<span class="date"><i class="fa fa-calendar" aria-hidden="true"></i>{{ \Carbon\Carbon::createFromTimeStamp(strtotime($post->date_published))->toFormattedDateString() }}</span>
+							<a title="{{ $post->title ?? '' }}" href="{{ url('read/'.$post->kategori_slug.'/'.$post->slug_id) }}" class="readmore">READ MORE</a>
 						</div>
 					</div>
 				</div>

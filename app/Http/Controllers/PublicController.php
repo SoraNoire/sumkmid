@@ -192,6 +192,17 @@ class PublicController extends Controller
 			$var['post'] = json_decode($curl_response->body);
 		}
 
+		if (count($var['post']) > 0) {
+			foreach ($var['post'] as $key => $value) {
+				$prop = $value->properties;
+				$prop = json_decode($prop);
+				$value->meta_title = $prop->meta_title;
+				$value->meta_desc = $prop->meta_desc;
+				$value->meta_keyword = $prop->meta_keyword;
+			}
+		}
+		// dd($var['post']);
+
 		return view('page.home')->with(['var' => $var]);
 	}
 
@@ -467,5 +478,16 @@ class PublicController extends Controller
         $var['page'] = "Newsletter";
         $email = $request->get('email') ?? '';
 		return view('page.newsletter')->with(['var' => $var, 'email' => $email]);
+	}
+
+	/**
+     * Show post.
+     * @return Response
+     */
+	public function read_post($category, $slug){
+        $mnews_url = config('app.mnews_url') ?? 'http://news.mdirect.id';
+        $post_url = $mnews_url.'/read/'.$category.'/'.$slug;
+
+		return redirect($post_url);
 	}
 }
