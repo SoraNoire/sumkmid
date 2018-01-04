@@ -2335,7 +2335,6 @@ footer .container .stayInTouch .copyText {
 }
 
 #ourMentors {
-  background-image: url(/img/blue-bg.png);
   background-size: cover;
   padding-bottom: 15px;
 }
@@ -2344,7 +2343,15 @@ footer .container .stayInTouch .copyText {
   padding-top: 15px;
   padding-bottom: 30px;
   text-align: center;
-  color: #fff;
+}
+
+#ourMentors .container .section-title span {
+  border-color: #585858;
+}
+
+#ourMentors .container .section-title span:last-child {
+  background-image: -webkit-gradient(linear, left top, right top, color-stop(55%, rgba(64, 64, 64, 0.87)), color-stop(0%, rgba(255, 255, 255, 0)));
+  background-image: linear-gradient(to right, rgba(64, 64, 64, 0.87) 55%, rgba(255, 255, 255, 0) 0%);
 }
 
 #ourMentors .container .mentorWrap {
@@ -2557,6 +2564,78 @@ footer .container .stayInTouch .copyText {
 
 #main-gallery {
   padding: 15px 0px;
+  background-color: #F8F8F8;
+}
+
+#main-gallery .container {
+  position: relative;
+}
+
+#main-gallery .section-title {
+  text-align: center;
+}
+
+#main-gallery .section-title span {
+  border-color: #595959;
+}
+
+#main-gallery .section-title span:last-child {
+  background-image: -webkit-gradient(linear, left top, right top, color-stop(55%, rgba(64, 64, 64, 0.87)), color-stop(0%, rgba(255, 255, 255, 0)));
+  background-image: linear-gradient(to right, rgba(64, 64, 64, 0.87) 55%, rgba(255, 255, 255, 0) 0%);
+}
+
+#main-gallery .galleryGoLeft {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  left: -20px;
+  cursor: pointer;
+  border-radius: 50%;
+  -webkit-box-shadow: 3px 3px 5px 0px rgba(0, 0, 0, 0.25);
+  box-shadow: 3px 3px 5px 0px rgba(0, 0, 0, 0.25);
+}
+
+@media screen and (max-width: 1025px) {
+  #main-gallery .galleryGoLeft {
+    left: 5px;
+    z-index: 1;
+  }
+}
+
+#main-gallery .galleryGoLeft img {
+  max-width: 100%;
+}
+
+#main-gallery .galleryGoRight {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  right: -20px;
+  cursor: pointer;
+  border-radius: 50%;
+  -webkit-box-shadow: 3px 3px 5px 0px rgba(0, 0, 0, 0.25);
+  box-shadow: 3px 3px 5px 0px rgba(0, 0, 0, 0.25);
+}
+
+@media screen and (max-width: 1025px) {
+  #main-gallery .galleryGoRight {
+    right: 5px;
+    z-index: 1;
+  }
+}
+
+#main-gallery .galleryGoRight img {
+  max-width: 100%;
+}
+
+#main-gallery .gallery-slider {
+  position: relative;
 }
 
 #main-gallery .gallery-slider .swiper-wrapper .swiper-slide .g-mini-frame {
@@ -2610,27 +2689,36 @@ footer .container .stayInTouch .copyText {
 #main-gallery .gallery-slider .swiper-wrapper .swiper-slide .g-mini-frame .meta .title {
   font-weight: 700;
   text-decoration: none;
+  max-height: 30px;
+  overflow: hidden;
+  line-height: 15px;
+  display: block;
 }
 
 #main-gallery .gallery-slider .swiper-wrapper .swiper-slide .g-mini-frame .meta .category {
-  margin-top: -2px;
+  margin-top: 2px;
   color: #adadad;
+  line-height: 12px;
+  height: 24px;
+  overflow: hidden;
   display: block;
 }
 
 #main-gallery .gallery-slider .swiper-wrapper .swiper-slide .g-mini-frame .meta .desc {
-  margin-top: 20px;
+  margin-top: 5px;
   display: block;
   font-size: 12px;
   font-weight: 500;
-  height: 100px;
+  height: 86px;
   overflow: hidden;
 }
 
 #main-gallery .gallery-slider .swiper-wrapper .swiper-slide .g-mini-frame .meta .date {
-  margin-top: 24px;
   display: block;
   font-size: 12px;
+  bottom: 25px;
+  left: 20px;
+  position: absolute;
 }
 
 #main-gallery .gallery-slider .swiper-wrapper .swiper-slide .g-mini-frame .meta .date i {
@@ -2662,7 +2750,7 @@ footer .container .stayInTouch .copyText {
 #instagram-feed .section-title {
   text-align: center;
   margin-bottom: 45px;
-  color: inherit;
+  color: #fff;
 }
 
 @media screen and (max-width: 425px) {
@@ -2692,7 +2780,7 @@ footer .container .stayInTouch .copyText {
 }
 
 #instagram-feed .insta-slider .insta-pagination .swiper-pagination-bullet-active {
-  background: #798480;
+  background: #fff;
 }
 
 @media screen and (max-width: 768px) {
@@ -2845,6 +2933,10 @@ footer .container .stayInTouch .copyText {
 
 #video-archive {
   margin-top: 25px;
+}
+
+#video-archive .container .row h3 {
+  margin-left: 15px;
 }
 
 #video-archive .container .row .resultSearchHeading {

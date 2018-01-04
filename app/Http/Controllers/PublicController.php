@@ -382,7 +382,7 @@ class PublicController extends Controller
         }
 
 		$var['page'] = "Category Video ".$cat->name;
-		$var['archive'] = "Category : ".$cat->name;
+		$var['archive'] = "Kategori : ".$cat->name;
 		$post_ids = PostHelper::get_post_archive_id('category', $cat->id);
 		$var['posts'] = DB::table('post_view')
 						->whereIn('post_type',['video', 'gallery'])

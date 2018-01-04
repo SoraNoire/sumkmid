@@ -87,7 +87,7 @@
 	</div>
 </section>
 
-<section id="main-gallery" class="blue-bg">
+<section id="main-gallery">
 	<div class="container">
 		<h3 class="section-title">{!! $var['gallery_name'] !!}</h3>
 		<div class="swiper-container gallery-slider">
@@ -96,23 +96,34 @@
 				<div class="swiper-slide">
 					<div class="g-mini-frame">
 						<div class="thumbnail-wraper" style="background-image: url('{{ $video->featured_image ?? '' }}');">
-		        		<a href="{{route('single_gallery', $video->slug ?? '')}}"><span class="play-button"><i class="fa fa-play fa-lg" aria-hidden="true"></i></span></a>
+		        		<!-- <a href="{{route('single_gallery', $video->slug ?? '')}}"><span class="play-button"><i class="fa fa-play fa-lg" aria-hidden="true"></i></span></a> -->
 		        		</div>
 		        		<div class="meta">
 							<a title="{{ $video->title ?? '' }}" href="{{route('single_gallery', $video->slug ?? '')}}" class="title">{{ $video->title ?? '' }}</a>
-							<small class="category">Jajan, UMKM</small>
-							<span class="desc">Aspernatur libero totam ridiculus iusto senectus cubilia tristique porta asperiores, morbi dignissimos, placeat numquam viverra numquam eget cupidatat ullamcorper consectetuer numquam gravida, luctus nunc. Perferendis.</span>
-							<span class="date"><i class="fa fa-calendar" aria-hidden="true"></i>2 days ago</span>
+							<small class="category">
+							@foreach(PostHelper::get_post_category($video->id) as $category)
+								{{ $category->name }}, 
+							@endforeach
+							</small>
+							<span class="desc">
+								@if(PostHelper::get_post_meta($video->id))
+									{{PostHelper::get_post_meta($video->id)['meta_desc']}}
+								@endif
+							</span>
+							<span class="date"><i class="fa fa-calendar" aria-hidden="true"></i>{{ \Carbon\Carbon::createFromTimeStamp(strtotime($video->published_date))->diffForHumans() }}</span>
 							<a title="{{ $video->title ?? '' }}" href="{{route('single_gallery', $video->slug ?? '')}}" class="readmore">READMORE</a>
 						</div>
 					</div>
 				</div>
 				@endforeach
 			</div>
-		<!-- Add Pagination -->
-			<div class="swiper-pagination gallery-pagination"></div>
 		</div>
-
+		<div class="galleryGoLeft">
+			<img src="{{ asset('images/left.png') }}">
+		</div>
+		<div class="galleryGoRight">
+			<img src="{{ asset('images/right.png') }}">
+		</div>
 <!-- 		<div class="the-row">
 			@foreach ($var['videos'] as $video)
 			<div class="col-3">
@@ -127,10 +138,9 @@
 </section>
 
 @if (isset($var['instagram']))
-<section id="instagram-feed">
+<section id="instagram-feed" class="blue-bg">
 	<div class="container">
-		<h3 class="section-title gray"><span>Social</span> <span>Feeds</span></h3>
-
+		<h3 class="section-title"><span>Social</span> <span>Feeds</span></h3>
 		<div class="swiper-container insta-slider">
 			<div class="swiper-wrapper">
 				@php $i = 0 @endphp
@@ -174,7 +184,7 @@
 
 <section id="ourMentors">
 	<div class="container">
-		<h3 class="section-title"><span>Meet Our</span> <span>Mentor</span></h3>
+		<h3 class="section-title grey"><span>Meet Our</span> <span>Mentor</span></h3>
 			<div class="mentorWrap">
 				@php $i = 0 @endphp
 
