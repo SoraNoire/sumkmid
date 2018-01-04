@@ -1098,7 +1098,7 @@ if ($("#EventCategoryTable").length > 0) {
                         editDisabled = '';
                     } else { editDisabled = 'disabled'; }
 
-                    return '<a href="/admin/blog/category/'+row.id+'/view" class="btn btn-round btn-fill btn-info '+editDisabled+'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a><a onclick="return confirm(\'Delete Category?\');" href="/admin/blog/category/'+row.id+'/delete" class="btn btn-round btn-fill btn-danger '+delDisabled+'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>';
+                    return '<a href="/admin/blog/category/'+row.id+'/view" class="btn btn-round btn-fill btn-info '+editDisabled+'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a><a onclick="return confirm(\'Delete Category?\');" href="/admin/blog/category/'+row.id+'/delete" class="btn btn-round btn-fill btn-danger '+delDisabled+'"><i class="fa fa-trash" aria-hidden="true"></i></a>';
                 }
             },
                 {
@@ -1151,7 +1151,7 @@ if ($("#event-table").length > 0) {
                         editDisabled = '';
                     } else { editDisabled = 'disabled'; }
 
-                    return '<a href="/admin/blog/event/'+row.id+'/view" class="btn btn-round btn-fill btn-info '+editDisabled+'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a><a onclick="return confirm(\'Delete Event?\');" href="/admin/blog/event/'+row.id+'/remove"  class="btn btn-round btn-fill btn-danger '+delDisabled+'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>';
+                    return '<a href="/admin/blog/event/'+row.id+'/view" class="btn btn-round btn-fill btn-info '+editDisabled+'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a><a onclick="return confirm(\'Delete Event?\');" href="/admin/blog/event/'+row.id+'/remove"  class="btn btn-round btn-fill btn-danger '+delDisabled+'"><i class="fa fa-trash" aria-hidden="true"></i></a>';
                 }
             },
                 {
@@ -1201,7 +1201,7 @@ if ($("#gallery #GalleryCategoryTable").length > 0) {
                         editDisabled = '';
                     } else { editDisabled = 'disabled'; }
 
-                    return '<a href="/admin/blog/'+row.id+'/view" class="btn btn-round btn-fill btn-info '+editDisabled+'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a><a onclick="return confirm(\'Delete Category?\');" href="/admin/blog/'+row.id+'/remove" class="btn btn-round btn-fill btn-danger '+delDisabled+'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>';
+                    return '<a href="/admin/blog/'+row.id+'/view" class="btn btn-round btn-fill btn-info '+editDisabled+'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a><a onclick="return confirm(\'Delete Category?\');" href="/admin/blog/'+row.id+'/remove" class="btn btn-round btn-fill btn-danger '+delDisabled+'"><i class="fa fa-trash" aria-hidden="true"></i></a>';
                 }
             },
                 {
@@ -1254,7 +1254,7 @@ if ($("#table-gallery").length > 0) {
                         editDisabled = '';
                     } else { editDisabled = 'disabled'; }
 
-                    return '<a href="/admin/blog/'+row.post_type+'/'+row.id+'/edit" class="btn btn-round btn-fill btn-info '+editDisabled+'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a><a onclick="return confirm(\'Delete '+row.post_type+'?\');" href="/admin/blog/'+row.post_type+'/'+row.id+'/remove" class="btn btn-round btn-fill btn-danger '+delDisabled+'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>';
+                    return '<a href="/admin/blog/'+row.post_type+'/'+row.id+'/edit" class="btn btn-round btn-fill btn-info '+editDisabled+'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a><a onclick="return confirm(\'Delete '+row.post_type+'?\');" href="/admin/blog/'+row.post_type+'/'+row.id+'/remove" class="btn btn-round btn-fill btn-danger '+delDisabled+'"><i class="fa fa-trash" aria-hidden="true"></i></a>';
                 }
             },
                 {
@@ -1311,7 +1311,7 @@ if ($("#GalleryTagTable").length > 0) {
                         editDisabled = '';
                     } else { editDisabled = 'disabled'; }
 
-                    return '<a href="/admin/blog/tag/'+row.id+'/view" class="btn btn-round btn-fill btn-info '+editDisabled+'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a><a onclick="return confirm(\'Delete Tag?\');" href="/admin/blog/tag/'+row.id+'/remove" class="btn btn-round btn-fill btn-danger '+delDisabled+'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>';
+                    return '<a href="/admin/blog/tag/'+row.id+'/view" class="btn btn-round btn-fill btn-info '+editDisabled+'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a><a onclick="return confirm(\'Delete Tag?\');" href="/admin/blog/tag/'+row.id+'/remove" class="btn btn-round btn-fill btn-danger '+delDisabled+'"><i class="fa fa-trash" aria-hidden="true"></i></a>';
                 }
             },
                 {
@@ -1413,7 +1413,7 @@ if ($("#video #VideoCategoryTable").length > 0) {
                         editDisabled = '';
                     } else { editDisabled = 'disabled'; }
 
-                    return '<a href="/admin/blog/category/'+row.id+'/edit" class="btn btn-round btn-fill btn-info '+editDisabled+'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a><a onclick="return confirm(\'Delete Category?\');" href="/admin/blog/category/'+row.id+'/remove" class="btn btn-round btn-fill btn-danger '+delDisabled+'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>';
+                    return '<a href="/admin/blog/category/'+row.id+'/edit" class="btn btn-round btn-fill btn-info '+editDisabled+'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a><a onclick="return confirm(\'Delete Category?\');" href="/admin/blog/category/'+row.id+'/remove" class="btn btn-round btn-fill btn-danger '+delDisabled+'"><i class="fa fa-trash" aria-hidden="true"></i></a>';
                 }
             },
                 {
@@ -1466,7 +1466,7 @@ if ($("#video #table-videos").length > 0) {
                         editDisabled = '';
                     } else { editDisabled = 'disabled'; }
 
-                    return '<a href="/admin/blog/video/'+row.id+'/edit" class="btn btn-round btn-fill btn-info '+editDisabled+'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a><a onclick="return confirm(\'Delete Video?\');" href="/admin/blog/video/'+row.id+'/remove" class="btn btn-round btn-fill btn-danger '+delDisabled+'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>';
+                    return '<a href="/admin/blog/video/'+row.id+'/edit" class="btn btn-round btn-fill btn-info '+editDisabled+'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a><a onclick="return confirm(\'Delete Video?\');" href="/admin/blog/video/'+row.id+'/remove" class="btn btn-round btn-fill btn-danger '+delDisabled+'"><i class="fa fa-trash" aria-hidden="true"></i></a>';
                 }
             },
                 {
@@ -1516,7 +1516,7 @@ if ($("#video #VideoTagTable").length > 0) {
                         editDisabled = '';
                     } else { editDisabled = 'disabled'; }
 
-                    return '<a href="/admin/blog/tag/'+row.id+'/edit" class="btn btn-round btn-fill btn-info '+editDisabled+'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a><a onclick="return confirm(\'Delete Tag?\');" href="/admin/blog/tags/'+row.id+'/delete" class="btn btn-round btn-fill btn-danger '+delDisabled+'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>';
+                    return '<a href="/admin/blog/tag/'+row.id+'/edit" class="btn btn-round btn-fill btn-info '+editDisabled+'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a><a onclick="return confirm(\'Delete Tag?\');" href="/admin/blog/tags/'+row.id+'/delete" class="btn btn-round btn-fill btn-danger '+delDisabled+'"><i class="fa fa-trash" aria-hidden="true"></i></a>';
                 }
             },
                 {
