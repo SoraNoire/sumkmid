@@ -22,7 +22,7 @@ class MetaMiddleware
 class Meta
 {
     protected $meta_title = 'Sahabat UMKM Indonesia';
-    protected $analytic = '';
+    protected $tagmanager = '';
     protected $fb_pixel = '';
     protected $link_fb = '';
     protected $link_tw = '';

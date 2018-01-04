@@ -15,8 +15,7 @@
     <link rel="stylesheet" href="{{ asset('css/index.css') }}?v=1.1.61">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" />
 
-    @if(isset($fb_pixel))
-    @if($fb_pixel != '')
+    @if(app()->Meta->get('fb_pixel') != '')
       <!-- Facebook Pixel Code -->
       <script>
       !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -25,32 +24,18 @@
       t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
       document,'script','//connect.facebook.net/en_US/fbevents.js');
       // Insert Your Facebook Pixel ID below. 
-      fbq('init', '{{ $fb_pixel }}');
+      fbq('init', '{{ app()->Meta->get('fb_pixel') }}');
       fbq('track', 'PageView');
       </script>
       <!-- Insert Your Facebook Pixel ID below. --> 
       <noscript><img height="1" width="1" style="display:none"
-      src="https://www.facebook.com/tr?id={{ $fb_pixel }}&amp;ev=PageView&amp;noscript=1"
+      src="https://www.facebook.com/tr?id={{ app()->Meta->get('fb_pixel') }}&amp;ev=PageView&amp;noscript=1"
       /></noscript>
       <!-- End Facebook Pixel Code -->
     @endif
-    @endif
 
-    @if(isset($analytic))
-    @if($analytic != '')
-      <!-- Google Analytic Code -->
-      <script>
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-        ga('create', '{{ $analytic }}', 'auto');
-        ga('send', 'pageview');
-
-      </script>
-      <!-- End Google Analytic Code -->
-    @endif
+    @if(app()->Meta->get('tagmanager') != '')
+     <!-- Google Tag Manager --> <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0], j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src= 'https://www.googletagmanager.com/gtm.js? id='+i+dl;f.parentNode.insertBefore(j,f); })(window,document,'script','dataLayer','{{ app()->Meta->get('tagmanager') }}');</script> <!-- End Google Tag Manager -->
     @endif
 </head>
 <body>
@@ -124,17 +109,6 @@
 
  	@yield('content')
 
-    <!-- footer -->
-    <section id="newsletter" class="blue-bg">
-        <div class="container">
-            <span>Gabung bersama SahabatUMKM.id dan dapatkan ribuan benefit GRATIS!!!</span>
-            <form class="newsletter-form" method="get" action="{{ route('public_newsletter') }}">
-                <input type="email" name="email" placeholder="Subscribe our newsletter">
-                <button type="submit">daftar</button>
-            </form>
-        </div>
-    </section>
-
     <footer>
         <div class="container">
             <div class="the-row">
@@ -165,7 +139,7 @@
                         <li>
                             <i class="fa fa-envelope" aria-hidden="true"></i>
                             <p>
-                                {{ config('app.email_info') }}
+                                <a href="{{ 'mailto:'.app()->Meta->get('email_info') }}">{{ app()->Meta->get('email_info') }}</a>
                             </p>
                         </li>
 
@@ -180,12 +154,12 @@
                         </form>
                     </div>
                     <ul>
-                        <li><a target="_blank" href="{{ $link_fb ?? '#' }}"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                        <li><a target="_blank" href="{{ $link_tw ?? '#' }}"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                        <li><a target="_blank" href="{{ $link_in ?? '#' }}"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
-                        <li><a target="_blank" href="{{ $link_ig ?? '#' }}"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
-                        <li><a target="_blank" href="{{ $link_gplus ?? '#' }}"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
-                        <li><a target="_blank" href="{{ $link_yt ?? '#' }}"><i class="fa fa-youtube-play" aria-hidden="true"></i></a></li>
+                        <li><a target="_blank" href="{{ app()->Meta->get('link_fb') ?? '#' }}"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                        <li><a target="_blank" href="{{ app()->Meta->get('link_tw') ?? '#' }}"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                        <li><a target="_blank" href="{{ app()->Meta->get('link_in') ?? '#' }}"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+                        <li><a target="_blank" href="{{ app()->Meta->get('link_ig') ?? '#' }}"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+                        <li><a target="_blank" href="{{ app()->Meta->get('link_gplus') ?? '#' }}"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
+                        <li><a target="_blank" href="{{ app()->Meta->get('link_yt') ?? '#' }}"><i class="fa fa-youtube-play" aria-hidden="true"></i></a></li>
                     </ul>
                     <span class="copyText">Copyright &copy; 2017 - Sahabat UMKM</span>
                 </div>
