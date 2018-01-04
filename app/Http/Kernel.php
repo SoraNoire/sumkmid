@@ -22,6 +22,7 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
         // \App\Http\Middleware\SSOMiddleware::class,
         \Rabbit\OAuthClient\Middleware\OAuthMiddleware::class,
+        // \Rabbit\SahabatUser\Middleware\SahabatUserMiddleware::class,
     ];
 
     /**

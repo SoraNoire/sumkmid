@@ -194,6 +194,7 @@ return [
         Modules\Blog\Providers\ShortcodesServiceProvider::class,
         App\Providers\SSOServiceProvider::class,
         Rabbit\OAuthClient\OAuthClientServiceProvider::class,
+        Rabbit\SahabatUser\SahabatUserServiceProvider::class,
         // Vinkla\Instagram\InstagramServiceProvider::class
 
     ],

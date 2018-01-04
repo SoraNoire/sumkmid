@@ -2555,69 +2555,103 @@ footer .container .stayInTouch .copyText {
   font-size: 12px;
 }
 
-#video {
-  color: rgba(255, 255, 255, 0.87);
-  padding-top: 15px;
-  padding-bottom: 15px;
+#main-gallery {
+  padding: 15px 0px;
 }
 
-#video .section-title {
-  text-align: center;
-  margin-bottom: 45px;
-  color: inherit;
+#main-gallery .gallery-slider .swiper-wrapper .swiper-slide .g-mini-frame {
+  margin: 10px;
+  border-radius: 5px;
+  overflow: hidden;
+  background-color: #fff;
+  -webkit-box-shadow: 3px 3px 10px 0px rgba(0, 0, 0, 0.32);
+  box-shadow: 3px 3px 10px 0px rgba(0, 0, 0, 0.32);
 }
 
-@media screen and (max-width: 425px) {
-  #video .section-title {
-    font-size: 19px;
-  }
+#main-gallery .gallery-slider .swiper-wrapper .swiper-slide .g-mini-frame .thumbnail-wraper {
+  height: 120px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
 }
 
-#video .video-wraper {
-  width: 100%;
-  height: 124px;
-  margin-bottom: 24px;
+#main-gallery .gallery-slider .swiper-wrapper .swiper-slide .g-mini-frame .thumbnail-wraper .play-button {
+  position: absolute;
+  bottom: -16px;
+  right: 10px;
+  color: #fff;
+  background-color: #4A7ED0;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
 }
 
-@media screen and (max-width: 768px) {
-  #video .video-wraper {
-    margin-bottom: 10px;
-    text-align: center;
-  }
+#main-gallery .gallery-slider .swiper-wrapper .swiper-slide .g-mini-frame .thumbnail-wraper .play-button i {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 4px;
+  right: 0;
+  font-size: 13px;
+  margin: auto;
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+  height: -webkit-max-content;
+  height: -moz-max-content;
+  height: max-content;
 }
 
-#video .video-wraper .play-button {
-  padding: 12.5px 15.5px;
+#main-gallery .gallery-slider .swiper-wrapper .swiper-slide .g-mini-frame .meta {
+  height: 200px;
+  padding: 20px 10px 10px 10px;
 }
 
-@media screen and (max-width: 768px) {
-  #video .the-row {
-    display: block;
-  }
-}
-
-#video .col-3 a {
-  color: #ffffff;
+#main-gallery .gallery-slider .swiper-wrapper .swiper-slide .g-mini-frame .meta .title {
+  font-weight: 700;
   text-decoration: none;
-  text-transform: capitalize;
 }
 
-#video .col-3 a:hover {
-  text-decoration: underline;
+#main-gallery .gallery-slider .swiper-wrapper .swiper-slide .g-mini-frame .meta .category {
+  margin-top: -2px;
+  color: #adadad;
+  display: block;
 }
 
-@media screen and (max-width: 768px) {
-  #video .col-3 {
-    width: calc(50% - 30px);
-    margin-bottom: 20px;
-  }
+#main-gallery .gallery-slider .swiper-wrapper .swiper-slide .g-mini-frame .meta .desc {
+  margin-top: 20px;
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+  height: 100px;
+  overflow: hidden;
+}
 
-  #video .col-3 .tilte {
-    text-align: center;
-    height: 40px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
+#main-gallery .gallery-slider .swiper-wrapper .swiper-slide .g-mini-frame .meta .date {
+  margin-top: 24px;
+  display: block;
+  font-size: 12px;
+}
+
+#main-gallery .gallery-slider .swiper-wrapper .swiper-slide .g-mini-frame .meta .date i {
+  margin-right: 5px;
+}
+
+#main-gallery .gallery-slider .swiper-wrapper .swiper-slide .g-mini-frame .meta .readmore {
+  bottom: 20px;
+  right: 20px;
+  position: absolute;
+  font-size: 12px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  text-decoration: none;
+  color: #fff;
+  background: #499bea;
+  background: -webkit-gradient(left top, right top, color-stop(0%, #499bea), color-stop(100%, #207ce5));
+  background: -webkit-gradient(linear, left top, right top, from(#499bea), to(#207ce5));
+  background: linear-gradient(to right, #499bea 0%, #207ce5 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#499bea', endColorstr='#207ce5', GradientType=1 );
+  display: inline-block;
 }
 
 #instagram-feed {
@@ -4233,7 +4267,7 @@ footer .container .stayInTouch .copyText {
 
 .styledText p {
   color: #464646;
-  line-height: 22px;
+  line-height: 21px;
   margin-bottom: 20px;
   font-size: 15px;
 }

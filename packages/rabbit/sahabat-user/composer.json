@@ -1,0 +1,14 @@
+{
+    "name": "rabbit/sahabat-user",
+    "description": "Extend fungsi user dari SSO di db lokal sahabat",
+    "type": "library",
+    "license": "private",
+    "authors": [
+        {
+            "name": "Rian",
+            "email": "damanik183@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}

@@ -30,6 +30,9 @@ class PublicController extends Controller
 
 	function __construct(Request $request)
 	{
+	
+		$this->middleware('shbuser');
+
 		Carbon::setLocale('Indonesia');
 		$var['page'] = 'Sahabat UMKM Indonesia';
 
