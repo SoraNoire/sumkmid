@@ -37,11 +37,12 @@ class PublicController extends Controller
 		$var['page'] = 'Sahabat UMKM Indonesia';
 
 		$analytic = Option::where('key', 'analytic')->first()->value ?? '';
+		$tagmanager = Option::where('key', 'tag_manager')->value ?? '';
         $fb_pixel = Option::where('key', 'fb_pixel')->first()->value ?? '';
         $link_fb = Option::where('key', 'link_fb')->first()->value ?? '';
         $link_tw = Option::where('key', 'link_tw')->first()->value ?? '';
         $link_ig = Option::where('key', 'link_ig')->first()->value ?? '';
-        $link_yt = Option::where('key', 'link_yt')->first()->value ?? '';        
+        $link_yt = Option::where('key', 'link_yt')->first()->value ?? '';
         $link_in = Option::where('key', 'link_in')->first()->value ?? '';
         $link_gplus = Option::where('key', 'link_gplus')->first()->value ?? '';
         $footer_desc = Option::where('key', 'footer_desc')->first()->value ?? '';
@@ -49,6 +50,7 @@ class PublicController extends Controller
 
         View::share('var', $var);
         View::share('analytic', $analytic);
+        View::share('tagmanager', $tagmanager);
         View::share('fb_pixel', $fb_pixel);
         View::share('link_fb', $link_fb);
         View::share('link_ig', $link_ig);
