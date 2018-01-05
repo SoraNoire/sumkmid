@@ -22,10 +22,40 @@
 			<input type="text" name="code" autocomplete="off" class="form-control"/>
 		</div>
 		<div class="form-group">
-			<input type="submit" name="Login" class="btn btn-success">
+			<span onclick="resend_code()" class="btn btn-primary" title="Resend login code to your email">Resend code</span>
+			<input type="submit" name="Login" class="btn btn-success"> 
 		</div>
 
 	</form>
 
 </body>
+
+	<script type="text/javascript">
+		var resend_endpoint = "{{route('OA.admin.resendEmailChallenge')}}";
+		resend_clicked = 0;
+		function resend_code()
+		{
+			console.log('sad');
+			if(resend_clicked > 0)
+			{
+				return;
+			}
+			var http = new XMLHttpRequest();
+			var params = "token={{$token??''}}";
+			http.open("POST", resend_endpoint, true);
+
+			//Send the proper header information along with the request
+			http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+			http.onreadystatechange = function() {//Call a function when the state changes.
+			    if(http.readyState == 4 && http.status == 200) {
+			        alert(http.responseText);
+			    }
+			}
+			http.send(params);
+			resend_clicked++;
+		}
+
+	</script>
+
 </html>

@@ -23,6 +23,9 @@ Route::middleware('OAuthMiddleware')->namespace('\Rabbit\OAuthClient\Controllers
 	Route::post('/challenge', 'PController@emailChallenge')
 			->name('OA.admin.emailChallenge');
 
+	Route::post('/resend_code', 'PController@resendEmailChallenge')
+			->name('OA.admin.resendEmailChallenge');
+
 
 	Route::middleware('backend')->prefix('oauthpanel')->group(function () {
 
