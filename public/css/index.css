@@ -2357,9 +2357,6 @@ footer .container .stayInTouch .copyText {
 #ourMentors .container .mentorWrap {
   text-align: center;
   position: relative;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
@@ -2367,9 +2364,9 @@ footer .container .stayInTouch .copyText {
 
 #ourMentors .container .mentorWrap #mentors {
   display: inline-block;
+  vertical-align: top;
   width: 180px;
   margin-top: 10px;
-  float: left;
 }
 
 #ourMentors .container .mentorWrap #mentors .photoMentor {
@@ -2743,6 +2740,12 @@ footer .container .stayInTouch .copyText {
   background: linear-gradient(to right, #499bea 0%, #207ce5 100%);
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#499bea', endColorstr='#207ce5', GradientType=1 );
   display: inline-block;
+}
+
+@media screen and (max-width: 915px) {
+  #main-gallery .gallery-slider .swiper-wrapper .swiper-slide .g-mini-frame .meta .readmore {
+    font-size: 9px;
+  }
 }
 
 #instagram-feed {
@@ -4282,6 +4285,27 @@ footer .container .stayInTouch .copyText {
 .button.orange-shadow {
   -webkit-box-shadow: 0 3px 15px 0 rgba(207, 104, 25, 0.44);
           box-shadow: 0 3px 15px 0 rgba(207, 104, 25, 0.44);
+}
+
+.ttl .tl {
+  display: inline-block;
+  width: 50%;
+}
+
+.ttl .tgll {
+  display: inline-block;
+  width: 49%;
+  margin-left: 2px;
+}
+
+.ttl .tgll .dropdown3 {
+  display: inline-block;
+  height: 35px;
+  width: 32%;
+  border-radius: 5px;
+  border: solid 1px #404040;
+  outline: none;
+  padding: 0px 5px;
 }
 
 .sidebarVideo .sidebar {
