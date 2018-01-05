@@ -115,34 +115,34 @@ class PublicController extends Controller
 	public function home(){
         $var['page'] = "Home";
 
-        $var['gallery'] = Option::where('key', 'gallery_section')->first()->value ?? '';
-        if ($var['gallery'] != '') {
-            $var['gallery'] = json_decode($var['gallery']);
-        } else {
-        	$var['gallery'] = [];
-        	$var['gallery']['title'] = 'Galeri Sahabat UMKM';
-        	$var['gallery']['category'] = '0';
-            $var['gallery'] = json_encode($var['gallery']);
-            $var['gallery'] = json_decode($var['gallery']);
-        }
+        $var['post_section'] = Option::where('key', 'post_section')->first()->value ?? '';
+  //       if ($var['gallery'] != '') {
+  //           $var['gallery'] = json_decode($var['gallery']);
+  //       } else {
+  //       	$var['gallery'] = [];
+  //       	$var['gallery']['title'] = 'Galeri Sahabat UMKM';
+  //       	$var['gallery']['category'] = '0';
+  //           $var['gallery'] = json_encode($var['gallery']);
+  //           $var['gallery'] = json_decode($var['gallery']);
+  //       }
 
-		$gallery_title = $var['gallery']->title;
-		$split = explode(' ', $gallery_title);
+		$post_title = $var['post_section'];
+		$split = explode(' ', $post_title);
 		$split[count($split)-1] = "</span><span>".$split[count($split)-1]."</span>";
 		$split[0] = "<span>".$split[0];
-		$var['gallery_name'] = implode(" ", $split);
+		$var['post_section_title'] = implode(" ", $split);
 
-		if ($var['gallery']->category > 1) {
-			$post_ids = PostHelper::get_post_archive_id('category', $var['gallery']->category);
-			$var['videos'] = DB::table('post_view')
-							->whereIn('post_type',['video', 'gallery'])
-							->whereIn('id', $post_ids)
-							->orderBy('published_date','desc')
-							->limit(6)
-							->get();
-		} else {
-			$var['videos'] = DB::table('post_view')->whereIn('post_type',['video', 'gallery'])->orderBy('published_date','desc')->limit(4)->get();
-		}
+		// if ($var['gallery']->category > 1) {
+		// 	$post_ids = PostHelper::get_post_archive_id('category', $var['gallery']->category);
+		// 	$var['videos'] = DB::table('post_view')
+		// 					->whereIn('post_type',['video', 'gallery'])
+		// 					->whereIn('id', $post_ids)
+		// 					->orderBy('published_date','desc')
+		// 					->limit(6)
+		// 					->get();
+		// } else {
+		// 	$var['videos'] = DB::table('post_view')->whereIn('post_type',['video', 'gallery'])->orderBy('published_date','desc')->limit(4)->get();
+		// }
 
 		$var['mentors'] = app()->OAuth->mentors()->users;
 		
@@ -165,10 +165,10 @@ class PublicController extends Controller
             $n++;
         }
 
-        $var['video'] = Option::where('key', 'video_section')->first()->value ?? '';
-        if ($var['video'] != '') {
-            $var['video'] = json_decode($var['video']);
-        }
+        // $var['video'] = Option::where('key', 'video_section')->first()->value ?? '';
+        // if ($var['video'] != '') {
+        //     $var['video'] = json_decode($var['video']);
+        // }
 
         $var['quote'] = Option::where('key', 'quotes_section')->first()->value ?? '';
         if ($var['quote'] != '') {
