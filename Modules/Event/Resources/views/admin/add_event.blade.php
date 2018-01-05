@@ -9,16 +9,22 @@
         There is some error. Please check again
     </div>
     @endif
-    <h4 class="title">New events</h4>
-
+    
     <form id="event-form" method="post" action="{{ route('panel.event__save') }}" accept-charset="UTF-8">
-        @if (in_array('write', app()->OAuth::can('panel.event')))
-        <a href="{{ route('panel.event__add') }}" class="btn btn-round btn-fill btn-info">
-            New Event +<div class="ripple-container"></div>
-        </a>
-        @endif
-        <button type="submit" class="btn btn-success pull-right">Save Event</button>
-        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+        <div class="row">         
+            <div class="col-md-9 col-sm-6 col-xs-6">
+                <h4 class="title">New events</h4>
+                @if (in_array('write', app()->OAuth::can('panel.event')))
+                <a href="{{ route('panel.event__add') }}" class="btn btn-round btn-fill btn-info">
+                    New Event +<div class="ripple-container"></div>
+                </a>
+                @endif
+            </div>
+            <div class="col-md-3 col-sm-6 col-xs-6">
+                <button type="submit" class="btn btn-success pull-right">Save Event</button>
+                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+            </div>
+        </div>
 
         <div class="row" style="margin-top: 15px;">
             <div class="col-md-9">

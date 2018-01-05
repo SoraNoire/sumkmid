@@ -9,25 +9,33 @@
         There is some error. Please check again
     </div>
     @endif
-    <h4 class="title">Edit Page</h4>
-
     <form id="post-form" method="post" action="{{ route('panel.page__update',$page->id) }}" accept-charset="UTF-8">
-        @if (in_array('write', app()->OAuth::can('panel.page')))
-        <a href="{{ route('panel.page__add') }}" class="btn btn-round btn-fill btn-info">
-            New Page +<div class="ripple-container"></div>
-        </a>
-        @endif
-        <!-- <a target="_blank" href="{{ URL::to($prefix.'page/'.$page->slug) }}" class="btn btn-round btn-fill btn-info">
-            View Page<div class="ripple-container"></div>
-        </a> -->
-        @if (in_array('delete', app()->OAuth::can('panel.page')))
-        <a onclick="return confirm('Delete Page?');" href="{{route('panel.page__delete',$page->id)}}" class="btn btn-round btn-fill btn-danger">
-            Delete Page<div class="ripple-container"></div>
-        </a>
-        @endif
-        
-        <button type="submit" class="btn btn-success pull-right">Save Page</button>
-        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+        <div class="row">           
+            <div class="col-md-9"> 
+                <h4 class="title">Edit Page</h4>
+            </div>
+            @if ( in_array('write', app()->OAuth::can('panel.page')) || in_array('delete', app()->OAuth::can('panel.page')))
+            <div class="col-md-9 col-sm-6 col-xs-6"> 
+                @if (in_array('write', app()->OAuth::can('panel.page')))
+                <a href="{{ route('panel.page__add') }}" class="btn btn-round btn-fill btn-info">
+                    New Page +<div class="ripple-container"></div>
+                </a>
+                @endif
+                <!-- <a target="_blank" href="{{ URL::to($prefix.'page/'.$page->slug) }}" class="btn btn-round btn-fill btn-info">
+                    View Page<div class="ripple-container"></div>
+                </a> -->
+                @if (in_array('delete', app()->OAuth::can('panel.page')))
+                <a onclick="return confirm('Delete Page?');" href="{{route('panel.page__delete',$page->id)}}" class="btn btn-round btn-fill btn-danger">
+                    Delete Page<div class="ripple-container"></div>
+                </a>
+                @endif
+            </div>
+            @endif
+            <div class="col-md-3 col-sm-6 col-xs-6">
+                <button type="submit" class="btn btn-success pull-right">Save Page</button>
+                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+            </div>
+        </div>
 
         <div class="row" style="margin-top: 15px;">
             <div class="col-md-9">
@@ -141,7 +149,7 @@
 </div>
 @stop
 
-
+@if (in_array('read', app()->OAuth::can('panel.media')))
 @section('modal')
 <div class="overlay"></div>
 
@@ -194,3 +202,4 @@
     </div>
 </div>
 @endsection
+@endif

@@ -9,25 +9,34 @@
         There is some error. Please check again
     </div>
     @endif
-    <h4 class="title">Edit Gallery</h4>
 
     <form id="post-form" method="post" action="{{ route('panel.gallery__view',$gallery->id) }}" accept-charset="UTF-8">
-        @if (in_array('write', app()->OAuth::can('panel.gallery')))
-        <a href="{{ route('panel.gallery__add') }}" class="btn btn-round btn-fill btn-info">
-            New Gallery +<div class="ripple-container"></div>
-        </a>
-        @endif
-        
-        <a target="_blank" href="{{ route('single_gallery',$gallery->slug) }}" class="btn btn-round btn-fill btn-info">
-            View Gallery<div class="ripple-container"></div>
-        </a>
-        @if (in_array('delete', app()->OAuth::can('panel.gallery')))
-        <a onclick="return confirm('Delete gallery?');" href="{{ route('panel.gallery__delete', $gallery->id)}}" class="btn btn-round btn-fill btn-danger">
-            Delete Gallery<div class="ripple-container"></div>
-        </a>
-        @endif
-        <button type="submit" class="btn btn-success pull-right">Save Gallery</button>
-        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+        <div class="row">
+
+            <div class="col-md-9">
+                <h4 class="title">Edit Gallery</h4>
+            </div>
+            @if (in_array('write', app()->OAuth::can('panel.gallery')) || in_array('delete', app()->OAuth::can('panel.gallery')))
+            <div class="col-md-9 col-sm-6 col-xs-6">
+                @if (in_array('write', app()->OAuth::can('panel.gallery')))
+                <a href="{{ route('panel.gallery__add') }}" class="btn btn-round btn-fill btn-info">
+                    New Gallery +<div class="ripple-container"></div>
+                </a>
+                @endif
+                <a target="_blank" href="{{ route('single_gallery',$gallery->slug) }}" class="btn btn-round btn-fill btn-info">View Gallery<div class="ripple-container"></div>
+                </a>
+                @if (in_array('delete', app()->OAuth::can('panel.gallery')))
+                <a onclick="return confirm('Delete gallery?');" href="{{ route('panel.gallery__delete', $gallery->id)}}" class="btn btn-round btn-fill btn-danger">
+                    Delete Gallery<div class="ripple-container"></div>
+                </a>
+                @endif
+            </div>
+            @endif
+            <div class="col-md-3 col-sm-6 col-xs-6">
+                <button type="submit" class="btn btn-success pull-right">Save Gallery</button>
+                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+            </div>
+        </div>
 
         <div class="row" style="margin-top: 15px;">
             <div class="col-md-9">

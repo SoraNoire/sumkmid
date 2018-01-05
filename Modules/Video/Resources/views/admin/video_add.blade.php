@@ -9,17 +9,22 @@
         There is some error. Please check again
     </div>
     @endif
-    <h4 class="title">New Videos</h4>
 
     <form id="post-form" method="post" action="{{ route('panel.video__save') }}" accept-charset="UTF-8">
-        @if (in_array('write', app()->OAuth::can('panel.video')))
-        <a href="{{ route('panel.video__add') }}" class="btn btn-round btn-fill btn-info">
-            New Video +<div class="ripple-container"></div>
-        </a>
-        @endif
-        
-        <button type="submit" class="btn btn-success pull-right">Save Video</button>
-        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+        <div class="row">
+            <div class="col-md-9 col-sm-6 col-xs-6">
+                <h4 class="title">New Video</h4>
+                @if (in_array('write', app()->OAuth::can('panel.video')))
+                <a href="{{ route('panel.video__add') }}" class="btn btn-round btn-fill btn-info">
+                    New Video +<div class="ripple-container"></div>
+                </a>
+                @endif
+            </div>
+            <div class="col-md-3 col-sm-6 col-xs-6">
+                <button type="submit" class="btn btn-success pull-right">Save Video</button>
+                <input type="hidden" name="_token" value="{{ csrf_token() }}">        
+            </div>
+        </div>
 
         <div class="row" style="margin-top: 15px;">
             <div class="col-md-9">

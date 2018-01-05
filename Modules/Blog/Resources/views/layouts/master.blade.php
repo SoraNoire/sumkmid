@@ -9,16 +9,16 @@
     <meta name="category-id" content="{{ $category_id ?? 0 }}">
     @php 
         $can = [];
-        if (in_array('read', app()->OAuth::$can)) {
+        if (in_array('read', app()->OAuth::can())) {
             $can[] = "1";
         }
-        if (in_array('write', app()->OAuth::$can)) {
+        if (in_array('write', app()->OAuth::can())) {
             $can[] = "2";
         }
-        if (in_array('edit', app()->OAuth::$can)) {
+        if (in_array('edit', app()->OAuth::can())) {
             $can[] = "3";
         }
-        if (in_array('delete', app()->OAuth::$can)) {
+        if (in_array('delete', app()->OAuth::can())) {
             $can[] = "4";
         }
 
