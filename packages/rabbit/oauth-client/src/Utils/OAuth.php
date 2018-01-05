@@ -6,6 +6,8 @@ namespace Rabbit\OAuthClient\Utils;
 use Validator;
 use Illuminate\Support\Facades\Crypt;
 use Rabbit\OAuthClient\Models\Users;
+use Rabbit\OAuthClient\Models\Modules;
+use Rabbit\OAuthClient\Models\ModulePermissions;
 use Illuminate\Http\Request;
 use Session;
 use Cookie;
@@ -87,11 +89,7 @@ class OAuth
         self::$roles = explode(';', rtrim( env('OA_ROLES', 'admin;editor;writer') ,';') );
     }
 
-    public function handle($request, Closure $next)
-    {
 
-        return $next($request);
-    }
 
 
     /**
@@ -258,6 +256,7 @@ class OAuth
         $request->setHeader('appid', self::$appId);
         $request->setHeader('appsecret', self::$appSecret);
         $request->setHeader('clientheader', 'website');
+        $request->setOption(CURLOPT_TIMEOUT, 12);
 
         if($childToken)
         {
@@ -285,12 +284,21 @@ class OAuth
             }
         }
         
-        
-        $return = $request->send();
-        // echo($return);die;
-        if( json_decode($return) )
+        try {
+
+            $return = $request->send();
+            if( json_decode($return) )
+            {
+                return json_decode($return);
+            }
+            else
+            {
+                exit( view('oa::errors.generic',['message'=>'Bad Response received<br/> <a href="">Reload</a>']) );   
+            }
+        }
+        catch (\Exception $e)
         {
-            return json_decode($return);
+            exit( view('oa::errors.generic',['message'=>'Connection Time Out!<br/> <a href="">Reload</a>']) );   
         }
         
         return (object) $return;
@@ -379,6 +387,44 @@ class OAuth
         
         return (object) $return;
 
+    }
+
+    public static function can($module=false)
+    {
+        if ($module)
+        {
+            $moduleId = Modules::select(['id'])->where('name',$module)->first();
+            if(!$moduleId)
+            {
+                return self::$can;
+            }
+
+            $moduleId = $moduleId->id;
+            
+            $grants = ModulePermissions::where('module_id',$moduleId)
+                        ->where('role',app()->OAuth->Auth()->role)
+                        ->first();
+            $can = [];
+
+            if($grants)
+            {
+                if(isset($grants->read) && 1 == $grants->read){
+                    $can[] = 'read';
+                }
+                if(isset($grants->write) && 1 == $grants->write){
+                    $can[] = 'write';
+                }
+                if(isset($grants->edit) && 1 == $grants->edit){
+                    $can[] = 'edit';
+                }
+                if(isset($grants->delete) && 1 == $grants->delete){
+                    $can[] = 'delete';
+                }
+            }
+
+            return $can;
+        }
+        return self::$can;
     }
 
 }

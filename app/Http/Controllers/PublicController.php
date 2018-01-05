@@ -23,27 +23,35 @@ use Mail;
 use View;
 use Modules\Blog\Entities\Media;
 use Illuminate\Support\Facades\Validator;
+use Vinkla\Instagram\Instagram;
 
 class PublicController extends Controller
 {
 
 	function __construct(Request $request)
 	{
+	
+		$this->middleware('shbuser');
+
 		Carbon::setLocale('Indonesia');
 		$var['page'] = 'Sahabat UMKM Indonesia';
 
+
 		$analytic = Option::where('key', 'analytic')->first()->value ?? '';
+		$tagmanager = Option::where('key', 'tag_manager')->value ?? '';
         $fb_pixel = Option::where('key', 'fb_pixel')->first()->value ?? '';
         $link_fb = Option::where('key', 'link_fb')->first()->value ?? '';
         $link_tw = Option::where('key', 'link_tw')->first()->value ?? '';
         $link_ig = Option::where('key', 'link_ig')->first()->value ?? '';
-        $link_yt = Option::where('key', 'link_yt')->first()->value ?? '';        
+        $link_yt = Option::where('key', 'link_yt')->first()->value ?? '';
         $link_in = Option::where('key', 'link_in')->first()->value ?? '';
         $link_gplus = Option::where('key', 'link_gplus')->first()->value ?? '';
         $footer_desc = Option::where('key', 'footer_desc')->first()->value ?? '';
+        $email_info = Option::where('key', 'email')->first()->value ?? config('app.email_info');
 
         View::share('var', $var);
         View::share('analytic', $analytic);
+        View::share('tagmanager', $tagmanager);
         View::share('fb_pixel', $fb_pixel);
         View::share('link_fb', $link_fb);
         View::share('link_ig', $link_ig);
@@ -52,6 +60,7 @@ class PublicController extends Controller
         View::share('link_gplus', $link_gplus);
         View::share('link_in', $link_in);
         View::share('footer_desc', $footer_desc);
+        View::share('email_info', $email_info);
 	}
 
 	public function login(Request $request)
@@ -105,14 +114,39 @@ class PublicController extends Controller
      */
 	public function home(){
         $var['page'] = "Home";
-		
-		$var['videos'] = DB::table('post_view')->whereIn('post_type',['video', 'gallery'])->orderBy('published_date','desc')->paginate(4);
 
-		$user = new \App\Helpers\SSOHelper;
-		$var['mentors'] = $user->mentors()->users;
+        $var['gallery'] = Option::where('key', 'gallery_section')->first()->value ?? '';
+        if ($var['gallery'] != '') {
+            $var['gallery'] = json_decode($var['gallery']);
+        } else {
+        	$var['gallery'] = [];
+        	$var['gallery']['title'] = 'Galeri Sahabat UMKM';
+        	$var['gallery']['category'] = '0';
+            $var['gallery'] = json_encode($var['gallery']);
+            $var['gallery'] = json_decode($var['gallery']);
+        }
+
+		$gallery_title = $var['gallery']->title;
+		$split = explode(' ', $gallery_title);
+		$split[count($split)-1] = "</span><span>".$split[count($split)-1]."</span>";
+		$split[0] = "<span>".$split[0];
+		$var['gallery_name'] = implode(" ", $split);
+
+		if ($var['gallery']->category > 1) {
+			$post_ids = PostHelper::get_post_archive_id('category', $var['gallery']->category);
+			$var['videos'] = DB::table('post_view')
+							->whereIn('post_type',['video', 'gallery'])
+							->whereIn('id', $post_ids)
+							->orderBy('published_date','desc')
+							->limit(6)
+							->get();
+		} else {
+			$var['videos'] = DB::table('post_view')->whereIn('post_type',['video', 'gallery'])->orderBy('published_date','desc')->limit(4)->get();
+		}
+
+		$var['mentors'] = app()->OAuth->mentors()->users;
 		
 		$program = Option::where('key', 'program')->first()->value ?? '';
-
         $var['programs'] = [];
         if ($program != '') {
             $var['programs'] = json_decode($program);
@@ -140,6 +174,37 @@ class PublicController extends Controller
         if ($var['quote'] != '') {
             $var['quote'] = json_decode($var['quote']);
         }
+
+        $var['about_us'] = Option::where('key', 'about_us')->first()->value ?? '';
+
+        $instagram_token = Option::where('key', 'instagram_token')->first()->value ?? '';
+        if ($instagram_token != '') {
+        	try {	
+				$instagram = new Instagram($instagram_token);
+				$var['instagram'] = $instagram->get();
+        	} catch (\Exception $e) {
+
+        	}
+        }
+
+        $curl = new \anlutro\cURL\cURL;
+        $mnews_url = config('app.mnews_url') ?? 'http://news.mdirect.id';
+		$curl_response = $curl->get($mnews_url.'/get-sahabat-umkm-post');
+		$var['post'] = [];
+		if ($curl_response->info['content_type'] == 'application/json') {
+			$var['post'] = json_decode($curl_response->body);
+		}
+
+		if (count($var['post']) > 0) {
+			foreach ($var['post'] as $key => $value) {
+				$prop = $value->properties;
+				$prop = json_decode($prop);
+				$value->meta_title = $prop->meta_title;
+				$value->meta_desc = $prop->meta_desc;
+				$value->meta_keyword = $prop->meta_keyword;
+			}
+		}
+		// dd($var['post']);
 
 		return view('page.home')->with(['var' => $var]);
 	}
@@ -176,8 +241,7 @@ class PublicController extends Controller
      */
 	public function mentor(){
 		$var['page'] = "Mentor";
-		$user = new \App\Helpers\SSOHelper;
-		$var['mentors'] =  $user->mentors()->users;
+		$var['mentors'] = app()->OAuth->mentors()->users;
 		
 		return view('page.mentor')->with(['var' => $var]);
 	}
@@ -187,8 +251,7 @@ class PublicController extends Controller
      */
 	public function mentorSingle($mentorId){
 		$var['page'] = "mentorSingle";
-		$user = new \App\Helpers\SSOHelper;
-		$var['mentors'] =  $user->mentors("$mentorId")->users;
+		$var['mentors'] =  app()->OAuth->mentors("$mentorId")->users;
 		if(isset($var['mentors'][0])){
 			$var['mentors'] = $var['mentors'][0];
 			return view('page.mentorSingle')->with(['var' => $var]);
@@ -333,7 +396,7 @@ class PublicController extends Controller
         }
 
 		$var['page'] = "Category Video ".$cat->name;
-		$var['archive'] = "Category : ".$cat->name;
+		$var['archive'] = "Kategori : ".$cat->name;
 		$post_ids = PostHelper::get_post_archive_id('category', $cat->id);
 		$var['posts'] = DB::table('post_view')
 						->whereIn('post_type',['video', 'gallery'])
@@ -418,5 +481,16 @@ class PublicController extends Controller
         $var['page'] = "Newsletter";
         $email = $request->get('email') ?? '';
 		return view('page.newsletter')->with(['var' => $var, 'email' => $email]);
+	}
+
+	/**
+     * Show post.
+     * @return Response
+     */
+	public function read_post($category, $slug){
+        $mnews_url = config('app.mnews_url') ?? 'http://news.mdirect.id';
+        $post_url = $mnews_url.'/read/'.$category.'/'.$slug;
+
+		return redirect($post_url);
 	}
 }

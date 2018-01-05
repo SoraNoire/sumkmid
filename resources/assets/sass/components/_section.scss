@@ -1,5 +1,91 @@
+#about-us {
+	padding-top: 15px;
+	padding-bottom: 15px;	
+	text-align: center;
 
+	.section-title {
+		margin-bottom: 34px;    
+		margin-top: 10px;
+	}
+	.section-desc {
+		margin-bottom: 26px;
+	}
+}
 
+#quote {
+	padding-top: 20px;
+	padding-bottom: 20px;
+	color: rgba(255, 255, 255, 0.87);
+	text-align: center;
+	@media screen and (max-width: 680px){
+    	padding-top: 15px;
+		padding-bottom: 15px;
+    }
+
+	.section-title {
+		text-align: center;
+		color: inherit;
+		@media screen and (max-width: 425px) {
+			font-size: 19px;
+		}
+	}
+	.the-row{
+        display: flex;
+        width: 100%;
+        margin: unset;
+	    justify-content: center;
+	    align-items: center;
+	    @media screen and (max-width: 680px){
+	    	display: block;
+	    }
+	    .col-3 {
+		    @media screen and (max-width: 680px){
+		    	display: block;
+		    	width: calc(100% - 15px);
+		    }
+	    }
+	    .col-9 {
+		    @media screen and (max-width: 680px){
+		    	display: block;
+		    	width: calc(100% - 15px);
+		    }
+	    }
+        .quotePhotoWraper{
+            width: 100%;
+            display: block;
+            text-align: center;
+            .quotePhoto{
+                display: inline-block;
+                width: 105px;
+                height: 105px;
+                border-radius: 50%;
+                overflow: hidden;
+                img{
+                    width: 105px;
+                    height: 105px;
+                    -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+                    filter: grayscale(100%);
+                }
+            }
+        }
+        .quote{
+            width: 100%;
+            display: block;
+            blockquote{
+                font-size: 18px;
+                margin-bottom: 10px;
+				color: rgba(255, 255, 255, 0.87);
+				text-align: center;
+				@media screen and (max-width: 680px){
+                	margin-top: 10px;
+			    }
+            }
+            span{
+                font-size: .9em;
+            }
+        }
+    }
+}
 
 #what-we-do {
 	padding-top: 15px;
@@ -93,13 +179,13 @@
 			-webkit-transition: background-image 0.5s ease-in-out;
 			transition: background-image 0.5s ease-in-out;
 			width: 200px;
-			height: 500px;
 			display: inline-block;
 			vertical-align: top;
 			background-size:cover;
 			background-color: #0A4773;
 			background-position: center;
-			padding-top:100px;
+			height: 380px;
+			padding-top:30px;
 			text-align: center;
 			@media screen and (max-width: 830px) {
 				width: 100%;
@@ -117,7 +203,7 @@
 				opacity: 0;
 				position: relative;
 				@media screen and (max-width: 830px) {
-					width: 40px;
+					width: 100px;
 					padding-bottom: 5px;
 				}
 				img{
@@ -147,6 +233,10 @@
 			padding: 0px 15px;
 			font-size: 30px;
 			font-weight: $bold;
+			a{
+				color: inherit;
+				text-decoration: inherit;
+			}
 		}
 		.caption{
 			transition: .5s;
@@ -158,7 +248,6 @@
 	}
 }
 #ourMentors{
-	background-image: url(/img/blue-bg.png);
 	background-size: cover;
 	padding-bottom: 15px;
 	.container{
@@ -166,35 +255,23 @@
 			padding-top: 15px;
 			padding-bottom: 30px;
 			text-align: center;
-			color: #fff;
+			span{
+				border-color : #585858;
+				&:last-child{
+					background-image: -webkit-gradient(linear, left top, right top, color-stop(55%, rgba(64, 64, 64, 0.87)), color-stop(0%, rgba(255, 255, 255, 0)));
+    				background-image: linear-gradient(to right, rgba(64, 64, 64, 0.87) 55%, rgba(255, 255, 255, 0) 0%);
+				}
+			}
 		}
 		.mentorWrap{
 			text-align: center;
 			position: relative;
-			.showMentors{
-				position: absolute;
-				top: 40px;
-    			right: 20px;
-				width: 60px;
-				height: 60px;
-				@media screen and (max-width: 900px) {
-					position: relative;
-					top: unset;
-					right: unset;
-					display: block;
-    				margin: 40px auto 0px auto;
-				}
-				a{
-					img{
-						max-width: 100%;
-					}
-				}
-			}
+			justify-content: center;
 			#mentors{
 				display: inline-block;
+				vertical-align: top;
 				width: 180px;
 				margin-top: 10px;
-				
 				.photoMentor{
 					width: 66%;
     				height: 139px;
@@ -202,15 +279,15 @@
     				text-align: center;
     				left: 30px;
     				float: unset;
-    				-webkit-box-shadow: inset 0px 0px 0px 2px rgba(255,255,255,1);
-					-moz-box-shadow: inset 0px 0px 0px 2px rgba(255,255,255,1);
-					box-shadow: inset 0px 0px 0px 2px rgba(255,255,255,1);
+    				-webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.25);
+-moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.25);
+box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.25);
     				img{
     				}
 				}
 				.mentor-name{
 					margin-top: 15px;
-					color: #fff;
+					color: #585858;
 					font-size: 18px;
 					margin-bottom: 0px;
 					a{
@@ -219,9 +296,12 @@
 					}
 				}
 				.mentor-desc{
-					color: #fff;
+					color: #585858;
 					font-weight: $light;
-					font-size: 14spx;
+					font-size: 14px;
+					line-height: 18px;
+				    display: block;
+				    margin-top: 6px;
 				}
 			}
 		}
@@ -232,7 +312,7 @@
     padding-bottom: 15px;
 	background-image: url('/img/triangle.png');
 	background-repeat: no-repeat;
-	background-position-y: -50px;
+	background-position: 0px 24px;
 	transition: .5s;
 	
 	.row {
@@ -354,28 +434,199 @@
 	}
 }
 
-#video {
-	color: rgba(255, 255, 255, 0.87);
+#main-gallery{
+	padding: 15px 0px;
+	background-color: #F8F8F8;
+	.container{
+		position: relative;
+	}
+	.section-title{
+		text-align: center;
+		span{
+			border-color: #595959;
+			&:last-child{
+				background-image: -webkit-gradient(linear, left top, right top, color-stop(55%, rgba(64, 64, 64, 0.87)), color-stop(0%, rgba(255, 255, 255, 0)));
+	   			background-image: linear-gradient(to right, rgba(64, 64, 64, 0.87) 55%, rgba(255, 255, 255, 0) 0%);
+   			}
+		}
+	}
+	.galleryGoLeft{
+		position: absolute;
+		width: 30px;
+		height: 30px;
+		top: 0;
+		bottom: 0;
+		margin: auto;
+		left: -20px;
+		cursor: pointer;
+		border-radius: 50%;
+		-webkit-box-shadow: 3px 3px 5px 0px rgba(0,0,0,0.25);
+			-moz-box-shadow: 3px 3px 5px 0px rgba(0,0,0,0.25);
+			box-shadow: 3px 3px 5px 0px rgba(0,0,0,0.25);
+		@media screen and (max-width: 1025px) {
+			left: 5px;
+			z-index: 1;
+		}
+		img{
+			max-width: 100%;
+		}
+	}
+	.galleryGoRight{
+		position: absolute;
+		width: 30px;
+		height: 30px;
+		top: 0;
+		bottom: 0;
+		margin: auto;
+		right: -20px;
+		cursor: pointer;
+		border-radius: 50%;
+		-webkit-box-shadow: 3px 3px 5px 0px rgba(0,0,0,0.25);
+			-moz-box-shadow: 3px 3px 5px 0px rgba(0,0,0,0.25);
+			box-shadow: 3px 3px 5px 0px rgba(0,0,0,0.25);
+		@media screen and (max-width: 1025px) {
+			right: 5px;
+			z-index: 1;
+		}
+		img{
+			max-width: 100%;
+
+		}
+	}
+	.gallery-slider{
+		position: relative;
+		.swiper-wrapper{
+			.swiper-slide{
+				.g-mini-frame{
+					margin: 10px;
+					border-radius: 5px;
+					overflow: hidden;
+					background-color: #fff;
+					-webkit-box-shadow: 3px 3px 10px 0px rgba(0,0,0,0.32);
+					-moz-box-shadow: 3px 3px 10px 0px rgba(0,0,0,0.32);
+					box-shadow: 3px 3px 10px 0px rgba(0,0,0,0.32);
+					.thumbnail-wraper{
+						height: 120px;
+						background-size: cover;
+						background-position: center;
+						position: relative;
+						.play-button{
+							position: absolute;
+							bottom: -16px;
+							right: 10px;
+							color: #fff;
+							background-color: #4A7ED0;
+							width: 35px;
+							height: 35px;
+							border-radius: 50%;
+							i{
+								position: absolute;
+								top: 0;
+								bottom: 0;
+								left: 4px;
+								right: 0;
+								font-size: 13px;
+								margin: auto;
+								width: max-content;
+								height: max-content;
+							}
+						}
+					}
+					.meta{
+						height: 200px;
+						padding: 20px 10px 10px 10px;
+						.title{
+							font-weight: $bold;
+							text-decoration: none;
+							max-height: 30px;
+						    overflow: hidden;
+						    line-height: 15px;
+						    display: block;
+						}
+						.category{
+							margin-top: 2px;
+							color: #adadad;
+							line-height: 12px;
+    						height: 24px;
+							overflow: hidden;
+							display: block;
+						}
+						.desc{
+							margin-top: 5px;
+							display: block;
+							font-size: 12px;
+							font-weight: 500;
+							height: 86px;
+							overflow: hidden;
+						}
+						.date{
+							display: block;
+							font-size: 12px;
+							bottom: 25px;
+							left: 20px;
+							position: absolute;
+							i{
+								margin-right: 5px;
+							}
+						}
+						.readmore{
+							bottom: 20px;
+							right: 20px;
+							position: absolute;
+							font-size: 12px;
+							padding: 5px 10px;
+							border-radius: 5px;
+							text-decoration: none;
+							color: #fff;
+							background: rgba(73,155,234,1);
+							background: -moz-linear-gradient(left, rgba(73,155,234,1) 0%, rgba(32,124,229,1) 100%);
+							background: -webkit-gradient(left top, right top, color-stop(0%, rgba(73,155,234,1)), color-stop(100%, rgba(32,124,229,1)));
+							background: -webkit-linear-gradient(left, rgba(73,155,234,1) 0%, rgba(32,124,229,1) 100%);
+							background: -o-linear-gradient(left, rgba(73,155,234,1) 0%, rgba(32,124,229,1) 100%);
+							background: -ms-linear-gradient(left, rgba(73,155,234,1) 0%, rgba(32,124,229,1) 100%);
+							background: linear-gradient(to right, rgba(73,155,234,1) 0%, rgba(32,124,229,1) 100%);
+							filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#499bea', endColorstr='#207ce5', GradientType=1 );
+							display: inline-block;
+							@media screen and (max-width: 915px) {
+								font-size: 9px;
+							}
+						}
+					}
+				}
+			}
+		}	
+	}
+}
+
+#instagram-feed{
 	padding-top: 15px;
 	padding-bottom: 15px;
 	.section-title {
 		text-align: center;
-		margin-bottom: 63px;
-		color: inherit;
+		margin-bottom: 45px;
+		color: #fff;
 		@media screen and (max-width: 425px) {
 			font-size: 19px;
 		}
 	}
-	.video-wraper {
+	.post-wraper {
 		width: 100%;
 		height: 124px;
-		margin-bottom: 24px;
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-position: center;
 		@media screen and (max-width: 768px) {
 			margin-bottom: 10px;
 			text-align: center;
 		}
-		.play-button {
-			padding: 12.5px 15.5px;
+	}
+	.insta-slider{
+		.insta-pagination{
+			position: relative;
+			bottom: -5px;
+			.swiper-pagination-bullet-active{
+				background: #fff;
+			}
 		}
 	}
 	.the-row{
@@ -405,7 +656,6 @@
 			}
 		}
 	}
-	
 }
 
 #mentor {
@@ -516,6 +766,9 @@
 	margin-top: 25px;
 	.container{
 		.row{
+			h3{
+				margin-left: 15px;
+			}
 			.resultSearchHeading{
 				margin-bottom: 25px;
 				margin-left: 13px;

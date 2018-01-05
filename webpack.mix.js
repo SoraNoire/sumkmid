@@ -23,7 +23,7 @@
 
  mix.sass('resources/assets/sass/app.scss', 'public/css')
  .combine([
-  'Modules/Blog/Assets/js/jquery-3.1.0.js',
+  'Modules/Blog/Assets/js/jquery-3.1.0.min.js',
   'Modules/Blog/Assets/js/select2.min.js',
   'Modules/Blog/Assets/js/jquery.dataTables.min.js',
   'Modules/Blog/Assets/js/bootstrap.min.js',
@@ -44,5 +44,6 @@
     'resources/assets/js/home.js'
   ], 'public/js/home.js')
  .sass('Modules/Blog/Assets/scss/style.scss', 'public/css')
+ .sass('Modules/Blog/Assets/font-awesome/scss/font-awesome.scss', 'public/css')
  .sass('resources/assets/sass/index.scss', 'public/css')
  .browserSync({'proxy' : 'www.sahabat.test',files: ['Modules/Blog/Resources/views/admin/*.php','Modules/Blog/Resources/views/layouts/*.php', 'Modules/Blog/Assets/js/*.js', 'resources/assets/js/*.js', 'resources/views/layouts/*.php', 'resources/views/page/*.php']});

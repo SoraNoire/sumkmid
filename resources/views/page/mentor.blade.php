@@ -4,7 +4,7 @@
 
 <div class="breadcrumb">
 	<div class="container">
-		<h2><a href="{{ route('public_home') }}">Home</a> <i class="fa fa-angle-right" aria-hidden="true"></i>Mentor</h2>
+		<h2><a href="{{ route('public_home') }}">Beranda</a> <i class="fa fa-angle-right" aria-hidden="true"></i>Mentor</h2>
 	</div>
 </div>
 

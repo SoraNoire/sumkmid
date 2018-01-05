@@ -183,3 +183,73 @@ $(function(){
     });
 });
 
+if($('#instagram-feed').length > 0){
+	var spp = 6;
+
+	if($('body').outerWidth() < 725) {
+      spp = 4;
+    }
+    if($('body').outerWidth() < 525) {
+    	spp = 3;
+    }
+    if($('body').outerWidth() < 425) {
+    	spp = 2;
+    }
+
+	var igSlider = new Swiper('.insta-slider', {
+	slidesPerView: spp,
+	spaceBetween: 10,
+	loop: false,
+	pagination: {
+	el: '.insta-pagination',
+	},
+});
+}
+
+if($('#mainSlider').length > 0){
+	var mySwiper = new Swiper ('.main-slider', {
+	// Optional parameters
+	direction: 'horizontal',
+	loop: true,
+	autoplay: {
+	    delay: 5000,
+		},
+
+	// If we need pagination
+	pagination: {
+	  el: '.swiper-pagination',
+	},
+	});
+}
+
+if($('#main-gallery').length > 0){
+
+	var spp = 4;
+
+	if($('body').outerWidth() < 830) {
+      spp = 3;
+    }
+    if($('body').outerWidth() < 640) {
+    	spp = 2;
+    }
+    if($('body').outerWidth() < 458) {
+    	spp = 1;
+    }
+
+	var gallSlider = new Swiper('.gallery-slider', {
+	slidesPerView: spp,
+	spaceBetween: 0,
+	loop: true,
+	pagination: {
+	el: '.gallery-pagination',
+	},
+	navigation: {
+      nextEl: '.galleryGoRight',
+      prevEl: '.galleryGoLeft',
+    },
+});
+}
+
+
+
+

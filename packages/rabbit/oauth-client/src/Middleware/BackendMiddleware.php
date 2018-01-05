@@ -23,36 +23,38 @@ class BackendMiddleware
     {
 
         // route name as module
+
+        // user outside context
+
+        if ( !isset(app()->OAuth::Auth()->role) || ! in_array( app()->OAuth::Auth()->role, app()->OAuth::$roles) )
+        {
+            return redirect('/');
+        }
+
         $moduleName = $request->route()->getName();
         // dd($moduleName);
         $moduleName = explode("__", $moduleName);
         $method = false;
         if( isset($moduleName[1]) )
         {
-            if('ajaxsave'==$moduleName[1]
-                || 'save'==$moduleName[1]
-                || 'add'==$moduleName[1]
+            if( 'save'==$moduleName[1]
                 || 'add'==$moduleName[1]
             )
             {
                 $method = 'write';
             }
-            if( 'ajaxupdate'==$moduleName[1] 
-                || 'ajaxview'==$moduleName[1] 
-                || 'update'==$moduleName[1] 
+            if( 'update'==$moduleName[1] 
                 || 'view'==$moduleName[1] 
             )
             {
                 $method = 'edit';
             }
             if( 'delete'==$moduleName[1]
-                || 'massdelete'==$moduleName[1]
             )
             {
                 $method = 'delete';
             }
-            if('ajaxget'==$moduleName[1]
-                || 'index'==$moduleName[1]
+            if( 'index'==$moduleName[1]
             )
             {
                 $method = 'read';
@@ -71,11 +73,7 @@ class BackendMiddleware
             {
                 return redirect('/');
             }
-            if(!isset(app()->OAuth->Auth()->role))
-            {
-                return redirect('/');
-            }
-            if ('admin' != app()->OAuth->Auth()->role)
+            if('admin' != app()->OAuth->Auth()->role)
             {
                 return redirect(route('panel.dashboard'));   
             }
@@ -85,7 +83,7 @@ class BackendMiddleware
         {
             return redirect('/');
         }
-// dd(app()->OAuth->Auth());
+
         if ( !app()->OAuth->Auth() )
         {
             return redirect('/');
@@ -113,11 +111,7 @@ class BackendMiddleware
                 {
                     return redirect('/');
                 }
-                if(!isset(app()->OAuth->Auth()->role))
-                {
-                    return redirect('/');
-                }
-                if ('admin' != app()->OAuth->Auth()->role)
+                if('admin' != app()->OAuth->Auth()->role)
                 {
                     return redirect(route('panel.dashboard'));   
                 }
@@ -163,11 +157,7 @@ class BackendMiddleware
             {
                 return redirect('/');
             }
-            if(!isset(app()->OAuth->Auth()->role))
-            {
-                return redirect('/');
-            }
-            if ('admin' != app()->OAuth->Auth()->role)
+            if('admin' != app()->OAuth->Auth()->role)
             {
                 return redirect(route('panel.dashboard'));   
             }

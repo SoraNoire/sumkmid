@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'mnews_url' => env('MNEWS_URL'),
 
     'email_info' => env('EMAIL_INFO'),
     // tinymce api key
@@ -193,6 +194,8 @@ return [
         Modules\Blog\Providers\ShortcodesServiceProvider::class,
         App\Providers\SSOServiceProvider::class,
         Rabbit\OAuthClient\OAuthClientServiceProvider::class,
+        Rabbit\SahabatUser\SahabatUserServiceProvider::class,
+        // Vinkla\Instagram\InstagramServiceProvider::class
 
     ],
 
@@ -247,6 +250,7 @@ return [
         'PostHelper' => Modules\Blog\Http\Helpers\PostHelper::class,
         'Shortcode' => Webwizo\Shortcodes\Facades\Shortcode::class,
         'Carbon' => \Carbon\Carbon::class,
+        // 'Instagram' => Vinkla\Instagram\Facades\Instagram::class,
 
         // lara collective
         'Form' => Collective\Html\FormFacade::class,

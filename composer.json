@@ -15,7 +15,10 @@
         "league/flysystem-aws-s3-v3": "^1.0",
         "nesbot/carbon": "^1.22",
         "nwidart/laravel-modules": "^1.27",
+        "php-http/guzzle6-adapter": "^1.1",
+        "php-http/message": "^1.6",
         "spatie/laravel-permission": "^1.13",
+        "vinkla/instagram": "^8.0",
         "webwizo/laravel-shortcodes": "1.0.*"
     },
     "require-dev": {
@@ -31,7 +34,8 @@
         "psr-4": {
             "App\\": "app/",
             "Modules\\": "Modules/",
-            "Rabbit\\OAuthClient\\": "packages/rabbit/oauth-client/src"
+            "Rabbit\\OAuthClient\\": "packages/rabbit/oauth-client/src",
+            "Rabbit\\SahabatUser\\": "packages/rabbit/sahabat-user/src"
         },
         "files": [
             "Modules/Blog/Http/Helpers/PostHelper.php"

@@ -86,6 +86,10 @@ footer{
                         float: left;
                         width: calc(100% - 40px);
                         margin-bottom: 0px;
+                        a{
+                            color: inherit;
+                            text-decoration: inherit;
+                        }
                     }
                 }
             }
@@ -102,7 +106,7 @@ footer{
                     input{
                         background-color: transparent;
                         border: 1px solid #A3ABBA;
-                        padding: 7px 2px;
+                        padding: 7px 7px;
                         outline: none;
                         text-align: left;
                         width: calc(100% - 100px);

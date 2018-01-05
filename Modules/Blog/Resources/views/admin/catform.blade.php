@@ -25,7 +25,7 @@
             </select>
         </div>
         <button type="submit" class="btn btn-success pull-right">Save</button>
-        @if ($act == 'Edit')
+        @if ($act == 'Edit' && in_array('delete', app()->OAuth::can('panel.category')))
         <a style="margin-right: 10px;" href="{{ route('panel.category__delete', $category->id) }}" class="btn btn-danger pull-right" onclick="return confirm('Delete Category?');">Delete</a>
         @endif
     </form>
