@@ -58,7 +58,7 @@
 					                        		<div class="input-group">
 					                        			<input class="form-control" type="text" name="quote_image" value="{{ $quote->image ?? '' }}" readonly="readonly" id="quote-image">
 					                        			<span class="input-group-btn">
-					                        				<button class="btn btn-default program-media" type="button" data-tujuan="quote-image">Browse media</button>
+					                        				<button class="btn btn-default {{ in_array('read', app()->OAuth::can('panel.media')) ? 'program-media':'disabled' }}" type="button" data-tujuan="quote-image">Browse media</button>
 					                        			</span>
 					                        		</div>
 					                        	</div>	
@@ -263,7 +263,7 @@
 
 @endsection
 
-
+@if (in_array('read', app()->OAuth::can('panel.media')))
 @section('modal')
 <div class="overlay"></div>
 
@@ -271,13 +271,15 @@
 <div class="close-modal" id="close_media_post" data-toggle="modal" data-target="#myModal">X</div>
     
     <div class="card">
+    	@if (in_array('write', app()->OAuth::can('panel.media')))
         <div class="btn btn-round btn-fill btn-info" style="margin-bottom: 10px;" onclick="document.getElementById('uploadmedia').click();">Upload media +
             <form id="actuploadmedia" method="post" action="{{ URL::to('/administrator/act_new_media') }}" accept-charset="UTF-8" enctype="multipart/form-data">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <input type="file" id="uploadmedia" name="media[]" style="cursor: pointer;display: none;" multiple>
             </form>
         </div>
-    <div class="card-content table-responsive">
+        @endif
+    <div class="card-content table-responsive" {{ in_array('write', app()->OAuth::can('panel.media')) ? '':'style=margin-top:30px;' }}>
         <table style="width: 100%;" class="table mediatable" id="programMedia">
             <thead >
                 <th>Preview</th>
@@ -290,3 +292,4 @@
     </div>
 </div>
 @endsection
+@endif

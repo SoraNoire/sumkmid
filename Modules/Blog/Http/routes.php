@@ -54,11 +54,11 @@ Route::group(['middleware' => ['web', 'backend'], 'prefix' => 'admin/blog', 'nam
     //         ->name('panel.post__delete__mass');
 
     Route::get('/add-category-post/{name}/{parent}', 'BlogController@store_category_ajax')
-            ->name('panel.post__add__category');
+            ->name('panel.category__add__ajax__post');
     Route::get('/get-category-post/{post_id}', 'BlogController@get_all_category')
-            ->name('panel.post__index__category__get');
+            ->name('panel.category__index__get');
     Route::get('/get-category-parent/{category_id}', 'BlogController@get_category_parent')
-            ->name('panel.post__view__category__getparent');
+            ->name('panel.category__index__getparent');
     
     // Route::get('/files', 'BlogController@files')
     //         ->name('panel.file__index');

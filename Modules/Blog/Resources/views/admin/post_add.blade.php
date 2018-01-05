@@ -12,9 +12,11 @@
     <h4 class="title">New Post</h4>
 
     <form id="post-form" method="post" action="{{ route('panel.post__save') }}" accept-charset="UTF-8">
+        @if (in_array('write', app()->OAuth::can('panel.post')))
         <a href="{{ route('panel.post__add') }}" class="btn btn-round btn-fill btn-info">
             New Post +<div class="ripple-container"></div>
         </a>
+        @endif
 
         <button type="submit" class="btn btn-success pull-right">Save Post</button>
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -26,7 +28,9 @@
                     <input class="form-control" type="text" name="title" value="{{ old('title') }}" placeholder="Enter Title Here" required="required">
                 </div>
 
+                @if (in_array('read', app()->OAuth::can('panel.media')))
                 <a id="browse_media_post" data-toggle="modal" data-target="#myMedia" class="btn btn-round btn-fill btn-default" style="margin-bottom: 10px;">Add Media</a>
+                @endif
 
                 <div class="form-group">
                     <label class="control-label">Post Content</label>
