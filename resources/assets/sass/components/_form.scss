@@ -1,11 +1,11 @@
 .ttl{
 	.tl{
 		display: inline-block;
-		width: 50%;
+		width: 40%;
 	}
 	.tgll{
 		display: inline-block;
-		width: 49%;
+		width: 58%;
 		margin-left: 2px;
 		.dropdown3{
 			display: inline-block;
@@ -16,5 +16,31 @@
 		    outline: none;
 		    padding: 0px 5px;
 		}
+	}
+}
+.defkota{
+	display: none;
+}
+.pilihkotaprov{
+	.inputText{
+		display: inline-block;
+		select{
+			height: 35px;
+		    border-radius: 5px;
+		    border: solid 1px #404040;
+		    outline: none;
+		    padding: 0px 5px;   
+		}
+	}
+}
+.inputAlamat{
+	textarea{
+		width: calc(100% - 28px);
+	    height: 50px;
+	    border-radius: 5px;
+	    border: solid 1px #404040;
+	    outline: none;
+	    padding: 0px 14px;
+	    resize: vertical;
 	}
 }
