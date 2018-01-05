@@ -72,21 +72,15 @@
 					                <div class="panel panel-default">
 					                    <div class="panel-heading">
 					                        <h4 class="panel-title">
-					                          Home Gallery <a data-toggle="collapse" href="#setting-gallery-cat"><i style="float: right;" class="fa fa-caret-down" aria-hidden="true"></i></a>
+					                          Post <a data-toggle="collapse" href="#setting-home-post"><i style="float: right;" class="fa fa-caret-down" aria-hidden="true"></i></a>
 					                        </h4>
 					                    </div>
-					                    <div id="setting-gallery-cat" class="panel-collapse collapse in">
+					                    <div id="setting-home-post" class="panel-collapse collapse in">
 					                        <div class="panel-body">
 
 				            					<div class="form-group">
 				            						<label>Section Title</label>
-				            						<input type="text" name="gallery_title" class="form-control" value="{{ $gallery->title ?? '' }}">
-													<label>Select Category Gallery</label>
-													<select class="form-control" name="gallery_category">
-														@foreach( $all_cat as $cat )
-														<option value="{{ $cat->id }}" {{ $cat->id == $gallery->category ? 'selected' : '' }}>{{ $cat->name }}</option>
-														@endforeach
-													</select>
+				            						<input type="text" name="post_section" class="form-control" value="{{ $post_section ?? '' }}">
 												</div>
 
 	            								<button type="submit" class="btn btn-success pull-left">Save</button>
@@ -193,8 +187,8 @@
 		                        <div class="panel-body">
 		                            
 									<div class="form-group label-floating">
-										<label class="control-label">Google Analytic ID</label>
-										<input type="text" name="analytic" class="form-control" value="{{ $analytic }}">
+										<label class="control-label">Google Tag Manager ID</label>
+										<input type="text" name="gtag_manager" class="form-control" value="{{ $gtag_manager }}">
 									</div>
 
 									<div class="form-group label-floating">

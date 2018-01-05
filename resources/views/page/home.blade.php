@@ -89,7 +89,7 @@
 
 <section id="main-gallery">
 	<div class="container">
-		<h3 class="section-title">{!! $var['gallery_name'] !!}</h3>
+		<h3 class="section-title">{!! $var['post_section_titsle'] ?? '<span>Kisah</span> <span>Inspirasi</span>' !!}</h3>
 		<div class="swiper-container gallery-slider">
 			<div class="swiper-wrapper">
 				@foreach ($var['post'] as $post)
@@ -118,16 +118,6 @@
 		<div class="galleryGoRight">
 			<img src="{{ asset('images/right.png') }}">
 		</div>
-<!-- 		<div class="the-row">
-			@foreach ($var['videos'] as $video)
-			<div class="col-3">
-				<div class="video-wraper" style="background-image: url('{{ $video->featured_image ?? '' }}');">
-	        		<a href="{{route('single_gallery', $video->slug ?? '')}}"><span class="play-button"><i class="fa fa-play fa-lg" aria-hidden="true"></i></span></a>
-	        	</div>
-				<a href="{{route('single_gallery', $video->slug ?? '')}}" class="tilte">{{ $video->title ?? '' }}</a>
-			</div>
-			@endforeach
-		</div> -->
 	</div>
 </section>
 
@@ -155,23 +145,6 @@
 			<div class="swiper-pagination insta-pagination"></div>
 		</div>
 
-<!-- 		<div class="the-row">
-		
-			@php $i = 0 @endphp
-
-			@foreach($var['instagram'] as $feed)
-			@php $i++ @endphp
-			@if($i == 5)
-				@php break @endphp
-			@endif
-			<div class="col-3">
-				<a href="{{ $feed->link ?? '' }}">
-				<div class="post-wraper" style="background-image: url('{{ $feed->images->standard_resolution->url ?? '' }}');">
-	        	</div>
-	        	</a>
-			</div>
-			@endforeach
-		</div> -->
 	</div>
 </section>
 @endif

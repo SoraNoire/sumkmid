@@ -22,7 +22,7 @@ class MetaMiddleware
 class Meta
 {
     protected $meta_title = 'Sahabat UMKM Indonesia';
-    protected $tagmanager = '';
+    protected $gtm = '';
     protected $fb_pixel = '';
     protected $link_fb = '';
     protected $link_tw = '';
@@ -34,7 +34,7 @@ class Meta
     protected $email_info = 'sekretariat@sahabatumkm.id';
 
     function __construct(){
-        $this->analytic = Option::where('key', 'analytic')->first()->value ?? '';
+        $this->gtm = Option::where('key', 'gtag_manager')->first()->value ?? '';
         $this->fb_pixel = Option::where('key', 'fb_pixel')->first()->value ?? '';
         $this->link_fb = Option::where('key', 'link_fb')->first()->value ?? '';
         $this->link_tw = Option::where('key', 'link_tw')->first()->value ?? '';
