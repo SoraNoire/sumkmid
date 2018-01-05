@@ -1,3 +1,7 @@
+.clearfix{
+    clear: both;
+}
+
 .loadVideo{
     &:after{
         content: "Memuat Mentor";
@@ -90,4 +94,97 @@
     height: 15px;
     background: #939393;
     -webkit-mask: url('/img/search icon.svg') center / contain no-repeat;
+}
+.i-fb{
+    width: 34.8px;
+    height: 34.8px;
+    background: #404040;
+    -webkit-mask: url('/img/005-facebook-logo-button.svg') center / contain no-repeat;
+}
+.i-ig{
+    width: 34.8px;
+    height: 34.8px;
+    background: #404040;
+    -webkit-mask: url('/img/004-instagram-logo.svg') center / contain no-repeat;
+}
+.i-linkedin{
+    width: 34.8px;
+    height: 34.8px;
+    background: #404040;
+    -webkit-mask: url('/img/001-linkedin-symbol.svg') center / contain no-repeat;
+}
+.i-tw{
+    width: 34.8px;
+    height: 34.8px;
+    background: #404040;
+    -webkit-mask: url('/img/002-twitter-logo-button.svg') center / contain no-repeat;
+}
+.i-gp{
+    width: 34.8px;
+    height: 34.8px;
+    background: #404040;
+    -webkit-mask: url('/img/004-instagram-logo copy.svg') center / contain no-repeat;
+}
+
+.i-phone{
+    width: 14px;
+    height: 15px;
+    background: #ffffff;
+    -webkit-mask: url('/img/contact-telephone-icon.svg') center / contain no-repeat;
+}
+
+.i-mail{
+    width: 15px;
+    height: 11px;
+    background: #ffffff;
+    -webkit-mask: url('/img/contact-mail-icon.svg') center / contain no-repeat;
+}
+
+.i-cog{
+    width: 18px;
+    height: 18px;
+    background: #1D3D6F;
+    -webkit-mask: url('/img/cog.svg') center / contain no-repeat;
+    cursor: pointer;
+}
+
+#mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; }
+
+
+#mentors{
+    .photoMentor{
+      position:relative;
+      list-style-type:none;
+      width:27.85714285714286%; /* = (100-2.5) / 3.5 */
+      // padding-bottom: 32.16760145166612%; /* =  width /0.866 */
+      float:left;
+      overflow:hidden;
+      visibility:hidden;
+      -webkit-transform: rotate(-60deg) skewY(30deg);
+      -ms-transform: rotate(-60deg) skewY(30deg);
+      transform: rotate(-60deg) skewY(30deg);
+    }
+    .photoMentor *{
+      position:absolute;
+      visibility:visible;
+    }
+    .photoMentor > div{
+      width:100%;
+      height:100%;
+      text-align:center;
+      color:#fff;
+      overflow:hidden;
+      
+      -webkit-transform: skewY(-30deg) rotate(60deg);
+      -ms-transform: skewY(-30deg) rotate(60deg);
+      transform: skewY(-30deg) rotate(60deg);
+      
+        -webkit-backface-visibility:hidden;
+      
+    }
+    .photoMentor img{
+      left:-100%; right:-100%;
+      width: auto; height:100%;
+      margin:0 auto;   
+    }
 }

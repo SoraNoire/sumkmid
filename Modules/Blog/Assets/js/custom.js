@@ -1,278 +1,65 @@
+type=["","info","success","warning","danger"],notif={showNotification:function(o,e,n,i){color=i,$.notify({message:n},{type:type[color],timer:1000,placement:{from:o,align:e}})}};
 mediaPath = 'https://s3-ap-southeast-1.amazonaws.com/mdirect/shbtm/media';
-filePath = 'https://s3-ap-southeast-1.amazonaws.com/mdirect/shbtmdev/files';
+filePath = 'https://s3-ap-southeast-1.amazonaws.com/mdirect/shbtm/files';
 var timeOutId;
-//
-// Pipelining function for DataTables. To be used to the `ajax` option of DataTables
-//
-$.fn.dataTable.pipeline = function ( opts ) {
-    // Configuration options
-    var conf = $.extend( {
-        pages: 5,     // number of pages to cache
-        url: '',      // script url
-        data: null,   // function or object with parameters to send to the server
-                      // matching how `ajax.data` works in DataTables
-        method: 'GET' // Ajax HTTP method
-    }, opts );
- 
-    // Private variables for storing the cache
-    var cacheLower = -1;
-    var cacheUpper = null;
-    var cacheLastRequest = null;
-    var cacheLastJson = null;
- 
-    return function ( request, drawCallback, settings ) {
-        var ajax          = false;
-        var requestStart  = request.start;
-        var drawStart     = request.start;
-        var requestLength = request.length;
-        var requestEnd    = requestStart + requestLength;
-         
-        if ( settings.clearCache ) {
-            // API requested that the cache be cleared
-            ajax = true;
-            settings.clearCache = false;
-        }
-        else if ( cacheLower < 0 || requestStart < cacheLower || requestEnd > cacheUpper ) {
-            // outside cached data - need to make a request
-            ajax = true;
-        }
-        else if ( JSON.stringify( request.order )   !== JSON.stringify( cacheLastRequest.order ) ||
-                  JSON.stringify( request.columns ) !== JSON.stringify( cacheLastRequest.columns ) ||
-                  JSON.stringify( request.search )  !== JSON.stringify( cacheLastRequest.search )
-        ) {
-            // properties changed (ordering, columns, searching)
-            ajax = true;
-        }
-         
-        // Store the request for checking next time around
-        cacheLastRequest = $.extend( true, {}, request );
- 
-        if ( ajax ) {
-            // Need data from the server
-            if ( requestStart < cacheLower ) {
-                requestStart = requestStart - (requestLength*(conf.pages-1));
- 
-                if ( requestStart < 0 ) {
-                    requestStart = 0;
-                }
-            }
-             
-            cacheLower = requestStart;
-            cacheUpper = requestStart + (requestLength * conf.pages);
- 
-            request.start = requestStart;
-            request.length = requestLength*conf.pages;
- 
-            // Provide the same `data` options as DataTables.
-            if ( $.isFunction ( conf.data ) ) {
-                // As a function it is executed with the data object as an arg
-                // for manipulation. If an object is returned, it is used as the
-                // data object to submit
-                var d = conf.data( request );
-                if ( d ) {
-                    $.extend( request, d );
-                }
-            }
-            else if ( $.isPlainObject( conf.data ) ) {
-                // As an object, the data given extends the default
-                $.extend( request, conf.data );
-            }
- 
-            settings.jqXHR = $.ajax( {
-                "type":     conf.method,
-                "url":      conf.url,
-                "data":     request,
-                "dataType": "json",
-                "cache":    false,
-                "success":  function ( json ) {
-                    cacheLastJson = $.extend(true, {}, json);
- 
-                    if ( cacheLower != drawStart ) {
-                        json.data.splice( 0, drawStart-cacheLower );
-                    }
-                    if ( requestLength >= -1 ) {
-                        json.data.splice( requestLength, json.data.length );
-                    }
-                     
-                    drawCallback( json );
-                }
-            } );
-        }
-        else {
-            json = $.extend( true, {}, cacheLastJson );
-            json.draw = request.draw; // Update the echo for each response
-            json.data.splice( 0, requestStart-cacheLower );
-            json.data.splice( requestLength, json.data.length );
- 
-            drawCallback(json);
-        }
-    }
-};
- 
-// Register an API method that will empty the pipelined data, forcing an Ajax
-// fetch on the next draw (i.e. `table.clearPipeline().draw()`)
-$.fn.dataTable.Api.register( 'clearPipeline()', function () {
-    return this.iterator( 'table', function ( settings ) {
-        settings.clearCache = true;
-    } );
-} );
 
+var jPlugin = $.blogPlugin();
 
-$("#browse_media_post").click(function() {
-    $("html, body").animate({
-        scrollTop: 0
-    }, 500);
-    $(".overlay").fadeIn(), $(".media-modal").fadeIn();
+$('#site-setting').on('click', '.program-media', function(){
+    jPlugin.openModal('.custom-modal');
+    tujuan = $('#'+$(this).attr('data-tujuan'));
 });
 
-$("#close_media_post, .overlay").click(function() {
-    $(".overlay").fadeOut(), $(".media-modal").fadeOut()
+$("#browse_media_post").click(function() {
+    jPlugin.openModal('.media-modal');
 });
 
 $("#browse_fimg_post").click(function() {
-    $("html, body").animate({
-        scrollTop: 0
-    }, 500);
-    $(".overlay").fadeIn(), $(".fimg-modal").fadeIn();
-});
-
-$("#close_fimg_post, .overlay").click(function() {
-    $(".overlay").fadeOut(), $(".fimg-modal").fadeOut()
+    jPlugin.openModal('.fimg-modal');
+    tujuan = $('#'+$(this).attr('data-tujuan'));
 });
 
 $("#browse_file_post").click(function() {
-    $("html, body").animate({
-        scrollTop: 0
-    }, 500);
-    $(".overlay").fadeIn(), $(".file-modal").fadeIn();
+    jPlugin.openModal('.file-modal');
 });
 
-$("#close_file_post, .overlay").click(function() {
-    $(".overlay").fadeOut(), $(".file-modal").fadeOut()
+$(".close-modal, .overlay").click(function() {
+    jPlugin.closeModal();
 });
 
 // fungsi upload image
-$('#uploadmedia').on('change', function add_media(e){
+$('#uploadmedia').on('change', function(e){
     e.preventDefault();
-    timeOutId = setTimeout(ajaxFn, 1000, e);
-
+    var fd = new FormData($("#actuploadmedia")[0]);
     $('.dataTables_processing').show();
-
-    function ajaxFn(e){
-        var fd = new FormData($("#actuploadmedia")[0]);
-        $.ajax({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            type: "POST",
-            url: "/admin/blog/store-media",
-            processData: false,
-            contentType: false,
-            data: fd,
-            success: function(msg){
-                        $(".mediatable").DataTable().ajax.reload(null, false);
-                        console.log('add');
-            },
-            error: function(err){
-                    $(".mediatable").DataTable().ajax.reload(null, false);
-                    console.log(err);
-                }
-        });
-        $('.dataTables_processing').hide();
-    };
+    timeOutId = setTimeout(jPlugin.uploadFile(fd, 'media'), 1000);
 });
 
+// fungsi upload fimg
 $('#uploadfimg').on('change', function add_media(e){
     e.preventDefault();
-    timeOutId = setTimeout(ajaxFn, 1000, e);
+    var fd = new FormData($("#actuploadfimg")[0]);
     $('.dataTables_processing').show();
-
-    function ajaxFn(e){
-        var fd = new FormData($("#actuploadfimg")[0]);
-        $.ajax({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            type: "POST",
-            url: "/admin/blog/store-media",
-            processData: false,
-            contentType: false,
-            data: fd,
-            success: function(msg){
-                        $(".mediatable").DataTable().ajax.reload(null, false);
-                        console.log(msg);
-            },
-            error: function(err){
-                    $(".mediatable").DataTable().ajax.reload(null, false);
-                    console.log(err);
-                }
-        });
-        $('.dataTables_processing').hide();
-    };
+    timeOutId = setTimeout(jPlugin.uploadFile(fd, 'media'), 1000);
 });
 
 // fungsi upload file
 $('#fileUpload').on('change', function add_file(e){
     e.preventDefault();
-    timeOutId = setTimeout(ajaxFn, 1000, e);
+    var fd = new FormData($("#fileupload-form")[0]);
     $('.dataTables_processing').show();
-
-    function ajaxFn(e){
-        var fd = new FormData($("#fileupload-form")[0]);
-        $.ajax({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            type: "POST",
-            url: "/admin/blog/store-file",
-            processData: false,
-            contentType: false,
-            data: fd,
-            success: function(msg){
-                $(".filestable").DataTable().ajax.reload(null, false);
-                // var obj = JSON.parse(msg);
-                console.log(msg);
-            },
-            error: function(err){
-                $(".filestable").DataTable().ajax.reload(null, false);
-                alert('Invalid File Extension');
-            },
-            always: function(a){
-                $(".filestable").DataTable().ajax.reload(null, false);
-                // console.log(a);
-            }
-        });
-        $('.dataTables_processing').hide();
-    }
+    timeOutId = setTimeout(jPlugin.uploadFile(fd, 'file'), 1000);
 });
 
-function delete_media(e){
-    timeOutId = setTimeout(ajaxFn, 2000, e);
-
-    $('#canceldelete').show();
-    $('.dataTables_processing').show();
-    function ajaxFn(e){
-        $.ajax({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            type: "GET",
-            url: "/admin/blog/delete-media/"+e,
-            processData: false,
-            contentType: false,
-            success: function(msg){
-                $(".mediatable").DataTable().ajax.reload(null, false);
-            },
-            error: function(err){
-                $(".mediatable").DataTable().ajax.reload(null, false);
-                console.log(err);
-            }
-        });
-        $('#canceldelete').hide();
-        $('.dataTables_processing').hide();
-    };
+// fungsi delete media
+function delete_media(id){
+    timeOutId = setTimeout(jPlugin.deleteFile(id, 'media'), 2000);
 };
 
+// fungsi delete file
+function delete_file(id){
+    timeOutId = setTimeout(jPlugin.deleteFile(id, 'file'), 2000);
+};
 
 function select_media(e){
     var a = $("<input>");
@@ -281,19 +68,24 @@ function select_media(e){
     a.val(b).select();
     document.execCommand("copy");
     a.remove();
-    $(".overlay").fadeOut();
-    $(".media-modal").fadeOut();
+    jPlugin.closeModal();
 }
 
 function select_fimg(e){
     $('.preview-fimg-wrap').show();
     var a = $('.preview-fimg');
-    var b = $('#featured_img');
     var c = $(e).text();
     a.css('background-image', 'url('+c+')');
-    b.val(c);
-    $(".overlay").fadeOut();
-    $(".fimg-modal").fadeOut();
+    tujuan.val(c);
+    jPlugin.closeModal();
+}
+
+function select_input_media(e){
+    var c = $(e).text();
+    tujuan.val(c);
+    var name = 'data-'+tujuan.attr('name');
+    tujuan.parents('li.dd-item').attr(name, c);
+    jPlugin.closeModal();
 }
 
 function remove_fimg(){
@@ -304,419 +96,22 @@ function remove_fimg(){
     b.val('');
 }
 
-$(document).ready(function() {
-// DATATABLES CONFIG
-    
-
-    // categories
-    if ($("#table-categories").length > 0) {
-        console.log('category');
-        $("#table-categories").DataTable({
-            "ajax": $.fn.dataTable.pipeline( {
-                url: '/admin/blog/ajaxcategories',
-                pages: 5 // number of pages to cache
-            } ),
-            "processing": true,
-            "serverSide": true,
-            "stateSave":true,
-            "columns": [
-                { "data": "name" },
-                { "data": "created_at" },
-                { "data": "id" },
-            ],
-            "columnDefs": [ {
-                    "targets": -1,
-                    "data": 'id',
-                    "render": function ( data, type, row ) {
-                        return '<a href="/admin/blog/category/'+row.id+'/view">Edit</a> | <a onclick="return confirm(\'Delete Category?\');" href="/admin/blog/category/'+row.id+'/remove" style="color: #d9534f;">Delete</a>';
-                    }
-                },
-                    {
-                    "targets": 0,
-                    "data": 'name',
-                    "render": function ( data, type, row ) {
-                        return '<a href="/admin/blog/category/'+row.id+'/view">'+data+'</a>';
-                    }
-                }
-            ],
-            order: [
-                [1, "desc"]
-            ]
-        });
+// multiselect for bulk delete
+$('.mydatatable tbody').on( 'click', 'tr', function () {
+    $(this).toggleClass('selected');
+    var count = $(".mydatatable").DataTable().rows('.selected').data().length;
+    if (count > 0) {
+        $('.bulk-delete-item').show();   
+        $('.bulk-delete-count').html( $(".mydatatable").DataTable().rows('.selected').data().length ); 
+    } else {
+        $('.bulk-delete-item').hide(); 
     }
-
-    // category table 
-    if ($("#CategoryTable").length > 0) {
-        console.log('category');
-        $("#CategoryTable").DataTable({
-            "ajax": $.fn.dataTable.pipeline( {
-                url: '/admin/blog/get-category',
-                pages: 5 // number of pages to cache
-            } ),
-            "processing": true,
-            "serverSide": true,
-            "stateSave":true,
-            "columns": [
-                { "data": "name" },
-                { "data": "created_at" },
-                { "data": "id" },
-            ],
-            "columnDefs": [ {
-                    "targets": -1,
-                    "data": 'id',
-                    "render": function ( data, type, row ) {
-                        return '<a href="/admin/blog/edit-category/'+row.id+'">Edit</a> | <a onclick="return confirm(\'Delete Category?\');" href="/admin/blog/delete-category/'+row.id+'" style="color: #d9534f;">Delete</a>';
-                    }
-                },
-                    {
-                    "targets": 0,
-                    "data": 'name',
-                    "render": function ( data, type, row ) {
-                        return '<a href="/admin/blog/edit-category/'+row.id+'">'+data+'</a>';
-                    }
-                }
-            ],
-            order: [
-                [0, "desc"],
-                [1, "desc"]
-            ]
-        });
-    } 
-
-    // news table
-    if ($("#posts-table").length > 0) {
-        $("#posts-table").DataTable({
-            "ajax": $.fn.dataTable.pipeline( {
-                url: '/admin/blog/ajaxposts',
-                pages: 5 // number of pages to cache
-            } ),
-            "processing": true,
-            "serverSide": true,
-            "stateSave":true,
-            "columns": [
-                { "data": "title" },
-                { "data": "author_name" },
-                { "data": "published_date" },
-                { "data": "id" },
-            ],
-            "columnDefs": [ {
-                    "targets": -1,
-                    "data": 'id',
-                    "render": function ( data, type, row ) {
-                        return '<a href="/admin/blog/post/'+row.id+'/view">Edit</a> | <a onclick="return confirm(\'Delete Post?\');" href="/admin/blog/post/'+row.id+'/remove" style="color: #d9534f;">Hapus</a>';
-                    }
-                },
-                    {
-                    "targets": 0,
-                    "data": 'title',
-                    "render": function ( data, type, row ) {
-                        return '<a href="/admin/blog/post/'+row.id+'/view">'+data+'</a>';
-                    }
-                }
-            ],
-            order: [
-                [2, "desc"]
-            ]
-        });
-    }
-
-    // media table
-    if ($("#MediaTable").length > 0) {
-        $("#MediaTable").DataTable({
-            "ajax": {
-                url: '/admin/blog/get-media'
-            },
-            "processing": true,
-            "serverSide": true,
-            "stateSave":true,
-            "columns": [
-                { "data": "name" },
-                { "data": "name" },
-                { "data": "created_at" }
-            ],
-            "columnDefs": [ 
-                    {
-                    "targets": 0,
-                    "data": 'title',
-                    "render": function ( data, type, row ) {
-                  return '<img style="width: 100px; max-height: 100px;" src="'+mediaPath+'/'+data+'">';
-                    }
-                }
-            ],
-            order: [
-                [0, "desc"],
-                [2, "desc"]
-            ]
-        });
-    }
-
-    // media post image modal
-    if ($("#MediaPost").length > 0) {
-        var path = mediaPath;
-        $("#MediaPost").DataTable({
-            "ajax":  {
-                url: '/admin/blog/get-media'
-            } ,
-            "processing": true,
-            "serverSide": true,
-            "stateSave":true,
-            "columns": [
-                { "data": "name" },
-                { "data": "name" },
-                { "data": "created_at" },
-                { "data": "id" },
-            ],
-            "columnDefs": [ {
-                    "targets": -1,
-                    "data": 'id',
-                    "render": function ( data, type, row ) {
-                        return '<div onclick="delete_media(\''+data+'\')" id="delete_media_post" class="btn btn-round btn-fill btn-danger">Delete</div> <div onclick="select_media(\'#'+data+'\')" id="select_media" class="btn btn-round btn-fill btn-success">Copy Media</div> <p style="display:none;" id="'+data+'">'+mediaPath+'/'+row.name+'</p>';
-                    }
-                },
-                    {
-                    "targets": 0,
-                    "data": 'title',
-                    "render": function ( data, type, row ) {
-                  return '<img style="width: 100px; max-height: 100px;" src="'+mediaPath+'/'+data+'">';
-                    }
-                }
-            ],
-            order: [
-                [0, "desc"],
-                [2, "desc"]
-            ]
-        });
-    }
-
-    // feauterd image modal
-    if ($("#FeaturedImg").length > 0) {
-        var path = 'public/media';
-        $("#FeaturedImg").DataTable({
-            "ajax":  {
-                url: '/admin/blog/get-media'
-            } ,
-            "processing": true,
-            "serverSide": true,
-            "stateSave":true,
-            "columns": [
-                { "data": "name" },
-                { "data": "name" },
-                { "data": "created_at" },
-                { "data": "id" },
-            ],
-            "columnDefs": [ {
-                    "targets": -1,
-                    "data": 'id',
-                    "render": function ( data, type, row ) {
-                        return '<div onclick="delete_media(\''+data+'\')" id="delete_media_post" class="btn btn-round btn-fill btn-danger">Delete</div> <div onclick="select_fimg(\'#'+data+'\')" id="select_media" class="btn btn-round btn-fill btn-success">Select</div> <p style="display:none;" id="'+data+'">'+mediaPath+'/'+row.name+'</p>';
-                    }
-                },
-                    {
-                    "targets": 0,
-                    "data": 'title',
-                    "render": function ( data, type, row ) {
-                  return '<img style="width: 100px; max-height: 100px;" src="'+mediaPath+'/'+data+'">';
-                    }
-                }
-            ],
-            order: [
-                [0, "desc"],
-                [2, "desc"]
-            ]
-        });
-    }
-
-    // pages table
-    if ($("#pages-table").length > 0) {
-        $("#pages-table").DataTable({
-            "ajax": $.fn.dataTable.pipeline( {
-                url: '/admin/blog/ajaxpages',
-                pages: 5 // number of pages to cache
-            } ),
-            "processing": true,
-            "serverSide": true,
-            "stateSave":true,
-            "columns": [
-                { "data": "title" },
-                { "data": "author_name" },
-                { "data": "published_date" },
-                { "data": "id" },
-            ],
-            "columnDefs": [ {
-                    "targets": -1,
-                    "data": 'id',
-                    "render": function ( data, type, row ) {
-                        return '<a href="/admin/blog/page/'+row.id+'/view">Edit</a> | <a onclick="return confirm(\'Delete Page?\');" href="/admin/blog/page/'+row.id+'/remove">Hapus</a>';
-                    }
-                },
-                    {
-                    "targets": 0,
-                    "data": 'title',
-                    "render": function ( data, type, row ) {
-                        return '<a href="/admin/blog/page/'+row.id+'/view">'+data+'</a>';
-                    }
-                }
-            ],
-            order: [
-                [2, "desc"]
-            ]
-        });
-    }
-
-    // tag table
-    if ($("#TagTable").length > 0) {
-        $("#TagTable").DataTable({
-            "ajax": $.fn.dataTable.pipeline( {
-                url: '/admin/blog/get-tag',
-                pages: 5 // number of pages to cache
-            } ),
-            "processing": true,
-            "serverSide": true,
-            "stateSave":true,
-            "columns": [
-                { "data": "name" },
-                { "data": "created_at" },
-                { "data": "id" },
-            ],
-            "columnDefs": [ {
-                    "targets": -1,
-                    "data": 'id',
-                    "render": function ( data, type, row ) {
-                        return '<a href="/admin/blog/edit-tag/'+row.id+'">Edit</a> | <a onclick="return confirm(\'Delete Tag?\');" href="/admin/blog/delete-tag/'+row.id+'">Hapus</a>';
-                    }
-                },
-                    {
-                    "targets": 0,
-                    "data": 'title',
-                    "render": function ( data, type, row ) {
-                        return '<a href="/admin/blog/edit-tag/'+row.id+'">'+data+'</a>';
-                    }
-                }
-            ],
-            order: [
-                [0, "desc"],
-                [1, "desc"]
-            ]
-        });
-    }
-
-    // table-tags
-
-    if ($("#table-tags").length > 0) {
-        $("#table-tags").DataTable({
-            "ajax": $.fn.dataTable.pipeline( {
-                url: '/admin/blog/ajaxtags',
-                pages: 5 // number of pages to cache
-            } ),
-            "processing": true,
-            "serverSide": true,
-            "stateSave":true,
-            "columns": [
-                { "data": "name" },
-                { "data": "created_at" },
-                { "data": "id" },
-            ],
-            "columnDefs": [ {
-                    "targets": -1,
-                    "data": 'id',
-                    "render": function ( data, type, row ) {
-                        return '<a href="/admin/blog/tag/'+row.id+'/view">Edit</a> | <a onclick="return confirm(\'Delete Tag?\');" href="/admin/blog/tag/'+row.id+'/remove">Hapus</a>';
-                    }
-                },
-                    {
-                    "targets": 0,
-                    "data": 'title',
-                    "render": function ( data, type, row ) {
-                        return '<a href="/admin/blog/tag/'+row.id+'/view">'+data+'</a>';
-                    }
-                }
-            ],
-            order: [
-                [1, "desc"]
-            ]
-        });
-    }
-
-    // multiselect for bulk delete
-    $('.mydatatable tbody').on( 'click', 'tr', function () {
-        $(this).toggleClass('selected');
-        var count = $(".mydatatable").DataTable().rows('.selected').data().length;
-        if (count > 0) {
-            $('.bulk-delete-item').show();   
-            $('.bulk-delete-count').html( $(".mydatatable").DataTable().rows('.selected').data().length ); 
-        } else {
-            $('.bulk-delete-item').hide(); 
-        }
-        var ids = $.map($(".mydatatable").DataTable().rows('.selected').data(), function (item) {
-            return item.id
-        });
-        $('.bulk-delete-id').val(JSON.stringify(ids));
+    var ids = $.map($(".mydatatable").DataTable().rows('.selected').data(), function (item) {
+        return item.id
     });
-    // end multiselect for bulk delete
-// END DATATABLES
-
-// SELECT2
-    // basic select2
-    if ($(".myselect2").length > 0) {
-        $(".myselect2").select2();
-    }
-
-    // tag select 
-    if ($(".mytag").length > 0) {
-        $(".mytag").select2({
-            tags: true
-        });
-    }
-// END SELECT2
-
-// TINYMCE
-    if ($('textarea.mytextarea').length > 0) {
-        tinymce.init({ 
-            selector:'textarea.mytextarea',
-            image_caption: true,
-            height: 500,
-            relative_urls:false,
-            theme: 'modern',
-            plugins: [
-            'advlist autolink lists link image charmap print preview hr anchor pagebreak',
-            'searchreplace wordcount visualblocks visualchars code fullscreen',
-            'insertdatetime media nonbreaking save table contextmenu directionality',
-            'emoticons template paste textcolor colorpicker textpattern imagetools codesample toc help',
-            ],
-            toolbar1: 'undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
-            toolbar2: 'print preview media | forecolor backcolor emoticons | codesample help',
-            image_advtab: true,
-            templates: [
-            { title: 'Test template 1', content: 'Test 1' },
-            { title: 'Test template 2', content: 'Test 2' }
-            ],
-            content_css: [
-            '//fonts.googleapis.com/css?family=Lato:300,300i,400,400i',
-            '//www.tinymce.com/css/codepen.min.css',
-            '{{ asset("css/textarea.css") }}'
-            ],
-            setup: function(editor) {
-              editor.addButton('mybutton', {
-                type: 'menubutton',
-                text: 'Shortcode',
-                icon: false,
-                menu: [{
-                  text: 'Bold',
-                  onclick: function() {
-                    editor.insertContent('[b="bold"]Text here[/b]');
-                  }
-                }, {
-                  text: 'Italic',
-                  onclick: function() {
-                    editor.insertContent('[i="italic"]Text here[/i]');
-                  }
-                }]
-              });
-            }
-        });
-    }
-// END TINYMCE
+    $('.bulk-delete-id').val(JSON.stringify(ids));
 });
+// end multiselect for bulk delete
 
 function cancelDelete(){
     clearTimeout(timeOutId);
@@ -724,52 +119,12 @@ function cancelDelete(){
     $('.table-overlay').hide();
 };
 
-// date time picker for date published
-if ($(".datetimepicker").length > 0) {
-    $(function () {
-        $('.datetimepicker').datetimepicker({
-            format: "yyyy-mm-dd hh:ii",
-            autoclose: true,
-            todayBtn: true,
-            pickerPosition: "bottom-left"
-        });
-    });
-}
-
-function load_post_category(){
-    var id = $('meta[name="item-id"]').attr('content');
-    $.ajax({
-        type: "GET",
-        url: "/admin/blog/get-category-post/"+id,
-        success: function(msg){
-            $('.category-wrap ul').html(msg);
-        },
-        error: function(err){
-            console.log(err);
-        }
-    });
-}
-
-function load_post_category_parent(){
-    var id = $('meta[name="category-id"]').attr('content');
-    $.ajax({
-        type: "GET",
-        url: "/admin/blog/get-category-parent/"+id,
-        success: function(msg){
-            $('.category-parent').html(msg);
-        },
-        error: function(err){
-            console.log(err);
-        }
-    });
-}
-
 if ($('.category-wrap').length > 0) {
-    $('.category-wrap').ready(load_post_category());
+    $('.category-wrap').ready(jPlugin.loadListCategory());
 }
 
 if ($('.category-parent').length > 0) {
-    $('.category-parent').ready(load_post_category_parent());
+    $('.category-parent').ready(jPlugin.loadListParentCategory());
 }
 
 // add category on post ajax function
@@ -782,80 +137,23 @@ $('.add_category_button').on('click', function add_category(){
             url: "/admin/blog/add-category-post/"+n+"/"+p,
             success: function(msg){
                 console.log(msg);
+                jPlugin.addCategoryLoad();
             },
             error: function(err){
                 console.log(err);
+                jPlugin.addCategoryLoad();
+            },
+            always: function(a){
+                jPlugin.addCategoryLoad();
             }
         });
 
-        load_post_category();
-        console.log('ss');
-        load_post_category_parent();
         $('input[name=category_name]').val('');
         $('select[name=category_parent]').removeAttr('selected');
     } else {    
         // do nothing
     }
 });
-
-// files table
-if ($("#filesTable").length > 0) {
-    $("#filesTable").DataTable({
-        "ajax":  {
-            url: '/admin/blog/get-files'
-        },
-        "processing": true,
-        "serverSide": true,
-        "stateSave":true,
-        "columns": [
-            { "data": "name" },
-            { "data": "label" },
-            { "data": "id" },
-            { "data": "created_at" },
-        ],
-        "columnDefs": [
-            {
-                "targets": 2,
-                "data": 'id',
-                "render": function ( data, type, row ) {
-                    return '<a href="/admin/blog/edit-file/'+data+'" id="edit_file_label" style="cursor: pointer;">Edit</a>';
-                }
-            }
-        ],
-        order: [
-            [3, "desc"]
-        ]
-    });
-}
-
-if ($("#postFile").length > 0) {
-    $("#postFile").DataTable({
-        "ajax":  {
-            url: '/admin/blog/get-files'
-        },
-        "processing": true,
-        "serverSide": true,
-        "stateSave":true,
-        "columns": [
-            { "data": "name" },
-            { "data": "label" },
-            { "data": "id" },
-            { "data": "created_at" },
-        ],
-        "columnDefs": [
-            {
-                "targets": 2,
-                "data": 'id',
-                "render": function ( data, type, row ) {
-                    return '<div onclick="delete_file(\''+data+'\')" id="delete_file_post" class="btn btn-round btn-fill btn-danger">Delete</div>';
-                }
-            }
-        ],
-        order: [
-            [3, "desc"]
-        ]
-    });
-}
 
 // select file for post
 if ($("#postFile").length > 0) {
@@ -892,60 +190,69 @@ if ($('.file-list').length > 0) {
     });
 }
 
-function delete_file(e){
-    timeOutId = setTimeout(ajaxFn, 2000, e);
+if ($('#program-structure')) {
+    $('#program-structure').nestable({ group: 1, maxDepth: 1 });
+    check_program();
+}
 
-    $('.dataTables_processing').show();
-    $('#canceldelete').show();
-    function ajaxFn(e){
-        $.ajax({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            type: "GET",
-            url: "/admin/blog/delete-file/"+e,
-            processData: false,
-            contentType: false,
-            success: function(msg){
-                $(".filestable").DataTable().ajax.reload(null, false);
-            },
-            error: function(err){
-                $(".filestable").DataTable().ajax.reload(null, false);
-                console.log(err);
-            }
-        });
-        $('#canceldelete').hide();
-        $('.dataTables_processing').hide();
-    };
-};
+$('#program-structure').on('click', '.remove_item', function(e){
+    e.preventDefault();
+    $(this).parents('li').remove();
+    check_program();
+});
 
-if ($("#posts-trash").length > 0) {
-    $("#posts-trash").DataTable({
-        "ajax": $.fn.dataTable.pipeline( {
-            url: '/admin/blog/ajaxtrashposts',
-            pages: 5 // number of pages to cache
-        } ),
-        "processing": true,
-        "serverSide": true,
-        "stateSave":true,
-        "columns": [
-            { "data": "title" },
-            { "data": "author_name" },
-            { "data": "post_type" },
-            { "data": "published_date" },
-            { "data": "id" },
-        ],
-        "columnDefs": [
-            {
-                "targets": 4,
-                "data": 'id',
-                "render": function ( data, type, row ) {
-                    return '<a href="/admin/blog/trash/'+data+'/restore">Restore</a> | <a onclick="return confirm(\'Delete Post?\');" href="/admin/blog/trash/'+data+'/delete" style="color: #d9534f;">Delete Permanently</a>';
-                }
-            }
-        ],
-        order: [
-            [3, "desc"]
-        ]
+$('#program-structure').on('keyup change', 'input', function(){
+    var name = 'data-'+$(this).attr('name');
+    var val = $(this).val();
+    $(this).parents('li.dd-item').attr(name, val);
+});
+
+$('#program-structure').on('keyup change', 'textarea', function(){
+    var name = 'data-'+$(this).attr('name');
+    var val = $(this).val();
+    $(this).parents('li.dd-item').attr(name, val);
+});
+
+$('#setting-program').on('click', '.save-program', function(){
+    var data = JSON.stringify($('#program-structure').nestable('serialize'));
+    $.ajax({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        data: {program :data},
+        type: 'POST',
+        url: '/admin/blog/save-program',
+        success: function(response){
+            notif.showNotification("top","right",'Berhasil Disimpan','2');
+        },
+        error: function(err){
+            notif.showNotification("top","right",'Gagal Disimpan','4');
+        }
     });
+});
+
+$('#setting-program').on('click', '.add-program', function(){
+    var id = get_program_id();
+    id += 1;
+    $('#program-structure .dd-list:first-child').append('<li class="dd-item" data-id="'+id+'" data-title="" data-description="" data-logo="" data-background=""><div class="dd-handle dd3-handle">Drag</div><div class="program-item dd3-content panel panel-default" id="program'+id+'"><div class="program-title"><span>Program '+id+'</span><a data-toggle="collapse" data-parent="#program-structure" href="#program-collapse-'+id+'"><i style="float: right;" class="fa fa-caret-down" aria-hidden="true"></i></a></div><div id="program-collapse-'+id+'" class="collapse program-collapse panel panel-default"><div class="form-group"><label>Title</label><input class="form-control" type="text" name="title" value=""><label>URl</label><input class="form-control" type="text" name="url" value=""><label>Logo</label><div class="input-group"><input class="form-control" type="text" name="logo" value="" readonly="readonly" id="program-logo'+id+'"><span class="input-group-btn"><button class="btn btn-default program-media" type="button" data-tujuan="program-logo'+id+'">Browse media</button></span></div><label>Background</label><div class="input-group"><input class="form-control" type="text" name="background" value="" readonly="readonly" id="program-bg'+id+'"><span class="input-group-btn"><button class="btn btn-default program-media" type="button" data-tujuan="program-bg'+id+'">Browse media</button></span></div><label>Description</label><textarea name="description" class="form-control"></textarea></div><a href="#" class="remove_item">Remove</a></div></div></li>');
+    check_program();
+});
+
+function check_program(){
+    var a = $('#program-structure').find('li.dd-item').length;
+    if (a >= 5) {
+        $('#setting-program .add-program').remove();
+    } else if (a <= 5) {
+        if ($('#setting-program .add-program').length <= 0) {
+            $('#setting-program .panel-body').prepend('<button type="button" class="btn btn-info pull-left add-program">Add Program +</button>');
+        }
+    }
+}
+
+function get_program_id(){
+    var id = 0;
+    if ($("#program-structure li:last-child").length > 0) {
+        id = parseInt($("#program-structure li:last-child").attr('data-id'));
+    }   
+    return id;
 }

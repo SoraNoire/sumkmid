@@ -100,10 +100,11 @@ return [
     ],
     
     'md_sso' => [
-        'APP_SERVER' => env('MD_SSO_SERVER','127.0.0.1'),
+        'APP_SERVER' => env('MD_SSO_SERVER','http://authdev.mdirect.id/api/v1'),
         'APP_ID' => env('MD_APP_ID',''),
         'APP_SECRET' => env('MD_APP_SECRET',''),
-        'APP_LOGIN' => env('MD_SSO_LOGIN', 'http://authdev.mdirect.id/client_login')
+        'APP_LOGIN' => env('MD_SSO_LOGIN', 'http://authdev.mdirect.id/client_login'),
+        'APP_REGISTER' => env('MD_SSO_REGISTER', 'http://authdev.mdirect.id/register')
     ],
     'ssocookie' => env('SSO_COOKIE_NAME','app_session'),
 

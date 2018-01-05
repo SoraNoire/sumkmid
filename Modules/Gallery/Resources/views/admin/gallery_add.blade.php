@@ -3,15 +3,28 @@
 @section('content')
 <script> galleryId = {{$gallery->id ?? 0}}</script>
 <div class="col-md-12">
-    <h4 class="title">New Gallery</h4>
+    @if ($errors->any())
+    <div class="alert alert-danger alert-dismissable ">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        There is some error. Please check again
+    </div>
+    @endif
 
-    <form id="post-form" method="post" action="{{ route('storegallery') }}" accept-charset="UTF-8">
-        <a href="{{ route('addgallery') }}" class="btn btn-round btn-fill btn-info">
-            New Gallery +<div class="ripple-container"></div>
-        </a>
-
-        <button type="submit" class="btn btn-success pull-right">Save Gallery</button>
-        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+    <form id="post-form" method="post" action="{{ route('panel.gallery__save') }}" accept-charset="UTF-8">
+        <div class="row">
+            <div class="col-md-9 col-sm-6 col-xs-6">
+                <h4 class="title">New Gallery</h4>
+                @if (in_array('write', app()->OAuth::can('panel.gallery')))
+                <a href="{{ route('panel.gallery__add') }}" class="btn btn-round btn-fill btn-info">
+                    New Gallery +<div class="ripple-container"></div>
+                </a>
+                @endif
+            </div>
+            <div class="col-md-3 col-sm-6 col-xs-6">
+                <button type="submit" class="btn btn-success pull-right">Save Gallery</button>
+                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+            </div>
+        </div>
 
         <div class="row" style="margin-top: 15px;">
             <div class="col-md-9">
@@ -31,11 +44,11 @@
                             @if ($errors->has('gallery_images'))
                             <div class="has-error">
                                 <span class="help-block">
-                                    <strong>{{ $errors->first('gallery_images') }}</strong>
+                                    <strong>You must select an image</strong>
                                 </span>
                             </div>
                             @endif
-                            <a id="browse_media_post" data-toggle="modal" data-target="#myMedia" class="btn btn-round btn-fill btn-default" style="margin-bottom: 10px;">Browse Media</a>
+                            <a id="browse_media_post" data-toggle="modal" data-target="#myMedia" class="btn btn-round btn-fill btn-default {{ in_array('read', app()->OAuth::can('panel.media')) ? '':'disabled' }}" style="margin-bottom: 10px;">Browse Media</a>
                             
                             <div id="selected-images" class="form-group">
                                 
@@ -45,11 +58,11 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label">Description Video</label>
+                    <label class="control-label">Description Gallery</label>
                     @if ($errors->has('content'))
                     <div class="has-error">
                         <span class="help-block">
-                            <strong>{{ $errors->first('content') }}</strong>
+                            <strong>This field is required</strong>
                         </span>
                     </div>
                     @endif
@@ -156,6 +169,7 @@
                     </div>
                 </div>
 
+                @if (in_array('read', app()->OAuth::can('panel.media')))
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
@@ -164,7 +178,7 @@
                     </div>
                     <div id="post-fimg" class="panel-collapse collapse in">
                         <div class="panel-body form-group">
-                            <a id="browse_fimg_post" data-toggle="modal" data-target="#myFimg" class="btn btn-round btn-fill btn-default" style="margin-bottom: 10px;">Set Featured Image</a>
+                            <a id="browse_fimg_post" data-tujuan="featured_img" data-toggle="modal" data-target="#myFimg" class="btn btn-round btn-fill btn-default" style="margin-bottom: 10px;">Set Featured Image</a>
                             <input type="hidden" name="featured_image" id="featured_img" value="{{ old('featured_image') }}">
                             <div class="preview-fimg-wrap" style="display: {{ old('featured_image') != '' ? 'block' : ''  }};">
                                 <div class="preview-fimg" style="background-image: url({{ old('featured_image') }});"></div>
@@ -173,6 +187,7 @@
                         </div>
                     </div>
                 </div>
+                @endif
 
             </div>
         </div>
@@ -183,6 +198,7 @@
 </div>
 @stop
 
+@if (in_array('read', app()->OAuth::can('panel.media')))
 @section('modal')
 <div class="overlay"></div>
 
@@ -190,13 +206,15 @@
 <div class="close-modal" id="close_media_post" data-toggle="modal" data-target="#myModal">X</div>
 
     <div class="card">
+        @if (in_array('write', app()->OAuth::can('panel.media')))
         <div class="btn btn-round btn-fill btn-info" style="margin-bottom: 10px;" onclick="document.getElementById('uploadmedia').click();">Upload media +
             <form id="actuploadmedia" method="post" action="{{ URL::to('/administrator/act_new_media') }}" accept-charset="UTF-8" enctype="multipart/form-data">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <input type="file" id="uploadmedia" name="media[]" style="cursor: pointer;display: none;" multiple>
             </form>
         </div>
-    <div class="card-content table-responsive">
+        @endif
+    <div class="card-content table-responsive" {{ in_array('write', app()->OAuth::can('panel.media')) ? '':'style=margin-top:30px;' }}>
         <table style="width: 100%;" class="table mediatable" id="MediaGallery">
             <thead >
                 <tr>
@@ -219,13 +237,15 @@
 <div class="custom-modal fimg-modal">
 <div class="close-modal" id="close_fimg_post" data-toggle="modal" data-target="#myFimg">X</div>
     <div class="card">
+        @if (in_array('write', app()->OAuth::can('panel.media')))
         <div class="btn btn-round btn-fill btn-info" style="margin-bottom: 10px;" onclick="document.getElementById('uploadfimg').click();">Upload media +
             <form id="actuploadfimg" method="post" action="{{ URL::to('/administrator/act_new_media') }}" accept-charset="UTF-8" enctype="multipart/form-data">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <input type="file" id="uploadfimg" name="media[]" style="cursor: pointer;display: none;" multiple>
             </form>
         </div>
-        <div class="card-content table-responsive">
+        @endif
+        <div class="card-content table-responsive" {{ in_array('write', app()->OAuth::can('panel.media')) ? '':'style=margin-top:30px;' }}>
             <table style="width: 100%;" class="table mediatable" id="FeaturedImg">
                 <thead >
                     <th>Preview</th>
@@ -238,3 +258,4 @@
     </div>
 </div>
 @endsection
+@endif

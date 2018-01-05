@@ -3,7 +3,7 @@
 @section('content')
 <div class="col-md-12">
     <h3>{{ $gallery->title }}</h3>
-    <small style="float: left;width: 100%;margin-bottom: 10px;"><a href="{{ url($prefix.'edit-gallery/'.$gallery->id) }}">Edit gallery</a></small>
+    <small style="float: left;width: 100%;margin-bottom: 10px;"><a href="{{ url('gallery__view'.$gallery->id) }}">Edit gallery</a></small>
     <table>
         <tr>
             <th></th>

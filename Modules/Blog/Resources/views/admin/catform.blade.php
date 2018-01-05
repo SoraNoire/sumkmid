@@ -8,7 +8,7 @@
         <p class="category">{{ $act }} Category</p>
     </div>
 
-    <form method="post" action="{{  ($isEdit) ? route('updatecategory',$category_id) : route('storecategory') }}" accept-charset="UTF-8">
+    <form method="post" action="{{  ($isEdit) ? route('panel.category__update',$category_id) : route('panel.category__save') }}" accept-charset="UTF-8">
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
         <div class="form-group">
             <label class="control-label">Name</label>
@@ -25,8 +25,8 @@
             </select>
         </div>
         <button type="submit" class="btn btn-success pull-right">Save</button>
-        @if ($act == 'edit')
-        <a style="margin-right: 10px;" href="{{ url($prefix.'delete-category/'.$category->id) }}" class="btn btn-danger pull-right" onclick="return confirm('Delete Category?');">Delete</a>
+        @if ($act == 'Edit' && in_array('delete', app()->OAuth::can('panel.category')))
+        <a style="margin-right: 10px;" href="{{ route('panel.category__delete', $category->id) }}" class="btn btn-danger pull-right" onclick="return confirm('Delete Category?');">Delete</a>
         @endif
     </form>
 </div>

@@ -13,23 +13,23 @@ class CreateEventTable extends Migration
      */
     public function up()
     {
-        Schema::create('event', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('title');
-            $table->string('slug')->unique();
-            $table->text('description')->nullable();
-            $table->string('featured_img')->nullable();
-            $table->string('event_type')->nullable();
-            $table->string('location')->nullable();
-            $table->string('htm')->nullable();
-            $table->text('option')->nullable();
-            $table->integer('author')->nullable();
-            $table->integer('status')->default(0);
-            $table->datetime('open_at')->nullable();
-            $table->datetime('closed_at')->nullable();
-            $table->datetime('published_at');
-            $table->timestamps();
-        });
+        // Schema::create('event', function (Blueprint $table) {
+        //     $table->increments('id');
+        //     $table->string('title');
+        //     $table->string('slug')->unique();
+        //     $table->text('description')->nullable();
+        //     $table->string('featured_img')->nullable();
+        //     $table->string('event_type')->nullable();
+        //     $table->string('location')->nullable();
+        //     $table->string('htm')->nullable();
+        //     $table->text('option')->nullable();
+        //     $table->integer('author')->nullable();
+        //     $table->integer('status')->default(0);
+        //     $table->datetime('open_at')->nullable();
+        //     $table->datetime('closed_at')->nullable();
+        //     $table->datetime('published_at');
+        //     $table->timestamps();
+        // });
     }
 
     /**

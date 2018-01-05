@@ -3,12 +3,20 @@
 @section('content')
 <script> postId = {{$post->id ?? 0}}</script>
 <div class="col-md-12">
+    @if ($errors->any())
+    <div class="alert alert-danger alert-dismissable ">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        There is some error. Please check again
+    </div>
+    @endif
     <h4 class="title">New Post</h4>
 
-    <form id="post-form" method="post" action="{{ route('storepost') }}" accept-charset="UTF-8">
-        <a href="{{ route('addpost') }}" class="btn btn-round btn-fill btn-info">
+    <form id="post-form" method="post" action="{{ route('panel.post__save') }}" accept-charset="UTF-8">
+        @if (in_array('write', app()->OAuth::can('panel.post')))
+        <a href="{{ route('panel.post__add') }}" class="btn btn-round btn-fill btn-info">
             New Post +<div class="ripple-container"></div>
         </a>
+        @endif
 
         <button type="submit" class="btn btn-success pull-right">Save Post</button>
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -20,14 +28,16 @@
                     <input class="form-control" type="text" name="title" value="{{ old('title') }}" placeholder="Enter Title Here" required="required">
                 </div>
 
+                @if (in_array('read', app()->OAuth::can('panel.media')))
                 <a id="browse_media_post" data-toggle="modal" data-target="#myMedia" class="btn btn-round btn-fill btn-default" style="margin-bottom: 10px;">Add Media</a>
+                @endif
 
                 <div class="form-group">
                     <label class="control-label">Post Content</label>
                     @if ($errors->has('content'))
                     <div class="has-error">
                         <span class="help-block">
-                            <strong>{{ $errors->first('content') }}</strong>
+                            <strong>This field is required</strong>
                         </span>
                     </div>
                     @endif
@@ -161,7 +171,7 @@
                     </div>
                     <div id="post-fimg" class="panel-collapse collapse in">
                         <div class="panel-body form-group">
-                            <a id="browse_fimg_post" data-toggle="modal" data-target="#myFimg" class="btn btn-round btn-fill btn-default" style="margin-bottom: 10px;">Set Featured Image</a>
+                            <a id="browse_fimg_post" data-tujuan="featured_img" data-toggle="modal" data-target="#myFimg" class="btn btn-round btn-fill btn-default" style="margin-bottom: 10px;">Set Featured Image</a>
                             <input type="hidden" name="featured_image" id="featured_img" value="{{ old('featured_image') }}">
                             <div class="preview-fimg-wrap" style="display: {{ old('featured_image') != '' ? 'block' : ''  }};">
                                 <div class="preview-fimg" style="background-image: url({{ old('featured_image') }});"></div>
@@ -238,7 +248,7 @@
             </form>
         </div>
         <div class="card-content table-responsive">
-            <table style="width: 100%;" class="table filestable" id="postFile">
+            <table style="width: 100%;" class="table mediatable" id="postFile">
                 <thead >
                     <th>Name</th>
                     <th>Label</th>

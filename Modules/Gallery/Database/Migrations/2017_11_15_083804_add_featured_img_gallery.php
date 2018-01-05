@@ -13,9 +13,9 @@ class AddFeaturedImgGallery extends Migration
      */
     public function up()
     {
-        Schema::table('gallery', function (Blueprint $table) {
-            $table->string('featured_img')->after('images')->nullable();
-        });
+        // Schema::table('gallery', function (Blueprint $table) {
+        //     $table->string('featured_img')->after('images')->nullable();
+        // });
     }
 
     /**

@@ -1,6 +1,6 @@
 <?php
 
-Route::group(['middleware' => 'web', 'prefix' => 'admin/blog/video', 'namespace' => 'Modules\Video\Http\Controllers'], function()
+Route::group(['middleware' => ['web','backend'], 'prefix' => 'admin/blog/video', 'namespace' => 'Modules\Video\Http\Controllers'], function()
 {
     // Route::get('/', ['as'=>'video', 'uses'=> 'VideoController@index']);
     // Route::get('/index', ['as'=>'video', 'uses'=> 'VideoController@index']);
@@ -18,15 +18,24 @@ Route::group(['middleware' => 'web', 'prefix' => 'admin/blog/video', 'namespace'
     // Route::get('/get-category-video/{video_id}', ['as'=>'video', 'uses'=> 'VideoController@get_all_category']);
     // Route::get('/get-category-parent/{category_id}', ['as'=>'video', 'uses'=> 'VideoController@get_category_parent']);
 
-    Route::get('/',               ['as'=>'videos', 'uses'=> 'VideoController@index']);
-    Route::get('/show/{slug}',    ['as'=>'showvideo', 'uses'=> 'VideoController@showVideo']);
-    Route::get('/ajaxvideos',     ['as'=>'ajaxvideos', 'uses'=> 'VideoController@ajaxVideos']);
-    Route::get('/add',            ['as'=>'addvideo', 'uses'=> 'VideoController@addVideo']);
-    Route::post('/add',           ['as'=>'storevideo', 'uses'=> 'VideoController@addVideoPost']);
-    Route::get('/{id}/edit',      ['as'=>'viewvideo', 'uses'=> 'VideoController@viewVideo']);
-    Route::post('/{id}/update',   ['as'=>'updatevideo', 'uses'=> 'VideoController@updateVideo']);
-    Route::get('/{id}/remove',    ['as'=>'removevideo', 'uses'=> 'VideoController@removeVideo']);
-    Route::post('/massdelete',    ['as'=>'massdeletevideo', 'uses'=> 'VideoController@massDeleteVideo']);
+    Route::get('/', 'VideoController@index')
+            ->name('panel.video__index');
+    // Route::get('/show/{slug}', 'VideoController@showVideo')
+            // ->name('panel.video__view__single');
+    Route::get('/ajaxvideos', 'VideoController@ajaxVideos')
+            ->name('panel.video__index__ajax');
+    Route::get('/add', 'VideoController@addVideo')
+            ->name('panel.video__add');
+    Route::post('/add', 'VideoController@addVideoPost')
+            ->name('panel.video__save');
+    Route::get('/{id}/edit', 'VideoController@viewVideo')
+            ->name('panel.video__view');
+    Route::post('/{id}/update', 'VideoController@updateVideo')
+            ->name('panel.video__update');
+    Route::get('/{id}/remove', 'VideoController@removeVideo')
+            ->name('panel.video__delete');
+    Route::post('/massdelete', 'VideoController@massDeleteVideo')
+            ->name('panel.video__delete__mass');
     
     
 

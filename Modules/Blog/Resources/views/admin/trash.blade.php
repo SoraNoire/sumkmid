@@ -3,19 +3,25 @@
 @section('content')
 
 <div class="col-md-12">
-<a href="{{ route('emptytrash') }}" class="btn btn-round btn-fill btn-info">
+@if (in_array('delete', app()->OAuth::can('panel.trash')))
+<a href="{{ route('panel.post.trash__delete__clear') }}" class="btn btn-round btn-fill btn-info">
     Empty Trash<div class="ripple-container"></div>
 </a>
-<form method="post" action="{{ route('massdeletepostpermanent') }}" accept-charset="UTF-8" style="display: inline-block;">
+@endif
+@if (in_array('delete', app()->OAuth::can('panel.trash')))
+<form method="post" action="{{ route('panel.post.trash__delete__mass') }}" accept-charset="UTF-8" style="display: inline-block;">
     <input type="hidden" name="_token" value="{{ csrf_token() }}">
     <input type="hidden" name="id" class="bulk-delete-id">
     <button type="sumbit" style="display: none;" class="btn btn-round btn-fill btn-danger bulk-delete-item">Delete Permanent <span class="bulk-delete-count"></span> Post</button>
 </form>
-<form method="post" action="{{ route('massrestorepost') }}" accept-charset="UTF-8" style="display: inline-block;">
+@endif
+@if (in_array('edit', app()->OAuth::can('panel.tag')))
+<form method="post" action="{{ route('panel.post.trash__update__restore__mass') }}" accept-charset="UTF-8" style="display: inline-block;">
     <input type="hidden" name="_token" value="{{ csrf_token() }}">
     <input type="hidden" name="id" class="bulk-delete-id">
     <button type="sumbit" style="display: none;" class="btn btn-round btn-fill btn-success bulk-delete-item">Restore <span class="bulk-delete-count"></span> Post</button>
 </form>
+@endif
 <div class="card">
     <div class="card-header" data-background-color="green">
         <h4 class="title">Posts</h4>

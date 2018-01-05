@@ -1,17 +1,25 @@
 <?php
 
-Route::group(['middleware' => ['web','admin'], 'prefix' => 'admin/blog/event', 'namespace' => 'Modules\Event\Http\Controllers'], function()
+Route::group(['middleware' => ['web','backend'], 'prefix' => 'admin/blog/event', 'namespace' => 'Modules\Event\Http\Controllers'], function()
 {
 
 
-    Route::get('/', ['as'=> 'events', 'uses' => 'EventController@index']);
-    Route::get('/ajaxevents', ['as'=> 'ajaxevents', 'uses' => 'EventController@ajaxEvents']);
-    Route::get('/add', ['as'=> 'addevent', 'uses' => 'EventController@addEvent']);
-    Route::post('/add', ['as'=> 'storeevent', 'uses' => 'EventController@addEventPost']);
-    Route::get('/{id}/view', ['as'=> 'viewevent', 'uses' => 'EventController@viewEvent']);
-    Route::post('/{id}/update', ['as'=> 'updateevent', 'uses' => 'EventController@updateEvent']);
-    Route::get('/{id}/remove', ['as'=> 'removeevent', 'uses' => 'EventController@removeEvent']);
-    Route::post('/massdelete', ['as'=> 'massdeleteevent', 'uses' => 'EventController@massdeleteEvent']);
+    Route::get('/', 'EventController@index')
+            ->name('panel.event__index');
+    Route::get('/ajaxevents', 'EventController@ajaxEvents')
+            ->name('panel.event__index__ajax');
+    Route::get('/add', 'EventController@addEvent')
+            ->name('panel.event__add');
+    Route::post('/add', 'EventController@addEventPost')
+            ->name('panel.event__save');
+    Route::get('/{id}/view', 'EventController@viewEvent')
+            ->name('panel.event__view');
+    Route::post('/{id}/update', 'EventController@updateEvent')
+            ->name('panel.event__update');
+    Route::get('/{id}/remove', 'EventController@removeEvent')
+            ->name('panel.event__delete');
+    Route::post('/massdelete', 'EventController@massdeleteEvent')
+            ->name('panel.event__delete__mass');
 
     // Route::get('/', 'EventController@index');
     // Route::get('/index', 'EventController@index');

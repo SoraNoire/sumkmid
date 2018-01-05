@@ -1,19 +1,31 @@
 <?php
 
-Route::group(['middleware' => ['web','admin'], 'prefix' => 'admin/blog', 'namespace' => 'Modules\Blog\Http\Controllers'], function()
+Route::group(['middleware' => ['web', 'backend'], 'prefix' => 'admin/blog', 'namespace' => 'Modules\Blog\Http\Controllers'], function()
 {
-    Route::get('/', 'BlogController@dashboard');
-    Route::get('/index', 'BlogController@dashboard');
-    Route::get('/posts', 'BlogController@index');
-    Route::get('/show/{slug}', 'BlogController@show_post');
+    Route::get('/', 'BlogController@dashboard')
+            ->name('panel.dashboard');
+    Route::get('/index', 'BlogController@dashboard')
+            ->name('panel.dashboard__index');
+    // Route::get('/posts', 'BlogController@index');
+            // ->name('panel.post__index');
+    // Route::get('/show/{slug}', 'BlogController@show_post')
+            // ->name('panel.post__view');
 
-    Route::get('/trash', ['as'=> 'trash', 'uses' => 'BlogController@trash']); 
-    Route::get('/ajaxtrashposts', ['as'=> 'ajaxtrash', 'uses' => 'BlogController@ajaxtrashPosts']);
-    Route::get('/trash/{id}/delete', ['as'=> 'deletepostpermanent', 'uses' => 'BlogController@deleteTrash']);   
-    Route::get('/trash/{id}/restore', ['as'=> 'restorepost', 'uses' => 'BlogController@restoreTrash']); 
-    Route::post('/trash/massdelete', ['as'=> 'massdeletepostpermanent', 'uses' => 'BlogController@massdeleteTrash']);   
-    Route::post('/trash/massrestore', ['as'=> 'massrestorepost', 'uses' => 'BlogController@massrestoreTrash']);  
-    Route::get('/trash/empty', ['as'=> 'emptytrash', 'uses' => 'BlogController@emptyTrash']);  
+
+    Route::get('/trash', 'BlogController@trash')
+            ->name('panel.post.trash__index');
+    Route::get('/ajaxtrashposts', 'BlogController@ajaxtrashPosts')
+                    ->name('panel.post.trash__delete__ajax');
+    Route::get('/trash/{id}/delete', 'BlogController@deleteTrash')
+            ->name('panel.post.trash__delete');
+    Route::get('/trash/{id}/restore', 'BlogController@restoreTrash')
+            ->name('panel.post.trash__update__restore');
+    Route::post('/trash/massdelete', 'BlogController@massdeleteTrash')
+            ->name('panel.post.trash__delete__mass');
+    Route::post('/trash/massrestore', 'BlogController@massrestoreTrash')
+            ->name('panel.post.trash__update__restore__mass');
+    Route::get('/trash/empty', 'BlogController@emptyTrash')
+            ->name('panel.post.trash__delete__clear');
 
     // Route::get('/get-posts', 'BlogController@get_posts');
     // Route::get('/create-post', 'BlogController@create_post');
@@ -24,26 +36,44 @@ Route::group(['middleware' => ['web','admin'], 'prefix' => 'admin/blog', 'namesp
     // Route::post('/bulk-delete-post/', 'BlogController@bulk_delete_post');
      //posts
 
-    Route::get('/posts', ['as'=> 'posts', 'uses' => 'BlogController@index']);
-    Route::get('/ajaxposts', ['as'=> 'ajaxposts', 'uses' => 'BlogController@ajaxPosts']);
-    Route::get('/post/add', ['as'=> 'addpost', 'uses' => 'BlogController@addPost']);
-    Route::post('/post/add', ['as'=> 'storepost', 'uses' => 'BlogController@addPostPost']);
-    Route::get('/post/{id}/view', ['as'=> 'viewpost', 'uses' => 'BlogController@viewPost']);
-    Route::post('/post/{id}/update', ['as'=> 'updatepost', 'uses' => 'BlogController@updatePost']);
-    Route::get('/post/{id}/remove', ['as'=> 'removepost', 'uses' => 'BlogController@removePost']);
-    Route::post('/post/massdelete', ['as'=> 'massdeletepost', 'uses' => 'BlogController@massdeletePost']);
+    // Route::get('/posts', 'BlogController@index')
+    //         ->name('panel.post__index');
+    // Route::get('/ajaxposts', 'BlogController@ajaxPosts')
+    //         ->name('panel.post__index__ajax');
+    // Route::get('/post/add', 'BlogController@addPost')
+    //         ->name('panel.post__add');
+    // Route::post('/post/add', 'BlogController@addPostPost')
+    //         ->name('panel.post__save');
+    // Route::get('/post/{id}/view', 'BlogController@viewPost')
+    //         ->name('panel.post__view');
+    // Route::post('/post/{id}/update', 'BlogController@updatePost')
+    //         ->name('panel.post__update');
+    // Route::get('/post/{id}/remove', 'BlogController@removePost')
+    //         ->name('panel.post__delete');
+    // Route::post('/post/massdelete', 'BlogController@massdeletePost')
+    //         ->name('panel.post__delete__mass');
 
-    Route::get('/add-category-post/{name}/{parent}', 'BlogController@store_category_ajax');
-    Route::get('/get-category-post/{post_id}', 'BlogController@get_all_category');
-    Route::get('/get-category-parent/{category_id}', 'BlogController@get_category_parent');
+    Route::get('/add-category-post/{name}/{parent}', 'BlogController@store_category_ajax')
+            ->name('panel.category__add__ajax__post');
+    Route::get('/get-category-post/{post_id}', 'BlogController@get_all_category')
+            ->name('panel.category__index__get');
+    Route::get('/get-category-parent/{category_id}', 'BlogController@get_category_parent')
+            ->name('panel.category__index__getparent');
     
-    Route::get('/files', 'BlogController@files')->name('files');
-    Route::get('/get-files', 'BlogController@get_file')->name('ajaxfiles');
-    Route::post('/store-file', 'BlogController@store_file')->name('storefiles');
-    Route::get('/delete-file/{fileName}', 'BlogController@destroy_file')->name('destroyfiles');
-    Route::post('/bulk-delete-file/', 'BlogController@bulk_delete_file')->name('massdeletefiles');
-    Route::get('/edit-file/{id}', 'BlogController@edit_file')->name('editfile');
-    Route::post('/update-file/{id}', 'BlogController@update_file')->name('updatefile');
+    // Route::get('/files', 'BlogController@files')
+    //         ->name('panel.file__index');
+    // Route::get('/get-files', 'BlogController@get_file')
+    //         ->name('panel.file__index__ajax');
+    // Route::post('/store-file', 'BlogController@store_file')
+    //         ->name('panel.file__save');
+    // Route::get('/delete-file/{fileName}', 'BlogController@destroy_file')
+    //         ->name('panel.file__delete');
+    // Route::post('/bulk-delete-file/', 'BlogController@bulk_delete_file')
+    //         ->name('panel.file__delete__mass');
+    // Route::get('/edit-file/{id}', 'BlogController@edit_file')
+    //         ->name('panel.file__view');
+    // Route::post('/update-file/{id}', 'BlogController@update_file')
+    //         ->name('panel.file__update');
 
     // Route::get('/category', 'BlogController@category');
     // Route::get('/get-category', 'BlogController@get_category');
@@ -57,26 +87,43 @@ Route::group(['middleware' => ['web','admin'], 'prefix' => 'admin/blog', 'namesp
 
     // category
 
-    Route::get('/categories', ['as'=> 'categories', 'uses' => 'BlogController@categories']);
-    Route::get('/ajaxcategories', ['as'=> 'ajaxcategories', 'uses' => 'BlogController@ajaxCategories']);
-    Route::get('/category/add', ['as'=> 'addcategory', 'uses' => 'BlogController@addCategory']);
-    Route::post('/category/add', ['as'=> 'storecategory', 'uses' => 'BlogController@addCategoryPost']);
-    Route::post('/category/ajaxadd', ['as'=> 'storecategoryajax', 'uses' => 'BlogController@addCategoryPost']);
-    Route::get('/category/{id}/view', ['as'=> 'viewcategory', 'uses' => 'BlogController@viewCategory']);
-    Route::post('/category/{id}/update', ['as'=> 'updatecategory', 'uses' => 'BlogController@updateCategory']);
-    Route::get('/category/{id}/remove', ['as'=> 'removecategory', 'uses' => 'BlogController@removeCategory']);
-    Route::post('/category/massdelete', ['as'=> 'massdeletecategory', 'uses' => 'BlogController@massdeleteCategory']);
+    Route::get('/categories', 'BlogController@categories')
+            ->name('panel.category__index');    
+    Route::get('/ajaxcategories', 'BlogController@ajaxCategories')
+            ->name('panel.category__index__ajax');
+    Route::get('/category/add', 'BlogController@addCategory')
+            ->name('panel.category__add');
+    Route::post('/category/add', 'BlogController@addCategoryPost')
+            ->name('panel.category__save');
+    Route::post('/category/ajaxadd', 'BlogController@addCategoryPost')
+            ->name('panel.category__add__ajax');
+    Route::get('/category/{id}/view', 'BlogController@viewCategory')
+            ->name('panel.category__view');
+    Route::post('/category/{id}/update', 'BlogController@updateCategory')
+            ->name('panel.category__update');
+    Route::get('/category/{id}/remove', 'BlogController@removeCategory')
+            ->name('panel.category__delete');
+    Route::post('/category/massdelete', 'BlogController@massdeleteCategory')
+            ->name('panel.category__delete__mass');
 
     //tags
 
-    Route::get('/tags', ['as'=> 'tags', 'uses' => 'BlogController@tags']);
-    Route::get('/ajaxtags', ['as'=> 'ajaxtags', 'uses' => 'BlogController@ajaxTags']);
-    Route::get('/tag/add', ['as'=> 'addtag', 'uses' => 'BlogController@addTag']);
-    Route::post('/tag/add', ['as'=> 'storetag', 'uses' => 'BlogController@addTagPost']);
-    Route::get('/tag/{id}/view', ['as'=> 'viewtag', 'uses' => 'BlogController@viewTag']);
-    Route::post('/tag/{id}/update', ['as'=> 'updatetag', 'uses' => 'BlogController@updateTag']);
-    Route::get('/tag/{id}/remove', ['as'=> 'removetag', 'uses' => 'BlogController@removeTag']);
-    Route::post('/tag/massdelete', ['as'=> 'massdeletetag', 'uses' => 'BlogController@massdeleteTag']);
+    Route::get('/tags', 'BlogController@tags')
+            ->name('panel.tag__index');
+    Route::get('/ajaxtags', 'BlogController@ajaxTags')
+            ->name('panel.tag__index__ajax');
+    Route::get('/tag/add', 'BlogController@addTag')
+            ->name('panel.tag__add');
+    Route::post('/tag/add', 'BlogController@addTagPost')
+            ->name('panel.tag__save');
+    Route::get('/tag/{id}/view', 'BlogController@viewTag')
+            ->name('panel.tag__view');
+    Route::post('/tag/{id}/update', 'BlogController@updateTag')
+            ->name('panel.tag__update');
+    Route::get('/tag/{id}/remove', 'BlogController@removeTag')
+            ->name('panel.tag__delete');
+    Route::post('/tag/massdelete', 'BlogController@massdeleteTag')
+            ->name('panel.tag__delete__mass');
 
 
     // Route::get('/tag', 'BlogController@tag');
@@ -88,22 +135,57 @@ Route::group(['middleware' => ['web','admin'], 'prefix' => 'admin/blog', 'namesp
     // Route::post('/update-tag/{id}', 'BlogController@update_tag');
     // Route::post('/bulk-delete-tag/', 'BlogController@bulk_delete_tag');
 
-    Route::get('/media', 'BlogController@media');
-    Route::get('/get-media', 'BlogController@get_media');
-    Route::get('/delete-media/{id}', 'BlogController@destroy_media');
-    Route::post('/store-media', 'BlogController@store_media')->name('store_media');
-    Route::post('/bulk-delete-media/', 'BlogController@bulk_delete_media');
+    Route::get('/media', 'BlogController@media')
+            ->name('panel.media__index');
+    Route::get('/get-media', 'BlogController@get_media')
+            ->name('panel.media__index__ajax');
+    Route::post('/get-media', 'BlogController@get_media')
+            ->name('panel.media__index__ajax__post');
+    Route::get('/delete-media/{id}', 'BlogController@destroy_media')
+            ->name('panel.media__delete');
+    Route::post('/store-media', 'BlogController@store_media')
+            ->name('panel.media__save');
+    Route::post('/bulk-delete-media/', 'BlogController@bulk_delete_media')
+            ->name('panel.media__delete__mass');
 
      //pages
 
-    Route::get('/pages', ['as'=> 'pages', 'uses' => 'BlogController@pages']);
-    Route::get('/ajaxpages', ['as'=> 'ajaxpages', 'uses' => 'BlogController@ajaxPages']);
-    Route::get('/page/add', ['as'=> 'addpage', 'uses' => 'BlogController@addPage']);
-    Route::post('/page/add', ['as'=> 'storepage', 'uses' => 'BlogController@addPagePost']);
-    Route::get('/page/{id}/view', ['as'=> 'viewpage', 'uses' => 'BlogController@viewPage']);
-    Route::post('/page/{id}/update', ['as'=> 'updatepage', 'uses' => 'BlogController@updatePage']);
-    Route::get('/page/{id}/remove', ['as'=> 'removepage', 'uses' => 'BlogController@removePage']);
-    Route::post('/page/massdelete', ['as'=> 'massdeletepage', 'uses' => 'BlogController@massdeletePage']);
+    Route::get('/pages', 'BlogController@pages')
+            ->name('panel.page__index');
+    Route::get('/ajaxpages', 'BlogController@ajaxPages')
+            ->name('panel.page__index__ajax');
+    Route::get('/page/add', 'BlogController@addPage')
+            ->name('panel.page__add');
+    Route::post('/page/add', 'BlogController@addPagePost')
+            ->name('panel.page__save');
+    Route::get('/page/{id}/view', 'BlogController@viewPage')
+            ->name('panel.page__view');
+    Route::post('/page/{id}/update', 'BlogController@updatePage')
+            ->name('panel.page__update');
+    Route::get('/page/{id}/remove', 'BlogController@removePage')
+            ->name('panel.page__delete');
+    Route::post('/page/massdelete', 'BlogController@massdeletePage')
+            ->name('panel.page__delete__mass');
+
+    Route::get('/site-setting', 'BlogController@site_setting_view')
+            ->name('panel.setting.site__index');
+    Route::post('/save-setting', 'BlogController@site_setting_save')
+            ->name('panel.setting.site__update');
+    Route::post('/save-program', 'BlogController@save_program')
+            ->name('panel.setting.site__update__program');
+
+    Route::get('/slider','BlogController@head_slider')
+            ->name('panel.slider__index');
+    Route::get('/new-slider','BlogController@new_slider_view')
+            ->name('panel.slider__add');
+    Route::post('/act-new-slider','BlogController@new_slider_act')
+            ->name('panel.slider__save');
+    Route::get('/edit-slider/{id}','BlogController@edit_slider_view')
+            ->name('panel.slider__view');
+    Route::post('/edit-slider/{id}/act_edit_slider','BlogController@edit_slider_act')
+            ->name('panel.slider__update');
+    Route::get('/hapus-slider/{id}','BlogController@hapus_slider')
+            ->name('panel.slider__delete');
 
     // Route::get('/pages', 'BlogController@pages');
     // Route::get('/page/{slug}', 'BlogController@show_page');
@@ -114,12 +196,4 @@ Route::group(['middleware' => ['web','admin'], 'prefix' => 'admin/blog', 'namesp
     // Route::post('/store-page', 'BlogController@store_page');
     // Route::post('/update-page/{id}', 'BlogController@update_page');
     // Route::post('/bulk-delete-page/', 'BlogController@bulk_delete_page');
-});
-Route::group(['middleware' => 'web', 'prefix' => 'doc-ui', 'namespace' => 'Modules\Blog\Http\Controllers'], function(){
-    Route::get('/','DocController@index');
-});
-
-Route::group(['middleware' => 'web', 'prefix' => 'blogs', 'namespace' => 'Modules\Blog\Http\Controllers'], function(){
-    Route::get('/','FrontController@index');
-    Route::get('/read/{slug_id}','FrontController@single_post');
 });

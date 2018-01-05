@@ -1,11 +1,13 @@
 <?php
 
-Route::group(['middleware' => 'web', 'prefix' => 'admin/blog/gallery', 'namespace' => 'Modules\Gallery\Http\Controllers'], function()
+Route::group(['middleware' => ['web','backend'], 'prefix' => 'admin/blog/gallery', 'namespace' => 'Modules\Gallery\Http\Controllers'], function()
 {
     // Route::get('/', 'GalleryController@index');
-    Route::get('/index', 'GalleryController@index');
+    Route::get('/index', 'GalleryController@index')
+            ->name('panel.gallery__index');
 
-    Route::get('/{slug}/show', ['as'=> 'showgallery', 'uses' => 'GalleryController@show_gallery']);
+    // Route::get('/{slug}/show', 'GalleryController@show_gallery')
+            // ->name('panel.gallery__view__single');
     // Route::get('/get-gallery', 'GalleryController@get_gallery');
     // Route::get('/create-gallery', 'GalleryController@create_gallery');
     // Route::get('/edit-gallery/{id}', 'GalleryController@edit_gallery');
@@ -17,14 +19,24 @@ Route::group(['middleware' => 'web', 'prefix' => 'admin/blog/gallery', 'namespac
     // Route::get('/get-category-gallery/{gallery_id}', 'GalleryController@get_all_category');
     // Route::get('/get-category-parent/{category_id}', 'GalleryController@get_category_parent');
 
-    Route::get('/', ['as'=> 'galleries', 'uses' => 'GalleryController@index']);
-    Route::get('/ajaxgalleries', ['as'=> 'ajaxgalleries', 'uses' => 'GalleryController@ajaxGalleries']);
-    Route::get('/add', ['as'=> 'addgallery', 'uses' => 'GalleryController@addGallery']);
-    Route::post('/add', ['as'=> 'storegallery', 'uses' => 'GalleryController@addGalleryPost']);
-    Route::get('/{id}/view', ['as'=> 'viewgallery', 'uses' => 'GalleryController@viewGallery']);
-    Route::post('/{id}/update', ['as'=> 'updategallery', 'uses' => 'GalleryController@updateGallery']);
-    Route::get('/{id}/remove', ['as'=> 'removegallery', 'uses' => 'GalleryController@removeGallery']);
-    Route::post('/massdelete', ['as'=> 'massdeletegallery', 'uses' => 'GalleryController@massdeleteGallery']);
+    Route::get('/', 'GalleryController@index')
+            ->name('panel.gallery__index__index');
+    Route::get('/ajaxgalleries', 'GalleryController@ajaxGalleries')
+            ->name('panel.gallery__index__ajax');
+    Route::post('/ajaxgalleries', 'GalleryController@ajaxGalleries')
+            ->name('panel.gallery__index__ajax__post');
+    Route::get('/add', 'GalleryController@addGallery')
+            ->name('panel.gallery__add');
+    Route::post('/add', 'GalleryController@addGalleryPost')
+            ->name('panel.gallery__save');
+    Route::get('/{id}/edit', 'GalleryController@viewGallery')
+            ->name('panel.gallery__view');
+    Route::post('/{id}/update', 'GalleryController@updateGallery')
+            ->name('panel.gallery__update');
+    Route::get('/{id}/remove', 'GalleryController@removeGallery')
+            ->name('panel.gallery__delete');
+    Route::post('/massdelete', 'GalleryController@massdeleteGallery')
+            ->name('panel.gallery__delete__mass');
 
     // Route::get('/category', 'GalleryController@category');
     // Route::get('/get-category', 'GalleryController@get_category');

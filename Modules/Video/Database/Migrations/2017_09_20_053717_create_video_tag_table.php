@@ -13,12 +13,12 @@ class CreateVideoTagTable extends Migration
      */
     public function up()
     {
-        Schema::create('video_tag', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('name');
-            $table->string('slug');
-            $table->timestamps();
-        });
+        // Schema::create('video_tag', function (Blueprint $table) {
+        //     $table->increments('id');
+        //     $table->string('name');
+        //     $table->string('slug');
+        //     $table->timestamps();
+        // });
     }
 
     /**

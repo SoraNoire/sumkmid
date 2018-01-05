@@ -13,12 +13,12 @@ class CreateEvCategoryRelationTable extends Migration
      */
     public function up()
     {
-        Schema::create('ev_category_relation', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('event_id');
-            $table->string('category_id')->nullable();
-            $table->timestamps();
-        });
+        // Schema::create('ev_category_relation', function (Blueprint $table) {
+        //     $table->increments('id');
+        //     $table->integer('event_id');
+        //     $table->string('category_id')->nullable();
+        //     $table->timestamps();
+        // });
     }
 
     /**

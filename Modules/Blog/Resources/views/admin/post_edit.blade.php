@@ -3,16 +3,22 @@
 @section('content')
 <script> postId = {{$post->id ?? 0}}</script>
 <div class="col-md-12">
+    @if ($errors->any())
+    <div class="alert alert-danger alert-dismissable ">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        There is some error. Please check again
+    </div>
+    @endif
     <h4 class="title">Edit Posts</h4>
 
-    <form id="post-form" method="post" action="{{ route('updatepost',$post->id) }}" accept-charset="UTF-8">
-        <a href="{{ route('addpost') }}" class="btn btn-round btn-fill btn-info">
+    <form id="post-form" method="post" action="{{ route('panel.post__update',$post->id) }}" accept-charset="UTF-8">
+        <a href="{{ route('panel.post__add') }}" class="btn btn-round btn-fill btn-info">
             New Post +<div class="ripple-container"></div>
         </a>
-        <a target="_blank" href="{{ URL::to($prefix.'show/'.$post->slug) }}" class="btn btn-round btn-fill btn-info">
+        <!-- <a target="_blank" href="{{ URL::to($prefix.'show/'.$post->slug) }}" class="btn btn-round btn-fill btn-info">
             View Post<div class="ripple-container"></div>
-        </a>
-        <a onclick="return confirm('Delete Post?');" href="{{ route('removepost', $post->id) }}" class="btn btn-round btn-fill btn-danger">
+        </a> -->
+        <a onclick="return confirm('Delete Post?');" href="{{ route('panel.post__delete', $post->id) }}" class="btn btn-round btn-fill btn-danger">
             Delete Post<div class="ripple-container"></div>
         </a>
 
@@ -33,7 +39,7 @@
                     @if ($errors->has('content'))
                     <div class="has-error">
                         <span class="help-block">
-                            <strong>{{ $errors->first('content') }}</strong>
+                            <strong>This field is required</strong>
                         </span>
                     </div>
                     @endif
@@ -178,7 +184,7 @@
                     </div>
                     <div id="post-fimg" class="panel-collapse collapse in">
                         <div class="panel-body form-group">
-                            <a id="browse_fimg_post" data-toggle="modal" data-target="#myFimg" class="btn btn-round btn-fill btn-default" style="margin-bottom: 10px;">Set Featured Image</a>
+                            <a id="browse_fimg_post" data-tujuan="featured_img" data-toggle="modal" data-target="#myFimg" class="btn btn-round btn-fill btn-default" style="margin-bottom: 10px;">Set Featured Image</a>
                             <input type="hidden" name="featured_image" id="featured_img" value="{{ $featured_image }}">
                             <div class="preview-fimg-wrap" style="display: {{ $featured_image != '' ? 'block' : ''  }};">
                                 <div class="preview-fimg" style="background-image: url({{ $featured_image }});"></div>
@@ -224,6 +230,28 @@
     </div>
 </div>
 
+<div class="custom-modal fimg-modal">
+<div class="close-modal" id="close_fimg_post" data-toggle="modal" data-target="#myFimg">X</div>
+    <div class="card">
+        <div class="btn btn-round btn-fill btn-info" style="margin-bottom: 10px;" onclick="document.getElementById('uploadfimg').click();">Upload media +
+            <form id="actuploadfimg" method="post" action="{{ URL::to('/administrator/act_new_media') }}" accept-charset="UTF-8" enctype="multipart/form-data">
+                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                <input type="file" id="uploadfimg" name="media[]" style="cursor: pointer;display: none;" multiple>
+            </form>
+        </div>
+        <div class="card-content table-responsive">
+            <table style="width: 100%;" class="table mediatable" id="FeaturedImg">
+                <thead >
+                    <th>Preview</th>
+                    <th>Judul</th>
+                    <th>Tanggal</th>
+                    <th>Aksi</th>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+
 <div class="custom-modal file-modal">
 <div class="close-modal" id="close_file_post" data-toggle="modal" data-target="#myFile">X</div>
     <div class="card">
@@ -234,7 +262,7 @@
             </form>
         </div>
         <div class="card-content table-responsive">
-            <table style="width: 100%;" class="table filestable" id="postFile">
+            <table style="width: 100%;" class="table mediatable" id="postFile">
                 <thead >
                     <th>Name</th>
                     <th>Label</th>

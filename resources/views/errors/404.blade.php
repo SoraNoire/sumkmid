@@ -1,4 +1,4 @@
-@extends('layouts.publicbase')
+@extends('layouts.errorbase')
 
 @section('content')
 <div style="text-align: center;padding: 50px;">

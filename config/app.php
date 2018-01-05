@@ -1,7 +1,12 @@
 <?php
 
 return [
+    'mnews_url' => env('MNEWS_URL'),
 
+    'email_info' => env('EMAIL_INFO'),
+    // tinymce api key
+    'tinymce_api_key' => env('TINYMCE_API_KEY'),
+    
     /*
     |--------------------------------------------------------------------------
     | Application Name
@@ -180,7 +185,7 @@ return [
         Intervention\Image\ImageServiceProvider::class,
 
         // spatie 
-        Spatie\Permission\PermissionServiceProvider::class,
+        // Spatie\Permission\PermissionServiceProvider::class,
 
         // lara collective
         Collective\Html\HtmlServiceProvider::class,
@@ -188,6 +193,9 @@ return [
         Webwizo\Shortcodes\ShortcodesServiceProvider::class,
         Modules\Blog\Providers\ShortcodesServiceProvider::class,
         App\Providers\SSOServiceProvider::class,
+        Rabbit\OAuthClient\OAuthClientServiceProvider::class,
+        Rabbit\SahabatUser\SahabatUserServiceProvider::class,
+        // Vinkla\Instagram\InstagramServiceProvider::class
 
     ],
 
@@ -242,6 +250,7 @@ return [
         'PostHelper' => Modules\Blog\Http\Helpers\PostHelper::class,
         'Shortcode' => Webwizo\Shortcodes\Facades\Shortcode::class,
         'Carbon' => \Carbon\Carbon::class,
+        // 'Instagram' => Vinkla\Instagram\Facades\Instagram::class,
 
         // lara collective
         'Form' => Collective\Html\FormFacade::class,

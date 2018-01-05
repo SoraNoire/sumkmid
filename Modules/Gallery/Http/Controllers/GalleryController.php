@@ -28,11 +28,11 @@ class GalleryController extends Controller
     private $prefix;
 
     public function __construct(){
-        $this->user = new \App\Helpers\SSOHelper;
         $this->GalleryHelper = new GalleryHelper;
         $this->prefix = 'admin/blog/gallery/';
         View::share('prefix', $this->prefix);
         View::share('body_id', 'gallery');
+        View::share('tinymceApiKey', config('app.tinymce_api_key'));
     }
     /**
      * Display a listing of gallery.
@@ -64,7 +64,7 @@ class GalleryController extends Controller
 
             return view('gallery::admin.single')->with(['page_meta_title' => $page_meta_title, 'gallery' => $gallery, 'tag' => $tag, 'category' => $category, 'meta_keyword' => $meta_keyword, 'meta_title' => $meta_title, 'meta_desc' => $meta_desc, 'published_at' => $published_at]);
         } else {
-            return redirect($this->prefix)->with('msg', 'gallery Not Found')->with('status', 'danger');
+            return redirect(route('panel.gallery__index'))->with('msg', 'gallery Not Found')->with('status', 'danger');
         }
     }
 
@@ -76,10 +76,10 @@ class GalleryController extends Controller
     public function ajaxGalleries(Request $request)
     {
         $order = $request->order[0];
-        $col = $request->columns["{$order['column']}"]['data'] ?? 'published_at'; 
+        $col = $request->columns["{$order['column']}"]['data'] ?? 'published_date'; 
         $direction = $order['dir'] ?? 'desc';
         
-        $query = Posts::where('post_type','gallery')->where('deleted',0)->orderBy($col,$direction);
+        $query = Posts::whereIn('post_type', ['gallery', 'video'])->where('deleted',0)->orderBy($col,$direction);
         $search = $request->search['value'];
         if (isset($search)) {
             $query = $query->where('title', 'like', '%'.$search.'%');   
@@ -88,11 +88,16 @@ class GalleryController extends Controller
 
         $newdata = array();
         foreach ($output['data'] as $data) {
-            $u= $this->user->users($data->author);
-            $name = $u->users[0]->username;
+            $u= app()->OAuth->user($data->author);
+            $name = $u->username ?? 'admin';
             if ($name != '') {
                 $data->author_name = $name;
             }
+            if ($data->post_type == 'gallery') {
+                $data->gallery_type = 'images';
+            } elseif ($data->post_type == 'video') {
+                $data->gallery_type = 'video';
+            } 
             $newdata[] = $data;
         }
         $output['data'] = $newdata;
@@ -128,12 +133,12 @@ class GalleryController extends Controller
             'title' => 'required',
             'content' => 'required',
             'gallery_images' => 'required'
-        ]);
+        ], PostHelper::validation_messages());
 
         $meta_title =  $request->input('meta_title');
         $meta_desc =  $request->input('meta_desc');
         $meta_keyword =  $request->input('meta_keyword');
-        $categories = json_encode($request->input('categories') ?? [] );
+        $categories = $request->input('categories') ?? [];
         $tag_input = $request->input('tags') ?? [];
         $gallery_images = json_encode($request->get('gallery_images') ?? [] );
 
@@ -149,28 +154,7 @@ class GalleryController extends Controller
 
         DB::beginTransaction();
         try {
-            if (isset($tag_input)) {
-                $tags = array();
-                foreach ($tag_input as $key) {
-                    $tag_slug = PostHelper::make_slug($key);
-                    $check = Tags::where('slug', $tag_slug)->first();
-                    if (!isset($check)) {
-                        // save tag to table tag
-                        $save_tag = new Tags;
-                        $save_tag->name = $key;
-                        $save_tag->slug = $tag_slug;
-                        $save_tag->save();
-                        $key = $save_tag->id;
-
-                    } else {
-                      $key = $check->id;
-                    }
-                    $tags[] = $key;
-                }
-            } else {
-                $tags = null;
-            }
-            $tags = json_encode($tags);
+            $tags = PostHelper::check_tags_input($tag_input);
 
             $store = new Posts;
             $store->title = $request->input('title');
@@ -178,7 +162,7 @@ class GalleryController extends Controller
             $store->post_type = 'gallery';
             $store->content = $request->input('content');
             $store->featured_image = $request->input('featured_image');
-            $store->author = app()->SSO->Auth()->id;
+            $store->author = app()->OAuth->Auth()->master_id;
             $store->status = $request->get('status');
             $store->published_date = $published_date;
             $store->save();
@@ -187,9 +171,15 @@ class GalleryController extends Controller
             $metas[] = ['name' => 'meta_title', 'value' => $meta_title];
             $metas[] = ['name' => 'meta_desc', 'value' => $meta_desc];
             $metas[] = ['name' => 'meta_keyword', 'value' => $meta_keyword];
-            $metas[] = ['name' => 'categories', 'value' => $categories];
-            $metas[] = ['name' => 'tags', 'value' => $tags];
             $metas[] = ['name' => 'gallery_images', 'value' => $gallery_images];
+
+            foreach ($categories as $cat) {
+                $metas[] = ['name' => 'category', 'value' => $cat];
+            }
+            foreach ($tags as $tag) {
+                $metas[] = ['name' => 'tag', 'value' => $tag];
+            }
+
             foreach ($metas as $meta) {
                 if ($meta['value'] != '') {
                     $meta_contents[] = [ 'post_id'=>$store->id, 'key'=> $meta['name'], 'value'=> $meta['value'] ];
@@ -199,10 +189,10 @@ class GalleryController extends Controller
             PostMeta::insert($meta_contents);
 
             DB::commit();
-            return redirect(route('galleries'))->with(['msg' => 'Saved', 'status' => 'success']);
+            return redirect(route('panel.gallery__view', $store->id))->with(['msg' => 'Saved', 'status' => 'success']);
         } catch (\Exception $e) {
-            DB:rollback();
-            return redirect(route('galleries'))->with(['msg' => 'Save Error', 'status' => 'danger']);
+            DB::rollback();
+            return redirect(route('panel.gallery__index'))->with(['msg' => 'Save Error', 'status' => 'danger']);
         }
     }
 
@@ -224,13 +214,14 @@ class GalleryController extends Controller
             $meta_title = $post_metas->meta_title ?? '';
             $meta_keyword = $post_metas->meta_keyword ?? '';
             $categories = json_decode($post_metas->categories ?? '') ?? [];
-            $tags = json_decode($post_metas->tags ?? '') ?? [];
             $gallery_images = json_decode($post_metas->gallery_images ?? '') ?? [];
 
             $images = Media::whereIn('id', $gallery_images)->get();
 
             $alltag = Tags::orderBy('created_at','desc')->get();
             $media = Media::orderBy('created_at','desc')->get();
+
+            $tags = PostHelper::get_post_tag($gallery->id, 'id'); 
 
             $title = $gallery->title;
             $content = $gallery->content;
@@ -241,7 +232,7 @@ class GalleryController extends Controller
 
             return view('gallery::admin.gallery_edit')->with(['item_id' => $item_id, 'page_meta_title' => $page_meta_title, 'gallery' => $gallery, 'title' => $title, 'images' => $images, 'alltag' => $alltag, 'selected_tag' => $tags, 'media' => $media, 'meta_desc' => $meta_desc, 'meta_title' => $meta_title, 'meta_keyword' => $meta_keyword, 'status' => $status, 'published_date' => $published_date, 'featured_image' => $featured_image, 'content' => $content]);
         } else {
-            return redirect(route('galleries'))->with(['msg' => 'gallery Not Found', 'status' => 'danger']);
+            return redirect(route('panel.gallery__index'))->with(['msg' => 'gallery Not Found', 'status' => 'danger']);
         }
     }
 
@@ -265,7 +256,7 @@ class GalleryController extends Controller
             'title' => 'required',
             'content' => 'required',
             'gallery_images' => 'required'
-        ]);
+        ], PostHelper::validation_messages());
 
         $title = $request->input('title');
         $content = $request->input('content');
@@ -274,30 +265,11 @@ class GalleryController extends Controller
         $published_date = $request->input('published_date');
         $featured_img = $request->input('featured_image');
         $tag_input = $request->input('tags') ?? [];
+        $categories = $request->input('categories') ?? [] ;
 
         DB::beginTransaction();
         try {
-            if (isset($tag_input)) {
-                $tags = array();
-                foreach ($tag_input as $key) {
-                    $tag_slug = PostHelper::make_slug($key);
-                    $check = Tags::where('slug', $tag_slug)->first();
-                    if (!isset($check)) {
-                        // save tag to table tag
-                        $save_tag = new Tags;
-                        $save_tag->name = $key;
-                        $save_tag->slug = $tag_slug;
-                        $save_tag->save();
-                        $key = $save_tag->id;
-
-                    } else {
-                      $key = $check->id;
-                    }
-                    $tags[] = $key;
-                }
-            } else {
-                $tags = null;
-            }
+            $tags = PostHelper::check_tags_input($tag_input);
             
             $request->request->add(['tags'=>$tags]);
 
@@ -306,14 +278,19 @@ class GalleryController extends Controller
             $update->post_type = 'gallery';
             $update->content = $content;
             $update->featured_image = $featured_img;
-            $update->author = app()->SSO->Auth()->id;
+            $update->author = app()->OAuth->Auth()->id;
             $update->status = $request->get('status');
             $update->published_date = $published_date;
             $update->save();
 
             $newMeta = false;
             $post_metas = PostMeta::where('post_id',$id)->get();
-            $meta_fields = ['categories', 'meta_title', 'meta_desc', 'meta_keyword', 'gallery_images', 'tags' ];
+            $meta_fields = ['meta_title', 'meta_desc', 'meta_keyword', 'gallery_images'];
+
+            // save tags meta 
+            PostHelper::save_post_meta_tag($update->id, $tags);
+            // save categories meta 
+            PostHelper::save_post_meta_category($update->id, $categories);
 
             foreach ($meta_fields as $key => $meta) {
                 $updated = false;
@@ -343,10 +320,10 @@ class GalleryController extends Controller
             }
 
             DB::commit();
-            return redirect(route('galleries'))->with(['msg' => 'Saved', 'status' => 'success']);
+            return redirect(route('panel.gallery__view', $id))->with(['msg' => 'Saved', 'status' => 'success']);
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect(route('galleries'))->with(['msg' => 'Error. Something went wrong.', 'status' => 'danger']);
+            return redirect(route('panel.gallery__view', $id))->with(['msg' => 'Error. Something went wrong.', 'status' => 'danger']);
         }     
     }
 
@@ -361,9 +338,9 @@ class GalleryController extends Controller
         if ($delete){
             $delete->deleted = 1;
             $delete->save();
-            return redirect(route('galleries'))->with(['msg' => 'Deleted', 'status' => 'success']);
+            return redirect(route('panel.gallery__index'))->with(['msg' => 'Deleted', 'status' => 'success']);
         }
-        return redirect(route('galleries'))->with(['msg' => 'Delete error', 'status' => 'danger']);
+        return redirect(route('panel.gallery__index'))->with(['msg' => 'Delete error', 'status' => 'danger']);
     }
 
     /**
@@ -379,13 +356,13 @@ class GalleryController extends Controller
             if ($delete) {
                 $delete->deleted = 1;
                 if (!$delete->save()) {
-                    return redirect(route('galleries'))->with(['msg' => 'Delete Error', 'status' => 'danger']);
+                    return redirect(route('panel.gallery__index'))->with(['msg' => 'Delete Error', 'status' => 'danger']);
                 }
             } else {
-                return redirect(route('galleries'))->with(['msg' => 'Delete Error. Page Not Found', 'status' => 'videos']);
+                return redirect(route('panel.gallery__index'))->with(['msg' => 'Delete Error. Page Not Found', 'status' => 'videos']);
             }
         }
-        return redirect(route('galleries'))->with(['msg' => 'Delete Success', 'status' => 'success']);
+        return redirect(route('panel.gallery__index'))->with(['msg' => 'Delete Success', 'status' => 'success']);
     }
 
     /**
