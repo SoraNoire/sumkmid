@@ -43,7 +43,7 @@ Route::post('/user-setting/UpdateProfilePict','memberController@updateProfilePic
 Route::post('/send-email', 'PublicController@messages_store_act')->name('sendemailcontact');
 
 // Route::get('/mentor/page/{page}', 'PublicController@mentor_archive');
-Route::get('/event/page/{page}', 'PublicController@event_archive');
+// Route::get('/event/page/{page}', 'PublicController@event_archive');
 
 // Route::get('/gallery/page/{page}', 'PublicController@gallery_archive');
 Route::get('/search-galeri/', 'PublicController@searchGallery')->name('search_gallery');

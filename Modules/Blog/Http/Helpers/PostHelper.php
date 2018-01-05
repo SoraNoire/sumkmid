@@ -507,12 +507,19 @@ class PostHelper
         $mentor_not_reg      = json_decode($metas->mentor_not_registered ?? '') ?? [];
 
         $mentors = array();
-        foreach ($mentor_reg as $mentor_r) {
-            $mentors[] = app()->OAuth->mentors($mentor_r)->users;
+        if (sizeof($mentor_reg) > 0) {
+            foreach ($mentor_reg as $mentor_r) {
+                $users = app()->OAuth->mentors($mentor_r)->users;
+                if (sizeof($users) > 0) {
+                    $mentors[] = $users[0];
+                }
+            }
         }
-        foreach ($mentor_not_reg as $mentor_nr) {
-            $tmp = json_encode(['name' => $mentor_nr]);
-            $mentors[] = json_decode($tmp);
+        if (sizeof($mentor_not_reg) > 0) {
+            foreach ($mentor_not_reg as $mentor_nr) {
+                $tmp = json_encode(['name' => $mentor_nr]);
+                $mentors[] = json_decode($tmp);
+            }
         }
         $data['mentors'] = $mentors;
         return $data;
