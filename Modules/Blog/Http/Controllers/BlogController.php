@@ -1647,7 +1647,7 @@ class BlogController extends Controller
     public function site_setting_view(){
         $page_meta_title = 'Site Setting';
 
-        $analytic = Option::where('key', 'analytic')->first()->value ?? '';
+        $gtag_manager = Option::where('key', 'gtag_manager')->first()->value ?? '';
         $fb_pixel = Option::where('key', 'fb_pixel')->first()->value ?? '';
         $link_fb = Option::where('key', 'link_fb')->first()->value ?? '';
         $link_tw = Option::where('key', 'link_tw')->first()->value ?? '';
@@ -1791,7 +1791,7 @@ class BlogController extends Controller
             }
         }
 
-        return view('blog::admin.setting')->with(['page_meta_title' => $page_meta_title, 'analytic' => $analytic, 'fb_pixel' => $fb_pixel, 'link_fb' => $link_fb, 'link_in' => $link_in, 'link_tw' => $link_tw, 'link_yt' => $link_yt, 'link_ig' => $link_ig, 'link_gplus' => $link_gplus, 'list_program' => $program_structure, 'footer_desc' => $footer_desc, 'quote' => $quote, 'post_section' => $post_section, 'all_cat' => $all_cat, 'email' => $email, 'about_us' => $about_us, 'instagram_token' => $instagram_token]);
+        return view('blog::admin.setting')->with(['page_meta_title' => $page_meta_title, 'gtag_manager' => $gtag_manager, 'fb_pixel' => $fb_pixel, 'link_fb' => $link_fb, 'link_in' => $link_in, 'link_tw' => $link_tw, 'link_yt' => $link_yt, 'link_ig' => $link_ig, 'link_gplus' => $link_gplus, 'list_program' => $program_structure, 'footer_desc' => $footer_desc, 'quote' => $quote, 'post_section' => $post_section, 'all_cat' => $all_cat, 'email' => $email, 'about_us' => $about_us, 'instagram_token' => $instagram_token]);
     }
 
     /**
@@ -1811,7 +1811,7 @@ class BlogController extends Controller
         $settings[] = ['name' => 'link_ig', 'value' => $request->input('link_ig')];
         $settings[] = ['name' => 'link_in', 'value' => $request->input('link_in')];
         $settings[] = ['name' => 'link_yt', 'value' => $request->input('link_yt')];
-        $settings[] = ['name' => 'analytic', 'value' => $request->input('analytic_id')];
+        $settings[] = ['name' => 'gtag_manager', 'value' => $request->input('gtag_manager')];
         $settings[] = ['name' => 'fb_pixel', 'value' => $request->input('fb_pixel')];
         $settings[] = ['name' => 'quotes_section', 'value' => json_encode($quote)];
         $settings[] = ['name' => 'about_us', 'value' => $request->input('about_us')];

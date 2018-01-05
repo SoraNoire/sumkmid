@@ -187,8 +187,8 @@
 		                        <div class="panel-body">
 		                            
 									<div class="form-group label-floating">
-										<label class="control-label">Google Analytic ID</label>
-										<input type="text" name="analytic" class="form-control" value="{{ $analytic }}">
+										<label class="control-label">Google Tag Manager ID</label>
+										<input type="text" name="gtag_manager" class="form-control" value="{{ $gtag_manager }}">
 									</div>
 
 									<div class="form-group label-floating">
