@@ -15,7 +15,7 @@
             <input class="form-control" type="text" name="name" value="{{ $name }}">
         </div>
         <button type="submit" class="btn btn-success pull-right">Save</button>
-        @if ($act == 'Edit')
+        @if ($act == 'Edit' && in_array('delete', app()->OAuth::can('panel.tag')))
         <a style="margin-right: 10px;" href="{{ route('panel.tag__delete',$id) }}" class="btn btn-danger pull-right" onclick="return confirm('Delete Tag?');">Delete</a>
         @endif
     </form>

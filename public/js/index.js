@@ -549,14 +549,27 @@ if ($("#table-categories").length > 0) {
                 "targets": -1,
                 "data": 'id',
                 "render": function ( data, type, row ) {
-                    return '<a href="/admin/blog/category/'+row.id+'/view">Edit</a> | <a onclick="return confirm(\'Delete Category?\');" href="/admin/blog/category/'+row.id+'/remove" style="color: #d9534f;">Delete</a>';
+                    delDisabled = '';
+                    editDisabled = '';
+                    if ( can.indexOf("4") !== -1 ) {
+                        delDisabled = '';
+                    } else { delDisabled = 'disabled'; }
+
+                    if ( can.indexOf("3") !== -1 ) {
+                        editDisabled = '';
+                    } else { editDisabled = 'disabled'; }
+                    return '<a href="/admin/blog/category/'+row.id+'/view" class="btn btn-round btn-fill btn-info '+editDisabled+'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> <a onclick="return confirm(\'Delete Category?\');" href="/admin/blog/category/'+row.id+'/remove" class="btn btn-round btn-fill btn-danger '+delDisabled+'"><i class="fa fa-trash" aria-hidden="true"></i></a>';
                 }
             },
                 {
                 "targets": 0,
                 "data": 'name',
                 "render": function ( data, type, row ) {
-                    return '<a href="/admin/blog/category/'+row.id+'/view">'+data+'</a>';
+                    if ( can.indexOf("3") !== -1 ) {
+                        return '<a href="/admin/blog/category/'+row.id+'/view">'+data+'</a>';
+                    } else {
+                        return data;
+                    }
                 }
             }
         ],
@@ -586,14 +599,28 @@ if ($("#CategoryTable").length > 0) {
                 "targets": -1,
                 "data": 'id',
                 "render": function ( data, type, row ) {
-                    return '<a href="/admin/blog/edit-category/'+row.id+'">Edit</a> | <a onclick="return confirm(\'Delete Category?\');" href="/admin/blog/delete-category/'+row.id+'" style="color: #d9534f;">Delete</a>';
+                    delDisabled = '';
+                    editDisabled = '';
+                    if ( can.indexOf("4") !== -1 ) {
+                        delDisabled = '';
+                    } else { delDisabled = 'disabled'; }
+
+                    if ( can.indexOf("3") !== -1 ) {
+                        editDisabled = '';
+                    } else { editDisabled = 'disabled'; }
+
+                    return '<a href="/admin/blog/edit-category/'+row.id+'" class="btn btn-round btn-fill btn-info '+editDisabled+'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a><a onclick="return confirm(\'Delete Category?\');" href="/admin/blog/delete-category/'+row.id+'" class="btn btn-round btn-fill btn-danger '+delDisabled+'"><i class="fa fa-trash" aria-hidden="true"></i></a>';
                 }
             },
                 {
                 "targets": 0,
                 "data": 'name',
                 "render": function ( data, type, row ) {
-                    return '<a href="/admin/blog/edit-category/'+row.id+'">'+data+'</a>';
+                    if ( can.indexOf("3") !== -1 ){
+                        return '<a href="/admin/blog/edit-category/'+row.id+'">'+data+'</a>';
+                    } else {
+                        return data;
+                    }
                 }
             }
         ],
@@ -624,14 +651,28 @@ if ($("#posts-table").length > 0) {
                 "targets": -1,
                 "data": 'id',
                 "render": function ( data, type, row ) {
-                    return '<a href="/admin/blog/post/'+row.id+'/view">Edit</a> | <a onclick="return confirm(\'Delete Post?\');" href="/admin/blog/post/'+row.id+'/remove" style="color: #d9534f;">Hapus</a>';
+                    delDisabled = '';
+                    editDisabled = '';
+                    if ( can.indexOf("4") !== -1 ) {
+                        delDisabled = '';
+                    } else { delDisabled = 'disabled'; }
+
+                    if ( can.indexOf("3") !== -1 ) {
+                        editDisabled = '';
+                    } else { editDisabled = 'disabled'; }
+
+                    return '<a href="/admin/blog/post/'+row.id+'/view" class="btn btn-round btn-fill btn-info '+editDisabled+'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a><a onclick="return confirm(\'Delete Post?\');" href="/admin/blog/post/'+row.id+'/remove"  class="btn btn-round btn-fill btn-danger '+delDisabled+'"><i class="fa fa-trash" aria-hidden="true"></i></a>';
                 }
             },
                 {
                 "targets": 0,
                 "data": 'title',
                 "render": function ( data, type, row ) {
-                    return '<a href="/admin/blog/post/'+row.id+'/view">'+data+'</a>';
+                    if ( can.indexOf("3") !== -1 ){
+                        return '<a href="/admin/blog/post/'+row.id+'/view">'+data+'</a>';
+                    } else {
+                        return data;
+                    }
                 }
             }
         ],
@@ -698,7 +739,11 @@ if ($("#MediaPost").length > 0) {
                 "targets": -1,
                 "data": 'id',
                 "render": function ( data, type, row ) {
-                    return '<div onclick="delete_media(\''+data+'\')" id="delete_media_post" class="btn btn-round btn-fill btn-danger">Delete</div> <div onclick="select_media(\'#'+data+'\')" id="select_media" class="btn btn-round btn-fill btn-success">Copy Media</div> <p style="display:none;" id="'+data+'">'+mediaPath+'/'+row.name.split('.').join('-800.')+'</p>';
+                    if ( mediaCan.indexOf("4") !== -1 ) {
+                        return '<div onclick="delete_media(\''+data+'\')" id="delete_media_post" class="btn btn-round btn-fill btn-danger">Delete</div> <div onclick="select_media(\'#'+data+'\')" id="select_media" class="btn btn-round btn-fill btn-success">Copy Media</div> <p style="display:none;" id="'+data+'">'+mediaPath+'/'+row.name.split('.').join('-800.')+'</p>';
+                    } else {
+                        return '<div onclick="select_media(\'#'+data+'\')" id="select_media" class="btn btn-round btn-fill btn-success">Copy Media</div> <p style="display:none;" id="'+data+'">'+mediaPath+'/'+row.name.split('.').join('-800.')+'</p>';
+                    }
                 }
             },
                 {
@@ -739,7 +784,11 @@ if ($("#FeaturedImg").length > 0) {
                 "targets": -1,
                 "data": 'id',
                 "render": function ( data, type, row ) {
-                    return '<div onclick="delete_media(\''+data+'\')" id="delete_media_post" class="btn btn-round btn-fill btn-danger">Delete</div> <div onclick="select_fimg(\'#'+data+'\')" id="select_media" class="btn btn-round btn-fill btn-success">Select</div> <p style="display:none;" id="'+data+'">'+mediaPath+'/'+row.name.split('.').join('-800.')+'</p>';
+                    if ( mediaCan.indexOf("4") !== -1 ) {
+                        return '<div onclick="delete_media(\''+data+'\')" id="delete_media_post" class="btn btn-round btn-fill btn-danger">Delete</div> <div onclick="select_fimg(\'#'+data+'\')" id="select_media" class="btn btn-round btn-fill btn-success">Select</div> <p style="display:none;" id="'+data+'">'+mediaPath+'/'+row.name.split('.').join('-800.')+'</p>';
+                    } else {
+                        return '<div onclick="select_fimg(\'#'+data+'\')" id="select_media" class="btn btn-round btn-fill btn-success">Select</div> <p style="display:none;" id="'+data+'">'+mediaPath+'/'+row.name.split('.').join('-800.')+'</p>';
+                    }
                 }
             },
                 {
@@ -777,14 +826,28 @@ if ($("#pages-table").length > 0) {
                 "targets": -1,
                 "data": 'id',
                 "render": function ( data, type, row ) {
-                    return '<a href="/admin/blog/page/'+row.id+'/view">Edit</a> | <a onclick="return confirm(\'Delete Page?\');" href="/admin/blog/page/'+row.id+'/remove" style="color: #d9534f;">Hapus</a>';
+                    delDisabled = '';
+                    editDisabled = '';
+                    if ( can.indexOf("4") !== -1 ) {
+                        delDisabled = '';
+                    } else { delDisabled = 'disabled'; }
+
+                    if ( can.indexOf("3") !== -1 ) {
+                        editDisabled = '';
+                    } else { editDisabled = 'disabled'; }
+
+                    return '<a href="/admin/blog/page/'+row.id+'/view" class="btn btn-round btn-fill btn-info '+editDisabled+'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a><a onclick="return confirm(\'Delete Page?\');" href="/admin/blog/page/'+row.id+'/remove"  class="btn btn-round btn-fill btn-danger '+delDisabled+'"><i class="fa fa-trash" aria-hidden="true"></i></a>';
                 }
             },
                 {
                 "targets": 0,
                 "data": 'title',
                 "render": function ( data, type, row ) {
-                    return '<a href="/admin/blog/page/'+row.id+'/view">'+data+'</a>';
+                    if ( can.indexOf("3") !== -1 ) {
+                        return '<a href="/admin/blog/page/'+row.id+'/view">'+data+'</a>';
+                    } else {
+                        return data;
+                    }
                 }
             }
         ],
@@ -813,14 +876,28 @@ if ($("#TagTable").length > 0) {
                 "targets": -1,
                 "data": 'id',
                 "render": function ( data, type, row ) {
-                    return '<a href="/admin/blog/edit-tag/'+row.id+'">Edit</a> | <a onclick="return confirm(\'Delete Tag?\');" href="/admin/blog/delete-tag/'+row.id+'" style="color: #d9534f;">Hapus</a>';
+                    delDisabled = '';
+                    editDisabled = '';
+                    if ( can.indexOf("4") !== -1 ) {
+                        delDisabled = '';
+                    } else { delDisabled = 'disabled'; }
+
+                    if ( can.indexOf("3") !== -1 ) {
+                        editDisabled = '';
+                    } else { editDisabled = 'disabled'; }
+
+                    return '<a href="/admin/blog/edit-tag/'+row.id+'" class="btn btn-round btn-fill btn-info '+editDisabled+'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a><a onclick="return confirm(\'Delete Tag?\');" href="/admin/blog/delete-tag/'+row.id+'"  class="btn btn-round btn-fill btn-danger '+delDisabled+'"><i class="fa fa-trash" aria-hidden="true"></i></a>';
                 }
             },
                 {
                 "targets": 0,
                 "data": 'title',
                 "render": function ( data, type, row ) {
-                    return '<a href="/admin/blog/edit-tag/'+row.id+'">'+data+'</a>';
+                    if ( can.indexOf("3") !== -1 ) {
+                        return '<a href="/admin/blog/edit-tag/'+row.id+'">'+data+'</a>';
+                    } else {
+                        return data;
+                    }
                 }
             }
         ],
@@ -851,14 +928,28 @@ if ($("#table-tags").length > 0) {
                 "targets": -1,
                 "data": 'id',
                 "render": function ( data, type, row ) {
-                    return '<a href="/admin/blog/tag/'+row.id+'/view">Edit</a> | <a onclick="return confirm(\'Delete Tag?\');" href="/admin/blog/tag/'+row.id+'/remove" style="color: #d9534f;">Hapus</a>';
+                    delDisabled = '';
+                    editDisabled = '';
+                    if ( can.indexOf("4") !== -1 ) {
+                        delDisabled = '';
+                    } else { delDisabled = 'disabled'; }
+
+                    if ( can.indexOf("3") !== -1 ) {
+                        editDisabled = '';
+                    } else { editDisabled = 'disabled'; }
+
+                    return '<a href="/admin/blog/tag/'+row.id+'/view" class="btn btn-round btn-fill btn-info '+editDisabled+'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a><a onclick="return confirm(\'Delete Tag?\');" href="/admin/blog/tag/'+row.id+'/remove"  class="btn btn-round btn-fill btn-danger '+delDisabled+'"><i class="fa fa-trash" aria-hidden="true"></i></a>';
                 }
             },
                 {
                 "targets": 0,
                 "data": 'title',
                 "render": function ( data, type, row ) {
-                    return '<a href="/admin/blog/tag/'+row.id+'/view">'+data+'</a>';
+                    if ( can.indexOf("3") !== -1 ) {
+                        return '<a href="/admin/blog/tag/'+row.id+'/view">'+data+'</a>';
+                    } else {
+                        return data;
+                    }
                 }
             }
         ],
@@ -888,7 +979,11 @@ if ($("#filesTable").length > 0) {
                 "targets": 2,
                 "data": 'id',
                 "render": function ( data, type, row ) {
-                    return '<a href="/admin/blog/edit-file/'+data+'" id="edit_file_label" style="cursor: pointer;">Edit</a>';
+                    if ( can.indexOf("3") !== -1 ) {
+                        return '<a href="/admin/blog/edit-file/'+data+'" id="edit_file_label" style="cursor: pointer;">Edit</a>';
+                    } else {
+                        return 'Edit';
+                    }
                 }
             }
         ],
@@ -918,7 +1013,11 @@ if ($("#postFile").length > 0) {
                 "targets": 2,
                 "data": 'id',
                 "render": function ( data, type, row ) {
-                    return '<div onclick="delete_file(\''+data+'\')" id="delete_file_post" class="btn btn-round btn-fill btn-danger">Delete</div>';
+                    if ( can.indexOf("4") !== -1 ) {
+                        return '<div onclick="delete_file(\''+data+'\')" id="delete_file_post" class="btn btn-round btn-fill btn-danger">Delete</div>';
+                    } else {
+                        return 'Delete';
+                    }
                 }
             }
         ],
@@ -950,7 +1049,17 @@ if ($("#posts-trash").length > 0) {
                 "targets": 4,
                 "data": 'id',
                 "render": function ( data, type, row ) {
-                    return '<a href="/admin/blog/trash/'+data+'/restore">Restore</a> | <a onclick="return confirm(\'Delete Post?\');" href="/admin/blog/trash/'+data+'/delete" style="color: #d9534f;">Delete Permanently</a>';
+                    delDisabled = '';
+                    editDisabled = '';
+                    if ( can.indexOf("4") !== -1 ) {
+                        delDisabled = '';
+                    } else { delDisabled = 'disabled'; }
+
+                    if ( can.indexOf("3") !== -1 ) {
+                        editDisabled = '';
+                    } else { editDisabled = 'disabled'; }
+
+                    return '<a href="/admin/blog/trash/'+data+'/restore" class="btn btn-round btn-fill btn-info '+editDisabled+'">Restore</a> | <a onclick="return confirm(\'Delete Post?\');" href="/admin/blog/trash/'+data+'/delete" class="btn btn-round btn-fill btn-danger '+delDisabled+'">Delete Permanently</a>';
                 }
             }
         ],
@@ -979,14 +1088,28 @@ if ($("#EventCategoryTable").length > 0) {
                 "targets": -1,
                 "data": 'id',
                 "render": function ( data, type, row ) {
-                    return '<a href="/admin/blog/category/'+row.id+'/view">Edit</a> | <a onclick="return confirm(\'Delete Category?\');" href="/admin/blog/category/'+row.id+'/delete">Delete</a>';
+                    delDisabled = '';
+                    editDisabled = '';
+                    if ( can.indexOf("4") !== -1 ) {
+                        delDisabled = '';
+                    } else { delDisabled = 'disabled'; }
+
+                    if ( can.indexOf("3") !== -1 ) {
+                        editDisabled = '';
+                    } else { editDisabled = 'disabled'; }
+
+                    return '<a href="/admin/blog/category/'+row.id+'/view" class="btn btn-round btn-fill btn-info '+editDisabled+'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a><a onclick="return confirm(\'Delete Category?\');" href="/admin/blog/category/'+row.id+'/delete" class="btn btn-round btn-fill btn-danger '+delDisabled+'"><i class="fa fa-trash" aria-hidden="true"></i></a>';
                 }
             },
                 {
                 "targets": 0,
                 "data": 'name',
                 "render": function ( data, type, row ) {
-                    return '<a href="/admin/blog/category/'+row.id+'/view">'+data+'</a>';
+                    if ( can.indexOf("3") !== -1 ){
+                        return '<a href="/admin/blog/category/'+row.id+'/view">'+data+'</a>';
+                    } else {
+                        return data;
+                    }
                 }
             }
         ],
@@ -1018,14 +1141,28 @@ if ($("#event-table").length > 0) {
                 "targets": -1,
                 "data": 'id',
                 "render": function ( data, type, row ) {
-                    return '<a href="/admin/blog/event/'+row.id+'/view">Edit</a> | <a onclick="return confirm(\'Delete Event?\');" href="/admin/blog/event/'+row.id+'/remove" style="color: #d9534f;">Hapus</a>';
+                    delDisabled = '';
+                    editDisabled = '';
+                    if ( can.indexOf("4") !== -1 ) {
+                        delDisabled = '';
+                    } else { delDisabled = 'disabled'; }
+
+                    if ( can.indexOf("3") !== -1 ) {
+                        editDisabled = '';
+                    } else { editDisabled = 'disabled'; }
+
+                    return '<a href="/admin/blog/event/'+row.id+'/view" class="btn btn-round btn-fill btn-info '+editDisabled+'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a><a onclick="return confirm(\'Delete Event?\');" href="/admin/blog/event/'+row.id+'/remove"  class="btn btn-round btn-fill btn-danger '+delDisabled+'"><i class="fa fa-trash" aria-hidden="true"></i></a>';
                 }
             },
                 {
                 "targets": 0,
                 "data": 'title',
                 "render": function ( data, type, row ) {
-                    return '<a href="/admin/blog/event/'+row.id+'/view">'+data+'</a>';
+                    if ( can.indexOf("3") !== -1 ) {
+                        return '<a href="/admin/blog/event/'+row.id+'/view">'+data+'</a>';
+                    } else {
+                        return data
+                    }
                 }
             }
         ],
@@ -1054,14 +1191,28 @@ if ($("#gallery #GalleryCategoryTable").length > 0) {
                 "targets": -1,
                 "data": 'id',
                 "render": function ( data, type, row ) {
-                    return '<a href="/admin/blog/'+row.id+'/view">Edit</a> | <a onclick="return confirm(\'Delete Category?\');" href="/admin/blog/'+row.id+'/remove">Delete</a>';
+                    delDisabled = '';
+                    editDisabled = '';
+                    if ( can.indexOf("4") !== -1 ) {
+                        delDisabled = '';
+                    } else { delDisabled = 'disabled'; }
+
+                    if ( can.indexOf("3") !== -1 ) {
+                        editDisabled = '';
+                    } else { editDisabled = 'disabled'; }
+
+                    return '<a href="/admin/blog/'+row.id+'/view" class="btn btn-round btn-fill btn-info '+editDisabled+'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a><a onclick="return confirm(\'Delete Category?\');" href="/admin/blog/'+row.id+'/remove" class="btn btn-round btn-fill btn-danger '+delDisabled+'"><i class="fa fa-trash" aria-hidden="true"></i></a>';
                 }
             },
                 {
                 "targets": 0,
                 "data": 'name',
                 "render": function ( data, type, row ) {
-                    return '<a href="/admin/blog/'+row.id+'/view">'+data+'</a>';
+                    if ( can.indexOf("3") !== -1 ) {
+                        return '<a href="/admin/blog/'+row.id+'/view">'+data+'</a>';
+                    } else {
+                        return data;
+                    }
                 }
             }
         ],
@@ -1093,14 +1244,28 @@ if ($("#table-gallery").length > 0) {
                 "targets": -1,
                 "data": 'id',
                 "render": function ( data, type, row ) {
-                    return '<a href="/admin/blog/'+row.post_type+'/'+row.id+'/edit">Edit</a> | <a onclick="return confirm(\'Delete '+row.post_type+'?\');" href="/admin/blog/'+row.post_type+'/'+row.id+'/remove" style="color: #d9534f;">Hapus</a>';
+                    delDisabled = '';
+                    editDisabled = '';
+                    if ( can.indexOf("4") !== -1 ) {
+                        delDisabled = '';
+                    } else { delDisabled = 'disabled'; }
+
+                    if ( can.indexOf("3") !== -1 ) {
+                        editDisabled = '';
+                    } else { editDisabled = 'disabled'; }
+
+                    return '<a href="/admin/blog/'+row.post_type+'/'+row.id+'/edit" class="btn btn-round btn-fill btn-info '+editDisabled+'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a><a onclick="return confirm(\'Delete '+row.post_type+'?\');" href="/admin/blog/'+row.post_type+'/'+row.id+'/remove" class="btn btn-round btn-fill btn-danger '+delDisabled+'"><i class="fa fa-trash" aria-hidden="true"></i></a>';
                 }
             },
                 {
                 "targets": 0,
                 "data": 'title',
                 "render": function ( data, type, row ) {
-                    return '<a href="/admin/blog/'+row.post_type+'/'+row.id+'/edit">'+data+'</a>';
+                    if ( can.indexOf("3") !== -1 )  {
+                        return '<a href="/admin/blog/'+row.post_type+'/'+row.id+'/edit">'+data+'</a>';
+                    } else {
+                        return data;
+                    }
                 }
             },
                 {
@@ -1136,14 +1301,28 @@ if ($("#GalleryTagTable").length > 0) {
                 "targets": -1,
                 "data": 'id',
                 "render": function ( data, type, row ) {
-                    return '<a href="/admin/blog/tag/'+row.id+'/view">Edit</a> | <a onclick="return confirm(\'Delete Tag?\');" href="/admin/blog/tag/'+row.id+'/remove" style="color: #d9534f;">Hapus</a>';
+                    delDisabled = '';
+                    editDisabled = '';
+                    if ( can.indexOf("4") !== -1 ) {
+                        delDisabled = '';
+                    } else { delDisabled = 'disabled'; }
+
+                    if ( can.indexOf("3") !== -1 ) {
+                        editDisabled = '';
+                    } else { editDisabled = 'disabled'; }
+
+                    return '<a href="/admin/blog/tag/'+row.id+'/view" class="btn btn-round btn-fill btn-info '+editDisabled+'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a><a onclick="return confirm(\'Delete Tag?\');" href="/admin/blog/tag/'+row.id+'/remove" class="btn btn-round btn-fill btn-danger '+delDisabled+'"><i class="fa fa-trash" aria-hidden="true"></i></a>';
                 }
             },
                 {
                 "targets": 0,
                 "data": 'title',
                 "render": function ( data, type, row ) {
-                    return '<a href="/admin/blog/tag/'+row.id+'/view">'+data+'</a>';
+                    if ( can.indexOf("3") !== -1 ) {
+                        return '<a href="/admin/blog/tag/'+row.id+'/view">'+data+'</a>';
+                    } else {
+                        return data;
+                    }
                 }
             }
         ],
@@ -1224,14 +1403,28 @@ if ($("#video #VideoCategoryTable").length > 0) {
                 "targets": -1,
                 "data": 'id',
                 "render": function ( data, type, row ) {
-                    return '<a href="/admin/blog/category/'+row.id+'/edit">Edit</a> | <a onclick="return confirm(\'Delete Category?\');" href="/admin/blog/category/'+row.id+'/remove">Delete</a>';
+                    delDisabled = '';
+                    editDisabled = '';
+                    if ( can.indexOf("4") !== -1 ) {
+                        delDisabled = '';
+                    } else { delDisabled = 'disabled'; }
+
+                    if ( can.indexOf("3") !== -1 ) {
+                        editDisabled = '';
+                    } else { editDisabled = 'disabled'; }
+
+                    return '<a href="/admin/blog/category/'+row.id+'/edit" class="btn btn-round btn-fill btn-info '+editDisabled+'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a><a onclick="return confirm(\'Delete Category?\');" href="/admin/blog/category/'+row.id+'/remove" class="btn btn-round btn-fill btn-danger '+delDisabled+'"><i class="fa fa-trash" aria-hidden="true"></i></a>';
                 }
             },
                 {
                 "targets": 0,
                 "data": 'name',
                 "render": function ( data, type, row ) {
+                    if ( can.indexOf("3") !== -1 ) {
                         return '<a href="/admin/blog/category/'+row.id+'/edit">'+data+'</a>';
+                    } else {
+                        return data;
+                    }
                 }
             }
         ],
@@ -1263,14 +1456,28 @@ if ($("#video #table-videos").length > 0) {
                 "targets": -1,
                 "data": 'id',
                 "render": function ( data, type, row ) {
-                    return '<a href="/admin/blog/video/'+row.id+'/edit">Edit</a> | <a onclick="return confirm(\'Delete Video?\');" href="/admin/blog/video/'+row.id+'/remove" style="color: #d9534f;">Hapus</a>';
+                    delDisabled = '';
+                    editDisabled = '';
+                    if ( can.indexOf("4") !== -1 ) {
+                        delDisabled = '';
+                    } else { delDisabled = 'disabled'; }
+
+                    if ( can.indexOf("3") !== -1 ) {
+                        editDisabled = '';
+                    } else { editDisabled = 'disabled'; }
+
+                    return '<a href="/admin/blog/video/'+row.id+'/edit" class="btn btn-round btn-fill btn-info '+editDisabled+'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a><a onclick="return confirm(\'Delete Video?\');" href="/admin/blog/video/'+row.id+'/remove" class="btn btn-round btn-fill btn-danger '+delDisabled+'"><i class="fa fa-trash" aria-hidden="true"></i></a>';
                 }
             },
                 {
                 "targets": 0,
                 "data": 'title',
                 "render": function ( data, type, row ) {
-                    return '<a href="/admin/blog/video/'+row.id+'/edit">'+data+'</a>';
+                    if ( can.indexOf("3") !== -1 ) {
+                        return '<a href="/admin/blog/video/'+row.id+'/edit">'+data+'</a>';
+                    } else {
+                        return data;
+                    }
                 }
             }
         ],
@@ -1299,14 +1506,28 @@ if ($("#video #VideoTagTable").length > 0) {
                 "targets": -1,
                 "data": 'id',
                 "render": function ( data, type, row ) {
-                    return '<a href="/admin/blog/tag/'+row.id+'/edit">Edit</a> | <a onclick="return confirm(\'Delete Tag?\');" href="/admin/blog/tags/'+row.id+'/delete" style="color: #d9534f;">Hapus</a>';
+                    delDisabled = '';
+                    editDisabled = '';
+                    if ( can.indexOf("4") !== -1 ) {
+                        delDisabled = '';
+                    } else { delDisabled = 'disabled'; }
+
+                    if ( can.indexOf("3") !== -1 ) {
+                        editDisabled = '';
+                    } else { editDisabled = 'disabled'; }
+
+                    return '<a href="/admin/blog/tag/'+row.id+'/edit" class="btn btn-round btn-fill btn-info '+editDisabled+'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a><a onclick="return confirm(\'Delete Tag?\');" href="/admin/blog/tags/'+row.id+'/delete" class="btn btn-round btn-fill btn-danger '+delDisabled+'"><i class="fa fa-trash" aria-hidden="true"></i></a>';
                 }
             },
                 {
                 "targets": 0,
                 "data": 'title',
                 "render": function ( data, type, row ) {
-                    return '<a href="/admin/blog/tag/'+row.id+'/edit">'+data+'</a>';
+                    if ( can.indexOf("3") !== -1 ) {
+                        return '<a href="/admin/blog/tag/'+row.id+'/edit">'+data+'</a>';
+                    } else {
+                        return data;
+                    }
                 }
             }
         ],
@@ -1345,7 +1566,11 @@ if ($("#sliderImg").length > 0) {
         "targets": -1,
         "data": 'id',
         "render": function ( data, type, row ) {
-          return '<div onclick="delete_media(\''+data+'\')" id="delete_media_post" class="btn btn-round btn-fill btn-danger">Delete</div> <div onclick="select_fimg(\'#'+data+'\')" id="select_media" class="btn btn-round btn-fill btn-success">Select</div> <p style="display:none;" id="'+data+'">'+mediaPath+'/'+row.name+'</p>';
+            if ( mediaCan.indexOf("4") !== -1 ){
+                return '<div onclick="delete_media(\''+data+'\')" id="delete_media_post" class="btn btn-round btn-fill btn-danger">Delete</div> <div onclick="select_fimg(\'#'+data+'\')" id="select_media" class="btn btn-round btn-fill btn-success">Select</div> <p style="display:none;" id="'+data+'">'+mediaPath+'/'+row.name+'</p>';
+            } else {
+                return '<div onclick="select_fimg(\'#'+data+'\')" id="select_media" class="btn btn-round btn-fill btn-success">Select</div> <p style="display:none;" id="'+data+'">'+mediaPath+'/'+row.name+'</p>';
+            }
         }
       },
       {
@@ -1382,7 +1607,11 @@ if ($("#programMedia").length > 0) {
         "targets": -1,
         "data": 'id',
         "render": function ( data, type, row ) {
-          return '<div onclick="delete_media(\''+data+'\')" id="delete_media_post" class="btn btn-round btn-fill btn-danger">Delete</div> <div onclick="select_input_media(\'#media-'+data+'\')" id="select_media" class="btn btn-round btn-fill btn-success">Select</div> <p style="display:none;" id="media-'+data+'">'+mediaPath+'/'+row.name+'</p>';
+            if ( mediaCan.indexOf("4") !== -1 ) {
+                return '<div onclick="delete_media(\''+data+'\')" id="delete_media_post" class="btn btn-round btn-fill btn-danger">Delete</div> <div onclick="select_input_media(\'#media-'+data+'\')" id="select_media" class="btn btn-round btn-fill btn-success">Select</div> <p style="display:none;" id="media-'+data+'">'+mediaPath+'/'+row.name+'</p>';
+            } else {
+                return '<div onclick="select_input_media(\'#media-'+data+'\')" id="select_media" class="btn btn-round btn-fill btn-success">Select</div> <p style="display:none;" id="media-'+data+'">'+mediaPath+'/'+row.name+'</p>';
+            }
         }
       },
       {
