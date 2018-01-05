@@ -300,6 +300,7 @@ class PublicController extends Controller
     				// ->limit($limit)
 					// ->get();
 					->paginate(3);
+					// dd($var['events']);
 
 		return view('page.event')->with(['var' => $var]);
 	}
