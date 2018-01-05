@@ -89,11 +89,7 @@ class OAuth
         self::$roles = explode(';', rtrim( env('OA_ROLES', 'admin;editor;writer') ,';') );
     }
 
-    // public function handle($request, Closure $next)
-    // {
 
-    //     return $next($request);
-    // }
 
 
     /**
@@ -260,6 +256,7 @@ class OAuth
         $request->setHeader('appid', self::$appId);
         $request->setHeader('appsecret', self::$appSecret);
         $request->setHeader('clientheader', 'website');
+        $request->setOption(CURLOPT_TIMEOUT, 12);
 
         if($childToken)
         {
@@ -287,12 +284,21 @@ class OAuth
             }
         }
         
-        
-        $return = $request->send();
-        // echo($return);die;
-        if( json_decode($return) )
+        try {
+
+            $return = $request->send();
+            if( json_decode($return) )
+            {
+                return json_decode($return);
+            }
+            else
+            {
+                exit( view('oa::errors.generic',['message'=>'Bad Response received<br/> <a href="">Reload</a>']) );   
+            }
+        }
+        catch (\Exception $e)
         {
-            return json_decode($return);
+            exit( view('oa::errors.generic',['message'=>'Connection Time Out!<br/> <a href="">Reload</a>']) );   
         }
         
         return (object) $return;
