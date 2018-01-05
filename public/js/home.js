@@ -226,13 +226,13 @@ if($('#main-gallery').length > 0){
 
 	var spp = 4;
 
-	if($('body').outerWidth() < 768) {
+	if($('body').outerWidth() < 830) {
       spp = 3;
     }
-    if($('body').outerWidth() < 600) {
+    if($('body').outerWidth() < 640) {
     	spp = 2;
     }
-    if($('body').outerWidth() < 375) {
+    if($('body').outerWidth() < 458) {
     	spp = 1;
     }
 

@@ -38,8 +38,8 @@
 
 			<form action="{{route('SHB.complete_data_save')}}" method="post" enctype="multipart/form-data">
 			
-			<div class="formGroup">
-				<div class="tempat_lahir left" style="width: 38%;">
+			<div class="formGroup ttl">
+				<div class="tl">
 					<div>
 						Tempat Lahir
 					</div>
@@ -48,10 +48,29 @@
 					</div>
 				</div>
 
-				<div class="tanggal_lahir left" style="width: 59%">
+				<div class="tgll">
 					<div> Tanggal Lahir </div>
-					
-						<select id="tahun_lahir" class="" name="tahun_lahir">
+						<select id="tanggal_lahir" class="dropdown3" name="tanggal_lahir">
+							<option>Tanggal</option>
+							@for($i=1;$i<=31;$i++)
+								@if( $i == explode('/',(app()->OAuth::Auth()->data->tanggal_lahir ?? '0/0/0'))[2] )
+									<option selected value="{{$i}}" >{{$i}}</option>
+								@else
+									<option value="{{$i}}" >{{$i}}</option>
+								@endif
+							@endfor
+						</select>
+						<select class="dropdown3" name="bulan_lahir" onchange="aturTanggal(this)">
+							<option>Bulan</option>
+							@for($i=1;$i<=12;$i++)
+								@if( $i == explode('/',(app()->OAuth::Auth()->data->tanggal_lahir ?? '0/0/0'))[1] )
+									<option selected value="{{$i}}" >{{ DateTime::createFromFormat('!m', $i)->format('F') }}</option>
+								@else
+									<option value="{{$i}}" >{{ DateTime::createFromFormat('!m', $i)->format('F') }}</option>
+								@endif
+							@endfor
+						</select>
+						<select id="tahun_lahir" class="dropdown3" name="tahun_lahir">
 							<option>Tahun</option>
 							@for( $i=(date('Y'));$i>=(date('Y')-60);$i-- ) 
 								@if( $i == explode('/',(app()->OAuth::Auth()->data->tanggal_lahir ?? '0/0/0'))[0] )
@@ -62,27 +81,9 @@
 							@endfor
 						</select>
 					
-						<select class="" name="bulan_lahir" onchange="aturTanggal(this)">
-							<option>Bulan</option>
-							@for($i=1;$i<=12;$i++)
-								@if( $i == explode('/',(app()->OAuth::Auth()->data->tanggal_lahir ?? '0/0/0'))[1] )
-									<option selected value="{{$i}}" >{{ DateTime::createFromFormat('!m', $i)->format('F') }}</option>
-								@else
-									<option value="{{$i}}" >{{ DateTime::createFromFormat('!m', $i)->format('F') }}</option>
-								@endif
-							@endfor
-						</select>
+						
 					
-						<select id="tanggal_lahir" class="" name="tanggal_lahir">
-							<option>Tanggal</option>
-							@for($i=1;$i<=31;$i++)
-								@if( $i == explode('/',(app()->OAuth::Auth()->data->tanggal_lahir ?? '0/0/0'))[2] )
-									<option selected value="{{$i}}" >{{$i}}</option>
-								@else
-									<option value="{{$i}}" >{{$i}}</option>
-								@endif
-							@endfor
-						</select>
+						
 					
 				</div>
 
@@ -113,20 +114,6 @@
 		</div>
 	</div>
 </section>
-<style type="text/css">
-	.left
-	{
-		float: left;
-	}
-	.tanggal_lahir{
-		margin: 0px 5px;
-	}
-	select{
-		padding: 7px;
-		width: 32%;
-		margin: 2px 0;
-	}
-</style>
 <script type="text/javascript">
 	
 	function aturTanggal(val=false)
