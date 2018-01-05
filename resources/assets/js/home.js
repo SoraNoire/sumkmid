@@ -238,6 +238,14 @@ if($('#main-gallery').length > 0){
 });
 }
 
+$('#pilihProvinsi').on('change',function(){
+	$('#pilihKota').val('pilihkota');
+	target = $('#pilihProvinsi').val();
+	target = target.replace(" ", "-");
+	$('.defkota').hide();
+	$('.'+target).show();
+});
+
 
 
 
