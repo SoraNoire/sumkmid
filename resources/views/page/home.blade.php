@@ -89,23 +89,23 @@
 
 <section id="main-gallery">
 	<div class="container">
-		<h3 class="section-title">{!! $var['post_section_titsle'] ?? '<span>Kisah</span> <span>Inspirasi</span>' !!}</h3>
+		<h3 class="section-title">{!! $var['post']->title ?? '<span>Galeri Sahabat</span> <span>UMKM</span>' !!}</h3>
 		<div class="swiper-container gallery-slider">
 			<div class="swiper-wrapper">
-				@foreach ($var['post'] as $post)
+				@foreach ($var['post']->data as $post)
 				<div class="swiper-slide">
 					<div class="g-mini-frame">
 						<div class="thumbnail-wraper" style="background-image: url('{{ $post->featured_img ?? '' }}');">
 		        		</div>
 		        		<div class="meta">
-							<a title="{{ $post->title ?? '' }}" href="{{ url('read/'.$post->kategori_slug.'/'.$post->slug_id) }}" class="title">{{ $post->title ?? '' }}</a>
+							<a title="{{ $post->title ?? '' }}" href="{{ $post->link }}" class="title">{{ $post->title ?? '' }}</a>
 							<span class="desc">
-								@if( isset($post->meta_desc) )
-									{{ $post->meta_desc }}
+								@if( isset($post->post_desc) )
+									{{ $post->post_desc }}
 								@endif
 							</span>
-							<span class="date"><i class="fa fa-calendar" aria-hidden="true"></i>{{ \Carbon\Carbon::createFromTimeStamp(strtotime($post->date_published))->toFormattedDateString() }}</span>
-							<a title="{{ $post->title ?? '' }}" href="{{ url('read/'.$post->kategori_slug.'/'.$post->slug_id) }}" class="readmore">READ MORE</a>
+							<span class="date"><i class="fa fa-calendar" aria-hidden="true"></i>{{ \Carbon\Carbon::createFromTimeStamp(strtotime( $post->date_published ))->toFormattedDateString() }}</span>
+							<a title="{{ $post->title ?? '' }}" href="{{ $post->link }}" class="readmore">READ MORE</a>
 						</div>
 					</div>
 				</div>
