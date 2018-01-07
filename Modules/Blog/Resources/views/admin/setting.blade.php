@@ -194,6 +194,25 @@
 		                    </div>
 		                </div>
 
+		                <div class="panel panel-default">
+		                    <div class="panel-heading">
+		                        <h4 class="panel-title">
+		                          Tentang Kami <a data-toggle="collapse" href="#setting-tentang-kami"><i style="float: right;" class="fa fa-caret-down" aria-hidden="true"></i></a>
+		                        </h4>
+		                    </div>
+		                    <div id="setting-tentang-kami" class="panel-collapse collapse in">
+		                        <div class="panel-body">
+		                            
+		                            <div class="form-group">
+                    					<textarea class="form-control mytextarea" name="tentang_kami">{{ $tentang_kami }}</textarea>
+		                            </div>
+
+	            					<button type="submit" class="btn btn-success pull-left">Save</button>
+
+		                        </div>
+		                    </div>
+		                </div>
+
 	                	<div class="panel panel-default">
 		                    <div class="panel-heading">
 		                        <h4 class="panel-title">

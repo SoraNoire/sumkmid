@@ -211,13 +211,7 @@ class PublicController extends Controller
      */
 	public function tentang(){
         $var['page'] = "Tentang Kami";
-
-        $get = Posts::where('slug','tentang-kami')->where('post_type','page')->orWhere('slug','tentang')->first();
-
-        if($get){
-        	$var['data'] = $get;
-        	return view('page.tentangDinamis')->with(['var' => $var]);
-        }
+        $var['content'] = Option::where('key', 'tentang_kami')->first()->value ?? '';
 
 		return view('page.tentang')->with(['var' => $var]);
 	}
