@@ -8,6 +8,7 @@ use NewsApi;
 use Session;
 use Cookie;
 use App\Helpers\SSOHelper as SSO;
+use App\Helpers\PublicHelper;
 use App\Events;
 use DB;
 use Modules\Blog\Entities\Posts;
@@ -116,33 +117,52 @@ class PublicController extends Controller
         $var['page'] = "Home";
 
         $var['post_section'] = Option::where('key', 'post_section')->first()->value ?? '';
-  //       if ($var['gallery'] != '') {
-  //           $var['gallery'] = json_decode($var['gallery']);
-  //       } else {
-  //       	$var['gallery'] = [];
-  //       	$var['gallery']['title'] = 'Galeri Sahabat UMKM';
-  //       	$var['gallery']['category'] = '0';
-  //           $var['gallery'] = json_encode($var['gallery']);
-  //           $var['gallery'] = json_decode($var['gallery']);
-  //       }
+        $post = Option::where('key', 'post_section')->first()->value ?? '';
+        if ($post != '') {
+            $post = json_decode($post);
+        } else {
+        	$post['title'] = 'Galeri Sahabat UMKM';
+            $post['use_gallery'] = 1;
+            $post['category'] = 0;
+            $post = json_encode($post);
+            $post = json_decode($post);
+        }
 
-		$post_title = $var['post_section'];
-		$split = explode(' ', $post_title);
+		$split = explode(' ', $post->title);
 		$split[count($split)-1] = "</span><span>".$split[count($split)-1]."</span>";
 		$split[0] = "<span>".$split[0];
-		$var['post_section_title'] = implode(" ", $split);
+		$post->title = implode(" ", $split);
 
-		// if ($var['gallery']->category > 1) {
-		// 	$post_ids = PostHelper::get_post_archive_id('category', $var['gallery']->category);
-		// 	$var['videos'] = DB::table('post_view')
-		// 					->whereIn('post_type',['video', 'gallery'])
-		// 					->whereIn('id', $post_ids)
-		// 					->orderBy('published_date','desc')
-		// 					->limit(6)
-		// 					->get();
-		// } else {
-		// 	$var['videos'] = DB::table('post_view')->whereIn('post_type',['video', 'gallery'])->orderBy('published_date','desc')->limit(4)->get();
-		// }
+       	$post->data = PublicHelper::getMNewsPosts();
+		if ($post->use_gallery == 1) {
+			if ($post->category > 1) {
+				$post_ids = PostHelper::get_post_archive_id('category', $post->category);
+				$post->data = DB::table('post_view')
+								->whereIn('post_type',['video', 'gallery'])
+								->whereIn('id', $post_ids)
+								->orderBy('published_date','desc')
+								->limit(10)
+								->get();
+			} else {
+				$post->data = DB::table('post_view')
+								->whereIn('post_type',['video', 'gallery'])
+								->orderBy('published_date','desc')
+								->limit(10)
+								->get();
+			}
+
+			foreach ($post->data as $key => $value) {
+				$meta = PublicHelper::get_post_meta($value->id);
+				$value->post_desc = $meta['meta_desc'];
+				$value->link = url('/galeri/'.$value->slug); 
+				$value->featured_img = $value->featured_image;
+				$value->date_published = $value->published_date;
+				if ($meta['meta_desc'] == '') {
+					$value->post_desc = str_limit(html_entity_decode(strip_tags($value->content)), 250);
+				}
+			}
+		}
+		$var['post'] = $post;
 
 		$var['mentors'] = app()->OAuth->mentors()->users;
 		
@@ -165,11 +185,6 @@ class PublicController extends Controller
             $n++;
         }
 
-        // $var['video'] = Option::where('key', 'video_section')->first()->value ?? '';
-        // if ($var['video'] != '') {
-        //     $var['video'] = json_decode($var['video']);
-        // }
-
         $var['quote'] = Option::where('key', 'quotes_section')->first()->value ?? '';
         if ($var['quote'] != '') {
             $var['quote'] = json_decode($var['quote']);
@@ -186,25 +201,6 @@ class PublicController extends Controller
 
         	}
         }
-
-        $curl = new \anlutro\cURL\cURL;
-        $mnews_url = config('app.mnews_url') ?? 'http://news.mdirect.id';
-		$curl_response = $curl->get($mnews_url.'/get-sahabat-umkm-post');
-		$var['post'] = [];
-		if ($curl_response->info['content_type'] == 'application/json') {
-			$var['post'] = json_decode($curl_response->body);
-		}
-
-		if (count($var['post']) > 0) {
-			foreach ($var['post'] as $key => $value) {
-				$prop = $value->properties;
-				$prop = json_decode($prop);
-				$value->meta_title = $prop->meta_title;
-				$value->meta_desc = $prop->meta_desc;
-				$value->meta_keyword = $prop->meta_keyword;
-			}
-		}
-		// dd($var['post']);
 
 		return view('page.home')->with(['var' => $var]);
 	}

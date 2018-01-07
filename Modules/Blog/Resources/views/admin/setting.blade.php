@@ -80,7 +80,24 @@
 
 				            					<div class="form-group">
 				            						<label>Section Title</label>
-				            						<input type="text" name="post_section" class="form-control" value="{{ $post_section ?? '' }}">
+				            						<input type="text" name="post_title" class="form-control" value="{{ $post->title ?? '' }}">
+												</div>
+
+												<div class="form-group">
+													<small>Use Gallery</small> 
+												    <label class="switch">
+													  <input id="post_check" type="checkbox" name="post_check" value="1" {{ $post->check ?? ''}}>
+													  <span class="slider round"></span>
+													</label>
+												</div>
+
+												<div class="form-group">
+													<label>Select Category Gallery</label>
+													<select id="post_category" class="form-control" name="post_category">
+														@foreach( $all_cat as $cat )
+														<option value="{{ $cat->id }}" {{ $cat->id == $post->category ? 'selected' : '' }}>{{ $cat->name }}</option>
+														@endforeach
+													</select>	
 												</div>
 
 	            								<button type="submit" class="btn btn-success pull-left">Save</button>

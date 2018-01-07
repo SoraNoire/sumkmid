@@ -1660,9 +1660,21 @@ class BlogController extends Controller
         $about_us = Option::where('key', 'about_us')->first()->value ?? '';
         $instagram_token = Option::where('key', 'instagram_token')->first()->value ?? '';
         $email = Option::where('key', 'email')->first()->value ?? '';
-        $post_section = Option::where('key', 'post_section')->first()->value ?? '';
+        $post = Option::where('key', 'post_section')->first()->value ?? '';
+        if ($post != '') {
+            $post = json_decode($post);
+        } else {
+            $post['use_gallery'] = 1;
+            $post['category'] = 0;
+            $post = json_encode($post);
+            $post = json_decode($post);
+        }
+        $post->check = '';
+        if (isset($post->use_gallery) && $post->use_gallery == 1) {
+            $post->check = 'checked';
+        } 
 
-        $all_cat = Categories::orderBy('name', 'asc')->get();
+        $all_cat = PostHelper::get_all_categories(['video', 'gallery']);
         
         $quote = Option::where('key', 'quotes_section')->first()->value ?? '';
         if ($quote != '') {
@@ -1791,7 +1803,7 @@ class BlogController extends Controller
             }
         }
 
-        return view('blog::admin.setting')->with(['page_meta_title' => $page_meta_title, 'gtag_manager' => $gtag_manager, 'fb_pixel' => $fb_pixel, 'link_fb' => $link_fb, 'link_in' => $link_in, 'link_tw' => $link_tw, 'link_yt' => $link_yt, 'link_ig' => $link_ig, 'link_gplus' => $link_gplus, 'list_program' => $program_structure, 'footer_desc' => $footer_desc, 'quote' => $quote, 'post_section' => $post_section, 'all_cat' => $all_cat, 'email' => $email, 'about_us' => $about_us, 'instagram_token' => $instagram_token]);
+        return view('blog::admin.setting')->with(['page_meta_title' => $page_meta_title, 'gtag_manager' => $gtag_manager, 'fb_pixel' => $fb_pixel, 'link_fb' => $link_fb, 'link_in' => $link_in, 'link_tw' => $link_tw, 'link_yt' => $link_yt, 'link_ig' => $link_ig, 'link_gplus' => $link_gplus, 'list_program' => $program_structure, 'footer_desc' => $footer_desc, 'quote' => $quote, 'post' => $post, 'all_cat' => $all_cat, 'email' => $email, 'about_us' => $about_us, 'instagram_token' => $instagram_token]);
     }
 
     /**
@@ -1805,6 +1817,10 @@ class BlogController extends Controller
         $quote['from'] = $request->input('quote_from');
         $quote['text'] = $request->input('quote_text');
 
+        $post['title'] = $request->input('post_title');
+        $post['use_gallery'] = $request->get('post_check');
+        $post['category'] = $request->get('post_category');
+
         $settings[] = ['name' => 'link_fb', 'value' => $request->input('link_fb')];
         $settings[] = ['name' => 'link_tw', 'value' => $request->input('link_tw')];
         $settings[] = ['name' => 'link_gplus', 'value' => $request->input('link_gplus')];
@@ -1814,10 +1830,10 @@ class BlogController extends Controller
         $settings[] = ['name' => 'gtag_manager', 'value' => $request->input('gtag_manager')];
         $settings[] = ['name' => 'fb_pixel', 'value' => $request->input('fb_pixel')];
         $settings[] = ['name' => 'quotes_section', 'value' => json_encode($quote)];
+        $settings[] = ['name' => 'post_section', 'value' => json_encode($post)];
         $settings[] = ['name' => 'about_us', 'value' => $request->input('about_us')];
         $settings[] = ['name' => 'instagram_token', 'value' => $request->input('instagram_token')];
         $settings[] = ['name' => 'footer_desc', 'value' => $request->input('footer_desc')];
-        $settings[] = ['name' => 'post_section', 'value' => $request->input('post_section')];
         $settings[] = ['name' => 'email', 'value' => $request->input('email')];
 
         try {

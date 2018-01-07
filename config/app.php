@@ -250,6 +250,7 @@ return [
         'PostHelper' => Modules\Blog\Http\Helpers\PostHelper::class,
         'Shortcode' => Webwizo\Shortcodes\Facades\Shortcode::class,
         'Carbon' => \Carbon\Carbon::class,
+        'PublicHelper' => App\Helpers\PublicHelper::class,
         // 'Instagram' => Vinkla\Instagram\Facades\Instagram::class,
 
         // lara collective

@@ -479,52 +479,6 @@ class PostHelper
         }
     }
 
-    public static function get_post_meta($id){
-        $post_metas = PostMeta::where('post_id',$id)->get();
-
-        $metas = new \stdClass;;
-        foreach ($post_metas as $key => $value) {
-            $metas->{$value->key} = $value->value;
-        }
-
-        $data = [];
-
-        $data['event_type']   = $metas->event_type ?? '';
-        $data['event_url']    = $metas->event_url ?? '';
-        $data['gmaps_url']    = $metas->gmaps_url ?? '';
-        $data['location']     = $metas->location ?? '';
-        $htm = $metas->htm ?? '';
-        if (is_string($htm) && $htm != 'free') {
-            $htm = json_decode($htm);
-        }
-        $data['htm'] = $htm;
-        $data['open_at']      = $metas->open_at ?? '';
-        $data['closed_at']    = $metas->closed_at ?? '';
-        $data['meta_desc']    = $metas->meta_desc ?? '';
-        $data['meta_title']   = $metas->meta_title ?? '';
-        $data['meta_keyword'] = $metas->meta_keyword ?? '';
-        $mentor_reg      = json_decode($metas->mentor_registered ?? '') ?? [];
-        $mentor_not_reg      = json_decode($metas->mentor_not_registered ?? '') ?? [];
-
-        $mentors = array();
-        if (sizeof($mentor_reg) > 0) {
-            foreach ($mentor_reg as $mentor_r) {
-                $users = app()->OAuth->mentors($mentor_r)->users;
-                if (sizeof($users) > 0) {
-                    $mentors[] = $users[0];
-                }
-            }
-        }
-        if (sizeof($mentor_not_reg) > 0) {
-            foreach ($mentor_not_reg as $mentor_nr) {
-                $tmp = json_encode(['name' => $mentor_nr]);
-                $mentors[] = json_decode($tmp);
-            }
-        }
-        $data['mentors'] = $mentors;
-        return $data;
-    }
-
     public static function validation_messages(){
         $messages = [   
             'required' => 'This field is required',
