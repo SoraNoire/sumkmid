@@ -1647,6 +1647,7 @@ class BlogController extends Controller
     public function site_setting_view(){
         $page_meta_title = 'Site Setting';
 
+        $tentang_kami = Option::where('key', 'tentang_kami')->first()->value ?? '';
         $gtag_manager = Option::where('key', 'gtag_manager')->first()->value ?? '';
         $fb_pixel = Option::where('key', 'fb_pixel')->first()->value ?? '';
         $link_fb = Option::where('key', 'link_fb')->first()->value ?? '';
@@ -1803,7 +1804,7 @@ class BlogController extends Controller
             }
         }
 
-        return view('blog::admin.setting')->with(['page_meta_title' => $page_meta_title, 'gtag_manager' => $gtag_manager, 'fb_pixel' => $fb_pixel, 'link_fb' => $link_fb, 'link_in' => $link_in, 'link_tw' => $link_tw, 'link_yt' => $link_yt, 'link_ig' => $link_ig, 'link_gplus' => $link_gplus, 'list_program' => $program_structure, 'footer_desc' => $footer_desc, 'quote' => $quote, 'post' => $post, 'all_cat' => $all_cat, 'email' => $email, 'about_us' => $about_us, 'instagram_token' => $instagram_token]);
+        return view('blog::admin.setting')->with(['page_meta_title' => $page_meta_title, 'gtag_manager' => $gtag_manager, 'fb_pixel' => $fb_pixel, 'link_fb' => $link_fb, 'link_in' => $link_in, 'link_tw' => $link_tw, 'link_yt' => $link_yt, 'link_ig' => $link_ig, 'link_gplus' => $link_gplus, 'list_program' => $program_structure, 'footer_desc' => $footer_desc, 'quote' => $quote, 'post' => $post, 'all_cat' => $all_cat, 'email' => $email, 'about_us' => $about_us, 'instagram_token' => $instagram_token, 'tentang_kami' => $tentang_kami]);
     }
 
     /**
@@ -1835,6 +1836,7 @@ class BlogController extends Controller
         $settings[] = ['name' => 'instagram_token', 'value' => $request->input('instagram_token')];
         $settings[] = ['name' => 'footer_desc', 'value' => $request->input('footer_desc')];
         $settings[] = ['name' => 'email', 'value' => $request->input('email')];
+        $settings[] = ['name' => 'tentang_kami', 'value' => $request->input('tentang_kami')];
 
         try {
             for ($i=0; $i < count($settings) ; $i++) { 
