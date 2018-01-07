@@ -2367,6 +2367,19 @@ footer .container .stayInTouch .copyText {
   vertical-align: top;
   width: 180px;
   margin-top: 10px;
+  position: relative;
+}
+
+#ourMentors .container .mentorWrap #mentors:before {
+  content: "";
+  height: 146.6px;
+  width: 126.9px;
+  top: -4px;
+  z-index: 0;
+  left: 26px;
+  background-image: url("/images/bgmentor.png");
+  background-size: 100% 100%;
+  position: absolute;
 }
 
 #ourMentors .container .mentorWrap #mentors .photoMentor {
@@ -2378,6 +2391,7 @@ footer .container .stayInTouch .copyText {
   float: unset;
   -webkit-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.25);
   box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.25);
+  position: relative;
 }
 
 #ourMentors .container .mentorWrap #mentors .mentor-name {
