@@ -94,6 +94,7 @@
 												<div class="form-group">
 													<label>Select Category Gallery</label>
 													<select id="post_category" class="form-control" name="post_category">
+														<option value="0" {{ 0 == $post->category ? 'selected' : '' }}>Latest Gallery</option>
 														@foreach( $all_cat as $cat )
 														<option value="{{ $cat->id }}" {{ $cat->id == $post->category ? 'selected' : '' }}>{{ $cat->name }}</option>
 														@endforeach
