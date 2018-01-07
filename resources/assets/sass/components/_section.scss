@@ -192,6 +192,13 @@
 				height: auto;
 				padding-top: 20px;
 				padding-bottom: 20px;
+				background-image: unset !important;
+				.caption{
+					opacity: .5;
+				}
+				.logo{
+					opacity: 1 !important;
+				}
 			}
 			.logo{
 				transition: .5s;
@@ -275,11 +282,11 @@
 				position: relative;
 				&:before{
 						content: "";
-						height: 144.5px;
-					    width: 125px;
-					    top: -4px;
+						height: 141px;
+					    width: 122px;
+					    top: -2px;
 					    z-index: 0;
-					    left: 27px;
+					    left: 28.5px;
 						background-image: url('/images/bgmentor.png');
 						background-size: 100% 100%;
 						position: absolute;
