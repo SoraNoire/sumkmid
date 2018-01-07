@@ -84,11 +84,6 @@
               <a href="{{ url('admin/blog/event') }}">Event</a>
             </li>
             @endif
-            @if( in_array('read', app()->OAuth::can('panel.page')) )
-            <li class="mobile-admin-nav {{ ($page_meta_title ?? '') == 'Page' ? 'active' : ''}}">
-              <a href="{{ url('admin/blog/pages') }}">Pages</a>
-            </li>
-            @endif
             @if( in_array('read', app()->OAuth::can('panel.gallery')) )
             <li class="mobile-admin-nav {{ ($page_meta_title ?? '') == 'Gallery' ? 'active' : ''}}">
               <a href="{{ url('admin/blog/gallery/') }}">Gallery</a>
@@ -145,11 +140,6 @@
               <a href="{{ url('admin/blog/event') }}">Event</a>
             </li>
             @endif
-            @if( in_array('read', app()->OAuth::can('panel.page')) )
-            <li class="{{ ($page_meta_title ?? '') == 'Page' ? 'active' : ''}}">
-              <a href="{{ url('admin/blog/pages') }}">Pages</a>
-            </li>
-            @endif
             @if( in_array('read', app()->OAuth::can('panel.gallery')) )
             <li class="{{ ($page_meta_title ?? '') == 'Gallery' ? 'active' : ''}}">
               <a href="{{ url('admin/blog/gallery/') }}">Gallery</a>
@@ -191,9 +181,11 @@
             <div class="container-fluid">
                 <div class="row">
                     @if(session('msg'))
-                    <div class="alert alert-{{ session('status') }} alert-dismissable ">
-                      <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                      {{ session('msg') }}
+                    <div class="alert alert-{{ session('status') }} alert-dismissable " role="alert">
+                        <span type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </span>
+                        {{ session('msg') }}
                     </div>
                     @endif
                     

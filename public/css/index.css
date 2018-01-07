@@ -1520,6 +1520,12 @@ footer .container .contactItems ul li i {
   width: 40px;
 }
 
+@media only screen and (max-width: 850px) {
+  footer .container .contactItems ul li i {
+    width: 20px;
+  }
+}
+
 footer .container .contactItems ul li p {
   display: inline-block;
   float: left;
@@ -2266,6 +2272,15 @@ footer .container .stayInTouch .copyText {
     height: auto;
     padding-top: 20px;
     padding-bottom: 20px;
+    background-image: unset !important;
+  }
+
+  #programs .programWrap .programSplit .caption {
+    opacity: .5;
+  }
+
+  #programs .programWrap .programSplit .logo {
+    opacity: 1 !important;
   }
 }
 
@@ -2372,11 +2387,11 @@ footer .container .stayInTouch .copyText {
 
 #ourMentors .container .mentorWrap #mentors:before {
   content: "";
-  height: 144.5px;
-  width: 125px;
-  top: -4px;
+  height: 141px;
+  width: 122px;
+  top: -2px;
   z-index: 0;
-  left: 27px;
+  left: 28.5px;
   background-image: url("/images/bgmentor.png");
   background-size: 100% 100%;
   position: absolute;
@@ -2787,7 +2802,8 @@ footer .container .stayInTouch .copyText {
 
 #instagram-feed .post-wraper {
   width: 100%;
-  height: 124px;
+  padding-top: 100%;
+  display: table;
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;

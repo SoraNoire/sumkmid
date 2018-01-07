@@ -199,7 +199,10 @@ if($('#instagram-feed').length > 0){
 	var igSlider = new Swiper('.insta-slider', {
 	slidesPerView: spp,
 	spaceBetween: 10,
-	loop: false,
+	loop: true,
+	autoplay: {
+	    delay: 3000,
+		},
 	pagination: {
 	el: '.insta-pagination',
 	},

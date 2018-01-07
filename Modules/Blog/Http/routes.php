@@ -150,22 +150,22 @@ Route::group(['middleware' => ['web', 'backend'], 'prefix' => 'admin/blog', 'nam
 
      //pages
 
-    Route::get('/pages', 'BlogController@pages')
-            ->name('panel.page__index');
-    Route::get('/ajaxpages', 'BlogController@ajaxPages')
-            ->name('panel.page__index__ajax');
-    Route::get('/page/add', 'BlogController@addPage')
-            ->name('panel.page__add');
-    Route::post('/page/add', 'BlogController@addPagePost')
-            ->name('panel.page__save');
-    Route::get('/page/{id}/view', 'BlogController@viewPage')
-            ->name('panel.page__view');
-    Route::post('/page/{id}/update', 'BlogController@updatePage')
-            ->name('panel.page__update');
-    Route::get('/page/{id}/remove', 'BlogController@removePage')
-            ->name('panel.page__delete');
-    Route::post('/page/massdelete', 'BlogController@massdeletePage')
-            ->name('panel.page__delete__mass');
+    // Route::get('/pages', 'BlogController@pages')
+    //         ->name('panel.page__index');
+    // Route::get('/ajaxpages', 'BlogController@ajaxPages')
+    //         ->name('panel.page__index__ajax');
+    // Route::get('/page/add', 'BlogController@addPage')
+    //         ->name('panel.page__add');
+    // Route::post('/page/add', 'BlogController@addPagePost')
+    //         ->name('panel.page__save');
+    // Route::get('/page/{id}/view', 'BlogController@viewPage')
+    //         ->name('panel.page__view');
+    // Route::post('/page/{id}/update', 'BlogController@updatePage')
+    //         ->name('panel.page__update');
+    // Route::get('/page/{id}/remove', 'BlogController@removePage')
+    //         ->name('panel.page__delete');
+    // Route::post('/page/massdelete', 'BlogController@massdeletePage')
+    //         ->name('panel.page__delete__mass');
 
     Route::get('/site-setting', 'BlogController@site_setting_view')
             ->name('panel.setting.site__index');

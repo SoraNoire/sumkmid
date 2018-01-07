@@ -141,13 +141,13 @@ class PublicController extends Controller
 								->whereIn('post_type',['video', 'gallery'])
 								->whereIn('id', $post_ids)
 								->orderBy('published_date','desc')
-								->limit(10)
+								->limit(8)
 								->get();
 			} else {
 				$post->data = DB::table('post_view')
 								->whereIn('post_type',['video', 'gallery'])
 								->orderBy('published_date','desc')
-								->limit(10)
+								->limit(8)
 								->get();
 			}
 
@@ -211,13 +211,7 @@ class PublicController extends Controller
      */
 	public function tentang(){
         $var['page'] = "Tentang Kami";
-
-        $get = Posts::where('slug','tentang-kami')->where('post_type','page')->orWhere('slug','tentang')->first();
-
-        if($get){
-        	$var['data'] = $get;
-        	return view('page.tentangDinamis')->with(['var' => $var]);
-        }
+        $var['content'] = Option::where('key', 'tentang_kami')->first()->value ?? '';
 
 		return view('page.tentang')->with(['var' => $var]);
 	}
