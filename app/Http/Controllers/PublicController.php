@@ -141,13 +141,13 @@ class PublicController extends Controller
 								->whereIn('post_type',['video', 'gallery'])
 								->whereIn('id', $post_ids)
 								->orderBy('published_date','desc')
-								->limit(10)
+								->limit(8)
 								->get();
 			} else {
 				$post->data = DB::table('post_view')
 								->whereIn('post_type',['video', 'gallery'])
 								->orderBy('published_date','desc')
-								->limit(10)
+								->limit(8)
 								->get();
 			}
 
