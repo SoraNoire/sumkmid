@@ -1433,6 +1433,7 @@ footer .container .footerItems {
 footer .container .footerItems .desc {
   margin-top: 20px;
   padding-right: 10px;
+  font-weight: 500;
 }
 
 footer .container .footerItems .footerLogo {
@@ -2008,18 +2009,40 @@ footer .container .stayInTouch .copyText {
 }
 
 #about-us {
-  padding-top: 15px;
-  padding-bottom: 15px;
-  text-align: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  text-align: left;
+  background-image: url("/images/ttgbg.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 #about-us .section-title {
   margin-bottom: 34px;
   margin-top: 10px;
+  color: #fff;
 }
 
 #about-us .section-desc {
   margin-bottom: 26px;
+  color: #fff;
+}
+
+#about-us .sahabaticon {
+  position: relative;
+  height: 200px;
+  margin-left: 70px;
+}
+
+#about-us .sahabaticon a {
+  display: block;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  height: -webkit-max-content;
+  height: -moz-max-content;
+  height: max-content;
+  margin: auto;
 }
 
 #quote {
@@ -2027,6 +2050,13 @@ footer .container .stayInTouch .copyText {
   padding-bottom: 20px;
   color: rgba(255, 255, 255, 0.87);
   text-align: center;
+  color: #404040;
+}
+
+#quote .why-shld-join {
+  margin: 0 auto;
+  font-weight: 500;
+  max-width: 500px;
 }
 
 @media screen and (max-width: 680px) {
@@ -2039,6 +2069,16 @@ footer .container .stayInTouch .copyText {
 #quote .section-title {
   text-align: center;
   color: inherit;
+}
+
+#quote .section-title span:first-child {
+  border-color: #595959;
+}
+
+#quote .section-title span:last-child {
+  background-image: -webkit-gradient(linear, left top, right top, color-stop(55%, rgba(64, 64, 64, 0.87)), color-stop(0%, rgba(255, 255, 255, 0)));
+  background-image: linear-gradient(to right, rgba(64, 64, 64, 0.87) 55%, rgba(255, 255, 255, 0) 0%);
+  background-size: 25px 3.5px;
 }
 
 @media screen and (max-width: 425px) {
@@ -2233,8 +2273,9 @@ footer .container .stayInTouch .copyText {
 }
 
 #programs {
-  background-color: #F8F8F8;
   display: block;
+  margin-top: 10px;
+  margin-bottom: 15px;
 }
 
 #programs .programWrap {
@@ -2347,6 +2388,15 @@ footer .container .stayInTouch .copyText {
   opacity: 0;
   padding: 0px 15px;
   color: #ffffff;
+}
+
+#programs .registerNow {
+  text-align: center;
+}
+
+#programs .registerNow a span {
+  display: inline-block;
+  margin: 10px 0px;
 }
 
 #ourMentors {
@@ -2769,11 +2819,7 @@ footer .container .stayInTouch .copyText {
   border-radius: 5px;
   text-decoration: none;
   color: #fff;
-  background: #499bea;
-  background: -webkit-gradient(left top, right top, color-stop(0%, #499bea), color-stop(100%, #207ce5));
-  background: -webkit-gradient(linear, left top, right top, from(#499bea), to(#207ce5));
-  background: linear-gradient(to right, #499bea 0%, #207ce5 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#499bea', endColorstr='#207ce5', GradientType=1 );
+  background-color: #C95D18;
   display: inline-block;
 }
 

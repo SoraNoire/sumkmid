@@ -32,19 +32,31 @@
 
 <section id="about-us">
 	<div class="container">
-		<h3 class="section-title gray"><span>Tentang</span> <span>Kami</span></h3>
-		<div class="section-desc">
-			<p>
-				{{ $var['about_us'] ?? '' }}
-			</p>
+		<div class="row">
+			<div class="col-7">
+				<h3 class="section-title"><span>Tentang</span> <span>Kami</span></h3>
+				<div class="section-desc">
+					<p>
+						{{ $var['about_us'] ?? '' }}
+					</p>
+				</div>	
+			</div>
+			<div class="col-5">
+				<div class="sahabaticon">
+					<a href="{{ URL::to('/') }}">
+						<img src="{{ asset('images/sbt-icon.png') }}">
+					</a>
+				</div>
+			</div>
 		</div>
 	</div>
 </section>
 
-<section id="quote" class="blue-bg">
+<section id="quote">
     <div class="container">
+    	<h3 class="section-title"><span>Why Should You Join Our</span> <span>Community</span></h3>
         <div class="the-row">
-        	@if ( isset($var['quote']->image) && $var['quote']->image != '' )
+        	<!-- @if ( isset($var['quote']->image) && $var['quote']->image != '' )
         	<div class="col-3">
 	        	<div class="quotePhotoWraper">
 		            <div class="quotePhoto">
@@ -63,6 +75,9 @@
 	            <div class="quoter">
 	        		<p>{{ $var['quote']->from ?? '' }}</p>
 	        	</div>
+           	</div> -->
+           	<div class="col-12">
+           		<p class="why-shld-join">we provide you a new culture of creative and entrepreneurial education to support you achieve your personal goals</p>
            	</div>
         </div>
     </div>
@@ -83,7 +98,11 @@
 			</div>
 		</div>
 		@endforeach
-
+	</div>
+	<div class="registerNow">
+		<a href="#">
+			<span class="button">Daftar Sekarang</span>
+		</a>
 	</div>
 </section>
 
