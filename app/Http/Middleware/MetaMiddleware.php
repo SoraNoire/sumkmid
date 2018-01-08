@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Modules\Blog\Entities\Option;
+use App\Helpers\PublicHelper;
 
 class MetaMiddleware
 {
@@ -32,6 +33,7 @@ class Meta
     protected $link_gplus = '';
     protected $footer_desc = '';
     protected $email_info = 'sekretariat@sahabatumkm.id';
+    protected $top_menu = '';
 
     function __construct(){
         $this->gtm = Option::where('key', 'gtag_manager')->first()->value ?? '';
@@ -44,6 +46,7 @@ class Meta
         $this->link_gplus = Option::where('key', 'link_gplus')->first()->value ?? '';
         $this->footer_desc = Option::where('key', 'footer_desc')->first()->value ?? '';
         $this->email_info = Option::where('key', 'email')->first()->value ?? config('app.email_info');
+        $this->top_menu = PublicHelper::print_top_menu();
     }
 
     public  function set($var, $value){

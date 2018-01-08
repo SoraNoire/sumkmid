@@ -19,7 +19,7 @@
 				<p style="margin: 0">Jakarta Pusat, Indonesia</p>
 				<p style="margin-bottom: 14px">Kode Pos 10240</p>
 				<p style="margin-bottom: 8px"><span class="icon i-phone"></span>&nbsp; (021) 3917399</p>
-				<p><span class="icon i-mail"></span>&nbsp; {{ $email_info ?? '' }}</p>
+				<p><span class="icon i-mail"></span>&nbsp; {{ app()->Meta->get('email_info') }}</p>
 			</div>
 			<div class="col-7 contact-form">
 				<h3>Hubungi Kami</h3>

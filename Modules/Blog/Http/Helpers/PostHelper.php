@@ -19,6 +19,24 @@ class PostHelper
     public function __construct(){
         $this->prefix = 'admin/blog/';
     }
+
+    /**
+     * Get Page Templates List
+     * @return Response
+     */
+    public static function get_page_templates_list(){
+        $dir = resource_path('views/template');
+        $files = scandir($dir, 1);
+        $templates = [];
+        foreach ($files as $key => $file) {
+            if (strpos($file, '.blade.php') !== false) {
+                $templates[$key] = new \stdClass;;
+                $templates[$key]->file_name = 'template.'.str_replace('.blade.php', '', $file);
+                $templates[$key]->name = str_replace('.blade.php', ' page', $file);
+            }
+        }
+        return $templates;
+    }
     
 	/**
      * Make slug.
