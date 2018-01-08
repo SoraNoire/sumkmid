@@ -89,6 +89,11 @@
               <a href="{{ url('admin/blog/gallery/') }}">Gallery</a>
             </li>
             @endif
+            @if( in_array('read', app()->OAuth::can('panel.page')) )
+            <li class="mobile-admin-nav {{ ($page_meta_title ?? '') == 'Page' ? 'active' : ''}}">
+              <a href="{{ route('panel.page__index') }}">Page</a>
+            </li>
+            @endif
             @if( in_array('read', app()->OAuth::can('panel.category')) )
             <li class="mobile-admin-nav {{ ($page_meta_title ?? '') == 'Categories' ? 'active' : ''}}">
               <a href="{{ route('panel.category__index') }}">Categories</a>
@@ -119,6 +124,11 @@
               <a href="{{ route('panel.slider__index') }}">Slider</a>
             </li>
             @endif
+            @if( in_array('read', app()->OAuth::can('panel.menu')) )
+            <li class="mobile-admin-nav {{ ($page_meta_title ?? '') == 'Menu' ? 'active' : ''}}">
+              <a href="{{ route('panel.menu__index') }}">Menu</a>
+            </li>
+            @endif
 
             <li>
                 <a href="{{URL::to('/logout')}}">
@@ -143,6 +153,11 @@
             @if( in_array('read', app()->OAuth::can('panel.gallery')) )
             <li class="{{ ($page_meta_title ?? '') == 'Gallery' ? 'active' : ''}}">
               <a href="{{ url('admin/blog/gallery/') }}">Gallery</a>
+            </li>
+            @endif
+            @if( in_array('read', app()->OAuth::can('panel.page')) )
+            <li class="{{ ($page_meta_title ?? '') == 'Page' ? 'active' : ''}}">
+              <a href="{{ route('panel.page__index') }}">Page</a>
             </li>
             @endif
             @if( in_array('read', app()->OAuth::can('panel.category')) )
@@ -175,6 +190,11 @@
               <a href="{{ route('panel.slider__index') }}">Slider</a>
             </li>
             @endif
+            @if( in_array('read', app()->OAuth::can('panel.menu')) )
+            <li class="{{ ($page_meta_title ?? '') == 'Menu' ? 'active' : ''}}">
+              <a href="{{ route('panel.menu__index') }}">Menu</a>
+            </li>
+            @endif
           </ul>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
@@ -198,6 +218,6 @@
 
     @yield('modal')
 
-    <script src="{{ asset('js/index.js') }}?v=1.0.32" type="text/javascript"></script>
+    <script src="{{ asset('js/index.js') }}?v=1.0.42" type="text/javascript"></script>
   </body>
 </html>
