@@ -1255,8 +1255,9 @@ class BlogController extends Controller
     {
         $page_meta_title = 'Page';
         $media = Media::orderBy('created_at','desc')->get();
+        $templates = PostHelper::get_page_templates_list();
 
-        return view('blog::admin.page_add')->with(['page_meta_title' => $page_meta_title, 'media' => $media]);
+        return view('blog::admin.page_add')->with(['page_meta_title' => $page_meta_title, 'media' => $media, 'templates' => $templates]);
     }
 
     /**
@@ -1267,19 +1268,19 @@ class BlogController extends Controller
     public function addPagePost(Request $request)
     {
         $this->validate($request, [
-            'title' => 'required',
-            'content' => 'required'
+            'title' => 'required'
         ], PostHelper::validation_messages());
 
         $title = $request->input('title');
         $slug = PostHelper::make_slug($title);
-        $body = $request->input('content');
+        $body = $request->input('content') ?? '';
         $featured_img = $request->input('featured_image');
         $status = $request->get('status');
         $published_at = $request->input('published_date');
         $meta_title = $request->input('meta_title');
         $meta_desc = $request->input('meta_desc');
         $meta_keyword = $request->input('meta_keyword');
+        $page_template = $request->get('page_template');
 
         if ($published_at == 'immediately') {
             $published_at = Carbon::now()->toDateTimeString();
@@ -1307,6 +1308,7 @@ class BlogController extends Controller
             $metas[0] = ['name' => 'meta_title', 'value' => $meta_title];
             $metas[1] = ['name' => 'meta_desc', 'value' => $meta_desc];
             $metas[2] = ['name' => 'meta_keyword', 'value' => $meta_keyword];
+            $metas[3] = ['name' => 'page_template', 'value' => $page_template];
 
             foreach ($metas as $meta) {
                 if ($meta['value'] != '') {
@@ -1337,6 +1339,7 @@ class BlogController extends Controller
             $post_metas = PostMeta::where('post_id',$page->id)->get();
             $post_metas = $this->readMetas($post_metas);
             $media = Media::orderBy('created_at','desc')->get();
+            $templates = PostHelper::get_page_templates_list();
 
             return view('blog::admin.page_edit')->with([
                         'page_meta_title' => 'Page',
@@ -1346,6 +1349,7 @@ class BlogController extends Controller
                         'title' => $page->title,
                         'content' => $page->content,
                         'media' => $media,
+                        'page_template' => $post_metas->page_template ?? '',
                         'featured_image' => $page->featured_image ?? '',
                         'meta_desc' => $post_metas->meta_desc ?? '',
                         'meta_title' => $post_metas->meta_title ?? '',
@@ -1353,6 +1357,7 @@ class BlogController extends Controller
                         'status' => $page->status ?? 0,
                         'published_date' => $page->published_date ?? '',
                         'isEdit'=> true,
+                        'templates' => $templates
                     ]);
         } else {
             return redirect(route('panel.page__index'))->with(['msg' => 'Page Not Found', 'status' => 'danger']);
@@ -1376,13 +1381,12 @@ class BlogController extends Controller
     public function updatePage(Request $request, $id)
     {
         $this->validate($request, [
-            'title' => 'required',
-            'content' => 'required'
+            'title' => 'required'
         ], PostHelper::validation_messages());
 
         $update = Posts::where('id', $id)->first();
         $update->title = $request->input('title');
-        $update->content = $request->input('content');
+        $update->content = $request->input('content') ?? '';
         $update->featured_image = $request->input('featured_image');
         $update->status = $request->input('status');
         $update->published_date = Carbon::parse($request->input('published_date'))->toDateTimeString();
@@ -1390,7 +1394,7 @@ class BlogController extends Controller
         if ( $update->update()) {
             $newMeta = false;
             $post_metas = PostMeta::where('post_id',$id)->get();
-            $meta_fields = ['event_type', 'location', 'htm', 'open_at', 'closed_at', 'categories', 'forum_id', 'meta_title', 'meta_desc', 'meta_keyword', 'mentor' ];
+            $meta_fields = ['meta_title', 'meta_desc', 'meta_keyword', 'page_template' ];
 
             foreach ($meta_fields as $key => $meta) {
                 $updated = false;
@@ -1647,7 +1651,6 @@ class BlogController extends Controller
     public function site_setting_view(){
         $page_meta_title = 'Site Setting';
 
-        $tentang_kami = Option::where('key', 'tentang_kami')->first()->value ?? '';
         $gtag_manager = Option::where('key', 'gtag_manager')->first()->value ?? '';
         $fb_pixel = Option::where('key', 'fb_pixel')->first()->value ?? '';
         $link_fb = Option::where('key', 'link_fb')->first()->value ?? '';
@@ -1804,7 +1807,7 @@ class BlogController extends Controller
             }
         }
 
-        return view('blog::admin.setting')->with(['page_meta_title' => $page_meta_title, 'gtag_manager' => $gtag_manager, 'fb_pixel' => $fb_pixel, 'link_fb' => $link_fb, 'link_in' => $link_in, 'link_tw' => $link_tw, 'link_yt' => $link_yt, 'link_ig' => $link_ig, 'link_gplus' => $link_gplus, 'list_program' => $program_structure, 'footer_desc' => $footer_desc, 'quote' => $quote, 'post' => $post, 'all_cat' => $all_cat, 'email' => $email, 'about_us' => $about_us, 'instagram_token' => $instagram_token, 'tentang_kami' => $tentang_kami]);
+        return view('blog::admin.setting')->with(['page_meta_title' => $page_meta_title, 'gtag_manager' => $gtag_manager, 'fb_pixel' => $fb_pixel, 'link_fb' => $link_fb, 'link_in' => $link_in, 'link_tw' => $link_tw, 'link_yt' => $link_yt, 'link_ig' => $link_ig, 'link_gplus' => $link_gplus, 'list_program' => $program_structure, 'footer_desc' => $footer_desc, 'quote' => $quote, 'post' => $post, 'all_cat' => $all_cat, 'email' => $email, 'about_us' => $about_us, 'instagram_token' => $instagram_token]);
     }
 
     /**
@@ -1836,7 +1839,6 @@ class BlogController extends Controller
         $settings[] = ['name' => 'instagram_token', 'value' => $request->input('instagram_token')];
         $settings[] = ['name' => 'footer_desc', 'value' => $request->input('footer_desc')];
         $settings[] = ['name' => 'email', 'value' => $request->input('email')];
-        $settings[] = ['name' => 'tentang_kami', 'value' => $request->input('tentang_kami')];
 
         try {
             for ($i=0; $i < count($settings) ; $i++) { 

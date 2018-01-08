@@ -110,6 +110,28 @@
                     </div>
                 </div>
 
+                @if ( count($templates) > 0 )
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                          Page Template <a data-toggle="collapse" href="#post-template"><i style="float: right;" class="fa fa-caret-down" aria-hidden="true"></i></a>
+                        </h4>
+                    </div>
+                    <div id="post-template" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                            <div class="form-group">
+                                <select name="page_template" class="form-control">
+                                    <option value="none" {{ old('page_template') == 'none' ? 'selected' : '' }}>None</option>
+                                    @foreach ($templates as $template)
+                                    <option value="{{ $template->file_name }}" {{ old('page_template') == $template->file_name ? 'selected':'' }}>{{ $template->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endif
+
                 @if ( in_array('read', app()->OAuth::can('panel.media')) )
                 <div class="panel panel-default">
                     <div class="panel-heading">

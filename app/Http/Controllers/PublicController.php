@@ -152,12 +152,13 @@ class PublicController extends Controller
 			}
 
 			foreach ($post->data as $key => $value) {
-				$meta = PublicHelper::get_post_meta($value->id);
-				$value->post_desc = $meta['meta_desc'];
+				$postMetas = DB::table('post_meta')->where('post_id',$value->id)->get();
+				$postMetas = $this->readMetas($postMetas);
+				$value->post_desc = $postMetas->meta_desc ?? '';
 				$value->link = url('/galeri/'.$value->slug); 
 				$value->featured_img = $value->featured_image;
 				$value->date_published = $value->published_date;
-				if ($meta['meta_desc'] == '') {
+				if ( $value->post_desc == '') {
 					$value->post_desc = str_limit(html_entity_decode(strip_tags($value->content)), 250);
 				}
 			}
@@ -206,6 +207,57 @@ class PublicController extends Controller
 	}
 
 	/**
+     * Show single page.
+     * @return Response
+     */
+	public function single_page($slug){
+        $page = DB::table('post_view')->where('post_type', 'page')->where('slug', $slug)->first();
+        if (isset($page)) {
+            $templates = PostHelper::get_page_templates_list();
+        	$var['page'] = $page->title;
+        	$var['content'] = $page->content;
+
+			$postMetas = DB::table('post_meta')->where('post_id',$page->id)->get();
+			$postMetas = $this->readMetas($postMetas);
+			if (isset($postMetas->page_template)) {
+				switch ($postMetas->page_template) {
+					case 'template.mentor':
+						$var['mentors'] = app()->OAuth->mentors()->users;
+					break;
+
+					case 'template.event':
+					 	$var['events'] = DB::table('post_meta')
+					        			->where('key', '=', 'open_at')
+					        			->join('post_view', function ($join) {
+					            			$join->on('post_meta.post_id', '=', 'post_view.id')
+					            				 ->where('post_view.post_type','event');
+					        			})
+					    				->orderby('value', 'desc')
+										->paginate(3);
+					break;
+
+					case 'template.kontak':
+						# code...
+					break;
+
+					case 'template.gallery':
+						$var['posts'] = DB::table('post_view')
+										->whereIn('post_type',['video', 'gallery'])
+										->orderBy('published_date','desc')
+										->paginate(6);
+					break;
+					
+					default:
+						$postMetas->page_template = 'page.singlePage';
+						break;
+				}
+				return view($postMetas->page_template)->with(['var' => $var]);
+			}
+			return view('page.singlePage')->with(['var' => $var]);
+        }
+	}
+
+	/**
      * Show Tentang page.
      * @return Response
      */
@@ -222,7 +274,7 @@ class PublicController extends Controller
      */
 	public function kontak(){
         $var['page'] = "Kontak";
-		return view('page.kontak')->with(['var' => $var]);
+		return view('template.kontak')->with(['var' => $var]);
 	}
 
 	/**
@@ -233,7 +285,7 @@ class PublicController extends Controller
 		$var['page'] = "Mentor";
 		$var['mentors'] = app()->OAuth->mentors()->users;
 		
-		return view('page.mentor')->with(['var' => $var]);
+		return view('template.mentor')->with(['var' => $var]);
 	}
 	/**
      * Show single mentor page.
@@ -292,7 +344,7 @@ class PublicController extends Controller
 					->paginate(3);
 					// dd($var['events']);
 
-		return view('page.event')->with(['var' => $var]);
+		return view('template.event')->with(['var' => $var]);
 	}
 
 	/**
@@ -317,7 +369,7 @@ class PublicController extends Controller
 	public function gallery(){
 		$var['page'] = "Galeri";
 		$var['posts'] = DB::table('post_view')->whereIn('post_type',['video', 'gallery'])->orderBy('published_date','desc')->paginate(6);
-		return view('page.gallery')->with(['var' => $var]);
+		return view('template.gallery')->with(['var' => $var]);
 	}
 
 	/**
@@ -394,7 +446,7 @@ class PublicController extends Controller
 						->whereIn('id', $post_ids)
 						->orderBy('published_date','desc')
 						->paginate(6);
-		return view('page.gallery')->with(['var' => $var]);
+		return view('template.gallery')->with(['var' => $var]);
 	}
 
 	/**
@@ -415,7 +467,7 @@ class PublicController extends Controller
 						->whereIn('id', $post_ids)
 						->orderBy('published_date','desc')
 						->paginate(6);
-		return view('page.gallery')->with(['var' => $var]);
+		return view('template.gallery')->with(['var' => $var]);
 	}
 
 	function readMetas($arr=[]){
@@ -440,8 +492,7 @@ class PublicController extends Controller
         $subject = $req->input('subject');
         $pesan = $req->input('pesan');
 
-        $email_to = config('app.email_info') ?? 'info@mdirect.id';
-        dd($email_to);
+        $email_to = app()->Meta->get('email_info');
 
         $data = array(
             'name' => $name,
