@@ -87,7 +87,7 @@ class PController extends Controller
 
             if(true == $request->input('withmail'))
             {
-                return view('oa::backend.challenge');
+                return view('oa::backend.challenge',['token'=>$token]);
             }
 
             return self::doOauthLogin();
@@ -98,6 +98,21 @@ class PController extends Controller
         {
         	$code = $request->input('code');
         	return self::doOauthLogin($code);
+        }
+
+        public function resendEmailChallenge(Request $request)
+        {
+            $token = $request->input('token');
+            if ($token){
+                $code = \Rabbit\OAuthClient\Utils\OAuth::DirectCurl('/resend_code',
+                                        ['token'=>$token],
+                                'post');
+                if($code)
+                {
+                    return response($code->message);
+                }
+            }
+            return response('Error');
         }
 
         private static function doOauthLogin($code=false)

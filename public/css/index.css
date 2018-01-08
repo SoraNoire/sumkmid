@@ -1433,6 +1433,7 @@ footer .container .footerItems {
 footer .container .footerItems .desc {
   margin-top: 20px;
   padding-right: 10px;
+  font-weight: 500;
 }
 
 footer .container .footerItems .footerLogo {
@@ -1518,6 +1519,12 @@ footer .container .contactItems ul li i {
   float: left;
   margin-top: 4px;
   width: 40px;
+}
+
+@media only screen and (max-width: 850px) {
+  footer .container .contactItems ul li i {
+    width: 20px;
+  }
 }
 
 footer .container .contactItems ul li p {
@@ -2002,18 +2009,64 @@ footer .container .stayInTouch .copyText {
 }
 
 #about-us {
-  padding-top: 15px;
-  padding-bottom: 15px;
-  text-align: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  text-align: left;
+  background-image: url("/images/ttgbg.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 #about-us .section-title {
   margin-bottom: 34px;
   margin-top: 10px;
+  color: #fff;
 }
 
 #about-us .section-desc {
   margin-bottom: 26px;
+  color: #fff;
+}
+
+#about-us .sahabaticon {
+  position: relative;
+  height: 200px;
+  margin-left: 70px;
+}
+
+@media screen and (max-width: 850px) {
+  #about-us .sahabaticon {
+    margin: 0 auto;
+  }
+}
+
+#about-us .sahabaticon a {
+  display: block;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  height: 142px;
+  margin: auto;
+}
+
+@media screen and (max-width: 850px) {
+  #about-us .sahabaticon a {
+    width: 165px;
+    left: 0;
+    right: 0;
+  }
+}
+
+@media screen and (max-width: 850px) {
+  #about-us .col-7 {
+    width: calc(100% - 30px);
+  }
+}
+
+@media screen and (max-width: 850px) {
+  #about-us .col-5 {
+    width: calc(100% - 30px);
+  }
 }
 
 #quote {
@@ -2021,6 +2074,13 @@ footer .container .stayInTouch .copyText {
   padding-bottom: 20px;
   color: rgba(255, 255, 255, 0.87);
   text-align: center;
+  color: #404040;
+}
+
+#quote .why-shld-join {
+  margin: 0 auto;
+  font-weight: 500;
+  max-width: 500px;
 }
 
 @media screen and (max-width: 680px) {
@@ -2033,6 +2093,16 @@ footer .container .stayInTouch .copyText {
 #quote .section-title {
   text-align: center;
   color: inherit;
+}
+
+#quote .section-title span:first-child {
+  border-color: #595959;
+}
+
+#quote .section-title span:last-child {
+  background-image: -webkit-gradient(linear, left top, right top, color-stop(55%, rgba(64, 64, 64, 0.87)), color-stop(0%, rgba(255, 255, 255, 0)));
+  background-image: linear-gradient(to right, rgba(64, 64, 64, 0.87) 55%, rgba(255, 255, 255, 0) 0%);
+  background-size: 25px 3.5px;
 }
 
 @media screen and (max-width: 425px) {
@@ -2227,8 +2297,9 @@ footer .container .stayInTouch .copyText {
 }
 
 #programs {
-  background-color: #F8F8F8;
   display: block;
+  margin-top: 10px;
+  margin-bottom: 15px;
 }
 
 #programs .programWrap {
@@ -2266,6 +2337,15 @@ footer .container .stayInTouch .copyText {
     height: auto;
     padding-top: 20px;
     padding-bottom: 20px;
+    background-image: unset !important;
+  }
+
+  #programs .programWrap .programSplit .caption {
+    opacity: .5;
+  }
+
+  #programs .programWrap .programSplit .logo {
+    opacity: 1 !important;
   }
 }
 
@@ -2334,6 +2414,15 @@ footer .container .stayInTouch .copyText {
   color: #ffffff;
 }
 
+#programs .registerNow {
+  text-align: center;
+}
+
+#programs .registerNow a span {
+  display: inline-block;
+  margin: 10px 0px;
+}
+
 #ourMentors {
   background-size: cover;
   padding-bottom: 15px;
@@ -2367,17 +2456,37 @@ footer .container .stayInTouch .copyText {
   vertical-align: top;
   width: 180px;
   margin-top: 10px;
+  position: relative;
+}
+
+#ourMentors .container .mentorWrap #mentors:before {
+  content: "";
+  height: 141px;
+  width: 122px;
+  top: -2px;
+  z-index: 0;
+  left: 28.5px;
+  background-image: url("/images/bgmentor.png");
+  background-size: 100% 100%;
+  position: absolute;
 }
 
 #ourMentors .container .mentorWrap #mentors .photoMentor {
   width: 66%;
-  height: 139px;
+  height: 137px;
   padding-bottom: unset;
   text-align: center;
   left: 30px;
   float: unset;
   -webkit-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.25);
   box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.25);
+  position: relative;
+}
+
+#ourMentors .container .mentorWrap #mentors .photoMentor div:before {
+  content: "";
+  width: 100%;
+  height: 100%;
 }
 
 #ourMentors .container .mentorWrap #mentors .mentor-name {
@@ -2734,11 +2843,7 @@ footer .container .stayInTouch .copyText {
   border-radius: 5px;
   text-decoration: none;
   color: #fff;
-  background: #499bea;
-  background: -webkit-gradient(left top, right top, color-stop(0%, #499bea), color-stop(100%, #207ce5));
-  background: -webkit-gradient(linear, left top, right top, from(#499bea), to(#207ce5));
-  background: linear-gradient(to right, #499bea 0%, #207ce5 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#499bea', endColorstr='#207ce5', GradientType=1 );
+  background-color: #C95D18;
   display: inline-block;
 }
 
@@ -2767,7 +2872,8 @@ footer .container .stayInTouch .copyText {
 
 #instagram-feed .post-wraper {
   width: 100%;
-  height: 124px;
+  padding-top: 100%;
+  display: table;
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -4289,12 +4395,12 @@ footer .container .stayInTouch .copyText {
 
 .ttl .tl {
   display: inline-block;
-  width: 50%;
+  width: 40%;
 }
 
 .ttl .tgll {
   display: inline-block;
-  width: 49%;
+  width: 58%;
   margin-left: 2px;
 }
 
@@ -4306,6 +4412,32 @@ footer .container .stayInTouch .copyText {
   border: solid 1px #404040;
   outline: none;
   padding: 0px 5px;
+}
+
+.defkota {
+  display: none;
+}
+
+.pilihkotaprov .inputText {
+  display: inline-block;
+}
+
+.pilihkotaprov .inputText select {
+  height: 35px;
+  border-radius: 5px;
+  border: solid 1px #404040;
+  outline: none;
+  padding: 0px 5px;
+}
+
+.inputAlamat textarea {
+  width: calc(100% - 28px);
+  height: 50px;
+  border-radius: 5px;
+  border: solid 1px #404040;
+  outline: none;
+  padding: 0px 14px;
+  resize: vertical;
 }
 
 .sidebarVideo .sidebar {

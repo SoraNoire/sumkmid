@@ -256,3 +256,20 @@ function get_program_id(){
     }   
     return id;
 }
+
+function check_post(){
+    var a = $('#post_check').is(':checked');
+    if (a) {
+        $('#post_category').removeAttr('disabled');
+    } else {
+        $('#post_category').attr('disabled', 'disabled');
+    }
+}
+
+if ($('#post_check').length > 0) {
+    $('#post_check').ready(check_post());
+
+    $('#post_check').on('change', function(){
+        check_post();
+    });
+}

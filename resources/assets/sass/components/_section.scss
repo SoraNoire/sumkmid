@@ -1,14 +1,51 @@
 #about-us {
-	padding-top: 15px;
-	padding-bottom: 15px;	
-	text-align: center;
-
+	padding-top: 20px;
+	padding-bottom: 20px;	
+	text-align: left;
+	background-image: url('/images/ttgbg.jpg');
+	background-size: cover;
+	background-repeat: no-repeat;
 	.section-title {
 		margin-bottom: 34px;    
 		margin-top: 10px;
+		color: #fff;
 	}
 	.section-desc {
 		margin-bottom: 26px;
+		color: #fff;
+	}
+	.sahabaticon{
+		position: relative;
+		height: 200px;
+		margin-left: 70px;
+		@media screen and (max-width: 850px){
+			margin: 0 auto;
+		}
+		a{
+			display: block;
+			position: absolute;
+			top: 0;
+			bottom: 0;
+			height: 142px;
+			margin: auto;
+			@media screen and (max-width: 850px){
+				width: 165px;
+				left: 0;
+				right: 0;
+			}
+			img{
+			}
+		}
+	}
+	.col-7{
+		@media screen and (max-width: 850px){
+			width: calc(100% - 30px );
+		}
+	}
+	.col-5{
+		@media screen and (max-width: 850px){
+			width: calc(100% - 30px );
+		}	
 	}
 }
 
@@ -17,6 +54,12 @@
 	padding-bottom: 20px;
 	color: rgba(255, 255, 255, 0.87);
 	text-align: center;
+	color: #404040;
+	.why-shld-join{
+		margin: 0 auto;
+		font-weight: $semibold;
+		max-width: 500px;
+	}
 	@media screen and (max-width: 680px){
     	padding-top: 15px;
 		padding-bottom: 15px;
@@ -25,6 +68,16 @@
 	.section-title {
 		text-align: center;
 		color: inherit;
+		span{
+			&:first-child{
+				border-color: #595959;
+			}
+			&:last-child{
+				background-image: -webkit-gradient(linear, left top, right top, color-stop(55%, rgba(64, 64, 64, 0.87)), color-stop(0%, rgba(255, 255, 255, 0)));
+	    		background-image: linear-gradient(to right, rgba(64, 64, 64, 0.87) 55%, rgba(255, 255, 255, 0) 0%);
+	    		background-size: 25px 3.5px;
+			}
+		}
 		@media screen and (max-width: 425px) {
 			font-size: 19px;
 		}
@@ -165,8 +218,9 @@
 }
 
 #programs{
-	background-color: #F8F8F8;
 	display: block;
+	margin-top: 10px;
+	margin-bottom: 15px;
 	.programWrap{
 			margin: auto;
 			display: block;
@@ -192,6 +246,13 @@
 				height: auto;
 				padding-top: 20px;
 				padding-bottom: 20px;
+				background-image: unset !important;
+				.caption{
+					opacity: .5;
+				}
+				.logo{
+					opacity: 1 !important;
+				}
 			}
 			.logo{
 				transition: .5s;
@@ -246,6 +307,15 @@
 			color: #ffffff;
 		}
 	}
+	.registerNow{
+		text-align: center;
+		a{
+			span{
+				display: inline-block;
+				margin: 10px 0px;
+			}	
+		}
+	}
 }
 #ourMentors{
 	background-size: cover;
@@ -272,17 +342,38 @@
 				vertical-align: top;
 				width: 180px;
 				margin-top: 10px;
+				position: relative;
+				&:before{
+						content: "";
+						height: 141px;
+					    width: 122px;
+					    top: -2px;
+					    z-index: 0;
+					    left: 28.5px;
+						background-image: url('/images/bgmentor.png');
+						background-size: 100% 100%;
+						position: absolute;
+					}
 				.photoMentor{
 					width: 66%;
-    				height: 139px;
+    				height: 137px;
     				padding-bottom: unset;
     				text-align: center;
     				left: 30px;
     				float: unset;
     				-webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.25);
--moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.25);
-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.25);
+					-moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.25);
+					box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.25);
+					position: relative;
+					div{
+						&:before{
+							content: "";
+							width: 100%;
+							height: 100%;
+						}
+					}
     				img{
+    					
     				}
 				}
 				.mentor-name{
@@ -578,14 +669,7 @@ box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.25);
 							border-radius: 5px;
 							text-decoration: none;
 							color: #fff;
-							background: rgba(73,155,234,1);
-							background: -moz-linear-gradient(left, rgba(73,155,234,1) 0%, rgba(32,124,229,1) 100%);
-							background: -webkit-gradient(left top, right top, color-stop(0%, rgba(73,155,234,1)), color-stop(100%, rgba(32,124,229,1)));
-							background: -webkit-linear-gradient(left, rgba(73,155,234,1) 0%, rgba(32,124,229,1) 100%);
-							background: -o-linear-gradient(left, rgba(73,155,234,1) 0%, rgba(32,124,229,1) 100%);
-							background: -ms-linear-gradient(left, rgba(73,155,234,1) 0%, rgba(32,124,229,1) 100%);
-							background: linear-gradient(to right, rgba(73,155,234,1) 0%, rgba(32,124,229,1) 100%);
-							filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#499bea', endColorstr='#207ce5', GradientType=1 );
+							background-color: #C95D18;
 							display: inline-block;
 							@media screen and (max-width: 915px) {
 								font-size: 9px;
@@ -611,7 +695,9 @@ box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.25);
 	}
 	.post-wraper {
 		width: 100%;
-		height: 124px;
+		// height: 124px;
+		padding-top: 100%;
+		display: table;
 		background-repeat: no-repeat;
 		background-size: cover;
 		background-position: center;

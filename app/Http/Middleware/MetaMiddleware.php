@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Modules\Blog\Entities\Option;
+use App\Helpers\PublicHelper;
 
 class MetaMiddleware
 {
@@ -39,6 +40,7 @@ class Meta
     protected $footer_desc = '';
     protected $email_info = 'sekretariat@sahabatumkm.id';
     protected $meta = array();
+    protected $top_menu = '';
 
     function __construct(){
         $this->gtm = Option::where('key', 'gtag_manager')->first()->value ?? '';
@@ -68,6 +70,7 @@ class Meta
                              'twitter:description' => $this->meta_desc,
                              'twitter:title' => $this->meta_title
                             );
+        $this->top_menu = PublicHelper::print_top_menu();
     }
 
     public  function set($var, $value){

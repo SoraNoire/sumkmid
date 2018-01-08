@@ -199,7 +199,10 @@ if($('#instagram-feed').length > 0){
 	var igSlider = new Swiper('.insta-slider', {
 	slidesPerView: spp,
 	spaceBetween: 10,
-	loop: false,
+	loop: true,
+	autoplay: {
+	    delay: 3000,
+		},
 	pagination: {
 	el: '.insta-pagination',
 	},
@@ -249,6 +252,14 @@ if($('#main-gallery').length > 0){
     },
 });
 }
+
+$('#pilihProvinsi').on('change',function(){
+	$('#pilihKota').val('pilihkota');
+	target = $('#pilihProvinsi').val();
+	target = target.replace(" ", "-");
+	$('.defkota').hide();
+	$('.'+target).show();
+});
 
 
 

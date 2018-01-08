@@ -31,9 +31,9 @@
 				@foreach($var['posts'] as $post)
 				<div class="cst-3-col">
 					<div class="item" style="background-image: url('{{$post->featured_image}}');">
-						<a href="{{route('public_gallery').'/'.$post->slug}}"><span class="play-button"><i class="fa fa-play fa-lg" aria-hidden="true"></i></span></a>
+						<a href="{{url('/galeri/'.'/'.$post->slug)}}"><span class="play-button"><i class="fa fa-play fa-lg" aria-hidden="true"></i></span></a>
 						<div class="item-title">
-							<a href="{{route('public_gallery').'/'.$post->slug}}">{{ $post->title }}</a>
+							<a href="{{url('galeri/'.'/'.$post->slug)}}">{{ $post->title }}</a>
 						</div>		
 					</div>
 				</div>

@@ -19,6 +19,24 @@ class PostHelper
     public function __construct(){
         $this->prefix = 'admin/blog/';
     }
+
+    /**
+     * Get Page Templates List
+     * @return Response
+     */
+    public static function get_page_templates_list(){
+        $dir = resource_path('views/template');
+        $files = scandir($dir, 1);
+        $templates = [];
+        foreach ($files as $key => $file) {
+            if (strpos($file, '.blade.php') !== false) {
+                $templates[$key] = new \stdClass;;
+                $templates[$key]->file_name = 'template.'.str_replace('.blade.php', '', $file);
+                $templates[$key]->name = str_replace('.blade.php', ' page', $file);
+            }
+        }
+        return $templates;
+    }
     
 	/**
      * Make slug.
@@ -477,52 +495,6 @@ class PostHelper
         }else {
             return redirect(route('panel.tag__index'))->with(['msg' => 'Tag Not Found', 'status' => 'danger'])->send();
         }
-    }
-
-    public static function get_post_meta($id){
-        $post_metas = PostMeta::where('post_id',$id)->get();
-
-        $metas = new \stdClass;;
-        foreach ($post_metas as $key => $value) {
-            $metas->{$value->key} = $value->value;
-        }
-
-        $data = [];
-
-        $data['event_type']   = $metas->event_type ?? '';
-        $data['event_url']    = $metas->event_url ?? '';
-        $data['gmaps_url']    = $metas->gmaps_url ?? '';
-        $data['location']     = $metas->location ?? '';
-        $htm = $metas->htm ?? '';
-        if (is_string($htm) && $htm != 'free') {
-            $htm = json_decode($htm);
-        }
-        $data['htm'] = $htm;
-        $data['open_at']      = $metas->open_at ?? '';
-        $data['closed_at']    = $metas->closed_at ?? '';
-        $data['meta_desc']    = $metas->meta_desc ?? '';
-        $data['meta_title']   = $metas->meta_title ?? '';
-        $data['meta_keyword'] = $metas->meta_keyword ?? '';
-        $mentor_reg      = json_decode($metas->mentor_registered ?? '') ?? [];
-        $mentor_not_reg      = json_decode($metas->mentor_not_registered ?? '') ?? [];
-
-        $mentors = array();
-        if (sizeof($mentor_reg) > 0) {
-            foreach ($mentor_reg as $mentor_r) {
-                $users = app()->OAuth->mentors($mentor_r)->users;
-                if (sizeof($users) > 0) {
-                    $mentors[] = $users[0];
-                }
-            }
-        }
-        if (sizeof($mentor_not_reg) > 0) {
-            foreach ($mentor_not_reg as $mentor_nr) {
-                $tmp = json_encode(['name' => $mentor_nr]);
-                $mentors[] = json_decode($tmp);
-            }
-        }
-        $data['mentors'] = $mentors;
-        return $data;
     }
 
     public static function validation_messages(){
