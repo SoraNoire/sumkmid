@@ -238,7 +238,7 @@ class SahabatUserController extends Controller
                     'usaha' => self::listUsaha(),
                     'user' => $user
         ];
-        $i = 1;
+        $i = 4;
         switch ($i) {
             case 1:
                 return view('shb::frontend.member.completion1', $data);
