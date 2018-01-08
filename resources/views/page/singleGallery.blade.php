@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.7/css/swiper.min.css">
 <div class="breadcrumb">
 	<div class="container">
-		<h2><a href="{{ route('public_home') }}">Beranda</a> <i class="fa fa-angle-right" aria-hidden="true"></i><a href="{{ route('public_gallery') }}">Galeri</a> <i class="fa fa-angle-right" aria-hidden="true"></i> {{ $var['content']->title }} </h2>
+		<h2><a href="{{ route('public_home') }}">Beranda</a> <i class="fa fa-angle-right" aria-hidden="true"></i><a href="{{ url('/galeri') }}">Galeri</a> <i class="fa fa-angle-right" aria-hidden="true"></i> {{ $var['content']->title }} </h2>
 	</div>
 </div>
 
@@ -93,13 +93,13 @@
 					</div>
 					<div class="videoNavigation {{ ($var['prevItem'] == '' ? 'singleNavNext' : '') }} {{ ($var['nextItem'] == '' ? 'singleNavPrev' : '') }} ">
 						<div class="prevVideo">
-							<a href="{{route('public_gallery').'/'.$var['prevItem']}}">
+							<a href="{{ url('/galeri/'.$var['prevItem']) }}">
 								<span class="icon i-prev"></span>
 								<span>Galeri sebelumnya</span>
 							</a>
 						</div>
 						<div class="nextVideo ">
-							<a href="{{route('public_gallery').'/'.$var['nextItem']}}">
+							<a href="{{ url('/galeri/'.$var['nextItem']) }}">
 								<span>Galeri selanjutnya</span>
 								<span class="icon i-next"></span>
 							</a>

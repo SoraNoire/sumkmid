@@ -253,8 +253,8 @@ class PublicController extends Controller
 				}
 				return view($postMetas->page_template)->with(['var' => $var]);
 			}
-			return view('page.singlePage')->with(['var' => $var]);
         }
+		return view('errors.404');
 	}
 
 	/**
@@ -299,7 +299,7 @@ class PublicController extends Controller
 			return view('page.mentorSingle')->with(['var' => $var]);
 		}
 
-		return redirect(route('public_mentor'));
+		return view('errors.404');
 
 	}
 
@@ -379,36 +379,39 @@ class PublicController extends Controller
 	public function singleGallery($slug){
 		$var['page'] = "singleGaleri";
 		$var['content'] = DB::table('post_view')->where('slug',$slug)->first();
-		$postMetas = DB::table('post_meta')->where('post_id',$var['content']->id)->get();
-		$postMetas = $this->readMetas($postMetas);
-		$var['tags'] = PostHelper::get_post_tag($var['content']->id);
-		$var['categories'] = PostHelper::get_post_category($var['content']->id);
+		if (isset($var['content'])) {
+			$postMetas = DB::table('post_meta')->where('post_id',$var['content']->id)->get();
+			$postMetas = $this->readMetas($postMetas);
+			$var['tags'] = PostHelper::get_post_tag($var['content']->id);
+			$var['categories'] = PostHelper::get_post_category($var['content']->id);
 
-		if($var['content']->post_type == 'video'){
-			$var['videoEmbed'] = $postMetas->video_url ?? '';
-		}else{
-			$gallery_images = json_decode($postMetas->gallery_images ?? '') ?? []; 
-			$var['photos'] = Media::whereIn('id', $gallery_images)->get();
+			if($var['content']->post_type == 'video'){
+				$var['videoEmbed'] = $postMetas->video_url ?? '';
+			}else{
+				$gallery_images = json_decode($postMetas->gallery_images ?? '') ?? []; 
+				$var['photos'] = Media::whereIn('id', $gallery_images)->get();
+			}
+
+			$nextItem = DB::table('post_view')
+							->whereIn('post_type',['video', 'gallery'])
+							->orderBy('published_date','desc')
+							->where('published_date','>',$var['content']->published_date)
+							->limit(1)
+							->get();
+			$prevItem = DB::table('post_view')
+							->whereIn('post_type',['video', 'gallery'])
+							->orderBy('published_date','desc')
+							->where('published_date','<',$var['content']->published_date)
+							->limit(1)
+							->get();
+
+			$var['nextItem'] = $nextItem[0]->slug ?? '';
+			$var['prevItem'] = $prevItem[0]->slug ?? '';
+	        $var['allcategories'] = PostHelper::get_all_categories(['video', 'gallery']);
+
+			return view('page.singleGallery')->with(['var' => $var]);
 		}
-
-		$nextItem = DB::table('post_view')
-						->whereIn('post_type',['video', 'gallery'])
-						->orderBy('published_date','desc')
-						->where('published_date','>',$var['content']->published_date)
-						->limit(1)
-						->get();
-		$prevItem = DB::table('post_view')
-						->whereIn('post_type',['video', 'gallery'])
-						->orderBy('published_date','desc')
-						->where('published_date','<',$var['content']->published_date)
-						->limit(1)
-						->get();
-
-		$var['nextItem'] = $nextItem[0]->slug ?? '';
-		$var['prevItem'] = $prevItem[0]->slug ?? '';
-        $var['allcategories'] = PostHelper::get_all_categories(['video', 'gallery']);
-
-		return view('page.singleGallery')->with(['var' => $var]);
+		return view('errors.404');
 	}
 
 	/**
