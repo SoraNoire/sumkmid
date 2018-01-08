@@ -24,7 +24,7 @@ class Meta
 {
     protected $meta_site_name = 'Sahabat UMKM Indonesia';
     protected $meta_title = 'Sahabat UMKM Indonesia';
-    protected $meta_desc = 'TUMBUH, BERKEMBANG, DAN SUKSES BERSAMA SAHABAT UMKM INDONESIA';
+    protected $meta_desc = 'Sahabat UMKM Indonesia - TUMBUH, BERKEMBANG, DAN SUKSES BERSAMA SAHABAT UMKM INDONESIA';
     protected $meta_keyword = 'Sahabat UMKM Indonesia';
     protected $meta_type = 'website';
     protected $meta_url = '';
@@ -55,7 +55,8 @@ class Meta
         $this->email_info = Option::where('key', 'email')->first()->value ?? config('app.email_info');
         $this->meta_site_name = Option::where('key', 'site_name')->first()->value ?? $this->meta_site_name;
         $this->meta_desc = Option::where('key', 'site_tagline')->first()->value ?? $this->meta_desc;
-        $this->meta_title = $this->meta_title.' - '.$this->meta_desc;
+        $this->meta_title = 'Sahabat UMKM Indonesia - '.$this->meta_title;
+        $this->meta_url = url()->current();
         $this->meta = array('title' => $this->meta_title,
                              'description' => $this->meta_desc,
                              'keyword' => $this->meta_keyword,
@@ -68,13 +69,21 @@ class Meta
                              'og:site_name' => $this->meta_site_name,
                              'twitter:card' => 'summary',
                              'twitter:description' => $this->meta_desc,
-                             'twitter:title' => $this->meta_title
+                             'twitter:title' => $this->meta_title,
+                             'twitter:url' => $this->meta_url,
+                             'twitter:image:src' => $this->meta_image
                             );
         $this->top_menu = PublicHelper::print_top_menu();
     }
 
     public  function set($var, $value){
-        $this->{$var} = $value;
+        if (is_array($var) && sizeof($var) > 0) {
+            foreach ($var as $key => $var) {
+                $this->{$var} = $value;
+            }
+        } else {
+            $this->{$var} = $value;   
+        }
     }
 
     public function get($var){
@@ -82,6 +91,23 @@ class Meta
     }
 
     public function print_meta(){
+        $this->meta_title = 'Sahabat UMKM Indonesia - '.$this->meta_title;
+        $this->meta = array('title' => $this->meta_title,
+                             'description' => $this->meta_desc,
+                             'keyword' => $this->meta_keyword,
+                             'og:type' => $this->meta_type,
+                             'og:title' => $this->meta_title,
+                             'og:description' => $this->meta_desc,
+                             'og:url' => $this->meta_url,
+                             'og:image' => $this->meta_image,
+                             'og:image:alt' => $this->meta_title,
+                             'og:site_name' => $this->meta_site_name,
+                             'twitter:card' => 'summary',
+                             'twitter:description' => $this->meta_desc,
+                             'twitter:title' => $this->meta_title,
+                             'twitter:url' => $this->meta_url,
+                             'twitter:image:src' => $this->meta_image
+                            );
         $element = '';
         foreach ($this->meta as $key => $value) {
             if ($value != '') {
