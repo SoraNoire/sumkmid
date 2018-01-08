@@ -195,12 +195,20 @@ $('#menu_category').on('click', 'a', function(){
 
 
 function get_menu_id(){
-    var menu_id = 0;
+    var menu_id = new Array();
     if ($("#menu-structure li:last-child").length > 0) {
-        menu_id = parseInt($("#menu-structure li:last-child").attr('data-id'));
+
+        var item = $("#menu-structure li").map(function(){
+            menu_id.push(parseInt($(this).attr('data-id')));
+        }).get().join();
+        console.log(menu_id);
+        menu_id = Math.max(...menu_id);
     }   
+
     return menu_id;
 }
+
+$(document).ready(get_menu_id());
 
 function select_menu(){
     var a = $('#select-menu-option').val();
