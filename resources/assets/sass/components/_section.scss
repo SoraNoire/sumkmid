@@ -18,16 +18,34 @@
 		position: relative;
 		height: 200px;
 		margin-left: 70px;
+		@media screen and (max-width: 850px){
+			margin: 0 auto;
+		}
 		a{
 			display: block;
 			position: absolute;
 			top: 0;
 			bottom: 0;
-			height: max-content;
+			height: 142px;
 			margin: auto;
+			@media screen and (max-width: 850px){
+				width: 165px;
+				left: 0;
+				right: 0;
+			}
 			img{
 			}
 		}
+	}
+	.col-7{
+		@media screen and (max-width: 850px){
+			width: calc(100% - 30px );
+		}
+	}
+	.col-5{
+		@media screen and (max-width: 850px){
+			width: calc(100% - 30px );
+		}	
 	}
 }
 

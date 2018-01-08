@@ -2034,15 +2034,39 @@ footer .container .stayInTouch .copyText {
   margin-left: 70px;
 }
 
+@media screen and (max-width: 850px) {
+  #about-us .sahabaticon {
+    margin: 0 auto;
+  }
+}
+
 #about-us .sahabaticon a {
   display: block;
   position: absolute;
   top: 0;
   bottom: 0;
-  height: -webkit-max-content;
-  height: -moz-max-content;
-  height: max-content;
+  height: 142px;
   margin: auto;
+}
+
+@media screen and (max-width: 850px) {
+  #about-us .sahabaticon a {
+    width: 165px;
+    left: 0;
+    right: 0;
+  }
+}
+
+@media screen and (max-width: 850px) {
+  #about-us .col-7 {
+    width: calc(100% - 30px);
+  }
+}
+
+@media screen and (max-width: 850px) {
+  #about-us .col-5 {
+    width: calc(100% - 30px);
+  }
 }
 
 #quote {
