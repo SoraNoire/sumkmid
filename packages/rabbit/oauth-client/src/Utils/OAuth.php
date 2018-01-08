@@ -287,13 +287,26 @@ class OAuth
         try {
 
             $return = $request->send();
+
             if( json_decode($return) )
             {
-                return json_decode($return);
+                $return = json_decode($return);
+
+                if($return->success)
+                {
+                    return $return;
+                }
+                else
+                {
+                    if(isset($return->code) && 35 ==$return->code )
+                    {
+                    exit( view('oa::errors.generic',['message'=>'App Unauthorized<br/> <a href="">Reload</a>']) );
+                    }
+                }
             }
             else
             {
-                exit( view('oa::errors.generic',['message'=>'Bad Response received<br/> <a href="">Reload</a>']) );   
+                exit( view('oa::errors.generic',['message'=>'Bad Response received<br/> <a href="">Reload</a>']) );
             }
         }
         catch (\Exception $e)

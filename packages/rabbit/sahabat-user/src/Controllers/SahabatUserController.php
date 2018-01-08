@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 // use Rabbit\OAuthClient\Utils\OAuth;
 use Rabbit\SahabatUser\Models\Users;
+use Rabbit\SahabatUser\Models\Kota;
+use Rabbit\SahabatUser\Models\Provinsi;
 use Rabbit\SahabatUser\Models\UserMeta;
 // use Rabbit\OAuthClient\Models\ModulePermissions;
 
@@ -94,6 +96,52 @@ class SahabatUserController extends Controller
                     'Televisi Dan Radio'
             ];
         return (object)$usaha;
+    }
+
+    private static function listProvinsi()
+    {
+      $provinsi = [
+                    'Aceh' => ['Banda Aceh', 'Langsa', 'Lhokseumawe', 'Meulaboh', 'Sabang', 'Subulussalam'],
+                    'Bali' => ['Denpasar'],
+                    'Bangka Belitung' => ['Pangkalpinang'],
+                    'Banten' => ['Cilegon', 'Serang', 'Tangerang Selatan', 'Tangerang'],
+                    'Bengkulu' => ['Bengkulu'],
+                    'Gorontalo' => ['Gorontalo'],
+                    'Jakarta' => ['Jakarta Barat', 'Jakarta Pusat', 'Jakarta Selatan', 'Jakarta Timur', 'Jakarta Utara'],
+                    'Jambi' => ['Sungai Penuh','Jambi'],
+                    'Jawa Barat' => ['Bandung', 'Bekasi', 'Bogor', 'Cimahi', 'Cirebon', 'Depok', 'Sukabumi', 'Tasikmalaya', 'Banjar'],
+                    'Jawa Tengah' => ['Magelang', 'Pekalongan', 'Purwokerto', 'Salatiga', 'Semarang', 'Surakarta', 'Tegal'],
+                    'Jawa Timur' => ['Batu', 'Blitar', 'Kediri', 'Madiun', 'Malang', 'Mojokerto', 'Pasuruan', 'Probolinggo', 'Surabaya'],
+                    'Kalimantan Barat' => ['Pontianak','Singkawang'],
+                    'Kalimantan Selatan' => ['Banjarbaru','Banjarmasin'],
+                    'Kalimantan Tengah' => ['Palangkaraya'],
+                    'Kalimantan Timur' => ['Balikpapan','Bontang','Samarinda'],
+                    'Kalimantan Utara' => ['Tarakan'],
+                    'Kepulauan Riau' => ['Batam','Tanjungpinang'],
+                    'Lampung' => ['Bandar Lampung','Metro'],
+                    'Maluku Utara' => ['Ternate','Tidore Kepulauan'],
+                    'Maluku' => ['Ambon','Tual'],
+                    'Nusa Tenggara Barat' => ['Bima','Mataram'],
+                    'Nusa Tenggara Timur' => ['Kupang'],
+                    'Papua Barat' => ['Sorong'],
+                    'Papua' => ['Jayapura'],
+                    'Riau' => ['Dumai','Pekanbaru'],
+                    'Sulawesi Selatan' => ['Makassar','Palopo','Parepare'],
+                    'Sulawesi Tengah' => ['Palu'],
+                    'Sulawesi Tenggara' => ['Bau-Bau','Kendari'],
+                    'Sulawesi Utara' => ['Bitung','Kotamobagu','Manado','Tomohon'],
+                    'Sumatera Barat' => ['Bukittinggi','Padang','Padangpanjang','Pariaman','Payakumbuh','Sawahlunto','Solok'],
+                    'Sumatera Selatan' => ['Lubuklinggau','Pagaralam','Palembang','Prabumulih'],
+                    'Sumatera Utara' => ['Binjai','Medan','Padang Sidempuan','Pematangsiantar','Sibolga','Tanjungbalai','Tebingtinggi'],
+                    'Yogyakarta' => ['Yogyakarta']
+      ];
+    }
+    private static function listKota()
+    {
+      $kota = [
+                  'Jawa barat'
+                
+      ];
     }
 
     private static function meta_user(){
@@ -190,7 +238,7 @@ class SahabatUserController extends Controller
                     'usaha' => self::listUsaha(),
                     'user' => $user
         ];
-
+        $i = 1;
         switch ($i) {
             case 1:
                 return view('shb::frontend.member.completion1', $data);
@@ -236,6 +284,18 @@ class SahabatUserController extends Controller
         if($request->input('alamat'))
         {
             self::add_or_update_meta('alamat',$request->input('alamat'));
+        }
+
+        // save 'provinsi'
+        if($request->input('provinsi'))
+        {
+            self::add_or_update_meta('provinsi',$request->input('provinsi'));
+        }
+
+        // save 'kota'
+        if($request->input('kota'))
+        {
+            self::add_or_update_meta('kota',$request->input('kota'));
         }
 
         // save 'telepon'

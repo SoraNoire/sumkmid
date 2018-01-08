@@ -12,7 +12,7 @@
     <link rel="icon" type="image/x-icon" href="{{ asset('images/fav.png') }}">
     <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}">
     <link href="//cdn-images.mailchimp.com/embedcode/classic-10_7.css" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="{{ asset('css/index.css') }}?v=1.1.65">
+    <link rel="stylesheet" href="{{ asset('css/index.css') }}?v=1.1.781">
     <link rel="stylesheet" href="{{ asset('css/font-awesome.css') }}?v=1.0.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" />
 
@@ -57,32 +57,9 @@
                         <div class="navWrapper">
 	                        <div class="burgerBtn"></div>
 	                        <ul>
-                                <li><a href="{{ route('public_tentang') }}">Tentang</a></li>
-	                            <li class="{{ ($var['page'] ?? '' == 'Event' ? 'active' : '') }}">
-	                                <a href="{{ route('public_event') }}">
-	                                    Event
-	                                </a>
-	                            </li>
-	                            <li class="{{ ($var['page'] ?? '' == 'mentor' ? 'active' : '') }}">
-	                                <a href="{{ route('public_mentor') }}">
-	                                    Mentor
-	                                </a>
-	                            </li>
-	                            <li class="{{ ($var['page'] ?? '' == 'galeri' ? 'active' : '') }}">
-	                                <a href="{{ route('public_gallery') }}">
-	                                    Galeri
-	                                </a>
-	                            </li>
-<!-- 	                        <li class="{{ ($var['page'] ?? '' == 'Ijin Usaha' ? 'active' : '') }}">
-	                                <a href="#">
-	                                    Forum
-	                                </a>
-	                            </li> -->
-	                            <li class="{{ ($var['page'] ?? '' == 'Kontak' ? 'active' : '') }}">
-	                                <a href="{{ route('public_kontak') }}">
-	                                    Kontak
-	                                </a>
-                                </li>
+                                
+                                {!!  app()->Meta->get('top_menu') !!}
+
                                 @if(app()->OAuth->Auth())
                                 <li class="userNavSetting">
                                     <span>{{app()->OAuth->Auth()->name}}</span>

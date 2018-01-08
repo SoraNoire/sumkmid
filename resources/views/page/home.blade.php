@@ -32,19 +32,31 @@
 
 <section id="about-us">
 	<div class="container">
-		<h3 class="section-title gray"><span>Tentang</span> <span>Kami</span></h3>
-		<div class="section-desc">
-			<p>
-				{{ $var['about_us'] ?? '' }}
-			</p>
+		<div class="row">
+			<div class="col-7">
+				<h3 class="section-title"><span>Tentang</span> <span>Kami</span></h3>
+				<div class="section-desc">
+					<p>
+						{{ $var['about_us'] ?? '' }}
+					</p>
+				</div>	
+			</div>
+			<div class="col-5">
+				<div class="sahabaticon">
+					<a href="{{ URL::to('/') }}">
+						<img src="{{ asset('images/sbt-icon.png') }}">
+					</a>
+				</div>
+			</div>
 		</div>
 	</div>
 </section>
 
-<section id="quote" class="blue-bg">
+<section id="quote">
     <div class="container">
+    	<h3 class="section-title"><span>Why Should You Join Our</span> <span>Community</span></h3>
         <div class="the-row">
-        	@if ( isset($var['quote']->image) && $var['quote']->image != '' )
+        	<!-- @if ( isset($var['quote']->image) && $var['quote']->image != '' )
         	<div class="col-3">
 	        	<div class="quotePhotoWraper">
 		            <div class="quotePhoto">
@@ -63,6 +75,9 @@
 	            <div class="quoter">
 	        		<p>{{ $var['quote']->from ?? '' }}</p>
 	        	</div>
+           	</div> -->
+           	<div class="col-12">
+           		<p class="why-shld-join">we provide you a new culture of creative and entrepreneurial education to support you achieve your personal goals</p>
            	</div>
         </div>
     </div>
@@ -83,29 +98,33 @@
 			</div>
 		</div>
 		@endforeach
-
+	</div>
+	<div class="registerNow">
+		<a href="#">
+			<span class="button">Daftar Sekarang</span>
+		</a>
 	</div>
 </section>
 
 <section id="main-gallery">
 	<div class="container">
-		<h3 class="section-title">{!! $var['post_section_titsle'] ?? '<span>Kisah</span> <span>Inspirasi</span>' !!}</h3>
+		<h3 class="section-title">{!! $var['post']->title ?? '<span>Galeri Sahabat</span> <span>UMKM</span>' !!}</h3>
 		<div class="swiper-container gallery-slider">
 			<div class="swiper-wrapper">
-				@foreach ($var['post'] as $post)
+				@foreach ($var['post']->data as $post)
 				<div class="swiper-slide">
 					<div class="g-mini-frame">
 						<div class="thumbnail-wraper" style="background-image: url('{{ $post->featured_img ?? '' }}');">
 		        		</div>
 		        		<div class="meta">
-							<a title="{{ $post->title ?? '' }}" href="{{ url('read/'.$post->kategori_slug.'/'.$post->slug_id) }}" class="title">{{ $post->title ?? '' }}</a>
+							<a title="{{ $post->title ?? '' }}" href="{{ $post->link }}" class="title">{{ $post->title ?? '' }}</a>
 							<span class="desc">
-								@if( isset($post->meta_desc) )
-									{{ $post->meta_desc }}
+								@if( isset($post->post_desc) )
+									{{ $post->post_desc }}
 								@endif
 							</span>
-							<span class="date"><i class="fa fa-calendar" aria-hidden="true"></i>{{ \Carbon\Carbon::createFromTimeStamp(strtotime($post->date_published))->toFormattedDateString() }}</span>
-							<a title="{{ $post->title ?? '' }}" href="{{ url('read/'.$post->kategori_slug.'/'.$post->slug_id) }}" class="readmore">READ MORE</a>
+							<span class="date"><i class="fa fa-calendar" aria-hidden="true"></i>{{ \Carbon\Carbon::createFromTimeStamp(strtotime( $post->date_published ))->toFormattedDateString() }}</span>
+							<a title="{{ $post->title ?? '' }}" href="{{ $post->link }}" class="readmore">READ MORE</a>
 						</div>
 					</div>
 				</div>

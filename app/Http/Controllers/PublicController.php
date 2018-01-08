@@ -8,6 +8,7 @@ use NewsApi;
 use Session;
 use Cookie;
 use App\Helpers\SSOHelper as SSO;
+use App\Helpers\PublicHelper;
 use App\Events;
 use DB;
 use Modules\Blog\Entities\Posts;
@@ -116,33 +117,53 @@ class PublicController extends Controller
         $var['page'] = "Home";
 
         $var['post_section'] = Option::where('key', 'post_section')->first()->value ?? '';
-  //       if ($var['gallery'] != '') {
-  //           $var['gallery'] = json_decode($var['gallery']);
-  //       } else {
-  //       	$var['gallery'] = [];
-  //       	$var['gallery']['title'] = 'Galeri Sahabat UMKM';
-  //       	$var['gallery']['category'] = '0';
-  //           $var['gallery'] = json_encode($var['gallery']);
-  //           $var['gallery'] = json_decode($var['gallery']);
-  //       }
+        $post = Option::where('key', 'post_section')->first()->value ?? '';
+        if ($post != '') {
+            $post = json_decode($post);
+        } else {
+        	$post['title'] = 'Galeri Sahabat UMKM';
+            $post['use_gallery'] = 1;
+            $post['category'] = 0;
+            $post = json_encode($post);
+            $post = json_decode($post);
+        }
 
-		$post_title = $var['post_section'];
-		$split = explode(' ', $post_title);
+		$split = explode(' ', $post->title);
 		$split[count($split)-1] = "</span><span>".$split[count($split)-1]."</span>";
 		$split[0] = "<span>".$split[0];
-		$var['post_section_title'] = implode(" ", $split);
+		$post->title = implode(" ", $split);
 
-		// if ($var['gallery']->category > 1) {
-		// 	$post_ids = PostHelper::get_post_archive_id('category', $var['gallery']->category);
-		// 	$var['videos'] = DB::table('post_view')
-		// 					->whereIn('post_type',['video', 'gallery'])
-		// 					->whereIn('id', $post_ids)
-		// 					->orderBy('published_date','desc')
-		// 					->limit(6)
-		// 					->get();
-		// } else {
-		// 	$var['videos'] = DB::table('post_view')->whereIn('post_type',['video', 'gallery'])->orderBy('published_date','desc')->limit(4)->get();
-		// }
+       	$post->data = PublicHelper::getMNewsPosts();
+		if ($post->use_gallery == 1) {
+			if ($post->category > 1) {
+				$post_ids = PostHelper::get_post_archive_id('category', $post->category);
+				$post->data = DB::table('post_view')
+								->whereIn('post_type',['video', 'gallery'])
+								->whereIn('id', $post_ids)
+								->orderBy('published_date','desc')
+								->limit(8)
+								->get();
+			} else {
+				$post->data = DB::table('post_view')
+								->whereIn('post_type',['video', 'gallery'])
+								->orderBy('published_date','desc')
+								->limit(8)
+								->get();
+			}
+
+			foreach ($post->data as $key => $value) {
+				$postMetas = DB::table('post_meta')->where('post_id',$value->id)->get();
+				$postMetas = $this->readMetas($postMetas);
+				$value->post_desc = $postMetas->meta_desc ?? '';
+				$value->link = url('/galeri/'.$value->slug); 
+				$value->featured_img = $value->featured_image;
+				$value->date_published = $value->published_date;
+				if ( $value->post_desc == '') {
+					$value->post_desc = str_limit(html_entity_decode(strip_tags($value->content)), 250);
+				}
+			}
+		}
+		$var['post'] = $post;
 
 		$var['mentors'] = app()->OAuth->mentors()->users;
 		
@@ -165,11 +186,6 @@ class PublicController extends Controller
             $n++;
         }
 
-        // $var['video'] = Option::where('key', 'video_section')->first()->value ?? '';
-        // if ($var['video'] != '') {
-        //     $var['video'] = json_decode($var['video']);
-        // }
-
         $var['quote'] = Option::where('key', 'quotes_section')->first()->value ?? '';
         if ($var['quote'] != '') {
             $var['quote'] = json_decode($var['quote']);
@@ -187,26 +203,58 @@ class PublicController extends Controller
         	}
         }
 
-        $curl = new \anlutro\cURL\cURL;
-        $mnews_url = config('app.mnews_url') ?? 'http://news.mdirect.id';
-		$curl_response = $curl->get($mnews_url.'/get-sahabat-umkm-post');
-		$var['post'] = [];
-		if ($curl_response->info['content_type'] == 'application/json') {
-			$var['post'] = json_decode($curl_response->body);
-		}
-
-		if (count($var['post']) > 0) {
-			foreach ($var['post'] as $key => $value) {
-				$prop = $value->properties;
-				$prop = json_decode($prop);
-				$value->meta_title = $prop->meta_title;
-				$value->meta_desc = $prop->meta_desc;
-				$value->meta_keyword = $prop->meta_keyword;
-			}
-		}
-		// dd($var['post']);
-
 		return view('page.home')->with(['var' => $var]);
+	}
+
+	/**
+     * Show single page.
+     * @return Response
+     */
+	public function single_page($slug){
+        $page = DB::table('post_view')->where('post_type', 'page')->where('slug', $slug)->first();
+        if (isset($page)) {
+            $templates = PostHelper::get_page_templates_list();
+        	$var['page'] = $page->title;
+        	$var['content'] = $page->content;
+
+			$postMetas = DB::table('post_meta')->where('post_id',$page->id)->get();
+			$postMetas = $this->readMetas($postMetas);
+			if (isset($postMetas->page_template)) {
+				switch ($postMetas->page_template) {
+					case 'template.mentor':
+						$var['mentors'] = app()->OAuth->mentors()->users;
+					break;
+
+					case 'template.event':
+					 	$var['events'] = DB::table('post_meta')
+					        			->where('key', '=', 'open_at')
+					        			->join('post_view', function ($join) {
+					            			$join->on('post_meta.post_id', '=', 'post_view.id')
+					            				 ->where('post_view.post_type','event');
+					        			})
+					    				->orderby('value', 'desc')
+										->paginate(3);
+					break;
+
+					case 'template.kontak':
+						# code...
+					break;
+
+					case 'template.gallery':
+						$var['posts'] = DB::table('post_view')
+										->whereIn('post_type',['video', 'gallery'])
+										->orderBy('published_date','desc')
+										->paginate(6);
+					break;
+					
+					default:
+						$postMetas->page_template = 'page.singlePage';
+						break;
+				}
+				return view($postMetas->page_template)->with(['var' => $var]);
+			}
+			return view('page.singlePage')->with(['var' => $var]);
+        }
 	}
 
 	/**
@@ -215,13 +263,7 @@ class PublicController extends Controller
      */
 	public function tentang(){
         $var['page'] = "Tentang Kami";
-
-        $get = Posts::where('slug','tentang-kami')->where('post_type','page')->orWhere('slug','tentang')->first();
-
-        if($get){
-        	$var['data'] = $get;
-        	return view('page.tentangDinamis')->with(['var' => $var]);
-        }
+        $var['content'] = Option::where('key', 'tentang_kami')->first()->value ?? '';
 
 		return view('page.tentang')->with(['var' => $var]);
 	}
@@ -232,7 +274,7 @@ class PublicController extends Controller
      */
 	public function kontak(){
         $var['page'] = "Kontak";
-		return view('page.kontak')->with(['var' => $var]);
+		return view('template.kontak')->with(['var' => $var]);
 	}
 
 	/**
@@ -243,7 +285,7 @@ class PublicController extends Controller
 		$var['page'] = "Mentor";
 		$var['mentors'] = app()->OAuth->mentors()->users;
 		
-		return view('page.mentor')->with(['var' => $var]);
+		return view('template.mentor')->with(['var' => $var]);
 	}
 	/**
      * Show single mentor page.
@@ -302,7 +344,7 @@ class PublicController extends Controller
 					->paginate(3);
 					// dd($var['events']);
 
-		return view('page.event')->with(['var' => $var]);
+		return view('template.event')->with(['var' => $var]);
 	}
 
 	/**
@@ -327,7 +369,7 @@ class PublicController extends Controller
 	public function gallery(){
 		$var['page'] = "Galeri";
 		$var['posts'] = DB::table('post_view')->whereIn('post_type',['video', 'gallery'])->orderBy('published_date','desc')->paginate(6);
-		return view('page.gallery')->with(['var' => $var]);
+		return view('template.gallery')->with(['var' => $var]);
 	}
 
 	/**
@@ -404,7 +446,7 @@ class PublicController extends Controller
 						->whereIn('id', $post_ids)
 						->orderBy('published_date','desc')
 						->paginate(6);
-		return view('page.gallery')->with(['var' => $var]);
+		return view('template.gallery')->with(['var' => $var]);
 	}
 
 	/**
@@ -425,7 +467,7 @@ class PublicController extends Controller
 						->whereIn('id', $post_ids)
 						->orderBy('published_date','desc')
 						->paginate(6);
-		return view('page.gallery')->with(['var' => $var]);
+		return view('template.gallery')->with(['var' => $var]);
 	}
 
 	function readMetas($arr=[]){
@@ -450,8 +492,7 @@ class PublicController extends Controller
         $subject = $req->input('subject');
         $pesan = $req->input('pesan');
 
-        $email_to = config('app.email_info') ?? 'info@mdirect.id';
-        dd($email_to);
+        $email_to = app()->Meta->get('email_info');
 
         $data = array(
             'name' => $name,

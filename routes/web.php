@@ -26,12 +26,13 @@ Route::group(['middleware' => ['admin']], function () {
 
 
 Route::get('/', 'PublicController@home')->name('public_home');
-Route::get('/tentang', 'PublicController@tentang')->name('public_tentang');
-Route::get('/mentor', 'PublicController@mentor')->name('public_mentor');
+Route::get('/{slug}', 'PublicController@single_page')->name('public_single_page');
+// Route::get('/tentang', 'PublicController@tentang')->name('public_tentang');
+// Route::get('/mentor', 'PublicController@mentor')->name('public_mentor');
 Route::get('/mentor/{mentorId}', 'PublicController@mentorSingle')->name('public_mentor_single');
-Route::get('/kontak', 'PublicController@kontak')->name('public_kontak');
-Route::get('/event', 'PublicController@event')->name('public_event');
-Route::get('/galeri', 'PublicController@gallery')->name('public_gallery');
+// Route::get('/kontak', 'PublicController@kontak')->name('public_kontak');
+// Route::get('/event', 'PublicController@event')->name('public_event');
+// Route::get('/galeri', 'PublicController@gallery')->name('public_gallery');
 Route::get('/newsletter', 'PublicController@newsletter')->name('public_newsletter');
 Route::get('/save-newsletter', 'PublicController@save_newsletter')->name('save_newsletter');
 Route::get('/read/{category}/{slug}', 'PublicController@read_post')->name('read_post');
