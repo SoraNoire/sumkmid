@@ -64,7 +64,7 @@
                         </span>
                     </div>
                     @endif
-                    <textarea class="form-control mytextarea" name="content" required="required">{{ $content }}</textarea>
+                    <textarea class="form-control mytextarea" name="content">{{ $content }}</textarea>
                 </div>
 
                 <div class="panel panel-default">
