@@ -218,6 +218,6 @@
 
     @yield('modal')
 
-    <script src="{{ asset('js/index.js') }}?v=1.0.41" type="text/javascript"></script>
+    <script src="{{ asset('js/index.js') }}?v=1.0.42" type="text/javascript"></script>
   </body>
 </html>

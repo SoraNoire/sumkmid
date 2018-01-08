@@ -1,7 +1,7 @@
 $(document).ready(function() {
 // NESTABLE
     if ($('#menu-structure').length > 0) {
-        $('#menu-structure').nestable({ group: 1,maxDepth: 0 });
+        $('#menu-structure').nestable({ group: 1,maxDepth: 1 });
         load_list_menu();
     }
 // END NESTABLE
