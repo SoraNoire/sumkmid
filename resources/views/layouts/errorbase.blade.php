@@ -57,32 +57,9 @@
                         <div class="navWrapper">
                             <div class="burgerBtn"></div>
                             <ul>
-                                <li><a href="{{ route('public_tentang') }}">Tentang</a></li>
-                                <li class="{{ ($var['page'] ?? '' == 'Event' ? 'active' : '') }}">
-                                    <a href="{{ route('public_event') }}">
-                                        Event
-                                    </a>
-                                </li>
-                                <li class="{{ ($var['page'] ?? '' == 'mentor' ? 'active' : '') }}">
-                                    <a href="{{ route('public_mentor') }}">
-                                        Mentor
-                                    </a>
-                                </li>
-                                <li class="{{ ($var['page'] ?? '' == 'galeri' ? 'active' : '') }}">
-                                    <a href="{{ route('public_gallery') }}">
-                                        Galeri
-                                    </a>
-                                </li>
-<!--                            <li class="{{ ($var['page'] ?? '' == 'Ijin Usaha' ? 'active' : '') }}">
-                                    <a href="#">
-                                        Forum
-                                    </a>
-                                </li> -->
-                                <li class="{{ ($var['page'] ?? '' == 'Kontak' ? 'active' : '') }}">
-                                    <a href="{{ route('public_kontak') }}">
-                                        Kontak
-                                    </a>
-                                </li>
+                                
+                                {!!  app()->Meta->get('top_menu') !!}
+
                                 @if(app()->OAuth->Auth())
                                 <li class="userNavSetting">
                                     <span>{{app()->OAuth->Auth()->name}}</span>

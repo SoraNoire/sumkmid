@@ -10,6 +10,7 @@ use Modules\Blog\Entities\Categories;
 use Modules\Blog\Entities\Posts;
 use Modules\Blog\Entities\Option;
 use View;
+use DB;
 
 class MenuController extends Controller
 {
@@ -50,7 +51,7 @@ class MenuController extends Controller
             $list_cat .= '<span>No Category Found</span>';
         }
 
-        $pages = Posts::where('post_type', 'page')->orderby('created_at', 'desc')->get();
+        $pages = DB::table('post_view')->where('post_type', 'page')->orderby('created_at', 'desc')->get();
 
         return view('menu::index')->with(['meta_title' => $meta_title, 'list_cat' => $list_cat, 'page_meta_title' => $page_meta_title, 'pages' => $pages]);
     }

@@ -12018,7 +12018,7 @@ if ($("#posts-trash").length > 0) {
                         editDisabled = '';
                     } else { editDisabled = 'disabled'; }
 
-                    return '<a href="/admin/blog/trash/'+data+'/restore" class="btn btn-round btn-fill btn-info '+editDisabled+'">Restore</a> | <a onclick="return confirm(\'Delete Post?\');" href="/admin/blog/trash/'+data+'/delete" class="btn btn-round btn-fill btn-danger '+delDisabled+'">Delete Permanently</a>';
+                    return '<a href="/admin/blog/trash/'+data+'/restore" class="btn btn-round btn-fill btn-info '+editDisabled+'">Restore</a><a onclick="return confirm(\'Delete Post?\');" href="/admin/blog/trash/'+data+'/delete" class="btn btn-round btn-fill btn-danger '+delDisabled+'">Delete Permanently</a>';
                 }
             }
         ],
