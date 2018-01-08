@@ -3821,6 +3821,12 @@ footer .container .stayInTouch .copyText {
   }
 }
 
+@media screen and (max-width: 624px) {
+  #contact .container .row .contact-address {
+    width: calc(100% - 30px);
+  }
+}
+
 #contact .container .row .contact-address p img {
   background: #ffffff;
 }
@@ -3828,6 +3834,12 @@ footer .container .stayInTouch .copyText {
 @media screen and (max-width: 512px) {
   #contact .container .row .contact-address {
     margin-bottom: 20px;
+  }
+}
+
+@media screen and (max-width: 624px) {
+  #contact .contact-form {
+    width: calc(100% - 30px);
   }
 }
 
