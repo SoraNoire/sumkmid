@@ -103,8 +103,8 @@ class SahabatUserController extends Controller
         $userData = [];
         $user = app()->OAuth::$Auth;
         $userMeta->map(
-            function($meta) use(&$userData,&$user){
-                if( 'type_user' == $meta->meta_key )
+            function($meta) use(&$userData,&$user,$id){
+                if( false === $id && 'type_user' == $meta->meta_key )
                 {
                     $user->role = $meta->meta_value;
                 }
@@ -114,6 +114,9 @@ class SahabatUserController extends Controller
                 }
             }
         );
+        if ($id) {
+            return (object)$userData;
+        }
         app()->OAuth::$Auth->data = (object)$userData;
         unset($user);
     }
@@ -195,6 +198,10 @@ class SahabatUserController extends Controller
                     'usaha' => self::listUsaha(),
                     'user' => $user
         ];
+<<<<<<< HEAD
+=======
+        // $i = 1;
+>>>>>>> fa806de04c3b267216d51ff2043f21330f08c568
         switch ($i) {
             case 1:
                 return view('shb::frontend.member.completion1', $data)->with(['alamat' => $alamat]);
@@ -216,14 +223,14 @@ class SahabatUserController extends Controller
 
     }
 
-    public function completionSave(Request $request)
+    public function completionSave(Request $request,$id=false)
     {
 
 
         // save 'kota lahir'
         if($request->input('kota_lahir'))
         {
-            self::add_or_update_meta('kota_lahir',$request->input('kota_lahir'));
+            self::add_or_update_meta('kota_lahir',$request->input('kota_lahir'),$id);
         }
 
         // save 'tahun lahir'
@@ -233,38 +240,38 @@ class SahabatUserController extends Controller
                             .'/'.$request->input('bulan_lahir')
                             .'/'.$request->input('tanggal_lahir');
 
-            self::add_or_update_meta('tanggal_lahir',$tahunLahir);
+            self::add_or_update_meta('tanggal_lahir',$tahunLahir,$id);
         }
 
         // save 'alamat'
         if($request->input('alamat'))
         {
-            self::add_or_update_meta('alamat',$request->input('alamat'));
+            self::add_or_update_meta('alamat',$request->input('alamat'),$id);
         }
 
         // save 'provinsi'
         if($request->input('provinsi'))
         {
-            self::add_or_update_meta('provinsi',$request->input('provinsi'));
+            self::add_or_update_meta('provinsi',$request->input('provinsi'),$id);
         }
 
         // save 'kota'
         if($request->input('kota'))
         {
-            self::add_or_update_meta('kota',$request->input('kota'));
+            self::add_or_update_meta('kota',$request->input('kota'),$id);
         }
 
         // save 'telepon'
         if($request->input('telepon'))
         {
-            self::add_or_update_meta('telepon',$request->input('telepon'));
+            self::add_or_update_meta('telepon',$request->input('telepon'),$id);
         }
 
         // save 'type_user'
         if($request->input('type_user'))
         {
             $typeUser = ( 'ya' == $request->input('type_user') ) ? 'umkm' : 'perorangan';
-            self::add_or_update_meta('type_user',$typeUser);
+            self::add_or_update_meta('type_user',$typeUser,$id);
             // delete umkm data if any
             UserMeta::whereIn('meta_key',['nama_usaha','jenis_usaha','lama_berdiri','omzet'])
                       ->where('user_id',app()->OAuth::Auth()->id)->delete();
@@ -273,19 +280,19 @@ class SahabatUserController extends Controller
         // save 'nama_usaha'
         if($request->input('nama_usaha'))
         {
-            self::add_or_update_meta('nama_usaha',$request->input('nama_usaha'));
+            self::add_or_update_meta('nama_usaha',$request->input('nama_usaha'),$id);
         }
 
         // save 'jenis_usaha'
         if($request->input('jenis_usaha'))
         {
-            self::add_or_update_meta('jenis_usaha',$request->input('jenis_usaha'));
+            self::add_or_update_meta('jenis_usaha',$request->input('jenis_usaha'),$id);
         }
 
         // save 'lama_berdiri'
         if($request->input('lama_berdiri'))
         {
-            self::add_or_update_meta('lama_berdiri',$request->input('lama_berdiri'));
+            self::add_or_update_meta('lama_berdiri',$request->input('lama_berdiri'),$id);
         }
 
         // save 'omzet'
@@ -293,7 +300,7 @@ class SahabatUserController extends Controller
         {
             if( 'null' != $request->input('omzet') )
             {
-              self::add_or_update_meta('omzet',$request->input('omzet'));
+              self::add_or_update_meta('omzet',$request->input('omzet'),$id);
             }
         }
 
@@ -310,7 +317,7 @@ class SahabatUserController extends Controller
             $img = \Image::make( storage_path( $path . $filename) );
             $img->save( storage_path( $path . $filename) , 75);
 
-            self::add_or_update_meta('foto_ktp',$filename);
+            self::add_or_update_meta('foto_ktp',$filename,$id);
         }
 
         // save 'informasi_usaha'
@@ -321,7 +328,7 @@ class SahabatUserController extends Controller
             {
               foreach ($request->input('info') as $key => $i) {
                   if($i && '' != $i){
-                    self::add_or_update_meta('informasi_usaha',json_encode($request->input('info')));
+                    self::add_or_update_meta('informasi_usaha',json_encode($request->input('info')),$id);
                   }
               }
 
@@ -335,7 +342,7 @@ class SahabatUserController extends Controller
                     $info[$key] = $value;
                 }
               }
-              self::add_or_update_meta('informasi_usaha',json_encode($info));
+              self::add_or_update_meta('informasi_usaha',json_encode($info),$id);
             }
         }
 
@@ -344,31 +351,31 @@ class SahabatUserController extends Controller
         if($request->input('usaha_tetap'))
         {
 
-            self::add_or_update_meta('usaha_tetap',$request->input('usaha_tetap'));
+            self::add_or_update_meta('usaha_tetap',$request->input('usaha_tetap'),$id);
         }
         // save 'kelengkapan_dokumen'
         if($request->input('kelengkapan_dokumen'))
         {
 
-            self::add_or_update_meta('kelengkapan_dokumen',$request->input('kelengkapan_dokumen'));
+            self::add_or_update_meta('kelengkapan_dokumen',$request->input('kelengkapan_dokumen'),$id);
         }
         // save 'tempat_usaha'
         if($request->input('tempat_usaha'))
         {
 
-            self::add_or_update_meta('tempat_usaha',$request->input('tempat_usaha'));
+            self::add_or_update_meta('tempat_usaha',$request->input('tempat_usaha'),$id);
         }
         // save 'adm_keuangan'
         if($request->input('adm_keuangan'))
         {
 
-            self::add_or_update_meta('adm_keuangan',$request->input('adm_keuangan'));
+            self::add_or_update_meta('adm_keuangan',$request->input('adm_keuangan'),$id);
         }
         // save 'akses_perbankan'
         if($request->input('akses_perbankan'))
         {
 
-            self::add_or_update_meta('akses_perbankan',$request->input('akses_perbankan'));
+            self::add_or_update_meta('akses_perbankan',$request->input('akses_perbankan'),$id);
         }
 
 
@@ -377,14 +384,14 @@ class SahabatUserController extends Controller
         if($request->input('kuisioner_mengapa'))
         {
 
-            self::add_or_update_meta('kuisioner_mengapa',$request->input('kuisioner_mengapa'));
+            self::add_or_update_meta('kuisioner_mengapa',$request->input('kuisioner_mengapa'),$id);
         }
 
         // save 'kuisionar_harapan'
         if($request->input('kuisioner_harapan'))
         {
 
-            self::add_or_update_meta('kuisioner_harapan',$request->input('kuisioner_harapan'));
+            self::add_or_update_meta('kuisioner_harapan',$request->input('kuisioner_harapan'),$id);
         }
 
         // save 'tos_terima'
@@ -394,34 +401,103 @@ class SahabatUserController extends Controller
             $tos = ( 'on' == $request->input('tos_terima') ) ? 1 : 0;
             if( $request->input('kuisioner_harapan') && $request->input('kuisioner_mengapa')  )
             {
-              self::add_or_update_meta('tos_terima',$tos);
+              self::add_or_update_meta('tos_terima',$tos,$id);
             }
         }
 
 
-        
+        if($id)
+        {
+            return back();
+        }
         return redirect('/')->send();
     }
 
 
-    private static function add_or_update_meta($key,$val)
+    private static function add_or_update_meta($key,$val,$id=false)
     {
-        if(UserMeta::where('user_id',app()->OAuth::Auth()->id)->where('meta_key',$key)->first())
+        $id = ( false!==$id ) ? $id : app()->OAuth::Auth()->id;
+        if(UserMeta::where('user_id',$id)->where('meta_key',$key)->first())
         {
-            UserMeta::where('user_id',app()->OAuth::Auth()->id)
+            UserMeta::where('user_id',$id)
                     ->where('meta_key',$key)
                     ->update(['meta_value'=>$val]);
         }
         else
         {
             $insert = [
-                        'user_id' => app()->OAuth::Auth()->id,
+                        'user_id' => $id,
                         'meta_key' => $key,
                         'meta_value' => $val
                     ];
             UserMeta::insert($insert);
         }
     }
+
+
+    /**
+     * delete user
+     *
+     * @return void
+     * @author 
+     **/
+    public function deleteUser()
+    {
+
+        return back();
+    }
+
+    public function viewUser($id)
+    {
+        $user = Users::select(['master_id'])->where('id',$id)->first();
+        $masterId = $user->master_id;
+        $user = app()->OAuth->user($user->master_id);
+        // swap id
+        $user->id = $id;
+        $user->master_id = $masterId;
+        
+        $meta = self::meta_user($id);
+        if(!$user)
+        {
+            return back();
+        }
+        $user->data = $meta;
+        $data =[
+            'user' => $user,
+            'page' => 'Edit User'
+        ];
+        return view('shb::backend.users.edit',$data);
+    }
+
+    public function viewUserDetail($id)
+    {
+        $user = Users::where('id',$id)->first();
+        $meta = self::meta_user($id);
+        if(!$user || !isset($meta->type_user))
+        {
+            return back();
+        }
+        $user->data = $meta;
+        $data =[
+            'user' => $user,
+            'page' => 'Edit User'
+        ];
+        if( 'perorangan' == $meta->type_user)
+        {
+            return view('shb::backend.users.edit-detail-perorangan',$data);
+        }
+        return view('shb::backend.users.edit-detail',$data);
+    }
+
+    public function updateUser(Request $request,$id)
+    {
+        
+        $this->completionSave($request,$id);
+        return back();
+    }
+
+
+
     //
 
   //   public function permissions()

@@ -121,6 +121,7 @@ class PublicController extends Controller
         if ($post != '') {
             $post = json_decode($post);
         } else {
+        	$post = [];
         	$post['title'] = 'Galeri Sahabat UMKM';
             $post['use_gallery'] = 1;
             $post['category'] = 0;
