@@ -446,8 +446,14 @@ class SahabatUserController extends Controller
     public function viewUser($id)
     {
         $user = Users::select(['master_id'])->where('id',$id)->first();
+        if(!$user)
+        {
+            return redirect(route('SHB.dashboard'))->send();
+        }
         $masterId = $user->master_id;
+
         $user = app()->OAuth->user($user->master_id);
+        dd($user);
         // swap id
         $user->id = $id;
         $user->master_id = $masterId;
