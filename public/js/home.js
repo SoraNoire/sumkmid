@@ -255,10 +255,9 @@ if($('#main-gallery').length > 0){
 
 $('#pilihProvinsi').on('change',function(){
 	$('#pilihKota').val('pilihkota');
-	target = $('#pilihProvinsi').val();
-	target = target.replace(" ", "-");
+	getprov = $('option:selected', this).attr('id');
 	$('.defkota').hide();
-	$('.'+target).show();
+	$('.'+getprov).show();
 });
 
 

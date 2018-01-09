@@ -98,52 +98,6 @@ class SahabatUserController extends Controller
         return (object)$usaha;
     }
 
-    private static function listProvinsi()
-    {
-      $provinsi = [
-                    'Aceh' => ['Banda Aceh', 'Langsa', 'Lhokseumawe', 'Meulaboh', 'Sabang', 'Subulussalam'],
-                    'Bali' => ['Denpasar'],
-                    'Bangka Belitung' => ['Pangkalpinang'],
-                    'Banten' => ['Cilegon', 'Serang', 'Tangerang Selatan', 'Tangerang'],
-                    'Bengkulu' => ['Bengkulu'],
-                    'Gorontalo' => ['Gorontalo'],
-                    'Jakarta' => ['Jakarta Barat', 'Jakarta Pusat', 'Jakarta Selatan', 'Jakarta Timur', 'Jakarta Utara'],
-                    'Jambi' => ['Sungai Penuh','Jambi'],
-                    'Jawa Barat' => ['Bandung', 'Bekasi', 'Bogor', 'Cimahi', 'Cirebon', 'Depok', 'Sukabumi', 'Tasikmalaya', 'Banjar'],
-                    'Jawa Tengah' => ['Magelang', 'Pekalongan', 'Purwokerto', 'Salatiga', 'Semarang', 'Surakarta', 'Tegal'],
-                    'Jawa Timur' => ['Batu', 'Blitar', 'Kediri', 'Madiun', 'Malang', 'Mojokerto', 'Pasuruan', 'Probolinggo', 'Surabaya'],
-                    'Kalimantan Barat' => ['Pontianak','Singkawang'],
-                    'Kalimantan Selatan' => ['Banjarbaru','Banjarmasin'],
-                    'Kalimantan Tengah' => ['Palangkaraya'],
-                    'Kalimantan Timur' => ['Balikpapan','Bontang','Samarinda'],
-                    'Kalimantan Utara' => ['Tarakan'],
-                    'Kepulauan Riau' => ['Batam','Tanjungpinang'],
-                    'Lampung' => ['Bandar Lampung','Metro'],
-                    'Maluku Utara' => ['Ternate','Tidore Kepulauan'],
-                    'Maluku' => ['Ambon','Tual'],
-                    'Nusa Tenggara Barat' => ['Bima','Mataram'],
-                    'Nusa Tenggara Timur' => ['Kupang'],
-                    'Papua Barat' => ['Sorong'],
-                    'Papua' => ['Jayapura'],
-                    'Riau' => ['Dumai','Pekanbaru'],
-                    'Sulawesi Selatan' => ['Makassar','Palopo','Parepare'],
-                    'Sulawesi Tengah' => ['Palu'],
-                    'Sulawesi Tenggara' => ['Bau-Bau','Kendari'],
-                    'Sulawesi Utara' => ['Bitung','Kotamobagu','Manado','Tomohon'],
-                    'Sumatera Barat' => ['Bukittinggi','Padang','Padangpanjang','Pariaman','Payakumbuh','Sawahlunto','Solok'],
-                    'Sumatera Selatan' => ['Lubuklinggau','Pagaralam','Palembang','Prabumulih'],
-                    'Sumatera Utara' => ['Binjai','Medan','Padang Sidempuan','Pematangsiantar','Sibolga','Tanjungbalai','Tebingtinggi'],
-                    'Yogyakarta' => ['Yogyakarta']
-      ];
-    }
-    private static function listKota()
-    {
-      $kota = [
-                  'Jawa barat'
-                
-      ];
-    }
-
     private static function meta_user(){
         $userMeta = UserMeta::where('user_id',app()->OAuth::Auth()->id)->get();
         $userData = [];
@@ -224,6 +178,9 @@ class SahabatUserController extends Controller
             return redirect('/')->send();   
         }
 
+        $alamat['kota'] = Kota::get();
+        $alamat['provinsi'] = Provinsi::get();
+
         self::meta_user();
         self::check_steps();
         $user = app()->OAuth::Auth();
@@ -238,10 +195,10 @@ class SahabatUserController extends Controller
                     'usaha' => self::listUsaha(),
                     'user' => $user
         ];
-        $i = 4;
+        $i = 1;
         switch ($i) {
             case 1:
-                return view('shb::frontend.member.completion1', $data);
+                return view('shb::frontend.member.completion1', $data)->with(['alamat' => $alamat]);
                 break;
             case 2:
                 return view('shb::frontend.member.completion2', $data);
