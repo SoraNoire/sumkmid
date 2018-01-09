@@ -168,11 +168,21 @@ class PublicController extends Controller
 
 		$var['mentors'] = app()->OAuth->mentors()->users;
 		
-		$program = Option::where('key', 'program')->first()->value ?? '';
+		$program = Option::where('key', 'list_program')->first()->value ?? '';
         $var['programs'] = [];
         if ($program != '') {
             $var['programs'] = json_decode($program);
         }
+
+        $var['program'] = Option::where('key', 'program_section')->first()->value ?? '';
+        if ($var['program'] != '') {
+            $var['program'] = json_decode($var['program']);
+        }
+
+		$split = explode(' ', $var['program']->title);
+		$split[count($split)-1] = "</span><span>".$split[count($split)-1]."</span>";
+		$split[0] = "<span>".$split[0];
+		$var['program']->title = implode(" ", $split);
 
         $sliders = Slider::get();
         $n=1;
@@ -185,11 +195,6 @@ class PublicController extends Controller
             }
             $var['sliders'][] = $slider;
             $n++;
-        }
-
-        $var['quote'] = Option::where('key', 'quotes_section')->first()->value ?? '';
-        if ($var['quote'] != '') {
-            $var['quote'] = json_decode($var['quote']);
         }
 
         $var['about_us'] = Option::where('key', 'about_us')->first()->value ?? '';
