@@ -98,7 +98,7 @@ class SahabatUserController extends Controller
         return (object)$usaha;
     }
 
-    private static function meta_user(){
+    private static function meta_user($id = false){
         $userMeta = UserMeta::where('user_id',app()->OAuth::Auth()->id)->get();
         $userData = [];
         $user = app()->OAuth::$Auth;
