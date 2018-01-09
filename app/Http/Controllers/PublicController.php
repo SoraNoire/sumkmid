@@ -116,23 +116,61 @@ class PublicController extends Controller
 	public function home(){
         $var['page'] = "Home";
 
+        $sliders = Slider::get();
+        $n=1;
+        $var['sliders'] = [];
+        foreach ($sliders as $slider) {
+            if($n % 2 == 0){
+                $slider->position = 'left';
+            }else{
+                $slider->position = 'right';
+            }
+            $var['sliders'][] = $slider;
+            $n++;
+        }
+
+        $about = Option::where('key', 'about_us')->first()->value ?? '';
+        if ($about != '') {
+            $about = json_decode($about);
+        } else {
+        	$about = new \stdClass;;
+        	$about->title = 'Tentang Kami';
+        	$about->text = '';
+        }
+        $about->title = PublicHelper::print_section_title($about->title);
+		$var['about_us'] = $about;
+
+		$program = Option::where('key', 'list_program')->first()->value ?? '';
+        $var['programs'] = [];
+        if ($program != '') {
+            $var['programs'] = json_decode($program);
+        } 
+
+        $program_section = Option::where('key', 'program_section')->first()->value ?? '';
+        if ($program_section) {
+            $var['program'] = json_decode($program_section);
+        } else {
+        	$program_section = new \stdClass;;
+        	$program_section->title = 'Program Sahabat UMKM';
+            $program_section->desc = '';
+            $program_section->button = '';
+            $program_section->url = '';
+            $var['program'] = $program_section;
+        }
+        $var['program']->title = PublicHelper::print_section_title($var['program']->title);
+
         $var['post_section'] = Option::where('key', 'post_section')->first()->value ?? '';
         $post = Option::where('key', 'post_section')->first()->value ?? '';
         if ($post != '') {
             $post = json_decode($post);
         } else {
-        	$post = [];
-        	$post['title'] = 'Galeri Sahabat UMKM';
-            $post['use_gallery'] = 1;
-            $post['category'] = 0;
-            $post = json_encode($post);
-            $post = json_decode($post);
+        	$post = new \stdClass;;
+        	$post->title = 'Galeri Sahabat UMKM';
+            $post->use_gallery = 1;
+            $post->category = 0;
         }
-
-		$split = explode(' ', $post->title);
-		$split[count($split)-1] = "</span><span>".$split[count($split)-1]."</span>";
-		$split[0] = "<span>".$split[0];
-		$post->title = implode(" ", $split);
+		
+		$post->title = PublicHelper::print_section_title($post->title);
 
        	$post->data = PublicHelper::getMNewsPosts();
 		if ($post->use_gallery == 1) {
@@ -166,45 +204,15 @@ class PublicController extends Controller
 		}
 		$var['post'] = $post;
 
-		$var['mentors'] = app()->OAuth->mentors()->users;
-		
-		$program = Option::where('key', 'list_program')->first()->value ?? '';
-        $var['programs'] = [];
-        if ($program != '') {
-            $var['programs'] = json_decode($program);
-        } 
-
-        $program_section = Option::where('key', 'program_section')->first()->value ?? '';
-        if ($program_section) {
-            $var['program'] = json_decode($program_section);
+		$socfeed = Option::where('key', 'socfeed_section')->first()->value ?? '';
+        if ($socfeed != '') {
+            $socfeed = json_decode($socfeed);
         } else {
-        	$program_section = new \stdClass;;
-        	$program_section->title = 'Program Sahabat UMKM';
-            $program_section->desc = '';
-            $program_section->button = '';
-            $program_section->url = '';
-            $var['program'] = $program_section;
+        	$socfeed = new \stdClass;;
+        	$socfeed->title = 'Social Feed';
         }
-
-    	$split = explode(' ', $var['program']->title);
-		$split[count($split)-1] = "</span><span>".$split[count($split)-1]."</span>";
-		$split[0] = "<span>".$split[0];
-		$var['program']->title = implode(" ", $split);
-
-        $sliders = Slider::get();
-        $n=1;
-        $var['sliders'] = [];
-        foreach ($sliders as $slider) {
-            if($n % 2 == 0){
-                $slider->position = 'left';
-            }else{
-                $slider->position = 'right';
-            }
-            $var['sliders'][] = $slider;
-            $n++;
-        }
-
-        $var['about_us'] = Option::where('key', 'about_us')->first()->value ?? '';
+        $socfeed->title = PublicHelper::print_section_title($socfeed->title);
+        $var['socfeed'] = $socfeed;
 
         $instagram_token = Option::where('key', 'instagram_token')->first()->value ?? '';
         if ($instagram_token != '') {
@@ -215,6 +223,17 @@ class PublicController extends Controller
 
         	}
         }
+
+		$var['mentors'] = app()->OAuth->mentors()->users;
+		$mentor = Option::where('key', 'mentor_section')->first()->value ?? '';
+        if ($mentor != '') {
+            $mentor = json_decode($mentor);
+        } else {
+        	$mentor = new \stdClass;;
+        	$mentor->title = 'Our Mentor';
+        }
+        $mentor->title = PublicHelper::print_section_title($mentor->title);
+        $var['mentor'] = $mentor;
 
 		return view('page.home')->with(['var' => $var]);
 	}
