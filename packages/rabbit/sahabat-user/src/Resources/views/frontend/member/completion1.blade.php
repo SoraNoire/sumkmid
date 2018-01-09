@@ -86,7 +86,7 @@
 			</div>
 				<div class="formGroup pilihkotaprov">
 					<div class="inputTitle">
-						Provinsi Dan Kota {{$user->data->provinsi ?? ''}}
+						Provinsi Dan Kota
 					</div>
 					<div class="inputText">
 						<select id="pilihProvinsi" name="provinsi">
