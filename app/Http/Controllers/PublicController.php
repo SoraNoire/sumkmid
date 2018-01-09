@@ -260,6 +260,10 @@ class PublicController extends Controller
 						# code...
 					break;
 
+					case 'template.tentang':
+						
+					break;
+
 					case 'template.gallery':
 						$var['posts'] = DB::table('post_view')
 										->whereIn('post_type',['video', 'gallery'])
