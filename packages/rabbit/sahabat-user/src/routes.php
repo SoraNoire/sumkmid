@@ -25,6 +25,18 @@ Route::namespace('\Rabbit\SahabatUser\Controllers')->group(function () {
 		Route::get('/modules', 'SahabatUserController@users')
 				->name('SHB.users');
 
+		Route::get('/view/{id}', 'SahabatUserController@viewUser')
+				->name('SHB.user__edit');
+
+		Route::get('/view/{id}/detail', 'SahabatUserController@viewUserDetail')
+				->name('SHB.user__edit__detail');
+
+		Route::post('/view/{id}', 'SahabatUserController@updateUser')
+				->name('SHB.user__update');
+
+		Route::get('/delete/{id}', 'SahabatUserController@deleteUser')
+				->name('SHB.user__delete');
+
 		Route::post('/module/add', 'SahabatUserController@moduleSave')
 				->name('SHB.module.save');
 
