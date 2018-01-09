@@ -28,7 +28,7 @@
 							</div>
 							<!-- <button type="submit" class="btn btn-success pull-left">Update</button> -->
 							
-							@if(isset($user->data->type_user) && in_array($user->data->type_user,['perorangan','umkm']))
+							@if(isset($user->data->type_user) && in_array($user->data->type_user,['perorangan','umkm']) || $user->role == 'Visitor')
 							<a style="margin-left: 5px;" class="btn btn-primary" href="{{route('SHB.user__edit__detail',$user->id)}}">Selengkapnya</a>
 							@endif
 						</div>  

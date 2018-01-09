@@ -172,14 +172,21 @@ class PublicController extends Controller
         $var['programs'] = [];
         if ($program != '') {
             $var['programs'] = json_decode($program);
+        } 
+
+        $program_section = Option::where('key', 'program_section')->first()->value ?? '';
+        if ($program_section) {
+            $var['program'] = json_decode($program_section);
+        } else {
+        	$program_section = new \stdClass;;
+        	$program_section->title = 'Program Sahabat UMKM';
+            $program_section->desc = '';
+            $program_section->button = '';
+            $program_section->url = '';
+            $var['program'] = $program_section;
         }
 
-        $var['program'] = Option::where('key', 'program_section')->first()->value ?? '';
-        if ($var['program'] != '') {
-            $var['program'] = json_decode($var['program']);
-        }
-
-		$split = explode(' ', $var['program']->title);
+    	$split = explode(' ', $var['program']->title);
 		$split[count($split)-1] = "</span><span>".$split[count($split)-1]."</span>";
 		$split[0] = "<span>".$split[0];
 		$var['program']->title = implode(" ", $split);
