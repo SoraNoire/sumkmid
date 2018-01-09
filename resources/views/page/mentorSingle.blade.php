@@ -16,7 +16,7 @@
 		</div> -->
 		<div class="leftForm">
 			<div class="photoUser">
-				<div class="photoPreview" style="background-image:url('{{$var['mentors']->foto_profil}}');">
+				<div class="photoPreview" style="background-image:url('{{$var['mentors']->avatar}}');">
 				</div>
 			</div>
 		</div>

@@ -99,7 +99,8 @@ class SahabatUserController extends Controller
     }
 
     private static function meta_user($id = false){
-        $userMeta = UserMeta::where('user_id',app()->OAuth::Auth()->id)->get();
+        $id = (false!==$id)? $id : app()->OAuth::Auth()->id;
+        $userMeta = UserMeta::where('user_id',$id)->get();
         $userData = [];
         $user = app()->OAuth::$Auth;
         $userMeta->map(
@@ -446,6 +447,7 @@ class SahabatUserController extends Controller
     public function viewUser($id)
     {
         $user = Users::select(['master_id'])->where('id',$id)->first();
+<<<<<<< HEAD
         if(!$user)
         {
             return redirect(route('SHB.dashboard'))->send();
@@ -457,6 +459,15 @@ class SahabatUserController extends Controller
         // swap id
         $user->id = $id;
         $user->master_id = $masterId;
+=======
+        // $masterId = $user->master_id;
+        $user = app()->OAuth->user($user->master_id);
+        // dd($user);
+        // $remoteUser = app()->OAuth->user($user->master_id);
+        // $user = Users::where('id',$id)->first();
+        //inject data
+        $user->email = $remoteUser->email;
+>>>>>>> bd78a08cbbefdbb03e853722a0ffd4d7d7c77862
         
         $meta = self::meta_user($id);
         if(!$user)
@@ -488,7 +499,11 @@ class SahabatUserController extends Controller
         {
             return view('shb::backend.users.edit-detail-perorangan',$data);
         }
-        return view('shb::backend.users.edit-detail',$data);
+        else
+        {
+            return view('shb::backend.users.edit-detail',$data);
+        }
+        return back();
     }
 
     public function updateUser(Request $request,$id)

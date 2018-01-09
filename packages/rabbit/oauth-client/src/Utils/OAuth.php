@@ -191,6 +191,24 @@ class OAuth
         return null !== $user->data ? $user->data : false;
 
     }
+    public static function mentor($username='',$page=1)
+    {
+
+        $data = [];
+        $path = "/mentor?page=$page&username=$username";
+        $user = self::curl($path,$data);
+        $user = $user->data;
+
+        if ($user && $user->users){
+            if (isset($user->users[0])){
+                $user = $user->users[0];
+                $user->avatar = $user->foto_profil;
+                return $user;
+            }
+        }
+        return new \stdClass;
+
+    }
 
 
     public static function meUpdate($data=[])
