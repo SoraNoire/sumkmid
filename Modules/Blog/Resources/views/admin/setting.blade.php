@@ -116,6 +116,23 @@
 					                    <div id="setting-program" class="panel-collapse collapse in">
 					                        <div class="panel-body">
 
+					                        	<div class="form-group">
+					                        		<label>Section Title</label>
+					                        		<input type="text" name="program_title" class="form-control" value="{{ $program->title ?? '' }}">
+					                        	</div>
+					                        	<div class="form-group">
+					                        		<label>Section Description</label>
+					                        		<textarea name="program_desc" class="form-control">{{ $program->desc ?? '' }}</textarea>
+					                        	</div>
+					                        	<div class="form-group">
+					                        		<label>Section Button Label</label>
+					                        		<input type="text" name="program_button" class="form-control" value="{{ $program->button ?? '' }}">
+					                        	</div>
+					                        	<div class="form-group">
+					                        		<label>Section Button URL</label>
+					                        		<input type="text" name="program_url" class="form-control" value="{{ $program->url ?? '' }}">
+					                        	</div>
+
 				            					<button type="button" class="btn btn-info pull-left add-program">Add Program +</button>
 			            						<div class="clearfix"></div>
 
@@ -126,7 +143,7 @@
 												</div>
 
 			            						<div class="clearfix"></div>
-				            					<button type="button" class="btn btn-success pull-left save-program" style="margin-top: 10px;">Save</button>
+				            					<button type="submit" class="btn btn-success pull-left save-program" style="margin-top: 10px;">Save</button>
 
 					                        </div>
 					                    </div>
