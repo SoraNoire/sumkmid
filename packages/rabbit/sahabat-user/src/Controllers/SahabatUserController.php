@@ -198,10 +198,6 @@ class SahabatUserController extends Controller
                     'usaha' => self::listUsaha(),
                     'user' => $user
         ];
-<<<<<<< HEAD
-=======
-        // $i = 1;
->>>>>>> fa806de04c3b267216d51ff2043f21330f08c568
         switch ($i) {
             case 1:
                 return view('shb::frontend.member.completion1', $data)->with(['alamat' => $alamat]);
