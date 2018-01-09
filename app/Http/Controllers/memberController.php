@@ -43,6 +43,8 @@ class memberController extends Controller
      */
 	public function userSetting(){
         $var['page'] = "userSetting";
+
+        return "anu";
         
         $user = app()->OAuth->Auth(app()->OAuth->Auth()->token);
         if($user && $user->success){

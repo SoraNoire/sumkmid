@@ -37,8 +37,8 @@
                                 {{$user->role}}
                             </td>
                             <td>
-                                <a href="#" class="btn btn-primary">Edit</a>
-                                <a href="#" class="btn btn-danger">Delete</a>
+                                <a href="{{route('SHB.user__edit',$user->id)}}" class="btn btn-primary">Edit</a>
+                                <a href="{{route('SHB.user__delete',$user->id)}}" class="btn btn-danger">Delete</a>
                             </td>
                         </tr>
 

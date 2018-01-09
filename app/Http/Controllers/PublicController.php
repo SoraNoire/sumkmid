@@ -121,6 +121,7 @@ class PublicController extends Controller
         if ($post != '') {
             $post = json_decode($post);
         } else {
+        	$post = [];
         	$post['title'] = 'Galeri Sahabat UMKM';
             $post['use_gallery'] = 1;
             $post['category'] = 0;
@@ -167,11 +168,21 @@ class PublicController extends Controller
 
 		$var['mentors'] = app()->OAuth->mentors()->users;
 		
-		$program = Option::where('key', 'program')->first()->value ?? '';
+		$program = Option::where('key', 'list_program')->first()->value ?? '';
         $var['programs'] = [];
         if ($program != '') {
             $var['programs'] = json_decode($program);
         }
+
+        $var['program'] = Option::where('key', 'program_section')->first()->value ?? '';
+        if ($var['program'] != '') {
+            $var['program'] = json_decode($var['program']);
+        }
+
+		$split = explode(' ', $var['program']->title);
+		$split[count($split)-1] = "</span><span>".$split[count($split)-1]."</span>";
+		$split[0] = "<span>".$split[0];
+		$var['program']->title = implode(" ", $split);
 
         $sliders = Slider::get();
         $n=1;
@@ -184,11 +195,6 @@ class PublicController extends Controller
             }
             $var['sliders'][] = $slider;
             $n++;
-        }
-
-        $var['quote'] = Option::where('key', 'quotes_section')->first()->value ?? '';
-        if ($var['quote'] != '') {
-            $var['quote'] = json_decode($var['quote']);
         }
 
         $var['about_us'] = Option::where('key', 'about_us')->first()->value ?? '';
@@ -216,9 +222,16 @@ class PublicController extends Controller
             $templates = PostHelper::get_page_templates_list();
         	$var['page'] = $page->title;
         	$var['content'] = $page->content;
-
 			$postMetas = DB::table('post_meta')->where('post_id',$page->id)->get();
 			$postMetas = $this->readMetas($postMetas);
+
+			$Meta = app()->Meta;
+        	$Meta->set('meta_type', 'article');
+        	$Meta->set('meta_title', $postMetas->meta_title ?? $page->title);
+        	$Meta->set('meta_desc', $postMetas->meta_desc ?? str_limit( html_entity_decode(strip_tags($page->content)), 250 ));
+        	$Meta->set('meta_keyword', $postMetas->meta_keyword ?? '');
+        	$Meta->set('meta_image', $page->featured_image ?? '');
+
 			if (isset($postMetas->page_template)) {
 				switch ($postMetas->page_template) {
 					case 'template.mentor':
@@ -258,44 +271,21 @@ class PublicController extends Controller
 	}
 
 	/**
-     * Show Tentang page.
-     * @return Response
-     */
-	public function tentang(){
-        $var['page'] = "Tentang Kami";
-        $var['content'] = Option::where('key', 'tentang_kami')->first()->value ?? '';
-
-		return view('page.tentang')->with(['var' => $var]);
-	}
-
-	/**
-     * Show kontak page.
-     * @return Response
-     */
-	public function kontak(){
-        $var['page'] = "Kontak";
-		return view('template.kontak')->with(['var' => $var]);
-	}
-
-	/**
-     * Show mentors page.
-     * @return Response
-     */
-	public function mentor(){
-		$var['page'] = "Mentor";
-		$var['mentors'] = app()->OAuth->mentors()->users;
-		
-		return view('template.mentor')->with(['var' => $var]);
-	}
-	/**
      * Show single mentor page.
      * @return Response
      */
 	public function mentorSingle($mentorId){
 		$var['page'] = "mentorSingle";
 		$var['mentors'] =  app()->OAuth->mentors("$mentorId")->users;
+
 		if(isset($var['mentors'][0])){
 			$var['mentors'] = $var['mentors'][0];
+			$Meta = app()->Meta;
+        	$Meta->set('meta_type', 'profile');
+        	$Meta->set('meta_title', 'Mentor '.$var['mentors']->name ?? '');
+        	$Meta->set('meta_desc', 'Mentor '.$var['mentors']->name.' - '.$var['mentors']->description ?? '');
+        	$Meta->set('meta_image', $var['mentors']->foto_profil ?? '');
+
 			return view('page.mentorSingle')->with(['var' => $var]);
 		}
 
@@ -320,57 +310,6 @@ class PublicController extends Controller
 		}
 		return false;
 	}
-	
-	/**
-     * Show event page.
-     * @return Response
-     */
-	public function event(){
-        $var['page'] = "Event";
-        // $limit = 5;
-        // $offset = $limit - $limit;
-        // $next = 2;
-
-        $var['events'] = DB::table('post_meta')
-        			->where('key', '=', 'open_at')
-        			->join('post_view', function ($join) {
-            			$join->on('post_meta.post_id', '=', 'post_view.id')
-            				 ->where('post_view.post_type','event');
-        			})
-    				->orderby('value', 'desc')
-    				// ->offset($offset)
-    				// ->limit($limit)
-					// ->get();
-					->paginate(3);
-					// dd($var['events']);
-
-		return view('template.event')->with(['var' => $var]);
-	}
-
-	/**
-     * Show event page.
-     * @return Response
-     */
-	public function event_archive($page){
-        $var['page'] = "Event";
-        $limit = 5;
-        $offset = ($page * $limit) - $limit;
-        $next = $page + 1;
-
-        $events = DB::table('post_view')->where('post_type','event')->orderby('published_date', 'desc')->offset($offset)->limit($limit)->get();
-        
-		return view('page.event')->with(['var' => $var, 'events' => $events, 'next' => $next]);
-	}
-
-	/**
-     * Show video page.
-     * @return Response
-     */
-	public function gallery(){
-		$var['page'] = "Galeri";
-		$var['posts'] = DB::table('post_view')->whereIn('post_type',['video', 'gallery'])->orderBy('published_date','desc')->paginate(6);
-		return view('template.gallery')->with(['var' => $var]);
-	}
 
 	/**
      * Show single gallery page.
@@ -384,6 +323,13 @@ class PublicController extends Controller
 			$postMetas = $this->readMetas($postMetas);
 			$var['tags'] = PostHelper::get_post_tag($var['content']->id);
 			$var['categories'] = PostHelper::get_post_category($var['content']->id);
+
+			$Meta = app()->Meta;
+        	$Meta->set('meta_type', 'article');
+        	$Meta->set('meta_title', $postMetas->meta_title ?? $var['content']->title);
+        	$Meta->set('meta_desc', $postMetas->meta_desc ?? str_limit( html_entity_decode(strip_tags($var['content']->content)), 250 ));
+        	$Meta->set('meta_keyword', $postMetas->meta_keyword ?? '');
+        	$Meta->set('meta_image', $page->featured_image ?? '');
 
 			if($var['content']->post_type == 'video'){
 				$var['videoEmbed'] = $postMetas->video_url ?? '';
@@ -421,13 +367,17 @@ class PublicController extends Controller
 	public function searchGallery(Request $request){
 		$query = $request->get('q');
 		// dd($query);
-		$var['page'] = "Search Galeri";
+		$var['page'] = "Cari Galeri: ".$query;
 		$var['query'] = $query;
 		$var['posts'] = DB::table('post_view')
 						 ->whereIn('post_type',['video', 'gallery'])
 						 ->where('title','like','%'.$query.'%')
 						 ->orderBy('published_date','desc')
 						 ->paginate(6);
+
+		$Meta = app()->Meta;
+    	$Meta->set(['meta_title', 'meta_desc', 'meta_keyword'], $var['page']);
+			 
 		return view('page.searchGallery')->with(['var' => $var]);
 	}
 
@@ -441,7 +391,7 @@ class PublicController extends Controller
         	return view('errors.404');
         }
 
-		$var['page'] = "Category Video ".$cat->name;
+		$var['page'] = "Kategori Galeri ".$cat->name;
 		$var['archive'] = "Kategori : ".$cat->name;
 		$post_ids = PostHelper::get_post_archive_id('category', $cat->id);
 		$var['posts'] = DB::table('post_view')
@@ -449,6 +399,10 @@ class PublicController extends Controller
 						->whereIn('id', $post_ids)
 						->orderBy('published_date','desc')
 						->paginate(6);
+
+		$Meta = app()->Meta;
+    	$Meta->set(['meta_title', 'meta_desc', 'meta_keyword'], $var['page']);
+
 		return view('template.gallery')->with(['var' => $var]);
 	}
 
@@ -462,7 +416,7 @@ class PublicController extends Controller
         	return view('errors.404');
         }
 
-		$var['page'] = "Tag Video ".$tag->name;
+		$var['page'] = "Tag Galeri ".$tag->name;
 		$var['archive'] = "Tag : ".$tag->name;
 		$post_ids = PostHelper::get_post_archive_id('tag', $tag->id);
 		$var['posts'] = DB::table('post_view')
@@ -470,6 +424,10 @@ class PublicController extends Controller
 						->whereIn('id', $post_ids)
 						->orderBy('published_date','desc')
 						->paginate(6);
+
+		$Meta = app()->Meta;
+    	$Meta->set(['meta_title', 'meta_desc', 'meta_keyword'], $var['page']);
+
 		return view('template.gallery')->with(['var' => $var]);
 	}
 
@@ -525,6 +483,10 @@ class PublicController extends Controller
 	public function newsletter(Request $request){
         $var['page'] = "Newsletter";
         $email = $request->get('email') ?? '';
+
+		$Meta = app()->Meta;
+    	$Meta->set(['meta_title', 'meta_desc', 'meta_keyword'], $var['page']);
+
 		return view('page.newsletter')->with(['var' => $var, 'email' => $email]);
 	}
 

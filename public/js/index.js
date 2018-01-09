@@ -11203,12 +11203,10 @@ $('#menu_page').on('click', 'a', function(){
     $("input[type=checkbox][name=menu_page]:checked").each(function(){ 
         $(this).prop('checked',false);
     });
-    console.log('search')
 });
 
 $('#menu_page').on('click', 'a', function(){
     $('input[name=search_component]').val('');
-    console.log('all');
 });
 
 $('#menu_category, #menu_category_mobile').on('keyup', 'input[name=search_component]', function(){
@@ -11247,7 +11245,6 @@ function get_menu_id(){
         var item = $("#menu-structure li").map(function(){
             menu_id.push(parseInt($(this).attr('data-id')));
         }).get().join();
-        console.log(menu_id);
         menu_id = Math.max(...menu_id);
     }   
 

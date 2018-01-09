@@ -17,7 +17,7 @@
 		</div>
 	@endif
 		
-		<div class="leftForm" style="width: 20%;">
+		<div class="leftForm">
 			<div class="photoUser">
 				<div class="photoPreview" style="background-image:url('{{ $user->avatar ?? asset('images/admin.png') }}');">
 				</div>
@@ -31,15 +31,9 @@
 				</form>
 			</div>
 		</div>
-		<div class="rightForm" style="width: 75%;">
-
-
-
-
+		<div class="rightForm">
 			<form id="form" name="form" action="{{route('SHB.complete_data_save')}}" method="post" enctype="multipart/form-data">
-			
-				<div class="formGroup pilih_type">
-					
+				<div class="formGroup pilih_type radioAskUmkm">
 					@php
 						$chkTdk = ( 'perorangan' == $user->role ) ? 'checked' : '';
 						$frmUClass = ( 'perorangan' == $user->role ) ? ' hidden' : '';
@@ -47,7 +41,7 @@
 					@endphp
 
 					<div>Anda Pengusaha Umkm?</div>
-					<div class="left">
+					<div class="left ">
 						<div class="left"><input {{$chkYa}} type="radio" name="type_user" value="ya"></div> <div class="pilih left">Ya</div>
 					</div>
 					<div class="left">
@@ -68,9 +62,9 @@
 					</div>
 
 					<div class="formGroup">
-						<div style="width: 48%;float: left;">
+						<div class="jnsUsaha">
 							<div>Jenis Usaha</div>
-							<select name="jenis_usaha">
+							<select class="selectJnsUsaha" name="jenis_usaha">
 								@foreach ($usaha as $u)
 									@if( isset($user->data->jenis_usaha) && $user->data->jenis_usaha == $u  )
 										<option selected value="{{$u}}">{{$u}}</option>
@@ -80,7 +74,7 @@
 								@endforeach
 							</select>
 						</div>
-						<div style="width: 48%;float: left;">
+						<div class="tahunBerdiri">
 							<div>Tahun Berdiri</div>
 							<div class="inputText">
 							<input type="text" name="lama_berdiri" value="{{$user->data->lama_berdiri??''}}" placeholder="2013">
@@ -90,9 +84,9 @@
 					</div>
 
 					<div class="formGroup">
-						<div style="margin: 5px 0;">
+						<div class="infoUsaha">
 							Informasi Usaha
-							<span id="add_info" title="Tambah info usaha" style="cursor: pointer;color: #fff;padding: 2px 8px 4px 8px;border-radius: 10px;background: limegreen;">+</span>
+							<span id="add_info" title="Tambah info usaha">+</span>
 						</div> 
 						<div id="info_usaha">
 
@@ -109,7 +103,7 @@
 									<div class="info_usaha__item_parent">
 										<div class="info_usaha__item">
 
-											<span id="delete_info" onclick="deleteInfo(this)" title="Tambah info usaha" style="cursor: pointer;color: #fff;padding: 1px 8px 2px 8px;border-radius: 23px;background: red;">-</span>
+											<span id="delete_info" onclick="deleteInfo(this)" title="Tambah info usaha">-</span>
 
 											<select  onchange="triggerInfoName(this)" class="info_usaha__select" id="select-{{$i}}" name="informasi_usaha[{{$i}}]">
 												<option {{('website'==$key)?'selected':''}} value="website" > Website</option>
@@ -131,9 +125,7 @@
 							@else
 								<div class="info_usaha__item_parent">
 									<div class="info_usaha__item">
-
-										<span id="delete_info" onclick="deleteInfo(this)" title="Tambah info usaha" style="cursor: pointer;color: #fff;padding: 1px 8px 2px 8px;border-radius: 23px;background: red;">-</span>
-
+										<span id="delete_info" onclick="deleteInfo(this)" title="Tambah info usaha">-</span>
 										<select  onchange="triggerInfoName(this)" class="info_usaha__select" id="select-1" name="informasi_usaha[1]">
 											<option value=NULL>Pilih</option>
 											<option value="website" > Website</option>
@@ -160,7 +152,7 @@
 							Perkiraan Omzet
 						</div>
 						<div class="inputText">
-							<select name="omzet">
+							<select class="omzetSelect" name="omzet">
 								<option value="1-5" {{ ( isset($user->data->omzet) && '1-5' == $user->data->omzet ) ? 'selected' : '' }} >1-5 Juta</option>
 								<option value="5-10" {{ ( isset($user->data->omzet) && '5-10' == $user->data->omzet ) ? 'selected' : '' }}>5-10 Juta</option>
 								<option value="10-20" {{ ( isset($user->data->omzet) && '10-20' == $user->data->omzet ) ? 'selected' : '' }}>10-20 Juta</option>
@@ -179,46 +171,6 @@
 			</form>
 		</div>
 	</div>
-	<style type="text/css">
-		.hidden{
-			display: none;
-		}
-		.info_usaha__item
-		{
-			width: 48%;
-			float: left;
-		}
-		.info_usaha__item_parent
-		{
-			background-color: rgba(25,67,222,.1);
-			padding: 5px 3px;
-		}
-		.clear
-		{
-			clear: both;
-		}
-		.left
-		{
-			float: left;
-		}
-		.tanggal_lahir{
-			margin: 0px 5px;
-		}
-		select{
-			padding: 4px;
-			width: 90%;
-			margin: 2px 0;
-		}
-		input[type="radio"] {
-		    padding: 0;
-		    margin: 3px;
-		    width: 20px;
-		    height: 40px;
-		}
-		.pilih_type .pilih{
-			padding: 13px 4px;
-		}
-	</style>
 	<script type="text/javascript">
 		var radios = document.forms["form"].elements["type_user"];
 		var pengusaha = document.getElementById('form-pengusaha');
@@ -265,7 +217,7 @@
 	    function addInfo(id=2)
 	    {
 	    	var _html = `<div class="info_usaha__item">
-	    						<span id="delete_info" onclick="deleteInfo(this)" title="Tambah info usaha" style="cursor: pointer;color: #fff;padding: 1px 8px 2px 8px;border-radius: 23px;background: red;">-</span>
+	    						<span id="delete_info" onclick="deleteInfo(this)" title="Tambah info usaha">-</span>
 								<select onchange="triggerInfoName(this)" class="info_usaha__select" id="select-`+id+`" name="informasi_usaha[`+id+`]">
 									<option value=NULL>Pilih</option>
 									<option value="website" > Website</option>

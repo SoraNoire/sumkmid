@@ -3806,6 +3806,94 @@ footer .container .stayInTouch .copyText {
   background-size: cover;
 }
 
+.hidden {
+  display: none;
+}
+
+.info_usaha__item {
+  width: 49%;
+  float: left;
+}
+
+.info_usaha__item_parent {
+  background-color: rgba(25, 67, 222, 0.1);
+  padding: 5px 3px;
+}
+
+.clear {
+  clear: both;
+}
+
+.left {
+  float: left;
+}
+
+.tanggal_lahir {
+  margin: 0px 5px;
+}
+
+.pilih_type .pilih {
+  padding: 13px 4px;
+}
+
+.completion3 .left {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.completion3 .answers {
+  display: inline-block;
+  vertical-align: top;
+  width: 80%;
+}
+
+.completion3 input[type="radio"] {
+  padding: 0;
+  margin: 3px;
+  margin-top: 4px;
+  width: 15px;
+  height: 34px;
+}
+
+.completion3 .pilih {
+  padding: 10px 4px;
+}
+
+.completion3 .inputTitle {
+  font-weight: 700;
+}
+
+.completion4 .areaKuis {
+  width: calc(100% - 30px);
+  min-height: 50px;
+  border: 1px solid #000;
+  border-radius: 5px;
+  resize: vertical;
+  padding: 10px 15px;
+  outline: none;
+}
+
+.completion4 .left {
+  float: left;
+  word-wrap: break-word;
+}
+
+.completion4 input[type=checkbox] {
+  width: 17px;
+  height: 17px;
+}
+
+.completion4 .check-terima {
+  padding: 12px 2px;
+}
+
+.completion4 .terima {
+  width: 90%;
+  margin-left: 10px;
+  padding: 3px 0;
+  word-wrap: break-word;
+}
+
 #contact {
   padding-bottom: 20px;
   color: #ffffff;
@@ -3821,6 +3909,12 @@ footer .container .stayInTouch .copyText {
   }
 }
 
+@media screen and (max-width: 624px) {
+  #contact .container .row .contact-address {
+    width: calc(100% - 30px);
+  }
+}
+
 #contact .container .row .contact-address p img {
   background: #ffffff;
 }
@@ -3828,6 +3922,12 @@ footer .container .stayInTouch .copyText {
 @media screen and (max-width: 512px) {
   #contact .container .row .contact-address {
     margin-bottom: 20px;
+  }
+}
+
+@media screen and (max-width: 624px) {
+  #contact .contact-form {
+    width: calc(100% - 30px);
   }
 }
 
@@ -3913,6 +4013,7 @@ footer .container .stayInTouch .copyText {
 
 #userSetting {
   margin-top: 52px;
+  text-align: center;
 }
 
 #userSetting h3 {
@@ -3920,7 +4021,8 @@ footer .container .stayInTouch .copyText {
 }
 
 #userSetting .leftForm {
-  float: left;
+  display: inline-block;
+  vertical-align: top;
 }
 
 @media screen and (max-width: 682px) {
@@ -3962,10 +4064,76 @@ footer .container .stayInTouch .copyText {
 }
 
 #userSetting .rightForm {
-  float: left;
+  text-align: left;
+  display: inline-block;
+  vertical-align: top;
   margin-left: 31px;
   width: 460px;
   margin-bottom: 252px;
+}
+
+#userSetting .rightForm .radioAskUmkm input[type="radio"] {
+  padding: 0;
+  margin: 3px;
+  width: 20px;
+  height: 40px;
+}
+
+#userSetting .rightForm #form-pengusaha .jnsUsaha {
+  width: 50%;
+  float: left;
+}
+
+#userSetting .rightForm #form-pengusaha .jnsUsaha .selectJnsUsaha {
+  height: 35px;
+  border-radius: 5px;
+  border: solid 1px #404040;
+  outline: none;
+  padding: 0px 14px;
+  width: 95%;
+}
+
+#userSetting .rightForm #form-pengusaha .tahunBerdiri {
+  width: 50%;
+  float: left;
+}
+
+#userSetting .rightForm #form-pengusaha .infoUsaha {
+  margin: 5px 0;
+}
+
+#userSetting .rightForm #form-pengusaha .infoUsaha #add_info {
+  cursor: pointer;
+  color: #fff;
+  padding: 2px 8px 4px 8px;
+  border-radius: 10px;
+  background: limegreen;
+}
+
+#userSetting .rightForm #form-pengusaha #info_usaha .info_usaha__select {
+  height: 37px;
+  border-radius: 5px;
+  border: solid 1px #404040;
+  outline: none;
+  padding: 0px 14px;
+  width: calc(100% - 35px);
+}
+
+#userSetting .rightForm #form-pengusaha #info_usaha .info_usaha__item_parent .info_usaha__item #delete_info {
+  cursor: pointer;
+  color: #fff;
+  padding: 1px 8px 2px 8px;
+  border-radius: 23px;
+  background: red;
+}
+
+#userSetting .rightForm #form-pengusaha .omzetSelect {
+  height: 37px;
+  border-radius: 5px;
+  border: solid 1px #404040;
+  outline: none;
+  padding: 0px 14px;
+  width: 50%;
 }
 
 @media screen and (max-width: 682px) {
@@ -4420,9 +4588,11 @@ footer .container .stayInTouch .copyText {
 
 .pilihkotaprov .inputText {
   display: inline-block;
+  width: 48%;
 }
 
 .pilihkotaprov .inputText select {
+  width: 100%;
   height: 35px;
   border-radius: 5px;
   border: solid 1px #404040;
