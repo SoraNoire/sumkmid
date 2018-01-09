@@ -14,7 +14,7 @@
 			@foreach($var['mentors'] as $mentor)
 			<div class="cst-4-col">
 			<div class="item">
-				<div class="item-image" style="background-image: url('{{$mentor->avatar}}');"></div>
+				<div class="item-image" style="background-image: url('{{$mentor->foto_profil}}');"></div>
 				<div class="item-title">
 					<a href="{{ route('public_mentor_single',$mentor->username) }}" title="">
 						{!! str_limit(html_entity_decode(strip_tags($mentor->name)), 40) !!}
