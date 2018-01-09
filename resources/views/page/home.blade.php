@@ -54,7 +54,7 @@
 
 <section id="quote">
     <div class="container">
-    	<h3 class="section-title"><span>Why Should You Join Our</span> <span>Community</span></h3>
+    	<h3 class="section-title">{!! $var['program']->title ?? '<span>Our</span><span>Program</span>' !!}</h3>
         <div class="the-row">
         	<!-- @if ( isset($var['quote']->image) && $var['quote']->image != '' )
         	<div class="col-3">
@@ -77,7 +77,9 @@
 	        	</div>
            	</div> -->
            	<div class="col-12">
-           		<p class="why-shld-join">we provide you a new culture of creative and entrepreneurial education to support you achieve your personal goals</p>
+           		<p class="why-shld-join">
+           			{{ $var['program']->desc ?? '' }}
+           		</p>
            	</div>
         </div>
     </div>
@@ -100,8 +102,8 @@
 		@endforeach
 	</div>
 	<div class="registerNow">
-		<a href="#">
-			<span class="button">Daftar Sekarang</span>
+		<a href="{{ $var['program']->url ?? '#' }}">
+			<span class="button">{{ $var['program']->button ?? '' }}</span>
 		</a>
 	</div>
 </section>
