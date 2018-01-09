@@ -30,38 +30,15 @@
 					                    <div id="setting-about-us" class="panel-collapse collapse in">
 					                        <div class="panel-body">
 
-				            					<div class="form-group">
-					                        		<textarea class="form-control" name="about_us">{{ $about_us }}</textarea>
+					                        	<div class="form-group">
+					                        		<label>Title</label>
+					                        		<input type="text" name="about_title" class="form-control" value="{{ $about_us->title ?? '' }}">
 					                        	</div>
 
-	            								<button type="submit" class="btn btn-success pull-left">Save</button>
-
-					                        </div>
-					                    </div>
-					                </div>  
-
-		                        	<div class="panel panel-default">
-					                    <div class="panel-heading">
-					                        <h4 class="panel-title">
-					                          Quote <a data-toggle="collapse" href="#setting-quote"><i style="float: right;" class="fa fa-caret-down" aria-hidden="true"></i></a>
-					                        </h4>
-					                    </div>
-					                    <div id="setting-quote" class="panel-collapse collapse in">
-					                        <div class="panel-body">
-
 				            					<div class="form-group">
-					                        		<label>Quote</label>
-					                        		<textarea class="form-control" name="quote_text"> {{ $quote->text ?? '' }}</textarea>
-					                        		<label>Quoter</label>
-					                        		<input type="text" class="form-control" name="quote_from" value="{{ $quote->from ?? '' }}"></input>
-					                        		<label>Quoter Image</label>
-					                        		<div class="input-group">
-					                        			<input class="form-control" type="text" name="quote_image" value="{{ $quote->image ?? '' }}" readonly="readonly" id="quote-image">
-					                        			<span class="input-group-btn">
-					                        				<button class="btn btn-default {{ in_array('read', app()->OAuth::can('panel.media')) ? 'program-media':'disabled' }}" type="button" data-tujuan="quote-image">Browse media</button>
-					                        			</span>
-					                        		</div>
-					                        	</div>	
+				            						<label>About Us</label>
+					                        		<textarea class="form-control" name="about_us">{{ $about_us->text ?? '' }}</textarea>
+					                        	</div>
 
 	            								<button type="submit" class="btn btn-success pull-left">Save</button>
 
@@ -157,6 +134,11 @@
 					                    </div>
 					                    <div id="setting-socmed-feed" class="panel-collapse collapse in">
 					                        <div class="panel-body">
+					                        	
+					                        	<div class="form-group">
+													<label>Title</label>
+													<input type="text" name="socfeed_title" value="{{ $socfeed->title ?? '' }}" class="form-control">
+												</div>
 
 				            					<div class="form-group">
 													<label>Instagram Token</label>
@@ -168,6 +150,26 @@
 					                        </div>
 					                    </div>
 					                </div>    
+
+					                <div class="panel panel-default">
+					                    <div class="panel-heading">
+					                        <h4 class="panel-title">
+					                          Mentor <a data-toggle="collapse" href="#setting-mentor"><i style="float: right;" class="fa fa-caret-down" aria-hidden="true"></i></a>
+					                        </h4>
+					                    </div>
+					                    <div id="setting-mentor" class="panel-collapse collapse in">
+					                        <div class="panel-body">
+					                        	
+					                        	<div class="form-group">
+													<label>Title</label>
+													<input type="text" name="mentor_title" value="{{ $mentor->title ?? '' }}" class="form-control">
+												</div>
+
+	            								<button type="submit" class="btn btn-success pull-left">Save</button>
+
+					                        </div>
+					                    </div>
+					                </div>  
 
 		                        	<div class="panel panel-default">
 					                    <div class="panel-heading">

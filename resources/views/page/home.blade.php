@@ -34,10 +34,10 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-7">
-				<h3 class="section-title"><span>Tentang</span> <span>Kami</span></h3>
+				<h3 class="section-title">{!! $var['about_us']->title ?? '' !!}</h3>
 				<div class="section-desc">
 					<p>
-						{{ $var['about_us'] ?? '' }}
+						{{ $var['about_us']->text ?? '' }}
 					</p>
 				</div>	
 			</div>
@@ -56,26 +56,6 @@
     <div class="container">
     	<h3 class="section-title">{!! $var['program']->title ?? '<span>Our</span><span>Program</span>' !!}</h3>
         <div class="the-row">
-        	<!-- @if ( isset($var['quote']->image) && $var['quote']->image != '' )
-        	<div class="col-3">
-	        	<div class="quotePhotoWraper">
-		            <div class="quotePhoto">
-		                <img src="{{ $var['quote']->image ?? '' }}">
-		            	}
-		            </div>
-	            </div>
-            </div>
-            @endif
-            <div class="col-9">
-	            <div class="quote">
-	                <blockquote>
-	                    "{{ $var['quote']->text ?? '' }}"
-	                </blockquote>
-	            </div>
-	            <div class="quoter">
-	        		<p>{{ $var['quote']->from ?? '' }}</p>
-	        	</div>
-           	</div> -->
            	<div class="col-12">
            		<p class="why-shld-join">
            			{{ $var['program']->desc ?? '' }}
@@ -103,7 +83,7 @@
 	</div>
 	<div class="registerNow">
 		<a href="{{ $var['program']->url ?? '#' }}">
-			<span class="button">{{ $var['program']->button ?? '' }}</span>
+			<span class="button">{{ $var['program']->button ?? 'Daftar Sekarang' }}</span>
 		</a>
 	</div>
 </section>
@@ -145,7 +125,7 @@
 @if (isset($var['instagram']))
 <section id="instagram-feed" class="blue-bg">
 	<div class="container">
-		<h3 class="section-title"><span>Social</span> <span>Feeds</span></h3>
+		<h3 class="section-title">{!! $var['socfeed']->title ?? '<span>Social</span> <span>Feeds</span>' !!}</h3>
 		<div class="swiper-container insta-slider">
 			<div class="swiper-wrapper">
 				@php $i = 0 @endphp
@@ -172,7 +152,7 @@
 
 <section id="ourMentors">
 	<div class="container">
-		<h3 class="section-title grey"><span>Meet Our</span> <span>Mentor</span></h3>
+		<h3 class="section-title grey">{!! $var['mentor']->title ?? '<span>Meet Our</span> <span>Mentor</span>' !!}</h3>
 			<div class="mentorWrap">
 				@php $i = 0 @endphp
 
