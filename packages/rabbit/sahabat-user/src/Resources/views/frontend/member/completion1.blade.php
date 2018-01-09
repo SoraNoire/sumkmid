@@ -92,7 +92,7 @@
 						<select id="pilihProvinsi" name="provinsi">
 							<option class="" value="">Pilih Provinsi</option>
 							@foreach( $alamat['provinsi'] as $provinsi)
-							<option {{ ($user->data->provinsi == $provinsi->nama_provinsi ? 'selected' : '') }} id="provinsi{{ $provinsi->id }}" value="{{ $provinsi->nama_provinsi }}">{{ $provinsi->nama_provinsi }}</option>
+							<option {{ (isset($user->data->provinsi) ? ($user->data->provinsi == $provinsi->nama_provinsi ? 'selected' : '') : '') }} id="provinsi{{ $provinsi->id }}" value="{{ $provinsi->nama_provinsi }}">{{ $provinsi->nama_provinsi }}</option>
 							@endforeach
 						</select>
 					</div>
@@ -100,7 +100,7 @@
 						<select name="kota" id="pilihKota">
 							<option value="pilihkota">Pilih Kota</option>
 							@foreach($alamat['kota'] as $kota)
-							<option {{ ($user->data->kota == $kota->nama ? 'selected' : '') }}  class="defkota provinsi{{ $kota->id_provinsi }}" value="{{ $kota->nama }}">{{ $kota->nama }}</option>
+							<option {{ (isset($user->data->kota) ? ($user->data->kota == $kota->nama ? 'selected' : '') : '') }}  class="defkota provinsi{{ $kota->id_provinsi }}" value="{{ $kota->nama }}">{{ $kota->nama }}</option>
 							@endforeach
 						</select>
 					</div>
