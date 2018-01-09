@@ -17,7 +17,7 @@
 		</div>
 	@endif
 		
-		<div class="leftForm" style="width: 25%;">
+		<div class="leftForm">
 			<div class="photoUser">
 				<div class="photoPreview" style="background-image:url('{{ $user->avatar ?? asset('images/admin.png') }}');">
 				</div>
@@ -31,17 +31,14 @@
 				</form>
 			</div>
 		</div>
-		<div class="rightForm" style="width: 70%;">
-
+		<div class="rightForm completion4">
 			<form action="{{route('SHB.complete_data_save')}}" method="post" enctype="multipart/form-data">
-			
-
 				<div class="formGroup">
 					<div class="inputTitle">
 						Mengapa anda ingin bergabung dengan sahabat umkm?
 					</div>
 					<div class="inputText">
-						<textarea required type="text" name="kuisioner_mengapa">{{$user->data->kuisioner_mengapa ?? ''}}</textarea>
+						<textarea class="areaKuis" required type="text" name="kuisioner_mengapa">{{$user->data->kuisioner_mengapa ?? ''}}</textarea>
 					</div>
 				</div>
 
@@ -50,7 +47,7 @@
 						Apa yang anda harapkan setelah menjadi member umkm?
 					</div>
 					<div class="inputText">
-						<textarea required type="text" name="kuisioner_harapan">{{$user->data->kuisioner_harapan ?? ''}}</textarea>
+						<textarea class="areaKuis" required type="text" name="kuisioner_harapan">{{$user->data->kuisioner_harapan ?? ''}}</textarea>
 					</div>
 				</div>
 
@@ -60,7 +57,7 @@
 							<input type="checkbox" name="tos_terima" {{ (isset($user->data->tos_terima) && 1==$user->data->tos_terima) ? 'checked' : ''}} >
 						</div>
 						<div class="left terima">
-						dengan ini saya telah mengisi formulir pendaftaran member sahabat UMKM dengan sebenar-benarnya dan bersedia mentaati segala syarat dan ketentuan yang berlaku
+						Dengan ini saya telah mengisi formulir pendaftaran member sahabat UMKM dengan sebenar-benarnya dan bersedia mentaati segala syarat dan ketentuan yang berlaku
 						</div>
 						<div style="clear: both"></div>
 					</div>
@@ -70,26 +67,5 @@
 		</div>
 	</div>
 </section>
-<style type="text/css">
-	textarea{
-		width: 60%;
-	}
-	.left{
-		float: left;
-		word-wrap: break-word;
-	}
-	input[type=checkbox]{
-		width: 17px;
-		height: 17px;
-	}
-	.check-terima{
-		padding: 12px 2px;
-	}
-	.terima{
-		width: 95%;
-		padding: 3px 0;
-		word-wrap: break-word;
-	}
-</style>
 
 @endsection
