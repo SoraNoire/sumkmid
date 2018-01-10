@@ -6,8 +6,6 @@
 		<h2><a href="{{ route('public_home') }}">Beranda</a> <i class="fa fa-angle-right" aria-hidden="true"></i>Profil</h2>
 	</div>
 </div>
-<?php
-?>
 <section id="userSetting">
 	<div class="container">
 	@if(session('success') == 'true')
@@ -105,6 +103,11 @@
 			</div>
 			<button type="sumbit" class="submitUserSet button blue">Kirim</button>
 			</form>
+			<div class="editDetail">
+				<h3>Edit Detail</h3>
+				<small>Edit Detail Data Diri Anda (Tanggal Lahir, Alamat, Telepon, dll)</small>
+				<a href="{{ route('user_setting.detail',1) }}"><button class="goToEditDetail button">Menuju ke Laman</button></a>	
+			</div>
 		</div>
 	</div>
 </section>

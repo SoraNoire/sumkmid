@@ -4,6 +4,7 @@ namespace Rabbit\SahabatUser\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Helpers\PublicHelper as Pubhelp;
 // use Rabbit\OAuthClient\Utils\OAuth;
 use Rabbit\SahabatUser\Models\Users;
 use Rabbit\SahabatUser\Models\Kota;
@@ -75,37 +76,37 @@ class SahabatUserController extends Controller
         return view('shb::backend.users.index',['page'=>$page,'users'=>$users]);
     }
 
-    private static function listUsaha()
-    {
-        $usaha = [
-                    'Aplikasi Dan Pengembang Permainan',
-                    'Arsitektur',
-                    'Desain Interior',
-                    'Desain Komunikasi Visual',
-                    'Desain Produk',
-                    'Fashion',
-                    'Film, Animasi, Dan Video',
-                    'Fotografi',
-                    'Kriya',
-                    'Kuliner',
-                    'Musik',
-                    'Penerbitan',
-                    'Periklanan',
-                    'Seni Pertunjukan',
-                    'Seni Rupa',
-                    'Televisi Dan Radio'
-            ];
-        return (object)$usaha;
-    }
+    // private static function listUsaha()
+    // {
+    //     $usaha = [
+    //                 'Aplikasi Dan Pengembang Permainan',
+    //                 'Arsitektur',
+    //                 'Desain Interior',
+    //                 'Desain Komunikasi Visual',
+    //                 'Desain Produk',
+    //                 'Fashion',
+    //                 'Film, Animasi, Dan Video',
+    //                 'Fotografi',
+    //                 'Kriya',
+    //                 'Kuliner',
+    //                 'Musik',
+    //                 'Penerbitan',
+    //                 'Periklanan',
+    //                 'Seni Pertunjukan',
+    //                 'Seni Rupa',
+    //                 'Televisi Dan Radio'
+    //         ];
+    //     return (object)$usaha;
+    // }
 
     private static function meta_user($id = false){
-        $id = (false!==$id)? $id : app()->OAuth::Auth()->id;
-        $userMeta = UserMeta::where('user_id',$id)->get();
+        $idu = (false!==$id)? $id : app()->OAuth::Auth()->id;
+        $userMeta = UserMeta::where('user_id',$idu)->get();
         $userData = [];
         $user = app()->OAuth::$Auth;
         $userMeta->map(
-            function($meta) use(&$userData,&$user,$id){
-                if( false === $id && 'type_user' == $meta->meta_key )
+            function($meta) use(&$userData,&$user,$idu){
+                if( false === $idu && 'type_user' == $meta->meta_key )
                 {
                     $user->role = $meta->meta_value;
                 }
@@ -125,12 +126,13 @@ class SahabatUserController extends Controller
     private static function check_steps()
     {
         $user = app()->OAuth::Auth();
-        // dd($user->data->kota_lahir);
         if (
+
                 $user->data && isset($user->data->kota_lahir) && isset($user->data->tanggal_lahir)
                 && isset($user->data->alamat) && isset($user->data->telepon)
         )
         {
+
             
             self::$step = 2;
 
@@ -196,7 +198,7 @@ class SahabatUserController extends Controller
         view()->share(['email_info'=>'']);
 
         $data = [
-                    'usaha' => self::listUsaha(),
+                    'usaha' => Pubhelp::listUsaha(),
                     'user' => $user
         ];
         switch ($i) {
@@ -220,8 +222,7 @@ class SahabatUserController extends Controller
 
     }
 
-    public function completionSave(Request $request,$id=false)
-    {
+    public function completionSave(Request $request,$id=false){
 
 
         // save 'kota lahir'
@@ -454,7 +455,6 @@ class SahabatUserController extends Controller
         $masterId = $user->master_id;
 
         $user = app()->OAuth->user($user->master_id);
-        dd($user);
         // swap id
         $user->id = $id;
         $user->master_id = $masterId;

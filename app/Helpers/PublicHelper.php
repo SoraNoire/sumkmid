@@ -118,4 +118,27 @@ class PublicHelper
         $output = implode(" ", $split);
         return $output;
     }
+
+    public static function listUsaha(){
+        $usaha = [
+                    'Aplikasi Dan Pengembang Permainan',
+                    'Arsitektur',
+                    'Desain Interior',
+                    'Desain Komunikasi Visual',
+                    'Desain Produk',
+                    'Fashion',
+                    'Film, Animasi, Dan Video',
+                    'Fotografi',
+                    'Kriya',
+                    'Kuliner',
+                    'Musik',
+                    'Penerbitan',
+                    'Periklanan',
+                    'Seni Pertunjukan',
+                    'Seni Rupa',
+                    'Televisi Dan Radio'
+            ];
+        return (object)$usaha;
+    }
+
 }
