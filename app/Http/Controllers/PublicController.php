@@ -209,7 +209,7 @@ class PublicController extends Controller
             $socfeed = json_decode($socfeed);
         } else {
         	$socfeed = new \stdClass;;
-        	$socfeed->title = 'Social Feed';
+        	$socfeed->title = 'Tumbuh dan Berkembang Bersama';
         }
         $socfeed->title = PublicHelper::print_section_title($socfeed->title);
         $var['socfeed'] = $socfeed;

@@ -106,7 +106,7 @@
 								@endif
 							</span>
 							<span class="date"><i class="fa fa-calendar" aria-hidden="true"></i>{{ \Carbon\Carbon::createFromTimeStamp(strtotime( $post->date_published ))->toFormattedDateString() }}</span>
-							<a title="{{ $post->title ?? '' }}" href="{{ $post->link }}" class="readmore">READ MORE</a>
+							<a title="{{ $post->title ?? '' }}" href="{{ $post->link }}" class="readmore">SELENGKAPNYA</a>
 						</div>
 					</div>
 				</div>
@@ -125,7 +125,7 @@
 @if (isset($var['instagram']))
 <section id="instagram-feed" class="blue-bg">
 	<div class="container">
-		<h3 class="section-title">{!! $var['socfeed']->title ?? '<span>Social</span> <span>Feeds</span>' !!}</h3>
+		<h3 class="section-title">{!! $var['socfeed']->title ?? '<span>Tumbuh dan Berkembang</span> <span>Bersama</span>' !!}</h3>
 		<div class="swiper-container insta-slider">
 			<div class="swiper-wrapper">
 				@php $i = 0 @endphp
@@ -152,7 +152,7 @@
 
 <section id="ourMentors">
 	<div class="container">
-		<h3 class="section-title grey">{!! $var['mentor']->title ?? '<span>Meet Our</span> <span>Mentor</span>' !!}</h3>
+		<h3 class="section-title grey">{!! $var['mentor']->title ?? '<span>Mentor</span> <span>Kami</span>' !!}</h3>
 			<div class="mentorWrap">
 				@php $i = 0 @endphp
 

@@ -2838,7 +2838,7 @@ footer .container .stayInTouch .copyText {
   bottom: 20px;
   right: 20px;
   position: absolute;
-  font-size: 12px;
+  font-size: 10px;
   padding: 5px 10px;
   border-radius: 5px;
   text-decoration: none;
@@ -2849,7 +2849,7 @@ footer .container .stayInTouch .copyText {
 
 @media screen and (max-width: 915px) {
   #main-gallery .gallery-slider .swiper-wrapper .swiper-slide .g-mini-frame .meta .readmore {
-    font-size: 9px;
+    font-size: 8px;
   }
 }
 
