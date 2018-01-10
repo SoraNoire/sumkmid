@@ -32,6 +32,16 @@
 			</div>
 		</div>
 		<div class="rightForm">
+			 @if (session()->has('errors'))
+			  <?php 
+		      	$msg = session('errors');
+		      ?>
+		      <div class="alert alert-danger">
+			  <ul>
+			  	{!! $msg->message !!}
+			  </ul>      
+			  </div>
+		    @endif
 			<form id="form" name="form" action="{{route('SHB.complete_data_save')}}" method="post" enctype="multipart/form-data">
 				<div class="formGroup pilih_type radioAskUmkm">
 					@php

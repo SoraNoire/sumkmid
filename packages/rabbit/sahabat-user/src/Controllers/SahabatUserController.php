@@ -226,8 +226,12 @@ class SahabatUserController extends Controller
 
 
         // save 'kota lahir'
-        if($request->input('kota_lahir'))
-        {
+        if($request->input('kota_lahir')){
+            $this->validate($request,[
+                'kota_lahir' => 'required'
+            ],[   
+                'kota_lahir.required'    => 'Kota Kelahiran Wajib di Isi'
+            ]);
             self::add_or_update_meta('kota_lahir',$request->input('kota_lahir'),$id);
         }
 
@@ -237,6 +241,18 @@ class SahabatUserController extends Controller
             $tahunLahir = $request->input('tahun_lahir')
                             .'/'.$request->input('bulan_lahir')
                             .'/'.$request->input('tanggal_lahir');
+            $this->validate($request,[
+                'tahun_lahir' => 'required|numeric',
+                'bulan_lahir' => 'required|numeric',
+                'tanggal_lahir' => 'required|numeric',
+            ],[   
+                'tahun_lahir.required'    => 'Tahun Kelahiran Wajib di Isi',
+                'bulan_lahir.required'    => 'Bulan Kelahiran Wajib di Isi',
+                'tanggal_lahir.required'    => 'Tanggal Kelahiran Wajib di Isi',
+                'tahun_lahir.numeric'    => 'Tahun Kelahiran Salah',
+                'bulan_lahir.numeric'    => 'Bulan Kelahiran Salah',
+                'tanggal_lahir.numeric'    => 'Tanggal Kelahiran Salah',
+            ]);
 
             self::add_or_update_meta('tanggal_lahir',$tahunLahir,$id);
         }
@@ -244,52 +260,72 @@ class SahabatUserController extends Controller
         // save 'alamat'
         if($request->input('alamat'))
         {
+            $this->validate($request,[
+                'alamat' => 'required',
+            ],[   
+                'alamat.required'    => 'Alamat Wajib di Isi',
+            ]);
             self::add_or_update_meta('alamat',$request->input('alamat'),$id);
         }
 
         // save 'provinsi'
         if($request->input('provinsi'))
         {
+            $this->validate($request,[
+                'provinsi' => 'required',
+            ],[   
+                'provinsi.required'    => 'Provinsi Wajib di Isi',
+            ]);
             self::add_or_update_meta('provinsi',$request->input('provinsi'),$id);
         }
 
         // save 'kota'
         if($request->input('kota'))
         {
+            $this->validate($request,[
+                'kota' => 'required',
+            ],[   
+                'kota.required'    => 'Kota Wajib di Isi',
+            ]);
             self::add_or_update_meta('kota',$request->input('kota'),$id);
         }
 
         // save 'telepon'
         if($request->input('telepon'))
         {
+            $this->validate($request,[
+                'telepon' => 'required|numeric',
+            ],[   
+                'telepon.required'    => 'Telepon Wajib di Isi',
+                'telepon.numeric'    => 'Nomor Telepon Harus Angka'
+            ]);
             self::add_or_update_meta('telepon',$request->input('telepon'),$id);
         }
 
-        // save 'type_user'
-        if($request->input('type_user'))
-        {
-            $typeUser = ( 'ya' == $request->input('type_user') ) ? 'umkm' : 'perorangan';
-            self::add_or_update_meta('type_user',$typeUser,$id);
-            // delete umkm data if any
-            UserMeta::whereIn('meta_key',['nama_usaha','jenis_usaha','lama_berdiri','omzet'])
-                      ->where('user_id',app()->OAuth::Auth()->id)->delete();
-        }
+
 
         // save 'nama_usaha'
         if($request->input('nama_usaha'))
         {
+            $this->validate($request,[
+                'nama_usaha' => 'required',
+            ],[   
+                'nama_usaha.required'    => 'Nama Usaha Wajib di Isi',
+            ]);
             self::add_or_update_meta('nama_usaha',$request->input('nama_usaha'),$id);
         }
 
         // save 'jenis_usaha'
         if($request->input('jenis_usaha'))
         {
+
             self::add_or_update_meta('jenis_usaha',$request->input('jenis_usaha'),$id);
         }
 
         // save 'lama_berdiri'
         if($request->input('lama_berdiri'))
         {
+
             self::add_or_update_meta('lama_berdiri',$request->input('lama_berdiri'),$id);
         }
 
@@ -298,7 +334,7 @@ class SahabatUserController extends Controller
         {
             if( 'null' != $request->input('omzet') )
             {
-              self::add_or_update_meta('omzet',$request->input('omzet'),$id);
+                self::add_or_update_meta('omzet',$request->input('omzet'),$id);
             }
         }
 
@@ -316,6 +352,41 @@ class SahabatUserController extends Controller
             $img->save( storage_path( $path . $filename) , 75);
 
             self::add_or_update_meta('foto_ktp',$filename,$id);
+        }
+
+        // save 'type_user'
+        if($request->input('type_user'))
+        {
+            $typeUser = ( 'ya' == $request->input('type_user') ) ? 'umkm' : 'perorangan';
+
+            $msg = '';
+
+            if($typeUser == 'umkm'){
+                if(!$request->input('nama_usaha')){
+                    $msg .= '<li>Nama Usaha Tidak Boleh Kosong</li>';
+                }
+                if(!$request->input('jenis_usaha')){
+                    $msg .= '<li>Jenis Usaha Tidak Boleh Kosong</li>';
+                }
+                if(!$request->input('lama_berdiri')){
+                    $msg .= '<li>Tahun Berdiri Tidak Boleh Kosong</li>';
+                }
+                if(!$request->input('omzet')){
+                    $msg .= '<li>Omzet Tidak Boleh Kosong</li>';
+                }
+                if(!$request->file('foto_ktp')){
+                    $msg .= '<li>Foto KTP Wajib di Isi</li>';
+                }
+                if($msg != ''){
+                    $request->session()->flash('errors', (object)['status'=>'error','message'=> $msg ]);
+                    return back();
+                }
+            }
+
+            self::add_or_update_meta('type_user',$typeUser,$id);
+            // delete umkm data if any
+            UserMeta::whereIn('meta_key',['nama_usaha','jenis_usaha','lama_berdiri','omzet'])
+                      ->where('user_id',app()->OAuth::Auth()->id)->delete();
         }
 
         // save 'informasi_usaha'
@@ -399,6 +470,7 @@ class SahabatUserController extends Controller
             $tos = ( 'on' == $request->input('tos_terima') ) ? 1 : 0;
             if( $request->input('kuisioner_harapan') && $request->input('kuisioner_mengapa')  )
             {
+            $request->session()->flash('swal', (object)['status'=>'success','message'=>'Selamat Profil Anda Sudah Lengkap, Terimakasih']);
               self::add_or_update_meta('tos_terima',$tos,$id);
             }
         }

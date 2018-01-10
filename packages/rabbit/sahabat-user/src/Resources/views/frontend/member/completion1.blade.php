@@ -33,7 +33,15 @@
 		</div>
 		<div class="rightForm "">
 			<form action="{{route('SHB.complete_data_save')}}" method="post" enctype="multipart/form-data">
-			
+			@if ($errors->any())
+			    <div class="alert alert-danger">
+			        <ul>
+			            @foreach ($errors->all() as $error)
+			                <li>{{ $error }}</li>
+			            @endforeach
+			        </ul>
+			    </div>
+			@endif
 			<div class="formGroup ttl">
 				<div class="tl">
 					<div>

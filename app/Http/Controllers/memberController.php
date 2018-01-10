@@ -432,14 +432,22 @@ class memberController extends Controller
         // save 'kuisioner_mengapa'
         if($request->input('kuisioner_mengapa'))
         {
-
+        	$this->validate($request,[
+		        'kuisioner_mengapa' => 'required',
+		    ],[   
+	            'kuisioner_mengapa.required'    => 'Jawaban Wajib Di isi',
+        	]);
             self::add_or_update_meta('kuisioner_mengapa',$request->input('kuisioner_mengapa'),$id);
         }
 
         // save 'kuisionar_harapan'
         if($request->input('kuisioner_harapan'))
         {
-
+        	$this->validate($request,[
+		        'kuisioner_harapan' => 'required',
+		    ],[   
+	            'kuisioner_harapan.required'    => 'Jawaban Wajib Di isi',
+        	]);
             self::add_or_update_meta('kuisioner_harapan',$request->input('kuisioner_harapan'),$id);
         }
 
@@ -450,7 +458,7 @@ class memberController extends Controller
             $tos = ( 'on' == $request->input('tos_terima') ) ? 1 : 0;
             if( $request->input('kuisioner_harapan') && $request->input('kuisioner_mengapa')  )
             {
-              self::add_or_update_meta('tos_terima',$tos,$id);
+            	self::add_or_update_meta('tos_terima',$tos,$id);
             }
         }
 
