@@ -664,7 +664,7 @@
 							bottom: 20px;
 							right: 20px;
 							position: absolute;
-							font-size: 12px;
+							font-size: 10px;
 							padding: 5px 10px;
 							border-radius: 5px;
 							text-decoration: none;
@@ -672,7 +672,7 @@
 							background-color: #C95D18;
 							display: inline-block;
 							@media screen and (max-width: 915px) {
-								font-size: 9px;
+								font-size: 8px;
 							}
 						}
 					}
@@ -2147,12 +2147,74 @@
 					}
 				}
 			}
-#tentang{
-	.tentangContent{
-		margin-top: 25px;
-		margin-bottom: 25px;
-		p{
-			margin-bottom: 20px;
+#tentangKami{
+	margin-top: 30px;
+	margin-bottom: 200px;
+	.container{
+		background-image: url('/images/ttgbg.png');
+		background-position: top right;
+		background-repeat: no-repeat;
+		.tentangDesc{
+			font-weight: $normal;	
+			margin-bottom: 75px;
+			@media screen and (max-width: 658px) {
+				width: calc(100% - 30px);
+			}
+			p{
+				
+			}
+		}
+		.visiMisi{
+			.visi{
+				@media screen and (max-width: 658px) {
+					width: calc(100% - 30px);
+				}
+				h3{
+					margin-bottom: 15px;
+				}
+			}
+			.misi{
+				position: relative;
+				@media screen and (max-width: 658px) {
+					width: calc(100% - 30px);
+					margin-left: -20px;
+					margin-top: 30px;
+				}
+				&:before{
+					content: "";
+					position: absolute;
+					background-image: url('/images/sparator.png');
+					background-size: 100% 100%;
+					width: 1.5px;
+					height: 300px;
+					left: 0;
+					top: -30px;
+				}
+				h3{
+					margin-left: 25px;
+					margin-bottom: 15px;	
+				}
+				ul{
+					li{
+						padding-bottom: 5px;
+					    font-size: 1em;
+					    list-style: none;
+					    position: relative;
+						&:before{
+							content: "";
+							border-radius: 50%;
+						    position: absolute;
+						    background-color: #000;
+						    background-size: 100% 100%;
+						    background-position: center;
+						    left: -18px;
+						    top: 7px;
+						    width: 8px;
+						    height: 8px;
+						}
+					}
+				}
+			}
 		}
 	}
 }

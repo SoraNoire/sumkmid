@@ -57,7 +57,7 @@
 											@else
 											<div class="miniPhotoMentor" style="background-image: url('{{ asset('images/admin.png') }}');"></div>
 											@endif
-											<a href="{{ (isset($mentor->id) ? route('public_mentor_single',$mentor->id) : url('/mentor')) }}">{{ $mentor->name ?? '' }}</a>
+											<a href="{{ (isset($mentor->username) ? route('public_mentor_single',$mentor->username) : url('/mentor')) }}">{{ $mentor->name ?? '' }}</a>
 										</div>
 										@endif
 									@endforeach

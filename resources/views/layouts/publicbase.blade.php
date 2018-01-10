@@ -72,8 +72,8 @@
                                         @if('admin' == app()->OAuth->Auth()->role)
                                         <li><a href="{{route('panel.dashboard')}}">Dashboard</a></li>
                                         @endif
-                                        <li><a href="{{route('user_setting')}}">Edit Profile</a></li>
-                                        <li><a href="{{route('OA.logout')}}">Logout</a></li>
+                                        <li><a href="{{route('user_setting')}}">Edit Profil</a></li>
+                                        <li><a href="{{route('OA.logout')}}">Keluar</a></li>
                                     </ul>
                                 </li>
                                 @else
@@ -132,10 +132,10 @@
                     </ul>
                 </div>
                 <div class="col-4 stayInTouch">
-                    <h5>STAY IN TOUCH</h5>
+                    <h5>Tetap Terhubung dengan Kami</h5>
                     <div class="footerSubForm">
                         <form action="{{ route('public_newsletter') }}" method="get">
-                            <input type="email" name="email" placeholder="Subscribe our newsletter" required="required">
+                            <input type="email" name="email" placeholder="Berlangganan Surel" required="required">
                             <button id="submit_newsletter"><i class="fa fa-location-arrow" aria-hidden="true"></i></button>
                         </form>
                     </div>
@@ -147,7 +147,7 @@
                         <li><a target="_blank" href="{{ app()->Meta->get('link_gplus') ?? '#' }}"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
                         <li><a target="_blank" href="{{ app()->Meta->get('link_yt') ?? '#' }}"><i class="fa fa-youtube-play" aria-hidden="true"></i></a></li>
                     </ul>
-                    <span class="copyText">Copyright &copy; 2017 - Sahabat UMKM</span>
+                    <span class="copyText">Hak Cipta &copy; 2017 - Sahabat UMKM</span>
                 </div>
             </div>
         </div>

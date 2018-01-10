@@ -209,7 +209,7 @@ class PublicController extends Controller
             $socfeed = json_decode($socfeed);
         } else {
         	$socfeed = new \stdClass;;
-        	$socfeed->title = 'Social Feed';
+        	$socfeed->title = 'Tumbuh dan Berkembang Bersama';
         }
         $socfeed->title = PublicHelper::print_section_title($socfeed->title);
         $var['socfeed'] = $socfeed;
@@ -279,6 +279,10 @@ class PublicController extends Controller
 						# code...
 					break;
 
+					case 'template.tentang':
+						
+					break;
+
 					case 'template.gallery':
 						$var['posts'] = DB::table('post_view')
 										->whereIn('post_type',['video', 'gallery'])
@@ -300,17 +304,16 @@ class PublicController extends Controller
      * Show single mentor page.
      * @return Response
      */
-	public function mentorSingle($mentorId){
+	public function mentorSingle($username){
 		$var['page'] = "mentorSingle";
-		$var['mentors'] =  app()->OAuth->mentors("$mentorId")->users;
-
-		if(isset($var['mentors'][0])){
-			$var['mentors'] = $var['mentors'][0];
+		$var['mentors'] =  app()->OAuth->mentor("$username");
+		if(isset($var['mentors'])){
+			$var['mentors'] = $var['mentors'];
 			$Meta = app()->Meta;
         	$Meta->set('meta_type', 'profile');
         	$Meta->set('meta_title', 'Mentor '.$var['mentors']->name ?? '');
         	$Meta->set('meta_desc', 'Mentor '.$var['mentors']->name.' - '.$var['mentors']->description ?? '');
-        	$Meta->set('meta_image', $var['mentors']->foto_profil ?? '');
+        	$Meta->set('meta_image', $var['mentors']->avatar ?? '');
 
 			return view('page.mentorSingle')->with(['var' => $var]);
 		}
