@@ -15,13 +15,6 @@
             <div class="col-md-9"> 
                 <h4 class="title">News Page</h4>
             </div>
-            @if ( in_array('write', app()->OAuth::can('panel.page')) )
-            <div class="col-md-9 col-sm-6 col-xs-6">
-                <a href="{{ route('panel.page__add') }}" class="btn btn-round btn-fill btn-info">
-                    New Page +<div class="ripple-container"></div>
-                </a>
-            </div>
-            @endif
             <div class="col-md-3 col-sm-6 col-xs-6">
                 <button type="submit" class="btn btn-success pull-right">Save Page</button>
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
