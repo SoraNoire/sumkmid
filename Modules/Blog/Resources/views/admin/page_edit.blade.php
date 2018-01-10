@@ -14,23 +14,21 @@
             <div class="col-md-9"> 
                 <h4 class="title">Edit Page</h4>
             </div>
-            @if ( in_array('write', app()->OAuth::can('panel.page')) || in_array('delete', app()->OAuth::can('panel.page')))
             <div class="col-md-9 col-sm-6 col-xs-6"> 
                 @if (in_array('write', app()->OAuth::can('panel.page')))
                 <a href="{{ route('panel.page__add') }}" class="btn btn-round btn-fill btn-info">
                     New Page +<div class="ripple-container"></div>
                 </a>
                 @endif
-                <!-- <a target="_blank" href="{{ URL::to($prefix.'page/'.$page->slug) }}" class="btn btn-round btn-fill btn-info">
+                <a target="_blank" href="{{ route('public_single_page',$page->slug) }}" class="btn btn-round btn-fill btn-info">
                     View Page<div class="ripple-container"></div>
-                </a> -->
+                </a>
                 @if (in_array('delete', app()->OAuth::can('panel.page')))
                 <a onclick="return confirm('Delete Page?');" href="{{route('panel.page__delete',$page->id)}}" class="btn btn-round btn-fill btn-danger">
                     Delete Page<div class="ripple-container"></div>
                 </a>
                 @endif
             </div>
-            @endif
             <div class="col-md-3 col-sm-6 col-xs-6">
                 <button type="submit" class="btn btn-success pull-right">Save Page</button>
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
