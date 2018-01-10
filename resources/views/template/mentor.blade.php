@@ -19,7 +19,7 @@
 					<a href="{{ route('public_mentor_single',$mentor->username) }}" title="">
 						{!! str_limit(html_entity_decode(strip_tags($mentor->name)), 40) !!}
 					</a>
-					<a href="{{ route('public_mentor_single',$mentor->id) }}" class="sub" title="CEO Anak Mas">{{ $mentor->jabatan }}</a>
+					<a href="{{ route('public_mentor_single',$mentor->username) }}" class="sub" title="CEO Anak Mas">{{ $mentor->jabatan }}</a>
 				</div>		
 			</div>
 			</div>
