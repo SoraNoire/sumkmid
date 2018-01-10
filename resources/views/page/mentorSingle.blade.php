@@ -4,7 +4,7 @@
 
 <div class="breadcrumb">
 	<div class="container">
-		<h2><a href="{{ route('public_home') }}">Beranda</a> <i class="fa fa-angle-right" aria-hidden="true"></i><a href="{{ route('public_mentor') }}">Mentor</a><i class="fa fa-angle-right" aria-hidden="true"></i>{{$var['mentors']->name}}</h2>
+		<h2><a href="{{ route('public_home') }}">Beranda</a> <i class="fa fa-angle-right" aria-hidden="true"></i><a href="{{ url('/mentor') }}">Mentor</a><i class="fa fa-angle-right" aria-hidden="true"></i>{{$var['mentors']->name}}</h2>
 	</div>
 </div>
 
@@ -16,7 +16,7 @@
 		</div> -->
 		<div class="leftForm">
 			<div class="photoUser">
-				<div class="photoPreview" style="background-image:url('{{$var['mentors']->foto_profil}}');">
+				<div class="photoPreview" style="background-image:url('{{$var['mentors']->avatar}}');">
 				</div>
 			</div>
 		</div>

@@ -30,6 +30,8 @@
   'Modules/Blog/Assets/js/ie10-viewport-bug-workaround.js',
   'Modules/Blog/Assets/js/bootstrap-datetimepicker.min.js',
   'Modules/Blog/Assets/js/blogPlugin.js',
+  'Modules/Menu/Assets/js/jquery.nestable.js',
+  'Modules/Menu/Assets/js/menu.js',
   'Modules/Blog/Assets/js/component.js',
   'Modules/Blog/Assets/js/mydatatables.js',
   'Modules/Blog/Assets/js/jquery.nestable.js',

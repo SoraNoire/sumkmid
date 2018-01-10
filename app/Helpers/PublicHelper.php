@@ -4,6 +4,7 @@ namespace App\Helpers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Modules\Blog\Entities\PostMeta;
+use Modules\Blog\Entities\Option;
 
 class PublicHelper
 {
@@ -88,5 +89,33 @@ class PublicHelper
         }
         $data['mentors'] = $mentors;
         return $data;
+    }
+
+    /**
+     * Print Top Menu
+     */
+    public static function print_top_menu(){
+        $menu = '<li><a href="'.url("/").'">Beranda</a></li>';
+        $menu_position = Option::where('key', 'menu_position')->first()->value ?? '';
+        if ($menu_position != '') {
+            $menu = '';
+            $menu_position = json_decode($menu_position);
+
+            foreach ($menu_position as $item) {
+                $menu .= '<li><a href="'.$item->link.'">'.$item->label.'</a>';
+            }
+        }
+        return $menu;
+    }
+
+    /**
+     * Print Section Title
+     */
+    public static function print_section_title($title){
+        $split = explode(' ', $title);
+        $split[count($split)-1] = "</span><span>".$split[count($split)-1]."</span>";
+        $split[0] = "<span>".$split[0];
+        $output = implode(" ", $split);
+        return $output;
     }
 }

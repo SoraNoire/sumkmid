@@ -8,6 +8,8 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>Sahabat UMKM</title>
+    
+{!! app()->Meta->print_meta() !!}
 
     <link rel="icon" type="image/x-icon" href="{{ asset('images/fav.png') }}">
     <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}">
@@ -57,32 +59,9 @@
                         <div class="navWrapper">
 	                        <div class="burgerBtn"></div>
 	                        <ul>
-                                <li><a href="{{ route('public_tentang') }}">Tentang</a></li>
-	                            <li class="{{ ($var['page'] ?? '' == 'Event' ? 'active' : '') }}">
-	                                <a href="{{ route('public_event') }}">
-	                                    Event
-	                                </a>
-	                            </li>
-	                            <li class="{{ ($var['page'] ?? '' == 'mentor' ? 'active' : '') }}">
-	                                <a href="{{ route('public_mentor') }}">
-	                                    Mentor
-	                                </a>
-	                            </li>
-	                            <li class="{{ ($var['page'] ?? '' == 'galeri' ? 'active' : '') }}">
-	                                <a href="{{ route('public_gallery') }}">
-	                                    Galeri
-	                                </a>
-	                            </li>
-<!-- 	                        <li class="{{ ($var['page'] ?? '' == 'Ijin Usaha' ? 'active' : '') }}">
-	                                <a href="#">
-	                                    Forum
-	                                </a>
-	                            </li> -->
-	                            <li class="{{ ($var['page'] ?? '' == 'Kontak' ? 'active' : '') }}">
-	                                <a href="{{ route('public_kontak') }}">
-	                                    Kontak
-	                                </a>
-                                </li>
+                                
+                                {!!  app()->Meta->get('top_menu') !!}
+
                                 @if(app()->OAuth->Auth())
                                 <li class="userNavSetting">
                                     <span>{{app()->OAuth->Auth()->name}}</span>
@@ -93,8 +72,8 @@
                                         @if('admin' == app()->OAuth->Auth()->role)
                                         <li><a href="{{route('panel.dashboard')}}">Dashboard</a></li>
                                         @endif
-                                        <li><a href="{{route('user_setting')}}">Edit Profile</a></li>
-                                        <li><a href="{{route('OA.logout')}}">Logout</a></li>
+                                        <li><a href="{{route('user_setting')}}">Edit Profil</a></li>
+                                        <li><a href="{{route('OA.logout')}}">Keluar</a></li>
                                     </ul>
                                 </li>
                                 @else
@@ -153,10 +132,10 @@
                     </ul>
                 </div>
                 <div class="col-4 stayInTouch">
-                    <h5>STAY IN TOUCH</h5>
+                    <h5>Tetap Terhubung dengan Kami</h5>
                     <div class="footerSubForm">
                         <form action="{{ route('public_newsletter') }}" method="get">
-                            <input type="email" name="email" placeholder="Subscribe our newsletter" required="required">
+                            <input type="email" name="email" placeholder="Berlangganan Surel" required="required">
                             <button id="submit_newsletter"><i class="fa fa-location-arrow" aria-hidden="true"></i></button>
                         </form>
                     </div>
@@ -168,7 +147,7 @@
                         <li><a target="_blank" href="{{ app()->Meta->get('link_gplus') ?? '#' }}"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
                         <li><a target="_blank" href="{{ app()->Meta->get('link_yt') ?? '#' }}"><i class="fa fa-youtube-play" aria-hidden="true"></i></a></li>
                     </ul>
-                    <span class="copyText">Copyright &copy; 2017 - Sahabat UMKM</span>
+                    <span class="copyText">Hak Cipta &copy; 2017 - Sahabat UMKM</span>
                 </div>
             </div>
         </div>

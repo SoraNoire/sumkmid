@@ -32,37 +32,34 @@
 
 <section id="about-us">
 	<div class="container">
-		<h3 class="section-title gray"><span>Tentang</span> <span>Kami</span></h3>
-		<div class="section-desc">
-			<p>
-				{{ $var['about_us'] ?? '' }}
-			</p>
+		<div class="row">
+			<div class="col-7">
+				<h3 class="section-title">{!! $var['about_us']->title ?? '' !!}</h3>
+				<div class="section-desc">
+					<p>
+						{{ $var['about_us']->text ?? '' }}
+					</p>
+				</div>	
+			</div>
+			<div class="col-5">
+				<div class="sahabaticon">
+					<a href="{{ URL::to('/') }}">
+						<img src="{{ asset('images/sbt-icon.png') }}">
+					</a>
+				</div>
+			</div>
 		</div>
 	</div>
 </section>
 
-<section id="quote" class="blue-bg">
+<section id="quote">
     <div class="container">
+    	<h3 class="section-title">{!! $var['program']->title ?? '<span>Our</span><span>Program</span>' !!}</h3>
         <div class="the-row">
-        	@if ( isset($var['quote']->image) && $var['quote']->image != '' )
-        	<div class="col-3">
-	        	<div class="quotePhotoWraper">
-		            <div class="quotePhoto">
-		                <img src="{{ $var['quote']->image ?? '' }}">
-		            	}
-		            </div>
-	            </div>
-            </div>
-            @endif
-            <div class="col-9">
-	            <div class="quote">
-	                <blockquote>
-	                    "{{ $var['quote']->text ?? '' }}"
-	                </blockquote>
-	            </div>
-	            <div class="quoter">
-	        		<p>{{ $var['quote']->from ?? '' }}</p>
-	        	</div>
+           	<div class="col-12">
+           		<p class="why-shld-join">
+           			{{ $var['program']->desc ?? '' }}
+           		</p>
            	</div>
         </div>
     </div>
@@ -83,7 +80,11 @@
 			</div>
 		</div>
 		@endforeach
-
+	</div>
+	<div class="registerNow">
+		<a href="{{ $var['program']->url ?? '#' }}">
+			<span class="button">{{ $var['program']->button ?? 'Daftar Sekarang' }}</span>
+		</a>
 	</div>
 </section>
 
@@ -105,7 +106,7 @@
 								@endif
 							</span>
 							<span class="date"><i class="fa fa-calendar" aria-hidden="true"></i>{{ \Carbon\Carbon::createFromTimeStamp(strtotime( $post->date_published ))->toFormattedDateString() }}</span>
-							<a title="{{ $post->title ?? '' }}" href="{{ $post->link }}" class="readmore">READ MORE</a>
+							<a title="{{ $post->title ?? '' }}" href="{{ $post->link }}" class="readmore">SELENGKAPNYA</a>
 						</div>
 					</div>
 				</div>
@@ -124,7 +125,7 @@
 @if (isset($var['instagram']))
 <section id="instagram-feed" class="blue-bg">
 	<div class="container">
-		<h3 class="section-title"><span>Social</span> <span>Feeds</span></h3>
+		<h3 class="section-title">{!! $var['socfeed']->title ?? '<span>Tumbuh dan Berkembang</span> <span>Bersama</span>' !!}</h3>
 		<div class="swiper-container insta-slider">
 			<div class="swiper-wrapper">
 				@php $i = 0 @endphp
@@ -151,7 +152,7 @@
 
 <section id="ourMentors">
 	<div class="container">
-		<h3 class="section-title grey"><span>Meet Our</span> <span>Mentor</span></h3>
+		<h3 class="section-title grey">{!! $var['mentor']->title ?? '<span>Mentor</span> <span>Kami</span>' !!}</h3>
 			<div class="mentorWrap">
 				@php $i = 0 @endphp
 

@@ -1433,6 +1433,7 @@ footer .container .footerItems {
 footer .container .footerItems .desc {
   margin-top: 20px;
   padding-right: 10px;
+  font-weight: 500;
 }
 
 footer .container .footerItems .footerLogo {
@@ -2008,18 +2009,64 @@ footer .container .stayInTouch .copyText {
 }
 
 #about-us {
-  padding-top: 15px;
-  padding-bottom: 15px;
-  text-align: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  text-align: left;
+  background-image: url("/images/ttgbg.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 #about-us .section-title {
   margin-bottom: 34px;
   margin-top: 10px;
+  color: #fff;
 }
 
 #about-us .section-desc {
   margin-bottom: 26px;
+  color: #fff;
+}
+
+#about-us .sahabaticon {
+  position: relative;
+  height: 200px;
+  margin-left: 70px;
+}
+
+@media screen and (max-width: 850px) {
+  #about-us .sahabaticon {
+    margin: 0 auto;
+  }
+}
+
+#about-us .sahabaticon a {
+  display: block;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  height: 142px;
+  margin: auto;
+}
+
+@media screen and (max-width: 850px) {
+  #about-us .sahabaticon a {
+    width: 165px;
+    left: 0;
+    right: 0;
+  }
+}
+
+@media screen and (max-width: 850px) {
+  #about-us .col-7 {
+    width: calc(100% - 30px);
+  }
+}
+
+@media screen and (max-width: 850px) {
+  #about-us .col-5 {
+    width: calc(100% - 30px);
+  }
 }
 
 #quote {
@@ -2027,6 +2074,13 @@ footer .container .stayInTouch .copyText {
   padding-bottom: 20px;
   color: rgba(255, 255, 255, 0.87);
   text-align: center;
+  color: #404040;
+}
+
+#quote .why-shld-join {
+  margin: 0 auto;
+  font-weight: 500;
+  max-width: 500px;
 }
 
 @media screen and (max-width: 680px) {
@@ -2039,6 +2093,16 @@ footer .container .stayInTouch .copyText {
 #quote .section-title {
   text-align: center;
   color: inherit;
+}
+
+#quote .section-title span:first-child {
+  border-color: #595959;
+}
+
+#quote .section-title span:last-child {
+  background-image: -webkit-gradient(linear, left top, right top, color-stop(55%, rgba(64, 64, 64, 0.87)), color-stop(0%, rgba(255, 255, 255, 0)));
+  background-image: linear-gradient(to right, rgba(64, 64, 64, 0.87) 55%, rgba(255, 255, 255, 0) 0%);
+  background-size: 25px 3.5px;
 }
 
 @media screen and (max-width: 425px) {
@@ -2233,8 +2297,9 @@ footer .container .stayInTouch .copyText {
 }
 
 #programs {
-  background-color: #F8F8F8;
   display: block;
+  margin-top: 10px;
+  margin-bottom: 15px;
 }
 
 #programs .programWrap {
@@ -2347,6 +2412,15 @@ footer .container .stayInTouch .copyText {
   opacity: 0;
   padding: 0px 15px;
   color: #ffffff;
+}
+
+#programs .registerNow {
+  text-align: center;
+}
+
+#programs .registerNow a span {
+  display: inline-block;
+  margin: 10px 0px;
 }
 
 #ourMentors {
@@ -2764,22 +2838,18 @@ footer .container .stayInTouch .copyText {
   bottom: 20px;
   right: 20px;
   position: absolute;
-  font-size: 12px;
+  font-size: 10px;
   padding: 5px 10px;
   border-radius: 5px;
   text-decoration: none;
   color: #fff;
-  background: #499bea;
-  background: -webkit-gradient(left top, right top, color-stop(0%, #499bea), color-stop(100%, #207ce5));
-  background: -webkit-gradient(linear, left top, right top, from(#499bea), to(#207ce5));
-  background: linear-gradient(to right, #499bea 0%, #207ce5 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#499bea', endColorstr='#207ce5', GradientType=1 );
+  background-color: #C95D18;
   display: inline-block;
 }
 
 @media screen and (max-width: 915px) {
   #main-gallery .gallery-slider .swiper-wrapper .swiper-slide .g-mini-frame .meta .readmore {
-    font-size: 9px;
+    font-size: 8px;
   }
 }
 
@@ -3736,6 +3806,94 @@ footer .container .stayInTouch .copyText {
   background-size: cover;
 }
 
+.hidden {
+  display: none;
+}
+
+.info_usaha__item {
+  width: 49%;
+  float: left;
+}
+
+.info_usaha__item_parent {
+  background-color: rgba(25, 67, 222, 0.1);
+  padding: 5px 3px;
+}
+
+.clear {
+  clear: both;
+}
+
+.left {
+  float: left;
+}
+
+.tanggal_lahir {
+  margin: 0px 5px;
+}
+
+.pilih_type .pilih {
+  padding: 13px 4px;
+}
+
+.completion3 .left {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.completion3 .answers {
+  display: inline-block;
+  vertical-align: top;
+  width: 80%;
+}
+
+.completion3 input[type="radio"] {
+  padding: 0;
+  margin: 3px;
+  margin-top: 4px;
+  width: 15px;
+  height: 34px;
+}
+
+.completion3 .pilih {
+  padding: 10px 4px;
+}
+
+.completion3 .inputTitle {
+  font-weight: 700;
+}
+
+.completion4 .areaKuis {
+  width: calc(100% - 30px);
+  min-height: 50px;
+  border: 1px solid #000;
+  border-radius: 5px;
+  resize: vertical;
+  padding: 10px 15px;
+  outline: none;
+}
+
+.completion4 .left {
+  float: left;
+  word-wrap: break-word;
+}
+
+.completion4 input[type=checkbox] {
+  width: 17px;
+  height: 17px;
+}
+
+.completion4 .check-terima {
+  padding: 12px 2px;
+}
+
+.completion4 .terima {
+  width: 90%;
+  margin-left: 10px;
+  padding: 3px 0;
+  word-wrap: break-word;
+}
+
 #contact {
   padding-bottom: 20px;
   color: #ffffff;
@@ -3751,6 +3909,12 @@ footer .container .stayInTouch .copyText {
   }
 }
 
+@media screen and (max-width: 624px) {
+  #contact .container .row .contact-address {
+    width: calc(100% - 30px);
+  }
+}
+
 #contact .container .row .contact-address p img {
   background: #ffffff;
 }
@@ -3758,6 +3922,12 @@ footer .container .stayInTouch .copyText {
 @media screen and (max-width: 512px) {
   #contact .container .row .contact-address {
     margin-bottom: 20px;
+  }
+}
+
+@media screen and (max-width: 624px) {
+  #contact .contact-form {
+    width: calc(100% - 30px);
   }
 }
 
@@ -3843,6 +4013,7 @@ footer .container .stayInTouch .copyText {
 
 #userSetting {
   margin-top: 52px;
+  text-align: center;
 }
 
 #userSetting h3 {
@@ -3850,7 +4021,8 @@ footer .container .stayInTouch .copyText {
 }
 
 #userSetting .leftForm {
-  float: left;
+  display: inline-block;
+  vertical-align: top;
 }
 
 @media screen and (max-width: 682px) {
@@ -3892,10 +4064,76 @@ footer .container .stayInTouch .copyText {
 }
 
 #userSetting .rightForm {
-  float: left;
+  text-align: left;
+  display: inline-block;
+  vertical-align: top;
   margin-left: 31px;
   width: 460px;
   margin-bottom: 252px;
+}
+
+#userSetting .rightForm .radioAskUmkm input[type="radio"] {
+  padding: 0;
+  margin: 3px;
+  width: 20px;
+  height: 40px;
+}
+
+#userSetting .rightForm #form-pengusaha .jnsUsaha {
+  width: 50%;
+  float: left;
+}
+
+#userSetting .rightForm #form-pengusaha .jnsUsaha .selectJnsUsaha {
+  height: 35px;
+  border-radius: 5px;
+  border: solid 1px #404040;
+  outline: none;
+  padding: 0px 14px;
+  width: 95%;
+}
+
+#userSetting .rightForm #form-pengusaha .tahunBerdiri {
+  width: 50%;
+  float: left;
+}
+
+#userSetting .rightForm #form-pengusaha .infoUsaha {
+  margin: 5px 0;
+}
+
+#userSetting .rightForm #form-pengusaha .infoUsaha #add_info {
+  cursor: pointer;
+  color: #fff;
+  padding: 2px 8px 4px 8px;
+  border-radius: 10px;
+  background: limegreen;
+}
+
+#userSetting .rightForm #form-pengusaha #info_usaha .info_usaha__select {
+  height: 37px;
+  border-radius: 5px;
+  border: solid 1px #404040;
+  outline: none;
+  padding: 0px 14px;
+  width: calc(100% - 35px);
+}
+
+#userSetting .rightForm #form-pengusaha #info_usaha .info_usaha__item_parent .info_usaha__item #delete_info {
+  cursor: pointer;
+  color: #fff;
+  padding: 1px 8px 2px 8px;
+  border-radius: 23px;
+  background: red;
+}
+
+#userSetting .rightForm #form-pengusaha .omzetSelect {
+  height: 37px;
+  border-radius: 5px;
+  border: solid 1px #404040;
+  outline: none;
+  padding: 0px 14px;
+  width: 50%;
 }
 
 @media screen and (max-width: 682px) {
@@ -4272,13 +4510,84 @@ footer .container .stayInTouch .copyText {
   vertical-align: middle;
 }
 
-#tentang .tentangContent {
-  margin-top: 25px;
-  margin-bottom: 25px;
+#tentangKami {
+  margin-top: 30px;
+  margin-bottom: 200px;
 }
 
-#tentang .tentangContent p {
-  margin-bottom: 20px;
+#tentangKami .container {
+  background-image: url("/images/ttgbg.png");
+  background-position: top right;
+  background-repeat: no-repeat;
+}
+
+#tentangKami .container .tentangDesc {
+  font-weight: 400;
+  margin-bottom: 75px;
+}
+
+@media screen and (max-width: 658px) {
+  #tentangKami .container .tentangDesc {
+    width: calc(100% - 30px);
+  }
+}
+
+@media screen and (max-width: 658px) {
+  #tentangKami .container .visiMisi .visi {
+    width: calc(100% - 30px);
+  }
+}
+
+#tentangKami .container .visiMisi .visi h3 {
+  margin-bottom: 15px;
+}
+
+#tentangKami .container .visiMisi .misi {
+  position: relative;
+}
+
+@media screen and (max-width: 658px) {
+  #tentangKami .container .visiMisi .misi {
+    width: calc(100% - 30px);
+    margin-left: -20px;
+    margin-top: 30px;
+  }
+}
+
+#tentangKami .container .visiMisi .misi:before {
+  content: "";
+  position: absolute;
+  background-image: url("/images/sparator.png");
+  background-size: 100% 100%;
+  width: 1.5px;
+  height: 300px;
+  left: 0;
+  top: -30px;
+}
+
+#tentangKami .container .visiMisi .misi h3 {
+  margin-left: 25px;
+  margin-bottom: 15px;
+}
+
+#tentangKami .container .visiMisi .misi ul li {
+  padding-bottom: 5px;
+  font-size: 1em;
+  list-style: none;
+  position: relative;
+}
+
+#tentangKami .container .visiMisi .misi ul li:before {
+  content: "";
+  border-radius: 50%;
+  position: absolute;
+  background-color: #000;
+  background-size: 100% 100%;
+  background-position: center;
+  left: -18px;
+  top: 7px;
+  width: 8px;
+  height: 8px;
 }
 
 @-webkit-keyframes spin {
@@ -4350,9 +4659,11 @@ footer .container .stayInTouch .copyText {
 
 .pilihkotaprov .inputText {
   display: inline-block;
+  width: 48%;
 }
 
 .pilihkotaprov .inputText select {
+  width: 100%;
   height: 35px;
   border-radius: 5px;
   border: solid 1px #404040;

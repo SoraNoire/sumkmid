@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Modules\Blog\Entities\Option;
+use App\Helpers\PublicHelper;
 
 class MetaMiddleware
 {
@@ -21,7 +22,13 @@ class MetaMiddleware
 */
 class Meta
 {
+    protected $meta_site_name = 'Sahabat UMKM Indonesia';
     protected $meta_title = 'Sahabat UMKM Indonesia';
+    protected $meta_desc = 'Sahabat UMKM Indonesia - TUMBUH, BERKEMBANG, DAN SUKSES BERSAMA SAHABAT UMKM INDONESIA';
+    protected $meta_keyword = 'Sahabat UMKM Indonesia';
+    protected $meta_type = 'website';
+    protected $meta_url = '';
+    protected $meta_image = '';
     protected $gtm = '';
     protected $fb_pixel = '';
     protected $link_fb = '';
@@ -32,6 +39,8 @@ class Meta
     protected $link_gplus = '';
     protected $footer_desc = '';
     protected $email_info = 'sekretariat@sahabatumkm.id';
+    protected $meta = array();
+    protected $top_menu = '';
 
     function __construct(){
         $this->gtm = Option::where('key', 'gtag_manager')->first()->value ?? '';
@@ -44,13 +53,73 @@ class Meta
         $this->link_gplus = Option::where('key', 'link_gplus')->first()->value ?? '';
         $this->footer_desc = Option::where('key', 'footer_desc')->first()->value ?? '';
         $this->email_info = Option::where('key', 'email')->first()->value ?? config('app.email_info');
+        $this->meta_site_name = Option::where('key', 'site_name')->first()->value ?? $this->meta_site_name;
+        $this->meta_desc = Option::where('key', 'site_tagline')->first()->value ?? $this->meta_desc;
+        $this->meta_title = 'Sahabat UMKM Indonesia - '.$this->meta_title;
+        $this->meta_url = url()->current();
+        $this->meta = array('title' => $this->meta_title,
+                             'description' => $this->meta_desc,
+                             'keyword' => $this->meta_keyword,
+                             'og:type' => $this->meta_type,
+                             'og:title' => $this->meta_title,
+                             'og:description' => $this->meta_desc,
+                             'og:url' => $this->meta_url,
+                             'og:image' => $this->meta_image,
+                             'og:image:alt' => $this->meta_title,
+                             'og:site_name' => $this->meta_site_name,
+                             'twitter:card' => 'summary',
+                             'twitter:description' => $this->meta_desc,
+                             'twitter:title' => $this->meta_title,
+                             'twitter:url' => $this->meta_url,
+                             'twitter:image:src' => $this->meta_image
+                            );
+        $this->top_menu = PublicHelper::print_top_menu();
     }
 
     public  function set($var, $value){
-        $this->{$var} = $value;
+        if (is_array($var) && sizeof($var) > 0) {
+            foreach ($var as $key => $var) {
+                $this->{$var} = $value;
+            }
+        } else {
+            $this->{$var} = $value;   
+        }
     }
 
     public function get($var){
         return $this->{$var};
+    }
+
+    public function print_meta(){
+        $this->meta_title = 'Sahabat UMKM Indonesia - '.$this->meta_title;
+        $this->meta = array('title' => $this->meta_title,
+                             'description' => $this->meta_desc,
+                             'keyword' => $this->meta_keyword,
+                             'og:type' => $this->meta_type,
+                             'og:title' => $this->meta_title,
+                             'og:description' => $this->meta_desc,
+                             'og:url' => $this->meta_url,
+                             'og:image' => $this->meta_image,
+                             'og:image:alt' => $this->meta_title,
+                             'og:site_name' => $this->meta_site_name,
+                             'twitter:card' => 'summary',
+                             'twitter:description' => $this->meta_desc,
+                             'twitter:title' => $this->meta_title,
+                             'twitter:url' => $this->meta_url,
+                             'twitter:image:src' => $this->meta_image
+                            );
+        $element = '';
+        foreach ($this->meta as $key => $value) {
+            if ($value != '') {
+                if (strpos($key, 'twitter') !== false) {
+                    $element .= "<meta name='$key' content='$value'>\n";   
+                } else if (strpos($key, ':') !== false) {
+                    $element .= "<meta property='$key' content='$value'>\n";   
+                } else {
+                    $element .= "<meta name='$key' content='$value'>\n";   
+                }   
+            }
+        }
+        return $element;
     }
 }
