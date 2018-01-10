@@ -168,7 +168,7 @@
 					    </div>
 					</div>
 					<h5 class="mentor-name">
-						<a href="{{ route('public_mentor_single',$mentor->id ?? 0) }}">
+						<a href="{{ route('public_mentor_single',$mentor->username ?? '') }}">
 							{{ $mentor->name ?? 'Anonim' }}
 						</a>
 					</h5>
