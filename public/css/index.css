@@ -4017,6 +4017,7 @@ footer .container .stayInTouch .copyText {
 }
 
 #userSetting h3 {
+  text-align: left;
   margin-bottom: 22px;
 }
 
@@ -4189,6 +4190,16 @@ footer .container .stayInTouch .copyText {
 #userSetting .rightForm .withError .inputText input {
   color: #d13d1e;
   border: solid 1px #d13d1e;
+}
+
+#userSetting .rightForm .editDetail h3 {
+  margin-bottom: 5px;
+}
+
+#userSetting .rightForm .editDetail .goToEditDetail {
+  float: left;
+  margin-top: 15px;
+  border: none;
 }
 
 .singleVideo .swiper-container {
@@ -4515,10 +4526,23 @@ footer .container .stayInTouch .copyText {
   margin-bottom: 200px;
 }
 
+@media screen and (max-width: 658px) {
+  #tentangKami {
+    margin-bottom: 15px;
+  }
+}
+
 #tentangKami .container {
   background-image: url("/images/ttgbg.png");
   background-position: top right;
   background-repeat: no-repeat;
+}
+
+@media screen and (max-width: 658px) {
+  #tentangKami .container {
+    background-image: url("/images/ttgbgmobile.png");
+    background-position: 50% 0%;
+  }
 }
 
 #tentangKami .container .tentangDesc {
@@ -4529,6 +4553,7 @@ footer .container .stayInTouch .copyText {
 @media screen and (max-width: 658px) {
   #tentangKami .container .tentangDesc {
     width: calc(100% - 30px);
+    margin-bottom: 15px;
   }
 }
 
@@ -4550,7 +4575,7 @@ footer .container .stayInTouch .copyText {
   #tentangKami .container .visiMisi .misi {
     width: calc(100% - 30px);
     margin-left: -20px;
-    margin-top: 30px;
+    margin-top: 15px;
   }
 }
 
