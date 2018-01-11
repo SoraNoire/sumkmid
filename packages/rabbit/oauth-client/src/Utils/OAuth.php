@@ -188,7 +188,7 @@ class OAuth
         $data = [];
         $path = "/mentor?page=$page&id=$id";
         $user = self::curl($path,$data);
-        return null !== $user->data ? $user->data : false;
+        return (isset($user->data) && null !== $user->data) ? $user->data : false;
 
     }
     public static function mentor($username='',$page=1)
