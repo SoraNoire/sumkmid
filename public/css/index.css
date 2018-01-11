@@ -3197,6 +3197,8 @@ footer .container .stayInTouch .copyText {
 
 @media screen and (max-width: 375px) {
   #mentor-archive .container .row .cst-4-col {
+    float: unset;
+    text-align: center;
     width: calc(100% - 40px);
     float: left;
     margin-left: 20px;
@@ -3215,6 +3217,13 @@ footer .container .stayInTouch .copyText {
   padding: 10px;
 }
 
+@media screen and (max-width: 375px) {
+  #mentor-archive .item {
+    margin-right: 0;
+    max-height: unset;
+  }
+}
+
 #mentor-archive .item:nth-child(4n) {
   margin-right: 0;
 }
@@ -3226,6 +3235,12 @@ footer .container .stayInTouch .copyText {
   border-radius: 5px;
   background-size: cover;
   background-position: top;
+}
+
+@media screen and (max-width: 375px) {
+  #mentor-archive .item .item-image {
+    height: 220px;
+  }
 }
 
 #mentor-archive .item .item-image:before {
