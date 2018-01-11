@@ -78,28 +78,28 @@ class SahabatUserController extends Controller
         return view('shb::backend.users.index',['page'=>$page,'users'=>$users]);
     }
 
-    // private static function listUsaha()
-    // {
-    //     $usaha = [
-    //                 'Aplikasi Dan Pengembang Permainan',
-    //                 'Arsitektur',
-    //                 'Desain Interior',
-    //                 'Desain Komunikasi Visual',
-    //                 'Desain Produk',
-    //                 'Fashion',
-    //                 'Film, Animasi, Dan Video',
-    //                 'Fotografi',
-    //                 'Kriya',
-    //                 'Kuliner',
-    //                 'Musik',
-    //                 'Penerbitan',
-    //                 'Periklanan',
-    //                 'Seni Pertunjukan',
-    //                 'Seni Rupa',
-    //                 'Televisi Dan Radio'
-    //         ];
-    //     return (object)$usaha;
-    // }
+    private static function listUsaha()
+    {
+        $usaha = [
+                    'Aplikasi Dan Pengembang Permainan',
+                    'Arsitektur',
+                    'Desain Interior',
+                    'Desain Komunikasi Visual',
+                    'Desain Produk',
+                    'Fashion',
+                    'Film, Animasi, Dan Video',
+                    'Fotografi',
+                    'Kriya',
+                    'Kuliner',
+                    'Musik',
+                    'Penerbitan',
+                    'Periklanan',
+                    'Seni Pertunjukan',
+                    'Seni Rupa',
+                    'Televisi Dan Radio'
+            ];
+        return (object)$usaha;
+    }
 
     private static function meta_user($id = false){
         $idu = (false!==$id)? $id : app()->OAuth::Auth()->id;
@@ -221,252 +221,505 @@ class SahabatUserController extends Controller
 
     }
 
+    // public function completionSave(Request $request,$id=false){
+
+    //     if($request->input('step') == 'step1'){
+    //         // save 'kota lahir'
+    //         $this->validate($request,[
+    //             'kota_lahir' => 'required',
+    //             'tahun_lahir' => 'required|numeric',
+    //             'bulan_lahir' => 'required|numeric',
+    //             'tanggal_lahir' => 'required|numeric',
+    //             'provinsi' => 'required',
+    //             'kota' => 'required',
+    //             'alamat' => 'required',
+    //             'telepon' => 'required|numeric',
+    //         ],[
+    //             'kota_lahir.required'       => 'Kota Kelahiran Wajib di Isi',
+    //             'tahun_lahir.required'      => 'Tahun Kelahiran Wajib di Isi',
+    //             'bulan_lahir.required'      => 'Bulan Kelahiran Wajib di Isi',
+    //             'tanggal_lahir.required'    => 'Tanggal Kelahiran Wajib di Isi',
+    //             'tahun_lahir.numeric'       => 'Tahun Kelahiran Wajib di Isi',
+    //             'bulan_lahir.numeric'       => 'Bulan Kelahiran Wajib di Isi',
+    //             'tanggal_lahir.numeric'     => 'Tanggal Kelahiran Wajib di Isi',
+    //             'provinsi.required'         => 'Provinsi Wajib di Isi',
+    //             'kota.required'             => 'Kota Wajib di Isi',
+    //             'alamat.required'           => 'Alamat Wajib di Isi',
+    //             'telepon.required'          => 'Telepon Wajib di Isi',
+    //             'telepon.numeric'           => 'Nomor Telepon Harus Angka'
+    //         ]);
+
+    //         self::add_or_update_meta('kota_lahir',$request->input('kota_lahir'),$id);
+
+    //         // save 'tahun lahir'
+    //         $tahunLahir = $request->input('tahun_lahir')
+    //                         .'/'.$request->input('bulan_lahir')
+    //                         .'/'.$request->input('tanggal_lahir');
+
+    //         $checkDate = checkdate($request->input('bulan_lahir'),$request->input('tanggal_lahir'),$request->input('tahun_lahir'));
+
+    //         if($checkDate == false){
+    //             return Redirect::back()->withErrors(['Tanggal Salah !']);
+    //         }
+    //         //save 'tanggal_lahir'
+    //         self::add_or_update_meta('tanggal_lahir',$tahunLahir,$id);
+
+    //         // save 'alamat'
+    //         self::add_or_update_meta('alamat',$request->input('alamat'),$id);
+
+    //         // save 'provinsi'
+    //         self::add_or_update_meta('provinsi',$request->input('provinsi'),$id);
+
+    //         // save 'kota'
+    //         self::add_or_update_meta('kota',$request->input('kota'),$id);
+
+    //         // save 'telepon'
+    //         self::add_or_update_meta('telepon',$request->input('telepon'),$id);
+
+    //         if($id){
+    //             return back();
+    //         }
+    //         return redirect('/')->send();
+    //     }
+
+    //     if($request->input('step') == 'step2'){
+
+    //         // save 'type_user'
+    //         if($request->input('type_user'))
+    //         {
+    //             $typeUser = ( 'ya' == $request->input('type_user') ) ? 'umkm' : 'perorangan';
+
+    //             if($typeUser == 'umkm'){
+
+    //                 $this->validate($request,[
+    //                     'nama_usaha' => 'required',
+    //                     'jenis_usaha' => 'required',
+    //                     'tahun_berdiri' => 'required|numeric',
+    //                     'omzet' => 'required',
+    //                     'foto_ktp' => 'required|image',
+    //                     'info_usaha.*' => 'required|min:1',
+    //                     'info_usaha.Telepon' => 'numeric',
+    //                 ],[   
+    //                     'nama_usaha.required'    => 'Nama Usaha Wajib di Isi',
+    //                     'jenis_usaha.required'    => 'Jenis Usaha Wajib di Isi',
+    //                     'tahun_berdiri.required'    => 'Tahun Bediri Wajib di Isi',
+    //                     'tahun_berdiri.numeric'    => 'Tahun Bediri Wajib Angka',
+    //                     'omzet.required'    => 'Perkiraan Omzet Wajib di Isi',
+    //                     'foto_ktp.required'    => 'Foto KTP Wajib di Isi',
+    //                     'foto_ktp.image'    => 'Foto KTP Salah',
+    //                     'info_usaha.*.required' => 'Informasi Usaha Minimal 1',
+    //                     'info_usaha.Telepon.numeric' => 'Nomor Telepon Usaha Harus Angka'
+    //                 ]);
+
+    //                 // save 'nama_usaha'
+    //                 self::add_or_update_meta('nama_usaha',$request->input('nama_usaha'),$id);
+
+    //                 // save 'jenis_usaha'
+    //                 self::add_or_update_meta('jenis_usaha',$request->input('jenis_usaha'),$id);
+
+    //                 // save 'tahun_berdiri'
+    //                 self::add_or_update_meta('tahun_berdiri',$request->input('tahun_berdiri'),$id);
+
+    //                 // save 'omzet'
+    //                 self::add_or_update_meta('omzet',$request->input('omzet'),$id);
+    //             }else{
+    //                 $this->validate($request,[
+    //                     'foto_ktp' => 'required|image',
+    //                 ],[
+    //                     'foto_ktp.required'    => 'Foto KTP Wajib di Isi',
+    //                     'foto_ktp.image'    => 'Foto KTP Salah'
+    //                 ]);
+    //                 self::add_or_update_meta('type_user',$typeUser,$id);
+    //                 // delete umkm data if any
+    //                 UserMeta::whereIn('meta_key',['nama_usaha','jenis_usaha','tahun_berdiri','omzet'])
+    //                           ->where('user_id',app()->OAuth::Auth()->id)->delete();         
+    //             }
+    //         }
+
+    //         if($request->file('foto_ktp'))
+    //         {
+    //             $path = '/cr/ktp/';
+    //             $filename = rand(3,977) . (md5(date('YMDHis'))) . '.jpg';
+    //             if (!file_exists( storage_path($path) )) {
+    //                 mkdir( storage_path($path) , 0750, true);
+    //                 file_put_contents(storage_path($path.".gitignore"),"*");
+    //             }
+    //             $file = $request->file('foto_ktp');
+    //             $file->move( storage_path( $path ),$filename );
+    //             $img = \Image::make( storage_path( $path . $filename) );
+    //             $img->save( storage_path( $path . $filename) , 75);
+
+    //             self::add_or_update_meta('foto_ktp',$filename,$id);
+    //         }
+    //         // save 'info_usaha'
+    //         if($request->input('info_usaha')){
+    //             if ( 1 == sizeof($request->input('info_usaha')) )
+    //             {
+    //               foreach ($request->input('info_usaha') as $key => $i) {
+    //                   if($i && '' != $i){
+    //                     self::add_or_update_meta('info_usaha',json_encode($request->input('info_usaha')),$id);
+    //                   }
+    //               }
+
+    //             }
+    //             else
+    //             {
+    //               $info = [];
+    //               foreach ($request->input('info') as $key => $value) {
+    //                 if( null != $value && 'null' != $key && '' != $value && '' != $key)
+    //                 {
+    //                     $info[$key] = $value;
+    //                 }
+    //               }
+    //               self::add_or_update_meta('info_usaha',json_encode($info),$id);
+    //             }
+    //         }
+
+    //         if($id){
+    //             return back();
+    //         }
+    //         return redirect('/')->send();
+    //     }
+
+    //     if($request->input('step') == 'step3'){
+
+    //         $this->validate($request,[
+    //             'usaha_tetap' => 'required',
+    //             'kelengkapan_dokumen' => 'required',
+    //             'tempat_usaha' => 'required',
+    //             'adm_keuangan' => 'required',
+    //             'akses_perbankan' => 'required',
+
+    //         ],[   
+    //             'usaha_tetap.required'    => 'Pertanyaan 1 Belum Terjawab',
+    //             'kelengkapan_dokumen.required'    => 'Pertanyaan 2 Belum Terjawab',
+    //             'tempat_usaha.required'    => 'Pertanyaan 3 Belum Terjawab',
+    //             'adm_keuangan.required'    => 'Pertanyaan 4 Belum Terjawab',
+    //             'akses_perbankan.required'    => 'Pertanyaan 5 Belum Terjawab',
+    //         ]);
+
+    //         // save 'usaha_tetap'
+    //         if($request->input('usaha_tetap'))
+    //         {
+    //             self::add_or_update_meta('usaha_tetap',$request->input('usaha_tetap'),$id);
+    //         }
+    //         // save 'kelengkapan_dokumen'
+    //         if($request->input('kelengkapan_dokumen'))
+    //         {
+
+    //             self::add_or_update_meta('kelengkapan_dokumen',$request->input('kelengkapan_dokumen'),$id);
+    //         }
+    //         // save 'tempat_usaha'
+    //         if($request->input('tempat_usaha'))
+    //         {
+
+    //             self::add_or_update_meta('tempat_usaha',$request->input('tempat_usaha'),$id);
+    //         }
+    //         // save 'adm_keuangan'
+    //         if($request->input('adm_keuangan'))
+    //         {
+
+    //             self::add_or_update_meta('adm_keuangan',$request->input('adm_keuangan'),$id);
+    //         }
+    //         // save 'akses_perbankan'
+    //         if($request->input('akses_perbankan'))
+    //         {
+
+    //             self::add_or_update_meta('akses_perbankan',$request->input('akses_perbankan'),$id);
+    //         }
+    //     }
+
+    //     if($request->input('step') == 'step4'){
+
+    //         $this->validate($request,[
+    //             'kuisioner_mengapa' => 'required',
+    //             'kuisioner_harapan' => 'required',
+    //             'tos_terima' => 'required',
+
+    //         ],[   
+    //             'kuisioner_mengapa.required'    => 'Alasan Mengapa Wajib di Isi',
+    //             'kuisioner_harapan.required'    => 'Harapan Wajib di Isi',
+    //             'tos_terima.required'    => 'Anda Wajib Menyetujui Persyaratan Dibawah !',
+    //         ]);
+    //         // save 'kuisioner_mengapa'
+    //         if($request->input('kuisioner_mengapa'))
+    //         {
+
+    //             self::add_or_update_meta('kuisioner_mengapa',$request->input('kuisioner_mengapa'),$id);
+    //         }
+
+    //         // save 'kuisionar_harapan'
+    //         if($request->input('kuisioner_harapan'))
+    //         {
+
+    //             self::add_or_update_meta('kuisioner_harapan',$request->input('kuisioner_harapan'),$id);
+    //         }
+
+    //         // save 'tos_terima'
+    //         if($request->input('tos_terima'))
+    //         {
+
+    //             $tos = ( 'on' == $request->input('tos_terima') ) ? 1 : 0;
+    //             if( $request->input('kuisioner_harapan') && $request->input('kuisioner_mengapa')  )
+    //             {
+    //             $request->session()->flash('swal', (object)['status'=>'success','message'=>'Selamat Profil Anda Sudah Lengkap, Terimakasih']);
+    //               self::add_or_update_meta('tos_terima',$tos,$id);
+    //             }
+    //         }
+    //     }
+
+    //     if($id)
+    //     {
+    //         return back();
+    //     }
+    //     return redirect('/')->send();
+    // }
+
     public function completionSave(Request $request,$id=false){
-
-        if($request->input('step') == 'step1'){
-            // save 'kota lahir'
+        // save 'kota lahir'
+        if($request->input('kota_lahir')){
             $this->validate($request,[
-                'kota_lahir' => 'required',
-                'tahun_lahir' => 'required|numeric',
-                'bulan_lahir' => 'required|numeric',
-                'tanggal_lahir' => 'required|numeric',
-                'provinsi' => 'required',
-                'kota' => 'required',
-                'alamat' => 'required',
-                'telepon' => 'required|numeric',
-            ],[
-                'kota_lahir.required'       => 'Kota Kelahiran Wajib di Isi',
-                'tahun_lahir.required'      => 'Tahun Kelahiran Wajib di Isi',
-                'bulan_lahir.required'      => 'Bulan Kelahiran Wajib di Isi',
-                'tanggal_lahir.required'    => 'Tanggal Kelahiran Wajib di Isi',
-                'tahun_lahir.numeric'       => 'Tahun Kelahiran Wajib di Isi',
-                'bulan_lahir.numeric'       => 'Bulan Kelahiran Wajib di Isi',
-                'tanggal_lahir.numeric'     => 'Tanggal Kelahiran Wajib di Isi',
-                'provinsi.required'         => 'Provinsi Wajib di Isi',
-                'kota.required'             => 'Kota Wajib di Isi',
-                'alamat.required'           => 'Alamat Wajib di Isi',
-                'telepon.required'          => 'Telepon Wajib di Isi',
-                'telepon.numeric'           => 'Nomor Telepon Harus Angka'
+                'kota_lahir' => 'required'
+            ],[   
+                'kota_lahir.required'    => 'Kota Kelahiran Wajib di Isi'
             ]);
-
             self::add_or_update_meta('kota_lahir',$request->input('kota_lahir'),$id);
+        }
 
-            // save 'tahun lahir'
+        // save 'tahun lahir'
+        if($request->input('tahun_lahir')){
             $tahunLahir = $request->input('tahun_lahir')
                             .'/'.$request->input('bulan_lahir')
                             .'/'.$request->input('tanggal_lahir');
-
-            $checkDate = checkdate($request->input('bulan_lahir'),$request->input('tanggal_lahir'),$request->input('tahun_lahir'));
-
-            if($checkDate == false){
-                return Redirect::back()->withErrors(['Tanggal Salah !']);
-            }
-            //save 'tanggal_lahir'
-            self::add_or_update_meta('tanggal_lahir',$tahunLahir,$id);
-
-            // save 'alamat'
-            self::add_or_update_meta('alamat',$request->input('alamat'),$id);
-
-            // save 'provinsi'
-            self::add_or_update_meta('provinsi',$request->input('provinsi'),$id);
-
-            // save 'kota'
-            self::add_or_update_meta('kota',$request->input('kota'),$id);
-
-            // save 'telepon'
-            self::add_or_update_meta('telepon',$request->input('telepon'),$id);
-
-            if($id){
-                return back();
-            }
-            return redirect('/')->send();
-        }
-
-        if($request->input('step') == 'step2'){
-
-            // save 'type_user'
-            if($request->input('type_user'))
-            {
-                $typeUser = ( 'ya' == $request->input('type_user') ) ? 'umkm' : 'perorangan';
-
-                if($typeUser == 'umkm'){
-
-                    $this->validate($request,[
-                        'nama_usaha' => 'required',
-                        'jenis_usaha' => 'required',
-                        'tahun_berdiri' => 'required|numeric',
-                        'omzet' => 'required',
-                        'foto_ktp' => 'required|image',
-                        'info_usaha.*' => 'required|min:1',
-                        'info_usaha.Telepon' => 'numeric',
-                    ],[   
-                        'nama_usaha.required'    => 'Nama Usaha Wajib di Isi',
-                        'jenis_usaha.required'    => 'Jenis Usaha Wajib di Isi',
-                        'tahun_berdiri.required'    => 'Tahun Bediri Wajib di Isi',
-                        'tahun_berdiri.numeric'    => 'Tahun Bediri Wajib Angka',
-                        'omzet.required'    => 'Perkiraan Omzet Wajib di Isi',
-                        'foto_ktp.required'    => 'Foto KTP Wajib di Isi',
-                        'foto_ktp.image'    => 'Foto KTP Salah',
-                        'info_usaha.*.required' => 'Informasi Usaha Minimal 1',
-                        'info_usaha.Telepon.numeric' => 'Nomor Telepon Usaha Harus Angka'
-                    ]);
-
-                    // save 'nama_usaha'
-                    self::add_or_update_meta('nama_usaha',$request->input('nama_usaha'),$id);
-
-                    // save 'jenis_usaha'
-                    self::add_or_update_meta('jenis_usaha',$request->input('jenis_usaha'),$id);
-
-                    // save 'tahun_berdiri'
-                    self::add_or_update_meta('tahun_berdiri',$request->input('tahun_berdiri'),$id);
-
-                    // save 'omzet'
-                    self::add_or_update_meta('omzet',$request->input('omzet'),$id);
-                }else{
-                    $this->validate($request,[
-                        'foto_ktp' => 'required|image',
-                    ],[
-                        'foto_ktp.required'    => 'Foto KTP Wajib di Isi',
-                        'foto_ktp.image'    => 'Foto KTP Salah'
-                    ]);
-                    self::add_or_update_meta('type_user',$typeUser,$id);
-                    // delete umkm data if any
-                    UserMeta::whereIn('meta_key',['nama_usaha','jenis_usaha','tahun_berdiri','omzet'])
-                              ->where('user_id',app()->OAuth::Auth()->id)->delete();         
-                }
-            }
-
-            if($request->file('foto_ktp'))
-            {
-                $path = '/cr/ktp/';
-                $filename = rand(3,977) . (md5(date('YMDHis'))) . '.jpg';
-                if (!file_exists( storage_path($path) )) {
-                    mkdir( storage_path($path) , 0750, true);
-                    file_put_contents(storage_path($path.".gitignore"),"*");
-                }
-                $file = $request->file('foto_ktp');
-                $file->move( storage_path( $path ),$filename );
-                $img = \Image::make( storage_path( $path . $filename) );
-                $img->save( storage_path( $path . $filename) , 75);
-
-                self::add_or_update_meta('foto_ktp',$filename,$id);
-            }
-            // save 'info_usaha'
-            if($request->input('info_usaha')){
-                if ( 1 == sizeof($request->input('info_usaha')) )
-                {
-                  foreach ($request->input('info_usaha') as $key => $i) {
-                      if($i && '' != $i){
-                        self::add_or_update_meta('info_usaha',json_encode($request->input('info_usaha')),$id);
-                      }
-                  }
-
-                }
-                else
-                {
-                  $info = [];
-                  foreach ($request->input('info') as $key => $value) {
-                    if( null != $value && 'null' != $key && '' != $value && '' != $key)
-                    {
-                        $info[$key] = $value;
-                    }
-                  }
-                  self::add_or_update_meta('info_usaha',json_encode($info),$id);
-                }
-            }
-
-            if($id){
-                return back();
-            }
-            return redirect('/')->send();
-        }
-
-        if($request->input('step') == 'step3'){
-
             $this->validate($request,[
-                'usaha_tetap' => 'required',
-                'kelengkapan_dokumen' => 'required',
-                'tempat_usaha' => 'required',
-                'adm_keuangan' => 'required',
-                'akses_perbankan' => 'required',
-
+                'tahun_lahir' => 'required|numeric',
+                'bulan_lahir' => 'required|numeric',
+                'tanggal_lahir' => 'required|numeric',
             ],[   
-                'usaha_tetap.required'    => 'Pertanyaan 1 Belum Terjawab',
-                'kelengkapan_dokumen.required'    => 'Pertanyaan 2 Belum Terjawab',
-                'tempat_usaha.required'    => 'Pertanyaan 3 Belum Terjawab',
-                'adm_keuangan.required'    => 'Pertanyaan 4 Belum Terjawab',
-                'akses_perbankan.required'    => 'Pertanyaan 5 Belum Terjawab',
+                'tahun_lahir.required'    => 'Tahun Kelahiran Wajib di Isi',
+                'bulan_lahir.required'    => 'Bulan Kelahiran Wajib di Isi',
+                'tanggal_lahir.required'    => 'Tanggal Kelahiran Wajib di Isi',
+                'tahun_lahir.numeric'    => 'Tahun Kelahiran Salah',
+                'bulan_lahir.numeric'    => 'Bulan Kelahiran Salah',
+                'tanggal_lahir.numeric'    => 'Tanggal Kelahiran Salah',
             ]);
 
-            // save 'usaha_tetap'
-            if($request->input('usaha_tetap'))
-            {
-                self::add_or_update_meta('usaha_tetap',$request->input('usaha_tetap'),$id);
-            }
-            // save 'kelengkapan_dokumen'
-            if($request->input('kelengkapan_dokumen'))
-            {
+            self::add_or_update_meta('tanggal_lahir',$tahunLahir,$id);
+        }
 
-                self::add_or_update_meta('kelengkapan_dokumen',$request->input('kelengkapan_dokumen'),$id);
-            }
-            // save 'tempat_usaha'
-            if($request->input('tempat_usaha'))
-            {
+        // save 'alamat'
+        if($request->input('alamat')){
 
-                self::add_or_update_meta('tempat_usaha',$request->input('tempat_usaha'),$id);
-            }
-            // save 'adm_keuangan'
-            if($request->input('adm_keuangan'))
-            {
+            $this->validate($request,[
+                'alamat' => 'required',
+            ],[   
+                'alamat.required'    => 'Alamat Wajib di Isi',
+            ]);
 
-                self::add_or_update_meta('adm_keuangan',$request->input('adm_keuangan'),$id);
-            }
-            // save 'akses_perbankan'
-            if($request->input('akses_perbankan'))
-            {
+            self::add_or_update_meta('alamat',$request->input('alamat'),$id);
+        }
 
-                self::add_or_update_meta('akses_perbankan',$request->input('akses_perbankan'),$id);
+        // save 'provinsi'
+        if($request->input('provinsi'))
+        {
+            $this->validate($request,[
+                'provinsi' => 'required',
+            ],[   
+                'provinsi.required'    => 'Provinsi Wajib di Isi',
+            ]);
+            self::add_or_update_meta('provinsi',$request->input('provinsi'),$id);
+        }
+
+        // save 'kota'
+        if($request->input('kota'))
+        {
+            $this->validate($request,[
+                'kota' => 'required',
+            ],[   
+                'kota.required'    => 'Kota Wajib di Isi',
+            ]);
+            self::add_or_update_meta('kota',$request->input('kota'),$id);
+        }
+
+        // save 'telepon'
+        if($request->input('telepon'))
+        {
+            $this->validate($request,[
+                'telepon' => 'required|numeric',
+            ],[   
+                'telepon.required'    => 'Telepon Wajib di Isi',
+                'telepon.numeric'    => 'Nomor Telepon Harus Angka'
+            ]);
+            self::add_or_update_meta('telepon',$request->input('telepon'),$id);
+        }
+
+        // save 'type_user'
+        if($request->input('type_user'))
+        {
+            $typeUser = ( 'ya' == $request->input('type_user') ) ? 'umkm' : 'perorangan';
+            self::add_or_update_meta('type_user',$typeUser,$id);
+            // delete umkm data if any
+            UserMeta::whereIn('meta_key',['nama_usaha','jenis_usaha','tahun_berdiri','omzet'])
+                      ->where('user_id',app()->OAuth::Auth()->id)->delete();
+        }
+
+        // save 'nama_usaha'
+        if($request->input('nama_usaha'))
+        {
+            $this->validate($request,[
+                'nama_usaha' => 'required',
+            ],[   
+                'nama_usaha.required'    => 'Nama Usaha Wajib di Isi',
+            ]);
+            self::add_or_update_meta('nama_usaha',$request->input('nama_usaha'),$id);
+        }
+
+        // save 'jenis_usaha'
+        if($request->input('jenis_usaha'))
+        {
+            $this->validate($request,[
+                'jenis_usaha' => 'required',
+            ],[   
+                'jenis_usaha.required'    => 'Jenis Usaha Wajib di Isi',
+            ]);
+            self::add_or_update_meta('jenis_usaha',$request->input('jenis_usaha'),$id);
+        }
+
+        // save 'tahun_berdiri'
+        if($request->input('tahun_berdiri'))
+        {
+            $this->validate($request,[
+                'tahun_berdiri' => 'required|numeric',
+            ],[   
+                'tahun_berdiri.required'    => 'Tahun Berdiri Wajib di Isi',
+                'tahun_berdiri.numeric'    => 'Tahun yang Anda Masukan Salah (Wajib Angka)'
+            ]);
+            self::add_or_update_meta('tahun_berdiri',$request->input('tahun_berdiri'),$id);
+        }
+
+        // save 'omzet'
+        if($request->input('omzet'))
+        {
+            if( 'null' != $request->input('omzet') )
+            {
+            $this->validate($request,[
+                'omzet' => 'required',
+            ],[   
+                'omzet.required'    => 'Omzet Wajib di Isi',
+            ]);
+              self::add_or_update_meta('omzet',$request->input('omzet'),$id);
             }
         }
 
-        if($request->input('step') == 'step4'){
+        if($request->file('foto_ktp'))
+        {
+            $path = '/cr/ktp/';
+            $filename = rand(3,977) . (md5(date('YMDHis'))) . '.jpg';
+            if (!file_exists( storage_path($path) )) {
+                mkdir( storage_path($path) , 0750, true);
+                file_put_contents(storage_path($path.".gitignore"),"*");
+            }
+            $file = $request->file('foto_ktp');
+            $file->move( storage_path( $path ),$filename );
+            $img = \Image::make( storage_path( $path . $filename) );
+            $img->save( storage_path( $path . $filename) , 75);
 
+            self::add_or_update_meta('foto_ktp',$filename,$id);
+        }
+
+        // save 'informasi_usaha'
+        if($request->input('informasi_usaha'))
+        {
+
+            if ( 1 == sizeof($request->input('info')) )
+            {
+              foreach ($request->input('info') as $key => $i) {
+                  if($i && '' != $i){
+                    self::add_or_update_meta('informasi_usaha',json_encode($request->input('info')),$id);
+                  }
+              }
+
+            }
+            else
+            {
+              $info = [];
+              foreach ($request->input('info') as $key => $value) {
+                if( null != $value && 'null' != $key && '' != $value && '' != $key)
+                {
+                    $info[$key] = $value;
+                }
+              }
+              self::add_or_update_meta('informasi_usaha',json_encode($info),$id);
+            }
+        }
+
+
+        // save 'usaha_tetap'
+        if($request->input('usaha_tetap'))
+        {
+
+            self::add_or_update_meta('usaha_tetap',$request->input('usaha_tetap'),$id);
+        }
+        // save 'kelengkapan_dokumen'
+        if($request->input('kelengkapan_dokumen'))
+        {
+
+            self::add_or_update_meta('kelengkapan_dokumen',$request->input('kelengkapan_dokumen'),$id);
+        }
+        // save 'tempat_usaha'
+        if($request->input('tempat_usaha'))
+        {
+
+            self::add_or_update_meta('tempat_usaha',$request->input('tempat_usaha'),$id);
+        }
+        // save 'adm_keuangan'
+        if($request->input('adm_keuangan'))
+        {
+
+            self::add_or_update_meta('adm_keuangan',$request->input('adm_keuangan'),$id);
+        }
+        // save 'akses_perbankan'
+        if($request->input('akses_perbankan'))
+        {
+
+            self::add_or_update_meta('akses_perbankan',$request->input('akses_perbankan'),$id);
+        }
+
+
+
+        // save 'kuisioner_mengapa'
+        if($request->input('kuisioner_mengapa'))
+        {
             $this->validate($request,[
                 'kuisioner_mengapa' => 'required',
-                'kuisioner_harapan' => 'required',
-                'tos_terima' => 'required',
-
             ],[   
-                'kuisioner_mengapa.required'    => 'Alasan Mengapa Wajib di Isi',
-                'kuisioner_harapan.required'    => 'Harapan Wajib di Isi',
-                'tos_terima.required'    => 'Anda Wajib Menyetujui Persyaratan Dibawah !',
+                'kuisioner_mengapa.required'    => 'Jawaban Wajib Di isi',
             ]);
-            // save 'kuisioner_mengapa'
-            if($request->input('kuisioner_mengapa'))
+            self::add_or_update_meta('kuisioner_mengapa',$request->input('kuisioner_mengapa'),$id);
+        }
+
+        // save 'kuisionar_harapan'
+        if($request->input('kuisioner_harapan'))
+        {
+            $this->validate($request,[
+                'kuisioner_harapan' => 'required',
+            ],[   
+                'kuisioner_harapan.required'    => 'Jawaban Wajib Di isi',
+            ]);
+            self::add_or_update_meta('kuisioner_harapan',$request->input('kuisioner_harapan'),$id);
+        }
+
+        // save 'tos_terima'
+        if($request->input('tos_terima'))
+        {
+
+            $tos = ( 'on' == $request->input('tos_terima') ) ? 1 : 0;
+            if( $request->input('kuisioner_harapan') && $request->input('kuisioner_mengapa')  )
             {
-
-                self::add_or_update_meta('kuisioner_mengapa',$request->input('kuisioner_mengapa'),$id);
-            }
-
-            // save 'kuisionar_harapan'
-            if($request->input('kuisioner_harapan'))
-            {
-
-                self::add_or_update_meta('kuisioner_harapan',$request->input('kuisioner_harapan'),$id);
-            }
-
-            // save 'tos_terima'
-            if($request->input('tos_terima'))
-            {
-
-                $tos = ( 'on' == $request->input('tos_terima') ) ? 1 : 0;
-                if( $request->input('kuisioner_harapan') && $request->input('kuisioner_mengapa')  )
-                {
-                $request->session()->flash('swal', (object)['status'=>'success','message'=>'Selamat Profil Anda Sudah Lengkap, Terimakasih']);
-                  self::add_or_update_meta('tos_terima',$tos,$id);
-                }
+                self::add_or_update_meta('tos_terima',$tos,$id);
             }
         }
+
 
         if($id)
         {
@@ -558,6 +811,10 @@ class SahabatUserController extends Controller
     {
         $user = Users::where('id',$id)->first();
         $meta = self::meta_user($id);
+        $alamat = [
+                'kota' => DB::table('kota')->get(),
+                'provinsi' => DB::table('provinsi')->get()
+        ];
         if(!$user || !isset($meta->type_user))
         {
             return back();
@@ -565,7 +822,10 @@ class SahabatUserController extends Controller
         $user->data = $meta;
         $data =[
             'user' => $user,
-            'page' => 'Edit User'
+            'page' => 'Edit User',
+            'alamat' => $alamat,
+            'usaha' => self::listUsaha(),
+            'id' => $id
         ];
         if( 'perorangan' == $meta->type_user)
         {
@@ -596,7 +856,7 @@ class SahabatUserController extends Controller
         }
         
         
-        return redirect(route('panel.user__index'));
+        return back();// redirect(route('panel.user__index'));
     }
 
 
@@ -618,7 +878,7 @@ class SahabatUserController extends Controller
                                     users.username as nama_pengguna,
                                     users.name as nama_lengkap,
                                     users.description as biografi,
-                                    tempat_lahir.meta_value as tempat_lahir,
+                                    kota_lahir.meta_value as tempat_lahir,
                                     tanggal_lahir.meta_value as tanggal_lahir,
                                     alamat.meta_value as alamat,
                                     kota.meta_value as kota,
@@ -640,8 +900,8 @@ class SahabatUserController extends Controller
 
                             from users
                             
-                            LEFT JOIN user_meta AS tempat_lahir ON tempat_lahir.user_id=users.id
-                                AND tempat_lahir.meta_key = 'kota_lahir'
+                            LEFT JOIN user_meta AS kota_lahir ON kota_lahir.user_id=users.id
+                                AND kota_lahir.meta_key = 'kota_lahir'
 
                             LEFT JOIN user_meta AS tanggal_lahir ON tanggal_lahir.user_id=users.id
                                 AND tanggal_lahir.meta_key = 'tanggal_lahir'
