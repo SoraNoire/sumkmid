@@ -4,6 +4,7 @@ namespace Rabbit\SahabatUser\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Redirect;
 use App\Helpers\PublicHelper as Pubhelp;
 // use Rabbit\OAuthClient\Utils\OAuth;
@@ -23,7 +24,7 @@ class SahabatUserController extends Controller
     var $search=false;
     static $step = 1;
 
-    function __construct(Request $request)
+    public function __construct(Request $request)
     {
         if( $request->input('page') )
         {
@@ -596,294 +597,136 @@ class SahabatUserController extends Controller
     }
 
 
+    public function exportUsers(Request $request)
+    {
+        $type = $request->input('format') ?? 'xls';
 
-    //
+        // $users = DB::table('users')
+        //         ->select(['*'])
+        //         // ->leftJoin('user_meta', 'users.id', '=', 'user_meta.user_id')
+        //         ->join('user_meta', function ($join) {
+        //             $join->select(['meta'])
+        //             $join->on('users.id', '=', 'contacts.user_id');
+        //         })
+        //         ->get();
 
-  //   public function permissions()
-  //   {
+        $users = DB::select("
+                            select users.id,
+                                    users.username as nama_pengguna,
+                                    users.name as nama_lengkap,
+                                    users.description as biografi,
+                                    tempat_lahir.meta_value as tempat_lahir,
+                                    tanggal_lahir.meta_value as tanggal_lahir,
+                                    alamat.meta_value as alamat,
+                                    kota.meta_value as kota,
+                                    provinsi.meta_value as provinsi,
+                                    telepon.meta_value as telepon,
+                                    type_user.meta_value as type_user,
+                                    nama_usaha.meta_value as nama_usaha,
+                                    jenis_usaha.meta_value as jenis_usaha,
+                                    lama_berdiri.meta_value as tanggal_berdiri,
+                                    omzet.meta_value as omzet,
+                                    informasi_usaha.meta_value as informasi_usaha,
+                                    berusaha_tetap.meta_value as berusaha_tetap,
+                                    dokumen_usaha.meta_value as dokumen_usaha,
+                                    tempat_usaha.meta_value as asset_tempat,
+                                    adm_keuangan.meta_value as administrasi_keuangan,
+                                    akses_perbankan.meta_value as akses_perbankan,
+                                    kuisioner_mengapa.meta_value as alasan_bergabung,
+                                    kuisioner_harapan.meta_value as harapan_bergabung
 
-  //   	$modules = Modules::get();
-  //   	$permissions = ModulePermissions::with('module')->get();
-  //   	$p = [];
-  //   	$permissions->map(function(&$pr) use(&$p){
-  //   		$p[$pr->role][$pr->module_id] = (object)$pr;
-  //   	});
-    	
-  //   	$data = [
-  //   		'page' => 'Role Management',
-  //   		'roles' => app()->OAuth::$roles,
-  //   		'modules' => $modules,
-  //   		'permissions' => $permissions,
-  //   		'rolepermissions' => $p
-  //   	];
+                            from users
+                            
+                            LEFT JOIN user_meta AS tempat_lahir ON tempat_lahir.user_id=users.id
+                                AND tempat_lahir.meta_key = 'kota_lahir'
 
-  //   	// $permissions = Userp::where('user_id',$user->id)->where('app_id',app()->apiClient)->select(['permission_id'])->with('permission')->get();
-    	
-  //   	return view('oa::backend.permissions.index',$data);
-  //   }
+                            LEFT JOIN user_meta AS tanggal_lahir ON tanggal_lahir.user_id=users.id
+                                AND tanggal_lahir.meta_key = 'tanggal_lahir'
 
+                            LEFT JOIN user_meta AS alamat ON alamat.user_id=users.id
+                                AND alamat.meta_key = 'alamat'
 
-  //   public function permissionSave(Request $request)
-  //   {
-  //   	ModulePermissions::truncate();
+                            LEFT JOIN user_meta AS kota ON kota.user_id=users.id
+                                AND kota.meta_key = 'kota'
 
-    	
-  //   	ModulePermissions::insert($r);
-    	
-  //   	return redirect(route('OA.permissions'));
-  //   }
+                            LEFT JOIN user_meta AS provinsi ON provinsi.user_id=users.id
+                                AND provinsi.meta_key = 'provinsi'
 
-  //   public function permissionSaveAjax(Request $request)
-  //   {
-  //       $val = $request->input('val');
-  //       $checked = ($request->input('check')) ? 1 : 0;
-  //       if (!$val)
-  //       {
-  //           return response('Fail');
-  //       }
-  //       // return $checked;
-  //       $val = explode('-', $val);
-  //       // val[0] = role
-  //       // val[1] = module id
-  //       // val[2] = permission
+                            LEFT JOIN user_meta AS telepon ON telepon.user_id=users.id
+                                AND telepon.meta_key = 'telepon'
 
-  //       if (!isset($val[2]))
-  //       {
-  //           return response('Fail');
-  //       }
+                            LEFT JOIN user_meta AS type_user ON type_user.user_id=users.id
+                                AND type_user.meta_key = 'type_user'
 
-  //       $module = ModulePermissions::where('role',$val[0])->where('module_id',$val[1])->first();
+                            LEFT JOIN user_meta AS nama_usaha ON nama_usaha.user_id=users.id
+                                AND nama_usaha.meta_key = 'nama_usaha'
 
-  //       if ($module) {
-            
-  //           $module->{$val[2]} = 0;
-  //           if(1 == $checked)
-  //           {
-  //               $module->{$val[2]} = 1;
-  //           }
-  //           $module->save();
+                            LEFT JOIN user_meta AS jenis_usaha ON jenis_usaha.user_id=users.id
+                                AND jenis_usaha.meta_key = 'jenis_usaha'
 
-  //       }
-  //       else
-  //       {
-  //           $m = new ModulePermissions;
-  //           $m->module_id = $val[1];
-  //           $m->role = $val[0];
-  //           if(1 == $checked)
-  //           $m->{$val[2]} = 1;
-  //           $m->save();
+                            LEFT JOIN user_meta AS lama_berdiri ON lama_berdiri.user_id=users.id
+                                AND lama_berdiri.meta_key = 'lama_berdiri'
 
-  //       }
-  //       return response('Saved');
+                            LEFT JOIN user_meta AS omzet ON omzet.user_id=users.id
+                                AND omzet.meta_key = 'omzet'
 
+                            LEFT JOIN user_meta AS informasi_usaha ON informasi_usaha.user_id=users.id
+                                AND informasi_usaha.meta_key = 'informasi_usaha'
 
-  //   }
+                            LEFT JOIN user_meta AS berusaha_tetap ON berusaha_tetap.user_id=users.id
+                                AND berusaha_tetap.meta_key = 'berusaha_tetap'
 
-  //   public function modules(Request $request)
-  //   {
+                            LEFT JOIN user_meta AS dokumen_usaha ON dokumen_usaha.user_id=users.id
+                                AND dokumen_usaha.meta_key = 'dokumen_usaha'
 
-  //   	$refreshRoutes = $request->input('refresh');
+                            LEFT JOIN user_meta AS tempat_usaha ON tempat_usaha.user_id=users.id
+                                AND tempat_usaha.meta_key = 'tempat_usaha'
 
-  //   	$modules = Modules::get();
+                            LEFT JOIN user_meta AS adm_keuangan ON adm_keuangan.user_id=users.id
+                                AND adm_keuangan.meta_key = 'adm_keuangan'
 
-  //   	$m = [];
+                            LEFT JOIN user_meta AS akses_perbankan ON akses_perbankan.user_id=users.id
+                                AND akses_perbankan.meta_key = 'akses_perbankan'
 
-  //   	$modules->map(function($module) use(&$m){
-  //   		$m[$module->name] = (object) ['id'=>$module->id,'readable_name'=>$module->readable_name];
-  //   	});
+                            LEFT JOIN user_meta AS kuisioner_mengapa ON kuisioner_mengapa.user_id=users.id
+                                AND kuisioner_mengapa.meta_key = 'kuisioner_mengapa'
 
-  //   	$modules = (object)$m;
-  //   	unset($m);
-		// // get panel routes 
-  //   	// they are prefixed by "panel."
-  //   	$routes = \Route::getRoutes();
+                            LEFT JOIN user_meta AS kuisioner_harapan ON kuisioner_harapan.user_id=users.id
+                                AND kuisioner_harapan.meta_key = 'kuisioner_harapan'
 
-  //       $wants = [];
+                            WHERE users.role  NOT IN ( 'admin', 'mentor' )
+                            ");
 
-  //       $wantsIgnoreList = [];
-  //       foreach ($routes as $value) {
-        	
-  //           if( 'panel' == substr($value->getName(), 0,5) )
-  //           {
-  //           	$moduleName = $value->getName();
-  //               $moduleName = explode('__', $moduleName );
-  //               $moduleName = $moduleName[0];
+        $users_temp = [];
+        array_map(function($user) use(&$users_temp){
+            foreach ($user as $k => &$u) {
+                if('informasi_usaha'==$k)
+                {
+                    $info = json_decode($u) ?? [];
+                    foreach ($info as $x => $y) {
+                        $user->{$x} = $y;   
+                    }
+                    unset($user->{$k});
+                }
+            }
+            $user = (array) $user;
+            $users_temp[] = $user;
+        }, $users);
+        $users = $users_temp;
+        unset($users_temp);
+        self::Xport($users);
+        return back();
 
-  //               if(!in_array($moduleName, $wantsIgnoreList))
-  //               { 
-  //               	if(isset($modules->{$moduleName}))
-  //               	{
-                	
-  //               		$wants[] = (object)[
-  //               				'id' => $modules->{$moduleName}->id,
-  //                   			'name' => $moduleName,
-  //                   			'readable_name' => $modules->{$moduleName}->readable_name
-  //                   		];
-  //               	}
-  //               	else
-  //               	{
-  //               		$wants[] = (object)[
-  //                   			'name' => $moduleName,
-  //                   			'readable_name' => ''
-  //                   		];
-  //               	}
-  //                   $wantsIgnoreList[] = $moduleName;
-  //               }
-  //           }
-            
-  //       }	
+    }
 
+    private static function Xport($users)
+    {
+        return \Excel::create('users', function($excel) use ($users) {
+            $excel->sheet('users', function($sheet) use ($users)
+            {
+                $sheet->fromArray($users);
+            });
+        })->download('xls');
+    }
 
-
-
-  //       $modules = (object) $wants;
-    	
-  //   	$data = [
-  //   			'page' => 'Module Management',
-  //   			'modules' => $modules
-  //   	];
-
-  //   	return view('oa::backend.modules.index',$data);
-  //   }
-
-  //   public function moduleAdd(Request $request)
-  //   {
-  //   	$refreshRoutes = $request->input('refresh');
-
-  //   	$modules = Modules::get();
-
-  //   	$m = [];
-
-  //   	$modules->map(function($module) use(&$m){
-  //   		$m[$module->name] = (object) ['id'=>$module->id,'readable_name'=>$module->readable_name];
-  //   	});
-
-  //   	$modules = (object)$m;
-  //   	unset($m);
-		// // get panel routes 
-  //   	// they are prefixed by "panel."
-  //   	$routes = \Route::getRoutes();
-  //       $wants = [];
-
-  //       foreach ($routes as $value) {
-        	
-  //           if( 'panel' == substr($value->getName(), 0,5) )
-  //           {
-            	
-  //           	if(isset($modules->{$value->getName()}))
-  //           	{
-            	
-  //           		$wants[] = (object)[
-  //           				'id' => $modules->{$value->getName()}->id,
-  //               			'name' => $value->getName(),
-  //               			'readable_name' => $modules->{$value->getName()}->readable_name
-  //               		];
-  //           	}
-  //           	else
-  //           	{
-  //           		$wants[] = (object)[
-  //               			'name' => $value->getName(),
-  //               			'readable_name' => ''
-  //               		];
-  //           	}
-  //           }
-            
-  //       }	
-
-
-
-
-  //       $modules = (object) $wants;
-
-    	
-  //   	$data = [
-  //   			'page' => 'Module Management',
-  //   			'modules' => $modules
-  //   	];
-
-  //   	return view('oa::backend.modules.add',$data);
-  //   }
-
-  //   public function moduleSave(Request $request)
-  //   {
-
-  //   	$sessionMessage = 'Gagal Update modul';
-  //   	$check = $request->input('check');
-  //   	$formModules = $request->input('modulecname');
-  //       foreach ($check as $key => $value) {
-  //           $k = explode('__', $key);
-  //           $k = $k[0];
-  //           if(!isset($check[$k])){
-  //               $check[$k] = $k;
-  //               unset($check[$key]);
-  //           }
-  //       }
-
-  //   	// update updates
-  //   	if( $check || is_array($check) )
-  //   	{
-  //   		$modules = Modules::all();
-  //   		$updates = [];
-  //   		$modules->map(function(&$m) use($check,$formModules,&$updates){
-  //   			if( isset($check[$m->name]) )
-  //   			{
-  //   				$m->readable_name = $formModules[$m->name]??'';
-  //   				$updates[] = $m->name;
-  //   			}
-  //   			$m->save();
-  //   		});
-
-  //           // new module each
-  //           $wantsIgnoreList = [];
-  //   		foreach ($check as $key => $value) {
-                
-  //               $value = explode('__', $value);
-  //               $value = $value[0];
-                
-
-  //   			if( !in_array($value, $wantsIgnoreList) && !in_array($value, $updates) )
-  //   			{
-  //   				$mod = new Modules;
-  //   				$mod->name = $value;
-  //   				$mod->readable_name = $formModules[$value]??'';
-  //   				$mod->options = '';
-  //   				$mod->save();
-  //                   $wantsIgnoreList[] = $value;
-  //   			}
-  //   		}
-
-  //   		$sessionMessage = 'Module Updated';
-  //   		// return redirect(route('OA.module.edit'));
-
-  //   	}
-
-  //   	// delete deletes
-  //   	$delete = $request->input('delete');
-		// if( $delete || is_array($delete) )
-  //   	{
-
-  //   		$sessionMessage = 'Module Updated';
-  //   		Modules::whereIn('id',$request->input('delete'))->delete();
-  //   		// return back();
-  //   	}    	
-
-
-  //   	session()->flash('message', $sessionMessage);
-  //   	return redirect(route('OA.modules'));
-  //   }
-
-  //   public function moduleEdit($id)
-  //   {
-  //   	$module = Modules::where('id',$id)->first();
-  //   	if(!$module)
-  //   	{
-  //   		return redirect(route('OA.modules'));
-  //   	}
-
-  //   	$data = [
-  //   			'page' => 'Module Management',
-  //   			'module' => $module
-  //   	];
-  //   	return view('oa::backend.modules.edit',$data);
-  //   }
 }
