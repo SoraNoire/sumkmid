@@ -1382,24 +1382,13 @@ template,
 }
 
 .breadcrumb .container {
-  height: 60px;
-  background-repeat: no-repeat;
-  background-position-y: 10px;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: reverse;
-      -ms-flex-direction: column-reverse;
-          flex-direction: column-reverse;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: space-evenly;
-      -ms-flex-pack: space-evenly;
-          justify-content: space-evenly;
+  padding-top: 15px;
+  padding-bottom: 15px;
 }
 
 .breadcrumb .container h2 {
   font-size: 16px;
-  margin-bottom: 9px;
+  margin: unset;
   color: #fff;
 }
 
@@ -2994,6 +2983,12 @@ footer .container .stayInTouch .copyText {
   padding-bottom: 11px;
 }
 
+@media (max-width: 600px) {
+  .section-title {
+    line-height: 1.8;
+  }
+}
+
 .section-title.gray span {
   padding-bottom: 8px;
 }
@@ -4239,8 +4234,8 @@ footer .container .stayInTouch .copyText {
 }
 
 .singleVideo .videoHeading {
-  margin-top: 41px;
-  margin-bottom: 27px;
+  margin-top: 30px;
+  margin-bottom: 25px;
 }
 
 .singleVideo .videoHeading .container h3 {
@@ -4364,6 +4359,12 @@ footer .container .stayInTouch .copyText {
   }
 }
 
+@media screen and (max-width: 768px) {
+  .singleVideo .videoContainer .container {
+    max-height: 395px;
+  }
+}
+
 .singleVideo .videoContainer iframe {
   width: 95%;
   margin: auto;
@@ -4458,9 +4459,7 @@ footer .container .stayInTouch .copyText {
 }
 
 .singleVideo .videoNavigation {
-  margin-top: 73px;
-  margin-bottom: 40px;
-  margin-left: 30px;
+  margin-bottom: 30px;
 }
 
 @media screen and (max-width: 768px) {
@@ -4524,7 +4523,7 @@ footer .container .stayInTouch .copyText {
 
 #tentangKami {
   margin-top: 30px;
-  margin-bottom: 200px;
+  margin-bottom: 30px;
 }
 
 @media screen and (max-width: 658px) {
@@ -4586,7 +4585,7 @@ footer .container .stayInTouch .copyText {
   background-image: url("/images/sparator.png");
   background-size: 100% 100%;
   width: 1.5px;
-  height: 300px;
+  height: 250px;
   left: 0;
   top: -30px;
 }
@@ -4614,6 +4613,11 @@ footer .container .stayInTouch .copyText {
   top: 7px;
   width: 8px;
   height: 8px;
+}
+
+#singlePage .pageContent {
+  margin-top: 30px;
+  margin-bottom: 30px;
 }
 
 @-webkit-keyframes spin {
