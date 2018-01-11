@@ -195,7 +195,8 @@ return [
         App\Providers\SSOServiceProvider::class,
         Rabbit\OAuthClient\OAuthClientServiceProvider::class,
         Rabbit\SahabatUser\SahabatUserServiceProvider::class,
-        // Vinkla\Instagram\InstagramServiceProvider::class
+        // Vinkla\Instagram\InstagramServiceProvider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class,
 
     ],
 
@@ -256,6 +257,7 @@ return [
         // lara collective
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
 
     ],
 

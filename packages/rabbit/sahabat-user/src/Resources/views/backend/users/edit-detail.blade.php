@@ -1,4 +1,4 @@
-@extends('oa::layouts.base')
+@extends('blog::layouts.master')
 
 @section('content')
 <div class="col-md-12">
@@ -13,7 +13,7 @@
 	    			{!! session('message') !!}
 	    		</div>
 	    	@endif
-	        <form method="post" action="{{ route('SHB.user__update',$user->id) }}" accept-charset="UTF-8">
+	        <form method="post" action="{{ route('panel.user__update',$user->id) }}" accept-charset="UTF-8">
 	        <input type="hidden" name="_token" value="{{ csrf_token() }}">
 	            <div class="row">
 	                	<div class="col-md-6 col-sm-12">

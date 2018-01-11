@@ -57,7 +57,11 @@
 											@else
 											<div class="miniPhotoMentor" style="background-image: url('{{ asset('images/admin.png') }}');"></div>
 											@endif
-											<a href="{{ (isset($mentor->username) ? route('public_mentor_single',$mentor->username) : url('/mentor')) }}">{{ $mentor->name ?? '' }}</a>
+											@if (isset($mentor->username))
+											<a href="{{ route('public_mentor_single',$mentor->username) }}">{{ $mentor->name ?? 'anonym' }}</a>
+											@else
+											{{ $mentor->name ?? 'anonym' }}
+											@endif
 										</div>
 										@endif
 									@endforeach
@@ -81,6 +85,7 @@
 							</tr>
 							@endif
 
+							@if ($meta['location'] != '' || $meta['gmaps_url'] != '')
 							<tr class="tempat">
 								<td>Tempat :</td>
 								<td>
@@ -90,6 +95,7 @@
 									@endif
 								</td>
 							</tr>
+							@endif
 							@endif
 						</table>
 					</div>

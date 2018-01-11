@@ -805,6 +805,11 @@
 		}
 	}
 }
+@media (max-width: 600px) {
+	.section-title {
+		line-height: 1.8;
+	}
+}
 
 .section-title.gray {
 	span {
@@ -1936,9 +1941,13 @@
 					margin-left: auto;
 					margin-right: auto;
 					background-color: #000;
+					@media (max-width: 768px) {
+						height: 100%;
+					}
 				}
 				.swiper-slide {
-					background-size: cover;
+					background-size: contain;
+					background-repeat: no-repeat;
 					background-position: center;
 				}
 				.gallery-top {
@@ -1948,6 +1957,9 @@
 					box-sizing: border-box;
 					padding: 10px 0;
 					height: 100px;
+					@media screen and (max-width: 768px) {
+						display: none;
+					}
 					.swiper-slide {
 				      width: 10%;
 				      margin-top: 10px;
@@ -1960,8 +1972,8 @@
 
 				}
 				.videoHeading{
-					margin-top: 41px;
-					margin-bottom: 27px;
+					margin-top: 30px;
+					margin-bottom: 25px;
 					.container{
 						h3{
 							margin-bottom: 10px;
@@ -2068,6 +2080,21 @@
 							}
 						}
 					}
+					@media screen and (max-width: 768px) {
+						.container{
+							height: 395px;
+						}
+					}
+					@media screen and (max-width: 425px) {
+						.container{
+							height: 350px;
+						}
+					}
+					@media screen and (max-width: 320px) {
+						.container{
+							height: 235px;
+						}
+					}
 					iframe{
 						width: 95%;
 						margin:auto;
@@ -2146,9 +2173,7 @@
 					}
 				}
 				.videoNavigation{
-					margin-top: 73px;
-					margin-bottom: 40px;
-					margin-left: 30px;
+					margin-bottom: 30px;
 					@media screen and (max-width: 768px) {
 						margin-left: 0px;
 					}
@@ -2208,7 +2233,7 @@
 			}
 #tentangKami{
 	margin-top: 30px;
-	margin-bottom: 200px;
+	margin-bottom: 30px;
 	@media screen and (max-width: 658px) {
 		margin-bottom: 15px;
 	}
@@ -2253,7 +2278,7 @@
 					background-image: url('/images/sparator.png');
 					background-size: 100% 100%;
 					width: 1.5px;
-					height: 300px;
+					height: 250px;
 					left: 0;
 					top: -30px;
 				}
@@ -2286,6 +2311,12 @@
 	}
 }
 
+#singlePage {
+	.pageContent {
+		margin-top: 30px;
+		margin-bottom: 30px;
+	}
+}
 @-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
 @-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
 @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }

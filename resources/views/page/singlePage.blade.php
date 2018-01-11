@@ -8,10 +8,10 @@
 	</div>
 </div>
 
-<div id="tentang">
+<div id="singlePage">
 	<div class="container">
 		<div class="row">
-			<div class="col-12 tentangContent">
+			<div class="col-12 pageContent">
 				{!! $var['content'] !!}
 			</div>
 		</div>
