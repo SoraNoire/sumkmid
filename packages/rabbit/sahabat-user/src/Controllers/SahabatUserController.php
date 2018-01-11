@@ -447,7 +447,7 @@ class SahabatUserController extends Controller
             $harapan = $request->input('kuisioner_harapan');
 
             if(count(explode(' ', $mengapa)) < 3){
-                return Redirect::back()->withErrors(['Alasan Dan Harapan Minimal 3 Kata']);
+                return Redirect::back()->withErrors(['Alasan Dan Harapan Minimal 3 Kata'])->withInput($request->input());
             }
 
             if($request->input('step'))
