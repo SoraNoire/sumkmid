@@ -100,41 +100,40 @@
 							<div class="addInfoWrap">
 								<button type="button" class="addInfoTrigger"><i class="fa fa-plus" aria-hidden="true"></i>Tambah Informasi Usaha</button>
 								<ul class="infoOption">
-									<li id="addInfoWebsite" class="addInfo infoLink {{ (isset(old('info_usaha')['Website']) ? 'hidden' : '') }}">Website</li>
-									<li id="addInfoEmail" class="addInfo infoEmail {{ (isset(old('info_usaha')['Email']) ? 'hidden' : '') }}">Email</li>
-									<li id="addInfoTelepon" class="addInfo infoPhone {{ (isset(old('info_usaha')['Telepon']) ? 'hidden' : '') }}">Telepon</li>
-									<li id="addInfoFacebook" class="addInfo infoLink {{ (isset(old('info_usaha')['Facebook']) ? 'hidden' : '') }}">Facebook</li>
-									<li id="addInfoInstagram" class="addInfo infoLink {{ (isset(old('info_usaha')['Instagram']) ? 'hidden' : '') }}">Instagram</li>
-									<li id="addInfoGoogle+" class="addInfo infoLink {{ (isset(old('info_usaha')['Google+']) ? 'hidden' : '') }}">Google+</li>
-									<li id="addInfoTwitter" class="addInfo infoLink {{ (isset(old('info_usaha')['Twitter']) ? 'hidden' : '') }}">Twitter</li>
+									<li id="addInfoWebsite" class="addInfo infoLink {{ (isset(old('info_usaha')['Website']) ? 'hidden' : (isset($user->data->info_usaha->Website) ? 'hidden' : '')) }}">Website</li>
+									<li id="addInfoEmail" class="addInfo infoEmail {{ (isset(old('info_usaha')['Email']) ? 'hidden' : (isset($user->data->info_usaha->Email) ? 'hidden' : '')) }}">Email</li>
+									<li id="addInfoTelepon" class="addInfo infoPhone {{ (isset(old('info_usaha')['Telepon']) ? 'hidden' : (isset($user->data->info_usaha->Telepon) ? 'hidden' : '')) }}">Telepon</li>
+									<li id="addInfoFacebook" class="addInfo infoLink {{ (isset(old('info_usaha')['Facebook']) ? 'hidden' : (isset($user->data->info_usaha->Facebook) ? 'hidden' : '')) }}">Facebook</li>
+									<li id="addInfoInstagram" class="addInfo infoLink {{ (isset(old('info_usaha')['Instagram']) ? 'hidden' : (isset($user->data->info_usaha->Instagram) ? 'hidden' : '')) }}">Instagram</li>
+									<li id="addInfoGooglePlus" class="addInfo infoLink {{ (isset(old('info_usaha')['GooglePlus']) ? 'hidden' : (isset($user->data->info_usaha->GooglePlus) ? 'hidden' : '')) }}">Google Plus</li>
+									<li id="addInfoTwitter" class="addInfo infoLink {{ (isset(old('info_usaha')['Twitter']) ? 'hidden' : (isset($user->data->info_usaha->Twitter) ? 'hidden' : '')) }}">Twitter</li>
 								</ul>	
 							</div>
 							<div class="addedInfo">
+								@if(old('info_usaha') || $user->data->info_usaha)
+									@if($user->data->info_usaha)
+										@php
+											$goLoop = $user->data->info_usaha;
+										@endphp
+									@else
+										@php
+											$goLoop = old('info_usaha');
+										@endphp
+									@endif
 
-								@if(old('info_usaha'))
-								@foreach(old('info_usaha') as $key => $info)
-									<div class="formGroup">
-										<div class="inputTitle">
-											{{ $key }} :
+									@foreach($goLoop as $key => $info)
+										<div class="formGroup">
+											<div class="inputTitle">
+												{{ ($key == 'GooglePlus' ? 'Google Plus' : $key) }} :
+											</div>
+											<div class="inputText">
+												<input type="text" name="info_usaha[{{ $key }}]"  value="{{ $info }}" placeholder="{{ $key }} . . .">
+											</div>
+											<div id="close{{ $key }}" class="close"><i class="fa fa-times" aria-hidden="true"></i></div>
 										</div>
-										<div class="inputText">
-											<input type="text" name="info_usaha[{{ $key }}]"  value="{{ $info }}" placeholder="{{ $key }} . . .">
-										</div>
-										<div id="close{{ $key }}" class="close"><i class="fa fa-times" aria-hidden="true"></i></div>
-									</div>
-								@endforeach
+									@endforeach
 								@endif
 							</div>
-			<!-- 				<select class="info_usaha__select">
-								<option value=''>+ Tambah Informasi Usaha</option>
-								<option class="u-website" value="website" > Website</option>
-								<option class="u-facebook" value="facebook" > Facebook</option>
-								<option class="u-gplus" value="gplus" > Google+</option>
-								<option class="u-instagram" value="instagram" > Instagram</option>
-								<option class="u-twitter" value="twitter" > Twitter</option>
-								<option class="u-email" value="email" > Email</option>
-								<option class="u-telepon" value="telepon" > Telepon</option>
-							</select> -->
 						</div>
 					</div>
 
@@ -156,8 +155,10 @@
 
 				</div>
 				<div>KTP</div>
-				<input type="file" name="foto_ktp">
-
+				<input type="file" name="foto_ktp" id="KTPTRIGGER" accept="image/*">
+				<div class="previewKTP">
+					<img id="PREVIEW" src="{{ asset('images/ktpdefault.jpg') }}">
+				</div>
 				<button type="sumbit" class="submitUserSet button blue">Simpan</button>
 			</form>
 		</div>

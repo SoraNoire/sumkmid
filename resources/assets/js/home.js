@@ -283,6 +283,7 @@ $('.addInfoTrigger').on('click', function(){
 
 $('.addInfo').on('click', function(){
 	numonly = ``;
+	content = $(this).text();
 	if($(this).hasClass('infoLink')){
 		type = 'url';
 	}else if($(this).hasClass('infoEmail')){
@@ -291,14 +292,13 @@ $('.addInfo').on('click', function(){
 		type =  'tel';
 		numonly = `onkeypress='return event.charCode >= 48 && event.charCode <= 57'`;
 	}
-	content = $(this).text();
 	$(".addedInfo").append(`
 			<div class="formGroup">
 				<div class="inputTitle">
 					`+content+` :
 				</div>
 				<div class="inputText">
-					<input type="`+type+`" `+numonly+` name="info_usaha[`+content+`]"  value="" placeholder="`+content+` . . .">
+					<input type="`+type+`" `+numonly+` name="info_usaha[`+content.replace(" ", "")+`]"  value="" placeholder="`+content+` . . .">
 				</div>
 				<div id="close`+content+`" class="close"><i class="fa fa-times" aria-hidden="true"></i></div>
 			</div>
@@ -312,5 +312,21 @@ $(document).on('click', '.close', function(){
 	content = $(this).attr('id').substring(5);
 	$(this).parent().hide();
 	$('#addInfo'+content).show();
+});
+
+function readURL(input) {
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+
+    reader.onload = function(e) {
+      $('#PREVIEW').attr('src', e.target.result);
+    }
+
+    reader.readAsDataURL(input.files[0]);
+  }
+}
+
+$("#KTPTRIGGER").change(function() {
+  readURL(this);
 });
 

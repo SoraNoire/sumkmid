@@ -108,6 +108,9 @@ class SahabatUserController extends Controller
         $user = app()->OAuth::$Auth;
         $userMeta->map(
             function($meta) use(&$userData,&$user,$id){
+                if($meta->meta_key == 'info_usaha'){
+                    $meta->meta_value = json_decode($meta->meta_value);
+                }
                 if( false === $id && 'type_user' == $meta->meta_key )
                 {
                     $user->role = $meta->meta_value;
@@ -299,6 +302,7 @@ class SahabatUserController extends Controller
                         'foto_ktp' => 'required|image',
                         'info_usaha.*' => 'required|min:1',
                         'info_usaha.Telepon' => 'numeric',
+                        'info_usaha.Email' => 'email',
                     ],[   
                         'nama_usaha.required'    => 'Nama Usaha Wajib di Isi',
                         'jenis_usaha.required'    => 'Jenis Usaha Wajib di Isi',
@@ -308,7 +312,8 @@ class SahabatUserController extends Controller
                         'foto_ktp.required'    => 'Foto KTP Wajib di Isi',
                         'foto_ktp.image'    => 'Foto KTP Salah',
                         'info_usaha.*.required' => 'Informasi Usaha Minimal 1',
-                        'info_usaha.Telepon.numeric' => 'Nomor Telepon Usaha Harus Angka'
+                        'info_usaha.Telepon.numeric' => 'Nomor Telepon Usaha Harus Angka',
+                        'info_usaha.Email.email' => 'Email Usaha tidak valid'
                     ]);
 
                     // save 'nama_usaha'
@@ -365,7 +370,7 @@ class SahabatUserController extends Controller
                 else
                 {
                   $info = [];
-                  foreach ($request->input('info') as $key => $value) {
+                  foreach ($request->input('info_usaha') as $key => $value) {
                     if( null != $value && 'null' != $key && '' != $value && '' != $key)
                     {
                         $info[$key] = $value;

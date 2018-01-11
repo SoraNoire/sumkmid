@@ -4011,6 +4011,16 @@ footer .container .stayInTouch .copyText {
   text-align: center;
 }
 
+#userSetting .previewKTP {
+  margin-top: 10px;
+  overflow: hidden;
+}
+
+#userSetting .previewKTP img {
+  max-width: 200px;
+  max-height: 100px;
+}
+
 #userSetting h3 {
   text-align: left;
   margin-bottom: 22px;
