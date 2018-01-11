@@ -131,7 +131,8 @@ class EventController extends Controller
         $this->validate($request, [
             'title' => 'required',
             'description' => 'required',
-            'open_date' => 'required'
+            'open_date' => 'required',
+            'closed_date' => 'required'
         ], PostHelper::validation_messages());
 
         $title = $request->input('title');
@@ -163,7 +164,6 @@ class EventController extends Controller
         } else {
             $htm = $htm_free;
         }
-
         $open_date = $request->input('open_date');
         $hour_open = $request->input('hour_open');
         $minute_open = $request->input('minute_open');
@@ -352,7 +352,8 @@ class EventController extends Controller
         $this->validate($request, [
             'title' => 'required',
             'description' => 'required',
-            'open_date' => 'required'
+            'open_date' => 'required',
+            'closed_date' => 'required'
         ], PostHelper::validation_messages());
         
         $title = $request->input('title');
