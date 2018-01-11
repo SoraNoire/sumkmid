@@ -33,6 +33,16 @@
 		</div>
 		<div class="rightForm completion4">
 			<form action="{{route('SHB.complete_data_save')}}" method="post" enctype="multipart/form-data">
+				<input type="hidden" name="step" value="step4">
+				@if ($errors->any())
+				    <div class="alert alert-danger">
+				        <ul>
+				            @foreach ($errors->all() as $error)
+				                <li>{{ $error }}</li>
+				            @endforeach
+				        </ul>
+				    </div>
+				@endif
 				<div class="formGroup">
 					<div class="inputTitle">
 						Mengapa anda ingin bergabung dengan sahabat umkm?

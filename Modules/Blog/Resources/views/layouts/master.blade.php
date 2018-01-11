@@ -129,6 +129,11 @@
               <a href="{{ route('panel.menu__index') }}">Menu</a>
             </li>
             @endif
+            @if( in_array('read', app()->OAuth::can('panel.user')) )
+            <li class="mobile-admin-nav {{ ($page_meta_title ?? '') == 'Users' ? 'active' : ''}}">
+              <a href="{{ route('panel.user__index') }}">User</a>
+            </li>
+            @endif
 
             <li>
                 <a href="{{URL::to('/logout')}}">
@@ -193,6 +198,11 @@
             @if( in_array('read', app()->OAuth::can('panel.menu')) )
             <li class="{{ ($page_meta_title ?? '') == 'Menu' ? 'active' : ''}}">
               <a href="{{ route('panel.menu__index') }}">Menu</a>
+            </li>
+            @endif
+            @if( in_array('read', app()->OAuth::can('panel.user')) )
+            <li class="{{ ($page_meta_title ?? '') == 'Users' ? 'active' : ''}}">
+              <a href="{{ route('panel.user__index') }}">Users</a>
             </li>
             @endif
           </ul>

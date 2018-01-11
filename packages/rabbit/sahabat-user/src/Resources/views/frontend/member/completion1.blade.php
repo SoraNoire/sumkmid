@@ -33,7 +33,16 @@
 		</div>
 		<div class="rightForm "">
 			<form action="{{route('SHB.complete_data_save')}}" method="post" enctype="multipart/form-data">
-			
+				<input type="hidden" name="step" value="step1">
+			@if ($errors->any())
+			    <div class="alert alert-danger">
+			        <ul>
+			            @foreach ($errors->all() as $error)
+			                <li>{{ $error }}</li>
+			            @endforeach
+			        </ul>
+			    </div>
+			@endif
 			<div class="formGroup ttl">
 				<div class="tl">
 					<div>
@@ -46,10 +55,11 @@
 
 				<div class="tgll">
 					<div> Tanggal Lahir </div>
-						<select id="tahun_lahir" class="dropdown3" name="tahun_lahir">
-							<option>Tahun</option>
-							@for( $i=(date('Y'));$i>=(date('Y')-60);$i-- ) 
-								@if( $i == explode('/',(app()->OAuth::Auth()->data->tanggal_lahir ?? '0/0/0'))[0] )
+						
+						<select id="tanggal_lahir" class="dropdown3" name="tanggal_lahir">
+							<option>Tanggal</option>
+							@for($i=1;$i<=31;$i++)
+								@if( $i == explode('/',(app()->OAuth::Auth()->data->tanggal_lahir ?? '0/0/0'))[2] )
 									<option selected value="{{$i}}" >{{$i}}</option>
 								@else
 									<option value="{{$i}}" >{{$i}}</option>
@@ -68,10 +78,10 @@
 							@endfor
 						</select>
 
-						<select id="tanggal_lahir" class="dropdown3" name="tanggal_lahir">
-							<option>Tanggal</option>
-							@for($i=1;$i<=31;$i++)
-								@if( $i == explode('/',(app()->OAuth::Auth()->data->tanggal_lahir ?? '0/0/0'))[2] )
+						<select id="tahun_lahir" class="dropdown3" name="tahun_lahir">
+							<option>Tahun</option>
+							@for( $i=(date('Y'));$i>=(date('Y')-60);$i-- ) 
+								@if( $i == explode('/',(app()->OAuth::Auth()->data->tanggal_lahir ?? '0/0/0'))[0] )
 									<option selected value="{{$i}}" >{{$i}}</option>
 								@else
 									<option value="{{$i}}" >{{$i}}</option>
@@ -105,6 +115,8 @@
 						</select>
 					</div>
 				</div>
+				<div class="clearfix"></div>
+				<br>
 				<div class="formGroup">
 					<div class="inputTitle">
 						Alamat Lengkap
@@ -128,7 +140,7 @@
 		</div>
 	</div>
 </section>
-<script type="text/javascript">
+<!-- <script type="text/javascript">
 	
 	function aturTanggal(val=false)
 	{
@@ -149,6 +161,6 @@
 	function pad(n) {
 	    return (n < 10) ? ("0" + n) : n;
 	}
-</script>
+</script> -->
 
 @endsection

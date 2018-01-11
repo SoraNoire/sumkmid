@@ -1708,6 +1708,7 @@
 				margin-top: 52px;
 				text-align: center;
 				h3{
+					text-align: left;
 					margin-bottom: 22px;
 				}
 				.leftForm{
@@ -1725,6 +1726,7 @@
 							border-radius: 50%;
 							width: 160px;
 							height: 160px;
+							border : 1px solid #ababab;
 							overflow: hidden;
 							background-position: center;
 							background-size: cover;
@@ -1841,7 +1843,7 @@
 						.inputText{
 
 							input{
-								width: calc(100% - 28px);
+								width: calc(100% - 30px);
 								height: 35px;
 								border-radius: 5px;
 								border: solid 1px #404040;
@@ -1866,6 +1868,16 @@
 								border: solid 1px #d13d1e;
 							}
 						}	
+					}
+					.editDetail{
+						h3{
+							margin-bottom: 5px;
+						}
+						.goToEditDetail{
+							float: left;
+							margin-top: 15px;
+							border: none;
+						}
 					}
 				}
 			}
@@ -2150,15 +2162,23 @@
 #tentangKami{
 	margin-top: 30px;
 	margin-bottom: 200px;
+	@media screen and (max-width: 658px) {
+		margin-bottom: 15px;
+	}
 	.container{
 		background-image: url('/images/ttgbg.png');
 		background-position: top right;
 		background-repeat: no-repeat;
+		@media screen and (max-width: 658px) {
+			background-image: url('/images/ttgbgmobile.png');
+			background-position: 50% 0%;
+		}
 		.tentangDesc{
 			font-weight: $normal;	
 			margin-bottom: 75px;
 			@media screen and (max-width: 658px) {
 				width: calc(100% - 30px);
+				margin-bottom: 15px;
 			}
 			p{
 				
@@ -2178,7 +2198,7 @@
 				@media screen and (max-width: 658px) {
 					width: calc(100% - 30px);
 					margin-left: -20px;
-					margin-top: 30px;
+					margin-top: 15px;
 				}
 				&:before{
 					content: "";

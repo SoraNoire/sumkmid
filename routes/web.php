@@ -39,6 +39,8 @@ Route::get('/read/{category}/{slug}', 'PublicController@read_post')->name('read_
 Route::get('/user-setting', 'memberController@userSetting')->name('user_setting');
 Route::post('/user-setting/save','memberController@saveUserSetting')->name('user_setting_save');
 Route::post('/user-setting/UpdateProfilePict','memberController@updateProfilePict')->name('user_update_profile_pict');
+Route::get('user-setting/detail','memberController@detailUserEdit')->name('user_setting.detail');
+Route::post('user-setting/detail/save','memberController@goSaveMetaUser')->name('user-setting.detail.go-update');
 
 Route::post('/send-email', 'PublicController@messages_store_act')->name('sendemailcontact');
 
