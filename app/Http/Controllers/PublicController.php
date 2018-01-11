@@ -224,7 +224,7 @@ class PublicController extends Controller
         	}
         }
 
-		$var['mentors'] = app()->OAuth->mentors()->users;
+		$var['mentors'] = app()->OAuth->mentors()->users ?? false;
 		$mentor = Option::where('key', 'mentor_section')->first()->value ?? '';
         if ($mentor != '') {
             $mentor = json_decode($mentor);
