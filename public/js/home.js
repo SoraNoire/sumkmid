@@ -260,6 +260,69 @@ $('#pilihProvinsi').on('change',function(){
 	$('.'+getprov).show();
 });
 
+$(document).ready('.info_usaha__select', function(){
+    resyncSelected();
+});
 
 
+// function resyncSelected()
+// {
+//     var selected = $('.info_usaha__select');
+//     $('.info_usaha__select').find('option').removeAttr('disabled');
+//         for(i=0;i<selected.length;i++)
+//     {
+//         var el = $(selected[i]);
+//         var val = el.val();
+//         alert(val);
+//         $('.u-'+val).css('display', 'none');
+//         $('.info_usaha__select').find('option[value='+val+']').attr('disabled','disabled');
+//     }
+//     //var allEl = $('.slc').find('option[value='+val+']');
+// }
+
+$(document).mouseup(function(e) 
+{
+    var container = $(".infoOption");
+    // if the target of the click isn't the container nor a descendant of the container
+    if (!container.is(e.target) && container.has(e.target).length === 0){
+        container.hide();
+    }
+});
+
+$('.addInfoTrigger').on('click', function(){
+	$('.infoOption').show();
+});
+
+$('.addInfo').on('click', function(){
+	numonly = ``;
+	if($(this).hasClass('infoLink')){
+		type = 'url';
+	}else if($(this).hasClass('infoEmail')){
+		type = 'email';
+	}else{
+		type =  'tel';
+		numonly = `onkeypress='return event.charCode >= 48 && event.charCode <= 57'`;
+	}
+	content = $(this).text();
+	$(".addedInfo").append(`
+			<div class="formGroup">
+				<div class="inputTitle">
+					`+content+` :
+				</div>
+				<div class="inputText">
+					<input type="`+type+`" `+numonly+` name="info_usaha[`+content+`]"  value="" placeholder="`+content+` . . .">
+				</div>
+				<div id="close`+content+`" class="close"><i class="fa fa-times" aria-hidden="true"></i></div>
+			</div>
+		`);
+	$('.infoOption').hide();
+	$(this).hide();
+});
+
+$(document).on('click', '.close', function(){
+	// alert($(this).attr('id'));
+	content = $(this).attr('id').substring(5);
+	$(this).parent().hide();
+	$('#addInfo'+content).show();
+});
 

@@ -14,6 +14,8 @@ Route::namespace('\Rabbit\SahabatUser\Controllers')->group(function () {
 				// ->name('SHB.complete_data');
 	Route::get('/member/filldata/step/{i}', 'SahabatUserController@completeData')
 				->name('SHB.complete_data');
+	Route::get('/member/filldata/step/back/{i}', 'SahabatUserController@completeData')
+				->name('SHB.complete_data');
 	Route::post('/member/filldata/save', 'SahabatUserController@completionSave')
 				->name('SHB.complete_data_save');
 
@@ -57,8 +59,5 @@ Route::namespace('\Rabbit\SahabatUser\Controllers')->group(function () {
 				->name('SHB.permissions.save');
 		Route::post('ajax/permissions', 'SahabatUserController@permissionSaveAjax')
 				->name('SHB.permissions.save.ajax');
-
 	});
-
-
 });

@@ -1705,7 +1705,7 @@
 				}
 			}
 			#userSetting{
-				margin-top: 52px;
+				margin-top: 30px;
 				text-align: center;
 				h3{
 					text-align: left;
@@ -1753,7 +1753,7 @@
 					vertical-align: top;
 					margin-left: 31px;
 					width: 460px;
-					margin-bottom: 252px;
+					margin-bottom: 30px;
 					.radioAskUmkm{
 						input[type="radio"] {
 						    padding: 0;
@@ -1790,22 +1790,69 @@
 							}
 						}
 						#info_usaha{
-							.info_usaha__select{
-								height: 37px;
-							    border-radius: 5px;
-							    border: solid 1px #404040;
-							    outline: none;
-							    padding: 0px 14px;
-							    width: calc(100% - 35px);
+							.addInfoWrap{
+								position: relative;
+								.addInfoTrigger{
+									outline: none;
+									cursor: pointer;
+									height: 37px;
+									padding: 0px 14px;
+									background-color: #CF6819;
+									color: #fff;
+									border: 0px;
+									border-radius: 19px;
+									&:hover{
+										background-color: #A15114;
+									}
+									i{
+										margin-right: 5px;
+									}
+								}
+								.infoOption{
+									display: none;
+									padding: 10px 0px;
+								    position: absolute;
+								    z-index: 1;
+								    top: 37px;
+								    left: 16px;
+								    background-color: #ffffff;
+								    text-align: left;
+								    -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+								    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+								    .hidden{
+								    	display: none;
+								    }
+								    li{
+								    	text-decoration: none;
+									    padding: 5px 15px;
+									    font-size: 14px;
+									    width: 136px;
+									    display: block;
+									    font-weight: 500;
+									    cursor: pointer;
+									    &:hover{
+									    	background-color: #F1F1F1;
+									    }
+								    }
+								}
 							}
-							.info_usaha__item_parent{
-								.info_usaha__item{
-									#delete_info{
-										cursor: pointer;
-										color: #fff;
-										padding: 1px 8px 2px 8px;
-										border-radius: 23px;
-										background: red;
+							.addedInfo{
+								margin-top: 15px;
+								position: relative;
+									.formGroup{
+										position: relative;
+										.inputText{
+										width: calc(100% - 20px);
+									}
+									.close{
+										right: 0;
+									    position: absolute;
+									    bottom: 11px;
+									    cursor: pointer;
+									    opacity: .5;
+									    &:hover{
+									    	opacity: 1;
+									    }
 									}
 								}
 							}
@@ -2238,6 +2285,7 @@
 		}
 	}
 }
+
 @-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
 @-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
 @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
