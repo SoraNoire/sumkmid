@@ -33,26 +33,6 @@ $('.wrapSubject').click(function(){
     $('#subject').change();   
 });
 
-// $('#submit_newsletter').on('click', function(e){
-// 	e.preventDefault();
-// 	var a = $('input[name=email_subscribe]').val();
-// 	$.ajax({
-//         type: 'GET',
-//         url: '/subcribe/'+a,
-//         success: function(response){
-// 			$('#myalert').show();
-// 			$('#myalert span').html(response);
-// 			$('#myalert').addClass('alert-success');
-//         },
-//         error: function(err){
-// 			$('#myalert').show();
-// 			$('#myalert span').html('Terjadi kesalahan. Silahkan coba beberapa menit lagi');
-// 			$('#myalert').addClass('alert-danger');
-//         }
-//     });
-//     a = '';
-// });
-
 $('#myalert').on('click', 'a', function(e){
 	e.preventDefault();
 	$('#myalert').hide();
@@ -142,13 +122,6 @@ $('.whiteOverlay').click(function(){
 $('.closeAlert').click(function(){
 	$('.formAlert').slideUp();
 })
-// init Infinite Scroll
-// $('.archive-list').infiniteScroll({
-//   path: '.pagination__next',
-//   append: '.post',
-//   status: '.scroller-status',
-//   hideNav: '.pagination',
-// });
 
 $('ul.pagination').hide();
 
@@ -331,3 +304,16 @@ $("#KTPTRIGGER").change(function() {
   readURL(this);
 });
 
+if($('#mentor-archive').length > 0){
+	var height = new Array();
+    if ($("#mentor-archive .item").length > 0) {
+        $("#mentor-archive .item").map(function(){
+            height.push(parseInt($(this).height()));
+        }).get().join();
+        height = Math.max(...height);
+    }   
+    var window_width = $( window ).width();
+    if (window_width > 375) {
+    	$("#mentor-archive .item").css('height', height);
+    }
+}
