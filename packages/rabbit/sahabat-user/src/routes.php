@@ -22,21 +22,23 @@ Route::namespace('\Rabbit\SahabatUser\Controllers')->group(function () {
 		Route::get('/', 'SahabatUserController@users')
 				->name('SHB.dashboard');
 
-		Route::get('/users', 'SahabatUserController@users')
+		Route::get('/user', 'SahabatUserController@users')
 				->name('panel.user__index');
 
-		Route::get('/view/{id}', 'SahabatUserController@viewUser')
+		Route::get('/user/view/{id}', 'SahabatUserController@viewUser')
 				->name('panel.user__edit');
 
-		Route::get('/view/{id}/detail', 'SahabatUserController@viewUserDetail')
+		Route::get('/user/view/{id}/detail', 'SahabatUserController@viewUserDetail')
 				->name('panel.user__edit__detail');
 
-		Route::post('/view/{id}', 'SahabatUserController@updateUser')
+		Route::post('/user/view/{id}', 'SahabatUserController@updateUser')
 				->name('panel.user__update');
 
-		Route::get('/delete/{id}', 'SahabatUserController@deleteUser')
+		Route::get('/user/delete/{id}', 'SahabatUserController@deleteUser')
 				->name('panel.user__delete');
 
+		Route::get('/export/user/xls', 'SahabatUserController@exportUsers')
+				->name('panel.user__view__export');
 		
 	});
 
