@@ -180,7 +180,7 @@
               <a href="{{ url('admin/blog/media') }}">Media</a>
             </li>
             @endif
-            @if( in_array('read', app()->OAuth::can('panel.trash')) )
+            @if( in_array('read', app()->OAuth::can('panel.post.trash')) )
             <li class="{{ ($page_meta_title ?? '') == 'Trash' ? 'active' : ''}}">
               <a href="{{ route('panel.post.trash__index') }}">Trash</a>
             </li>

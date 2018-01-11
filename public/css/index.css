@@ -3997,10 +3997,6 @@ footer .container .stayInTouch .copyText {
   margin-top: 3px;
 }
 
-#singleMentor p {
-  margin-bottom: 26px;
-}
-
 #singleMentor ul {
   padding-left: 0px;
 }
@@ -4022,6 +4018,7 @@ footer .container .stayInTouch .copyText {
 
 #userSetting {
   margin-top: 30px;
+  margin-bottom: 30px;
   text-align: center;
 }
 
@@ -4090,7 +4087,6 @@ footer .container .stayInTouch .copyText {
   vertical-align: top;
   margin-left: 31px;
   width: 460px;
-  margin-bottom: 30px;
 }
 
 #userSetting .rightForm .radioAskUmkm input[type="radio"] {
