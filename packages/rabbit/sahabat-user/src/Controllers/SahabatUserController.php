@@ -362,6 +362,7 @@ class SahabatUserController extends Controller
 
                 self::add_or_update_meta('foto_ktp',$filename,$id);
             }
+            
             // save 'info_usaha'
             if($request->input('info_usaha')){
                 if ( 1 == sizeof($request->input('info_usaha')) )

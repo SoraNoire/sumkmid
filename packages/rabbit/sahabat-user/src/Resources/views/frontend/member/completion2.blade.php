@@ -109,6 +109,7 @@
 									<li id="addInfoTwitter" class="addInfo infoLink {{ (isset(old('info_usaha')['Twitter']) ? 'hidden' : (isset($user->data->info_usaha->Twitter) ? 'hidden' : '')) }}">Twitter</li>
 								</ul>	
 							</div>
+
 							<div class="addedInfo">
 								@if(old('info_usaha') || isset($user->data->info_usaha))
 									@if(isset($user->data->info_usaha))
@@ -129,7 +130,7 @@
 												{{ ($key == 'GooglePlus' ? 'Google Plus' : $key) }} :
 											</div>
 											<div class="inputText">
-												<input type="text" name="info_usaha[{{ $key }}]"  value="{{ $info }}" placeholder="{{ $key }} . . .">
+													<input type="text" name="info_usaha[{{ $key }}]"  value="{{ $info }}" placeholder="{{ $key }} . . .">
 											</div>
 											<div id="close{{ $key }}" class="close"><i class="fa fa-times" aria-hidden="true"></i></div>
 										</div>
