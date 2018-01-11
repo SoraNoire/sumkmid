@@ -33,26 +33,6 @@ $('.wrapSubject').click(function(){
     $('#subject').change();   
 });
 
-// $('#submit_newsletter').on('click', function(e){
-// 	e.preventDefault();
-// 	var a = $('input[name=email_subscribe]').val();
-// 	$.ajax({
-//         type: 'GET',
-//         url: '/subcribe/'+a,
-//         success: function(response){
-// 			$('#myalert').show();
-// 			$('#myalert span').html(response);
-// 			$('#myalert').addClass('alert-success');
-//         },
-//         error: function(err){
-// 			$('#myalert').show();
-// 			$('#myalert span').html('Terjadi kesalahan. Silahkan coba beberapa menit lagi');
-// 			$('#myalert').addClass('alert-danger');
-//         }
-//     });
-//     a = '';
-// });
-
 $('#myalert').on('click', 'a', function(e){
 	e.preventDefault();
 	$('#myalert').hide();
@@ -142,13 +122,6 @@ $('.whiteOverlay').click(function(){
 $('.closeAlert').click(function(){
 	$('.formAlert').slideUp();
 })
-// init Infinite Scroll
-// $('.archive-list').infiniteScroll({
-//   path: '.pagination__next',
-//   append: '.post',
-//   status: '.scroller-status',
-//   hideNav: '.pagination',
-// });
 
 $('ul.pagination').hide();
 
@@ -282,7 +255,9 @@ $('.addInfoTrigger').on('click', function(){
 });
 
 $('.addInfo').on('click', function(){
+	$('.info_usaha_validate').val('done');
 	numonly = ``;
+	content = $(this).text();
 	if($(this).hasClass('infoLink')){
 		type = 'url';
 	}else if($(this).hasClass('infoEmail')){
@@ -291,14 +266,13 @@ $('.addInfo').on('click', function(){
 		type =  'tel';
 		numonly = `onkeypress='return event.charCode >= 48 && event.charCode <= 57'`;
 	}
-	content = $(this).text();
 	$(".addedInfo").append(`
 			<div class="formGroup">
 				<div class="inputTitle">
 					`+content+` :
 				</div>
 				<div class="inputText">
-					<input type="`+type+`" `+numonly+` name="info_usaha[`+content+`]"  value="" placeholder="`+content+` . . .">
+					<input type="`+type+`" `+numonly+` name="info_usaha[`+content.replace(" ", "")+`]"  value="" placeholder="`+content+` . . .">
 				</div>
 				<div id="close`+content+`" class="close"><i class="fa fa-times" aria-hidden="true"></i></div>
 			</div>
@@ -310,7 +284,36 @@ $('.addInfo').on('click', function(){
 $(document).on('click', '.close', function(){
 	// alert($(this).attr('id'));
 	content = $(this).attr('id').substring(5);
-	$(this).parent().hide();
+	$(this).parent().remove();
 	$('#addInfo'+content).show();
 });
 
+function readURL(input) {
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+
+    reader.onload = function(e) {
+      $('#PREVIEW').attr('src', e.target.result);
+    }
+
+    reader.readAsDataURL(input.files[0]);
+  }
+}
+
+$("#KTPTRIGGER").change(function() {
+  readURL(this);
+});
+
+if($('#mentor-archive').length > 0){
+	var height = new Array();
+    if ($("#mentor-archive .item").length > 0) {
+        $("#mentor-archive .item").map(function(){
+            height.push(parseInt($(this).height()));
+        }).get().join();
+        height = Math.max(...height);
+    }   
+    var window_width = $( window ).width();
+    if (window_width > 375) {
+    	$("#mentor-archive .item").css('height', height);
+    }
+}

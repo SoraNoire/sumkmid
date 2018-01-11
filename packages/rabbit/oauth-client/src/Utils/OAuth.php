@@ -427,7 +427,7 @@ class OAuth
             $moduleId = Modules::select(['id'])->where('name',$module)->first();
             if(!$moduleId)
             {
-                return self::$can;
+                return [];
             }
 
             $moduleId = $moduleId->id;
