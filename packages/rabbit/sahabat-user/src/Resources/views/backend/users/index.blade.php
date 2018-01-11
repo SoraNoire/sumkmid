@@ -1,4 +1,4 @@
-@extends('oa::layouts.base')
+@extends('blog::layouts.master')
 
 @section('content')
 <div class="col-md-12">
@@ -37,8 +37,8 @@
                                 {{$user->role}}
                             </td>
                             <td>
-                                <a href="{{route('SHB.user__edit',$user->id)}}" class="btn btn-primary">Edit</a>
-                                <a href="{{route('SHB.user__delete',$user->id)}}" class="btn btn-danger">Delete</a>
+                                <a href="{{route('panel.user__edit',$user->id)}}" class="btn btn-primary">Edit</a>
+                                <a href="{{route('panel.user__delete',$user->id)}}" class="btn btn-danger">Delete</a>
                             </td>
                         </tr>
 
