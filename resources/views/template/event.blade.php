@@ -85,6 +85,7 @@
 							</tr>
 							@endif
 
+							@if ($meta['location'] != '' || $meta['gmaps_url'] != '')
 							<tr class="tempat">
 								<td>Tempat :</td>
 								<td>
@@ -94,6 +95,7 @@
 									@endif
 								</td>
 							</tr>
+							@endif
 							@endif
 						</table>
 					</div>

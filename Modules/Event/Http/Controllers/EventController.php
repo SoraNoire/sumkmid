@@ -422,7 +422,7 @@ class EventController extends Controller
                                         is_object($request->input($field->key)) 
                                     )
                                     ? json_encode($request->input($field->key)) : $request->input($field->key);
-                            $field->value = $value ?? $field->value;
+                            $field->value = $value ?? '';
                             $field->save();
                             $updated = true;
                             return true;
