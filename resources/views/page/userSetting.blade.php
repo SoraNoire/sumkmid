@@ -22,8 +22,6 @@
 				<div class="inputTrigger" onclick="document.getElementById('inputUserImage').click(); return false;"></div>
 				<form id="upldimageuser" action="{{ route('user_update_profile_pict') }}" accept="image/*" enctype="multipart/form-data" method="post">
 					<input type="hidden" name="_token" value="{{ csrf_token() }}">
-					<input type="hidden" name="email" id="" value="{{$var['user']->email}}">
-					<input type="hidden" name="nama"  value="{{$var['user']->name}}">
 					<input type="file" name="photo" id="inputUserImage" accept="image/x-png,image/gif,image/jpeg">
 					<input type="submit" style="display:none;">
 				</form>

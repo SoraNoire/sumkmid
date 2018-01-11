@@ -129,13 +129,10 @@ class SahabatUserController extends Controller
     {
         $user = app()->OAuth::Auth();
         if (
-
                 $user->data && isset($user->data->kota_lahir) && isset($user->data->tanggal_lahir)
                 && isset($user->data->alamat) && isset($user->data->telepon)
         )
         {
-
-            
             self::$step = 2;
 
             if( 'perorangan' == $user->role)
@@ -149,7 +146,7 @@ class SahabatUserController extends Controller
             {
                 if( 
                     isset($user->data->foto_ktp) && isset($user->data->nama_usaha) && isset($user->data->jenis_usaha)
-                    && isset($user->data->lama_berdiri) && isset($user->data->informasi_usaha) && isset($user->data->omzet)
+                    && isset($user->data->tahun_berdiri) && isset($user->data->info_usaha) && isset($user->data->omzet)
                 )
                 {
                     self::$step = 3;
@@ -238,18 +235,18 @@ class SahabatUserController extends Controller
                 'alamat' => 'required',
                 'telepon' => 'required|numeric',
             ],[
-                'kota_lahir.required'    => 'Kota Kelahiran Wajib di Isi',
-                'tahun_lahir.required'    => 'Tahun Kelahiran Wajib di Isi',
-                'bulan_lahir.required'    => 'Bulan Kelahiran Wajib di Isi',
+                'kota_lahir.required'       => 'Kota Kelahiran Wajib di Isi',
+                'tahun_lahir.required'      => 'Tahun Kelahiran Wajib di Isi',
+                'bulan_lahir.required'      => 'Bulan Kelahiran Wajib di Isi',
                 'tanggal_lahir.required'    => 'Tanggal Kelahiran Wajib di Isi',
-                'tahun_lahir.numeric'    => 'Tahun Kelahiran Wajib di Isi',
-                'bulan_lahir.numeric'    => 'Bulan Kelahiran Wajib di Isi',
-                'tanggal_lahir.numeric'    => 'Tanggal Kelahiran Wajib di Isi',
-                'provinsi.required'    => 'Provinsi Wajib di Isi',
-                'kota.required'    => 'Kota Wajib di Isi',
-                'alamat.required'    => 'Alamat Wajib di Isi',
-                'telepon.required'    => 'Telepon Wajib di Isi',
-                'telepon.numeric'    => 'Nomor Telepon Harus Angka'
+                'tahun_lahir.numeric'       => 'Tahun Kelahiran Wajib di Isi',
+                'bulan_lahir.numeric'       => 'Bulan Kelahiran Wajib di Isi',
+                'tanggal_lahir.numeric'     => 'Tanggal Kelahiran Wajib di Isi',
+                'provinsi.required'         => 'Provinsi Wajib di Isi',
+                'kota.required'             => 'Kota Wajib di Isi',
+                'alamat.required'           => 'Alamat Wajib di Isi',
+                'telepon.required'          => 'Telepon Wajib di Isi',
+                'telepon.numeric'           => 'Nomor Telepon Harus Angka'
             ]);
 
             self::add_or_update_meta('kota_lahir',$request->input('kota_lahir'),$id);
@@ -293,44 +290,51 @@ class SahabatUserController extends Controller
                 $typeUser = ( 'ya' == $request->input('type_user') ) ? 'umkm' : 'perorangan';
 
                 if($typeUser == 'umkm'){
-                    if($request->input('informasi_usaha')[1] == null){
-                    }
+
                     $this->validate($request,[
                         'nama_usaha' => 'required',
                         'jenis_usaha' => 'required',
-                        'lama_berdiri' => 'required|numeric',
+                        'tahun_berdiri' => 'required|numeric',
                         'omzet' => 'required',
                         'foto_ktp' => 'required|image',
-                        'informasi_usaha.*' => 'required|min:1',
+                        'info_usaha.*' => 'required|min:1',
+                        'info_usaha.Telepon' => 'numeric',
                     ],[   
-                        'nama_usaha.required'    => 'NamaUsaha Wajib di Isi',
+                        'nama_usaha.required'    => 'Nama Usaha Wajib di Isi',
                         'jenis_usaha.required'    => 'Jenis Usaha Wajib di Isi',
-                        'lama_berdiri.required'    => 'Tahun Bediri Wajib di Isi',
-                        'lama_berdiri.numeric'    => 'Tahun Bediri Wajib Angka',
+                        'tahun_berdiri.required'    => 'Tahun Bediri Wajib di Isi',
+                        'tahun_berdiri.numeric'    => 'Tahun Bediri Wajib Angka',
                         'omzet.required'    => 'Perkiraan Omzet Wajib di Isi',
                         'foto_ktp.required'    => 'Foto KTP Wajib di Isi',
                         'foto_ktp.image'    => 'Foto KTP Salah',
-                        'informasi_usaha.*.required' => 'Informasi Usaha Minimal 1'
+                        'info_usaha.*.required' => 'Informasi Usaha Minimal 1',
+                        'info_usaha.Telepon.numeric' => 'Nomor Telepon Usaha Harus Angka'
                     ]);
-                }
 
-                self::add_or_update_meta('type_user',$typeUser,$id);
-                // delete umkm data if any
-                UserMeta::whereIn('meta_key',['nama_usaha','jenis_usaha','lama_berdiri','omzet'])
-                          ->where('user_id',app()->OAuth::Auth()->id)->delete();
-            }
+                    // save 'nama_usaha'
+                    self::add_or_update_meta('nama_usaha',$request->input('nama_usaha'),$id);
 
-            // save 'nama_usaha'
-            self::add_or_update_meta('nama_usaha',$request->input('nama_usaha'),$id);
+                    // save 'jenis_usaha'
+                    self::add_or_update_meta('jenis_usaha',$request->input('jenis_usaha'),$id);
 
-            // save 'jenis_usaha'
-            self::add_or_update_meta('jenis_usaha',$request->input('jenis_usaha'),$id);
+                    // save 'tahun_berdiri'
+                    self::add_or_update_meta('tahun_berdiri',$request->input('tahun_berdiri'),$id);
 
-            // save 'lama_berdiri'
-            self::add_or_update_meta('lama_berdiri',$request->input('lama_berdiri'),$id);
-
-            // save 'omzet'
+                    // save 'omzet'
                     self::add_or_update_meta('omzet',$request->input('omzet'),$id);
+                }else{
+                    $this->validate($request,[
+                        'foto_ktp' => 'required|image',
+                    ],[
+                        'foto_ktp.required'    => 'Foto KTP Wajib di Isi',
+                        'foto_ktp.image'    => 'Foto KTP Salah'
+                    ]);
+                    self::add_or_update_meta('type_user',$typeUser,$id);
+                    // delete umkm data if any
+                    UserMeta::whereIn('meta_key',['nama_usaha','jenis_usaha','tahun_berdiri','omzet'])
+                              ->where('user_id',app()->OAuth::Auth()->id)->delete();         
+                }
+            }
 
             if($request->file('foto_ktp'))
             {
@@ -347,14 +351,13 @@ class SahabatUserController extends Controller
 
                 self::add_or_update_meta('foto_ktp',$filename,$id);
             }
-
-            // save 'informasi_usaha'
-            if($request->input('informasi_usaha')){
-                if ( 1 == sizeof($request->input('info')) )
+            // save 'info_usaha'
+            if($request->input('info_usaha')){
+                if ( 1 == sizeof($request->input('info_usaha')) )
                 {
-                  foreach ($request->input('info') as $key => $i) {
+                  foreach ($request->input('info_usaha') as $key => $i) {
                       if($i && '' != $i){
-                        self::add_or_update_meta('informasi_usaha',json_encode($request->input('info')),$id);
+                        self::add_or_update_meta('info_usaha',json_encode($request->input('info_usaha')),$id);
                       }
                   }
 
@@ -368,7 +371,7 @@ class SahabatUserController extends Controller
                         $info[$key] = $value;
                     }
                   }
-                  self::add_or_update_meta('informasi_usaha',json_encode($info),$id);
+                  self::add_or_update_meta('info_usaha',json_encode($info),$id);
                 }
             }
 

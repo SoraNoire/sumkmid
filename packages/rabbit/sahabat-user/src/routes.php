@@ -14,6 +14,8 @@ Route::namespace('\Rabbit\SahabatUser\Controllers')->group(function () {
 				// ->name('SHB.complete_data');
 	Route::get('/member/filldata/step/{i}', 'SahabatUserController@completeData')
 				->name('SHB.complete_data');
+	Route::get('/member/filldata/step/back/{i}', 'SahabatUserController@completeData')
+				->name('SHB.complete_data');
 	Route::post('/member/filldata/save', 'SahabatUserController@completionSave')
 				->name('SHB.complete_data_save');
 
@@ -34,6 +36,31 @@ Route::namespace('\Rabbit\SahabatUser\Controllers')->group(function () {
 		Route::post('/user/view/{id}', 'SahabatUserController@updateUser')
 				->name('panel.user__update');
 
+
+		Route::get('/delete/{id}', 'SahabatUserController@deleteUser')
+				->name('SHB.user__delete');
+
+		Route::post('/module/add', 'SahabatUserController@moduleSave')
+				->name('SHB.module.save');
+
+		Route::get('/module/{id}/edit', 'SahabatUserController@moduleEdit')
+				->name('SHB.module.edit');
+
+
+		Route::post('/module/{id}/update', 'SahabatUserController@moduleUpdate')
+				->name('SHB.module.update');
+
+		Route::get('/module/{id}/remove', 'SahabatUserController@moduleDelete')
+				->name('SHB.module.remove');
+
+		Route::get('/permissions', 'SahabatUserController@permissions')
+				->name('SHB.permissions');
+
+		Route::post('/permissions', 'SahabatUserController@permissionSave')
+				->name('SHB.permissions.save');
+		Route::post('ajax/permissions', 'SahabatUserController@permissionSaveAjax')
+				->name('SHB.permissions.save.ajax');
+
 		Route::get('/user/delete/{id}', 'SahabatUserController@deleteUser')
 				->name('panel.user__delete');
 
@@ -41,6 +68,4 @@ Route::namespace('\Rabbit\SahabatUser\Controllers')->group(function () {
 				->name('panel.user__view__export');
 		
 	});
-
-
 });
