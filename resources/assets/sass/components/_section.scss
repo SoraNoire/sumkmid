@@ -1894,9 +1894,13 @@
 					margin-left: auto;
 					margin-right: auto;
 					background-color: #000;
+					@media (max-width: 768px) {
+						height: 100%;
+					}
 				}
 				.swiper-slide {
-					background-size: cover;
+					background-size: contain;
+					background-repeat: no-repeat;
 					background-position: center;
 				}
 				.gallery-top {
@@ -1906,6 +1910,9 @@
 					box-sizing: border-box;
 					padding: 10px 0;
 					height: 100px;
+					@media screen and (max-width: 768px) {
+						display: none;
+					}
 					.swiper-slide {
 				      width: 10%;
 				      margin-top: 10px;
@@ -2028,7 +2035,17 @@
 					}
 					@media screen and (max-width: 768px) {
 						.container{
-							max-height: 395px;
+							height: 395px;
+						}
+					}
+					@media screen and (max-width: 425px) {
+						.container{
+							height: 350px;
+						}
+					}
+					@media screen and (max-width: 320px) {
+						.container{
+							height: 235px;
 						}
 					}
 					iframe{
