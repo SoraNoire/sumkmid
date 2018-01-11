@@ -702,7 +702,7 @@ class SahabatUserController extends Controller
             foreach ($user as $k => &$u) {
                 if('informasi_usaha'==$k)
                 {
-                    $info = json_decode($u);
+                    $info = json_decode($u) ?? [];
                     foreach ($info as $x => $y) {
                         $user->{$x} = $y;   
                     }
