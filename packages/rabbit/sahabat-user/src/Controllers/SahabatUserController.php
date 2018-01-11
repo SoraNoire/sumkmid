@@ -514,7 +514,15 @@ class SahabatUserController extends Controller
         }
         $masterId = $user->master_id;
 
-        $user = app()->OAuth->user($user->master_id);
+        $user = app()->OAuth->user($masterId);
+
+        if(!$user || !isset($user->id))
+        {
+            // possible deleted from oauth
+            Users::where('master_id',$masterId)->delete();
+            return back();
+        }
+
         // swap id
         $user->id = $id;
         $user->master_id = $masterId;
