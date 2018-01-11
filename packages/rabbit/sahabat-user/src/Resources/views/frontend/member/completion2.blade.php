@@ -32,17 +32,17 @@
 			</div>
 		</div>
 		<div class="rightForm">
-			 @if (session()->has('errors'))
-			  <?php 
-		      	$msg = session('errors');
-		      ?>
-		      <div class="alert alert-danger">
-			  <ul>
-			  	{!! $msg->message !!}
-			  </ul>      
-			  </div>
-		    @endif
+			@if ($errors->any())
+			    <div class="alert alert-danger">
+			        <ul>
+			            @foreach ($errors->all() as $error)
+			                <li>{{ $error }}</li>
+			            @endforeach
+			        </ul>
+			    </div>
+			@endif
 			<form id="form" name="form" action="{{route('SHB.complete_data_save')}}" method="post" enctype="multipart/form-data">
+				<input type="hidden" name="step" value="step2">
 				<div class="formGroup pilih_type radioAskUmkm">
 					@php
 						$chkTdk = ( 'perorangan' == $user->role ) ? 'checked' : '';
@@ -137,7 +137,7 @@
 									<div class="info_usaha__item">
 										<span id="delete_info" onclick="deleteInfo(this)" title="Tambah info usaha">-</span>
 										<select  onchange="triggerInfoName(this)" class="info_usaha__select" id="select-1" name="informasi_usaha[1]">
-											<option value=NULL>Pilih</option>
+											<option value=''>Pilih</option>
 											<option value="website" > Website</option>
 											<option value="facebook" > Facebook</option>
 											<option value="gplus" > Google+</option>

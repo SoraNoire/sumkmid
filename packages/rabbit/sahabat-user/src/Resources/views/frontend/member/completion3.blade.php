@@ -33,6 +33,8 @@
 		</div>
 		<div class="rightForm completion3">
 			<form action="{{route('SHB.complete_data_save')}}" method="post" enctype="multipart/form-data">
+				<input type="hidden" name="step" value="step3">
+				
 				@if ($errors->any())
 				    <div class="alert alert-danger">
 				        <ul>

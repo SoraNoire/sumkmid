@@ -1726,6 +1726,7 @@
 							border-radius: 50%;
 							width: 160px;
 							height: 160px;
+							border : 1px solid #ababab;
 							overflow: hidden;
 							background-position: center;
 							background-size: cover;
@@ -1842,7 +1843,7 @@
 						.inputText{
 
 							input{
-								width: calc(100% - 28px);
+								width: calc(100% - 30px);
 								height: 35px;
 								border-radius: 5px;
 								border: solid 1px #404040;

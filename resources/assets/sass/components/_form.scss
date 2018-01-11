@@ -1,16 +1,19 @@
 .ttl{
 	.tl{
 		display: inline-block;
+		float: left;
 		width: 40%;
 	}
 	.tgll{
 		display: inline-block;
-		width: 58%;
-		margin-left: 2px;
+		float: left;
+		width: 60%;
 		.dropdown3{
 			display: inline-block;
-			height: 35px;
-			width: 32%;
+			float: left;
+			height: 37px;
+			width: calc(33.33333% - 5px);
+			margin-left: 5px;
 		    border-radius: 5px;
 		    border: solid 1px #404040;
 		    outline: none;
@@ -23,10 +26,15 @@
 }
 .pilihkotaprov{
 	.inputText{
-		display: inline-block;
-		width: 48%;
+		float: left;
+		width: 50%;
+		&:last-child{
+			select{
+				float: right;	
+			}
+	    }
 		select{
-			width: 100%;
+			width: calc(100% - 2.5px);
 			height: 35px;
 		    border-radius: 5px;
 		    border: solid 1px #404040;
@@ -37,12 +45,12 @@
 }
 .inputAlamat{
 	textarea{
-		width: calc(100% - 28px);
+		width: calc(100% - 30px);
 	    height: 50px;
 	    border-radius: 5px;
 	    border: solid 1px #404040;
 	    outline: none;
-	    padding: 0px 14px;
+	    padding: 10px 14px;
 	    resize: vertical;
 	}
 }
