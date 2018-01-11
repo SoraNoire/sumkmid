@@ -1700,9 +1700,6 @@
 					display: block;
 					margin-top: 3px;
 				}
-				p{
-					margin-bottom: 26px;
-				}
 				ul{
 					padding-left: 0px;
 					li{
@@ -1724,6 +1721,7 @@
 			}
 			#userSetting{
 				margin-top: 30px;
+				margin-bottom: 30px;
 				text-align: center;
 				.previewKTP{
 					margin-top: 10px;
@@ -1779,7 +1777,6 @@
 					vertical-align: top;
 					margin-left: 31px;
 					width: 460px;
-					margin-bottom: 30px;
 					.radioAskUmkm{
 						input[type="radio"] {
 						    padding: 0;
