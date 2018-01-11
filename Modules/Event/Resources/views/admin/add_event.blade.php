@@ -90,13 +90,13 @@
                                             <label>Nominal</label>
                                             <div class="input-group">
                                                 <span class="input-group-addon">Rp</span>
-                                                <input value="{{ old('htm_nominal') }}" class="form-control" type="text" name="htm_nominal[]">
+                                                <input value="" class="form-control" type="text" name="htm_nominal[]">
                                             </div>
                                         </div>
                                         <div class="form-group col-sm-6">
                                             <label>Label</label>
                                             <div class="input-group">
-                                                <input value="{{ old('htm_label') }}" type="text" name="htm_label[]" class="form-control">
+                                                <input value="" type="text" name="htm_label[]" class="form-control">
                                                 <span class="input-group-btn">
                                                     <button class="btn btn-info" class="add-htm" onclick="add_htm()" type="button">+</button>
                                                 </span>

@@ -635,8 +635,8 @@ class SahabatUserController extends Controller
                                     lama_berdiri.meta_value as tanggal_berdiri,
                                     omzet.meta_value as omzet,
                                     informasi_usaha.meta_value as informasi_usaha,
-                                    berusaha_tetap.meta_value as berusaha_tetap,
-                                    dokumen_usaha.meta_value as dokumen_usaha,
+                                    usaha_tetap.meta_value as berusaha_tetap,
+                                    kelengkapan_dokumen.meta_value as dokumen_usaha,
                                     tempat_usaha.meta_value as asset_tempat,
                                     adm_keuangan.meta_value as administrasi_keuangan,
                                     akses_perbankan.meta_value as akses_perbankan,
@@ -681,11 +681,11 @@ class SahabatUserController extends Controller
                             LEFT JOIN user_meta AS informasi_usaha ON informasi_usaha.user_id=users.id
                                 AND informasi_usaha.meta_key = 'informasi_usaha'
 
-                            LEFT JOIN user_meta AS berusaha_tetap ON berusaha_tetap.user_id=users.id
-                                AND berusaha_tetap.meta_key = 'berusaha_tetap'
+                            LEFT JOIN user_meta AS usaha_tetap ON usaha_tetap.user_id=users.id
+                                AND usaha_tetap.meta_key = 'usaha_tetap'
 
-                            LEFT JOIN user_meta AS dokumen_usaha ON dokumen_usaha.user_id=users.id
-                                AND dokumen_usaha.meta_key = 'dokumen_usaha'
+                            LEFT JOIN user_meta AS kelengkapan_dokumen ON kelengkapan_dokumen.user_id=users.id
+                                AND kelengkapan_dokumen.meta_key = 'kelengkapan_dokumen'
 
                             LEFT JOIN user_meta AS tempat_usaha ON tempat_usaha.user_id=users.id
                                 AND tempat_usaha.meta_key = 'tempat_usaha'
