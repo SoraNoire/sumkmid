@@ -499,10 +499,20 @@ class SahabatUserController extends Controller
      * @return void
      * @author 
      **/
-    public function deleteUser()
+    public function deleteUser($id)
     {
-
-        return back();
+        $myId = app()->OAuth::Auth()->id;
+        if( $id != $myId)
+        {
+            // check role
+            $role = app()->OAuth->user($id)->role ?? false;
+            if('admin' != $role)
+            {
+                Users::where('id',$id)->delete();
+            }
+        }
+        
+        return redirect(route('panel.user__index'));
     }
 
     public function viewUser($id)
@@ -566,9 +576,23 @@ class SahabatUserController extends Controller
 
     public function updateUser(Request $request,$id)
     {
+        $myId = app()->OAuth::Auth()->id;
+        if( $id == $myId)
+        {
+            $this->completionSave($request,$id);
+        }
+        else
+        {
+            // check role
+            $role = app()->OAuth->user($id)->role ?? false;
+            if('admin' != $role)
+            {
+                $this->completionSave($request,$id);
+            }
+        }
         
-        $this->completionSave($request,$id);
-        return back();
+        
+        return redirect(route('panel.user__index'));
     }
 
 
