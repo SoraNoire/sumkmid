@@ -20,11 +20,11 @@
 							<div class="form-group label-floating">
 								<label class="control-label">Nama Lengkap</label>
 								<input type="hidden" name="id" value="{{$user->id}}">
-								<input type="text" class="form-control" name="name" value="{{$user->name??''}}" />
+								<input type="text" disabled class="form-control" name="name" value="{{$user->name??''}}" />
 							</div>
 							<div class="form-group label-floating">
 								<label class="control-label">Email</label>
-								<input type="text" class="form-control" name="email" value="{{$user->email??''}}" />
+								<input type="text" disabled class="form-control" name="email" value="{{$user->email??''}}" />
 							</div>
 							<!-- <button type="submit" class="btn btn-success pull-left">Update</button> -->
 							

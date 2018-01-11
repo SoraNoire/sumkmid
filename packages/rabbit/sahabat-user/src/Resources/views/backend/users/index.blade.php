@@ -37,8 +37,12 @@
                                 {{$user->role}}
                             </td>
                             <td>
+                                @if( in_array($user->role,['visitor','Visitor']))
                                 <a href="{{route('panel.user__edit',$user->id)}}" class="btn btn-primary">Edit</a>
+                                @endif
+                                @if('admin'!=$user->role)
                                 <a href="{{route('panel.user__delete',$user->id)}}" class="btn btn-danger">Delete</a>
+                                @endif
                             </td>
                         </tr>
 
