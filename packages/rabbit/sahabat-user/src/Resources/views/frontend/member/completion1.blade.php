@@ -24,8 +24,6 @@
 				<div class="inputTrigger" onclick="document.getElementById('inputUserImage').click(); return false;"></div>
 				<form id="upldimageuser" action="{{ route('user_update_profile_pict') }}" accept="image/*" enctype="multipart/form-data" method="post">
 					<input type="hidden" name="_token" value="{{ csrf_token() }}">
-					<input type="hidden" name="email" id="" value="{{$user->email}}">
-					<input type="hidden" name="nama"  value="{{$user->name}}">
 					<input type="file" name="photo" id="inputUserImage" accept="image/x-png,image/gif,image/jpeg">
 					<input type="submit" style="display:none;">
 				</form>
@@ -59,14 +57,21 @@
 						<select id="tanggal_lahir" class="dropdown3" name="tanggal_lahir">
 							<option>Tanggal</option>
 							@for($i=1;$i<=31;$i++)
+							@php
+								if($i < 10){
+									$io = '0'.$i;
+								}else{
+									$io = $i;
+								}
+							@endphp
 								@if( $i == explode('/',(app()->OAuth::Auth()->data->tanggal_lahir ?? '0/0/0'))[2] )
-									<option selected value="{{$i}}" >{{$i}}</option>
+									<option selected value="{{$io}}" >{{$io}}</option>
 								@else
-									<option value="{{$i}}" >{{$i}}</option>
+									<option value="{{$io}}" >{{$io}}</option>
 								@endif
 							@endfor
 						</select>
-						
+
 						<select class="dropdown3" name="bulan_lahir" onchange="aturTanggal(this)">
 							<option>Bulan</option>
 							@for($i=1;$i<=12;$i++)

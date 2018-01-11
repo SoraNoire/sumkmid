@@ -61,13 +61,11 @@ class memberController extends Controller
 	}
 
     public function updateProfilePict(Request $req){
-		
-		$name = $req->input('nama');
-		$email = $req->input('email');
+        $user = app()->OAuth->Auth(app()->OAuth->Auth()->token);
 		if ($req->file('photo')->isValid()) {
 			$photo = $req->file('photo');
 			
-            $filename = $email.'.png';
+            $filename = $user->data->email.'.png';
             $path = public_path("/assets/users/".$filename);
 			$img = Image::make($photo->getRealPath())->save($path);
 			// if (!is_dir(public_path("/assets/users"))) {
@@ -81,13 +79,14 @@ class memberController extends Controller
 		}else{
 			return 'photo tidak valid';
 		}
+        
 
 		$data = [   
-			'name'=> $name,
-			'email' => $email,
+			'name'=> $user->data->name,
+			'email' => $user->data->email,
 			'avatar'=> $path
 		];
-        $user = app()->OAuth->Auth(app()->OAuth->Auth()->token);
+
         if($user && $user->success){
             $user = $user->data;            
         }else{
@@ -301,7 +300,7 @@ class memberController extends Controller
             $typeUser = ( 'ya' == $request->input('type_user') ) ? 'umkm' : 'perorangan';
             self::add_or_update_meta('type_user',$typeUser,$id);
             // delete umkm data if any
-            UserMeta::whereIn('meta_key',['nama_usaha','jenis_usaha','lama_berdiri','omzet'])
+            UserMeta::whereIn('meta_key',['nama_usaha','jenis_usaha','tahun_berdiri','omzet'])
                       ->where('user_id',app()->OAuth::Auth()->id)->delete();
         }
 
@@ -327,16 +326,16 @@ class memberController extends Controller
             self::add_or_update_meta('jenis_usaha',$request->input('jenis_usaha'),$id);
         }
 
-        // save 'lama_berdiri'
-        if($request->input('lama_berdiri'))
+        // save 'tahun_berdiri'
+        if($request->input('tahun_berdiri'))
         {
         	$this->validate($request,[
-		        'lama_berdiri' => 'required|numeric',
+		        'tahun_berdiri' => 'required|numeric',
 		    ],[   
-	            'lama_berdiri.required'    => 'Tahun Berdiri Wajib di Isi',
-	            'lama_berdiri.numeric'    => 'Tahun yang Anda Masukan Salah (Wajib Angka)'
+	            'tahun_berdiri.required'    => 'Tahun Berdiri Wajib di Isi',
+	            'tahun_berdiri.numeric'    => 'Tahun yang Anda Masukan Salah (Wajib Angka)'
         	]);
-            self::add_or_update_meta('lama_berdiri',$request->input('lama_berdiri'),$id);
+            self::add_or_update_meta('tahun_berdiri',$request->input('tahun_berdiri'),$id);
         }
 
         // save 'omzet'

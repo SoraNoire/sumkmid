@@ -24,8 +24,6 @@
 				<div class="inputTrigger" onclick="document.getElementById('inputUserImage').click(); return false;"></div>
 				<form id="upldimageuser" action="{{ route('user_update_profile_pict') }}" accept="image/*" enctype="multipart/form-data" method="post">
 					<input type="hidden" name="_token" value="{{ csrf_token() }}">
-					<input type="hidden" name="email" id="" value="{{$user->email}}">
-					<input type="hidden" name="nama"  value="{{$user->name}}">
 					<input type="file" name="photo" id="inputUserImage" accept="image/x-png,image/gif,image/jpeg">
 					<input type="submit" style="display:none;">
 				</form>
@@ -67,7 +65,7 @@
 							Nama Usaha
 						</div>
 						<div class="inputText">
-							<input type="text" name="nama_usaha"  value="{{$user->data->nama_usaha ?? ''}}" placeholder="Nama Usaha">
+							<input type="text" name="nama_usaha"  value="{{$user->data->nama_usaha ?? old('nama_usaha') ?? ''}}" placeholder="Nama Usaha">
 						</div>
 					</div>
 
@@ -76,7 +74,9 @@
 							<div>Jenis Usaha</div>
 							<select class="selectJnsUsaha" name="jenis_usaha">
 								@foreach ($usaha as $u)
-									@if( isset($user->data->jenis_usaha) && $user->data->jenis_usaha == $u  )
+									@if( old('jenis_usaha') == $u  )
+										<option selected value="{{$u}}">{{$u}}</option>
+									@elseif( isset($user->data->jenis_usaha) && $user->data->jenis_usaha == $u  )
 										<option selected value="{{$u}}">{{$u}}</option>
 									@else
 										<option value="{{$u}}">{{$u}}</option>
@@ -87,73 +87,53 @@
 						<div class="tahunBerdiri">
 							<div>Tahun Berdiri</div>
 							<div class="inputText">
-							<input type="text" name="lama_berdiri" value="{{$user->data->lama_berdiri??''}}" placeholder="2013">
+							<input type="text" name="tahun_berdiri" value="{{$user->data->tahun_berdiri ?? old('tahun_berdiri') ??''}}" placeholder="2013">
 							</div>
 						</div>
 						<div style="clear: both;"></div>
 					</div>
-
 					<div class="formGroup">
 						<div class="infoUsaha">
 							Informasi Usaha
-							<span id="add_info" title="Tambah info usaha">+</span>
 						</div> 
-						<div id="info_usaha">
+						<div id="info_usaha" class="inputText">
+							<div class="addInfoWrap">
+								<button type="button" class="addInfoTrigger"><i class="fa fa-plus" aria-hidden="true"></i>Tambah Informasi Usaha</button>
+								<ul class="infoOption">
+									<li id="addInfoWebsite" class="addInfo infoLink {{ (isset(old('info_usaha')['Website']) ? 'hidden' : (isset($user->data->info_usaha->Website) ? 'hidden' : '')) }}">Website</li>
+									<li id="addInfoEmail" class="addInfo infoEmail {{ (isset(old('info_usaha')['Email']) ? 'hidden' : (isset($user->data->info_usaha->Email) ? 'hidden' : '')) }}">Email</li>
+									<li id="addInfoTelepon" class="addInfo infoPhone {{ (isset(old('info_usaha')['Telepon']) ? 'hidden' : (isset($user->data->info_usaha->Telepon) ? 'hidden' : '')) }}">Telepon</li>
+									<li id="addInfoFacebook" class="addInfo infoLink {{ (isset(old('info_usaha')['Facebook']) ? 'hidden' : (isset($user->data->info_usaha->Facebook) ? 'hidden' : '')) }}">Facebook</li>
+									<li id="addInfoInstagram" class="addInfo infoLink {{ (isset(old('info_usaha')['Instagram']) ? 'hidden' : (isset($user->data->info_usaha->Instagram) ? 'hidden' : '')) }}">Instagram</li>
+									<li id="addInfoGooglePlus" class="addInfo infoLink {{ (isset(old('info_usaha')['GooglePlus']) ? 'hidden' : (isset($user->data->info_usaha->GooglePlus) ? 'hidden' : '')) }}">Google Plus</li>
+									<li id="addInfoTwitter" class="addInfo infoLink {{ (isset(old('info_usaha')['Twitter']) ? 'hidden' : (isset($user->data->info_usaha->Twitter) ? 'hidden' : '')) }}">Twitter</li>
+								</ul>	
+							</div>
+							<div class="addedInfo">
+								@if(old('info_usaha') || $user->data->info_usaha)
+									@if($user->data->info_usaha)
+										@php
+											$goLoop = $user->data->info_usaha;
+										@endphp
+									@else
+										@php
+											$goLoop = old('info_usaha');
+										@endphp
+									@endif
 
-							@php
-								$info_usaha = false;
-								if( isset($user->data->informasi_usaha) ){
-									$info_usaha = json_decode($user->data->informasi_usaha);
-								}
-								$i = 1;
-							@endphp
-
-							@if( $info_usaha )
-								@foreach($info_usaha as $key => $iu)
-									<div class="info_usaha__item_parent">
-										<div class="info_usaha__item">
-
-											<span id="delete_info" onclick="deleteInfo(this)" title="Tambah info usaha">-</span>
-
-											<select  onchange="triggerInfoName(this)" class="info_usaha__select" id="select-{{$i}}" name="informasi_usaha[{{$i}}]">
-												<option {{('website'==$key)?'selected':''}} value="website" > Website</option>
-												<option {{('facebook'==$key)?'selected':''}} value="facebook" > Facebook</option>
-												<option {{('gplus'==$key)?'selected':''}} value="gplus" > Google+</option>
-												<option {{('instagram'==$key)?'selected':''}} value="instagram" > Instagram</option>
-												<option {{('twitter'==$key)?'selected':''}} value="twitter" > Twitter</option>
-												<option {{('email'==$key)?'selected':''}} value="email" > Email</option>
-												<option {{('telepon'==$key)?'selected':''}} value="telepon" > Telepon</option>
-											</select>
+									@foreach($goLoop as $key => $info)
+										<div class="formGroup">
+											<div class="inputTitle">
+												{{ ($key == 'GooglePlus' ? 'Google Plus' : $key) }} :
+											</div>
+											<div class="inputText">
+												<input type="text" name="info_usaha[{{ $key }}]"  value="{{ $info }}" placeholder="{{ $key }} . . .">
+											</div>
+											<div id="close{{ $key }}" class="close"><i class="fa fa-times" aria-hidden="true"></i></div>
 										</div>
-										<div class="info_usaha__item inputText info_usaha__clear">
-											<input id="info-{{$i}}" value="{{$iu}}" type="text" name="info[{{$key}}]">
-										</div>
-										<div class="clear"></div>
-									</div>
-									@php $i++ @endphp
-								@endforeach
-							@else
-								<div class="info_usaha__item_parent">
-									<div class="info_usaha__item">
-										<span id="delete_info" onclick="deleteInfo(this)" title="Tambah info usaha">-</span>
-										<select  onchange="triggerInfoName(this)" class="info_usaha__select" id="select-1" name="informasi_usaha[1]">
-											<option value=''>Pilih</option>
-											<option value="website" > Website</option>
-											<option value="facebook" > Facebook</option>
-											<option value="gplus" > Google+</option>
-											<option value="instagram" > Instagram</option>
-											<option value="twitter" > Twitter</option>
-											<option value="email" > Email</option>
-											<option value="telepon" > Telepon</option>
-										</select>
-									</div>
-									<div class="info_usaha__item inputText info_usaha__clear">
-										<input id="info-1" type="text" name="info[null]">
-									</div>
-									<div class="clear"></div>
-								</div>
-							@endif
-
+									@endforeach
+								@endif
+							</div>
 						</div>
 					</div>
 
@@ -163,11 +143,11 @@
 						</div>
 						<div class="inputText">
 							<select class="omzetSelect" name="omzet">
-								<option value="1-5" {{ ( isset($user->data->omzet) && '1-5' == $user->data->omzet ) ? 'selected' : '' }} >1-5 Juta</option>
-								<option value="5-10" {{ ( isset($user->data->omzet) && '5-10' == $user->data->omzet ) ? 'selected' : '' }}>5-10 Juta</option>
-								<option value="10-20" {{ ( isset($user->data->omzet) && '10-20' == $user->data->omzet ) ? 'selected' : '' }}>10-20 Juta</option>
-								<option value="20-50" {{ ( isset($user->data->omzet) && '20-50' == $user->data->omzet ) ? 'selected' : '' }}>20-50 Juta</option>
-								<option value="50+" {{ ( isset($user->data->omzet) && '50+' == $user->data->omzet ) ? 'selected' : '' }}> 50+ Juta</option>
+								<option {{ (old('omzet') == '1-5') ? 'selected' : '' }} value="1-5" {{ ( isset($user->data->omzet) && '1-5' == $user->data->omzet ) ? 'selected' : '' }} >1-5 Juta</option>
+								<option {{ (old('omzet') == '5-10') ? 'selected' : '' }} value="5-10" {{ ( isset($user->data->omzet) && '5-10' == $user->data->omzet ) ? 'selected' : '' }}>5-10 Juta</option>
+								<option {{ (old('omzet') == '10-20') ? 'selected' : '' }} value="10-20" {{ ( isset($user->data->omzet) && '10-20' == $user->data->omzet ) ? 'selected' : '' }}>10-20 Juta</option>
+								<option {{ (old('omzet') == '20-50') ? 'selected' : '' }} value="20-50" {{ ( isset($user->data->omzet) && '20-50' == $user->data->omzet ) ? 'selected' : '' }}>20-50 Juta</option>
+								<option {{ (old('omzet') == '50+') ? 'selected' : '' }} value="50+" {{ ( isset($user->data->omzet) && '50+' == $user->data->omzet ) ? 'selected' : '' }}> 50+ Juta</option>
 							</select>
 						</div>
 					</div>
@@ -175,8 +155,10 @@
 
 				</div>
 				<div>KTP</div>
-				<input type="file" name="foto_ktp">
-
+				<input type="file" name="foto_ktp" id="KTPTRIGGER" accept="image/*">
+				<div class="previewKTP">
+					<img id="PREVIEW" src="{{ asset('images/ktpdefault.jpg') }}">
+				</div>
 				<button type="sumbit" class="submitUserSet button blue">Simpan</button>
 			</form>
 		</div>
@@ -199,54 +181,6 @@
 		    }
 		    this.submit();
 		});
-
-		var ai = document.getElementById('add_info');
-		ai.onclick = function()
-		{
-			var s = document.getElementsByClassName('info_usaha__select');
-	        var oldInfo = document.getElementById('info_usaha').innerHTML;
-	        var d = document.createElement('div');
-	        d.className += "info_usaha__item_parent";
-	        d.innerHTML = addInfo(s.length+1);
-	        document.getElementById('info_usaha').appendChild(d);
-	    }
-
-	    function triggerInfoName(el)
-	    {
-	    	var id = el.id.split('-')[1];
-	    	var infoinputTarget = document.getElementById('info-'+id);
-	    	infoinputTarget.name = "info["+el.value+"]";
-	    }
-
-	    function deleteInfo(el)
-	    {
-	    	var _el = el.parentElement.parentElement.outerHTML = '';
-	    	console.log(_el);
-	    }
-
-	    function addInfo(id=2)
-	    {
-	    	var _html = `<div class="info_usaha__item">
-	    						<span id="delete_info" onclick="deleteInfo(this)" title="Tambah info usaha">-</span>
-								<select onchange="triggerInfoName(this)" class="info_usaha__select" id="select-`+id+`" name="informasi_usaha[`+id+`]">
-									<option value=NULL>Pilih</option>
-									<option value="website" > Website</option>
-									<option value="facebook" > Facebook</option>
-									<option value="gplus" > Google+</option>
-									<option value="instagram" > Instagram</option>
-									<option value="twitter" > Twitter</option>
-									<option value="email" > Email</option>
-									<option value="telepon" > Telepon</option>
-								</select>
-							</div>
-							<div class="info_usaha__item inputText info_usaha__clear">
-								<input id="info-`+id+`" type="text" name="info[null]">
-							</div>
-							<div class="clear">
-						</div>`;
-			return _html;
-	    }
-
 	</script>
 </section>
 
