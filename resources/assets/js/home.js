@@ -282,6 +282,7 @@ $('.addInfoTrigger').on('click', function(){
 });
 
 $('.addInfo').on('click', function(){
+	$('.info_usaha_validate').val('done');
 	numonly = ``;
 	content = $(this).text();
 	if($(this).hasClass('infoLink')){
@@ -310,7 +311,7 @@ $('.addInfo').on('click', function(){
 $(document).on('click', '.close', function(){
 	// alert($(this).attr('id'));
 	content = $(this).attr('id').substring(5);
-	$(this).parent().hide();
+	$(this).parent().remove();
 	$('#addInfo'+content).show();
 });
 

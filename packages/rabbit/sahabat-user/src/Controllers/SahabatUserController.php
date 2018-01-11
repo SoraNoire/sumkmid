@@ -108,9 +108,11 @@ class SahabatUserController extends Controller
         $user = app()->OAuth::$Auth;
         $userMeta->map(
             function($meta) use(&$userData,&$user,$id){
+
                 if($meta->meta_key == 'info_usaha'){
                     $meta->meta_value = json_decode($meta->meta_value);
                 }
+
                 if( false === $id && 'type_user' == $meta->meta_key )
                 {
                     $user->role = $meta->meta_value;
@@ -300,9 +302,11 @@ class SahabatUserController extends Controller
                         'tahun_berdiri' => 'required|numeric',
                         'omzet' => 'required',
                         'foto_ktp' => 'required|image',
-                        'info_usaha.*' => 'required|min:1',
+                        'info_usaha.*' => 'required',
                         'info_usaha.Telepon' => 'numeric',
                         'info_usaha.Email' => 'email',
+                        'info_usaha_validate' => 'required'
+                        
                     ],[   
                         'nama_usaha.required'    => 'Nama Usaha Wajib di Isi',
                         'jenis_usaha.required'    => 'Jenis Usaha Wajib di Isi',
@@ -312,8 +316,10 @@ class SahabatUserController extends Controller
                         'foto_ktp.required'    => 'Foto KTP Wajib di Isi',
                         'foto_ktp.image'    => 'Foto KTP Salah',
                         'info_usaha.*.required' => 'Informasi Usaha Minimal 1',
+                        'info_usaha_validate.required' => 'Informasi Usaha Minimal 1',
                         'info_usaha.Telepon.numeric' => 'Nomor Telepon Usaha Harus Angka',
-                        'info_usaha.Email.email' => 'Email Usaha tidak valid'
+                        'info_usaha.Email.email' => 'Email Usaha tidak valid',
+                        
                     ]);
 
                     // save 'nama_usaha'
@@ -436,6 +442,16 @@ class SahabatUserController extends Controller
 
         if($request->input('step') == 'step4'){
 
+            
+            $mengapa = $request->input('kuisioner_mengapa');
+            $harapan = $request->input('kuisioner_harapan');
+
+            if(count(explode(' ', $mengapa)) < 3){
+                return Redirect::back()->withErrors(['Alasan Dan Harapan Minimal 3 Kata']);
+            }
+
+            if($request->input('step'))
+
             $this->validate($request,[
                 'kuisioner_mengapa' => 'required',
                 'kuisioner_harapan' => 'required',
@@ -446,6 +462,7 @@ class SahabatUserController extends Controller
                 'kuisioner_harapan.required'    => 'Harapan Wajib di Isi',
                 'tos_terima.required'    => 'Anda Wajib Menyetujui Persyaratan Dibawah !',
             ]);
+
             // save 'kuisioner_mengapa'
             if($request->input('kuisioner_mengapa'))
             {

@@ -110,14 +110,16 @@
 								</ul>	
 							</div>
 							<div class="addedInfo">
-								@if(old('info_usaha') || $user->data->info_usaha)
-									@if($user->data->info_usaha)
+								@if(old('info_usaha') || isset($user->data->info_usaha))
+									@if(isset($user->data->info_usaha))
 										@php
 											$goLoop = $user->data->info_usaha;
+											$check = 'done';
 										@endphp
 									@else
 										@php
 											$goLoop = old('info_usaha');
+											$check = 'done';
 										@endphp
 									@endif
 
@@ -133,6 +135,7 @@
 										</div>
 									@endforeach
 								@endif
+								<input type="hidden" class="info_usaha_validate" name="info_usaha_validate" value="{{ $check ?? '' }}">
 							</div>
 						</div>
 					</div>
