@@ -367,7 +367,7 @@ class memberController extends Controller
 	            'tahun_berdiri.required'    => 'Tahun Berdiri Wajib di Isi',
 	            'tahun_berdiri.numeric'    => 'Tahun yang Anda Masukan Salah (Wajib Angka)'
         	]);
-            self::add_or_update_meta('tahun_berdiri',$request->input('tahun_berdiri'),$id);
+            self::add_or_update_meta('tahun_berdiri',( ($request->input('tahun_berdiri')>date('Y'))?date('Y'):$request->input('tahun_berdiri') ),$id);
         }
 
         // save 'omzet'
