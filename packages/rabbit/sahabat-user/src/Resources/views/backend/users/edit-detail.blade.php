@@ -405,6 +405,21 @@
 		</div>
 	</div>
 </section>
+<style type="text/css">
+	input {
+	    width: calc(100% - 30px);
+	    height: 35px;
+	    border-radius: 5px;
+	    border: solid 1px #404040;
+	    outline: none;
+	    padding: 0px 14px;
+	}
+	ttl .tl {
+	    display: inline-block;
+	    float: left;
+	    width: 40%;
+	}
+</style>
 <script type="text/javascript">
 	
 	function aturTanggal(val=false)
