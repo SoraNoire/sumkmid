@@ -32,7 +32,7 @@
 			</div>
 		</div>
 		<div class="rightForm "">
-			<form action="{{route('user-setting.detail.go-update')}}" method="post" enctype="multipart/form-data">
+			<form id="form" action="{{route('user-setting.detail.go-update')}}" method="post" enctype="multipart/form-data">
 			{{ csrf_field() }}
 			@if ($errors->any())
 			    <div class="alert alert-danger">
@@ -140,6 +140,23 @@
 					<div style="clear: both;"></div>
 				</div>
 
+				<div class="formGroup pilih_type radioAskUmkm">
+					@php
+						$chkTdk = ( 'perorangan' == $user->role ) ? 'checked' : '';
+						$frmUClass = ( 'perorangan' == $user->role ) ? ' hidden' : '';
+						$chkYa = ( 'checked' == $chkTdk ) ? '' : 'checked'; 
+					@endphp
+
+					<div>Anda Pengusaha Umkm?</div>
+					<div class="left ">
+						<div class="left"><input {{$chkYa}} type="radio" name="type_user" value="ya"></div> <div class="pilih left">Ya</div>
+					</div>
+					<div class="left">
+						<div class="left"><input {{$chkTdk}} type="radio" name="type_user" value="tidak"></div><div class="pilih left">Tidak</div>
+					</div>
+					<div style="clear: both;"></div>
+				</div>
+
 				<div id="form-pengusaha" class="{{$frmUClass}}">
 				
 					<div class="formGroup">
@@ -167,7 +184,7 @@
 						<div class="tahunBerdiri">
 							<div>Tahun Berdiri</div>
 							<div class="inputText">
-							<input type="text" name="tahun_berdiri" value="{{ $user->data->tahun_berdiri ?? '' }}" placeholder="2013">
+							<input  max="{{date('Y')}}" type="number" name="tahun_berdiri" value="{{ $user->data->tahun_berdiri ?? '' }}" placeholder="2013">
 							</div>
 						</div>
 						<div style="clear: both;"></div>
@@ -234,6 +251,158 @@
 							</select>
 						</div>
 					</div>
+					<div class="formGroup">
+						<div class="inputTitle">
+							Apakah anda sudah memiliki usaha menetap bidang UMKM?
+						</div>
+						<div>
+							@php
+								$ya = "Spesifik / Sudah tetap";
+								$tidak = "Berganti-ganti / Belum Tetap";
+								$chkYa = '';
+								$chkTidak = 'checked';
+								if(isset($user->data->usaha_tetap) && $ya == $user->data->usaha_tetap){$chkYa = 'checked';$chkTidak = '';}
+							@endphp
+							<div>
+								<div class="left"><input {{$chkYa}} type="radio" name="usaha_tetap" value="Spesifik / Sudah tetap"></div>
+								<div class="pilih answers">{{$ya}}</div>
+							</div>
+							<div style="clear: both;"></div>
+							<div>
+								<div class="left">
+									<input {{$chkTidak}} type="radio" name="usaha_tetap" value="Berganti-ganti / Belum Tetap">
+								</div>
+								<div class="pilih answers">{{$tidak}}</div>
+								<div style="clear: both;"></div>
+							</div>
+						</div>
+					</div>
+
+					<div class="formGroup">
+						<div class="inputTitle">
+							Izin Usaha?
+						</div>
+						<div>
+							@php
+								$ya = "Lengkap sesuai kebutuhan bisnis ( SIUP, TDP, NPWP, DLL)";
+								$tidak = "Belum Lengkap";
+								$chkYa = '';
+								$chkTidak = 'checked';
+								if(isset($user->data->kelengkapan_dokumen) && $ya == $user->data->kelengkapan_dokumen){$chkYa = 'checked';$chkTidak = '';}
+							@endphp
+							
+
+							<div>
+								<div class="left">
+									<input {{$chkYa}} type="radio" name="kelengkapan_dokumen" value="{{$ya}}">
+								</div>
+								<div class="pilih answers">{{$ya}}</div>
+							</div>
+							<div style="clear: both;"></div>
+							<div>
+								<div class="left">
+									<input {{$chkTidak}} type="radio" name="kelengkapan_dokumen" value="{{$tidak}}">
+								</div>
+								<div class="pilih answers">{{$tidak}}</div>
+								<div style="clear: both;"></div>
+							</div>
+						</div>
+					</div>
+
+					<div class="formGroup">
+						<div class="inputTitle">
+							Asset tempat usaha
+						</div>
+						<div>
+							@php
+								$ya = "Tetap (Milik sendiri)";
+								$tidak = "Belum tetap (kontrak, sewa, dll)";
+								$chkYa = '';
+								$chkTidak = 'checked';
+								if(isset($user->data->tempat_usaha) && $ya == $user->data->tempat_usaha){$chkYa = 'checked';$chkTidak = '';}
+							@endphp
+							
+
+							<div>
+								<div class="left">
+									<input {{$chkYa}} type="radio" name="tempat_usaha" value="{{$ya}}">
+								</div>
+								<div class="pilih answers">{{$ya}}</div>
+							</div>
+							<div style="clear: both;"></div>
+							<div>
+								<div class="left">
+									<input {{$chkTidak}} type="radio" name="tempat_usaha" value="{{$tidak}}">
+								</div>
+								<div class="pilih answers">{{$tidak}}</div>
+								<div style="clear: both;"></div>
+							</div>
+
+						</div>
+					</div>
+
+					<div class="formGroup">
+						<div class="inputTitle">
+							Administrasi Keuangan
+						</div>
+						<div>
+							@php
+								$ya = "Sudah teratur ( terpisah dengan keuangan pribadi / keluarga )";
+								$tidak = "Belum teratur ( masih bercampur dengan keuangan pribadi / keluarga )";
+								$chkYa = '';
+								$chkTidak = 'checked';
+								if(isset($user->data->adm_keuangan) && $ya == $user->data->adm_keuangan){$chkYa = 'checked';$chkTidak = '';}
+							@endphp
+							
+
+							<div>
+								<div class="left">
+									<input {{$chkYa}} type="radio" name="adm_keuangan" value="{{$ya}}">
+								</div>
+								<div class="pilih answers">{{$ya}}</div>
+							</div>
+							<div style="clear: both;"></div>
+							<div>
+								<div class="left">
+									<input {{$chkTidak}} type="radio" name="adm_keuangan" value="{{$tidak}}">
+								</div>
+								<div class="pilih answers">{{$tidak}}</div>
+								<div style="clear: both;"></div>
+							</div>
+
+						</div>
+					</div>
+
+					<div class="formGroup">
+						<div class="inputTitle">
+							Akses perbankan
+						</div>
+						<div>
+							@php
+								$ya = "Sudah ada akses ke perbankan / sudah pernah melakukan pinjaman ( berupa apapun bentuknya ) ke bank";
+								$tidak = "Belum ada akses ke perbankan / belum pernah melakukan pinjaman ( berupa apapun bentuknya ) ke bank";
+								$chkYa = '';
+								$chkTidak = 'checked';
+								if(isset($user->data->akses_perbankan) && $ya == $user->data->akses_perbankan){$chkYa = 'checked';$chkTidak = '';}
+							@endphp
+
+							
+							<div>
+								<div class="left">
+									<input {{$chkYa}} type="radio" name="akses_perbankan" value="{{$ya}}">
+								</div>
+								<div class="pilih answers">{{$ya}}</div>
+							</div>
+							<div style="clear: both;"></div>
+							<div>
+								<div class="left">
+									<input {{$chkTidak}} type="radio" name="akses_perbankan" value="{{$tidak}}">
+								</div>
+								<div class="pilih answers">{{$tidak}}</div>
+								<div style="clear: both;"></div>
+							</div>
+						</div>
+					</div>
 				</div>
 				@if($user->data->foto_ktp)
 					@php
@@ -250,162 +419,32 @@
 				<input type="file" name="foto_ktp">
 
 				<div style="margin-top: 20px;" class="completion3">
-				<div class="formGroup">
-					<div class="inputTitle">
-						Apakah anda sudah memiliki usaha menetap bidang UMKM?
-					</div>
-					<div>
-						@php
-							$ya = "Spesifik / Sudah tetap";
-							$tidak = "Berganti-ganti / Belum Tetap";
-							$chkYa = '';
-							$chkTidak = 'checked';
-							if(isset($user->data->usaha_tetap) && $ya == $user->data->usaha_tetap){$chkYa = 'checked';$chkTidak = '';}
-						@endphp
-						<div>
-							<div class="left"><input {{$chkYa}} type="radio" name="usaha_tetap" value="Spesifik / Sudah tetap"></div>
-							<div class="pilih answers">{{$ya}}</div>
-						</div>
-						<div style="clear: both;"></div>
-						<div>
-							<div class="left">
-								<input {{$chkTidak}} type="radio" name="usaha_tetap" value="Berganti-ganti / Belum Tetap">
-							</div>
-							<div class="pilih answers">{{$tidak}}</div>
-							<div style="clear: both;"></div>
-						</div>
-					</div>
-				</div>
-
-				<div class="formGroup">
-					<div class="inputTitle">
-						Izin Usaha?
-					</div>
-					<div>
-						@php
-							$ya = "Lengkap sesuai kebutuhan bisnis ( SIUP, TDP, NPWP, DLL)";
-							$tidak = "Belum Lengkap";
-							$chkYa = '';
-							$chkTidak = 'checked';
-							if(isset($user->data->kelengkapan_dokumen) && $ya == $user->data->kelengkapan_dokumen){$chkYa = 'checked';$chkTidak = '';}
-						@endphp
-						
-
-						<div>
-							<div class="left">
-								<input {{$chkYa}} type="radio" name="kelengkapan_dokumen" value="{{$ya}}">
-							</div>
-							<div class="pilih answers">{{$ya}}</div>
-						</div>
-						<div style="clear: both;"></div>
-						<div>
-							<div class="left">
-								<input {{$chkTidak}} type="radio" name="kelengkapan_dokumen" value="{{$tidak}}">
-							</div>
-							<div class="pilih answers">{{$tidak}}</div>
-							<div style="clear: both;"></div>
-						</div>
-					</div>
-				</div>
-
-				<div class="formGroup">
-					<div class="inputTitle">
-						Asset tempat usaha
-					</div>
-					<div>
-						@php
-							$ya = "Tetap (Milik sendiri)";
-							$tidak = "Belum tetap (kontrak, sewa, dll)";
-							$chkYa = '';
-							$chkTidak = 'checked';
-							if(isset($user->data->tempat_usaha) && $ya == $user->data->tempat_usaha){$chkYa = 'checked';$chkTidak = '';}
-						@endphp
-						
-
-						<div>
-							<div class="left">
-								<input {{$chkYa}} type="radio" name="tempat_usaha" value="{{$ya}}">
-							</div>
-							<div class="pilih answers">{{$ya}}</div>
-						</div>
-						<div style="clear: both;"></div>
-						<div>
-							<div class="left">
-								<input {{$chkTidak}} type="radio" name="tempat_usaha" value="{{$tidak}}">
-							</div>
-							<div class="pilih answers">{{$tidak}}</div>
-							<div style="clear: both;"></div>
-						</div>
-
-					</div>
-				</div>
-
-				<div class="formGroup">
-					<div class="inputTitle">
-						Administrasi Keuangan
-					</div>
-					<div>
-						@php
-							$ya = "Sudah teratur ( terpisah dengan keuangan pribadi / keluarga )";
-							$tidak = "Belum teratur ( masih bercampur dengan keuangan pribadi / keluarga )";
-							$chkYa = '';
-							$chkTidak = 'checked';
-							if(isset($user->data->adm_keuangan) && $ya == $user->data->adm_keuangan){$chkYa = 'checked';$chkTidak = '';}
-						@endphp
-						
-
-						<div>
-							<div class="left">
-								<input {{$chkYa}} type="radio" name="adm_keuangan" value="{{$ya}}">
-							</div>
-							<div class="pilih answers">{{$ya}}</div>
-						</div>
-						<div style="clear: both;"></div>
-						<div>
-							<div class="left">
-								<input {{$chkTidak}} type="radio" name="adm_keuangan" value="{{$tidak}}">
-							</div>
-							<div class="pilih answers">{{$tidak}}</div>
-							<div style="clear: both;"></div>
-						</div>
-
-					</div>
-				</div>
-
-				<div class="formGroup">
-					<div class="inputTitle">
-						Akses perbankan
-					</div>
-					<div>
-						@php
-							$ya = "Sudah ada akses ke perbankan / sudah pernah melakukan pinjaman ( berupa apapun bentuknya ) ke bank";
-							$tidak = "Belum ada akses ke perbankan / belum pernah melakukan pinjaman ( berupa apapun bentuknya ) ke bank";
-							$chkYa = '';
-							$chkTidak = 'checked';
-							if(isset($user->data->akses_perbankan) && $ya == $user->data->akses_perbankan){$chkYa = 'checked';$chkTidak = '';}
-						@endphp
-
-						
-						<div>
-							<div class="left">
-								<input {{$chkYa}} type="radio" name="akses_perbankan" value="{{$ya}}">
-							</div>
-							<div class="pilih answers">{{$ya}}</div>
-						</div>
-						<div style="clear: both;"></div>
-						<div>
-							<div class="left">
-								<input {{$chkTidak}} type="radio" name="akses_perbankan" value="{{$tidak}}">
-							</div>
-							<div class="pilih answers">{{$tidak}}</div>
-							<div style="clear: both;"></div>
-						</div>
-					</div>
-				</div>
+				
 				</div>
 				<button type="sumbit" class="submitUserSet button blue">Simpan</button>
 			</form>
 		</div>
 	</div>
 </section>
+
+<script type="text/javascript">
+	var radios = document.forms["form"].elements["type_user"];
+	var pengusaha = document.getElementById('form-pengusaha');
+	for(radio in radios) {
+		radios[radio].onclick = function() {
+	        if('tidak' == this.value){pengusaha.className += ' hidden';}else{pengusaha.classList.remove("hidden");}
+	    }
+	}
+
+	document.querySelector('#form').addEventListener('submit', function(e) {
+	    e.preventDefault();
+	    var fp = document.querySelector('#form-pengusaha');
+	    if( -1 !== fp.className.indexOf('hidden') )
+	    {
+	    	fp.innerHTML = '';
+	    }
+	    this.submit();
+	});
+</script>
+
 @endsection

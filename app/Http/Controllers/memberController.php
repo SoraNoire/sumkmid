@@ -103,14 +103,23 @@ class memberController extends Controller
 			'email' => $user->data->email,
 			'avatar'=> $path
 		];
-
         if($user && $user->success){
             $user = $user->data;            
         }else{
             $user = app()->OAuth->auth();
         }
 		if(app()->OAuth::meUpdate($data)){
-			return $user->foto_profil;
+            $user = app()->OAuth->Auth(app()->OAuth->Auth()->token);
+            if ($user && $user->success)
+            {
+                $user = $user->data;
+                if($user->foto_profil){
+                    Users::where('id',app()->OAuth::Auth()->id)->update(['avatar'=>$user->foto_profil]);
+                }
+                return $user->foto_profil;
+            }
+            return false;
+			
 		}else{
 			return 'fail';
 		}
@@ -323,7 +332,7 @@ class memberController extends Controller
             $typeUser = ( 'ya' == $request->input('type_user') ) ? 'umkm' : 'perorangan';
             self::add_or_update_meta('type_user',$typeUser,$id);
             // delete umkm data if any
-            UserMeta::whereIn('meta_key',['nama_usaha','jenis_usaha','tahun_berdiri','omzet'])
+            UserMeta::whereIn('meta_key',['nama_usaha','usaha_tetap','kelengkapan_dokumen','tempat_usaha','adm_keuangan','akses_perbankan','info_usaha','jenis_usaha','tahun_berdiri','omzet'])
                       ->where('user_id',app()->OAuth::Auth()->id)->delete();
         }
 
@@ -358,7 +367,7 @@ class memberController extends Controller
 	            'tahun_berdiri.required'    => 'Tahun Berdiri Wajib di Isi',
 	            'tahun_berdiri.numeric'    => 'Tahun yang Anda Masukan Salah (Wajib Angka)'
         	]);
-            self::add_or_update_meta('tahun_berdiri',$request->input('tahun_berdiri'),$id);
+            self::add_or_update_meta('tahun_berdiri',( ($request->input('tahun_berdiri')>date('Y'))?date('Y'):$request->input('tahun_berdiri') ),$id);
         }
 
         // save 'omzet'

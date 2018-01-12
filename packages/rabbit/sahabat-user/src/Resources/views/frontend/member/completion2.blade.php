@@ -56,7 +56,7 @@
 						<div class="left"><input {{$chkTdk}} type="radio" name="type_user" value="tidak"></div><div class="pilih left">Tidak</div>
 					</div>
 					<div style="clear: both;"></div>
-			</div>
+				</div>
 
 				<div id="form-pengusaha" class="{{$frmUClass}}">
 				
@@ -87,7 +87,7 @@
 						<div class="tahunBerdiri">
 							<div>Tahun Berdiri</div>
 							<div class="inputText">
-							<input type="text" name="tahun_berdiri" value="{{$user->data->tahun_berdiri ?? old('tahun_berdiri') ??''}}" placeholder="2013">
+							<input  max="{{date('Y')}}" type="number" name="tahun_berdiri" value="{{$user->data->tahun_berdiri ?? old('tahun_berdiri') ??''}}" placeholder="2013">
 							</div>
 						</div>
 						<div style="clear: both;"></div>

@@ -140,31 +140,33 @@ class SahabatUserController extends Controller
         {
             self::$step = 2;
 
-            if( 'perorangan' == $user->role)
+            if( in_array($user->role, ['perorangan','umkm']) )
             {
-                if( isset($user->data->foto_ktp) )
+                if( 'perorangan' == $user->role)
                 {
-                    self::$step = 4;
-                }
-            }
-            else
-            {
-                if( 
-                    isset($user->data->foto_ktp) && isset($user->data->nama_usaha) && isset($user->data->jenis_usaha)
-                    && isset($user->data->tahun_berdiri) && isset($user->data->info_usaha) && isset($user->data->omzet)
-                )
-                {
-                    self::$step = 3;
-
-                    if( 
-                        isset($user->data->usaha_tetap) && isset($user->data->kelengkapan_dokumen) && isset($user->data->tempat_usaha) && isset($user->data->adm_keuangan) && isset($user->data->akses_perbankan)  
-                    )
+                    if( isset($user->data->foto_ktp) )
                     {
                         self::$step = 4;
                     }
-                }   
-            }
+                }
+                else
+                {
+                    if( 
+                        isset($user->data->foto_ktp) && isset($user->data->nama_usaha) && isset($user->data->jenis_usaha)
+                        && isset($user->data->tahun_berdiri) && isset($user->data->info_usaha) && isset($user->data->omzet)
+                    )
+                    {
+                        self::$step = 3;
 
+                        if( 
+                            isset($user->data->usaha_tetap) && isset($user->data->kelengkapan_dokumen) && isset($user->data->tempat_usaha) && isset($user->data->adm_keuangan) && isset($user->data->akses_perbankan)  
+                        )
+                        {
+                            self::$step = 4;
+                        }
+                    }   
+                }
+            }
 
             if( 4 == self::$step && isset($user->data->kuisioner_mengapa) && isset($user->data->kuisioner_harapan ) && isset($user->data->tos_terima) && 1 == $user->data->tos_terima  )
             {
@@ -329,7 +331,8 @@ class SahabatUserController extends Controller
                     self::add_or_update_meta('jenis_usaha',$request->input('jenis_usaha'),$id);
 
                     // save 'tahun_berdiri'
-                    self::add_or_update_meta('tahun_berdiri',$request->input('tahun_berdiri'),$id);
+                    // self::add_or_update_meta('tahun_berdiri',$request->input('tahun_berdiri'),$id);
+                    self::add_or_update_meta('tahun_berdiri',( ($request->input('tahun_berdiri')>date('Y'))?date('Y'):$request->input('tahun_berdiri') ),$id);
 
                     // save 'omzet'
                     self::add_or_update_meta('omzet',$request->input('omzet'),$id);
@@ -340,7 +343,6 @@ class SahabatUserController extends Controller
                         'foto_ktp.required'    => 'Foto KTP Wajib di Isi',
                         'foto_ktp.image'    => 'Foto KTP Salah'
                     ]);
-                    self::add_or_update_meta('type_user',$typeUser,$id);
                     // delete umkm data if any
                     UserMeta::whereIn('meta_key',['nama_usaha','jenis_usaha','tahun_berdiri','omzet'])
                               ->where('user_id',app()->OAuth::Auth()->id)->delete();         
@@ -361,6 +363,7 @@ class SahabatUserController extends Controller
                 $img->save( storage_path( $path . $filename) , 75);
 
                 self::add_or_update_meta('foto_ktp',$filename,$id);
+                self::add_or_update_meta('type_user',$typeUser,$id);
             }
             
             // save 'info_usaha'
@@ -602,6 +605,7 @@ class SahabatUserController extends Controller
                 'kota' => DB::table('kota')->get(),
                 'provinsi' => DB::table('provinsi')->get()
         ];
+        
         if(!$user || !isset($meta->type_user))
         {
             session()->flash('message', "User $user->name belum melengkapi data");
@@ -728,7 +732,7 @@ class SahabatUserController extends Controller
         // save 'type_user'
         if($request->input('type_user'))
         {
-            $typeUser = ( 'ya' == $request->input('type_user') ) ? 'umkm' : 'perorangan';
+            $typeUser   = ( 'ya' == $request->input('type_user') ) ? 'umkm' : 'perorangan';
             self::add_or_update_meta('type_user',$typeUser,$id);
             // delete umkm data if any
             UserMeta::whereIn('meta_key',['nama_usaha','jenis_usaha','tahun_berdiri','omzet'])
@@ -766,7 +770,7 @@ class SahabatUserController extends Controller
                 'tahun_berdiri.required'    => 'Tahun Berdiri Wajib di Isi',
                 'tahun_berdiri.numeric'    => 'Tahun yang Anda Masukan Salah (Wajib Angka)'
             ]);
-            self::add_or_update_meta('tahun_berdiri',$request->input('tahun_berdiri'),$id);
+            self::add_or_update_meta('tahun_berdiri',( ($request->input('tahun_berdiri')>date('Y'))?date('Y'):$request->input('tahun_berdiri') ),$id);
         }
 
         // save 'omzet'
@@ -832,8 +836,7 @@ class SahabatUserController extends Controller
             //         $info[$key] = $value;
             //     }
             //   }
-              // dd($request->input('info'));
-              self::add_or_update_meta('info_usaha',json_encode($request->input('info')),$id);
+              self::add_or_update_meta('info_usaha',json_encode($request->input('info_usaha')),$id);
             // }
         // }
 
@@ -907,7 +910,8 @@ class SahabatUserController extends Controller
 
         if($id)
         {
-            return back();
+
+            return redirect(route('panel.user__edit__detail',$id))->send();
         }
         return redirect('/')->send();
     }

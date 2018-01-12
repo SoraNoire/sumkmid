@@ -51,18 +51,7 @@
 				@endif
 				<!--//with error <span class="tootTip">alamat email tidak valid</span> -->
 				<div class="inputText">
-					<input type="email" name="email" id="" value="{{$var['user']->email}}">
-				</div>
-			</div>
-			<div class="formGroup {{ (session('warnName') == 'nomorTelepon') ? 'withError' : '' }}">
-				<div class="inputTitle">
-					Nomor Telepon
-				</div>
-				@if(session('warnName') == 'nomorTelepon')
-					<span class="tootTip">{{session('warnMsg')}}</span>
-				@endif
-				<div class="inputText">
-					<input type="text" name="nomorTelepon" id="" value="{{$var['user']->phone_number}}">
+					<input type="email" name="email" value="{{$var['user']->email}}">
 				</div>
 			</div>
 			<h5 class="formSprt">Rubah Sandi</h5>
@@ -74,7 +63,7 @@
 					<span class="tootTip">{{session('warnMsg')}}</span>
 				@endif
 				<div class="inputText">
-					<input type="password" name="old_password" id="">
+					<input type="password" name="old_password">
 				</div>
 			</div>
 			<div class="formGroup {{ (session('warnName') == 'newPass') ? 'withError' : '' }}">
@@ -85,7 +74,7 @@
 					<span class="tootTip">{{session('warnMsg')}}</span>
 				@endif
 				<div class="inputText">
-					<input type="password" name="new_password" id="">
+					<input type="password" name="new_password" >
 				</div>
 			</div>
 			<div class="formGroup {{ (session('warnName') == 'password_confirmation') ? 'withError' : '' }}">
@@ -96,7 +85,7 @@
 					<span class="tootTip">{{session('warnMsg')}}</span>
 				@endif
 				<div class="inputText">
-					<input type="password" name="password_confirmation" id="">
+					<input type="password" name="password_confirmation">
 				</div>
 			</div>
 			<button type="sumbit" class="submitUserSet button blue">Kirim</button>

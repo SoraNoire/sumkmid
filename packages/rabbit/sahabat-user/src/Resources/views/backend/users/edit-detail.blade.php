@@ -9,7 +9,14 @@
 			<div class="closeAlert">x</div>
 		</div>
 	@endif
-		
+	@if( Session::has('message') )
+		<div class="col-sm-12 alert alert-success">
+			{!! session('message') !!}
+		</div>
+	@endif
+		<div class="card-header" data-background-color="green">
+	        <h3 class="title">Edit User</h3>
+	    </div>
 		<div class="rightForm "">
 			<form action="{{route('panel.user__update',$id)}}" method="post" enctype="multipart/form-data">
 			{{ csrf_field() }}
@@ -147,7 +154,7 @@
 						<div class="tahunBerdiri">
 							<div class="inputTitle">Tahun Berdiri</div>
 							<div class="inputText">
-							<input type="text" name="tahun_berdiri" value="{{$user->data->tahun_berdiri??''}}" placeholder="2013">
+							<input type="number" max="{{date('Y')}}" name="tahun_berdiri" value="{{$user->data->tahun_berdiri??''}}" placeholder="2013">
 							</div>
 						</div>
 						<div style="clear: both;"></div>
@@ -157,60 +164,47 @@
 						<div class="infoUsaha inputTitle">
 							Informasi Usaha
 						</div> 
-						<div id="info_usaha">
-
-							@php
-								$info_usaha = false;
-								if( isset($user->data->info_usaha) ){
-									$info_usaha = $user->data->info_usaha;
-								}
-								$i = 1;
-							@endphp
-
-							@if( $info_usaha )
-								@foreach($info_usaha as $key => $iu)
-									<div class="info_usaha__item_parent">
-										<div class="info_usaha__item">
-
-											<select  onchange="triggerInfoName(this)" class="info_usaha__select" id="select-{{$i}}" name="informasi_usaha[{{$i}}]">
-												<option {{('website'==$key)?'selected':''}} value="website" > Website</option>
-												<option {{('facebook'==$key)?'selected':''}} value="facebook" > Facebook</option>
-												<option {{('gplus'==$key)?'selected':''}} value="gplus" > Google+</option>
-												<option {{('instagram'==$key)?'selected':''}} value="instagram" > Instagram</option>
-												<option {{('twitter'==$key)?'selected':''}} value="twitter" > Twitter</option>
-												<option {{('email'==$key)?'selected':''}} value="email" > Email</option>
-												<option {{('telepon'==$key)?'selected':''}} value="telepon" > Telepon</option>
-											</select>
+						<div id="info_usaha" class="inputText">
+							<div class="addInfoWrap">
+								<button type="button" class="btn btn-primary addInfoTrigger"><i class="fa fa-plus" aria-hidden="true"></i> Tambah Informasi Usaha</button>
+								<ul class="infoOption">
+									<li id="addInfoWebsite" class="addInfo infoLink {{ (isset(old('info_usaha')['Website']) ? 'hidden' : (isset($user->data->info_usaha->Website) ? 'hidden' : '')) }}">Website</li>
+									<li id="addInfoEmail" class="addInfo infoEmail {{ (isset(old('info_usaha')['Email']) ? 'hidden' : (isset($user->data->info_usaha->Email) ? 'hidden' : '')) }}">Email</li>
+									<li id="addInfoTelepon" class="addInfo infoPhone {{ (isset(old('info_usaha')['Telepon']) ? 'hidden' : (isset($user->data->info_usaha->Telepon) ? 'hidden' : '')) }}">Telepon</li>
+									<li id="addInfoFacebook" class="addInfo infoLink {{ (isset(old('info_usaha')['Facebook']) ? 'hidden' : (isset($user->data->info_usaha->Facebook) ? 'hidden' : '')) }}">Facebook</li>
+									<li id="addInfoInstagram" class="addInfo infoLink {{ (isset(old('info_usaha')['Instagram']) ? 'hidden' : (isset($user->data->info_usaha->Instagram) ? 'hidden' : '')) }}">Instagram</li>
+									<li id="addInfoGooglePlus" class="addInfo infoLink {{ (isset(old('info_usaha')['GooglePlus']) ? 'hidden' : (isset($user->data->info_usaha->GooglePlus) ? 'hidden' : '')) }}">Google Plus</li>
+									<li id="addInfoTwitter" class="addInfo infoLink {{ (isset(old('info_usaha')['Twitter']) ? 'hidden' : (isset($user->data->info_usaha->Twitter) ? 'hidden' : '')) }}">Twitter</li>
+								</ul>	
+							</div>
+							<div class="addedInfo">
+								@if(old('info_usaha') || isset($user->data->info_usaha))
+									@if(isset($user->data->info_usaha))
+										@php
+											$goLoop = $user->data->info_usaha;
+											$check = 'done';
+										@endphp
+									@else
+										@php
+											$goLoop = old('info_usaha');
+											$check = 'done';
+										@endphp
+									@endif
+									@foreach($goLoop as $key => $info)
+										<div class="formGroup">
+											<div class="inputTitle">
+												{{ ($key == 'GooglePlus' ? 'Google Plus' : $key) }} :
+											</div>
+											<div class="inputText" style="float: left;">
+												<input type="text" name="info_usaha[{{ $key }}]"  value="{{ $info }}" placeholder="{{ $key }} . . .">
+											</div>
+											<div id="close{{ $key }}" class="close"><i class="fa fa-times" aria-hidden="true"></i></div>
+											<div class="clear"></div>
 										</div>
-										<div class="info_usaha__item inputText info_usaha__clear">
-											<input id="info-{{$i}}" value="{{$iu}}" type="text" name="info[{{$key}}]">
-										</div>
-										<div class="clear"></div>
-									</div>
-									@php $i++ @endphp
-								@endforeach
-							@else
-								<div class="info_usaha__item_parent">
-									<div class="info_usaha__item">
-										<span id="delete_info" onclick="deleteInfo(this)" title="Tambah info usaha">-</span>
-										<select  onchange="triggerInfoName(this)" class="info_usaha__select" id="select-1" name="informasi_usaha[1]">
-											<option value=NULL>Pilih</option>
-											<option value="website" > Website</option>
-											<option value="facebook" > Facebook</option>
-											<option value="gplus" > Google+</option>
-											<option value="instagram" > Instagram</option>
-											<option value="twitter" > Twitter</option>
-											<option value="email" > Email</option>
-											<option value="telepon" > Telepon</option>
-										</select>
-									</div>
-									<div class="info_usaha__item inputText info_usaha__clear">
-										<input id="info-1" type="text" name="info[null]">
-									</div>
-									<div class="clear"></div>
-								</div>
-							@endif
-
+									@endforeach
+								@endif
+								<input type="hidden" class="info_usaha_validate" name="info_usaha_validate" value="{{ $check ?? '' }}">
+							</div>
 						</div>
 					</div>
 
@@ -417,7 +411,7 @@
 		max-width: 64%;
 		float:left;
 	}
-	input[type=text],textarea,select {
+	input[type=text],input[type=url],input[type=email],input[type=tel],textarea,select {
 	    padding: 5px 11px;
 	    border-radius: 3px;
 	    border: .2rem solid #cfc4c4;
@@ -455,6 +449,34 @@
 	}
 	.formGroup{
 		margin: 4px 0;
+	}
+	.close {
+	    float: left;
+	    font-size: 21px;
+	    font-weight: bold;
+	    margin-top: 5px;
+	    line-height: 1;
+	    color: #000;
+	    text-shadow: 0 1px 0 #fff;
+	    opacity: 0.2;
+	    filter: alpha(opacity=20);
+	}
+	.infoOption{
+		display: none;
+	}
+	#info_usaha ul{
+		padding: 2px 12px;
+		border-radius: 18px;
+		width: 210px;
+	}
+	#info_usaha ul li{
+		list-style-type: none;
+		font-weight: 600;
+		cursor: pointer;
+		padding: 5px 15px;
+		background-color: #337ab7;
+		color: #fff;
+		border-bottom:1px solid #cbc0c0;
 	}
 </style>
 <script type="text/javascript">
