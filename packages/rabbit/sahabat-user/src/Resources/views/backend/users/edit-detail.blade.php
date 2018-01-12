@@ -15,7 +15,6 @@
 			<form action="{{route('panel.user__update',$id)}}" method="post" enctype="multipart/form-data">
 			{{ csrf_field() }}
 			@if ($errors->any())
-				{{ dd($errors) }}
 			    <div class="alert alert-danger">
 			        <ul>
 			            @foreach ($errors->all() as $error)
@@ -233,13 +232,16 @@
 						</div>
 					</div>
 				</div>
-				@php
-				$path = storage_path('cr/ktp/'.$user->data->foto_ktp);
-				$ktp = file_get_contents($path);
-				$type = pathinfo($path, PATHINFO_EXTENSION);
-				$data = file_get_contents($path);
-				$base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
-				@endphp
+				@if($user->data->foto_ktp)
+					@php
+					$path = storage_path('cr/ktp/'.$user->data->foto_ktp);
+					$ktp = file_get_contents($path);
+					$type = pathinfo($path, PATHINFO_EXTENSION);
+					$data = file_get_contents($path);
+					$base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+					@endphp
+					<input type="hidden" name="foto_ktp_db" value="{{$user->data->foto_ktp}}">
+				@endif
 				<img src="{{$base64}}" height="150" width="300">
 				<div>KTP</div>
 				<input type="file" name="foto_ktp">
