@@ -579,6 +579,23 @@ class SahabatUserController extends Controller
 
     public function viewUserDetail($id)
     {
+
+        $user = Users::select(['master_id'])->where('id',$id)->first();
+        if(!$user)
+        {
+            return redirect(route('SHB.dashboard'))->send();
+        }
+        $masterId = $user->master_id;
+
+        $user = app()->OAuth->user($masterId);
+
+        if(!$user || !isset($user->id))
+        {
+            // possible deleted from oauth
+            Users::where('master_id',$masterId)->delete();
+            return back();
+        }
+
         $user = Users::where('id',$id)->first();
         $meta = self::meta_user($id);
         $alamat = [
