@@ -4,7 +4,7 @@
 <div class="col-md-12">
 	<div class="card">
 	    <div class="card-header" data-background-color="green">
-	        <h3 class="title">Edit Module</h3>
+	        <h3 class="title">Edit User</h3>
 	    </div>
 	    <div class="card-content">
 

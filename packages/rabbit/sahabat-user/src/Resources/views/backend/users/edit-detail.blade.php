@@ -9,7 +9,9 @@
 			<div class="closeAlert">x</div>
 		</div>
 	@endif
-		
+		<div class="card-header" data-background-color="green">
+	        <h3 class="title">Edit User</h3>
+	    </div>
 		<div class="rightForm "">
 			<form action="{{route('panel.user__update',$id)}}" method="post" enctype="multipart/form-data">
 			{{ csrf_field() }}

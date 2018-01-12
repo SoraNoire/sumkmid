@@ -4,7 +4,7 @@
 <div class="col-md-12">
 	<div class="card">
 	    <div class="card-header" data-background-color="green">
-	        <h3 class="title">Module Management</h3>
+	        <h3 class="title">User Management</h3>
 	    </div>
 	    <div class="card-content">
 
