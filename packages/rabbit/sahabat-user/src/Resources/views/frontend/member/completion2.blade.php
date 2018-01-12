@@ -56,7 +56,7 @@
 						<div class="left"><input {{$chkTdk}} type="radio" name="type_user" value="tidak"></div><div class="pilih left">Tidak</div>
 					</div>
 					<div style="clear: both;"></div>
-			</div>
+				</div>
 
 				<div id="form-pengusaha" class="{{$frmUClass}}">
 				

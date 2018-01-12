@@ -271,10 +271,11 @@ $('.addInfo').on('click', function(){
 				<div class="inputTitle">
 					`+content+` :
 				</div>
-				<div class="inputText">
+				<div class="inputText" style="float: left;">
 					<input type="`+type+`" `+numonly+` name="info_usaha[`+content.replace(" ", "")+`]"  value="" placeholder="`+content+` . . .">
 				</div>
 				<div id="close`+content+`" class="close"><i class="fa fa-times" aria-hidden="true"></i></div>
+				<div class="clear"></div>
 			</div>
 		`);
 	$('.infoOption').hide();

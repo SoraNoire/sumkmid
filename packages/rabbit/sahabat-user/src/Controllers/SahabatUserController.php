@@ -835,8 +835,7 @@ class SahabatUserController extends Controller
             //         $info[$key] = $value;
             //     }
             //   }
-              // dd($request->input('info'));
-              self::add_or_update_meta('info_usaha',json_encode($request->input('info')),$id);
+              self::add_or_update_meta('info_usaha',json_encode($request->input('info_usaha')),$id);
             // }
         // }
 
@@ -910,7 +909,8 @@ class SahabatUserController extends Controller
 
         if($id)
         {
-            return back();
+
+            return redirect(route('panel.user__edit__detail',$id))->send();
         }
         return redirect('/')->send();
     }
