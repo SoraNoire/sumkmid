@@ -78,7 +78,7 @@
                                 </li>
                                 @else
 	                            <li class="loginButton">
-	                                <a href="{{ route('OA.register') }}" class="button">
+	                                <a href="https://goo.gl/forms/iTe48cYNuizOwnu42" class="button">
 	                                    Daftar
 	                                </a>
                                 </li>
