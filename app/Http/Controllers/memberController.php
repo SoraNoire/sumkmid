@@ -109,7 +109,7 @@ class memberController extends Controller
             $user = app()->OAuth->auth();
         }
 		if(app()->OAuth::meUpdate($data)){
-            $user = app()->OAuth->Auth(app()->OAuth->Auth()->token);
+            // $user = app()->OAuth->Auth(app()->OAuth->Auth()->token);
             if($user->foto_profil){
                 Users::where('id',app()->OAuth::Auth()->id)->update(['avatar'=>$user->foto_profil]);
             }
