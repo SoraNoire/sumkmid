@@ -16,23 +16,23 @@
 	        <form method="post" action="{{ route('panel.user__update',$user->id) }}" accept-charset="UTF-8">
 	        <input type="hidden" name="_token" value="{{ csrf_token() }}">
 	            <div class="row">
-	                	<div class="col-md-6 col-sm-12">
+	                	<div class="col-md-8 col-sm-12">
 			<div class="form-group label-floating">
 				<label class="control-label">Nama Lengkap</label>
 				<input type="text" class="form-control" name="name" disabled value="{{$user->name??''}}" />
 			</div>
 			<div class="formGroup ttl">
 				<div class="tl">
-					<div>
+					<div  class="inputTitle">
 						Tempat Lahir
 					</div>
 					<div class="inputText">
-						<input name="kota_lahir" value="{{ $user->data->kota_lahir ?? '' }}" />
+						<input type="text" name="kota_lahir" value="{{ $user->data->kota_lahir ?? '' }}" />
 					</div>
 				</div>
 
 				<div class="tgll">
-					<div> Tanggal Lahir </div>
+					<div class="inputTitle"> Tanggal Lahir </div>
 						<select id="tahun_lahir" class="dropdown3" name="tahun_lahir">
 							<option>Tahun</option>
 							@for( $i=(date('Y'));$i>=(date('Y')-60);$i-- ) 
@@ -92,6 +92,7 @@
 							@endforeach
 						</select>
 					</div>
+					<div class="clear"></div>
 				</div>
 				<div class="formGroup">
 					<div class="inputTitle">
@@ -121,12 +122,12 @@
 						@endphp
 						<input type="hidden" name="foto_ktp_db" value="{{$user->data->foto_ktp}}">
 					@endif
-					<div>KTP</div>
+					<div class="inputTitle">KTP</div>
 					<img src="{{$base64}}" height="150" width="300">
 					<input type="file" name="foto_ktp">
 				</div>
 					
-				<button type="sumbit" class="submitUserSet button blue">Simpan</button>
+				<button type="sumbit" class="btn btn-success">Simpan</button>
 			</form>
 						</div>  
 	            </div>
@@ -135,9 +136,62 @@
 	</div>
 
 </div>
-<div class="col-sm-12">
-	
-</div>
+<style type="text/css">
+	#rightForm {
+		width: 100%;
+	}
+	.ttl{
+		
+	}	
+	.tl {
+		max-width: 35%;
+		float: left;
+		margin-right: 10px;
+	}
+	.tgll{
+		max-width: 60%;
+		float:left;
+	}
+	input[type=text],textarea,select {
+	    padding: 5px 11px;
+	    border-radius: 3px;
+	    border: .2rem solid #cfc4c4;
+	}
+	textarea{
+		min-width: 60%;
+	}
+	.left{
+		float: left;
+	}
+	.inputTitle{
+		font-weight: 700;
+	}
+	input[type="radio"] {
+	    padding: 4px 11px;
+	    margin: 7px;
+	    height: 19px;
+	    width: 16px;
+	}
+	.answers{
+		padding: 5px 0 0 0;
+	}
+	.pilihkotaprov > .inputText{
+		float: left;
+		max-width: 49%;
+		margin-right: 10px;
+	}
+	#info_usaha .info_usaha__item{
+		max-width: 49%;
+		float: left;
+		margin: 3px 12px 3px 0;
+	}
+	.clear{
+		clear: both;
+	}
+	.formGroup{
+		margin: 4px 0;
+	}
+</style>
 
 
 @endsection

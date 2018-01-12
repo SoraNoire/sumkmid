@@ -3,7 +3,6 @@
 @section('content')
 
 <section id="userSetting">
-	<div class="container">
 	@if(session('success') == 'true')
 		<div class="formAlert alertSuccess">
 			<span>Profil berhasil disimpan</span>
@@ -25,16 +24,16 @@
 			@endif
 				<div class="formGroup ttl">
 					<div class="tl">
-						<div>
+						<div class="inputTitle">
 							Tempat Lahir
 						</div>
 						<div class="inputText">
-							<input name="kota_lahir" value="{{ $user->data->kota_lahir ?? '' }}" />
+							<input type="text" name="kota_lahir" value="{{ $user->data->kota_lahir ?? '' }}" />
 						</div>
 					</div>
 
 					<div class="tgll">
-						<div> Tanggal Lahir </div>
+						<div class="inputTitle"> Tanggal Lahir </div>
 							<select id="tahun_lahir" class="dropdown3" name="tahun_lahir">
 								<option value="">Tahun</option>
 								@for( $i=(date('Y'));$i>=(date('Y')-60);$i-- ) 
@@ -93,6 +92,7 @@
 							@endforeach
 						</select>
 					</div>
+					<div style="clear: both;"></div>
 				</div>
 				<div class="formGroup">
 					<div class="inputTitle">
@@ -108,7 +108,7 @@
 						No Telp
 					</div>
 					<div class="inputText">
-						<input type="text" name="telepon"  value="{{$user->data->telepon ?? ''}}" placeholder="+62..">
+						<input style="min-width: 60%;" type="text" name="telepon"  value="{{$user->data->telepon ?? ''}}" placeholder="+62..">
 					</div>
 				</div>
 				<div class="formGroup pilih_type radioAskUmkm">
@@ -127,7 +127,7 @@
 							Nama Usaha
 						</div>
 						<div class="inputText">
-							<input type="text" name="nama_usaha"  value="{{$user->data->nama_usaha ?? ''}}" placeholder="Nama Usaha">
+							<input style="min-width: 60%;" type="text" name="nama_usaha"  value="{{$user->data->nama_usaha ?? ''}}" placeholder="Nama Usaha">
 						</div>
 					</div>
 
@@ -145,25 +145,24 @@
 							</select>
 						</div>
 						<div class="tahunBerdiri">
-							<div>Tahun Berdiri</div>
+							<div class="inputTitle">Tahun Berdiri</div>
 							<div class="inputText">
-							<input type="text" name="lama_berdiri" value="{{$user->data->lama_berdiri??''}}" placeholder="2013">
+							<input type="text" name="tahun_berdiri" value="{{$user->data->tahun_berdiri??''}}" placeholder="2013">
 							</div>
 						</div>
 						<div style="clear: both;"></div>
 					</div>
 
 					<div class="formGroup">
-						<div class="infoUsaha">
+						<div class="infoUsaha inputTitle">
 							Informasi Usaha
-							<span id="add_info" title="Tambah info usaha">+</span>
 						</div> 
 						<div id="info_usaha">
 
 							@php
 								$info_usaha = false;
-								if( isset($user->data->informasi_usaha) ){
-									$info_usaha = json_decode($user->data->informasi_usaha);
+								if( isset($user->data->info_usaha) ){
+									$info_usaha = $user->data->info_usaha;
 								}
 								$i = 1;
 							@endphp
@@ -172,8 +171,6 @@
 								@foreach($info_usaha as $key => $iu)
 									<div class="info_usaha__item_parent">
 										<div class="info_usaha__item">
-
-											<span id="delete_info" onclick="deleteInfo(this)" title="Tambah info usaha">-</span>
 
 											<select  onchange="triggerInfoName(this)" class="info_usaha__select" id="select-{{$i}}" name="informasi_usaha[{{$i}}]">
 												<option {{('website'==$key)?'selected':''}} value="website" > Website</option>
@@ -243,7 +240,7 @@
 					<input type="hidden" name="foto_ktp_db" value="{{$user->data->foto_ktp}}">
 				@endif
 				<img src="{{$base64}}" height="150" width="300">
-				<div>KTP</div>
+				<div class="inputTitle">KTP</div>
 				<input type="file" name="foto_ktp">
 
 				<div style="margin-top: 20px;" class="completion3">
@@ -400,24 +397,64 @@
 					</div>
 				</div>
 				</div>
-				<button type="sumbit" class="submitUserSet button blue">Simpan</button>
+				<button class="btn btn-success" type="sumbit" class="submitUserSet button blue">Simpan</button>
 			</form>
 		</div>
-	</div>
 </section>
 <style type="text/css">
-	input {
-	    width: calc(100% - 30px);
-	    height: 35px;
-	    border-radius: 5px;
-	    border: solid 1px #404040;
-	    outline: none;
-	    padding: 0px 14px;
+	#rightForm {
+		width: 100%;
 	}
-	ttl .tl {
-	    display: inline-block;
-	    float: left;
-	    width: 40%;
+	.ttl{
+		
+	}	
+	.tl {
+		max-width: 35%;
+		float: left;
+		margin-right: 10px;
+	}
+	.tgll{
+		max-width: 64%;
+		float:left;
+	}
+	input[type=text],textarea,select {
+	    padding: 5px 11px;
+	    border-radius: 3px;
+	    border: .2rem solid #cfc4c4;
+	}
+	textarea{
+		min-width: 60%;
+	}
+	.left{
+		float: left;
+	}
+	.inputTitle{
+		font-weight: 700;
+	}
+	input[type="radio"] {
+	    padding: 4px 11px;
+	    margin: 7px;
+	    height: 19px;
+	    width: 16px;
+	}
+	.answers{
+		padding: 5px 0 0 0;
+	}
+	.pilihkotaprov > .inputText{
+		float: left;
+		max-width: 49%;
+		margin-right: 10px;
+	}
+	#info_usaha .info_usaha__item{
+		max-width: 49%;
+		float: left;
+		margin: 3px 12px 3px 0;
+	}
+	.clear{
+		clear: both;
+	}
+	.formGroup{
+		margin: 4px 0;
 	}
 </style>
 <script type="text/javascript">

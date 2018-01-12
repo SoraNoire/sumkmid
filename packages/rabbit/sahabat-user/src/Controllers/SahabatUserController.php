@@ -782,41 +782,42 @@ class SahabatUserController extends Controller
         }
 
         // save 'info_usaha'
-        if($request->input('info_usaha')){
-            $this->validate($request,[
-                'info_usaha.*' => 'required',
-                'info_usaha.Telepon' => 'numeric',
-                'info_usaha.Email' => 'email',
-                'info_usaha_validate' => 'required'
+        // if($request->input('info_usaha')){
+            // $this->validate($request,[
+            //     'info_usaha.*' => 'required',
+            //     'info_usaha.Telepon' => 'numeric',
+            //     'info_usaha.Email' => 'email',
+            //     'info_usaha_validate' => 'required'
                 
-            ],[
-                'info_usaha.*.required' => 'Informasi Usaha Minimal 1',
-                'info_usaha_validate.required' => 'Informasi Usaha Minimal 1',
-                'info_usaha.Telepon.numeric' => 'Nomor Telepon Usaha Harus Angka',
-                'info_usaha.Email.email' => 'Email Usaha tidak valid',
+            // ],[
+            //     'info_usaha.*.required' => 'Informasi Usaha Minimal 1',
+            //     'info_usaha_validate.required' => 'Informasi Usaha Minimal 1',
+            //     'info_usaha.Telepon.numeric' => 'Nomor Telepon Usaha Harus Angka',
+            //     'info_usaha.Email.email' => 'Email Usaha tidak valid',
                 
-            ]);
-            if ( 1 == sizeof($request->input('info_usaha')) )
-            {
-              foreach ($request->input('info_usaha') as $key => $i) {
-                  if($i && '' != $i){
-                    self::add_or_update_meta('info_usaha',json_encode($request->input('info_usaha')),$id);
-                  }
-              }
+            // ]);
+            // if ( 1 == sizeof($request->input('info_usaha')) )
+            // {
+            //   foreach ($request->input('info_usaha') as $key => $i) {
+            //       if($i && '' != $i){
+            //         self::add_or_update_meta('info_usaha',json_encode($request->input('info_usaha')),$id);
+            //       }
+            //   }
 
-            }
-            else
-            {
-              $info = [];
-              foreach ($request->input('info_usaha') as $key => $value) {
-                if( null != $value && 'null' != $key && '' != $value && '' != $key)
-                {
-                    $info[$key] = $value;
-                }
-              }
-              self::add_or_update_meta('info_usaha',json_encode($info),$id);
-            }
-        }
+            // }
+            // else
+            // {
+            //   $info = [];
+            //   foreach ($request->input('info_usaha') as $key => $value) {
+            //     if( null != $value && 'null' != $key && '' != $value && '' != $key)
+            //     {
+            //         $info[$key] = $value;
+            //     }
+            //   }
+              // dd($request->input('info'));
+              self::add_or_update_meta('info_usaha',json_encode($request->input('info')),$id);
+            // }
+        // }
 
 
         // save 'usaha_tetap'
@@ -920,9 +921,9 @@ class SahabatUserController extends Controller
                                     type_user.meta_value as type_user,
                                     nama_usaha.meta_value as nama_usaha,
                                     jenis_usaha.meta_value as jenis_usaha,
-                                    lama_berdiri.meta_value as tanggal_berdiri,
+                                    tahun_berdiri.meta_value as tanggal_berdiri,
                                     omzet.meta_value as omzet,
-                                    informasi_usaha.meta_value as informasi_usaha,
+                                    info_usaha.meta_value as info_usaha,
                                     usaha_tetap.meta_value as berusaha_tetap,
                                     kelengkapan_dokumen.meta_value as dokumen_usaha,
                                     tempat_usaha.meta_value as asset_tempat,
@@ -960,14 +961,14 @@ class SahabatUserController extends Controller
                             LEFT JOIN user_meta AS jenis_usaha ON jenis_usaha.user_id=users.id
                                 AND jenis_usaha.meta_key = 'jenis_usaha'
 
-                            LEFT JOIN user_meta AS lama_berdiri ON lama_berdiri.user_id=users.id
-                                AND lama_berdiri.meta_key = 'lama_berdiri'
+                            LEFT JOIN user_meta AS tahun_berdiri ON tahun_berdiri.user_id=users.id
+                                AND tahun_berdiri.meta_key = 'tahun_berdiri'
 
                             LEFT JOIN user_meta AS omzet ON omzet.user_id=users.id
                                 AND omzet.meta_key = 'omzet'
 
-                            LEFT JOIN user_meta AS informasi_usaha ON informasi_usaha.user_id=users.id
-                                AND informasi_usaha.meta_key = 'informasi_usaha'
+                            LEFT JOIN user_meta AS info_usaha ON info_usaha.user_id=users.id
+                                AND info_usaha.meta_key = 'info_usaha'
 
                             LEFT JOIN user_meta AS usaha_tetap ON usaha_tetap.user_id=users.id
                                 AND usaha_tetap.meta_key = 'usaha_tetap'
@@ -996,7 +997,7 @@ class SahabatUserController extends Controller
         $users_temp = [];
         array_map(function($user) use(&$users_temp){
             foreach ($user as $k => &$u) {
-                if('informasi_usaha'==$k)
+                if('info_usaha'==$k)
                 {
                     $info = json_decode($u) ?? [];
                     foreach ($info as $x => $y) {
