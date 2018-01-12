@@ -604,6 +604,7 @@ class SahabatUserController extends Controller
         ];
         if(!$user || !isset($meta->type_user))
         {
+            $request->session()->flash('message', 'User ini belum melengkapi data');
             return back();
         }
         $user->data = $meta;
