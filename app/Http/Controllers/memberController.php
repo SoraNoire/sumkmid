@@ -49,12 +49,29 @@ class memberController extends Controller
 	public function userSetting(){
         $var['page'] = "userSetting";
         
+        $userMeta = UserMeta::where('user_id',app()->OAuth::Auth()->id)->get();
+        $userData = [];
+        $user = app()->OAuth::$Auth;
+        $userMeta->map(
+            function($meta) use(&$userData){
+
+                if($meta->meta_key == 'info_usaha'){
+                    $meta->meta_value = json_decode($meta->meta_value);
+                }
+                $userData[$meta->meta_key] = $meta->meta_value;
+            }
+        );
         $user = app()->OAuth->Auth(app()->OAuth->Auth()->token);
         if($user && $user->success){
             $user = $user->data;            
         }else{
             $user = app()->OAuth->auth();
         }
+        if(sizeof($userData))
+        {
+            $user->data = $userData;    
+        }
+
         $var['user'] = $user;
 
 		return view('page.userSetting')->with(['var' => $var]);
