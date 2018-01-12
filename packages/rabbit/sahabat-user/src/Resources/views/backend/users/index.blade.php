@@ -9,7 +9,7 @@
 	    <div class="card-content">
 
 	    	@if( Session::has('message') )
-	    		<div class="col-sm-12 alert">
+	    		<div class="col-sm-12 alert alert-success">
 	    			{!! session('message') !!}
 	    		</div>
 	    	@endif
@@ -38,7 +38,7 @@
                             </td>
                             <td>
                                 @if( in_array($user->role,['visitor','Visitor']))
-                                <a href="{{route('panel.user__edit',$user->id)}}" class="btn btn-primary">Edit</a>
+                                <a href="{{route('panel.user__edit__detail',$user->id)}}" class="btn btn-primary">Edit</a>
                                 @endif
                                 @if('admin'!=$user->role)
                                 <a href="{{route('panel.user__delete',$user->id)}}" class="btn btn-danger">Delete</a>

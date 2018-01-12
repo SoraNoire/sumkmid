@@ -235,7 +235,18 @@
 						</div>
 					</div>
 				</div>
+				@if($user->data->foto_ktp)
+					@php
+					$path = storage_path('cr/ktp/'.$user->data->foto_ktp);
+					$ktp = file_get_contents($path);
+					$type = pathinfo($path, PATHINFO_EXTENSION);
+					$data = file_get_contents($path);
+					$base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+					@endphp
+					<input type="hidden" name="foto_ktp_db" value="{{$user->data->foto_ktp}}">
+				@endif
 				<div>KTP</div>
+				<img src="{{$base64}}" height="150" width="300">
 				<input type="file" name="foto_ktp">
 
 				<div style="margin-top: 20px;" class="completion3">
