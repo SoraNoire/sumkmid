@@ -107,7 +107,7 @@
                     </p>
                 </div>
                 <div class="col-4 contactItems">
-                    <h5>SEKRETARIAT SAHABAT UMKM</h5>
+                    <h5>Sekretariat Sahabat UMKM</h5>
                     <ul>
                         <li>
                             <i class="fa fa-map-marker" aria-hidden="true"></i>
