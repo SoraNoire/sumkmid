@@ -47,7 +47,7 @@
 						Tempat Lahir
 					</div>
 					<div class="inputText">
-						<input name="kota_lahir" value="{{ app()->OAuth::Auth()->data->kota_lahir ?? '' }}" />
+						<input name="kota_lahir" value="{{ app()->OAuth::Auth()->data->kota_lahir ?? old('kota_lahir') ?? '' }}" />
 					</div>
 				</div>
 
@@ -66,6 +66,8 @@
 							@endphp
 								@if( $i == explode('/',(app()->OAuth::Auth()->data->tanggal_lahir ?? '0/0/0'))[2] )
 									<option selected value="{{$io}}" >{{$io}}</option>
+								@elseif(old('tanggal_lahir') == $io)
+									<option selected value="{{$io}}" >{{$io}}</option>
 								@else
 									<option value="{{$io}}" >{{$io}}</option>
 								@endif
@@ -77,6 +79,8 @@
 							@for($i=1;$i<=12;$i++)
 								@if( $i == explode('/',(app()->OAuth::Auth()->data->tanggal_lahir ?? '0/0/0'))[1] )
 									<option selected value="{{$i}}" >{{ DateTime::createFromFormat('!m', $i)->format('F') }}</option>
+								@elseif(old('bulan_lahir') == $i)
+									<option selected value="{{$i}}" >{{ DateTime::createFromFormat('!m', $i)->format('F') }}</option>
 								@else
 									<option value="{{$i}}" >{{ DateTime::createFromFormat('!m', $i)->format('F') }}</option>
 								@endif
@@ -87,6 +91,8 @@
 							<option>Tahun</option>
 							@for( $i=(date('Y'));$i>=(date('Y')-60);$i-- ) 
 								@if( $i == explode('/',(app()->OAuth::Auth()->data->tanggal_lahir ?? '0/0/0'))[0] )
+									<option selected value="{{$i}}" >{{$i}}</option>
+								@elseif(old('tahun_lahir') == $i)
 									<option selected value="{{$i}}" >{{$i}}</option>
 								@else
 									<option value="{{$i}}" >{{$i}}</option>
@@ -101,13 +107,13 @@
 			</div>
 				<div class="formGroup pilihkotaprov">
 					<div class="inputTitle">
-						Provinsi Dan Kota
+						Provinsi Dan Kota {{old('provinsi')}}
 					</div>
 					<div class="inputText">
 						<select id="pilihProvinsi" name="provinsi">
 							<option class="" value="">Pilih Provinsi</option>
 							@foreach( $alamat['provinsi'] as $provinsi)
-							<option {{ (isset($user->data->provinsi) ? ($user->data->provinsi == $provinsi->nama_provinsi ? 'selected' : '') : '') }} id="provinsi{{ $provinsi->id }}" value="{{ $provinsi->nama_provinsi }}">{{ $provinsi->nama_provinsi }}</option>
+							<option {{ (old('provinsi') == $provinsi->nama_provinsi ? 'selected' : '') }} {{ (isset($user->data->provinsi) ? ($user->data->provinsi == $provinsi->nama_provinsi ? 'selected' : '') : '') }} id="provinsi{{ $provinsi->id }}" value="{{ $provinsi->nama_provinsi }}">{{ $provinsi->nama_provinsi }}</option>
 							@endforeach
 						</select>
 					</div>
@@ -115,7 +121,7 @@
 						<select name="kota" id="pilihKota">
 							<option value="pilihkota">Pilih Kota</option>
 							@foreach($alamat['kota'] as $kota)
-							<option {{ (isset($user->data->kota) ? ($user->data->kota == $kota->nama ? 'selected' : '') : '') }}  class="defkota provinsi{{ $kota->id_provinsi }}" value="{{ $kota->nama }}">{{ $kota->nama }}</option>
+							<option {{ (old('kota') == $kota->nama ? 'selected' : '') }} {{ (isset($user->data->kota) ? ($user->data->kota == $kota->nama ? 'selected' : '') : '') }}  class="defkota provinsi{{ $kota->id_provinsi }}" value="{{ $kota->nama }}">{{ $kota->nama }}</option>
 							@endforeach
 						</select>
 					</div>
@@ -127,7 +133,7 @@
 						Alamat Lengkap
 					</div>
 					<div class="inputText inputAlamat">
-						<textarea name="alamat" placeholder="Alamat Lengkap">{{$user->data->alamat ?? ''}}</textarea>
+						<textarea name="alamat" placeholder="Alamat Lengkap">{{$user->data->alamat ?? old('alamat') ??''}}</textarea>
 					</div>
 				</div>
 
@@ -136,7 +142,7 @@
 						No Telp
 					</div>
 					<div class="inputText">
-						<input type="text" name="telepon"  value="{{$user->data->telepon ?? ''}}" placeholder="+62..">
+						<input type="text" name="telepon"  value="{{$user->data->telepon ?? old('telepon') ??  ''}}" placeholder="+62..">
 					</div>
 				</div>
 

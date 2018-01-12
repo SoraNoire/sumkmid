@@ -49,12 +49,29 @@ class memberController extends Controller
 	public function userSetting(){
         $var['page'] = "userSetting";
         
+        $userMeta = UserMeta::where('user_id',app()->OAuth::Auth()->id)->get();
+        $userData = [];
+        $user = app()->OAuth::$Auth;
+        $userMeta->map(
+            function($meta) use(&$userData){
+
+                if($meta->meta_key == 'info_usaha'){
+                    $meta->meta_value = json_decode($meta->meta_value);
+                }
+                $userData[$meta->meta_key] = $meta->meta_value;
+            }
+        );
         $user = app()->OAuth->Auth(app()->OAuth->Auth()->token);
         if($user && $user->success){
             $user = $user->data;            
         }else{
             $user = app()->OAuth->auth();
         }
+        if(sizeof($userData))
+        {
+            $user->data = $userData;    
+        }
+
         $var['user'] = $user;
 
 		return view('page.userSetting')->with(['var' => $var]);
@@ -171,6 +188,7 @@ class memberController extends Controller
         $alamat['provinsi'] = Provinsi::get();
 
         self::meta_user();
+
 		$user = app()->OAuth::Auth();
 		$data = [
                     'usaha' => Pubhelp::listUsaha(),
@@ -198,8 +216,13 @@ class memberController extends Controller
         $userData = [];
         $user = app()->OAuth::$Auth;
         $userMeta->map(
-            function($meta) use(&$userData,&$user,$idu){
-                if( false === $idu && 'type_user' == $meta->meta_key )
+            function($meta) use(&$userData,&$user,$id){
+
+                if($meta->meta_key == 'info_usaha'){
+                    $meta->meta_value = json_decode($meta->meta_value);
+                }
+
+                if( false === $id && 'type_user' == $meta->meta_key )
                 {
                     $user->role = $meta->meta_value;
                 }
@@ -368,15 +391,26 @@ class memberController extends Controller
             self::add_or_update_meta('foto_ktp',$filename,$id);
         }
 
-        // save 'informasi_usaha'
-        if($request->input('informasi_usaha'))
-        {
-
-            if ( 1 == sizeof($request->input('info')) )
+        // save 'info_usaha'
+        if($request->input('info_usaha')){
+            $this->validate($request,[
+                'info_usaha.*' => 'required',
+                'info_usaha.Telepon' => 'numeric',
+                'info_usaha.Email' => 'email',
+                'info_usaha_validate' => 'required'
+                
+            ],[
+                'info_usaha.*.required' => 'Informasi Usaha Minimal 1',
+                'info_usaha_validate.required' => 'Informasi Usaha Minimal 1',
+                'info_usaha.Telepon.numeric' => 'Nomor Telepon Usaha Harus Angka',
+                'info_usaha.Email.email' => 'Email Usaha tidak valid',
+                
+            ]);
+            if ( 1 == sizeof($request->input('info_usaha')) )
             {
-              foreach ($request->input('info') as $key => $i) {
+              foreach ($request->input('info_usaha') as $key => $i) {
                   if($i && '' != $i){
-                    self::add_or_update_meta('informasi_usaha',json_encode($request->input('info')),$id);
+                    self::add_or_update_meta('info_usaha',json_encode($request->input('info_usaha')),$id);
                   }
               }
 
@@ -384,13 +418,13 @@ class memberController extends Controller
             else
             {
               $info = [];
-              foreach ($request->input('info') as $key => $value) {
+              foreach ($request->input('info_usaha') as $key => $value) {
                 if( null != $value && 'null' != $key && '' != $value && '' != $key)
                 {
                     $info[$key] = $value;
                 }
               }
-              self::add_or_update_meta('informasi_usaha',json_encode($info),$id);
+              self::add_or_update_meta('info_usaha',json_encode($info),$id);
             }
         }
 

@@ -46,7 +46,7 @@
 						Mengapa anda ingin bergabung dengan sahabat umkm?
 					</div>
 					<div class="inputText">
-						<textarea class="areaKuis" required type="text" name="kuisioner_mengapa">{{$user->data->kuisioner_mengapa ?? ''}}</textarea>
+						<textarea class="areaKuis" required type="text" name="kuisioner_mengapa">{{$user->data->kuisioner_mengapa ?? ''}} {{ old('kuisioner_mengapa') }}</textarea>
 					</div>
 				</div>
 
@@ -55,7 +55,7 @@
 						Apa yang anda harapkan setelah menjadi member umkm?
 					</div>
 					<div class="inputText">
-						<textarea class="areaKuis" required type="text" name="kuisioner_harapan">{{$user->data->kuisioner_harapan ?? ''}}</textarea>
+						<textarea class="areaKuis" required type="text" name="kuisioner_harapan">{{$user->data->kuisioner_harapan ?? ''}} {{ old('kuisioner_harapan') }}</textarea>
 					</div>
 				</div>
 

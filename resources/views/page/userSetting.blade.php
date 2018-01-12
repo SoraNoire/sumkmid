@@ -101,11 +101,13 @@
 			</div>
 			<button type="sumbit" class="submitUserSet button blue">Kirim</button>
 			</form>
+			@if( isset( $var['user']->data ) )
 			<div class="editDetail">
 				<h3>Edit Detail</h3>
 				<small>Edit Detail Data Diri Anda (Tanggal Lahir, Alamat, Telepon, dll)</small>
 				<a href="{{ route('user_setting.detail',1) }}"><button class="goToEditDetail button">Menuju ke Laman</button></a>	
 			</div>
+			@endif
 		</div>
 	</div>
 </section>

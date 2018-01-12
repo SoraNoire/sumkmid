@@ -51,6 +51,7 @@
     <title>Blog - {{ $page_meta_title ?? ''}}</title>
 
     <link href="{{ asset('css/app.css') }}?v=1.0.1" rel="stylesheet">
+    
 
     <link rel="stylesheet" href="{{ asset('css/font-awesome.css') }}?v=1.0.0">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">
@@ -180,7 +181,7 @@
               <a href="{{ url('admin/blog/media') }}">Media</a>
             </li>
             @endif
-            @if( in_array('read', app()->OAuth::can('panel.trash')) )
+            @if( in_array('read', app()->OAuth::can('panel.post.trash')) )
             <li class="{{ ($page_meta_title ?? '') == 'Trash' ? 'active' : ''}}">
               <a href="{{ route('panel.post.trash__index') }}">Trash</a>
             </li>
