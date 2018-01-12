@@ -87,7 +87,7 @@
 						<div class="tahunBerdiri">
 							<div>Tahun Berdiri</div>
 							<div class="inputText">
-							<input type="text" name="tahun_berdiri" value="{{$user->data->tahun_berdiri ?? old('tahun_berdiri') ??''}}" placeholder="2013">
+							<input  max="{{date('Y')}}" type="number" name="tahun_berdiri" value="{{$user->data->tahun_berdiri ?? old('tahun_berdiri') ??''}}" placeholder="2013">
 							</div>
 						</div>
 						<div style="clear: both;"></div>
