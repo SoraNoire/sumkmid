@@ -110,6 +110,7 @@ class memberController extends Controller
             $user = app()->OAuth->auth();
         }
 		if(app()->OAuth::meUpdate($data)){
+            Users::where('id',app()->OAuth::Auth()->id)->update(['avatar'=>$user->foto_profil]);
 			return $user->foto_profil;
 		}else{
 			return 'fail';
@@ -323,7 +324,7 @@ class memberController extends Controller
             $typeUser = ( 'ya' == $request->input('type_user') ) ? 'umkm' : 'perorangan';
             self::add_or_update_meta('type_user',$typeUser,$id);
             // delete umkm data if any
-            UserMeta::whereIn('meta_key',['nama_usaha','jenis_usaha','tahun_berdiri','omzet'])
+            UserMeta::whereIn('meta_key',['nama_usaha','usaha_tetap','kelengkapan_dokumen','tempat_usaha','adm_keuangan','akses_perbankan','info_usaha','jenis_usaha','tahun_berdiri','omzet'])
                       ->where('user_id',app()->OAuth::Auth()->id)->delete();
         }
 
