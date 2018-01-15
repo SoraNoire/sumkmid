@@ -1,6 +1,7 @@
 <?php
 
-Route::group(['middleware' => ['web','backend'], 'prefix' => 'admin/blog/gallery', 'namespace' => 'Modules\Gallery\Http\Controllers'], function()
+Config::set('admin.domain',env('ADMIN_DOMAIN','manage.sahabatumkm.id'));
+Route::group(['domain'=>config('admin.domain'),'middleware' => ['web','backend'], 'prefix' => 'admin/blog/gallery', 'namespace' => 'Modules\Gallery\Http\Controllers'], function()
 {
     // Route::get('/', 'GalleryController@index');
     Route::get('/index', 'GalleryController@index')

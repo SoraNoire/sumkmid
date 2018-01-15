@@ -1,6 +1,6 @@
 <?php
-
-Route::group(['middleware' => ['web', 'backend'], 'prefix' => 'admin/blog', 'namespace' => 'Modules\Blog\Http\Controllers'], function()
+Config::set('admin.domain',env('ADMIN_DOMAIN','manage.sahabatumkm.id'));
+Route::group(['domain'=>config('admin.domain'),'middleware' => ['web', 'backend'], 'prefix' => 'admin/blog', 'namespace' => 'Modules\Blog\Http\Controllers'], function()
 {
     Route::get('/', 'BlogController@dashboard')
             ->name('panel.dashboard');

@@ -1,6 +1,7 @@
 <?php
 
-Route::group(['middleware' => ['web','backend'], 'prefix' => 'admin/blog/video', 'namespace' => 'Modules\Video\Http\Controllers'], function()
+Config::set('admin.domain',env('ADMIN_DOMAIN','manage.sahabatumkm.id'));
+Route::group(['domain'=>config('admin.domain'),'middleware' => ['web','backend'], 'prefix' => 'admin/blog/video', 'namespace' => 'Modules\Video\Http\Controllers'], function()
 {
     // Route::get('/', ['as'=>'video', 'uses'=> 'VideoController@index']);
     // Route::get('/index', ['as'=>'video', 'uses'=> 'VideoController@index']);

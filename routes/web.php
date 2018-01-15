@@ -10,8 +10,25 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+// inject setting
+Config::set('admin.domain',env('ADMIN_DOMAIN','manage.sahabatumkm.id'));
+Config::set('frontend.domain',env('FRONTEND_DOMAIN','sahabatumkm.id'));
 
+// break backend activity that should on frontend
+function THIS_IS_FRONTEND()
+{
+	if ( config('admin.domain') === Request::server("HTTP_HOST") )
+	{
+		// frontend, redirect.
+		if ( 'admin' !== substr( Request::path(),0,5 ) ){
+			if ( 'oauthpanel' !== substr( Request::path(),0,10 ) ){
+				return redirect ( URL::to("http://".config('frontend.domain')) )->send();
+			}
+		}
+	}	
+}
 
+THIS_IS_FRONTEND();
 Route::group(['middleware' => ['admin']], function () {
 	Route::get('/test', ['as'=>'home', 'uses'=>function () {
 	    return json_encode(app()->OAuthx->Auth());
