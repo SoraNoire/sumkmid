@@ -22,10 +22,10 @@ class MetaMiddleware
 */
 class Meta
 {
-    protected $meta_site_name = 'Sahabat UMKM Indonesia';
-    protected $meta_title = 'Sahabat UMKM Indonesia';
-    protected $meta_desc = 'Sahabat UMKM Indonesia - TUMBUH, BERKEMBANG, DAN SUKSES BERSAMA SAHABAT UMKM INDONESIA';
-    protected $meta_keyword = 'Sahabat UMKM Indonesia';
+    protected $meta_site_name = 'Sahabat UMKM';
+    protected $meta_title = '';
+    protected $meta_desc = '';
+    protected $meta_keyword = '';
     protected $meta_type = 'website';
     protected $meta_url = '';
     protected $meta_image = '';
@@ -53,9 +53,15 @@ class Meta
         $this->link_gplus = Option::where('key', 'link_gplus')->first()->value ?? '';
         $this->footer_desc = Option::where('key', 'footer_desc')->first()->value ?? '';
         $this->email_info = Option::where('key', 'email')->first()->value ?? config('app.email_info');
-        $this->meta_site_name = Option::where('key', 'site_name')->first()->value ?? $this->meta_site_name;
-        $this->meta_desc = Option::where('key', 'site_tagline')->first()->value ?? $this->meta_desc;
-        $this->meta_title = 'Sahabat UMKM Indonesia - '.$this->meta_title;
+
+        $meta = Option::where('key', 'home_metas')->first()->value ?? '';
+        if ($meta != '') {
+            $meta = json_decode($meta);
+        }
+        $this->meta_title = $meta->title ?? 'Sahabat UMKM';
+        $this->meta_desc = $meta->desc ?? '';
+        $this->meta_keyword = $meta->keyword ?? '';
+
         $this->meta_url = url()->current();
         $this->meta = array('title' => $this->meta_title,
                              'description' => $this->meta_desc,
@@ -90,8 +96,7 @@ class Meta
         return $this->{$var};
     }
 
-    public function print_meta(){
-        $this->meta_title = 'Sahabat UMKM Indonesia - '.$this->meta_title;
+    public function print_meta($useprefix=true){
         $this->meta = array('title' => $this->meta_title,
                              'description' => $this->meta_desc,
                              'keyword' => $this->meta_keyword,
@@ -110,15 +115,13 @@ class Meta
                             );
         $element = '';
         foreach ($this->meta as $key => $value) {
-            if ($value != '') {
-                if (strpos($key, 'twitter') !== false) {
-                    $element .= "<meta name='$key' content='$value'>\n";   
-                } else if (strpos($key, ':') !== false) {
-                    $element .= "<meta property='$key' content='$value'>\n";   
-                } else {
-                    $element .= "<meta name='$key' content='$value'>\n";   
-                }   
-            }
+            if (strpos($key, 'twitter') !== false) {
+                $element .= "<meta name='$key' content='$value'>\n";   
+            } else if (strpos($key, ':') !== false) {
+                $element .= "<meta property='$key' content='$value'>\n";   
+            } else {
+                $element .= "<meta name='$key' content='$value'>\n";   
+            }   
         }
         return $element;
     }

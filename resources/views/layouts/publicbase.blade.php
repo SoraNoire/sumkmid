@@ -7,7 +7,7 @@
     <!-- csrf key -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Sahabat UMKM</title>
+    <title>{{ app()->Meta->get('meta_title') }}</title>
     
 {!! app()->Meta->print_meta() !!}
 
