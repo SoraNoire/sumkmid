@@ -221,15 +221,15 @@
 
 				            					<div class="form-group">
 				            						<label>Meta Title</label>
-				            						<input type="text" name="meta_title" class="form-control" value="{{  }}">
+				            						<input type="text" name="meta_title" class="form-control" value="{{ $meta->title ?? '' }}">
 												</div>
 												<div class="form-group">
-				            						<label>Meta Title</label>
-				            						<textarea name="meta_desc" class="form-control">{{  }}</textarea>
+				            						<label>Meta Description</label>
+				            						<textarea name="meta_desc" class="form-control">{{ $meta->desc ?? ''}}</textarea>
 												</div>
 												<div class="form-group">
-				            						<label>Meta Title</label>
-				            						<input type="text" name="meta_keyword" class="form-control" value="{{  }}">
+				            						<label>Meta Keyword</label>
+				            						<input type="text" name="meta_keyword" class="form-control" value="{{ $meta->keyword ?? '' }}">
 												</div>
 
 	            								<button type="submit" class="btn btn-success pull-left">Save</button>

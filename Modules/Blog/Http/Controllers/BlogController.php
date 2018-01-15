@@ -1699,6 +1699,11 @@ class BlogController extends Controller
             $program_section = json_decode($program_section);
         }
 
+        $meta = Option::where('key', 'home_metas')->first()->value ?? '';
+        if ($meta != '') {
+            $meta = json_decode($meta);
+        }
+
         $program_structure = '';
         if ($program != '') {
             $program = json_decode($program);
@@ -1821,7 +1826,7 @@ class BlogController extends Controller
             }
         }
 
-        return view('blog::admin.setting')->with(['page_meta_title' => $page_meta_title, 'gtag_manager' => $gtag_manager, 'fb_pixel' => $fb_pixel, 'link_fb' => $link_fb, 'link_in' => $link_in, 'link_tw' => $link_tw, 'link_yt' => $link_yt, 'link_ig' => $link_ig, 'link_gplus' => $link_gplus, 'list_program' => $program_structure, 'program' => $program_section, 'footer_desc' => $footer_desc, 'post' => $post, 'all_cat' => $all_cat, 'email' => $email, 'about_us' => $about_us, 'instagram_token' => $instagram_token, 'socfeed' => $social_feed, 'mentor' => $mentor]);
+        return view('blog::admin.setting')->with(['page_meta_title' => $page_meta_title, 'gtag_manager' => $gtag_manager, 'fb_pixel' => $fb_pixel, 'link_fb' => $link_fb, 'link_in' => $link_in, 'link_tw' => $link_tw, 'link_yt' => $link_yt, 'link_ig' => $link_ig, 'link_gplus' => $link_gplus, 'list_program' => $program_structure, 'program' => $program_section, 'footer_desc' => $footer_desc, 'post' => $post, 'all_cat' => $all_cat, 'email' => $email, 'about_us' => $about_us, 'instagram_token' => $instagram_token, 'socfeed' => $social_feed, 'mentor' => $mentor, 'meta' => $meta]);
     }
 
     /**
@@ -1843,6 +1848,10 @@ class BlogController extends Controller
         $program['button'] = $request->input('program_button');
         $program['url'] = $request->input('program_url');
 
+        $meta['title'] = $request->input('meta_title');
+        $meta['desc'] = $request->get('meta_desc');
+        $meta['keyword'] = $request->get('meta_keyword');
+
         $socfeed['title'] = $request->input('socfeed_title');
 
         $mentor['title'] = $request->input('mentor_title');
@@ -1860,6 +1869,7 @@ class BlogController extends Controller
         $settings[] = ['name' => 'about_us', 'value' => json_encode($about_us)];
         $settings[] = ['name' => 'socfeed_section', 'value' => json_encode($socfeed)];
         $settings[] = ['name' => 'mentor_section', 'value' => json_encode($mentor)];
+        $settings[] = ['name' => 'home_metas', 'value' => json_encode($meta)];
         $settings[] = ['name' => 'instagram_token', 'value' => $request->input('instagram_token')];
         $settings[] = ['name' => 'footer_desc', 'value' => $request->input('footer_desc')];
         $settings[] = ['name' => 'email', 'value' => $request->input('email')];
