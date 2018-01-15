@@ -35,7 +35,6 @@
 		resend_clicked = 0;
 		function resend_code()
 		{
-			console.log('sad');
 			if(resend_clicked > 0)
 			{
 				return;

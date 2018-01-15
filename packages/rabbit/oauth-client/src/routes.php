@@ -7,7 +7,7 @@
  * @author 
  **/
 
-
+Config::set('admin.domain',env('ADMIN_DOMAIN','manage.sahabatumkm.id'));
 Route::middleware('OAuthMiddleware')->namespace('\Rabbit\OAuthClient\Controllers')->group(function () {
 
 	Route::get('/login_oauth', 'PController@OAuthLogin')
@@ -27,7 +27,7 @@ Route::middleware('OAuthMiddleware')->namespace('\Rabbit\OAuthClient\Controllers
 			->name('OA.admin.resendEmailChallenge');
 
 
-	Route::middleware('backend')->prefix('oauthpanel')->group(function () {
+	Route::middleware('backend')->prefix('oauthpanel')->domain(config('admin.domain'))->group(function () {
 
 		Route::get('/', 'OAController@permissions')
 				->name('OA.dashboard');
