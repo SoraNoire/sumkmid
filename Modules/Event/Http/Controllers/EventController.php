@@ -87,7 +87,7 @@ class EventController extends Controller
         if (isset($search)) {
             $query = $query->where('title', 'like', '%'.$search.'%');   
         }
-        $output['data'] = $query->get();
+        $output['data'] = $query->offset($request['start'])->limit($request['length'])->get();
 
         $newdata = array();
         foreach ($output['data'] as $data) {
@@ -539,7 +539,7 @@ class EventController extends Controller
         if (isset($search)) {
             $query = $query->where('name', 'like', '%'.$search.'%');   
         }
-        $output['data'] = $query->get();
+        $output['data'] = $query->offset($request['start'])->limit($request['length'])->get();
         $output['recordsTotal'] = $query->count();
         $output['recordsFiltered'] = $output['recordsTotal'];
         $output['draw'] = intval($request->input('draw'));

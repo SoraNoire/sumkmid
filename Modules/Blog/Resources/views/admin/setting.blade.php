@@ -208,6 +208,34 @@
 
 					                        </div>
 					                    </div>
+					                </div>       
+
+					                <div class="panel panel-default">
+					                    <div class="panel-heading">
+					                        <h4 class="panel-title">
+					                           Homepage Metas <a data-toggle="collapse" href="#setting-meta"><i style="float: right;" class="fa fa-caret-down" aria-hidden="true"></i></a>
+					                        </h4>
+					                    </div>
+					                    <div id="setting-meta" class="panel-collapse collapse in">
+					                        <div class="panel-body">
+
+				            					<div class="form-group">
+				            						<label>Meta Title</label>
+				            						<input type="text" name="meta_title" class="form-control" value="{{  }}">
+												</div>
+												<div class="form-group">
+				            						<label>Meta Title</label>
+				            						<textarea name="meta_desc" class="form-control">{{  }}</textarea>
+												</div>
+												<div class="form-group">
+				            						<label>Meta Title</label>
+				            						<input type="text" name="meta_keyword" class="form-control" value="{{  }}">
+												</div>
+
+	            								<button type="submit" class="btn btn-success pull-left">Save</button>
+
+					                        </div>
+					                    </div>
 					                </div>                     
 
 		                        </div>

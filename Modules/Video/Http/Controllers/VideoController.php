@@ -89,7 +89,7 @@ class VideoController extends Controller
         if (isset($search)) {
             $query = $query->where('title', 'like', '%'.$search.'%');   
         }
-        $output['data'] = $query->get();
+        $output['data'] = $query->offset($request['start'])->limit($request['length'])->get();
 
         $newdata = array();
         foreach ($output['data'] as $data) {
