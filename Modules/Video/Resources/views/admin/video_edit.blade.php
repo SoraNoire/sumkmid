@@ -15,7 +15,6 @@
             <div class="col-md-9">
                 <h4 class="title">Edit Video</h4>
             </div>
-            @if (in_array('write', app()->OAuth::can('panel.video')) || in_array('delete', app()->OAuth::can('panel.video')))
             <div class="col-md-9 col-sm-6 col-xs-6">
                 @if (in_array('write', app()->OAuth::can('panel.video')))
                 <a href="{{ route('panel.video__add') }}" class="btn btn-round btn-fill btn-info">
@@ -31,7 +30,6 @@
                 </a>
                 @endif
             </div>
-            @endif
             <div class="col-md-3 col-sm-6 col-xs-6">
                 <button type="submit" class="btn btn-success pull-right">Save Video</button>
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">  

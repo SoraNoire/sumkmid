@@ -1,0 +1,77 @@
+#info_usaha{
+	.addInfoWrap{
+		position: relative;
+		.addInfoTrigger{
+			outline: none;
+			cursor: pointer;
+			height: 37px;
+			padding: 0px 14px;
+			background-color: #CF6819;
+			color: #fff;
+			border: 0px;
+			border-radius: 19px;
+			&:hover{
+				background-color: #A15114;
+			}
+			i{
+				margin-right: 5px;
+			}
+		}
+		.infoOption{
+			display: none;
+			padding: 10px 0px;
+		    position: absolute;
+		    z-index: 1;
+		    top: 37px;
+		    left: 16px;
+		    background-color: #ffffff;
+		    text-align: left;
+		    -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+		    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+		    .hidden{
+		    	display: none;
+		    }
+		    li{
+		    	text-decoration: none;
+			    padding: 5px 15px;
+			    font-size: 14px;
+			    width: 136px;
+			    display: block;
+			    font-weight: 500;
+			    cursor: pointer;
+			    &:hover{
+			    	background-color: #F1F1F1;
+			    }
+		    }
+		}
+	}
+	.addedInfo{
+		margin-top: 15px;
+		position: relative;
+			.formGroup{
+				position: relative;
+				.inputText{
+				width: calc(100% - 20px);
+			}
+			.close{
+				right: 0;
+			    position: absolute;
+			    bottom: 11px;
+			    cursor: pointer;
+			    opacity: .5;
+			    &:hover{
+			    	opacity: 1;
+			    }
+			}
+		}
+	}
+}
+.omzetSelect{
+	height: 37px;
+    border-radius: 5px;
+    border: solid 1px #404040;
+    outline: none;
+    padding: 0px 14px;
+    width: 50%;
+}
+}

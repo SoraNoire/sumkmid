@@ -20,7 +20,7 @@
             @foreach($sliders as $slider)
             <tr>
                 <td><img style="width: 100px; max-height: 100px;" src="{{ asset($slider->image) }}"></td>
-                <td>{{ strip_tags($slider -> title) }}</td>
+                <td>{{ strip_tags($slider -> title) == '' ? 'no-title': strip_tags($slider -> title)}}</td>
                 <td>{{ $slider -> created_at }}</td>
                 <td>
                     <a href="{{ route('panel.slider__view', $slider->id) }}" class="btn btn-round btn-fill btn-info {{ in_array('edit', app()->OAuth::can('panel.slider')) ? '':'disabled' }}">

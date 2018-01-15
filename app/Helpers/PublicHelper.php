@@ -93,8 +93,6 @@ class PublicHelper
 
     /**
      * Print Top Menu
-     * @return array
-     *
      */
     public static function print_top_menu(){
         $menu = '<li><a href="'.url("/").'">Beranda</a></li>';
@@ -109,4 +107,38 @@ class PublicHelper
         }
         return $menu;
     }
+
+    /**
+     * Print Section Title
+     */
+    public static function print_section_title($title){
+        $split = explode(' ', $title);
+        $split[count($split)-1] = "</span><span>".$split[count($split)-1]."</span>";
+        $split[0] = "<span>".$split[0];
+        $output = implode(" ", $split);
+        return $output;
+    }
+
+    public static function listUsaha(){
+        $usaha = [
+                    'Aplikasi Dan Pengembang Permainan',
+                    'Arsitektur',
+                    'Desain Interior',
+                    'Desain Komunikasi Visual',
+                    'Desain Produk',
+                    'Fashion',
+                    'Film, Animasi, Dan Video',
+                    'Fotografi',
+                    'Kriya',
+                    'Kuliner',
+                    'Musik',
+                    'Penerbitan',
+                    'Periklanan',
+                    'Seni Pertunjukan',
+                    'Seni Rupa',
+                    'Televisi Dan Radio'
+            ];
+        return (object)$usaha;
+    }
+
 }

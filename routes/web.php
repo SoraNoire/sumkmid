@@ -26,7 +26,6 @@ Route::group(['middleware' => ['admin']], function () {
 
 
 Route::get('/', 'PublicController@home')->name('public_home');
-Route::get('/{slug}', 'PublicController@single_page')->name('public_single_page');
 // Route::get('/tentang', 'PublicController@tentang')->name('public_tentang');
 // Route::get('/mentor', 'PublicController@mentor')->name('public_mentor');
 Route::get('/mentor/{mentorId}', 'PublicController@mentorSingle')->name('public_mentor_single');
@@ -40,6 +39,8 @@ Route::get('/read/{category}/{slug}', 'PublicController@read_post')->name('read_
 Route::get('/user-setting', 'memberController@userSetting')->name('user_setting');
 Route::post('/user-setting/save','memberController@saveUserSetting')->name('user_setting_save');
 Route::post('/user-setting/UpdateProfilePict','memberController@updateProfilePict')->name('user_update_profile_pict');
+Route::get('user-setting/detail','memberController@detailUserEdit')->name('user_setting.detail');
+Route::post('user-setting/detail/save','memberController@goSaveMetaUser')->name('user-setting.detail.go-update');
 
 Route::post('/send-email', 'PublicController@messages_store_act')->name('sendemailcontact');
 
@@ -61,3 +62,4 @@ Route::get('am','SampleController@addmentor');
 
 Route::get('appreg','SampleController@appReg');
 Route::get('appupd','SampleController@appUpd');
+Route::get('/{slug}', 'PublicController@single_page')->name('public_single_page');

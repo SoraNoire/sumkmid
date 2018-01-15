@@ -51,6 +51,7 @@
     <title>Blog - {{ $page_meta_title ?? ''}}</title>
 
     <link href="{{ asset('css/app.css') }}?v=1.0.1" rel="stylesheet">
+    
 
     <link rel="stylesheet" href="{{ asset('css/font-awesome.css') }}?v=1.0.0">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">
@@ -129,6 +130,11 @@
               <a href="{{ route('panel.menu__index') }}">Menu</a>
             </li>
             @endif
+            @if( in_array('read', app()->OAuth::can('panel.user')) )
+            <li class="mobile-admin-nav {{ ($page_meta_title ?? '') == 'Users' ? 'active' : ''}}">
+              <a href="{{ route('panel.user__index') }}">User</a>
+            </li>
+            @endif
 
             <li>
                 <a href="{{URL::to('/logout')}}">
@@ -175,7 +181,7 @@
               <a href="{{ url('admin/blog/media') }}">Media</a>
             </li>
             @endif
-            @if( in_array('read', app()->OAuth::can('panel.trash')) )
+            @if( in_array('read', app()->OAuth::can('panel.post.trash')) )
             <li class="{{ ($page_meta_title ?? '') == 'Trash' ? 'active' : ''}}">
               <a href="{{ route('panel.post.trash__index') }}">Trash</a>
             </li>
@@ -193,6 +199,11 @@
             @if( in_array('read', app()->OAuth::can('panel.menu')) )
             <li class="{{ ($page_meta_title ?? '') == 'Menu' ? 'active' : ''}}">
               <a href="{{ route('panel.menu__index') }}">Menu</a>
+            </li>
+            @endif
+            @if( in_array('read', app()->OAuth::can('panel.user')) )
+            <li class="{{ ($page_meta_title ?? '') == 'Users' ? 'active' : ''}}">
+              <a href="{{ route('panel.user__index') }}">Users</a>
             </li>
             @endif
           </ul>
@@ -219,5 +230,6 @@
     @yield('modal')
 
     <script src="{{ asset('js/index.js') }}?v=1.0.44" type="text/javascript"></script>
+    <script src="{{ asset('js/home.js') }}?v=1.1.22"></script>
   </body>
 </html>

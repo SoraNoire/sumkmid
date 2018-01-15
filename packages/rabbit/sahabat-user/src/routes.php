@@ -22,8 +22,21 @@ Route::namespace('\Rabbit\SahabatUser\Controllers')->group(function () {
 		Route::get('/', 'SahabatUserController@users')
 				->name('SHB.dashboard');
 
-		Route::get('/modules', 'SahabatUserController@users')
-				->name('SHB.users');
+		Route::get('/user', 'SahabatUserController@users')
+				->name('panel.user__index');
+
+		Route::get('/user/view/{id}', 'SahabatUserController@viewUser')
+				->name('panel.user__edit');
+
+		Route::get('/user/view/{id}/detail', 'SahabatUserController@viewUserDetail')
+				->name('panel.user__edit__detail');
+
+		Route::post('/user/view/{id}', 'SahabatUserController@updateUser')
+				->name('panel.user__update');
+
+
+		Route::get('/delete/{id}', 'SahabatUserController@deleteUser')
+				->name('SHB.user__delete');
 
 		Route::post('/module/add', 'SahabatUserController@moduleSave')
 				->name('SHB.module.save');
@@ -46,7 +59,11 @@ Route::namespace('\Rabbit\SahabatUser\Controllers')->group(function () {
 		Route::post('ajax/permissions', 'SahabatUserController@permissionSaveAjax')
 				->name('SHB.permissions.save.ajax');
 
+		Route::get('/user/delete/{id}', 'SahabatUserController@deleteUser')
+				->name('panel.user__delete');
+
+		Route::get('/export/user/xls', 'SahabatUserController@exportUsers')
+				->name('panel.user__view__export');
+		
 	});
-
-
 });

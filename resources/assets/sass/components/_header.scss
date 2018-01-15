@@ -24,16 +24,11 @@
 	box-shadow: 0 2px 18px 0 rgba(0, 0, 0, 0.3);
 	background-color: #135383;
   	.container {
-  		height: 60px;
-  		background-repeat: no-repeat;
-    	background-position-y: 10px;    
-
-    	flex-direction: column-reverse;
-	    display: flex;
-    	justify-content: space-evenly;
+      padding-top: 15px;
+      padding-bottom: 15px;
     	h2{
     		font-size: 16px;
-    		margin-bottom: 9px;
+    		margin: unset;
     		color: #fff;
     		a{
     			color: inherit;

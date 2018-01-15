@@ -319,7 +319,7 @@ class BlogController extends Controller
                                     is_object($request->input($field->key)) 
                                 )
                                 ? json_encode($request->input($field->key)) : $request->input($field->key);
-                        $field->value = $value ?? $field->value;
+                        $field->value = $value ?? '';
                         $field->save();
                         $updated = true;
                         return true;
@@ -1406,7 +1406,7 @@ class BlogController extends Controller
                                     is_object($request->input($field->key)) 
                                 )
                                 ? json_encode($request->input($field->key)) : $request->input($field->key);
-                        $field->value = $value ?? $field->value;
+                        $field->value = $value ?? '';
                         $field->save();
                         $updated = true;
                         return true;
@@ -1659,9 +1659,8 @@ class BlogController extends Controller
         $link_gplus = Option::where('key', 'link_gplus')->first()->value ?? '';
         $link_ig = Option::where('key', 'link_ig')->first()->value ?? '';
         $link_yt = Option::where('key', 'link_yt')->first()->value ?? '';
-        $program = Option::where('key', 'program')->first()->value ?? '';
+        $program = Option::where('key', 'list_program')->first()->value ?? '';
         $footer_desc = Option::where('key', 'footer_desc')->first()->value ?? '';
-        $about_us = Option::where('key', 'about_us')->first()->value ?? '';
         $instagram_token = Option::where('key', 'instagram_token')->first()->value ?? '';
         $email = Option::where('key', 'email')->first()->value ?? '';
         $post = Option::where('key', 'post_section')->first()->value ?? '';
@@ -1680,9 +1679,24 @@ class BlogController extends Controller
 
         $all_cat = PostHelper::get_all_categories(['video', 'gallery']);
         
-        $quote = Option::where('key', 'quotes_section')->first()->value ?? '';
-        if ($quote != '') {
-            $quote = json_decode($quote);
+        $about_us = Option::where('key', 'about_us')->first()->value ?? '';
+        if ($about_us != '') {
+            $about_us = json_decode($about_us);
+        }
+
+        $social_feed = Option::where('key', 'socfeed_section')->first()->value ?? '';
+        if ($social_feed != '') {
+            $social_feed = json_decode($social_feed);
+        }
+
+        $mentor = Option::where('key', 'mentor_section')->first()->value ?? '';
+        if ($mentor != '') {
+            $mentor = json_decode($mentor);
+        }
+
+        $program_section = Option::where('key', 'program_section')->first()->value ?? '';
+        if ($program_section != '') {
+            $program_section = json_decode($program_section);
         }
 
         $program_structure = '';
@@ -1807,7 +1821,7 @@ class BlogController extends Controller
             }
         }
 
-        return view('blog::admin.setting')->with(['page_meta_title' => $page_meta_title, 'gtag_manager' => $gtag_manager, 'fb_pixel' => $fb_pixel, 'link_fb' => $link_fb, 'link_in' => $link_in, 'link_tw' => $link_tw, 'link_yt' => $link_yt, 'link_ig' => $link_ig, 'link_gplus' => $link_gplus, 'list_program' => $program_structure, 'footer_desc' => $footer_desc, 'quote' => $quote, 'post' => $post, 'all_cat' => $all_cat, 'email' => $email, 'about_us' => $about_us, 'instagram_token' => $instagram_token]);
+        return view('blog::admin.setting')->with(['page_meta_title' => $page_meta_title, 'gtag_manager' => $gtag_manager, 'fb_pixel' => $fb_pixel, 'link_fb' => $link_fb, 'link_in' => $link_in, 'link_tw' => $link_tw, 'link_yt' => $link_yt, 'link_ig' => $link_ig, 'link_gplus' => $link_gplus, 'list_program' => $program_structure, 'program' => $program_section, 'footer_desc' => $footer_desc, 'post' => $post, 'all_cat' => $all_cat, 'email' => $email, 'about_us' => $about_us, 'instagram_token' => $instagram_token, 'socfeed' => $social_feed, 'mentor' => $mentor]);
     }
 
     /**
@@ -1817,13 +1831,21 @@ class BlogController extends Controller
      */
     public function site_setting_save(Request $request){
 
-        $quote['image'] = $request->input('quote_image');
-        $quote['from'] = $request->input('quote_from');
-        $quote['text'] = $request->input('quote_text');
+        $about_us['title'] = $request->input('about_title');
+        $about_us['text'] = $request->input('about_us');
 
         $post['title'] = $request->input('post_title');
         $post['use_gallery'] = $request->get('post_check');
         $post['category'] = $request->get('post_category');
+
+        $program['title'] = $request->input('program_title');
+        $program['desc'] = $request->input('program_desc');
+        $program['button'] = $request->input('program_button');
+        $program['url'] = $request->input('program_url');
+
+        $socfeed['title'] = $request->input('socfeed_title');
+
+        $mentor['title'] = $request->input('mentor_title');
 
         $settings[] = ['name' => 'link_fb', 'value' => $request->input('link_fb')];
         $settings[] = ['name' => 'link_tw', 'value' => $request->input('link_tw')];
@@ -1833,9 +1855,11 @@ class BlogController extends Controller
         $settings[] = ['name' => 'link_yt', 'value' => $request->input('link_yt')];
         $settings[] = ['name' => 'gtag_manager', 'value' => $request->input('gtag_manager')];
         $settings[] = ['name' => 'fb_pixel', 'value' => $request->input('fb_pixel')];
-        $settings[] = ['name' => 'quotes_section', 'value' => json_encode($quote)];
         $settings[] = ['name' => 'post_section', 'value' => json_encode($post)];
-        $settings[] = ['name' => 'about_us', 'value' => $request->input('about_us')];
+        $settings[] = ['name' => 'program_section', 'value' => json_encode($program)];
+        $settings[] = ['name' => 'about_us', 'value' => json_encode($about_us)];
+        $settings[] = ['name' => 'socfeed_section', 'value' => json_encode($socfeed)];
+        $settings[] = ['name' => 'mentor_section', 'value' => json_encode($mentor)];
         $settings[] = ['name' => 'instagram_token', 'value' => $request->input('instagram_token')];
         $settings[] = ['name' => 'footer_desc', 'value' => $request->input('footer_desc')];
         $settings[] = ['name' => 'email', 'value' => $request->input('email')];
@@ -1867,7 +1891,7 @@ class BlogController extends Controller
      */
     public function save_program(Request $request)
     {
-        $option = Option::where('key', 'program')->first();
+        $option = Option::where('key', 'list_program')->first();
         $program = $request->program;
         if (isset($option)) {
             $option -> value = $program;

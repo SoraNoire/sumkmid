@@ -188,7 +188,25 @@ class OAuth
         $data = [];
         $path = "/mentor?page=$page&id=$id";
         $user = self::curl($path,$data);
-        return null !== $user->data ? $user->data : false;
+        return (isset($user->data) && null !== $user->data) ? $user->data : false;
+
+    }
+    public static function mentor($username='',$page=1)
+    {
+
+        $data = [];
+        $path = "/mentor?page=$page&username=$username";
+        $user = self::curl($path,$data);
+        $user = $user->data;
+
+        if ($user && $user->users){
+            if (isset($user->users[0])){
+                $user = $user->users[0];
+                $user->avatar = $user->foto_profil;
+                return $user;
+            }
+        }
+        return new \stdClass;
 
     }
 
@@ -409,7 +427,7 @@ class OAuth
             $moduleId = Modules::select(['id'])->where('name',$module)->first();
             if(!$moduleId)
             {
-                return self::$can;
+                return [];
             }
 
             $moduleId = $moduleId->id;
