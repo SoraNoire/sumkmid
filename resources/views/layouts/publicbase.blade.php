@@ -9,7 +9,7 @@
 
     <title>{{ app()->Meta->get('meta_title') }}</title>
     
-{!! app()->Meta->print_meta() !!}
+    {!! app()->Meta->print_meta() !!}
 
     <link rel="icon" type="image/x-icon" href="{{ asset('images/fav.png') }}">
     <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}">
@@ -78,7 +78,7 @@
                                 </li>
                                 @else
 	                            <li class="loginButton">
-	                                <a href="https://goo.gl/forms/iTe48cYNuizOwnu42" class="button">
+	                                <a href="https://goo.gl/forms/iTe48cYNuizOwnu42" target="_blank" class="button">
 	                                    Daftar
 	                                </a>
                                 </li>
