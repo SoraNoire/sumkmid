@@ -40,7 +40,11 @@
     @if(app()->Meta->get('gtm') != '')
      <!-- Google Tag Manager --> <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0], j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src= 'https://www.googletagmanager.com/gtm.js? id='+i+dl;f.parentNode.insertBefore(j,f); })(window,document,'script','dataLayer','{{ app()->Meta->get('gtm') }}');</script> <!-- End Google Tag Manager -->
     @endif
-</head>
+    <script id="mcjs">!function(c,h,i,m,p)
+    {m=c.createElement(h),p=c.getElementsByTagName(h)
+    [0],m.async=1,m.src=i,p.parentNode.insertBefore(m,p)}
+    (document,"script","https://chimpstatic.com/mcjs-connected/js/users/dd58ff00500b48aaaf7ad5317/7ae1185b6dd875d5b95c46e16.js");</script>
+    </head>
 <body>
     @if(app()->Meta->get('gtm') != '')
     <!-- Google Tag Manager (noscript) -->
