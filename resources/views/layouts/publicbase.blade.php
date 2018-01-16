@@ -46,8 +46,9 @@
     [0],m.async=1,m.src=i,p.parentNode.insertBefore(m,p)}
     (document,"script","https://chimpstatic.com/mcjs-connected/js/users/dd58ff00500b48aaaf7ad5317/7ae1185b6dd875d5b95c46e16.js");</script>
 
+    @if(isset($var['page']))
     {!! PublicHelper::printSchema($var['page']) !!}
-    
+    @endif
 </head>
 <body>
     @if(app()->Meta->get('gtm') != '')

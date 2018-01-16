@@ -221,6 +221,14 @@ $('#pilihProvinsi').on('change',function(){
 	$('.'+getprov).show();
 });
 
+$(document).ready(function(){
+    if($('#pilihKota').val() != 'pilihkota'){
+    	getprov = $('#pilihProvinsi').find(":selected").attr('id');
+		$('.defkota').hide();
+		$('.'+getprov).show();
+	}
+});
+
 $(document).ready('.info_usaha__select', function(){
     resyncSelected();
 });

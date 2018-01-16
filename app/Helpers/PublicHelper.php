@@ -198,11 +198,12 @@ class PublicHelper
                         "url" : "'.$homepage.'",
                         "logo" : "'.$logo.'",
                         "contactPoint" : [{
-                        "@type" : "ContactPoint",
-                        "telephone" : "'.$telephone.'",
-                        "contactType" : "'.$contactType.'"
-                    }],
-                      "sameAs" : [';
+                            "@type" : "ContactPoint",
+                            "telephone" : "'.$telephone.'",
+                            "contactType" : "'.$contactType.'"
+                        }],
+                        "sameAs" : 
+                        [';
         $i = 0;
         $len = count($profile);
         foreach($profile as $key => $value) {
