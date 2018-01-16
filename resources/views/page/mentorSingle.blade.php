@@ -13,9 +13,6 @@
                 <a itemprop="item" href="{{ url('/mentor') }}"><span itemprop="name">Mentor</span></a> <i class="fa fa-angle-right" aria-hidden="true"></i>
                 <meta itemprop="position" content="2" />
             </li>
-            <li>
-                {{$var['mentors']->name}}
-            </li>
         </ol>
 	</div>
 </div>
