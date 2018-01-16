@@ -4,8 +4,9 @@ namespace App\Helpers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Modules\Blog\Entities\PostMeta;
+use Modules\Blog\Entities\Posts;
 use Modules\Blog\Entities\Option;
-
+use DB;
 class PublicHelper
 {
     /**
@@ -38,6 +39,14 @@ class PublicHelper
         }
 
         return $posts;
+    }
+
+    public static function readMetas($arr=[]){
+        $metas = new \stdClass;;
+        foreach ($arr as $key => $value) {
+            $metas->{$value->key} = $value->value;
+        }
+        return $metas;
     }
 
     /**
@@ -139,6 +148,182 @@ class PublicHelper
                     'Televisi Dan Radio'
             ];
         return (object)$usaha;
+    }
+
+    /**
+     * Schema Detail Website
+     */
+    public static function SchemaWebSite() {
+        $homepage = route('public_home');
+        $linkSearch = route('search_gallery').'?q={search_term}';
+
+        $schema =  '<script type="application/ld+json">
+                    { "@context" : "http://schema.org",
+                      "@type" : "WebSite",
+                      "url" : "'.$homepage.'",';
+        
+        //potentialAction
+        $schema .= '"potentialAction" : {';
+        $schema .= '"@type" : "SearchAction",
+                    "target" : "'.$linkSearch.'",
+                    "query-input" : "required name=search_term"
+                    }';
+
+        $schema .= '}</script>';
+
+        return $schema;
+    }
+
+    /**
+     * Schema Organization
+     */
+    public static function SchemaOrganization(){
+        $profile['fb'] = Option::where('key','link_fb')->first()->value;
+        $profile['tw'] = Option::where('key','link_tw')->first()->value;
+        $profile['ig'] = Option::where('key','link_ig')->first()->value;
+        $profile['in'] = Option::where('key','link_in')->first()->value;
+        $profile['yt'] = Option::where('key','link_yt')->first()->value;
+
+        $legalName = 'Sahabat UMKM';
+        $logo = asset('images/sbt-icon.png');
+        $homepage = route('public_home');
+        $contactType = 'customer service';
+        $telephone = '+62213917399';
+
+        $schema =  '<script type="application/ld+json">{
+                        "@context" : "http://schema.org",
+                        "@type" : "Organization",
+                        "name" : "'.$legalName.'",
+                        "legalName" : "'.$legalName.'",
+                        "url" : "'.$homepage.'",
+                        "logo" : "'.$logo.'",
+                        "contactPoint" : [{
+                        "@type" : "ContactPoint",
+                        "telephone" : "'.$telephone.'",
+                        "contactType" : "'.$contactType.'"
+                    }],
+                      "sameAs" : [';
+        $i = 0;
+        $len = count($profile);
+        foreach($profile as $key => $value) {
+        $schema .= '"'.$value.'"';
+        if ($i == $len -1) {
+            $schema .= '';
+        }else{
+            $schema .= ', ';
+        }
+        $i++;
+        }
+
+        $schema .=  ']';
+
+        $schema .= '}</script>';
+
+        return $schema;
+    }
+
+
+    public static function SchemaNewsArticle(){
+        $postSLUG = 'professionally-transition-alternative-scenarios';
+        $post = Posts::where('slug',$postSLUG)->first();
+        $author = DB::table('users')->where('id',$post->author)->first()->name;
+        $meta = DB::table('post_meta')->where('post_id',$post->id)->get();
+        $meta = PublicHelper::readMetas($meta);
+        $linkToPost = route('single_gallery',$postSLUG);
+        $title = $post->title;
+        $thumbnail = ($post->featured_image != '' ? $post->featured_image : asset('images/imageNotFound.jpg'));
+        $published_at = $post->published_date;
+        $updated_at = $post->updated_at ?? $post->published_date;
+        $writerName = $author ?? 'Admin';
+        $logo = asset('images/sbt-icon.png');
+        $metaDesc = $meta->meta_desc ?? $title;
+
+
+        if($post->post_type == 'video'){
+            $type = 'VideoObject';
+        }else{
+            $type = 'NewsArticle';
+        }   
+
+        $schema = ' <script type="application/ld+json">
+                    {
+                        "@context": "http://schema.org",
+                        "@type": "'.$type.'",';
+
+        if($post->post_type == 'video'){
+        $schema .=      '   "@id": "'.$linkToPost.'",
+                            "name" : "'.$title.'",
+                            "thumbnailUrl" : "'.$thumbnail.'",
+                            "uploadDate" : "'.$published_at.'",
+                            "duration" : "'.$meta->video_url.'",';
+        }else{
+        $schema .=      '"mainEntityOfPage": {
+                            "@type": "WebPage",
+                            "@id": "'.$linkToPost.'#"
+                        },
+                        "image": {
+                            "@type": "ImageObject",
+                            "url": "'.$thumbnail.'",
+                            "height": 500,
+                            "width": 750
+                        },';
+        }
+        $schema .=      '"headline": "'.$title.'",
+                        "datePublished": "'.$published_at.'",
+                        "dateModified": "'.$updated_at.'",
+                        "author": {
+                            "@type": "Person",
+                            "name": "'.$writerName.'"
+                        },
+                        "publisher": {
+                            "@type": "Organization",
+                            "name": "Mnews.co.id",
+                            "logo": {
+                                "@type": "ImageObject",
+                                "url": "'.$logo.'",
+                                "width": 255,
+                                "height": 55
+                            }
+                        },
+                        "description": "'.$metaDesc.'"
+                    }
+                    </script>';
+        return $schema; 
+    }
+
+    /**
+     * Return all selected Schema
+     */
+    public static function printSchema($page,$kategori = '',$postSLUG = ''){
+        $send = '';
+        switch ($page) {
+            case 'Home':
+                $send .= PublicHelper::SchemaWebSite();
+                $send .= PublicHelper::SchemaOrganization();
+                break;
+            case 'singleGaleri':
+                $send .= PublicHelper::SchemaWebSite();
+                $send .= PublicHelper::SchemaOrganization();
+                $send .= PublicHelper::SchemaNewsArticle();
+                break;
+            default:
+                $send .= PublicHelper::SchemaWebSite();
+                $send .= PublicHelper::SchemaOrganization();
+                break;
+        }
+        return $send;
+    }
+
+    public static function getDuration($video_url) {
+
+        $videoID = explode('embed/', $video_url)[1];
+        $api = 'AIzaSyBov_4dHsjC6quuMJch0Xlw_2au3tCEqJo';
+
+        $gdata_uri = "https://www.googleapis.com/youtube/v3/videos?id=$videoID&key=$api&part=contentDetails";
+        $json = file_get_contents($gdata_uri);
+        $obj = json_decode($json);
+        $duration = $obj->items[0]->contentDetails->duration;
+        return $duration;
     }
 
 }

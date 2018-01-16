@@ -7,7 +7,19 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.7/css/swiper.min.css">
 <div class="breadcrumb">
 	<div class="container">
-		<h2><a href="{{ route('public_home') }}">Beranda</a> <i class="fa fa-angle-right" aria-hidden="true"></i><a href="{{ url('/galeri') }}">Galeri</a> <i class="fa fa-angle-right" aria-hidden="true"></i> {{ $var['content']->title }} </h2>
+		<ol itemscope itemtype="http://schema.org/BreadcrumbList">
+			<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+				<a itemprop="item" href="{{ route('public_home') }}"><span itemprop="name">Beranda</span></a> <i class="fa fa-angle-right" aria-hidden="true"></i>
+				<meta itemprop="position" content="1" />
+			</li>
+			<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+				<a itemprop="item" href="{{ url('/galeri') }}"><span itemprop="name">Galeri</span></a> <i class="fa fa-angle-right" aria-hidden="true"></i>
+				<meta itemprop="position" content="2" />
+			</li>
+			<li>
+				{{ $var['content']->title }}
+			</li>
+		</ol>
 	</div>
 </div>
 

@@ -1386,9 +1386,29 @@ template,
   padding-bottom: 15px;
 }
 
-.breadcrumb .container h2 {
+.breadcrumb .container ol {
+  padding-left: 0px;
+  color: #fff;
+}
+
+.breadcrumb .container ol li {
   font-size: 16px;
   margin: unset;
+  color: #fff;
+}
+
+.breadcrumb .container ol li:after {
+  content: none;
+}
+
+.breadcrumb .container ol li a {
+  font-size: 16px;
+  margin: unset;
+  color: #fff;
+}
+
+.breadcrumb .container ol li i {
+  margin: 0px 15px;
   color: #fff;
 }
 
@@ -2086,12 +2106,6 @@ footer .container .stayInTouch .copyText {
 
 #quote .section-title span:first-child {
   border-color: #595959;
-}
-
-#quote .section-title span:last-child {
-  background-image: -webkit-gradient(linear, left top, right top, color-stop(55%, rgba(64, 64, 64, 0.87)), color-stop(0%, rgba(255, 255, 255, 0)));
-  background-image: linear-gradient(to right, rgba(64, 64, 64, 0.87) 55%, rgba(255, 255, 255, 0) 0%);
-  background-size: 25px 3.5px;
 }
 
 @media screen and (max-width: 425px) {

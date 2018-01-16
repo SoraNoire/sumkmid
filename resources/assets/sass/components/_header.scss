@@ -26,10 +26,30 @@
   	.container {
       padding-top: 15px;
       padding-bottom: 15px;
-    	h2{
-    		font-size: 16px;
+      ol{
+      	padding-left: 0px;
+      	color: #fff;
+      	li{
+      		font-size: 16px;
     		margin: unset;
     		color: #fff;
+      		&:after{
+      			content: none;
+      		}
+      		a{
+      			font-size: 16px;
+	    		margin: unset;
+	    		color: #fff;
+      		}
+      		i{
+    			margin: 0px 15px;
+    			color: #fff;
+    		}
+      	}
+
+      }
+    	h2{
+    		
     		a{
     			color: inherit;
     			text-decoration: inherit;
