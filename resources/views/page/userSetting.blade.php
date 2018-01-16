@@ -3,7 +3,14 @@
 @section('content')
 <div class="breadcrumb">
 	<div class="container">
-		<h2><a href="{{ route('public_home') }}">Beranda</a> <i class="fa fa-angle-right" aria-hidden="true"></i>Profil</h2>
+		<ol>
+            <li>
+                <a href="{{ route('public_home') }}"><span>Beranda</span></a> <i class="fa fa-angle-right" aria-hidden="true"></i>
+            </li>
+            <li>
+                Profil
+            </li>
+        </ol>
 	</div>
 </div>
 <section id="userSetting">

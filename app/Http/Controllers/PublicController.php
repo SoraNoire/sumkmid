@@ -247,6 +247,7 @@ class PublicController extends Controller
         if (isset($page)) {
             $templates = PostHelper::get_page_templates_list();
         	$var['page'] = $page->title;
+        	$var['slug'] = $page->slug;
         	$var['content'] = $page->content;
 			$postMetas = DB::table('post_meta')->where('post_id',$page->id)->get();
 			$postMetas = $this->readMetas($postMetas);
