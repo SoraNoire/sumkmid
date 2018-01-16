@@ -9465,6 +9465,94 @@ input:checked + .slider:before {
   border-radius: 0 4px 4px 0;
 }
 
+#info_usaha .addInfoWrap {
+  position: relative;
+}
+
+#info_usaha .addInfoWrap .addInfoTrigger {
+  outline: none;
+  cursor: pointer;
+  height: 37px;
+  padding: 0px 14px;
+  background-color: #CF6819;
+  color: #fff;
+  border: 0px;
+  border-radius: 19px;
+}
+
+#info_usaha .addInfoWrap .addInfoTrigger:hover {
+  background-color: #A15114;
+}
+
+#info_usaha .addInfoWrap .addInfoTrigger i {
+  margin-right: 5px;
+}
+
+#info_usaha .addInfoWrap .infoOption {
+  display: none;
+  padding: 10px 0px;
+  position: absolute;
+  z-index: 1;
+  top: 37px;
+  left: 16px;
+  background-color: #ffffff;
+  text-align: left;
+  -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+}
+
+#info_usaha .addInfoWrap .infoOption .hidden {
+  display: none;
+}
+
+#info_usaha .addInfoWrap .infoOption li {
+  text-decoration: none;
+  padding: 5px 15px;
+  font-size: 14px;
+  width: 136px;
+  display: block;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+#info_usaha .addInfoWrap .infoOption li:hover {
+  background-color: #F1F1F1;
+}
+
+#info_usaha .addedInfo {
+  margin-top: 15px;
+  position: relative;
+}
+
+#info_usaha .addedInfo .formGroup {
+  position: relative;
+}
+
+#info_usaha .addedInfo .formGroup .inputText {
+  width: calc(100% - 20px);
+}
+
+#info_usaha .addedInfo .formGroup .close {
+  right: 0;
+  position: absolute;
+  bottom: 11px;
+  cursor: pointer;
+  opacity: .5;
+}
+
+#info_usaha .addedInfo .formGroup .close:hover {
+  opacity: 1;
+}
+
+.omzetSelect {
+  height: 37px;
+  border-radius: 5px;
+  border: solid 1px #404040;
+  outline: none;
+  padding: 0px 14px;
+  width: 50%;
+}
+
 .select2-container {
   width: 100% !important;
 }
