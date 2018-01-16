@@ -72,11 +72,6 @@
 			&:first-child{
 				border-color: #595959;
 			}
-			&:last-child{
-				background-image: -webkit-gradient(linear, left top, right top, color-stop(55%, rgba(64, 64, 64, 0.87)), color-stop(0%, rgba(255, 255, 255, 0)));
-	    		background-image: linear-gradient(to right, rgba(64, 64, 64, 0.87) 55%, rgba(255, 255, 255, 0) 0%);
-	    		background-size: 25px 3.5px;
-			}
 		}
 		@media screen and (max-width: 425px) {
 			font-size: 19px;
