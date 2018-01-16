@@ -4,7 +4,7 @@
 <div class="col-md-12">
 	<div class="card">
 	    <div class="card-header" data-background-color="green">
-	        <h3 class="title">User Management</h3>
+	        <h3 class="title">Cek KTP</h3>
 	    </div>
 	    <div class="card-content">
 
@@ -14,55 +14,35 @@
 	    		</div>
 	    	@endif
 	        
-            <table class="table table-responsive">
-                
-                <thead>
-                    <th>Nama</th>
-                    <th>Nama Pengguna</th>
-                    <th>Type Pengguna</th>
-                    <th>Aksi</th>
-                </thead>
-
-                <tbody>
-                    @foreach($users as $user)
-
-                        <tr>
-                            <td>
-                                {{$user->name}}
-                            </td>
-                            <td>
-                                {{$user->username}}
-                            </td>
-                            <td>
-                                {{$user->role}}
-                            </td>
-                            <td>
-                                @if( in_array($user->role,['visitor','Visitor']))
-                                <a href="{{route('panel.user__edit__detail',$user->id)}}" class="btn btn-primary">Edit</a>
-                                @endif
-                                @if('admin'!=$user->role)
-                                <a href="{{route('panel.user__delete',$user->id)}}" class="btn btn-danger">Delete</a>
-                                @endif
-                            </td>
-                        </tr>
-
-                    @endforeach
-                </tbody>
-
-                <tfoot>
-                    <th>Nama</th>
-                    <th>Nama Pengguna</th>
-                    <th>Type Pengguna</th>
-                    <th>Aksi</th>
-                </tfoot>
-
-            </table>
+            <div class="row">
+                @foreach($users as $user)
+                    @php
+                        $path = storage_path('cr/ktp/'.$user->foto_ktp);
+                        $ktp = file_get_contents($path);
+                        $type = pathinfo($path, PATHINFO_EXTENSION);
+                        $data = file_get_contents($path);
+                        $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+                    @endphp
+                    <div class="col-sm-12 col-md-6">
+                        <div class="thumbnail text-center">
+                            <img src="{{$base64}}" alt="" class="img-responsive" style="width: 100%;max-height: 250px;">
+                            <a href="{{route('panel.user__edit__detail',$user->id)}}">
+                                <div class="caption">
+                                    {{$user->username?? ''}}
+                                </div>
+                            </a>
+                        </div>
+                        
+                    </div>
+                    @php unset($base64);unset($ktp); @endphp
+                @endforeach
+            </div>
         
 
 	    </div>
 
         <div>
-            <div class="col-sm-12 col-md-5">
+            <div class="col-sm-12 col-md-5" style="padding: 20px 0 0 0;">
                 <div class="dataTables_info" id="example2_info" role="status" aria-live="polite">
                     Showing {{(0==$page->userstart)?1:$page->userstart}} to {{($page->userstart+$page->perpage > $page->usersum)? $page->usersum : $page->userstart+$page->perpage}} of {{$page->usersum}} entries
                 </div>
@@ -89,15 +69,43 @@
             </div>
             <div style="clear: both;"></div>
         </div>
-        <div class="row">
-            <a class="btn btn-success" href="{{route('panel.user__view__export')}}">Export Data Pengguna</a>
-            <a class="btn btn-primary" href="{{route('panel.user__view__cek__ktp')}}">Cek KTP</a>
-        </div>
 
 
 	</div>
 </div>
+<style type="text/css">
+    .thumbnail {
+        position: relative;
+    }
 
+    .caption {
+        -webkit-transition: color .7s linear;
+        -moz-transition: color .7s linear;
+        -o-transition: color .7s linear;
+        -ms-transition: color .7s linear;
+        transition: color .7s linear;
+        -webkit-transition: background-color .7s linear;
+        -moz-transition: background-color .7s linear;
+        -o-transition: background-color .7s linear;
+        -ms-transition: background-color .7s linear;
+        transition: background-color .7s linear;
+        position: absolute;
+        padding: 5% 0!important;
+        width: 98%!important;
+        left: 1%;
+        bottom: 1%;
+        width: 100%;
+        background-color: rgba(0,0,0,0.5);
+        color: #FFF!important;
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 16px;
+    }
+    .caption:hover {
+        color: #000!important;
+        background-color: rgba(255,255,255,0.7);
+    }
+</style>
 @endsection
 
 

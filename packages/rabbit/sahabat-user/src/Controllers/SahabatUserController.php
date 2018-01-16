@@ -78,6 +78,82 @@ class SahabatUserController extends Controller
         return view('shb::backend.users.index',['page'=>$page,'users'=>$users]);
     }
 
+    public function ktp(Request $request)
+    {
+        $this->perPage = 6;
+        if ($this->page >= 2)
+        {
+            $this->offset = ($this->perPage * ($this->page-1) );
+        }
+
+        if ($this->search)
+        {
+            $userSum = DB::select("
+                            COUNT(users.id) as sum
+                            from users
+                            LEFT JOIN user_meta AS foto_ktp ON foto_ktp.user_id=users.id
+                                AND foto_ktp.meta_key = 'foto_ktp'
+                            WHERE users.role  NOT IN ( 'admin', 'mentor' )
+                            AND name LIKE '%$this->search%'
+                            OR username LIKE '%$this->search%'
+                            ");
+
+            $users = DB::select("
+                            select users.id,
+                                    users.username as username,
+                                    foto_ktp.meta_value as foto_ktp
+                            from users
+                            LEFT JOIN user_meta AS foto_ktp ON foto_ktp.user_id=users.id
+                                AND foto_ktp.meta_key = 'foto_ktp'
+                            WHERE users.role  NOT IN ( 'admin', 'mentor' )
+                            AND name LIKE '%$this->search%'
+                            OR username LIKE '%$this->search%'
+                            LIMIT $this->offset,$this->perPage
+                            ");
+            view()->share('search_query',$this->search);
+        }
+        else
+        {
+            $userSum = DB::select("
+                            select COUNT(users.id) as sum
+                            from users           
+                            LEFT JOIN user_meta AS foto_ktp ON foto_ktp.user_id=users.id
+                                AND foto_ktp.meta_key = 'foto_ktp'
+                            WHERE users.role  NOT IN ( 'admin', 'mentor' )
+                            ");
+            $users = Users::offset($this->offset)->take($this->perPage)->get();   
+            $users = DB::select("
+                            select users.id,
+                                    users.username as username,
+                                    foto_ktp.meta_value as foto_ktp
+                            from users           
+                            LEFT JOIN user_meta AS foto_ktp ON foto_ktp.user_id=users.id
+                                AND foto_ktp.meta_key = 'foto_ktp'
+                            WHERE users.role  NOT IN ( 'admin', 'mentor' )
+                            LIMIT $this->offset,$this->perPage
+                            ");
+        }
+        $page = new \stdClass;
+        $page->sum = ceil($userSum[0]->sum / $this->perPage);
+        $page->usersum = $userSum[0]->sum;
+        $page->userstart = $this->offset;
+        $page->perpage = $this->perPage;
+        $page->current = $this->page;
+        $page->start = ( $this->page - 3 );
+        $page->end = ( ($this->page+3) > $page->sum ) ? $page->sum : $this->page+3;
+
+        if ($page->current < 4 )
+        {
+            $page->start = 1;
+            if ($page->sum > 1 && $page->sum <= $page->start)
+            {
+                $page->end = ($page->end + (4-$page->start));
+            }
+        }
+
+        return view('shb::backend.users.ktp',['page'=>$page,'users'=>$users]);
+    }
+
     private static function listUsaha()
     {
         $usaha = [
