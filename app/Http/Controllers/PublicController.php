@@ -307,7 +307,7 @@ class PublicController extends Controller
 	public function mentorSingle($username){
 		$var['page'] = "mentorSingle";
 		$var['mentors'] =  app()->OAuth->mentor("$username");
-		if(isset($var['mentors'])){
+		if(isset($var['mentors']) && isset($var['mentors']->username)){
 			$var['mentors'] = $var['mentors'];
 			$Meta = app()->Meta;
         	$Meta->set('meta_type', 'profile');
