@@ -1,8 +1,8 @@
 {
+    "/css/app.css": "/css/app.css",
     "/css/style.css": "/css/style.css",
     "/css/font-awesome.css": "/css/font-awesome.css",
     "/css/index.css": "/css/index.css",
     "/js/index.js": "/js/index.js",
-    "/js/home.js": "/js/home.js",
-    "/css/app.css": "/css/app.css"
+    "/js/home.js": "/js/home.js"
 }
