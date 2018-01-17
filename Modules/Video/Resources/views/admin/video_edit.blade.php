@@ -21,7 +21,7 @@
                     New Video +<div class="ripple-container"></div>
                 </a>
                 @endif
-                <a target="_blank" href="{{ route('single_gallery',$video->slug) }}" class="btn btn-round btn-fill btn-info">
+                <a target="_blank" href="{{ 'http://'.config('frontend.domain').'/galeri/'.$video->slug }}" class="btn btn-round btn-fill btn-info">
                     View Video<div class="ripple-container"></div>
                 </a>
                 @if (in_array('delete', app()->OAuth::can('panel.video')))

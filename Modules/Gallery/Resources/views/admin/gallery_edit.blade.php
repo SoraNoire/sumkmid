@@ -22,7 +22,7 @@
                     New Gallery +<div class="ripple-container"></div>
                 </a>
                 @endif
-                <a target="_blank" href="{{ route('single_gallery',$gallery->slug) }}" class="btn btn-round btn-fill btn-info">View Gallery<div class="ripple-container"></div>
+                <a target="_blank" href="{{ 'http://'.config('frontend.domain').'/galeri/'.$gallery->slug }}" class="btn btn-round btn-fill btn-info">View Gallery<div class="ripple-container"></div>
                 </a>
                 @if (in_array('delete', app()->OAuth::can('panel.gallery')))
                 <a onclick="return confirm('Delete gallery?');" href="{{ route('panel.gallery__delete', $gallery->id)}}" class="btn btn-round btn-fill btn-danger">

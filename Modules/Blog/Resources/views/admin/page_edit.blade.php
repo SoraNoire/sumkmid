@@ -20,7 +20,7 @@
                     New Page +<div class="ripple-container"></div>
                 </a>
                 @endif
-                <a target="_blank" href="{{ route('public_single_page',$page->slug) }}" class="btn btn-round btn-fill btn-info">
+                <a target="_blank" href="{{ 'http://'.config('frontend.domain').'/'.$page->slug }}" class="btn btn-round btn-fill btn-info">
                     View Page<div class="ripple-container"></div>
                 </a>
                 @if (in_array('delete', app()->OAuth::can('panel.page')))
