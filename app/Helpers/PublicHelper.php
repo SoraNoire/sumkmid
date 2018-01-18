@@ -226,7 +226,7 @@ class PublicHelper
 
     public static function SchemaNewsArticle($postSLUG){
         $post = Posts::where('slug',$postSLUG)->first();
-        $author = DB::table('users')->where('id',$post->author)->first()->name;
+        $author = DB::table('users')->where('id',$post->author)->first()->name ?? 'Admin';
         $meta = DB::table('post_meta')->where('post_id',$post->id)->get();
         $meta = PublicHelper::readMetas($meta);
         $linkToPost = route('single_gallery',$postSLUG);
