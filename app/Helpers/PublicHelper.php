@@ -224,10 +224,9 @@ class PublicHelper
     }
 
 
-    public static function SchemaNewsArticle(){
-        $postSLUG = 'professionally-transition-alternative-scenarios';
+    public static function SchemaNewsArticle($postSLUG){
         $post = Posts::where('slug',$postSLUG)->first();
-        $author = DB::table('users')->where('id',$post->author)->first()->name;
+        $author = DB::table('users')->where('id',$post->author)->first()->name ?? 'Admin';
         $meta = DB::table('post_meta')->where('post_id',$post->id)->get();
         $meta = PublicHelper::readMetas($meta);
         $linkToPost = route('single_gallery',$postSLUG);
@@ -238,8 +237,6 @@ class PublicHelper
         $writerName = $author ?? 'Admin';
         $logo = asset('images/sbt-icon.png');
         $metaDesc = $meta->meta_desc ?? $title;
-
-
         if($post->post_type == 'video'){
             $type = 'VideoObject';
         }else{
@@ -256,7 +253,7 @@ class PublicHelper
                             "name" : "'.$title.'",
                             "thumbnailUrl" : "'.$thumbnail.'",
                             "uploadDate" : "'.$published_at.'",
-                            "duration" : "'.$meta->video_url.'",';
+                            "duration" : "'.PublicHelper::getDuration($meta->video_url).'",';
         }else{
         $schema .=      '"mainEntityOfPage": {
                             "@type": "WebPage",
@@ -295,7 +292,7 @@ class PublicHelper
     /**
      * Return all selected Schema
      */
-    public static function printSchema($page,$kategori = '',$postSLUG = ''){
+    public static function printSchema($page,$postSLUG = ''){
         $send = '';
         switch ($page) {
             case 'Home':
@@ -305,7 +302,7 @@ class PublicHelper
             case 'singleGaleri':
                 $send .= PublicHelper::SchemaWebSite();
                 $send .= PublicHelper::SchemaOrganization();
-                $send .= PublicHelper::SchemaNewsArticle();
+                $send .= PublicHelper::SchemaNewsArticle($postSLUG);
                 break;
             default:
                 $send .= PublicHelper::SchemaWebSite();
