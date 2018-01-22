@@ -15,7 +15,7 @@ Route::group(['domain'=>config('admin.domain'),'middleware' => ['web', 'backend'
     Route::get('/trash', 'BlogController@trash')
             ->name('panel.post.trash__index');
     Route::get('/ajaxtrashposts', 'BlogController@ajaxtrashPosts')
-                    ->name('panel.post.trash__delete__ajax');
+            ->name('panel.post.trash__index__ajax');
     Route::get('/trash/{id}/delete', 'BlogController@deleteTrash')
             ->name('panel.post.trash__delete');
     Route::get('/trash/{id}/restore', 'BlogController@restoreTrash')

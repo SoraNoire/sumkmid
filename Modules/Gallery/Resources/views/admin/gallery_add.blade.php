@@ -135,10 +135,11 @@
 
                             <div id="add_category" class="collapse">
                                 <div class="form-group">
-                                    <label class="control-label">Add Category</label>
+                                    <label class="control-label">Category Name</label>
                                     <input type="text" name="category_name" class="form-control">
                                 </div>
                                 <div class="form-group">
+                                    <label class="control-label">Category Parent</label>
                                     <select name="category_parent" class="form-control category-parent myselect2" style="width: 100%;"></select>
                                 </div>
                                 <button class="btn btn-default add_category_button" type="button">Add New Category</button>

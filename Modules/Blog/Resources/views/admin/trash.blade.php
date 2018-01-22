@@ -3,19 +3,19 @@
 @section('content')
 
 <div class="col-md-12">
-@if (in_array('delete', app()->OAuth::can('panel.trash')))
+@if (in_array('delete', app()->OAuth::can('panel.post.trash')))
 <a href="{{ route('panel.post.trash__delete__clear') }}" class="btn btn-round btn-fill btn-info">
     Empty Trash<div class="ripple-container"></div>
 </a>
 @endif
-@if (in_array('delete', app()->OAuth::can('panel.trash')))
+@if (in_array('delete', app()->OAuth::can('panel.post.trash')))
 <form method="post" action="{{ route('panel.post.trash__delete__mass') }}" accept-charset="UTF-8" style="display: inline-block;">
     <input type="hidden" name="_token" value="{{ csrf_token() }}">
     <input type="hidden" name="id" class="bulk-delete-id">
     <button type="sumbit" style="display: none;" class="btn btn-round btn-fill btn-danger bulk-delete-item">Delete Permanent <span class="bulk-delete-count"></span> Post</button>
 </form>
 @endif
-@if (in_array('edit', app()->OAuth::can('panel.tag')))
+@if (in_array('edit', app()->OAuth::can('panel.post.trash')))
 <form method="post" action="{{ route('panel.post.trash__update__restore__mass') }}" accept-charset="UTF-8" style="display: inline-block;">
     <input type="hidden" name="_token" value="{{ csrf_token() }}">
     <input type="hidden" name="id" class="bulk-delete-id">
