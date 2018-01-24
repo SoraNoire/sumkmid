@@ -40,9 +40,7 @@
 					</div>
 					@endif
 					<div class="eventTitleWrap">
-						<div class="event-title">
-							<a href="{{ route('public_single_event',$event->slug) }}">{{ $event->title }}</a>
-						</div>
+						<div class="event-title">{{ $event->title }}</div>
 						<div class="event-datetime">
 								<span>{{ date('d M Y', strtotime($meta['open_at'])) }}</span>
 								<span>{{ date('H:i', strtotime($meta['open_at'])) }} WIB - {{ date('d M Y', strtotime($meta['closed_at'])) > date('d M Y', strtotime($meta['open_at'])) ? date('d M Y H:i', strtotime($meta['closed_at'])).' WIB' : date('H:i', strtotime($meta['closed_at'])).' WIB' }} </span>
