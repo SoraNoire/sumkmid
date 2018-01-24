@@ -206,6 +206,7 @@ class BlogController extends Controller
             }
 
             PostMeta::insert($meta_contents);
+            PostHelper::clear_all();
             
             DB::commit();
             return redirect(route('panel.post__view', $store->id))->with(['msg' => 'Saved', 'status' => 'success']);
@@ -335,6 +336,7 @@ class BlogController extends Controller
                      PostMeta::insert(['post_id'=>$update->id,'key' => $meta, 'value'=>$value]);
                 }
             }
+            PostHelper::clear_all();
 
             DB::commit();
             return redirect(route('panel.post__view', $update->id))->with(['msg' => 'Saved', 'status' => 'success']);
@@ -355,6 +357,7 @@ class BlogController extends Controller
         if ($delete){
             $delete->deleted = 1;
             $delete->save();
+            PostHelper::clear_all();
             return redirect(route('panel.post__index'))->with(['msg' => 'Deleted', 'status' => 'success']);
         }
         return redirect(route('panel.post__index'))->with(['msg' => 'Delete error', 'status' => 'danger']);
@@ -379,6 +382,7 @@ class BlogController extends Controller
                 return redirect(route('panel.post__index'))->with(['msg' => 'Delete Error. Page Not Found', 'status' => 'danger']);
             }
         }
+        PostHelper::clear_all();
         return redirect(route('panel.post__index'))->with(['msg' => 'Delete Success', 'status' => 'success']);
     }
 
@@ -1317,6 +1321,7 @@ class BlogController extends Controller
             }
 
             PostMeta::insert($meta_contents);
+            PostHelper::clear_all();
 
             DB::commit();
             return redirect(route('panel.page__view', $store->id))->with(['msg' => 'Saved', 'status' => 'success']);
@@ -1422,6 +1427,7 @@ class BlogController extends Controller
                      PostMeta::insert(['post_id'=>$update->id,'key' => $meta, 'value'=>$value]);
                 }
             }
+            PostHelper::clear_all();
 
             return redirect(route('panel.page__view', $update->id))->with(['msg' => 'Saved', 'status' => 'success']);
         } else {
@@ -1435,6 +1441,7 @@ class BlogController extends Controller
         if ($delete){
             $delete->deleted = 1;
             $delete->save();
+            PostHelper::clear_all();
             return redirect(route('panel.page__index'))->with(['msg' => 'Deleted', 'status' => 'success']);
         }
         return redirect(route('panel.page__index'))->with(['msg' => 'Delete error', 'status' => 'danger']);
@@ -1450,6 +1457,7 @@ class BlogController extends Controller
         $page = Posts::where('id', $id)->first();
         if (isset($page)) {
             if ($page->delete()) {
+                PostHelper::clear_all();
                 return redirect(route('panel.page__index'))->with(['msg' => 'Deleted', 'status' => 'success']);
             } else {
                 return redirect(route('panel.page__index'))->with(['msg' => 'Delete Error', 'status' => 'danger']);
@@ -1479,6 +1487,7 @@ class BlogController extends Controller
                 return redirect(route('panel.page__index'))->with(['msg' => 'Delete Error. Page Not Found', 'status' => 'danger']);
             }
         }
+        PostHelper::clear_all();
         return redirect(route('panel.page__index'))->with(['msg' => 'Delete Success', 'status' => 'success']);
     }
     // end page controller
@@ -1542,6 +1551,7 @@ class BlogController extends Controller
         $delete = Posts::find($id);
         if ($delete){  
             $delete->delete();  
+            PostHelper::clear_all();
             return redirect(route('panel.post.trash__index'))->with(['msg' => 'Deleted', 'status' => 'success']);
         }
         return redirect(route('panel.post.trash__index'))->with(['msg' => 'Delete error', 'status' => 'danger']);
@@ -1558,6 +1568,7 @@ class BlogController extends Controller
         if ($post){  
             $post->deleted = 0;
             $post->save();  
+            PostHelper::clear_all();
             return redirect(route('panel.post.trash__index'))->with(['msg' => 'Restored', 'status' => 'success']);
         }
         return redirect(route('panel.post.trash__index'))->with(['msg' => 'Restore Error', 'status' => 'danger']);
@@ -1581,6 +1592,7 @@ class BlogController extends Controller
                 return redirect(route('panel.post.trash__index'))->with(['msg' => 'Delete Error. Page Not Found', 'status' => 'danger']);
             }
         }
+        PostHelper::clear_all();
         return redirect(route('panel.post.trash__index'))->with(['msg' => 'Delete Success', 'status' => 'success']);
     }
 
@@ -1603,6 +1615,7 @@ class BlogController extends Controller
                 return redirect(route('panel.post.trash__index'))->with(['msg' => 'Restore Error. Page Not Found', 'status' => 'danger']);
             }
         }
+        PostHelper::clear_all();
         return redirect(route('panel.post.trash__index'))->with(['msg' => 'Restore Success', 'status' => 'success']);
     }
 
@@ -1622,6 +1635,7 @@ class BlogController extends Controller
                 return redirect(route('panel.post.trash__index'))->with(['msg' => 'Delete Error. Page Not Found', 'status' => 'danger']);
             }
         }
+        PostHelper::clear_all();
         return redirect(route('panel.post.trash__index'))->with(['msg' => 'ResDeletetore Success', 'status' => 'success']);
     }
     // end trash controller

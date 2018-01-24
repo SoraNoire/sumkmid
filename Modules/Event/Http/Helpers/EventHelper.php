@@ -7,6 +7,7 @@ use Modules\Blog\Entities\Categories;
 use Modules\Event\Entities\EventCategoryRelation;
 use Modules\Event\Entities\EventForumRelation;
 use Modules\Event\Entities\EventMentorRelation;
+use Modules\Blog\Http\Helpers\PostHelper;
 use Illuminate\Http\File;
 use Image;
 use DB;
@@ -98,6 +99,7 @@ class EventHelper
                 $event->deleted = 1;
                 $event->save();  
                 
+                PostHelper::clear_all();
                 DB::commit();
                 if ($is_bulk == 'bulk') {
                     // all good. do nothing

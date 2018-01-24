@@ -25,6 +25,7 @@ use View;
 use Modules\Blog\Entities\Media;
 use Illuminate\Support\Facades\Validator;
 use Vinkla\Instagram\Instagram;
+use Response;
 
 class PublicController extends Controller
 {
@@ -560,4 +561,163 @@ class PublicController extends Controller
 
 		return redirect($post_url);
 	}
+
+	/**
+     * show gallery-sitemap.xml.
+     * @return Response
+     */
+	public function gallery_sitemap(){
+		if (PostHelper::check_cache('gallery-sitemap.xml')) {
+			$response = Response::make(PostHelper::read_cache('gallery-sitemap.xml'), 200);
+	        $response->header('Content-type', 'text/xml');
+            return $response;
+        } else {
+         	$posts = DB::table('post_view')
+        			->whereIn('post_type', ['gallery', 'video'])
+        			->orderBy('published_date', 'desc')
+        			->limit(1000)
+        			->get();
+	        $output = '';
+	        foreach ($posts as $post) {
+				$postMetas = DB::table('post_meta')->where('post_id',$post->id)->get();
+				$postMeta = $this->readMetas($postMetas);
+				$categories = PostHelper::get_post_category($post->id, 'name');
+				$tags = PostHelper::get_post_tag($post->id, 'name');
+				$categories = implode(',', $categories);
+				$tags = implode(',', $tags);
+				if ($post->post_type == 'gallery') {
+
+					$gallery_images = json_decode($postMeta->gallery_images ?? '') ?? []; 
+					$images = Media::whereIn('id', $gallery_images)->get();
+
+					$output .= '<url>';
+					$output .= '<loc>'.url('/galeri/'.$post->slug).'</loc>';
+					foreach ($images as $key => $image) {
+						$output .= '<image:image>';
+						$output .= '<image:loc>'.PostHelper::getLinkimage($image->name, 'media', 'large').'</image:loc>';
+						$output .= '</image:image>';
+					}
+					$output .= '</url> ';
+				} else {
+					$desc = $postMeta->meta_desc ?? str_limit(html_entity_decode(strip_tags($post->content)), 100);
+					$video_url = $postMeta->video_url ?? '';
+
+					$output .= '<url>';
+					$output .= '<loc>'.url('/galeri/'.$post->slug).'</loc>';
+					$output .= '<video:video>';
+					$output .= '<video:thumbnail_loc>'.$post->featured_image.'</video:thumbnail_loc>';
+					$output .= '<video:title>'.$post->title.'</video:title>';
+					$output .= '<video:description>'.$desc.'</video:description>';
+					$output .= '<video:content_loc>'.$video_url.'</video:content_loc>';
+					$output .= '<video:player_loc autoplay="ap=0">'.$video_url.'</video:player_loc>';
+					$output .= '<video:publication_date>'.date('c',strtotime($post->published_date)).'</video:publication_date>';
+					$output .= '<video:family_friendly>yes</video:family_friendly>';
+					$output .= '<video:tag>'.$tags.'</video:tag>';
+					$output .= '<video:category>'.$categories.'</video:category>';
+					$output .= '<video:gallery_loc title="Cooking Videos">'.url('/galeri').'</video:gallery_loc>';
+					$output .= '<video:live>no</video:live>';
+					$output .= '</video:video></url>';
+				}
+	        }
+	        $content = "<?xml version=\"1.0\"?>   
+	            <urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\" 
+	        			xmlns:video=\"http://www.google.com/schemas/sitemap-video/1.1\"
+	            		xmlns:image=\"http://www.google.com/schemas/sitemap-image/1.1\">
+	              $output
+	            </urlset>";
+
+
+            PostHelper::create_cache($content, 'gallery-sitemap.xml');
+
+	        $response = Response::make(PostHelper::read_cache('gallery-sitemap.xml'), 200);
+	        $response->header('Content-type', 'text/xml');
+            return $response;
+        }
+	}
+
+	/**
+     * show event-sitemap.xml.
+     * @return Response
+     */
+	public function event_sitemap(){
+		if (PostHelper::check_cache('event-sitemap.xml')) {
+			$response = Response::make(PostHelper::read_cache('event-sitemap.xml'), 200);
+	        $response->header('Content-type', 'text/xml');
+            return $response;
+        } else {
+         	$posts = DB::table('post_view')
+        			->where('post_type', 'event')
+        			->orderBy('published_date', 'desc')
+        			->limit(1000)
+        			->get();
+	        $output = '';
+	        foreach ($posts as $post) {
+				$postMetas = DB::table('post_meta')->where('post_id',$post->id)->get();
+				$postMeta = $this->readMetas($postMetas);
+				$meta_keywords = $postMeta->meta_keyword ?? '';
+
+				$output .= '<url>';
+				$output .= '<loc>'.url('event/'.$post->slug).'</loc>';
+				$output .= '<news:news><news:publication><news:name>';
+				$output .= '<![CDATA[ Event Sahabat UMKM ]]>';
+				$output .= '</news:name>';
+				$output .= '<news:language>id</news:language>';
+				$output .= '</news:publication>';
+				$output .= '<news:publication_date>'.date('c',strtotime($post->published_date)).'</news:publication_date>';
+				$output .= '<news:title>';
+				$output .= '<![CDATA[ '.$post->title.' ]]>';
+				$output .= '</news:title>';
+				$output .= '<news:keywords>';
+				$output .= '<![CDATA[ '.$meta_keywords.' ]]>';
+				$output .= '</news:keywords>';
+				$output .= '</news:news>';
+				$output .= '<image:image>';
+				$output .= '<image:loc>'.$post->featured_image.'</image:loc>';
+				$output .= '<image:caption>';
+				$output .= '<![CDATA[ '.$post->title.' ]]>';
+				$output .= '</image:caption>';
+				$output .= '</image:image>';
+				$output .= '</url>';
+
+	        }
+	        $content = "<?xml version=\"1.0\"?>   
+	             <urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\" xmlns:news=\"http://www.google.com/schemas/sitemap-news/0.9\" xmlns:image=\"http://www.google.com/schemas/sitemap-image/1.1\">
+	              $output
+	            </urlset>";
+
+
+            PostHelper::create_cache($content, 'event-sitemap.xml');
+
+	        $response = Response::make(PostHelper::read_cache('event-sitemap.xml'), 200);
+	        $response->header('Content-type', 'text/xml');
+            return $response;
+        }
+	}
+
+	/**
+     * show sitemap-index.xml.
+     * @return Response
+     */
+	public function index_sitemap(){
+		$dir = resource_path('views/template');
+        $files = scandir($dir, 1);
+        $templates = [];
+
+        $content = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+   <sitemapindex xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">
+   <sitemap>
+      <loc>".url('/event-sitemap.xml')."</loc>
+      <lastmod>".date('c',filemtime(app_path('Cache/event-sitemap.xml')))."</lastmod>
+   </sitemap>
+   <sitemap>
+      <loc>".url('/gallery-sitemap.xml')."</loc>
+      <lastmod>".date('c',filemtime(app_path('Cache/gallery-sitemap.xml')))."</lastmod>
+   </sitemap>
+   </sitemapindex>";
+
+        $response = Response::make($content, 200);
+        $response->header('Content-type', 'text/xml');
+        return $response;
+	}
+
 }
