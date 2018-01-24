@@ -219,6 +219,7 @@ class EventController extends Controller
             }
 
             PostMeta::insert($meta_contents);
+            PostHelper::clear_all();
 
             DB::commit();
             return redirect(route('panel.event__view', $store->id))->with(['msg' => 'Saved', 'status' => 'success']);
@@ -473,6 +474,7 @@ class EventController extends Controller
             //     }
             // }
 
+            PostHelper::clear_all();
             DB::commit();
             return redirect(route('panel.event__view', $id))->with(['msg' => 'Saved', 'status' => 'success']);
         } catch (\Exception $e) {
@@ -511,6 +513,7 @@ class EventController extends Controller
                 return redirect(route('panel.event__index'))->with(['msg' => 'Delete Error. Event does not exists', 'status' => 'danger']);
             }
         }
+        PostHelper::clear_all();
         return redirect(route('panel.event__index'))->with(['msg' => 'Delete Success', 'status' => 'success']);
     }
 

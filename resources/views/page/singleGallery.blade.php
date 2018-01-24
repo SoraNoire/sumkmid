@@ -4,7 +4,6 @@
 @if($var['content']->post_type == 'gallery')
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.7/css/swiper.min.css">
 @endif
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.7/css/swiper.min.css">
 <div class="breadcrumb">
 	<div class="container">
 		<ol itemscope itemtype="http://schema.org/BreadcrumbList">
@@ -148,7 +147,6 @@
 	</div>
 </section>
 @if($var['content']->post_type == 'gallery')
-@endif
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.7/js/swiper.min.js"></script>
 <script>
     var galleryTop = new Swiper('.gallery-top', {
@@ -168,5 +166,6 @@
     galleryTop.controller.control = galleryThumbs;
     galleryThumbs.controller.control = galleryTop;
   </script>
+@endif
 
 @endsection

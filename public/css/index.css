@@ -3497,6 +3497,10 @@ footer .container .stayInTouch .copyText {
   text-transform: capitalize;
 }
 
+#event-archive .event .event-content .event-title a {
+  text-decoration: none;
+}
+
 #event-archive .event .event-content .event-title i {
   font-size: 20px;
 }
@@ -4459,6 +4463,16 @@ footer .container .stayInTouch .copyText {
   overflow: hidden;
 }
 
+.singleVideo .videoContainer .eventPoster {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.singleVideo .videoContainer .eventPoster img {
+  display: block;
+  max-width: 100%;
+}
+
 @media screen and (max-width: 970px) {
   .singleVideo .videoContainer .container {
     padding: unset;
@@ -4741,6 +4755,38 @@ footer .container .stayInTouch .copyText {
 #singlePage .pageContent {
   margin-top: 30px;
   margin-bottom: 30px;
+}
+
+.eventDetail .eventMentors table {
+  margin-bottom: 10px;
+}
+
+.eventDetail .eventMentors .mentor {
+  color: rgba(64, 64, 64, 0.87);
+  border-bottom: unset;
+  margin-bottom: 12px;
+}
+
+.eventDetail .eventMentors .mentor .mentorWrap {
+  margin: unset;
+  text-transform: capitalize;
+  margin-bottom: 10px;
+}
+
+.eventDetail .eventMentors .mentor .mentorWrap a {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.eventDetail .eventMentors .mentor .mentorWrap .miniPhotoMentor {
+  margin-right: 20px;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: inline-block;
+  vertical-align: middle;
+  background-position: center;
+  background-size: cover;
 }
 
 @-webkit-keyframes spin {

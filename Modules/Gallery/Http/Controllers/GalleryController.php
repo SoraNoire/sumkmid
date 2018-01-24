@@ -187,6 +187,7 @@ class GalleryController extends Controller
             }
 
             PostMeta::insert($meta_contents);
+            PostHelper::clear_all();
 
             DB::commit();
             return redirect(route('panel.gallery__view', $store->id))->with(['msg' => 'Saved', 'status' => 'success']);
@@ -319,6 +320,7 @@ class GalleryController extends Controller
                 }
             }
 
+            PostHelper::clear_all();
             DB::commit();
             return redirect(route('panel.gallery__view', $id))->with(['msg' => 'Saved', 'status' => 'success']);
         } catch (\Exception $e) {
@@ -338,6 +340,7 @@ class GalleryController extends Controller
         if ($delete){
             $delete->deleted = 1;
             $delete->save();
+            PostHelper::clear_all();
             return redirect(route('panel.gallery__index'))->with(['msg' => 'Deleted', 'status' => 'success']);
         }
         return redirect(route('panel.gallery__index'))->with(['msg' => 'Delete error', 'status' => 'danger']);
@@ -362,6 +365,7 @@ class GalleryController extends Controller
                 return redirect(route('panel.gallery__index'))->with(['msg' => 'Delete Error. Page Not Found', 'status' => 'videos']);
             }
         }
+        PostHelper::clear_all();
         return redirect(route('panel.gallery__index'))->with(['msg' => 'Delete Success', 'status' => 'success']);
     }
 

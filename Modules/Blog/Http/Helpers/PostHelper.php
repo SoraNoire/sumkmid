@@ -555,5 +555,90 @@ class PostHelper
 
         return $posts_ids;
     }
+
+    /**
+     * check file
+     **/
+    public static function check_cache($filename){
+        try{
+            if (!file_exists(app_path('Cache'))) {
+                mkdir(app_path('Cache'), 0775, true);
+            }
+            if (file_exists(app_path('Cache/'.$filename))) {
+                return true;
+            }
+            return false;
+        }
+        catch (\Exception $e)
+        {
+            return false;
+        }
+    }
+
+    /**
+     * create file
+     **/
+    public static function create_cache($object,$filename){
+        // just throw away if file exists, then everything will be happy
+
+        // if (!file_exists(__DIR__."/Cache/".$filename.'.php') || filesize(__DIR__."/Cache/".$filename.'.php') <= 0) 
+
+        if ( file_exists(app_path('Cache/'.$filename)))
+        {
+            unlink(app_path('Cache/'.$filename));
+        }
+
+        $myfile = fopen(app_path('Cache/'.$filename), "w") or die("Unable to open file!");
+        fwrite($myfile, $object);
+        fclose($myfile);
+    
+    }
+
+    /**
+     * read file
+     **/
+    public static function read_cache($filename){
+        try{
+            if (!file_exists(app_path('Cache'))) {
+                mkdir(app_path('Cache'), 0775, true);
+            }
+            if (!file_exists(app_path('Cache/'.$filename))) {
+                return '';
+            }
+            $file = fopen(app_path('Cache/'.$filename), "r");
+        }
+        catch (\Exception $e)
+        {
+            return '';
+        }
+        
+        $hasil = fread($file, filesize(app_path('Cache/'.$filename)));
+        return $hasil;
+    }
+
+    /**
+     * clear all file cache
+     **/
+    public static function clear_all($nama = 'all'){
+
+        $dir = app_path('Cache');
+        $leave_files = array('index.php');
+
+        if($nama != 'all'){
+
+            unlink($dir.'/'.$nama);
+
+        }else{
+
+            foreach( glob("$dir/*") as $file ) {
+                if( !in_array(basename($file), $leave_files) )
+                    unlink($file);
+            }
+
+        }
+
+        clearstatcache();
+    }
+
 }
 ?>
