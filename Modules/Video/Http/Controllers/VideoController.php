@@ -1,3 +1,4 @@
+
 <?php
 
 namespace Modules\Video\Http\Controllers;
@@ -185,7 +186,8 @@ class VideoController extends Controller
                 }
             }
 
-            PostMeta::insert($meta_contents);
+            PostMeta::insert($meta_contents);            
+            PostHelper::clear_all();
 
             DB::commit();
             return redirect(route('panel.video__view', $store->id))->with(['msg' => 'Saved', 'status' => 'success'])->send();         
@@ -310,6 +312,7 @@ class VideoController extends Controller
                 }
             }
 
+            PostHelper::clear_all();
             DB::commit();
             return redirect(route('panel.video__view', $update->id))->with(['msg' => 'Saved', 'status' => 'success']);
         } catch (\Exception $e) {
@@ -331,6 +334,7 @@ class VideoController extends Controller
         $video->deleted = 1;
         if( $video->save() )
         {
+            PostHelper::clear_all();
             return redirect(route('panel.gallery__index'))->with(['msg' => 'Deleted', 'status' => 'success']);
         }
         return redirect(route('panel.gallery__index'))->with(['msg' => 'Delete error', 'status' => 'warning']);
@@ -355,6 +359,7 @@ class VideoController extends Controller
                 return redirect(route('panel.gallery__index'))->with(['msg' => 'Delete Error. Page Not Found', 'status' => 'videos']);
             }
         }
+        PostHelper::clear_all();
         return redirect(route('panel.gallery__index'))->with(['msg' => 'Delete Success', 'status' => 'success']);
     }
 

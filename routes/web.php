@@ -70,6 +70,13 @@ Route::get('/galeri/{slug}', 'PublicController@singleGallery')->name('single_gal
 Route::get('/gallery-category/{slug}', 'PublicController@galleryCatArchive')->name('gallery_cat_archive');
 Route::get('/gallery-tag/{slug}', 'PublicController@galleryTagArchive')->name('gallery_tag_archive');
 
+Route::get('gallery-sitemap.xml', 'PublicController@gallery_sitemap')->name('gallery_sitemap');
+Route::get('event-sitemap.xml', 'PublicController@event_sitemap')->name('event_sitemap');
+Route::get('sitemap.xml', 'PublicController@index_sitemap')->name('index_sitemap');
+Route::get('/delete',function(){
+	App\Helpers\PublicHelper::clear_all();
+	return Redirect::to('/');
+});
 
 // Auth::routes();
 
