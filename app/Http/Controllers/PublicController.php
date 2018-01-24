@@ -302,6 +302,36 @@ class PublicController extends Controller
 	}
 
 	/**
+     * Show single Event page.
+     * @return Response
+     */
+	public function eventSingle($slug){
+		$get = Posts::where('post_type','event')->where('slug',$slug)->first();
+		if($get){
+			$postMetas = DB::table('post_meta')->where('post_id',$get->id)->get();
+			$postMetas = $this->readMetas($postMetas);
+			$Meta = app()->Meta;
+        	$Meta->set('meta_type', 'article');
+        	$Meta->set('meta_title', 'Sahabat UMKM Event - '.(isset($postMetas->meta_title) ? $postMetas->meta_title : $get->title ));
+        	$Meta->set('meta_desc', (isset($postMetas->meta_desc) ? $postMetas->meta_desc :  str_limit( html_entity_decode(strip_tags($get->content)), 250 )));
+        	$Meta->set('meta_keyword', (isset($postMetas->meta_keyword) ? $postMetas->meta_keyword : ''));
+        	$Meta->set('meta_image', (isset($get->featured_image) ? $get->featured_image : ''));
+
+			$var['page'] = "eventSingle";
+			$var['content'] = $get;
+			$var['meta'] = $postMetas;
+			// dd($postMetas->htm);
+
+
+			return view('page.singleEvent')->with(['var' => $var]);	
+		}else{
+			return redirect(route('public_home'));
+		}
+
+		
+	}
+
+	/**
      * Show single mentor page.
      * @return Response
      */

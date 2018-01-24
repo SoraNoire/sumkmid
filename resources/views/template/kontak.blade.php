@@ -10,7 +10,7 @@
                 <meta itemprop="position" content="1" />
             </li>
             <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
-                <a itemprop="item" href="{{ url('/kontak') }}"><span itemprop="name">Kontak</span></a> <i class="fa fa-angle-right" aria-hidden="true"></i>
+                <a itemprop="item" href="{{ url('/kontak') }}"><span itemprop="name">Kontak</span></a>
                 <meta itemprop="position" content="2" />
             </li>
         </ol>

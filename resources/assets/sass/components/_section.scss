@@ -1240,7 +1240,9 @@
 				padding-bottom: 12px;
 				position: relative;
 				text-transform: capitalize;
-
+				a{
+					text-decoration: none;
+				}
 				i {
 					font-size: 20px;
 				}
@@ -2085,6 +2087,14 @@
 				.videoContainer{
 					background-color: rgba(64, 64, 64, 0.87);
 					overflow: hidden;
+					.eventPoster{
+						max-width: 400px;
+						margin: 0 auto;
+						img{
+							display: block;
+							max-width: 100%;
+						}
+					}
 					@media screen and (max-width: 970px) {
 						.container{
 							padding: unset;
@@ -2329,6 +2339,40 @@
 	.pageContent {
 		margin-top: 30px;
 		margin-bottom: 30px;
+	}
+}
+
+.eventDetail{
+	.eventMentors{
+		table{
+			margin-bottom: 10px;
+		}
+		.mentor {
+			color: rgba(64, 64, 64, 0.87);
+			border-bottom: unset;
+			margin-bottom: 12px;
+			.mentorWrap {
+				margin: unset;
+				text-transform: capitalize;
+				margin-bottom: 10px;
+				a{
+					display: inline-block;
+					vertical-align: middle;
+				}
+				.miniPhotoMentor{
+					margin-right: 20px;
+
+					border-radius:50%;
+					width: 50px;
+					height: 50px;
+					display: inline-block;
+					vertical-align: middle;
+					background-position:center;
+					background-size: cover;
+				}
+			}
+			
+		}
 	}
 }
 @-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }

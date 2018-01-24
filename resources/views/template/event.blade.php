@@ -9,7 +9,7 @@
                 <meta itemprop="position" content="1" />
             </li>
             <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
-                <a itemprop="item" href="{{ url('/event') }}"><span itemprop="name">Event</span></a> <i class="fa fa-angle-right" aria-hidden="true"></i>
+                <a itemprop="item" href="{{ url('/event') }}"><span itemprop="name">Event</span></a>
                 <meta itemprop="position" content="2" />
             </li>
         </ol>
@@ -24,7 +24,6 @@
 			@php  $meta = PublicHelper::get_post_meta($event->id); @endphp
 			<div class="post event the-row {{ $meta['open_at'] > Carbon::now() ? 'active' : '' }}" id="event-{{ $event->id }}">
 				<div class="col-3">
-
 					@if ( isset($event->featured_image) && $event->featured_image != '')
 					<div class="eventPoster">
 						<img src="{{ $event->featured_image }}">
@@ -42,7 +41,7 @@
 					@endif
 					<div class="eventTitleWrap">
 						<div class="event-title">
-							{{ $event->title }}
+							<a href="{{ route('public_single_event',$event->slug) }}">{{ $event->title }}</a>
 						</div>
 						<div class="event-datetime">
 								<span>{{ date('d M Y', strtotime($meta['open_at'])) }}</span>
