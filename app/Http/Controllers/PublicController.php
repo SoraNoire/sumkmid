@@ -699,6 +699,8 @@ class PublicController extends Controller
      * @return Response
      */
 	public function index_sitemap(){
+		$this->gallery_sitemap();
+		$this->event_sitemap();
 		$dir = resource_path('views/template');
         $files = scandir($dir, 1);
         $templates = [];
