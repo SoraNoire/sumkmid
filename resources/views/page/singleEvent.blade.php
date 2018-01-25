@@ -32,16 +32,14 @@
 			</div>
 		</div>
 	</div>
-	<div class="videoContainer">
-		<div class="container">
-			<div class="eventPoster">
-				<img property="image" src="{{ $var['content']->featured_image }}">
-			</div>
-		</div>
-	</div>
 	<div class="videoDescription">
 		<div class="container">
 			<div class="row">
+				<div class="col-3 eventPosterColumn">
+					<div class="eventPoster">
+						<img property="image" src="{{ $var['content']->featured_image }}">
+					</div>
+				</div>
 				<div class="col-9">
 					<div class="wrapDescription styledText">
 						{!! $var['content']->content !!}
@@ -126,9 +124,6 @@
 						<meta property="performer" content="anonim">
 						@endif
 					</div>
-				</div>
-				<div class="col-3">
-
 				</div>
 			</div>
 		</div>
