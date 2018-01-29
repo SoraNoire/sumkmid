@@ -3,6 +3,8 @@
 /public/media
 /public/file
 /public/storage
+/public/robots.txt
+/public/.htaccess
 /storage/*.key
 /vendor
 /.idea
