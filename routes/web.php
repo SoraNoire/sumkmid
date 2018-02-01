@@ -37,7 +37,7 @@ THIS_IS_FRONTEND();
     	if (app()->OAuth->Auth()) {
 			return redirect ( URL::to("http://".config('admin.domain')).'/admin/blog' )->send();
     	} else {
-    		return redirect('/login')->send();
+			return view('errors.404');
     	}
 	}]);
 // });
