@@ -61,6 +61,7 @@ class Meta
         $this->meta_title = $meta->title ?? 'Sahabat UMKM';
         $this->meta_desc = $meta->desc ?? '';
         $this->meta_keyword = $meta->keyword ?? '';
+        $this->meta_image = asset('img/icon1color.png');
 
         $this->meta_url = url()->current();
         $this->meta = array('title' => $this->meta_title,
@@ -83,12 +84,14 @@ class Meta
     }
 
     public  function set($var, $value){
-        if (is_array($var) && sizeof($var) > 0) {
-            foreach ($var as $key => $var) {
-                $this->{$var} = $value;
+        if ($value != '') {
+            if (is_array($var) && sizeof($var) > 0) {
+                foreach ($var as $key => $var) {
+                    $this->{$var} = $value;
+                }
+            } else {
+                $this->{$var} = $value;   
             }
-        } else {
-            $this->{$var} = $value;   
         }
     }
 
