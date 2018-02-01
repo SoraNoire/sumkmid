@@ -4463,16 +4463,6 @@ footer .container .stayInTouch .copyText {
   overflow: hidden;
 }
 
-.singleVideo .videoContainer .eventPoster {
-  max-width: 400px;
-  margin: 0 auto;
-}
-
-.singleVideo .videoContainer .eventPoster img {
-  display: block;
-  max-width: 100%;
-}
-
 @media screen and (max-width: 970px) {
   .singleVideo .videoContainer .container {
     padding: unset;
@@ -4538,6 +4528,27 @@ footer .container .stayInTouch .copyText {
   .singleVideo .videoDescription .container .row .col-3 {
     display: none;
   }
+}
+
+@media screen and (max-width: 768px) {
+  .singleVideo .videoDescription .container .row .eventPosterColumn {
+    display: block;
+    width: calc(100% - 30px);
+    margin-left: 0px;
+    margin-bottom: 20px;
+  }
+}
+
+.singleVideo .videoDescription .container .row .eventPosterColumn .eventPoster {
+  max-width: 400px;
+  margin: 0 auto;
+  -webkit-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.25);
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.25);
+}
+
+.singleVideo .videoDescription .container .row .eventPosterColumn .eventPoster img {
+  display: block;
+  max-width: 100%;
 }
 
 .singleVideo .attachmentVideo {
