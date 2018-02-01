@@ -61,7 +61,7 @@ class Meta
         $this->meta_title = $meta->title ?? 'Sahabat UMKM';
         $this->meta_desc = $meta->desc ?? '';
         $this->meta_keyword = $meta->keyword ?? '';
-        $this->meta_image = asset('img/icon1color.png');
+        $this->meta_image = asset('img/sahabat-umkm-logo-200x200.png');
 
         $this->meta_url = url()->current();
         $this->meta = array('title' => $this->meta_title,
