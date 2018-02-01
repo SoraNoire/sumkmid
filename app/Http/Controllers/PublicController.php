@@ -390,7 +390,7 @@ class PublicController extends Controller
         	$Meta->set('meta_title', $postMetas->meta_title ?? $var['content']->title);
         	$Meta->set('meta_desc', $postMetas->meta_desc ?? str_limit( html_entity_decode(strip_tags($var['content']->content)), 250 ));
         	$Meta->set('meta_keyword', $postMetas->meta_keyword ?? '');
-        	$Meta->set('meta_image', $page->featured_image ?? '');
+        	$Meta->set('meta_image', $var['content']->featured_image ?? '');
 
 			if($var['content']->post_type == 'video'){
 				$var['videoEmbed'] = $postMetas->video_url ?? '';
