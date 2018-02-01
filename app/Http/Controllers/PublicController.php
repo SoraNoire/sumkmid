@@ -258,7 +258,10 @@ class PublicController extends Controller
         	$Meta->set('meta_title', $postMetas->meta_title ?? $page->title);
         	$Meta->set('meta_desc', $postMetas->meta_desc ?? str_limit( html_entity_decode(strip_tags($page->content)), 250 ));
         	$Meta->set('meta_keyword', $postMetas->meta_keyword ?? '');
-        	$Meta->set('meta_image', $page->featured_image ?? '');
+        	if (isset($page->featured_image) && $page->featured_image != '') {
+        		$meta_image = str_replace('-800.', '-300.', $page->featured_image);
+        		$Meta->set('meta_image',  $meta_image);
+        	}
 
 			if (isset($postMetas->page_template)) {
 				switch ($postMetas->page_template) {
@@ -316,7 +319,10 @@ class PublicController extends Controller
         	$Meta->set('meta_title', 'Sahabat UMKM Event - '.(isset($postMetas->meta_title) ? $postMetas->meta_title : $get->title ));
         	$Meta->set('meta_desc', (isset($postMetas->meta_desc) ? $postMetas->meta_desc :  str_limit( html_entity_decode(strip_tags($get->content)), 250 )));
         	$Meta->set('meta_keyword', (isset($postMetas->meta_keyword) ? $postMetas->meta_keyword : ''));
-        	$Meta->set('meta_image', (isset($get->featured_image) ? $get->featured_image : ''));
+        	if (isset($get->featured_image) && $get->featured_image != '') {
+        		$meta_image = str_replace('-800.', '-300.', $get->featured_image);
+        		$Meta->set('meta_image',  $meta_image);
+        	}
 
 			$var['page'] = "eventSingle";
 			$var['content'] = $get;
@@ -390,7 +396,10 @@ class PublicController extends Controller
         	$Meta->set('meta_title', $postMetas->meta_title ?? $var['content']->title);
         	$Meta->set('meta_desc', $postMetas->meta_desc ?? str_limit( html_entity_decode(strip_tags($var['content']->content)), 250 ));
         	$Meta->set('meta_keyword', $postMetas->meta_keyword ?? '');
-        	$Meta->set('meta_image', $var['content']->featured_image ?? '');
+        	if (isset($var['content']->featured_image) && $var['content']->featured_image != '') {
+        		$meta_image = str_replace('-800.', '-300.', $var['content']->featured_image);
+        		$Meta->set('meta_image',  $meta_image);
+        	}
 
 			if($var['content']->post_type == 'video'){
 				$var['videoEmbed'] = $postMetas->video_url ?? '';
