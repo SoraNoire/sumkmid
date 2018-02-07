@@ -95,6 +95,11 @@
               <a href="{{ route('panel.page__index') }}">Page</a>
             </li>
             @endif
+            @if( in_array('read', app()->OAuth::can('panel.mentoring')) )
+            <li class="mobile-admin-nav {{ ($page_meta_title ?? '') == 'Mentoring' ? 'active' : ''}}">
+              <a href="{{ url('admin/blog/mentoring/') }}">Mentoring</a>
+            </li>
+            @endif
             @if( in_array('read', app()->OAuth::can('panel.category')) )
             <li class="mobile-admin-nav {{ ($page_meta_title ?? '') == 'Categories' ? 'active' : ''}}">
               <a href="{{ route('panel.category__index') }}">Categories</a>
@@ -164,6 +169,11 @@
             @if( in_array('read', app()->OAuth::can('panel.page')) )
             <li class="{{ ($page_meta_title ?? '') == 'Page' ? 'active' : ''}}">
               <a href="{{ route('panel.page__index') }}">Page</a>
+            </li>
+            @endif
+            @if( in_array('read', app()->OAuth::can('panel.mentoring')) )
+            <li class="{{ ($page_meta_title ?? '') == 'Mentoring' ? 'active' : ''}}">
+              <a href="{{ route('panel.mentoring__index') }}">Mentoring</a>
             </li>
             @endif
             @if( in_array('read', app()->OAuth::can('panel.category')) )

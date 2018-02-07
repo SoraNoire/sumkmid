@@ -153,6 +153,57 @@ if ($("#posts-table").length > 0) {
     });
 }
 
+// news table
+if ($("#mentoring-table").length > 0) {
+    $("#mentoring-table").DataTable({
+        "ajax": $.fn.dataTable.pipeline( {
+            url: '/admin/blog/event/get-mentoring',
+            pages: 5 // number of pages to cache
+        } ),
+        "processing": true,
+        "serverSide": true,
+        "stateSave":true,
+        "columns": [
+            { "data": "title" },
+            { "data": "author_name" },
+            { "data": "published_date" },
+            { "data": "id" },
+        ],
+        "columnDefs": [ {
+                "targets": -1,
+                "data": 'id',
+                "render": function ( data, type, row ) {
+                    delDisabled = '';
+                    editDisabled = '';
+                    if ( can.indexOf("4") !== -1 ) {
+                        delDisabled = '';
+                    } else { delDisabled = 'disabled'; }
+
+                    if ( can.indexOf("3") !== -1 ) {
+                        editDisabled = '';
+                    } else { editDisabled = 'disabled'; }
+
+                    return '<a href="/admin/blog/mentoring/'+row.id+'/view" class="btn btn-round btn-fill btn-info '+editDisabled+'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a><a onclick="return confirm(\'Delete Mentoring?\');" href="/admin/blog/mentoring/'+row.id+'/remove"  class="btn btn-round btn-fill btn-danger '+delDisabled+'"><i class="fa fa-trash" aria-hidden="true"></i></a>';
+                }
+            },
+                {
+                "targets": 0,
+                "data": 'title',
+                "render": function ( data, type, row ) {
+                    if ( can.indexOf("3") !== -1 ){
+                        return '<a href="/admin/blog/mentoring/'+row.id+'/view">'+data+'</a>';
+                    } else {
+                        return data;
+                    }
+                }
+            }
+        ],
+        order: [
+            [2, "desc"]
+        ]
+    });
+}
+
 // media table
 if ($("#MediaTable").length > 0) {
     $("#MediaTable").DataTable({

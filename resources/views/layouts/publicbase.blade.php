@@ -90,7 +90,7 @@
                                 </li>
                                 @else
 	                            <li class="loginButton">
-	                                <a href="https://goo.gl/forms/iTe48cYNuizOwnu42" target="_blank" class="button">
+	                                <a href="{{ app()->Meta->get('reg_url') }}" target="_blank" class="button">
 	                                    Daftar
 	                                </a>
                                 </li>

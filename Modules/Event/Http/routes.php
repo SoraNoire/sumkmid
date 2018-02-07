@@ -21,6 +21,23 @@ Route::group(['domain'=>config('admin.domain'),'middleware' => ['web','backend']
     Route::post('/massdelete', 'EventController@massdeleteEvent')
             ->name('panel.event__delete__mass');
 
+    Route::get('/mentoring', 'EventController@mentoring')
+            ->name('panel.mentoring__index');
+    Route::get('/get-mentoring', 'EventController@ajaxMentoring')
+            ->name('panel.mentoring__index__ajax');
+    Route::get('/mentoring/add', 'EventController@addMentoring')
+            ->name('panel.mentoring__add');
+    Route::post('/mentoring/add', 'EventController@addMentoringPost')
+            ->name('panel.mentoring__save');
+    Route::get('/mentoring/{id}/view', 'EventController@viewMentoring')
+            ->name('panel.mentoring__view');
+    Route::post('/mentoring/{id}/update', 'EventController@updateMentoring')
+            ->name('panel.mentoring__update');
+    Route::get('/mentoring/{id}/remove', 'EventController@removeMentoring')
+            ->name('panel.mentoring__delete');
+    Route::post('/mentoring/massdelete', 'EventController@massdeleteMentoring')
+            ->name('panel.mentoring__delete__mass');
+
     // Route::get('/', 'EventController@index');
     // Route::get('/index', 'EventController@index');
     // Route::get('/show/{slug}', 'EventController@show_event');

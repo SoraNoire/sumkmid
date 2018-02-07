@@ -21,7 +21,7 @@
 		<div class="archive-list">
 			<div class="infinite-scroll">
 			@foreach ($var['events'] as $event)
-			@php  $meta = PublicHelper::get_post_meta($event->id); @endphp
+			@php  $meta = PublicHelper::get_event_meta($event->id); @endphp
 			<div class="post event the-row {{ $meta['open_at'] > Carbon::now() ? 'active' : '' }}" id="event-{{ $event->id }}">
 				<div class="col-3">
 					@if ( isset($event->featured_image) && $event->featured_image != '')
@@ -107,8 +107,8 @@
 					</div>
 					<div class="lihat-detail button orange-shadow" onclick="show_event_detail('event-{{ $event->id }}')">Lihat Detail</div>
 					<div class="lihat-sedikit button orange-shadow" onclick="show_less_event_detail('event-{{ $event->id }}')">Sembunyikan Detail</div>
-					@if ($meta['event_type'] == 'online')
 					<div class="event-buttons">
+					@if ($meta['event_type'] == 'online')
 						<a href="{{ $meta['event_url'] }}" class="join-event button orange-shadow">Join</a>
 						<!-- <div class="share-event button blue blue-shadow" onclick="show_event_sharer('event-{{ $event->id }}')">Bagikan ke Teman</div>
 						<div class="share-socmed">
@@ -124,8 +124,11 @@
 								</li>
 							</ul>
 						</div> -->
-					</div>
 					@endif
+					@if ( $meta['mentoring'] != '' )
+					<a href="{{ app()->OAuth->Auth() ? url('/materi-mentoring/'.$meta['mentoring']) : app()->Meta->get('reg_url') }}" class="button orange-shadow">Lihat Materi</a>
+					@endif
+					</div>
 				</div>
 			</div>
 			@endforeach

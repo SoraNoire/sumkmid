@@ -307,7 +307,7 @@ class PublicController extends Controller
      * @return Response
      */
 	public function eventSingle($slug){
-		$get = Posts::where('post_type','event')->where('slug',$slug)->first();
+		$get = DB::table('post_view')->where('post_type','event')->where('slug',$slug)->first();
 		if($get){
 			$postMetas = DB::table('post_meta')->where('post_id',$get->id)->get();
 			$postMetas = $this->readMetas($postMetas);
@@ -348,6 +348,41 @@ class PublicController extends Controller
         	$Meta->set('meta_image', $var['mentors']->avatar ?? '');
 
 			return view('page.mentorSingle')->with(['var' => $var]);
+		}
+
+		return view('errors.404');
+
+	}
+
+	/**
+     * Show single mentoring.
+     * @return Response
+     */
+	public function single_mentoring($mentoring_id){
+		$var['page'] = "Materi Mentoring";
+		$mentoring = DB::table('post_view')->find($mentoring_id);
+		if($mentoring){
+
+			$Meta = app()->Meta;
+        	$Meta->set('meta_type', 'article');
+        	$Meta->set('meta_title', 'Materi Mentoring '.$mentoring->title);
+        	$Meta->set('meta_desc', str_limit(html_entity_decode(strip_tags($mentoring->content)), 200) ?? '');
+
+        	$event_id = PostMeta::where('key', 'mentoring')->where('value', $mentoring_id)->first();
+        	if (isset($event_id)) {
+        		$event = DB::table('post_view')->find($event_id);
+
+				$postMetas = DB::table('post_meta')->where('post_id',$mentoring_id)->get();
+				$postMeta = $this->readMetas($postMetas);
+
+            	$files = json_decode($postMeta->files);
+
+				return view('page.singleMentoring')->with([ 'mentoring' => $mentoring,
+										 					'event' => $event, 
+										 					'postMeta' => $postMeta,
+										 					'files' => $files
+										 				]);
+        	}
 		}
 
 		return view('errors.404');

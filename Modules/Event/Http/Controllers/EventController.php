@@ -117,8 +117,9 @@ class EventController extends Controller
         $page_meta_title = 'Events';
         $u = app()->OAuth->mentors();
         $mentors = $u->users; 
+        $mentoring = Posts::where('post_type', 'mentoring')->where('deleted', 0)->pluck('title', 'id');
 
-        return view('event::admin.add_event')->with(['page_meta_title' => $page_meta_title, 'mentors' => $mentors]);
+        return view('event::admin.add_event')->with(['page_meta_title' => $page_meta_title, 'mentors' => $mentors, 'mentoring' => $mentoring]);
     }
 
     /**
@@ -151,6 +152,7 @@ class EventController extends Controller
         $meta_keyword = $request->input('meta_keyword') ?? '';
         $published_date = $request->input('published_date');
         $featured_image = $request->input('featured_image');
+        $mentoring = $request->input('mentoring');
 
         $htm_free = $request->get('htm_free');
         if ($htm_free != 'free') {
@@ -212,6 +214,7 @@ class EventController extends Controller
             $metas[] = ['name' => 'meta_desc', 'value' => $meta_desc];
             $metas[] = ['name' => 'meta_keyword', 'value' => $meta_keyword];
             $metas[] = ['name' => 'gmaps_url', 'value' => $gmaps_url];
+            $metas[] = ['name' => 'mentoring', 'value' => $mentoring];
             foreach ($metas as $meta) {
                 if ($meta['value'] != '') {
                     $meta_contents[] = [ 'post_id'=>$store->id, 'key'=> $meta['name'], 'value'=> $meta['value'] ];
@@ -243,7 +246,7 @@ class EventController extends Controller
         $action = $this->prefix.'update-event/'.$id;
         $event = Posts::where('id', $id)->first();
         if (isset($event)) {
-
+            $mentoring = Posts::where('post_type', 'mentoring')->where('deleted', 0)->pluck('title', 'id');
             $post_metas = PostMeta::where('post_id',$event->id)->get();
 
             $title = $event->title;
@@ -264,9 +267,10 @@ class EventController extends Controller
             $meta_desc      = $post_metas->meta_desc ?? '';
             $meta_title     = $post_metas->meta_title ?? '';
             $meta_keyword   = $post_metas->meta_keyword ?? '';
-            $mentor_registered      = json_decode($post_metas->mentor_registered ?? '') ?? [];
-            $mentor_not_registered      = json_decode($post_metas->mentor_not_registered ?? '') ?? [];
+            $event_mentoring      = $post_metas->mentoring ?? '';
             $gmaps_url      = $post_metas->gmaps_url ?? '';
+            $mentor_registered      = json_decode($post_metas->mentor_registered ?? '') ?? [];
+            $mentor_not_registered  = json_decode($post_metas->mentor_not_registered ?? '') ?? [];
 
             if (is_string($htm) && $htm != 'free') {
                 $htm = json_decode($htm);
@@ -298,6 +302,8 @@ class EventController extends Controller
 
             return view('event::admin.edit_event')->with(
                             [
+                                'mentoring' => $mentoring,
+                                'event_mentoring' => $event_mentoring,
                                 'gmaps_url' => $gmaps_url,
                                 'item_id' => $id,
                                 'id'=>$id,
@@ -371,6 +377,7 @@ class EventController extends Controller
         $published_date = $request->input('published_date');
         $event_url = $request->input('event_url'); 
         $featured_image = $request->input('featured_image'); 
+        $mentoring = $request->input('mentoring'); 
 
         $open_date = $request->input('open_date');
         $hour_open = $request->input('hour_open');
@@ -410,70 +417,30 @@ class EventController extends Controller
             
             if($update->update())
             {
-                $newMeta = false;
-                $post_metas = PostMeta::where('post_id',$id)->get();
-                $meta_fields = ['event_type', 'location', 'meta_title', 'meta_desc', 'meta_keyword', 'event_url', 'gmaps_url' ];
-
-                foreach ($meta_fields as $key => $meta) {
-                    $updated = false;
-                    $post_metas->map(function($field) use ($meta,$request,&$updated){
-                        if ( $meta == $field->key )
-                        {
-                            $value = ( 
-                                        is_array($request->input($field->key)) ||
-                                        is_object($request->input($field->key)) 
-                                    )
-                                    ? json_encode($request->input($field->key)) : $request->input($field->key);
-                            $field->value = $value ?? '';
-                            $field->save();
-                            $updated = true;
-                            return true;
-                        }
-                    });
-                    if(!$updated && $request->input($meta))
-                    {
-                        $value = ( 
-                                    is_array($request->input($meta)) ||
-                                    is_object($request->input($meta)) 
-                                )
-                                ? json_encode($request->input($meta)) : $request->input($meta);
-                         PostMeta::insert(['post_id'=>$update->id,'key' => $meta, 'value'=>$value]);
+                PostMeta::where('post_id',$id)->delete();
+                $meta_contents = array();
+                $metas[] = ['name' => 'event_type', 'value' => $event_type];
+                $metas[] = ['name' => 'location', 'value' => $location];
+                $metas[] = ['name' => 'htm', 'value' => $htm];
+                $metas[] = ['name' => 'open_at', 'value' => $open_at];
+                $metas[] = ['name' => 'closed_at', 'value' => $closed_at];
+                $metas[] = ['name' => 'mentor_registered', 'value' => $mentor_registered];
+                $metas[] = ['name' => 'mentor_not_registered', 'value' => $mentor_not_registered];
+                $metas[] = ['name' => 'event_url', 'value' => $event_url];
+                $metas[] = ['name' => 'meta_title', 'value' => $meta_title];
+                $metas[] = ['name' => 'meta_desc', 'value' => $meta_desc];
+                $metas[] = ['name' => 'meta_keyword', 'value' => $meta_keyword];
+                $metas[] = ['name' => 'gmaps_url', 'value' => $gmaps_url];
+                $metas[] = ['name' => 'mentoring', 'value' => $mentoring];
+                foreach ($metas as $meta) {
+                    if ($meta['value'] != '') {
+                        $meta_contents[] = [ 'post_id'=>$update->id, 'key'=> $meta['name'], 'value'=> $meta['value'] ];
                     }
                 }
 
-                $other_meta = array();
-                $other_meta[] = ['name' => 'open_at', 'value' => $open_at];
-                $other_meta[] = ['name' => 'closed_at', 'value' => $closed_at];
-                $other_meta[] = ['name' => 'htm', 'value' => $htm];
-                $other_meta[] = ['name' => 'mentor_registered', 'value' => $mentor_registered];
-                $other_meta[] = ['name' => 'mentor_not_registered', 'value' => $mentor_not_registered];
-            
-                foreach ($other_meta as $other_meta) {
-                    $post_meta = PostMeta::where('post_id',$id)->where('key', $other_meta['name'])->first();
-                    if (isset($post_meta)) {
-                        $post_meta->value = $other_meta['value'];
-                        $post_meta->save();
-                    } else {
-                        PostMeta::insert(['post_id' => $update->id, 'key' => $other_meta['name'], 'value' => $other_meta['value']]);
-                    }
-                }
+                PostMeta::insert($meta_contents);
             }
-
-            // $meta_fields = [ 'event_type', 'event_location', 'event_htm', 'event_meta_title', 'event_meta_desc', 'event_meta_keyword', 'event_open_at', 'event_closed_at', 'event_categories' ];
-            // foreach ($post_metas as $key => &$value) {
-            //     if( in_array($value->key, $meta_fields)){
-            //         $fieldCheck = ( 
-            //                         'event_type' == $value->key
-            //                         ) ? $value->key : str_ireplace("event_", "", $value->key); 
-
-            //         if ( $request->input($fieldCheck))
-            //         {
-            //             $value->value = ( is_array($request->input($fieldCheck)) || is_object($request->input($fieldCheck)) ) ? json_encode($request->input($fieldCheck)) : $request->input($fieldCheck);
-            //             $value->save();
-            //         }
-            //     }
-            // }
-
+            
             PostHelper::clear_all();
             DB::commit();
             return redirect(route('panel.event__view', $id))->with(['msg' => 'Saved', 'status' => 'success']);
@@ -670,4 +637,247 @@ class EventController extends Controller
         }
         return redirect($this->prefix.'category')->with(['msg' => 'Delete Success', 'status' => 'success']);
     }
+
+    /**
+     * Display a listing of post mentoring.
+     * @return Response
+     */
+    public function mentoring(){
+        $page_meta_title = 'Mentoring';
+        return view('event::admin.mentoring')->with(['page_meta_title' => $page_meta_title]);
+    }
+
+    /**
+     * Get posts mentoring for datatable(ajax).
+     * @param  Request $request
+     * @return Response
+     */
+    public function ajaxMentoring(Request $request)
+    {
+        $order = $request->order[0];
+        $col = $request->columns["{$order['column']}"]['data'] ?? 'created_at'; 
+        $direction = $order['dir'] ?? 'desc';
+        
+        $query = Posts::where('post_type','mentoring')->where('deleted',0)->orderBy($col,$direction);
+        $search = $request->search['value'];
+        if (isset($search)) {
+            $query = $query->where('title', 'like', '%'.$search.'%');   
+        }
+        $output['data'] = $query->offset($request['start'])->limit($request['length'])->get();
+
+        $newdata = array();
+        foreach ($output['data'] as $data) {
+            $u= app()->OAuth->users($data->author);
+            $name = $u->username ?? 'admin';
+            if ($name != '') {
+                $data->author_name = $name;
+            }
+            $newdata[] = $data;
+        }
+        $output['data'] = $newdata;
+
+        $output['recordsTotal'] = $query->count();
+        $output['recordsFiltered'] = $output['recordsTotal'];
+        $output['draw'] = intval($request->input('draw'));
+        $output['length'] = 10;
+
+        return $output;
+    }
+
+    /**
+     * Show the form for creating a new post mentoring.
+     * @return Response
+     */
+    public function addMentoring()
+    {
+        $page_meta_title = 'Mentoring';
+
+        return view('event::admin.mentoring_add')->with(['page_meta_title' => $page_meta_title]);
+    }
+
+    /**
+     * Store a newly created post mentoring in storage.
+     * @param  Request $request
+     * @return Response
+     */
+    public function addMentoringPost(Request $request)
+    {
+        $this->validate($request, [
+            'title' => 'required'
+        ], PostHelper::validation_messages());
+
+        $file_label = $request->get('file_label');
+        $file_name = $request->get('file_name');
+        $video_url = str_replace('watch?v=', 'embed/', $request->input('video_url')) ?? "";
+
+        $files = array();
+        for ($i=0; $i < count($file_name); $i++) { 
+            $files[] = [ 'file_name' => ($file_name[$i] ?? ''), 'file_label' => ($file_label[$i] ?? '') ];
+        }
+        $files = json_encode($files);
+
+        $slug = PostHelper::make_slug($request->input('title'));
+        if (Posts::where('slug', $slug)->first()) {
+            $slug = $slug.'-'.date('s');
+        }
+        $published_date = Carbon::now()->toDateTimeString();
+
+        DB::beginTransaction();
+        try {
+            $store = new Posts;
+            $store->title = $request->input('title');
+            $store->slug = $slug;
+            $store->post_type = 'mentoring';
+            $store->content = '';
+            $store->author = app()->OAuth->Auth()->master_id;
+            $store->status = $request->get('status');
+            $store->published_date = $published_date;
+            $store->save();
+
+            $meta_contents = array();
+            $metas[] = ['name' => 'files', 'value' => $files];
+            $metas[] = ['name' => 'video_url', 'value' => $video_url];
+            foreach ($metas as $meta) {
+                if ($meta['value'] != '') {
+                    $meta_contents[] = [ 'post_id'=>$store->id, 'key'=> $meta['name'], 'value'=> $meta['value'] ];
+                }
+            }
+
+            PostMeta::insert($meta_contents);
+            PostHelper::clear_all();
+            
+            DB::commit();
+            return redirect(route('panel.mentoring__view', $store->id))->with(['msg' => 'Saved', 'status' => 'success']);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return redirect(route('panel.mentoring__index'))->with(['msg' => 'Save Error', 'status' => 'danger']);
+        }
+    }
+
+    /**
+     * Show the form for editing post mentoring.
+     * @param $id
+     * @return Response
+     */
+    public function viewMentoring($id)
+    {
+        $page_meta_title = 'Posts';
+        $post = Posts::where('id', $id)->first();
+        if (isset($post)) {
+
+            $post_metas = PostMeta::where('post_id',$post->id)->get();            
+            $post_metas = $this->readMetas($post_metas);
+            
+            $video_url      = $post_metas->video_url ?? '';
+            $files = json_decode($post_metas->files);
+
+            $title = $post->title;
+            $status = $post->status;
+            $published_date = $post->published_date;
+            $item_id = $post->id;
+
+            return view('event::admin.mentoring_edit')->with(['item_id' => $item_id, 
+                                                        'page_meta_title' => $page_meta_title, 
+                                                        'post' => $post, 
+                                                        'files' => $files, 
+                                                        'video_url' => $video_url
+                                                    ]);
+        } else {
+            return redirect(route('panel.mentoring__index'))->with(['msg' => 'Mentoring Not Found', 'status' => 'danger']);
+        }
+    }
+
+    /**
+     * Update the specified post mentoring in storage.
+     * @param  Request $request, $id
+     * @return Response
+     */
+    public function updateMentoring(Request $request, $id)
+    {
+        $this->validate($request, [
+            'title' => 'required'
+        ], PostHelper::validation_messages());
+
+        $file_label = $request->get('file_label');
+        $file_name = $request->get('file_name');
+        $video_url = str_replace('watch?v=', 'embed/', $request->input('video_url')) ?? "";
+
+        $files = array();
+        for ($i=0; $i < count($file_name); $i++) { 
+            $files[] = [ 'file_name' => ($file_name[$i] ?? ''), 'file_label' => ($file_label[$i] ?? '') ];
+        }
+        $files = json_encode($files);
+
+        DB::beginTransaction();
+        try {
+            $request->request->add(['files'=>json_encode($files)]);
+
+            $update = Posts::where('id', $id)->first();
+            $update->title = $request->input('title');
+            $update->status = $request->input('status');
+            $update->update();
+
+            PostMeta::where('post_id',$id)->delete();
+
+            $meta_contents = array();
+            $metas[] = ['name' => 'files', 'value' => $files];
+            $metas[] = ['name' => 'video_url', 'value' => $video_url];
+            foreach ($metas as $meta) {
+                if ($meta['value'] != '') {
+                    $meta_contents[] = [ 'post_id'=>$update->id, 'key'=> $meta['name'], 'value'=> $meta['value'] ];
+                }
+            }
+
+            PostMeta::insert($meta_contents);
+            PostHelper::clear_all();
+
+            DB::commit();
+            return redirect(route('panel.mentoring__view', $update->id))->with(['msg' => 'Saved', 'status' => 'success']);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return $e;
+            return redirect(route('panel.mentoring__view', $update->id))->with(['msg' => 'Save error ', 'status' => 'danger']);
+        }
+    }
+
+    /**
+     * Change post status delete to 1.
+     * @param $id
+     * @return Response
+     */
+    public function removeMentoring($id)
+    {
+        $delete = Posts::find($id);
+        if ($delete){
+            $delete->deleted = 1;
+            $delete->save();
+            PostHelper::clear_all();
+            return redirect(route('panel.mentoring__index'))->with(['msg' => 'Deleted', 'status' => 'success']);
+        }
+        return redirect(route('panel.mentoring__index'))->with(['msg' => 'Delete error', 'status' => 'danger']);
+    }
+
+    /**
+     * Change multiple post status delete to 1.
+     * @param  Request $request
+     * @return Response
+     */
+    public function massdeleteMentoring(Request $request)
+    {
+        $id = json_decode($request->id);
+        foreach ($id as $id) {
+            $delete = Posts::find($id);
+            if ($delete) {
+                $delete->deleted = 1;
+                if (!$delete->save()) {
+                    return redirect(route('panel.mentoring__index'))->with(['msg' => 'Delete Error', 'status' => 'danger']);
+                }
+            } else {
+                return redirect(route('panel.mentoring__index'))->with(['msg' => 'Delete Error. Item Not Found', 'status' => 'danger']);
+            }
+        }
+        PostHelper::clear_all();
+        return redirect(route('panel.mentoring__index'))->with(['msg' => 'Delete Success', 'status' => 'success']);
+    }
+
 }

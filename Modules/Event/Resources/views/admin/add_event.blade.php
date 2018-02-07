@@ -129,6 +129,16 @@
                             </div>
 
                             <div class="form-group">
+                                <label>Materi Mentoring</label>
+                                <select name="mentoring" class="form-control myselect2">
+                                    <option value="" selected>Pilih Materi Mentoring</option>
+                                    @foreach( $mentoring as $key => $mentoring )
+                                        <option value="{{ $key }}">{{ $mentoring }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="form-group">
                                 <label class="control-label">Open at</label>
                                 <div class="form-inline">
                                     <div class="input-group input-append date event-datetimepicker">
