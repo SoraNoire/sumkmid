@@ -2,7 +2,7 @@
 
 @section('content')
 
-@php  $meta = PublicHelper::get_post_meta($var['content']->id); @endphp
+@php  $meta = PublicHelper::get_event_meta($var['content']->id); @endphp
 
 <div class="breadcrumb">
 	<div class="container">

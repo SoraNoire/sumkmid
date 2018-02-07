@@ -49,7 +49,7 @@
                             <a id="browse_file_post" data-toggle="modal" data-target="#myFile" class="btn btn-round btn-fill btn-default" style="margin-bottom: 10px;">Browse File</a>
 
                             <div class="file-list">
-                                @if (count($files) > 1)
+                                @if (count($files) > 0)
                                     @foreach($files as $file)
                                     <div class="form-group input-group file-item">
                                         <span class="input-group-addon">

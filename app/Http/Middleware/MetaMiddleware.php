@@ -41,6 +41,7 @@ class Meta
     protected $email_info = 'sekretariat@sahabatumkm.id';
     protected $meta = array();
     protected $top_menu = '';
+    protected $reg_url = '';
 
     function __construct(){
         $this->gtm = Option::where('key', 'gtag_manager')->first()->value ?? '';
@@ -62,6 +63,7 @@ class Meta
         $this->meta_desc = $meta->desc ?? '';
         $this->meta_keyword = $meta->keyword ?? '';
         $this->meta_image = asset('img/sahabat-umkm-logo-200x200.png');
+        $this->reg_url = env('REGISTER_URL') ?? url('/register_oauth');
 
         $this->meta_url = url()->current();
         $this->meta = array('title' => $this->meta_title,

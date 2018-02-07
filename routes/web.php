@@ -90,6 +90,7 @@ Route::get('am','SampleController@addmentor');
 
 Route::get('appreg','SampleController@appReg');
 Route::get('appupd','SampleController@appUpd');
+Route::get('/materi-mentoring/{mentoring_id}', 'PublicController@single_mentoring')->name('public_single_mentoring');
 Route::get('/{slug}', 'PublicController@single_page')->name('public_single_page');
 
 Route::get('event/{slug}','PublicController@eventSingle')->name('public_single_event');

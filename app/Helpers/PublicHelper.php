@@ -50,11 +50,11 @@ class PublicHelper
     }
 
     /**
-     * Get Post Meta
+     * Get Event Meta
      * @return array
      *
      */
-    public static function get_post_meta($id){
+    public static function get_event_meta($id){
         $post_metas = PostMeta::where('post_id',$id)->get();
 
         $metas = new \stdClass;;
@@ -78,6 +78,7 @@ class PublicHelper
         $data['meta_desc']    = $metas->meta_desc ?? '';
         $data['meta_title']   = $metas->meta_title ?? '';
         $data['meta_keyword'] = $metas->meta_keyword ?? '';
+        $data['mentoring'] = $metas->mentoring ?? '';
         $mentor_reg      = json_decode($metas->mentor_registered ?? '') ?? [];
         $mentor_not_reg      = json_decode($metas->mentor_not_registered ?? '') ?? [];
 
