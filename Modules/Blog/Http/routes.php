@@ -60,20 +60,20 @@ Route::group(['domain'=>config('admin.domain'),'middleware' => ['web', 'backend'
     Route::get('/get-category-parent/{category_id}', 'BlogController@get_category_parent')
             ->name('panel.category__index__getparent');
     
-    // Route::get('/files', 'BlogController@files')
-    //         ->name('panel.file__index');
-    // Route::get('/get-files', 'BlogController@get_file')
-    //         ->name('panel.file__index__ajax');
-    // Route::post('/store-file', 'BlogController@store_file')
-    //         ->name('panel.file__save');
-    // Route::get('/delete-file/{fileName}', 'BlogController@destroy_file')
-    //         ->name('panel.file__delete');
-    // Route::post('/bulk-delete-file/', 'BlogController@bulk_delete_file')
-    //         ->name('panel.file__delete__mass');
-    // Route::get('/edit-file/{id}', 'BlogController@edit_file')
-    //         ->name('panel.file__view');
-    // Route::post('/update-file/{id}', 'BlogController@update_file')
-    //         ->name('panel.file__update');
+    Route::get('/files', 'BlogController@files')
+            ->name('panel.file__index');
+    Route::get('/get-files', 'BlogController@get_file')
+            ->name('panel.file__index__ajax');
+    Route::post('/store-file', 'BlogController@store_file')
+            ->name('panel.file__save');
+    Route::get('/delete-file/{fileName}', 'BlogController@destroy_file')
+            ->name('panel.file__delete');
+    Route::post('/bulk-delete-file/', 'BlogController@bulk_delete_file')
+            ->name('panel.file__delete__mass');
+    Route::get('/edit-file/{id}', 'BlogController@edit_file')
+            ->name('panel.file__view');
+    Route::post('/update-file/{id}', 'BlogController@update_file')
+            ->name('panel.file__update');
 
     // Route::get('/category', 'BlogController@category');
     // Route::get('/get-category', 'BlogController@get_category');
