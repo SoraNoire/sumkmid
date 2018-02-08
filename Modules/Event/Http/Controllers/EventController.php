@@ -834,7 +834,6 @@ class EventController extends Controller
             return redirect(route('panel.mentoring__view', $update->id))->with(['msg' => 'Saved', 'status' => 'success']);
         } catch (\Exception $e) {
             DB::rollback();
-            return $e;
             return redirect(route('panel.mentoring__view', $update->id))->with(['msg' => 'Save error ', 'status' => 'danger']);
         }
     }
@@ -848,10 +847,21 @@ class EventController extends Controller
     {
         $delete = Posts::find($id);
         if ($delete){
-            $delete->deleted = 1;
-            $delete->save();
-            PostHelper::clear_all();
-            return redirect(route('panel.mentoring__index'))->with(['msg' => 'Deleted', 'status' => 'success']);
+            DB::beginTransaction();
+            try {
+                $delete->deleted = 1;
+                $delete->save();
+                PostHelper::clear_all();
+
+                PostMeta::where('key', 'mentoring')->where('value', $id)->delete();
+
+                DB::commit();
+                return redirect(route('panel.mentoring__index'))->with(['msg' => 'Deleted', 'status' => 'success']);
+            } catch (\Exception $e) {
+                DB::rollback();
+                return redirect(route('panel.mentoring__index'))->with(['msg' => 'Delete error', 'status' => 'danger']);
+            }
+
         }
         return redirect(route('panel.mentoring__index'))->with(['msg' => 'Delete error', 'status' => 'danger']);
     }
@@ -863,20 +873,28 @@ class EventController extends Controller
      */
     public function massdeleteMentoring(Request $request)
     {
-        $id = json_decode($request->id);
-        foreach ($id as $id) {
-            $delete = Posts::find($id);
-            if ($delete) {
-                $delete->deleted = 1;
-                if (!$delete->save()) {
-                    return redirect(route('panel.mentoring__index'))->with(['msg' => 'Delete Error', 'status' => 'danger']);
+        DB::beginTransaction();
+        try {
+            $id = json_decode($request->id);
+            foreach ($id as $id) {
+                $delete = Posts::find($id);
+                if ($delete) {
+                    $delete->deleted = 1;
+                    if (!$delete->save()) {
+                        return redirect(route('panel.mentoring__index'))->with(['msg' => 'Delete Error', 'status' => 'danger']);
+                    }
+                    PostMeta::where('key', 'mentoring')->where('value', $id)->delete();
+                } else {
+                    return redirect(route('panel.mentoring__index'))->with(['msg' => 'Delete Error. Item Not Found', 'status' => 'danger']);
                 }
-            } else {
-                return redirect(route('panel.mentoring__index'))->with(['msg' => 'Delete Error. Item Not Found', 'status' => 'danger']);
             }
+            PostHelper::clear_all();
+            DB::commit();
+            return redirect(route('panel.mentoring__index'))->with(['msg' => 'Delete Success', 'status' => 'success']);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return redirect(route('panel.mentoring__index'))->with(['msg' => 'Delete error', 'status' => 'danger']);
         }
-        PostHelper::clear_all();
-        return redirect(route('panel.mentoring__index'))->with(['msg' => 'Delete Success', 'status' => 'success']);
     }
 
 }
