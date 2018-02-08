@@ -38,7 +38,7 @@
 			<div class="row">
 				<div class="col-12">
 					@if( $mentoring->content != '')
-					<div class="wrapDescription styledText">
+					<div class="wrapDescription">
 						{!! $mentoring->content ?? '' !!}
 					</div>
 					@endif
