@@ -126,7 +126,7 @@
 						</div> -->
 					@endif
 					@if ( $meta['mentoring'] != '' )
-					<a href="{{ app()->OAuth->Auth() ? url('/materi-mentoring/'.$meta['mentoring']) : app()->Meta->get('reg_url') }}" class="button orange-shadow">Lihat Materi</a>
+					<a href="{{ url('/materi-mentoring/'.$meta['mentoring']) }}" class="button orange-shadow">Lihat Materi</a>
 					@endif
 					</div>
 				</div>
