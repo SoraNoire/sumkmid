@@ -25,11 +25,37 @@
             <div class="col-md-9">
                 <div class="form-group">
                     <label class="control-label">Title</label>
+                    @if ($errors->has('title'))
+                    <div class="has-error">
+                        <span class="help-block">
+                            <strong>This field is required</strong>
+                        </span>
+                    </div>
+                    @endif
                     <input class="form-control" type="text" name="title" value="{{ old('title') }}" placeholder="Enter Title Here" required="required">
                 </div>
 
                 <div class="form-group">
+                    <label class="control-label">Description</label>
+                    @if ($errors->has('content'))
+                    <div class="has-error">
+                        <span class="help-block">
+                            <strong>This field is required</strong>
+                        </span>
+                    </div>
+                    @endif
+                    <textarea class="form-control mytextarea" name="content">{{ old('content') }}</textarea>
+                </div>
+
+                <div class="form-group">
                     <label class="control-label">Url Video</label>
+                    @if ($errors->has('video_url'))
+                    <div class="has-error">
+                        <span class="help-block">
+                            <strong>This field is required</strong>
+                        </span>
+                    </div>
+                    @endif
                     <input class="form-control" type="url" name="video_url" value="{{ old('video_url') }}" placeholder="Enter url video here" required="required">
                     <small><b>Contoh</b> : https://www.youtube.com/<b>watch?v=</b>wlsdMpnDBn8 <b>ATAU</b> https://www.youtube.com/<b>embed/</b>wlsdMpnDBn8</small>
                 </div>

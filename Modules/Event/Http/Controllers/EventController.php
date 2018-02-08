@@ -703,7 +703,8 @@ class EventController extends Controller
     public function addMentoringPost(Request $request)
     {
         $this->validate($request, [
-            'title' => 'required'
+            'title' => 'required',
+            'content' => 'required'
         ], PostHelper::validation_messages());
 
         $file_label = $request->get('file_label');
@@ -728,7 +729,7 @@ class EventController extends Controller
             $store->title = $request->input('title');
             $store->slug = $slug;
             $store->post_type = 'mentoring';
-            $store->content = '';
+            $store->content = $request->input('content');
             $store->author = app()->OAuth->Auth()->master_id;
             $store->status = $request->get('status');
             $store->published_date = $published_date;
@@ -770,10 +771,6 @@ class EventController extends Controller
             
             $video_url      = $post_metas->video_url ?? '';
             $files = json_decode($post_metas->files);
-
-            $title = $post->title;
-            $status = $post->status;
-            $published_date = $post->published_date;
             $item_id = $post->id;
 
             return view('event::admin.mentoring_edit')->with(['item_id' => $item_id, 
@@ -795,7 +792,8 @@ class EventController extends Controller
     public function updateMentoring(Request $request, $id)
     {
         $this->validate($request, [
-            'title' => 'required'
+            'title' => 'required',
+            'content' => 'required'
         ], PostHelper::validation_messages());
 
         $file_label = $request->get('file_label');
@@ -814,6 +812,7 @@ class EventController extends Controller
 
             $update = Posts::where('id', $id)->first();
             $update->title = $request->input('title');
+            $update->content = $request->input('content');
             $update->status = $request->input('status');
             $update->update();
 
