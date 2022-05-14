@@ -324,12 +324,13 @@ class OAuth
             }
             else
             {
-                exit( view('oa::errors.generic',['message'=>'Bad Response received<br/> <a href="">Reload</a>']) );
+              //return (object) $return;
+              exit( view('oa::errors.generic',['message'=>$return.self::$appServer.'Bad Response received<br/> <a href="">Reload</a>']) );
             }
         }
         catch (\Exception $e)
         {
-            exit( view('oa::errors.generic',['message'=>'Connection Time Out!<br/> <a href="">Reload</a>']) );   
+            exit( view('oa::errors.generic',['message'=>'Connection Time Out!<br/> <a href="">Reload</a>' . $e]) );   
         }
         
         return (object) $return;

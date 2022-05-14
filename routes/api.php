@@ -19,8 +19,8 @@ Route::prefix('v1')->group(function () {
 
 	});
 
-	Route::get('event', 'APIController@events');
-	Route::get('event/{id}', 'APIController@event');
+	Route::get('events', 'APIController@events');
+	Route::get('events/{id}', 'APIController@event');
 
 	Route::get('page', 'APIController@pages');
 	Route::get('page/{id}', 'APIController@page');

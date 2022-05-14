@@ -85,6 +85,9 @@
 		<a href="{{ $var['program']->url ?? '#' }}">
 			<span class="button">{{ $var['program']->button ?? 'Daftar Sekarang' }}</span>
 		</a>
+		<!--<a href="http://ww1.sahabatumkm.id/mitra/Registrasi">
+			<span class="button">{{ $var['program']->button ?? 'Daftar Sekarang' }}</span>
+		</a>-->
 	</div>
 </section>
 

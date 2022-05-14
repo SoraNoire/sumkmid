@@ -13130,8 +13130,8 @@ if ($("#programMedia").length > 0) {
 })(window.jQuery || window.Zepto, window, document);
 
 type=["","info","success","warning","danger"],notif={showNotification:function(o,e,n,i){color=i,$.notify({message:n},{type:type[color],timer:1000,placement:{from:o,align:e}})}};
-mediaPath = 'https://s3-ap-southeast-1.amazonaws.com/mdirect/shbtm/media';
-filePath = 'https://s3-ap-southeast-1.amazonaws.com/mdirect/shbtm/files';
+mediaPath = 'https://s3-ap-southeast-1.amazonaws.com/mdirect.id/shbtm/media';
+filePath = 'https://s3-ap-southeast-1.amazonaws.com/mdirect.id/shbtm/files';
 var timeOutId;
 
 var jPlugin = $.blogPlugin();
